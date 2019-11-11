@@ -1,0 +1,416 @@
+---
+title: "Lab 3"
+author: "Univariate Statistics with R"
+---
+
+This week, we'll pick up where we left off last time. We'll talk about using logical vectors for subsetting, and how to use subsetting to do all sorts of data manipulations.
+
+`r task()`Create a new RStudio project in a new directory called "Lab3" within your "Univariate" folder.
+
+## Logical subsetting
+
+Last time, you learnt how use numeric indices to subset vectors, matrices, and data frames. Another way of going about the same task is to use vectors of booleans (`TRUE`/`FALSE`) inside the `[]`s. An important requirement here is that the vector **must be the same length as the one being subsetted**. So, for a vector with three elements, we need to provide three logical values, `TRUE` for "*I want this one*" and `FALSE` for "*I don't want this one*". Let's demonstrate this on the same vector we used for indices:
+
+```{r}
+
+x <- c("I", " ", "l", "o", "v", "e", " ", "R")
+
+# get the 6th element
+x[c(F, F, F, F, F, T, F, F)]
+#get elements 3-6
+x[c(F, F, T, T, T, T, F, F)]
+```
+
+\ 
+
+All the other principles we talked about regarding indexing apply also to logical vectors. Note also, that 2D structures need a *logical row vector* and a *logical column vector*:
+
+```{r}
+# recall our mat
+mat <- matrix(LETTERS[1:20], ncol = 5)
+mat
+# rows 2 and 4
+mat[c(T, F, T, F), ]
+```
+
+`r task()`Your turn. Use logical subsetting to get row 4 of the first two columns of `mat`.
+
+```{r, include=solution, class="solution"}
+mat[c(F, F, F, T), c(T, T, F, F, F)]
+```
+
+\ 
+
+You can even COMBINE the two ways!
+
+```{r}
+mat[4, c(T, T, F, F, F)]
+```
+
+\ 
+
+And as if vectors weren't enough, you can even use matrices of logical values to subset matrices and data frames.
+`r task()`Recreate the `df` data frame from last time (see below). Don't copy the code, type it all up again so that your brain gets used to basic `R` syntax and commands. Remember, the `id` and `dpt` variables should be `factors`, `degree` should be `ordered`, and `age` should be `numberic`. *Hint:* `data.frame(variable1_name = vector1, variable2_name = vector2...)`.
+
+```{r, echo = solution, class="solution"}
+df <- data.frame(id = factor(1001:1006), age = c(23, 25, 33, 26, 25, 24),
+                   eye_col = factor(c("blue", "brown", "brown", "green", "blue", "brown")),
+                   dpt = factor(c("psy", "cog", "lel", "psy", "phi", "lel")),
+                   degree = ordered(c(3, 1, 1, 1, 2, 2), labels = c("1", "2:1", "2:2")))
+df
+```
+
+`r task()`Create a matrix called `mat_logic` that looks like the one below. There are multiple ways of doing this but a reasonably efficient one would be to bind 5 columns. These columns can easily be constructed with the `rep()` function (if you're not familiar with it yet, look it up using `?rep`).
+
+```{r, echo=solution, class="solution"}
+
+mat_logic <- cbind(rep(F, 6), rep(F, 6), rep(c(F, T), each = 3), rep(F, 6), rep(c(T, F), each = 3))
+mat_logic
+```
+
+`r task()`Now use `mat_logic` to subset `df`. Since you are using a 2D object to subset another 2D object, you don't need to worry about dimensions within the `[]`s.
+
+```{r, include=solution, class="solution"}
+df[mat_logic]
+```
+
+\ 
+
+Notice, however, that the output is a vector so two things happened: first, the rectangular structure has been erased and second, since vectors can only contain elements of the same class (see above), the numbers got converted into character strings (hence the `""`s). Nevertheless, this method of subsetting using logical matrices can be useful for replacing several values in different rows and columns with another value:
+
+```{r}
+# replace with NAs
+df[mat_logic] <- NA
+df
+```
+
+\ 
+
+To use a different example, take the function `lower.tri()`. It can be used to subset a matrix in order to get the lower triangle (with or without the diagonal). Consider matrix `mat2` which has `"L"`s in its lower triangle, `"U"`s in its upper triangle, and `"D"`s on the diagonal:
+
+```{r, echo = F}
+mat2 <- matrix(rep("U", 16), ncol = 4)
+mat2[col(mat2) == row(mat2)] <- "D"
+mat2[lower.tri(mat2)] <- "L"
+mat2
+```
+
+\ 
+
+`r task()`Create `mat2` just like the one above and use it as an argument of `lower.tri()`.
+
+```{r, include = solution, class="solution"}
+# elegant way
+mat2 <- matrix(rep("U", 16), ncol = 4) # first, create a matrix of "U"s
+mat2[col(mat2) == row(mat2)] <- "D" # replace the diagonal elements with "D"s
+mat2[lower.tri(mat2)] <- "L" # replace lower triangle with "L"s
+mat2 # et voila!
+lower.tri(mat)
+```
+
+`r task()`Now, you can use this command inside the `[]`s to subset out the elements in the lower triangle of `mat2`. Try it now! You should only get `"L"`s.
+
+```{r, include=solution, class="solution"}
+mat2[lower.tri(mat2)]
+```
+
+\ 
+
+`r task()`Adding the `, diag = T` argument to the `lower.tri()` function will return the lower triangle along with the diagonal. Edit the command above to include this argument.
+```{r, include=solution, class="solution"}
+# we get only "L"s and "D"s
+mat2[lower.tri(mat2, diag = T)]
+```
+
+\ 
+
+So what does the function actually do? What is this sorcery? Let's look at the output of the function again:
+
+```{r}
+lower.tri(mat2)
+```
+
+So the function produces a matrix of logicals, the same size as out `mat2`, with `TRUE`s in the lower triangle and `FALSE`s elsewhere. What we did above is simply use this matrix to subset `mat2[]`.
+
+If you're curious how the function produces the logical matrix then, first of all, that's great, keep it up and second, you can look at the code wrapped in the `lower.tri` object (since functions are only objects of a special kind with code inside instead of data):
+
+```{r, eval = F}
+lower.tri
+
+function (x, diag = FALSE)
+{
+    x <- as.matrix(x)
+    if (diag)
+        row(x) >= col(x)
+    else row(x) > col(x)
+}
+<bytecode: 0x0000000015a39ab0>
+<environment: namespace:base>
+```
+
+Right, let's see. If we set the `diag` argument to `TRUE` the function returns `row(x) >= col(x)`. If we leave it set to `FALSE` (default), it returns `row(x) > col(x)`. Let's substitute `x` for our `mat2` and try it out:
+
+\ 
+
+```{r}
+row(mat2)
+col(mat2)
+# diag = TRUE case
+row(mat2) >= col(mat2)
+# use it for subsetting mat2
+mat2[row(mat2) >= col(mat2)]
+
+# diag = FALSE case
+row(mat2) > col(mat2)
+mat2[row(mat2) > col(mat2)]
+```
+
+\ 
+
+**MAGIC!**
+
+\ 
+
+**Take home message: **When subsetting using logical vectors, the vectors must be **the same length** as the vectors you are subsetting. The same goes for logical matrices: they must be **the same size** as the matrix/data frame you are subsetting.
+
+### Complementary subsetting
+
+Both ways of asking for subsets of data can be inverted. For indices, you can simply put a `-` sign before the vector:
+
+```{r}
+# elements 3-6 of x
+x[3:6]
+# invert the selection
+x[-(3:6)]
+#equivalent to
+x[c(1, 2, 7, 8)]
+```
+
+\ 
+
+For logical subsetting, you need to *negate* the values. That is done using the logical negation operator '`!`' (AKA "not"):
+```{r}
+y <- T
+y
+# negation
+!y
+```
+
+`r task()`You can also negate a matrix of logicals. Use the complement (negation) of `mat_logic` to subset our `df`.
+
+```{r, include = solution, class="solution"}
+mat_logic
+!mat_logic
+df[!mat_logic]
+```
+
+\ 
+
+**Bear in mind that all data cleaning and transforming ultimately boils down to using either or both of these two ways of subsetting elements!**
+
+
+## Sorting
+
+Sorting is often an important step in cleaning or otherwise processing your data. It is also something that should never be done in Excel[^1]. SO let's have a look at how to sort vectors and data frames!
+
+[^1]: Trust me, I've learnt it the hard way -- Milan
+
+There are two main base `R` functions that are useful for sorting, `sort()` and `order()`
+
+`r task()`Create an object `lttrs` containing vector of 5 randomly ordered letters of the alphabet. Use the `LETTERS` object (created by default when you open `R`) and the `sample()` function to do this. *Note.* Your vector of 5 letters will differ from the below due to random sampling.
+```{r, echo = solution, class="solution"}
+lttrs <- sample(LETTERS, 5)
+lttrs
+```
+
+`r task()`Call the `sort()` function on the object (*i.e.,* provide the object as an argument to the function).
+```{r, include = solution, class="solution"}
+sort(lttrs)
+```
+
+`r task()`What if you want to reverse the order? Check out the help file for the function (`?sort`) and get a vector of reverse-ordered `lttrs`.
+```{r, include = solution, class="solution"}
+sort(lttrs, decreasing = T)
+```
+
+\ 
+
+OK, so this is easy, `sort()` is used to, well, sort vectors of numbers or letters. I can be useful in situations when you want to know if, let's say, a vector of numbers contains all the numbers within a given range. Imagine we want to know if the command `sample(20)` gives us all the numbers between 1 and 20, albeit in a random order:
+```{r}
+sample(20)
+sort(sample(20))
+# compare the sort(sample(20)) vector with the 1:20 vector element by element
+sort(sample(20)) == 1:20
+# are all of the resulting logicals TRUE?
+all(sort(sample(20)) == 1:20)
+```
+
+\ 
+
+`r task()`So much for `sort()`. Let's call `order()` on `lttrs` and try to figure out what the output means.
+```{r, include = solution, class="solution"}
+order(lttrs)
+```
+
+\ 
+
+As you may have figured out, `order()` gives you the indices of each element's position in an ordered vector consisting of the same elements. That means that if you use the output of `order()` to index out `lttrs`, you'll get the same result as with `sort(lttrs)`:
+```{r}
+lttrs[order(lttrs)]
+```
+
+`r task()`Just like `sort()`, `order()` can be reversed. Use `order()` to sort `df$id` in decreasing order like this:
+```{r, echo = solution, class="solution"}
+df$id[order(df$id, decreasing = T)]
+```
+
+\ 
+
+You might be wondering what the point of `order()` is when there is `sort()`. Well, since `order()` produces a vector of indices that is independent of the input to the function, you can use it to order one vector according to the order of another:
+```{r}
+order(df$age) # order indices (ranks) of elements of age
+df$id[order(df$age)] # sort id from youngest to oldest
+```
+
+`r task()`Try ordering the entire `df` in order of *decreasing* age. *Hint:* don't forget that data frames are 2-dimensional.
+```{r, echo = solution, class="solution"}
+df[order(df$age, decreasing = T), ]
+```
+
+`r task()`A bit of a challenge now. Try sorting the columns of `df` according to the alphabetical order of their names. *Hint:* the `names() (or `colnames()`) function produces a vector of column names of its argument. You can use it to get the rank indices.
+are 2-dimensional.
+```{r, echo = solution, class="solution"}
+df[ , order(names(df))]
+```
+
+## Subsetting with commands
+
+You will have noticed that, when subsetting objects, we are not restricted to raw numeric and logical vectors but we can also use certain functions and operations. That is because `R` doesn't distinguish between vectors provided manually and those returned by functions. For that reason, you should get into the habit of **always thinking about functions and objects in terms of their output**! This is an extremely important point when it comes to programming in `R`, hence the exclamation point. It's so important that I'm tempted to repeat it in capital letters, but I don't think I could live with myself if I did.
+
+Any function that returns either a numeric vector, a logical vector of the right length, or a logical matrix of the right size can be used for subsetting (think back to `df[ , order(names(df))]` or `mat[lower.tri(mat)]`. Let's explore a few ways of using functions in this way.
+
+Comparative operators are useful for querying your dataset for rows for which some variable is equal to (`==`), larger than (`>`), smaller than (`<`), at least (`>=`), or at most (`<=`) some desired value.
+
+```{r}
+df$age == 25
+df[df$age == 25, ]
+```
+
+`r task()`Why does this command for getting the subset of `df` for LEL students not work? Read the error and try to understand it.
+```{r, error=T}
+df[df$dpt == lel, ]
+```
+
+\ 
+
+The error tells us that `R` is interpreting `lel` as a name of an object. Of course, `lel` is not an object, it is a level of the `df$dpt` factor and thus `R` fails to find it and throws an error. What do you need to do to make `R` understand that `lel` is a string?
+
+`r task()`Go on, correct the error in the code above.
+```{r, include=solution, class="solution"}
+df[df$dpt == "lel", ]
+```
+
+\ 
+
+Believe it or not, getting the error is actually a lucky case. Imagine you make the same mistake but -- by coincidence -- the level of the factor has the same name as some existing object in your environment. `R` might be able to run that command and quietly do something completely different than you expected. Coding is a lot about attention to details like these!
+
+`r task()`Get a subset of `df` of students who are 25 or older.
+```{r, include=solution, class="solution"}
+df[df$age >= 25, ]
+```
+
+\ 
+
+You can combine and modify any operations that produce logicals using boolean operators (`&`, `|`, `xor()`, `!`). Let's say we only want to subset those students who are older than 25 OR younger than 24:
+```{r, include=solution, class="solution"}
+df[df$age > 25 | df$age < 24, ]
+```
+
+`r task()`Get a subset of those students who do psychology, philosophy, or cognitive science.
+```{r}
+df[df$dpt != "lel", ]
+# same df[!df$dpt == "lel", ]
+```
+
+\ 
+
+`r task()`If you asked for `pdt` equal to `"psy"` OR `"phi"` OR `"cog"`, that's fine: it works. However, sometimes it's easier to flip things around. In this case, the same result can be achieved by asking for `dpt` NOT equal to `"lel"`. Try it now!
+
+\ 
+
+Just like there's no need to limit yourself to one operation, there's also no need to limit yourself to a single variable. We can get a subset of students older than 24 who at the same time either study psychology or don't have green eyes. Why? Because we *can*!
+```{r}
+df[df$age > 24 & xor(df$dpt == "psy", df$eye_col != "green"), ]
+```
+
+Notice something weird? Yeah, there are a couple of rows of `NA`s. The reason for that is that the result of the command we used for subsetting is a vector that contains 2 `NA`s. That's because any comparative operation (`==`, `>=`, *etc*.) performed on an `NA` will return `NA`:
+```{r}
+df$age > 24 & xor(df$dpt == "psy", df$eye_col != "green")
+NA < 100
+```
+
+To prevent the subset from including the `NA` rows, we can get `R` to only give us indices of those rows for which the statement is `TRUE`:
+```{r}
+which(df$age > 24 & xor(df$dpt == "psy", df$eye_col != "green"))
+df[which(df$age > 24 & xor(df$dpt == "psy", df$eye_col != "green")), ]
+```
+
+Finally, you can subset cases based on how they compare to the output of some function. Again, that's because `R` doesn't care if you say `> 24` or `> function_that_returns_24()`.
+
+`r task()`what is the mean age in our `df`? *Hint:* The function to use here is, rather conveniently, called `mean()`.
+```{r, include=solution, class="solution"}
+mean(df$age)
+```
+
+`r task()`. Get the IDs of those students whose age is less or equal to the mean age.
+```{r, include=solution, class="solution"}
+df[df$age <= mean(df$age), "id"]
+```
+
+<p class="why">We've covered several things here. You've learned most there is to learn about subsetting. This is an extremely useful skill for all data processing. You also saw that you can peer into the code of functions to understand what they do (or, more often, why they don't do what you'd like them to do). We **Strongly** encourage this kind of curiosity. Picking things apart and putting them back together is a very good way to learn! Finally, you learned to **think of functions in terms of their output** and understood that functions and operations can be used for subsetting. Understand these basic principles and you're sorted! The only other thing you will ever need is a repertoire of functions to use. But that will come with experience...</p>
+
+## Creating variables
+
+Sometimes -- quite often, actually -- you will want to create new variables in your data. Once you realise that variables are just vectors, there's nothing easier than to add new ones to a data frame:
+```{r}
+# let's say all of the students in df are in Group 1 in our study
+df$group <- 1 #  the 1 will get recycled the right number of times
+df
+```
+
+Indexing can be very helpful for creating new variables in your data. Imagine, we want to categorise our students into younger and older according to a cut-off point of 25 years (those older than 25 are in the "older" group). The way to do this is to create a new variable -- `age_group`, for instance -- that equals, say, `"younger"` for *everyone*.
+
+`r task()` go ahead and create this variable. Make sure your `df` ends up looking something like this:
+```{r, echo=solution, class="solution"}
+df$age_group <- "younger"
+df
+```
+
+OK, now use indexing to assign the value `"older"` to those cases of our new variable for whom age > 25. This should be the result:
+```{r, echo=solution, class="solution"}
+df$age_group[df$age > 25] <- "older"
+df
+```
+
+
+\ 
+
+No problem, right? Good!
+
+`r task()`To practice a little more, create another variable in the data frame called `has_col` that will tell us, whether or not the given student has a record of their eye colour. *Hint:* Check out the `is.na()` function.
+```{r, echo=solution, class="solution"}
+df$has_col <- !is.na(df$eye_col)
+df
+```
+
+<p class="why">The combination of indexing and calculating new variables is an immensely powerful tool in your data-processing arsenal!</p>
+
+\ 
+
+`r task()`Finally, save and exit the project..
+
+\ 
+
+#### That's it for today! Feedback on this, and whether you feel you learnt anything, very welcome.
+
+For a quick reference, check out [this short account](https://mivalek.github.io/resources/saviouR.html#handy_functions_that_return_logicals){target="_blank"} of useful functions that return logical vectors

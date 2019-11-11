@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Tom Booth" />
+  <title>Probability (1)</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://psystats.github.io/slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="https://psystats.github.io/slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="https:\\psystats.github.io\slides_files\css\slides.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <link href="https://psystats.github.io/slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="https://psystats.github.io/slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+<div class="banner"><div class = "header"><a href="/">dapR<strong>1</strong></a></div></div>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Probability (1)</h1>
+  <h1 class="subtitle">Data Analysis for Psychology in R 1</h1>
+    <h2 class="author">Tom Booth</h2>
+    <h3 class="date"><a href="./lec8_probability.html">Click for handout</a></h3>
+</section>
+
+<section id="today" class="slide level2">
+<h2>Today</h2>
+<style>
+:root {
+--theme-col: var(--dapR_1-col1);
+--hover-col: var(--dapR_1-col2);
+}
+</style>
+<ul>
+<li>Why do we need probability?</li>
+<li>Some concepts about sets</li>
+<li>Assigning probability - basic rules</li>
+</ul>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>Learning objectives</h2>
+<ul>
+<li>Understand the link between probability, models and data</li>
+<li>Understand the basic rules of probability</li>
+<li>(From lab) being able to apply these rules</li>
+</ul>
+</section>
+<section id="why-probability" class="slide level2">
+<h2>Why probability?</h2>
+<ul>
+<li>Consider the statements:
+<ul>
+<li>There is a 50\50 chance of a fair coin landing on Heads</li>
+<li>There is a <span class="math inline">\(\frac{13}{52}\)</span> chance of drawing a heart in a deck of cards</li>
+</ul></li>
+<li>In both cases, we are presenting something based on known information about the world.
+<ul>
+<li><em>We have a model for the world</em>.</li>
+</ul></li>
+<li>But we do not have data.
+<ul>
+<li>We do not have some results from tossing a coin.</li>
+</ul></li>
+</ul>
+</section>
+<section id="why-probability-1" class="slide level2">
+<h2>Why probability?</h2>
+<ul>
+<li>In statistics and data analysis, the opposite is true.</li>
+<li>We have some data, but we do not know the <em>truth of the world</em>
+<ul>
+<li>We have to make inferences about it.</li>
+</ul></li>
+<li>In order to make these inferences, we are going to use probability, and models of the world based on it.</li>
+<li>But before we do, we need to build up some concepts.</li>
+</ul>
+</section>
+<section id="sets" class="slide level2">
+<h2>Sets</h2>
+<ul>
+<li>Probabilty is built on the theory of sets.</li>
+<li><strong>Set</strong>: Well-defined collection of objects</li>
+<li>Sets are composed of <strong>elements</strong> or <strong>members</strong>
+<ul>
+<li>E.g. students in class</li>
+<li>E.g. real numbers between 0 and 1</li>
+</ul></li>
+</ul>
+</section>
+<section id="set-notation" class="slide level2">
+<h2>Set notation</h2>
+<ul>
+<li><span class="math inline">\(d \in D\)</span>
+<ul>
+<li>d is an element of D</li>
+</ul></li>
+<li><span class="math inline">\(e \notin D\)</span>
+<ul>
+<li>e is not an element of D</li>
+</ul></li>
+<li>F = {f <span class="math inline">\(\mid\)</span> f in an integer, <span class="math inline">\(1 \leq f \leq 10\)</span>}
+<ul>
+<li>F includes elements <strong>such that</strong> f is an integer greater tan or equal to 1 and less than or equal to 10.</li>
+</ul></li>
+</ul>
+</section>
+<section id="sets-1" class="slide level2">
+<h2>Sets</h2>
+<ul>
+<li><strong>Universal Set</strong>: A set of all elements we are concerned with.</li>
+<li><strong>Subset</strong>: A Set B is a subset of A if and only if every <span class="math inline">\(x \in B\)</span>, then <span class="math inline">\(x \in A\)</span>
+<ul>
+<li><span class="math inline">\(B \subseteq A\)</span>, B is a subset of A</li>
+</ul></li>
+<li><strong>Proper subset</strong>: a Set B is a proper subset of A if B is a subset of A and at least one member of A is NOT a member of B
+<ul>
+<li><span class="math inline">\(B \subset A\)</span>, B is a proper subset of A</li>
+</ul></li>
+</ul>
+</section>
+<section id="sets-and-or" class="slide level2">
+<h2>Sets: and or</h2>
+<p><img data-src="union_int.PNG" /></p>
+</section>
+<section id="sets-empty-complement-difference" class="slide level2">
+<h2>Sets: Empty, complement, difference</h2>
+<p><img data-src="empty.png" /></p>
+<ul>
+<li>Key point on empty sets: P and R here are <strong>mutually exclusive</strong></li>
+<li>If P occurs, R <strong>cannot</strong> occur.</li>
+</ul>
+</section>
+<section id="does-some-of-it-seem-familiar" class="slide level2">
+<h2>Does some of it seem familiar?</h2>
+<ul>
+<li>Working with sets is often referred to as Boolean algebra</li>
+<li>You have some across this when you work with logicals in R.</li>
+</ul>
+</section>
+<section id="sets-probability" class="slide level2">
+<h2>Sets &amp; Probability</h2>
+<ul>
+<li>In probability we talk about a <em>sample space</em>
+<ul>
+<li>Sample space (S) = all possible outcomes.</li>
+<li>Every point in this sample space is a single outcome.</li>
+</ul></li>
+<li>An event (A)is a set of outcomes from S</li>
+<li>A <em>simple event</em> (a) = single point such that <span class="math inline">\(a \in S\)</span></li>
+<li><em>Random experiment</em> = sampling of simple events from a sample space.</li>
+</ul>
+</section>
+<section id="defining-probability" class="slide level2">
+<h2>Defining probability</h2>
+<ul>
+<li><strong>Long run frequency:</strong> Frequentist statistics.</li>
+<li><strong>Degree of belief:</strong> Bayesian statistics.</li>
+<li>We will be working with (1), but it is important to know there are different schools of thought as these relate to how we use statistics in practice and make inferences.</li>
+</ul>
+</section>
+<section id="defining-probability-1" class="slide level2">
+<h2>Defining probability</h2>
+<ul>
+<li><strong>Analytic definition of probability:</strong>
+<ul>
+<li>If there are <span class="math inline">\(a\)</span> ways in which <span class="math inline">\(x\)</span> can occur and <span class="math inline">\(b\)</span> ways in which <span class="math inline">\(x\)</span> can fail to occur, then <span class="math inline">\(P(x) = a/(a+b)\)</span>
+<ul>
+<li>If a bag contains 85 light and 15 dark caramels and you reach into the bag randomly and grab a caramel, P(light) = 85/(85+15) = .85 (or 85%)</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="defining-probability-2" class="slide level2">
+<h2>Defining probability</h2>
+<ul>
+<li><span class="math inline">\(P(x)\)</span>, or probability of x, is the proportion of times you would observe <span class="math inline">\(x\)</span> if you took an infinite number of samples.
+<ul>
+<li>If I roll a die an infinite number of times, the probability I would roll a 1 would be exactly 1/6.</li>
+</ul></li>
+<li>The long run, or the <em>law of large numbers</em>
+<ul>
+<li>Given an event <span class="math inline">\(A\)</span> and a probability <span class="math inline">\(P(A)\)</span>, over N trials, the probability that the relative frequency of <span class="math inline">\(A’\)</span> will differ from <span class="math inline">\(P(A)\)</span> approaches 0 as N approaches infinity</li>
+</ul></li>
+</ul>
+</section>
+<section id="coin-toss" class="slide level2">
+<h2>Coin toss</h2>
+<p><img src="lec8_probability_slides_files/figure-revealjs/unnamed-chunk-2-1.png" width="480" /></p>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li>Suppose we have the following experiment.
+<ul>
+<li>We roll two die.</li>
+<li>The outcome is the sum of the numbers on the upward pointing space.</li>
+</ul></li>
+</ul>
+</section>
+<section id="example-sample-space" class="slide level2">
+<h2>Example: Sample Space</h2>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>1</strong></th>
+<th><strong>2</strong></th>
+<th><strong>3</strong></th>
+<th><strong>4</strong></th>
+<th><strong>5</strong></th>
+<th><strong>6</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1</strong></td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td><strong>3</strong></td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td><strong>4</strong></td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td><strong>5</strong></td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td><strong>6</strong></td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-probabilities" class="slide level2">
+<h2>Example: Probabilities</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Simple Event</strong></th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Frequency</strong></td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>Probability</strong></td>
+<td><span class="math inline">\(\frac{1}{36}\)</span></td>
+<td><span class="math inline">\(\frac{2}{36}\)</span></td>
+<td><span class="math inline">\(\frac{3}{36}\)</span></td>
+<td><span class="math inline">\(\frac{4}{36}\)</span></td>
+<td><span class="math inline">\(\frac{5}{36}\)</span></td>
+<td><span class="math inline">\(\frac{6}{36}\)</span></td>
+<td><span class="math inline">\(\frac{5}{36}\)</span></td>
+<td><span class="math inline">\(\frac{4}{36}\)</span></td>
+<td><span class="math inline">\(\frac{3}{36}\)</span></td>
+<td><span class="math inline">\(\frac{2}{36}\)</span></td>
+<td><span class="math inline">\(\frac{1}{36}\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-probability-distribution" class="slide level2">
+<h2>Example: Probability Distribution</h2>
+<p><img src="lec8_probability_slides_files/figure-revealjs/unnamed-chunk-3-1.png" width="480" /></p>
+</section>
+<section id="rules-of-probability" class="slide level2">
+<h2>Rules of Probability</h2>
+<ul>
+<li><span class="math inline">\(P(i)\)</span> = probability of event <span class="math inline">\(i\)</span></li>
+<li><span class="math inline">\(0 \leq P(i) \leq 1\)</span> = probability of event <span class="math inline">\(i\)</span> is between 0 and 1</li>
+<li><span class="math inline">\(P(i_1) + P(i_2) + ... + P(i_n) = P(S)\)</span> = probability of all events in sample space <span class="math inline">\(S\)</span> = 1</li>
+<li><span class="math inline">\(P(i) + P(\sim i) = 1\)</span>, so <span class="math inline">\(P( \sim i) = 1 - P(i)\)</span></li>
+</ul>
+</section>
+<section id="joint-probability" class="slide level2">
+<h2>Joint Probability</h2>
+<ul>
+<li>Probability of A <strong>and</strong> B = <span class="math inline">\(p(A \bigcap B)\)</span>
+<ul>
+<li>Joint event or <em>intersection</em> of A and B</li>
+</ul></li>
+<li>Probability of A <strong>or</strong> B = <span class="math inline">\(p(A \bigcup B)\)</span>
+<ul>
+<li><em>Union</em> of A and B</li>
+</ul></li>
+<li>Probability of <strong>not</strong> A = <span class="math inline">\(p(\sim A)\)</span>
+<ul>
+<li>We describe the event not A as the <em>complement</em> of A.</li>
+</ul></li>
+</ul>
+</section>
+<section id="relations-between-events" class="slide level2">
+<h2>Relations between events</h2>
+<ul>
+<li><strong>Mutually exclusive</strong> events: If A occurs, B can not occur.</li>
+<li><strong>Independent</strong> events: The occurance of event A does not impact event B.</li>
+<li><strong>Dependent</strong> events: The occurance of event A <strong>does</strong> impact event B.
+<ul>
+<li>By impact, I am referring to changes in the probability of the events.</li>
+</ul></li>
+</ul>
+</section>
+<section id="probabilities-of-joint-events" class="slide level2">
+<h2>Probabilities of joint events</h2>
+<ul>
+<li>For mutually exclusive events, the probability of the union of those events is the sum of the individual probabilities.
+<ul>
+<li>Think of the coin example:</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[p(Head \bigcup Tails) = p(Head) + p(Tails) = 0.5 + 0.5 = 1.0\]</span></p>
+</section>
+<section id="probabilities-of-joint-events-1" class="slide level2">
+<h2>Probabilities of joint events</h2>
+<ul>
+<li>For non-mutually exclusive events.</li>
+</ul>
+<p><span class="math display">\[p(A \bigcup B) = p(A) + p(B) - p(A \bigcap B)\]</span></p>
+<ul>
+<li>Why might this be so?</li>
+</ul>
+<p><span class="math display">\[p(king or heart) = \frac{4}{52} + \frac{13}{52} - \frac{1}{52} = \frac{4}{13} = 0.31\]</span></p>
+</section>
+<section id="probabilities-of-joint-events-2" class="slide level2">
+<h2>Probabilities of joint events</h2>
+<ul>
+<li>So far we have looked at rules for unions (or), but what about intersections (and) events:</li>
+<li>If events are independent, then;</li>
+</ul>
+<p><span class="math display">\[p(A \bigcap B) = p(A)p(B)\]</span></p>
+<ul>
+<li>Consider getting a success (Head) in a coin flip (event A), and cutting the deck on a heart (event B).</li>
+</ul>
+<p><span class="math display">\[p(A \bigcap B) = \frac{1}{2} * \frac{1}{4} = \frac{1}{8} = .125 = 12.5%\]</span></p>
+</section>
+<section id="sampling-with-and-without-replacement" class="slide level2">
+<h2>Sampling: With and without replacement</h2>
+<ul>
+<li>In the lab there were examples of the use of <code>sample()</code> with <code>replace=T</code> and <code>replace=F</code></li>
+<li>What does this mean?
+<ul>
+<li>Imagine a bag of balls, 6 red 4 blue.</li>
+<li>We take 1 ball
+<ul>
+<li><span class="math inline">\(p(red) = \frac{6}{10} = \frac{3}{5}\)</span> = 0.60</li>
+<li><span class="math inline">\(p(blue) = \frac{4}{10} = \frac{2}{5}\)</span> = 0.40</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="sampling-with-and-without-replacement-1" class="slide level2">
+<h2>Sampling: With and without replacement</h2>
+<ul>
+<li>If we put the ball back, then the probabilities are the same next draw.</li>
+<li>If we keep the ball, then the probabilities change.
+<ul>
+<li>If we assume it was red, then;
+<ul>
+<li><span class="math inline">\(p(red) = \frac{5}{9}\)</span> = 0.56</li>
+<li><span class="math inline">\(p(blue) = \frac{4}{9}\)</span> = 0.44</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="sampling-with-and-without-replacement-2" class="slide level2">
+<h2>Sampling: With and without replacement</h2>
+<ul>
+<li>This matters with respect to thinking about multiple trials.</li>
+<li>If we draw two balls from the sample, what is the probability they are both red?</li>
+<li>As long as the events are independent, then:
+<ul>
+<li><strong>With replacement</strong> = 0.6*0.6 = 0.36 = 36%</li>
+<li><strong>Without replacement</strong> = 0.60*0.56 = 0.34 = 34%</li>
+</ul></li>
+</ul>
+</section>
+<section id="tasks-for-this-week" class="slide level2">
+<h2>Tasks for this week…</h2>
+<ol type="1">
+<li>Finish any existing tasks from labs.</li>
+<li>Reading: See LEARN</li>
+<li>Quiz 8 on R functions
+<ul>
+<li><strong>This quiz counts</strong></li>
+<li>Live now (as of Monday at 09:00).</li>
+<li>Closes Sunday at 17:00</li>
+</ul></li>
+</ol>
+</section>
+<section id="recommendations-of-the-week" class="slide level2">
+<h2>Recommendations of the week</h2>
+<ul>
+<li>To follow.</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://psystats.github.io/slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="https://psystats.github.io/slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1000,
+        height: 750,
+        // Factor of the display size that should remain empty around the content
+        margin: 0,
+
+
+
+        chalkboard: {
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'https://psystats.github.io/slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'https://psystats.github.io/slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'https://psystats.github.io/slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('h2:not(.author)').each(function () {
+        $(this).wrapAll('<div class="slide-title" />');
+    });	
+	$('h1.title').each(function () {
+        $(this).wrapAll('<div class="slide-title" />');
+    });	
+});
+
+var f = (function() {
+	// get scale
+	var element = document.querySelector('.slides');
+	var scaleX = element.getBoundingClientRect().width / element.offsetWidth;
+	var bottom = $(".present > .slide-title").offset().top + ($(".present > .slide-title").outerHeight() * scaleX);
+	
+	$(":root")[0].style.setProperty('--header-height', Math.floor(bottom) + 'px');
+});
+
+window.addEventListener( 'load', f);
+$(window).resize(f);
+Reveal.addEventListener( 'slidechanged', f);
+Reveal.addEventListener( 'overviewshown', function() {
+	$('.banner').addClass( "overview" );
+} );
+Reveal.addEventListener( 'overviewhidden', function() {	
+	$('.banner').removeClass( "overview" );
+});
+Reveal.addEventListener( 'overviewhidden', f);
+
+
+</script>
+
+  </body>
+</html>

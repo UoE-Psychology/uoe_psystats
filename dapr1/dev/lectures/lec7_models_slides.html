@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Tom Booth" />
+  <title>Models</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://psystats.github.io/slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="https://psystats.github.io/slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="https:\\psystats.github.io\slides_files\css\slides.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <link href="https://psystats.github.io/slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="https://psystats.github.io/slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+    <script src="https://psystats.github.io/slides_files/kePrint-0.0.1/kePrint.js"></script>
+</head>
+<body>
+<div class="banner"><div class = "header"><a href="/">dapR<strong>1</strong></a></div></div>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Models</h1>
+  <h1 class="subtitle">Data Analysis for Psychology in R 1</h1>
+    <h2 class="author">Tom Booth</h2>
+    <h3 class="date"><a href="./lec7_models.html">Click for handout</a></h3>
+</section>
+
+<section id="today" class="slide level2">
+<h2>Today</h2>
+<style>
+:root {
+--theme-col: var(--dapR_1-col1);
+--hover-col: var(--dapR_1-col2);
+}
+</style>
+<ul>
+<li>Introduce the idea of models in statistics</li>
+<li>Think through models as functions</li>
+<li>Consider how models, plots and functions relate.</li>
+<li><strong>Admin</strong>: I want to talk through the lab tests</li>
+</ul>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>Learning objectives</h2>
+<ul>
+<li>Understand the general concept of a model.</li>
+<li>Understand how a model relates to a function.</li>
+<li>Understand how a model provides predictions about the world</li>
+</ul>
+</section>
+<section id="what-is-a-model" class="slide level2">
+<h2>What is a model?</h2>
+<ul>
+<li>Pretty much all statistics is about models.</li>
+<li>A model is a formal representation of a system.</li>
+<li>Put another way, a model is an idea about the way the world is.</li>
+</ul>
+</section>
+<section id="models-in-psychology" class="slide level2">
+<h2>Models in psychology</h2>
+<ul>
+<li>Rescorla-Wagner Model: classical conditioning</li>
+</ul>
+<p><span class="math display">\[
+\Delta V_{X}^{n+1} = \alpha_X \beta(\lambda - V_{tot})
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\Delta V_{X}^{n+1}\)</span> = change in strength of an association.</li>
+<li><span class="math inline">\(\alpha_x\)</span> = Salience of X (CS)</li>
+<li><span class="math inline">\(\beta\)</span> = salience of US</li>
+<li><span class="math inline">\(\lambda\)</span> = maximum possible conditioning for US</li>
+<li><span class="math inline">\(V_{tot}\)</span> = strength between CS and US for all possible stimuli</li>
+</ul>
+</section>
+<section id="models-in-psychology-1" class="slide level2">
+<h2>Models in Psychology</h2>
+<p><span class="math display">\[
+\Delta V_{X}^{n+1} = \alpha_X \beta(\lambda - V_{tot})
+\]</span></p>
+<ul>
+<li>As a function:</li>
+</ul>
+<p><span class="math display">\[
+f(\alpha, \beta, \lambda, z = [V_{tot}]) = \alpha_X \beta(\lambda - V_{tot})
+\]</span></p>
+</section>
+<section id="a-model-as-a-function" class="slide level2">
+<h2>A model as a function</h2>
+<ul>
+<li>We tend to represent mathematical models as functions.
+<ul>
+<li>which can be very helpful.</li>
+</ul></li>
+<li>It allows for the precise specification about what is important (arguments) and what those things do (operations)
+<ul>
+<li>This leads to predictions</li>
+<li>And these predictions can be tested.</li>
+</ul></li>
+</ul>
+</section>
+<section id="an-example" class="slide level2">
+<h2>An Example</h2>
+<ul>
+<li>To think through these relations, we can use a simpler example.</li>
+<li>Suppose I have a model for growth of babies.</li>
+</ul>
+<p><span class="math display">\[
+Length = 55 + 4*month
+\]</span></p>
+</section>
+<section id="visualizing-a-model" class="slide level2">
+<h2>Visualizing a model</h2>
+<p><img src="lec7_models_slides_files/figure-revealjs/unnamed-chunk-2-1.png" width="480" /></p>
+</section>
+<section id="models-as-a-state-of-the-world" class="slide level2">
+<h2>Models as “a state of the world”</h2>
+<ul>
+<li>Let’s suppose my model is true.
+<ul>
+<li>That is, it is a perfect representation of how babies grow.</li>
+</ul></li>
+<li>What are the implications of this?</li>
+</ul>
+</section>
+<section id="models-and-predictions" class="slide level2">
+<h2>Models and predictions</h2>
+<ul>
+<li>My models creates predictions.</li>
+<li><strong>IF</strong> my model is a true representation of the world, <strong>THEN</strong> data from the world should closely match my predictions.
+<ul>
+<li>Sometimes this is referred to as my model matching the <em>data generation process</em></li>
+</ul></li>
+</ul>
+</section>
+<section id="predictions-and-data" class="slide level2">
+<h2>Predictions and data</h2>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Prediction
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10.00
+</td>
+<td style="text-align:right;">
+95
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10.25
+</td>
+<td style="text-align:right;">
+96
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10.50
+</td>
+<td style="text-align:right;">
+97
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10.75
+</td>
+<td style="text-align:right;">
+98
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11.00
+</td>
+<td style="text-align:right;">
+99
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11.25
+</td>
+<td style="text-align:right;">
+100
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11.50
+</td>
+<td style="text-align:right;">
+101
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11.75
+</td>
+<td style="text-align:right;">
+102
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12.00
+</td>
+<td style="text-align:right;">
+103
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Our predictions are points which fall on our line (representing the model, as a function)</li>
+</ul>
+</section>
+<section id="predictions-and-data-1" class="slide level2">
+<h2>Predictions and data</h2>
+<p><img src="lec7_models_slides_files/figure-revealjs/unnamed-chunk-4-1.png" width="480" /></p>
+<ul>
+<li>Consider the predictions when the children get a lot older…</li>
+</ul>
+</section>
+<section id="predictions-and-data-2" class="slide level2">
+<h2>Predictions and data</h2>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Year
+</th>
+<th style="text-align:right;">
+Prediction
+</th>
+<th style="text-align:right;">
+Predction_M
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+216
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+919
+</td>
+<td style="text-align:right;">
+9.19
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+228
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+967
+</td>
+<td style="text-align:right;">
+9.67
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+240
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1015
+</td>
+<td style="text-align:right;">
+10.15
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+252
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+1063
+</td>
+<td style="text-align:right;">
+10.63
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+264
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1111
+</td>
+<td style="text-align:right;">
+11.11
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+276
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+1159
+</td>
+<td style="text-align:right;">
+11.59
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+288
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+1207
+</td>
+<td style="text-align:right;">
+12.07
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+300
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+1255
+</td>
+<td style="text-align:right;">
+12.55
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>What do you think this would mean for our actual data?</li>
+<li>Will the data fall on the line?</li>
+</ul>
+</section>
+<section id="how-good-is-my-model" class="slide level2">
+<h2>How good is my model?</h2>
+<ul>
+<li>How might we judge how good our model is?</li>
+</ul>
+<ol type="1">
+<li>Model is represented as a function</li>
+<li>We see that as a line (or surface if we have more things to consider)</li>
+<li>That yields predictions (or values we expect if our model is true)</li>
+<li>We can collect data</li>
+<li>If the predictions do not match the data (points deviate from our line), that says something about our model.</li>
+</ol>
+</section>
+<section id="models-and-statistics" class="slide level2">
+<h2>Models and Statistics</h2>
+<ul>
+<li>In statistics we (roughly) follow this process.</li>
+<li>We define a model that represents one state of the world (probabilistically)</li>
+<li>We then collect data to compare to it.</li>
+<li>These comparisons lead us to make inferences about how the world actually is, by comparison to a world that we specify by our model.</li>
+</ul>
+</section>
+<section id="length-age-is-non-linear" class="slide level2">
+<h2>Length &amp; Age is non-linear</h2>
+<p><img src="lec7_models_slides_files/figure-revealjs/unnamed-chunk-6-1.png" width="480" /></p>
+<ul>
+<li>Our red line is plotted based on the mean length for different ages <a href="https://www.cdc.gov/growthcharts/who/boys_length_weight.htm">real data</a></li>
+</ul>
+</section>
+<section id="lab-tests" class="slide level2">
+<h2>Lab tests</h2>
+</section>
+<section id="what-to-expect" class="slide level2">
+<h2>What to expect…</h2>
+<ul>
+<li>You will be assigned to either the first or second hour of your normal lab.</li>
+<li>You will come in, have 10 minutes to settle, open computers etc.</li>
+<li>You will open an .rmd file that will contain questions and empty code chunks</li>
+<li>You will need to write some R-code to answer the question
+<ul>
+<li>You will knit your .rmd file</li>
+<li>And hand in the .rmd and the knitted file via LEARN</li>
+</ul></li>
+</ul>
+</section>
+<section id="types-of-question" class="slide level2">
+<h2>Types of question</h2>
+<ul>
+<li>Question will draw on the content of the course up to the point where the test.</li>
+<li>They will focus mainly on recent material, but may have some things repeated (like sorting data)</li>
+<li>Examples for test 1:
+<ul>
+<li>Make a plot</li>
+<li>Produce summary statistics for variable X</li>
+<li>How many subjects are there in the data that meet conditions A, B and C</li>
+</ul></li>
+<li>There will be 4 or 5 questions in each lab test.
+<ul>
+<li>The last of which will be hard.</li>
+</ul></li>
+</ul>
+</section>
+<section id="final-things" class="slide level2">
+<h2>Final things</h2>
+<ul>
+<li>If you have adjustments, you will have extra time as if this is an exam.</li>
+<li>You can have all your notes and the internet</li>
+<li>The admin for the test in week 10 will happen next week</li>
+<li>There will be a practice submission during the lab before the first test.</li>
+</ul>
+</section>
+<section id="tasks-for-this-week" class="slide level2">
+<h2>Tasks for this week…</h2>
+<ol type="1">
+<li>Finish any existing tasks from labs.</li>
+<li>Reading: See LEARN</li>
+<li>Quiz 7 on functions
+<ul>
+<li><strong>This quiz counts</strong></li>
+<li>Live now (as of Monday at 09:00).</li>
+<li>Closes Sunday at 17:00</li>
+</ul></li>
+</ol>
+</section>
+<section id="recommendations-of-the-week" class="slide level2">
+<h2>Recommendations of the week</h2>
+<ul>
+<li>Podcast: <a href="https://www.bbc.co.uk/programmes/b00qj2nq">Another In Our Time</a></li>
+<li>Recipe: <a href="https://cafedelites.com/breakfast-egg-muffins-3-ways/">Breakfast Egg Muffins</a></li>
+<li>Book: <a href="https://www.goodreads.com/book/show/28789711-spqr">SPQR, Mary Beard</a></li>
+<li>Thing to do: <a href="https://stgilescathedral.org.uk/music/">St. Giles Cathedral</a></li>
+<li>Coffee/food Place: <a href="http://www.mirosportobello.co.uk/">Miros Portobello Beach</a></li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://psystats.github.io/slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="https://psystats.github.io/slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1000,
+        height: 750,
+        // Factor of the display size that should remain empty around the content
+        margin: 0,
+
+
+
+        chalkboard: {
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'https://psystats.github.io/slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'https://psystats.github.io/slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'https://psystats.github.io/slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('h2:not(.author)').each(function () {
+        $(this).wrapAll('<div class="slide-title" />');
+    });	
+	$('h1.title').each(function () {
+        $(this).wrapAll('<div class="slide-title" />');
+    });	
+});
+
+var f = (function() {
+	// get scale
+	var element = document.querySelector('.slides');
+	var scaleX = element.getBoundingClientRect().width / element.offsetWidth;
+	var bottom = $(".present > .slide-title").offset().top + ($(".present > .slide-title").outerHeight() * scaleX);
+	
+	$(":root")[0].style.setProperty('--header-height', Math.floor(bottom) + 'px');
+});
+
+window.addEventListener( 'load', f);
+$(window).resize(f);
+Reveal.addEventListener( 'slidechanged', f);
+Reveal.addEventListener( 'overviewshown', function() {
+	$('.banner').addClass( "overview" );
+} );
+Reveal.addEventListener( 'overviewhidden', function() {	
+	$('.banner').removeClass( "overview" );
+});
+Reveal.addEventListener( 'overviewhidden', f);
+
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,177 @@
+---
+title: "Lab 10"
+author: "Univariate Statistics with R"
+---
+
+``` {r, include = FALSE, eval = F}
+### if there is no fox.csv in course materials
+my.df <- data.frame(id = factor(sample(combn(LETTERS, 3, FUN = function(x) {paste(x, collapse = '')}), size)))
+### people who've declined have a different outcome
+my.df$home <- gl(3, 1, size, labels = c('country', 'suburban', 'urban'))
+my.df$spectrum <- round(rnorm(size, 0, 33), 0)
+
+fup <- -5 + (my.df$spectrum - min(my.df$spectrum)) / (diff(range(my.df$spectrum)) / 20)
+fup.2 <- exp(fup) / (1 + exp(fup))
+with(my.df, plot(spectrum[order(spectrum)], fup.2[order(spectrum)], type = 'l'))
+my.df$followup <- rbinom(size, 1, fup.2)
+with(my.df, points(spectrum, followup))
+m <- glm(followup ~ spectrum, data = my.df, family = binomial)
+### predict fox hunting from iq and environment (no diff betw urban & suburban)
+my.df$followup <- factor(my.df$followup, labels = c('N', 'Y'))
+country <- rep(0, size)
+country[my.df$home! = 'urban'] <- ifelse(my.df$home[my.df$home! = 'urban'] == 'suburban', .2, 2)
+my.df$prohunt <- 0*my.df$spectrum + 2*country + .02*country*my.df$spectrum
+my.df$prohunt[my.df$followup=='N'] <- min(my.df$prohunt) + rnorm(length(my.df$prohunt[my.df$followup=='N']), -2, .05)
+my.df$prohunt <- my.df$prohunt + rnorm(size, 0, 3)
+my.df$prohunt <- (my.df$prohunt - min(my.df$prohunt)) / diff(range(my.df$prohunt)) * 6 + 1
+plot(my.df$spectrum, my.df$prohunt, col = as.numeric(my.df$home))
+fox <- my.df
+fox <- fox[order(fox$id), ]
+fox$prohunt[sample(length(fox$prohunt), 2)] <- 0
+fox$spectrum[sample(length(fox$spectrum), 4)] <- -999
+fox$prohunt <- round(fox$prohunt, 2)
+save(fox, file = 'fox.Rdata')
+write.csv(fox, file = 'fox.csv', row.names = F)
+```
+
+```{r, include = F}
+size <- 412
+```
+
+**This lab is a little less guided, and a little more like the take-home exam.** The main thing to remember when carrying out an exercise like this is to make it clear *why* you made the decisions you made, either as a write-up or as comments (beginning with `#`) in the `R`\ code. There are no absolutely right or wrong answers, just sensible and less sensible things to try out!
+
+Take some time to read this document fully before getting started with any analyses. Think about each variable in the dataset in terms of what it measures and the type of data it provides.
+
+**Tip: **Don't be tempted to immediately run a certain model. Analysing a collected dataset is a process and these labs have been structured to illustrate many of the steps taken when analysing data 'for real'. Think about some of the exercises from past labs to generate ideas about the steps you want to take.
+
+## Before you start
+
+There is one more bit of programming we'd like you to be familiar with -- the `apply()` family functions. These function take some data structure and apply any function to each element of that structure.
+
+To illustrate, let's look at `apply()`. Imagine I have a data frame like this:
+
+```{r}
+mat <- matrix(rnorm(100), ncol = 5)
+df <- data.frame(id = 1:20, mat)
+head(df)
+```
+
+let's say I want to know which of the `X1`-`X5` columns contains the largest value *for each participant*. If we only take the first row, for example, then the task is easy, right?
+
+```{r}
+df[1, 2:6]
+which.max(df[1, 2:6])
+```
+
+If we want to know this bit of information for every row of the data frame, doing it manually is quite tedious. We *could* instead use a `for` loop:
+
+```{r}
+max_col <- c()
+for (i in 1:nrow(df)) max_col <- c(max_col, which.max(df[i, 2:6]))
+max_col
+```
+
+This loop iterates over the rows of `df` (`for (i in 1:nrow(df))`) and for each cycle it adds the output of the `which.max()` function to the `max_col` variable.
+
+There is nothing wrong with this approach but it is a little wordy to write and not the fastest when it comes to computation time. The `aaply()` function can be used to achieve the same outcome faster and using less code:
+
+```{r}
+max_col2 <- apply(X = df[ , 2:6], MARGIN = 1, FUN = which.max)
+max_col2
+all(max_col == max_col2) # result is the same
+```
+
+So how does this work? `apply()` requires 3 arguments:
+    - `X` -- a matrix (remember that data frames can be treated as matrices)
+    - `MARGIN` -- `1` for by row, `2` for by column
+    - `FUN` -- name of function to apply (notice no `()`s)
+    
+Other arguments can be provided, for example `na.rm = T` if the function applied takes the `na.rm =` argument (*e.g.,* `mean()`).
+
+The function takes the matrix provided to the `X =` argument and applies the function passed to `FUN =` along the margin (rows/columns) of the matrix, specified by the `MARGIN =` argument.
+
+This is useful, don't you think? The function becomes even more useful when you realise you can apply your own functions. Let's say, we want to know the standard error estimate based on the 5 values for each participant:
+
+```{r}
+ # define function
+std.error <- function(x, na.rm) sd(x, na.rm = na.rm)/sqrt(length(na.omit(x)))
+
+apply(df[ , 2:6], 1, std.error, na.rm = T) # na.rm value will get passed on to std.error
+```
+
+You don't even have to create a function object!
+
+```{r}
+# same thing, different way
+apply(df[ , 2:6], 1,
+      function(x) sd(x, na.rm = T)/sqrt(length(na.omit(x))))
+```
+
+`r task()`Calculate the standard deviation of each of the `X` **columns** of `df`.
+
+```{r, include=solution, class="solution"}
+apply(df[ , 2:6], 2, sd, na.rm = T)
+```
+
+There are quite a few functions in the `apply()` family (*e.g.,* `vapply()`, `tapply()`, `mapply()`, `sapply()`), each doing something slightly different and each appropriate for a different data structure (`vector`, `matrix`, `list`, `data.frame`) and different task. You can read about all of them, if you want but we'd like to tell you about one in particular -- `lapply()`
+
+The `lapply()` function takes a `list` (list apply) and applies a function to each of its elements. The function returns a list. This function is useful because data frames can also be treated as lists. This is what you do every time you use the `$` operator.
+
+So, to do Task 1 using `lapply()`, you can simply do:
+
+```{r}
+lapply(df[ , 2:6], sd, na.rm = T)
+```
+
+If you don't want the output to be a list, just use `unlist()`:
+
+```{r}
+unlist(lapply(df[ , 2:6], sd, na.rm = T))
+```
+
+`r task()`Round all the `X` columns to 2 decimal places.
+
+*Hint: *Don't forget you want to be modifying the columns in question.
+
+```{r, include=solution, class="solution"}
+df[ , 2:6] <- lapply(df[ , 2:6], round, 2)
+head(df)
+```
+
+So these are the two most useful functions from the `apply()` family you should know. As a general tip, you can use `apply()` for by-row operations and `lapply()` for by-column operations on data frames. The nice thing about these function is that they help you avoid repetitive code. For instance, you can now turn several columns of your data set into factors using something like `df[ , c(2, 5, 7, 8)] <- lapply(df[ , c(2, 5, 7, 8)], factor)`. Cool, innit?
+
+\ 
+
+OK, let's move on to the main course!
+
+## The Study
+
+A dataset is available on the Learn website. The data concerns a study investigating attitudes about fox-hunting in the UK. `r size` participants were asked to rate their attitude towards hunting by marking a point along a line. The endpoints of the line were labelled *strongly opposed* and *strongly in favour*; the distance of each mark along its line was later measured, and scaled to a variable ranging from 1\ (opposed) to 7\ (in favour). The resulting variable is called `prohunt` in the dataset.
+
+Also measured were where participants lived (`urban`, `suburban`, `country`) as well as their politics, using the Stone-Corley Wingedness Inventory, which returns a score along the political spectrum ranging from -100 (extremely left-wing, socialist) to 100 (extremely right-wing, conservative). This score can be found in the `spectrum` column. Finally, participants were asked to indicate whether they were prepared to participate in a follow-up interview; the `followup` column shows their response.
+
+### The Task
+
+<div class="solText">
+**Your job this week is simply to 'analyse the data'. **
+
+By 'analyse', we mean look at the data, and produce some graphics and statistics to indicate what the relationship is between where people live, their politics, and their attitudes towards fox-hunting.
+
+**Some things you might want to think about: **
+
+* Does all of the data look sensible, given the descriptions above?
+
+* Might the variables interact to predict attitudes towards hunting?
+
+* Did participants decide not to participate in the follow-up at random?
+
+The types of output you *might* produce include regression statistics, scatterplots, and graphs showing regression effects, as well as documented `R`\ code to show what you did in analysing the data.
+</div>
+
+\  
+
+#### Good luck with the exam!
+
+```{r eval=solution, child = "Lab_10_example.Rmd"}
+
+```

@@ -1,0 +1,563 @@
+---
+title: "Lab 2"
+author: "Univariate Statistics with R"
+---
+
+Today, you will learn about basic data structures in `R` and how to manipulate them. Before we kick off, there's one thing we'd like to address. Some people feel reluctant to play around with `R` for fear of breaking something. This is quite normal, especially if they don't really understand how `R` works yet. If this is your case, we'd like to reassure you that there's nothing you can do by typing in the script or the console that will cause anything to explode (unless you really know what you're doing and you set out to cause problems). So, be curious, play around, try things out, look up other people's code (from trusted sources), break it down, try to understand it. That's the best way to learn!
+
+## First things first
+
+`r task()`Create a new RStudio project in a new directory called "Lab2" within your "Univariate" folder.
+
+Last week, we discussed objects in `R`. We talked about how basically everything in `R` is an object and how we can assign some content to an object using the `<-` assignment operator. This week, we will talk about the different kinds (classes) of content and the different ways this content can be organised (data structures).
+
+## Classes
+
+All data in `R` are organised in some *structures*. We've already encountered one of them -- vectors -- but there are other types we will talk about in due course. First let's focus on what these structures are made up of -- *elements*. An element is a single number, boolean (`TRUE`/`FALSE`), or a character string (anything in "quotes"). Elements come in several *classes*:
+
+- `"numeric"`, as the name suggests, a numeric element is a *single number*: 1, 2, -725, 3.14159265, *etc.*. A numeric element is never in 'single' or "double" quotes! Numbers are cool because you can do a lot of maths (and stats!) with them.
+
+  \ 
+  
+- `"character"`, a string of characters, no matter how long. It can be a single letter, `'g'`, but it can equally well be a sentence, `"Elen s?la lumenn' omentielvo."` (if you want the string to contain any single quotes, use double quotes to surround the string with and *vice versa*). Notice that character strings in `R` are *always* in 'single' or "double" quotes. Conversely *anything in quotes* is a character string:
+
+  ```{r}
+  class(3)
+  ```
+  
+  `r task()` Try running the same command, just put the 3 in quotes.
+  
+  ```{r, include = solution, class = "solution"}
+  class("3") # in quotes, therefore character!
+  ```
+
+  `r task()`It stands to reason that you can't do any maths with cahracter strings, **not even if it's a number that's inside the quotes**! Try adding `"3"` and `"2"`.
+  ```{r, error = T, include = solution, eval = solution, class = "solution"}
+  "3" + "2"
+  ```
+  
+  \ 
+  
+  Th error message `R` gives you is a little cryptic so let's decode it. "Binary operator" refers to the addition. Other binary operators are, *e.g.*, `*`, `^`, or `%%` ([modulo](https://en.wikipedia.org/wiki/Modulo_operation)). So `R` is telling you that you are trying to perform an arithmetic operation on non-numbers. Why does it not just say so like a normal person? No idea! You are most likely to get this error when you try to calculate something from your data (*e.g.*, a total score) but one of the variables is actually not `numeric` for some reason. Maybe the data weren't read in right or you've selected the wrong column, *etc*.
+  
+  \ 
+  
+- `"logical"`, a logical element can take one of two values, `TRUE` or `FALSE`. Logicals are usually the output of logical operations (anything that can be phrased as a yes/no question, *e.g., is x equal to y?*). In formal logic, `TRUE` is represented as 1 and `FALSE` as 0. This is also the case in `R`:
+
+  ```{r}
+  # recall that c() is used to bind elements into a vector
+  # (that's just a fancy term for an ordered group of elements)
+  class(c(TRUE, FALSE))
+  ```
+  
+  `r task()`We can force ('coerce', in R jargon) the vector to be numeric. Try doing that using the `as.numeric()` function instead of `class()`.
+  ```{r, include = solution, class = "solution"}
+  as.numeric(c(TRUE, FALSE))
+  ```
+  
+  This has interesting implications. First, is you have a logical vector of many `TRUE`s and `FALSE`s, you can quickly count the number of `TRUE`s by just taking the sum of the vector:
+  
+  ```{r, echo = F}
+  x <- as.logical(rbinom(50, 1, .6))
+  ```
+  
+  ```{r}
+  # consider vector of 50 logicals
+  x
+  # number of TRUEs
+  sum(x)
+  # number of FALSEs is 50 minus number of TRUEs
+  length(x) - sum(x)
+  ```
+  
+  Second, you can perform all sorts of arithmetic operations on logicals:
+  
+  ```{r}
+  # TRUE/FALSE can be shortened to T/F
+  T + T
+  F - T
+  (T * T) + F
+  ```
+  
+  Third, you can coerce numeric elements to valid logicals:
+  
+  ```{r}
+  # zero is FALSE
+  as.logical(0)
+  # everything else is TRUE
+  as.logical(c(-1, 1, 12, -231.3525))
+  ```
+  
+  Now, you may wonder that use this can possible be?! Well, this way you can perform basic logical operations, such as AND, OR, and XOR (see [Lecture 2](https://mivalek.github.io/Lectures/lecture2/Lecture_2.html#/thats-logic-innit)):
+  
+  ```{r}
+  # x * y is equivalent to x AND y
+  as.logical(T * T)
+  as.logical(T * F)
+  as.logical(F * T)
+  as.logical(F * F)
+  # x + y is equivalent to x OR y
+  as.logical(T + T)
+  as.logical(T + F)
+  as.logical(F + T)
+  as.logical(F + F)
+  # x - y is equivalent to x XOR y (eXclusive OR, either-or)
+  as.logical(T - T)
+  as.logical(T - F)
+  as.logical(F - T)
+  as.logical(F - F)
+  ```
+  
+  \ 
+    
+- `"factor"`, factors are a bit weird. They are used mainly for telling `R` that a vector represents a categorical variable. For instance, you can be comparing two groups, treatment and control.
+
+  ```{r}
+  # create a vector of 15 "control"s and 15 "treatment"s
+  x <- rep(c("control", "treatment"), each = 15)
+  x
+  ```
+  
+  `r task()`Run the code above. Don't copy-paste, type it in manually. It will help you learn the syntax. Now, turn `x` into a factor using `factor()` or `as.factor()`.
+  ```{r, include = solution, class = "solution"}
+  # turn x into a factor
+  x <- as.factor(x)
+  x
+  ```
+
+  The first thing to notice is the line under the last printout that says "`Levels: control treatment`". This informs you that `x` is now a factor with two levels (or, a categorical variable with two categories).
+  
+  Second thing you should take note of is that the words `control` and `treatment` don't have quotes around them. This is another way `R` uses to tell you this is a factor.
+  
+  With factors, it is important to understand how they are represented in `R`. Despite, what they look like, **under the hood, they are numbers**. A one-level factor is a vector of `1`s, a two-level factor is a vector of `1`s and `2`s, a *n*-level factor is a vector of `1`s, `2`s, `3`s ... *n*s. The levels, in our case `control` and `treatment`, are just labels attached to the `1`s and `2`s. Let's demonstrate this:
+  
+  ```{r}
+  typeof(x)
+  # integer is fancy for "whole number"
+  ```
+  
+  `r task()`Try coercing `x` to numeric and see what happens. Don't assign the result to `x`, just have it prited out.
+  ```{r, include = solution, class = "solution"}
+  as.numeric(x)
+  ```
+  
+  `r task()`Now look at the `levels()` of `x`.
+  ```{r, include = solution, class = "solution"}
+  levels(x)
+  ```
+  
+  The labels attached to the numbers in a factor can be whatever. Let's say that in your raw data file, treatment group is coded as 1 and control group is coded as 0.
+  
+  ```{r}
+  # create a vector of 15 zeros and 15 ones
+  x <- rep(0:1, each = 15)
+  x
+  # turn x into a factor
+  x <- as.factor(x)
+  x
+  ```
+  
+  Since `x` is now a factor with levels `0` and `1`, we know that it is stored in `R` as a vector of `1`s and `2`s and **the zeros and ones**, representing the groups, **are only labels**:
+  
+  ```{r}
+  as.numeric(x)
+  levels(x)
+  ```
+  
+  The fact that factors in `R` are represented as labelled integers has interesting implications. First, certain functions will coerce factors into numeric vectors which can shake things up. `cbind()` which **bind**s its arguments by *c*olumn is one such function:
+  ```{r}
+  x
+  # let's bind the first 15 elements and the last 15 elements together as columns
+  ```
+  
+  ```{r, echo = F}
+  options(max.print = 10)
+  ```
+
+  `r task()`Try `cbind()`-ing the first 15 and the last 15 elements of `x` into two columns. *Hint:* `x[1:15]` gives you the first 15 elements.
+  ```{r, include = solution, class = "solution"}
+  # printout truncated to first 5 rows to save space
+  cbind(x[1:15], x[16:30])
+  ```
+  
+  ```{r, echo = F}
+  options(max.print = 9999)
+  ```
+  
+  `cbind()` binds the vectors you provide into the columns of a matrix. Since matrices (yep, that's the plural of 'matrix'; also, more on matrices later) can only contain `logical`, `numeric`, and `character` elements, the `cbind()` function coerces the elements of the `x` factor (haha, the X-factor) into `numeric`, stripping the labels and leaving only `1`s and `2`s.
+  
+  The other two consequences of this labelled numbers system stem from the way the labels are stored. Every `R` object comes with a list of so called *attributes* attached to it. These are basically information about the object. For objects of class `factor`, the attributes include its levels (or the labels attached to the numbers) and class:
+  
+  ```{r}
+  attributes(x)
+  ```
+  
+  So the labels are stored separately of the actual elements. This means, that even if you delete some of the numbers, the labels stay the same. Let's demonstrate this implication on the `plot()` function. This function is smart enough to know that if you give it a factor it should plot it using a bar chart, and not a histogram or a scatter plot (more on plots next week).
+  
+  `r task()`Try plotting `x` with the `plot()` function. The result should be something like this:
+  
+  ```{r, echo = solution, class = "solution"}
+  plot(x)
+  ```
+  
+  `r task()`Now, let's take the first 15 elements of `x`, which are all `0`s, store them in `y` and plot them:
+  ```{r, include = solution, class = "solution"}
+  y <- x[1:15]
+  plot(y)
+  ```
+  
+  As you can see, even though our new object `y` only includes `0`s, the `levels` attribute still tells `R` that this is a factor of (at least *potentially*) two levels: `"0"` and `"1"` and so `plot()` leaves a room for the `1`s.
+  
+  The last consequence is directly related to this. Since the levels of an object of class `factor` are stored as its attributes, any additional values put inside the objects will be invalid and turned into `NA`s (`R` will warn us of this). In other words, you **can only add those values that are among the ones produced by `levels()`** to an object of class `factor`:
+  
+  `r task()`Try adding invalid values -4 and 3 to the end of vector `x` (that's `x[31:32]`) and then print out `x` to see what happened.
+  ```{r, include = solution, warning = TRUE}
+  x[31:32] <- c(-4, 3)
+  x
+  ```
+  
+  As you can see, `R` sort of goes with it but warns you that you are adding values that are not valid levels of the `factor`. Warnings are different from errors in that the commands still get executed but the outcome might not be what you want it to be. You need to be sure you understand the behaviour in order to judge whether or not this is a problem in any particular situation.
+  The only way to add these values to a factor is to first coerce it to `numeric`, then add the values, and then turn it back into `factor`:
+  
+  ```{r}
+  # coerce x to numeric
+  x <- as.numeric(x[1:30])
+  class(x)
+  # but remember that 0s and 1s are now 1s and 2s!
+  x
+  # so subtract 1 to make the values 0s and 1s again
+  x <- x - 1
+  # add the new values
+  x <- c(x, -4, 3)
+  # back into fractor
+  x <- as.factor(x)
+  x
+  # SUCCESS!
+  
+  # reset
+  x <- as.factor(rep(0:1, each = 15))
+  # one-liner
+  x <- as.factor(c(as.numeric(x[1:30]) - 1, -4, 3))
+  x
+  ```
+  
+  Told you factors were weird...
+  
+  \ 
+  
+- `"ordered"`, finally, these are the same as factors but, in addition to having levels, these levels are ordered and thus allow comparison (notice the `Levels: 0 < 1` below):
+
+  ```{r}
+  # create an ordered x
+  x <- as.ordered(rep(0:1, each = 15))
+  x
+  
+  # we can now compare the levels
+  x[1] < x[30]
+  # this is not the case with factors
+  y <- as.factor(rep(0:1, each = 15))
+  y[1] < y[30]
+  ```
+
+  Objects of class `ordered` are useful for storing *ordinal* variables, *e.g.,* age group.
+  
+  \ 
+  
+In addition to these five sorts of elements, there are three special wee snowflakes:
+
+- `NA`, stands for "not applicable" and is used for missing data. Unlike other kinds of elements, it can be bound into a vector along with elements of any class.
+
+- `NaN`, stands for "not a number". It is technically of class `numeric` but only occurs as the output of invalid mathematical operations, such as dividing zero by zero or taking a square root of a negative number:
+
+  ```{r}
+  0 / 0
+  sqrt(-12)
+  ```
+
+- `Inf` (or `-Inf`), infinity. Reserved for division of a non-zero number by zero (no, it's not *technically* right):
+  ```{r}
+  235 / 0
+  -85.123 / 0
+  ```
+
+<p class="why">As you can see, understanding how `R` represents and treats different classes of data is crucial for data processing and analysis as well as avoiding potential pitfalls.</p>
+
+## Data structures
+
+\ 
+
+So that's most of what you need to know about elements. Let's talk about putting elements together. As mentioned above, elements can be grouped in various data structures. These differ in the ways in which they arrange elements:
+
+- *vectors* arrange elements in a line. they don't have dimensions and can only contain elements of same class (*e.g.,* `"numeric"`, `"character"`, `"logical"`).
+
+  ```{r}
+  # a vector
+  letters[5:15]
+  ```
+
+  If you try to force elements of different classes to a single vector, they will all be converted to the *most complex* class. The order of complexity, from least to most complex, is: `logical`, `numeric`, and `character`. Elements of class `factor` and `ordered` cannot be meaningfully bound in a vector with other classes (nor with each other): they either get converted to `numeric`, `character` - if you're lucky - or to `NA`.
+  
+  ```{r}
+  # c(logical, numeric) results in numeric
+  x <- c(T, F, 1:6)
+  x
+  class(x)
+  # integer is like numeric but only for whole numbers to save computer memory
+  
+  # adding character results in character
+  x <- c(x, "foo")
+  # the numbers 1-6 are not numeric any more!
+  x
+  ```
+  
+  `r task()`Verify that this is indeed the case by looking at class of x.
+  ```{r, include = solution, class = "solution"}
+  class(x)
+  ```
+  
+  \ 
+  
+- *matrices* arrange elements in a square/rectangle, *i.e.,* a two-dimensional arrangement of *rows* and *columns*. They can also only accommodate elements of the same class and cannot store attributes of elements. That means, *you can't use them to store (ordered) factors*.
+
+  ```{r}
+  # a matrix
+  matrix(sample(20), ncol = 5) # must be square/rectangular
+  # not suitable for factors
+  x <- factor(sample(10, 20, replace = T))
+  x
+  ```
+  
+  `r task()`Create a new factor `x` using the command above and put it in a matrix with 5 columns to see what happens.
+  ```{r, include = solution, class = "solution"}
+  # not factors any more!
+  matrix(x, ncol = 5)
+  ```
+  
+  \ 
+  
+- *lists* arrange elements in a collection of vectors or other data structures. Different vectors/structures can be of different lengths and contain elements of different classes. Elements of lists and, by extension, data frames can be accessed using the `$` operator, provided we gave them names.
+
+  ```{r}
+  # a list
+  my_list <- list(
+    # 1st element of list is a numeric matrix
+    A = matrix(rnorm(20, 1, 1), ncol = 5), 
+    # 2nd element is a character vector
+    B = letters[1:5],
+    # third is a data.frame
+    C = data.frame(x = c(1:3), y = LETTERS[1:3])
+  )
+  
+  my_list
+  
+  # we can use the $ operator to access NAMED elements of lists
+  my_list$B
+  
+  # this is also true for data frames
+  my_list$C$x
+  ```
+  ```{r, error = TRUE}
+  # but not for vectors or matrices
+  my_list$A$1
+  ```
+  
+  \ 
+  
+- *data frames* are lists but have an additional constraint: all the vectors of a `data.frame` must be of the same length. That is the reasons why your datasets are always rectangular.
+
+`r task()`Create a data frame called `df` that looks like the one from Lecture 2. The `id` and `dpt` variables should be `factors`, `degree` should be `ordered`, and `age` should be `numberic`. *Hint:* The function that creates a data frame is `data.frame()` and is used the same way as `list()`, *e.g.*, `data.frame(variable1_name = vector1, variable2_name = vector2...)`. The data frame should look like this:
+```{r, echo = solution, class = "solution"}
+df <- data.frame(id = factor(1001:1006), age = c(23, 25, 33, 26, 25, 24),
+           eye_col = factor(c("blue", "brown", "brown", "green", "blue", "brown")),
+           dpt = factor(c("psy", "cog", "lel", "psy", "phi", "lel")),
+           degree = ordered(c(3, 1, 1, 1, 2, 2), labels = c("1", "2:1", "2:2")))
+df
+```
+
+\ 
+
+<p class="why">Different data structures are useful for different things: data frames are like spreadsheets -- each row represents an observation and each column represents a variable in your data set. Vectors are often used as representations of a single variable or observation. Matrices are the result of operations such as `cbind()`, `rbind()`, and others and lists are good for intermediate steps in complex data processing and, importantly, the output of many statistical methods in `R`. No matter the structure, though, bear in mind that, ultimately, **they are all just bunches of elements**. This understanding is crucial for working with data.</p>
+
+\ 
+
+## Subsetting
+
+Now that you understand that all data boil down to elements, let's look at how to ask `R` for the *subsets* elements you want.
+
+There are only two ways to do this:
+
+1. indices
+2. logical vector
+
+Let's take a closer look at indexing now. We'll save logical vector subsetting for next week.
+Indexing is a way of asking for elements of a data structure by simply providing the numeric positions of the desired elements in the structure (vector, list...) in a set of square brackets `[]` at the end of the object name:
+
+```{r}
+
+x <- c("I", " ", "l", "o", "v", "e", " ", "R")
+
+# get the 6th element
+x[6]
+```
+
+\ 
+
+To get more than just one element at a time, you need to provide *a vector* of indices. For instance, to get the elements 3-6 of `x`, we can do:
+
+``` {r}
+x[3:6]
+```
+
+This is equivalent to inserting the vector `c(3, 4, 5, 6)` inside the square brackets.
+`r task()`Try doing that. First create the `x` vector as above and then subset it using `c(3, 4, 5, 6)`.
+```{r include = solution, class = "solution"}
+x[c(3, 4, 5, 6)]
+```
+
+\ 
+
+Remember that some structures can contain as their elements other structures. For example asking for the first element of `my_list` will return:
+
+```{r}
+my_list[1]
+```
+
+\ 
+
+The `$A` at the top of the output indicates that we have accessed the element `A` of `my_list` but not really accessed the matrix itself. Thus, at this stage, we wouldn't be able to ask for its elements. To access the matrix contained in `my_list$A`, we need to write either exactly that, or use double brackets:
+
+``` {r}
+my_list[[1]]
+
+# with the $A now gone from output, we can access the matrix itself
+my_list[[1]][1]
+```
+
+\ 
+
+As discussed above, some data structures are dimensionless (vectors, lists), while others are arranged in *n*-dimensional rectangles (where *n* > 1). When indexing/subsetting elements of dimensional structures, we need to provide coordinates of the elements for each dimension. This is done by providing *n* numbers or vectors in the `[]`s separated by a comma.
+
+A matrix, for instance has 2 dimensions, rows and columns. The first number/vector in the `[]`s represents rows and the second columns. Leaving either position blank will return all rows/columns:
+
+```{r}
+mat <- matrix(LETTERS[1:20], ncol = 5)
+mat
+
+# blank spaces technically not needed but improve code readability
+mat[1, ] # first row
+```
+
+`r task()`Your turn now. Create the matrix `mat` as above and index out the first *column*.
+```{r, include = solution, class = "solution"}
+mat[ , 1] # first column
+```
+
+\ 
+
+In order to index more than one element, you need to provide a vector of indices:
+```{r}
+mat[c(2, 4), ] # rows 2 and 4, notice the c()
+```
+
+`r task()`OK, now ask for rows 2 and 4 of columns 1-3.
+```{r, include=solution, class = "solution"}
+mat[c(2, 4), 1:3] # elements 2 and 4 of columns 1-3
+```
+
+\ 
+
+To get the full matrix, we simply type its name. However, you can think of the same operation as asking for *all rows* and *all columns* of the matrix:
+
+``` {r}
+mat[ , ] # all rows, all columns
+```
+
+\ 
+
+The same is the case with data frames:
+
+```{r}
+df[1, ] # first row
+```
+
+`r task()`Get rows 4-6 of columns 1 and 3 of our `df`.
+```{r, include = solution, class = "solution"}
+df[4:6, c(1, 3)]
+```
+
+\ 
+
+**Take home message: **when using indices to ask for elements, remember that to request more than one, you need to give a **vector of indices** (*i.e.,* numbers bound in a `c()`). Also remember that some data structures need you to specify dimensions **separated by a comma** (most often just rows and columns for matrices and data frames).
+
+A frequent error is to specify the wrong number of dimensions:
+```{r, error = T}
+x[2, 3] # 2 dimensions where there's only 1
+df[4:6] # 1 dimension where there are 2
+```
+
+\ 
+
+**Remember these error messages.** Guaranteed this is not the last time you see them! :)
+
+\ 
+
+### Subsetting using names
+
+The columns of data frames must have names:
+```{r}
+names(df)
+```
+
+You can use the names for subsetting in a few ways:
+```{r}
+# using $ just like with lists
+df$eye_col # notice NO quotes
+# using [[]]
+df[["eye_col"]] # notice the quotes
+# using [] putting the name in the 2nd dimension
+df[ , "eye_col"] # quotes!
+```
+
+The latter way can be also used to subset several columns at a time. All you need to do is provide a vector of names -- `data.frame[ , c("name1", "name2", "nameN")]`.
+
+`r task()`Get rows 1 and 3 of columns `age`, `dpt`, and `degree` of our `df`.
+```{r, include = solution, class = "solution"}
+df[c(1, 3), c("age", "dpt", "degree")]
+```
+
+## Replacement
+
+Subsetting can be used for two things. First, it's good for creating subsets of your data by assigning the outcome of the command to a new object. Let's say we only want to work with the first 3 rows of `df`. We can assign the subset to a separate object:
+```{r}
+df_subset <- df[1:3, ]
+df_subset
+```
+
+Second, we can use subsetting to replace values in the object with other values. This is done by putting the subset to the left of the `<-` operator:
+```{r}
+df_subset$eye_col[2] <- "green"
+df_subset
+```
+
+`r task()`Replace the 3^th^, 5^th^, and 6^th^ value of `age` in `df` with `NA`.
+```{r, include=solution, class = "solution"}
+# ANY of the following works
+df$age[c(3, 5, 6)] <- NA
+df[c(3, 5, 6), "age"] <- NA
+df[c(3, 5, 6), 2] <- NA
+df[["age"]][c(3, 5, 6)] <- NA
+df[[2]][c(3, 5, 6)] <- NA
+```
+
+<p class="why">In case it's not clear, subsetting constitutes the **vast majority** of all data processing/cleaning/manipulation. The importance of your understanding how it's done simply cannot be overstated. Once you *really* get the hang of it, that's pretty much you sorted with `R`</p>
+
+`r task()`Finally, exit the project (<kbd>Lab2</kbd> > <kbd>Close Project</kbd>, save anything when asked).
+
+\ 
+
+#### That's it for today! Feedback on this, and whether you feel you learnt anything, very welcome.
+
+\ 
+
+\ 
+

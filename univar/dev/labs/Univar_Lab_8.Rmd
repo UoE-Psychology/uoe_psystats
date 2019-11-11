@@ -1,0 +1,236 @@
+---
+title: "Lab 8 - The General Linear Model"
+author: "Univariate Statistics with R"
+---
+
+
+```{r, include = F}
+#old shortcode was for http://homepages.ed.ac.uk/martinc/misc/schools_wk7.Rdata apparently!
+load("sharks1.Rdata")
+```
+
+This week we'll run a linear model and scale our predictors, learn how to plot the fitted (or predicted) values, and get some practice with model criticism and multiple regression.
+
+## A brief note on `with()`
+
+You may have noticed a really useful function in the solutions for last couple of weeks - the `with()` function. This function allows you to specify a data frame that an expression uses. This means you don't have to keep typing `mydataframe$variable`. Instead, you can use `with(data, function(variable, ....))`.  
+See the following example:
+```{r, eval=F}
+plot(schools$exam, schools$revision_hours)
+```
+This command can be written as:
+```{r, eval = F}
+with(schools, plot(exam, revision_hours))
+```
+This can:  
+* make your code more readable  
+* save time and effort when you are referring to the same dataframe multiple times.  
+
+## Linear Models
+
+`r task()`Download this weeks data from R, create a new script file, and load in the data using the `load()` function. This will load in a dataframe called `sharks`.  
+`r task()` Create a linear model and inspect it by typing the code below.  
+```{r, eval=F, echo=!solution}
+model <- lm(shark_attacks ~ ice_cream_sales, data = sharks)
+summary(model)
+```
+```{r, include=solution, class="solution"}
+model <- lm(shark_attacks ~ ice_cream_sales, data = sharks)
+summary(model)
+```
+`r task()`Which is the intercept? Which is the slope? How can you interpret each of them?  
+`r task()`Create a new model, `model2`, using `scale(ice_cream_sales)` instead of `ice_cream_sales`.  
+```{r, include = solution, class="solution"}
+model2 <- lm(shark_attacks ~ scale(ice_cream_sales), data = sharks)
+summary(model2)
+```
+`r task()`What does the intercept of `model2` tell us?  And the slope? *(Take a look at the slides from this weeks lecture on standardisation for some guidance with this)*  
+```{r, include = solution, class="solution"}
+#the intercept is predicted exam score when scale(ice_cream_sales) is 0. 
+#the scale() function centres a variable around its mean, and standardises it so 
+#that we can talk in terms of +/-1 standard deviation. 
+#This means that:
+#- the intercept is the predicted shark attacks for the mean number of ice cream sales.
+#- the slope now represents the change in shark attacks units for 1 standard deviation increase in ice cream sales.
+```
+
+## Model prediction and visualisation
+
+Coefficients can sometimes get a little tricky to interpret, and visualising the model can be really helpful. We've seen in an earlier lab one way of visualising a linear model, using the `abline()` function (**Hint:** See Week 7 solutions).  
+`r task()`Run the code below to create a plot, and then use `abline()` to add the regression line from the linear model which we named `model` earlier. The code below also sets the colours and aesthetics of the plots - feel free to try changing these to see how they work!  
+
+```{r, eval=F}
+with(sharks, plot(ice_cream_sales, shark_attacks,
+                  xlab="- Monthly ice cream sales -",ylab="Monthly shark attacks",
+                  main="Shark attacks!",
+                  col=c("slateblue"), bty="n",
+                  pch=20))
+```
+```{r, include=solution, class="solution"}
+with(sharks, plot(ice_cream_sales, shark_attacks,
+                  xlab="- Monthly ice cream sales -",ylab="Monthly shark attacks",
+                  main="Shark attacks!",
+                  col=c("slateblue"), bty="n",
+                  pch=20))
+abline(model)
+```
+`r task()`Do the same for `model2`. What do you think should be on the x-axis of your plot?  
+```{r, include=solution, class="solution"}
+with(sharks, plot(scale(ice_cream_sales), shark_attacks,
+                  xlab="- Monthly ice cream sales -",ylab="Monthly shark attacks",
+                  main="Shark attacks!",
+                  col=c("slateblue"), bty="n",
+                  pch=20))
+abline(model2)
+```
+
+### Predict()  
+
+We can get at the y-values for these lines by using the `predict()` function.  
+```{r}
+head(predict(model)) # head() will just print out the first 6 rows
+```
+The `predict()` function is especially useful as we can ask for model predictions given some *new* data (e.g., new numbers of monthly ice cream sales).  
+`r task()`What do you think the code below tells us?  
+```{r}
+new_months <- data.frame(ice_cream_sales=c(70, 120))
+predict(model, newdata=new_months) 
+```
+```{r, include = solution, class = "solution"}
+# They are the number of shark attacks predicted by our model for months in which 70 and 120 ice creams are sold.
+```
+`r task()`We can also ask the `predict()` function to return a confidence interval. Try the following code:  
+```{r}
+p.sharks <- predict(model, interval = "confidence")
+head(p.sharks)
+```
+There are three columns:  `fit` is the fitted (predicted) value of shark_attacks for each number of ice cream sales; `lwr` and `upper` are the upper and lower bounds of the model confidence interval for each value of `sharks$ice_cream_sales`.  
+  
+Note that the row names seem to miss out number 2? In fact, there are actually only 83 values in `p.sharks`, but we had 84 months in our sharks dataset. If you look carefully at the output of `summary(model)` above, it tells us that 1 observation has been deleted due to "missingness". The row names of `p.sharks` are actually the original row names of the sharks dataset (the one which we fit our model on).  
+`r task()`Merge the `sharks` data with `p.sharks`, and call it `sharks_pred`. You will need to use `by = "row.names"`.  
+```{r, include = solution, class = "solution"}
+sharks_pred <- merge(sharks, p.sharks, by="row.names")
+```
+`r task()`We can now plot the confidence intervals. You can see this below using the `plot()` and `lines()` functions, and with `ggplot()`. You can also see below how to change some of the aesthetics in `ggplot()`.  
+
+  
+<div class="noteBox">
+Note that to make this work using `plot()` and `lines()`, we need to *order* the dataframe first. Otherwise R will join points to make a line in the order they appear in the data.   
+If you're keen to understand this more, try running `plot(x=c(5,1,3,4), y=c(1,2,3,4), type="l")` to see what happens!
+</div>  
+```{r}
+sharks_pred_ordered <- sharks_pred[order(sharks_pred$ice_cream_sales),]
+with(sharks, plot(ice_cream_sales, shark_attacks,
+                  xlab="- Monthly ice cream sales -",ylab="Monthly shark attacks",
+                  main="Shark attacks!",
+                  col=c("slateblue"), bty="n",
+                  pch=20))
+with(sharks_pred_ordered, lines(ice_cream_sales, fit))
+with(sharks_pred_ordered, lines(ice_cream_sales, lwr))
+with(sharks_pred_ordered, lines(ice_cream_sales, upr))
+```
+```{r}
+library(ggplot2)
+
+ggplot(sharks_pred, aes(x=ice_cream_sales))+ 
+  # we want ice_cream_sales on the x-axis
+  geom_point(aes(y=shark_attacks), col="slateblue")+ 
+  # for the points, we want the y to be the actual (observed) shark attacks
+  geom_line(aes(y=fit))+ 
+  # for the line, we want the fitted model values (the "fit" column)
+  geom_ribbon(aes(ymin=lwr,ymax=upr), fill="orange", alpha=.4) +
+  # the "ribbon" is the upper and lower bounds of the confidence interval. the alpha bit just makes it slightly transparent.
+  theme_minimal()+
+  labs(x="- Ice cream sales - ",y="Shark attacks")
+```
+
+## Model criticism  
+
+You'll also notice that in the sharks data there is information capturing the temperature of each month.
+
+`r task()`Construct a linear model to see if monthly temperature predicts the number of ice cream sales.    
+```{r, include = solution, class="solution"}
+model.b <- lm(ice_cream_sales ~ temperature, data = sharks)
+summary(model.b)
+```
+`r task()`Plot the regression line and confidence interval, as seen above.  
+```{r include=solution, class="solution"}
+icecream_pred <- merge(sharks, predict(model.b, interval = "confidence"), by="row.names")
+
+ggplot(icecream_pred, aes(x=temperature))+
+  geom_point(aes(y=ice_cream_sales, col=temperature))+
+  geom_line(aes(y=fit))+
+  geom_ribbon(aes(ymin=lwr,ymax=upr), fill="red", alpha=.4)+
+  theme_minimal()+
+  labs(x="- Temperature -", y="Ice cream sales")
+```
+`r task()`Use some of the model criticism tools you saw in the lecture to examine your model. Try using `plot()` on your model.  
+<div class="noteBox">
+Here are some quick explanations of the plots you get out:    
+
+* **Residuals vs Fitted:** Can show if the residuals have non-linear patterns. A "good" model will show equally spread residuals around a horizontal line.   
+  
+* **Normal Q-Q:** This is a way of plotting the residuals against the equivalent quantiles of a standard normal distribution (mean = 0, sd = 1). A "good" model will have residuals close to the straight dashed line.  
+  
+* **Scale-Location:** (also called *Spread-Location*). This shows if the residuals are spread equally along the range of the predictors (This is the assumption of equal variance, or *homoscedaticity*). Ideally, we want a horizontal line with points spread equally from across the plot.  
+  
+* **Residuals vs Leverage:** This helps to find influential points in the regression. Cook's Distance is shown on these plots by red dashed lines, and points which fall outside of these lines are influential to the model. A really good illustration of influence can be found [here](https://omaymas.shinyapps.io/Influence_Analysis/).  
+</div>
+```{r, include = solution, class="solution"}
+# Model Check (Visually):
+par(mfrow = c(2, 2))
+plot(model.b, which = c(1:4))
+
+# There might be some issues:
+  # There may be a slight non-linear pattern to the data.
+  # QQ-Plot shows a small deviation at the lower end.
+  # Homogeneity of Variance also potentially problematic
+  # A couple of quite influential points
+```
+
+## Multiple regression  
+  
+Think about the relationship we found earlier between ice cream sales and shark attacks. Does this make sense to you? (see also the [Spurious Correlations](https://www.tylervigen.com/spurious-correlations) page). What might explain the relationship?  
+  
+`r task()`Does the number of ice cream sales predict shark attaacks *over and above* what temperature predicts?  
+**Tip: **You'll want to test whether adding a new predictor improves on chance (using `anova()`) as part of your answer... *Part 2 of Lecture 7 will help you here.*  
+```{r, include = solution, class="solution"}
+model.c <- lm(shark_attacks ~ temperature + ice_cream_sales, data = sharks)
+anova(model.c)
+  
+summary(model.c)
+```
+
+`r task()`Think about what we know about our predictors (`ice_cream_sales` and `temperature`) - they are correlated. This will make the standard error of the coefficient bigger (you can see the standard errors in the `SE` column in the `summary()` output for a model). Use the `vif()` function from the `car` package to see how much the SE of the effect of `ice_cream_sales` on `shark_attacks` has been inflated by the inclusion of `temperature`. Is it problematic?  
+**Hint:** See slide 36 of Lecture 7. 
+```{r, include = solution, class="solution"}
+library(car)
+vif(model.c)
+#VIFs of less than 4 are usually not too bad, so we're okay here.
+#square root of VIF tells you inflation of SE. 
+sqrt(1.542181)
+```
+
+## Contrast coding  
+
+`r task()`The data we've been working with has captured great white shark attacks. But what about other types of shark? Load in the `sharks2` data set from learn. It contains data for hammerheads and basking shark attacks as well as the attacks by the great whites.  
+
+`r task()`Use orthogonal contrasts to answer the following questions:  
+- Do basking sharks attack fewer people than great whites and hammerheads?  
+- Do numbers of great whites attacks differ from hammerhead attacks?  
+
+```{r, include = solution, class="solution"}
+load("sharks2.Rdata")
+
+contrasts(sharks2$shark)
+contrasts(sharks2$shark)<-cbind("GWHvB"=c(-1/3, 2/3, -1/3),
+                                "GWvH"=c(1/2, 0, -1/2))
+shark_model<-lm(shark_attacks ~ shark, data = sharks2)
+
+summary(shark_model)
+```
+
+
+
+
+
