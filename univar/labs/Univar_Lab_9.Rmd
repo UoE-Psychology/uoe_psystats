@@ -171,60 +171,52 @@ abline(lm(spotify_hours ~ musicality,
   
 We're now going to take a look at the *generalised linear model*, which you were introduced to in this weeks lecture (lecture 9).    
   
-In the lecture, we saw how to model the odds that an alien would be splatted by a disco ball given their quality of singing. Along similar lines, we're now going to construct a model of the odds of someone surviving the sinking of the titanic, given factors such as age, gender, class of ticket etc.  
-  
+In the lecture, we saw how to model the odds that an alien would be splatted by a disco ball given their quality of singing. Along similar lines, we're now going to construct a model of the odds of someone surviving the sinking of the titanic, given factors such as age, sex, class of ticket etc.  
+
 `r task()`Load in the `titanic` data using the following code:  
-```{r, include = solution, class="solution"}
+```{r}
 load(url("https://is.gd/rYCGR3"))
 ```
-
-`r task()`Plot the `survived` variable against the `pclass` variable, and use `abline()` to add to this the line for `lm(survived ~ pclass, data = titanic)`.  
-
+`r task()`Plot the `survived` variable against the `pclass` variable, and use `abline()` to add to this the line for a simple regression of survival by class of ticket.  
 ```{r,include = solution, class="solution"}
 with(titanic, plot(survived ~ pclass))
 abline(lm(survived~pclass, data=titanic))
 ```
   
-But remember that probability **can't** be linear.  
-Odds, ranging from 0 to Infinity, are calculated as $p(x)/(1-p(x))$. 
-`r task()`If the probability of someone surviving is 0.6. What are the odds, and what are the log odds?
+Probability p(x) **can't** be linear.  
+Odds, ranging from 0 to Infinity, are calculated as $p(x)/(1-p(x))$.  
+`r task()`If the probability of someone surviving is 0.6. What are the odds, and what are the log odds?  
 ```{r,include = solution, class="solution"}
 (0.6/(1-0.6)) # odds
 log(0.6/(1-0.6)) # log odds
 ```
-
-`r task()`Use `glm()` to model `survival` predicted by `pclass`. Remember to set `family=binomial`, and take a look at the coefficients using `coef()`.  
-
+`r task()`Use `glm()` to model `survival` predicted by `pclass`. Remember to set `family=binomial`, and take a look at the coefficients using `coef()`.   
 ```{r,include = solution, class="solution"}
 logit_mod <- glm(survived ~ pclass, data = titanic, family=binomial)
 
 coef(logit_mod)
 ```
-
+  
 Where the equation for our linear model was $y=b_0+b_1x$, for our logit model it is $ln(\frac{p}{(1-p)})=b_0+b_1x$.  
 For the model we just ran, it is $ln(\frac{p}{(1-p)})=1.62-0.91*pclass$. 
 So we can construct these fitted values using the code below:  
-
 ```{r}
 titanic$fit = 1.6205282 - 0.9119899*titanic$pclass
 #or
 titanic$fit = coef(logit_mod)[1] + coef(logit_mod)[2]*titanic$pclass
 ```
-
-We can, from these numbers, get out the predicted probability of survival using the inverse logit $p=\frac{e^L}{(1+e^L)}$ (this is the inverse of the log odds formula).  
+  
+We can, from these numbers, get out the predicted probability of survival using the inverse logit $p_i=\frac{e^L_i}{(1+e^L_i)}$ (this is the inverse of the log odds formula $L_i=log(\frac{p_i}{1-p_i}))$.  
 ```{r, }
 predicted_probs <- exp(titanic$fit) / (1 + exp(titanic$fit))
 ```
-
 And this is exactly what we get when we use the predict() function!  
 **Note:** we specify `type="response"` here, but if you use `type="link"` you get the log odds we just calculated.  
 ```{r} 
 titanic$p_surv <- predict(logit_mod, type="response")
-
 #and check that they are the same using the all.equal() function
 all.equal(predicted_probs, titanic$p_surv)
 ```
-
 
 <div class="noteBox">
 **Maximum likelihood estimation** 
@@ -233,12 +225,12 @@ How does the model find the coefficients? We're no longer talking about minimisi
 Instead, models are fitted use Maximum Likelihood Estimation (MLE) to work out the coefficients which maximise the likelihood of the observed data. (There's a lot of info on MLE if you want to google it!)
 </div>
 
-`r task()`Now that we have our fitted values in the `p_surv` variable, we can compare those to the observed data. 
-`r subtask()`Use the `ifelse()` function to assign values of 0 and 1 to the `p_surv` predictions. 
+`r task()`Now that we have our fitted values in the `p_surv` variable, we can compare those to the observed data.  
+`r subtask()`Use the `ifelse()` function to assign values of 0 and 1 to the `p_surv` predictions based on whether they are above or below 0.5.  
 ```{r, include=solution, class="solution"}
 titanic$p_surv <- ifelse(titanic$p_surv > 0.5, 1, 0)
 ```
-`r subtask()` Create a table of `p_surv` against `survived`.  
+`r subtask()` Create a table of these against the `survived` variable (the observed data).  
 ```{r,include = solution, class="solution"}
 table(
   actual = titanic$survived,
@@ -246,8 +238,23 @@ table(
 )
 ```
 
+## Your turn  
 
-### include coef interpretation exp()
+`r task()`How do age, sex, and ticket class predict the survival of passengers on the titanic?  
+`r subtask()`How does a passenger being male (relative to female) influence the **odds** of survival?  
+```{r}
+better_model <- glm(survived ~ age + sex + pclass, data = titanic, family=binomial)
+
+exp(coef(better_model))
+# 0.08 odds of survival for males relative females
+
+```
+`r subtask()`**Extra:** Try doing a bit of googling to find the function which can quickly give you some confidence intervals for your predictors.  
+```{r}
+# remember to exp()!
+exp(confint(better_model))
+```
+
 
 
 
