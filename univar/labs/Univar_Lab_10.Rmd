@@ -44,7 +44,7 @@ Take some time to read this document fully before getting started with any analy
 
 **Tip: **Don't be tempted to immediately run a certain model. Analysing a collected dataset is a process and these labs have been structured to illustrate many of the steps taken when analysing data 'for real'. Think about some of the exercises from past labs to generate ideas about the steps you want to take.
 
-## Before you start
+## `apply` functions  
 
 There is one more bit of programming we'd like you to be familiar with -- the `apply()` family functions. These function take some data structure and apply any function to each element of that structure.
 
@@ -73,7 +73,7 @@ max_col
 
 This loop iterates over the rows of `df` (`for (i in 1:nrow(df))`) and for each cycle it adds the output of the `which.max()` function to the `max_col` variable.
 
-There is nothing wrong with this approach but it is a little wordy to write and not the fastest when it comes to computation time. The `aaply()` function can be used to achieve the same outcome faster and using less code:
+There is nothing wrong with this approach but it is a little wordy to write and not the fastest when it comes to computation time. The `apply()` function can be used to achieve the same outcome faster and using less code:
 
 ```{r}
 max_col2 <- apply(X = df[ , 2:6], MARGIN = 1, FUN = which.max)
@@ -142,30 +142,35 @@ So these are the two most useful functions from the `apply()` family you should 
 
 \ 
 
-OK, let's move on to the main course!
+## Lab 10  
 
-## The Study
-
-A dataset is available on the Learn website. The data concerns a study investigating attitudes about fox-hunting in the UK. `r size` participants were asked to rate their attitude towards hunting by marking a point along a line. The endpoints of the line were labelled *strongly opposed* and *strongly in favour*; the distance of each mark along its line was later measured, and scaled to a variable ranging from 1\ (opposed) to 7\ (in favour). The resulting variable is called `prohunt` in the dataset.
+Load the data for this lab using the following code:  
+```{r, eval=F,echo=T}
+load(url("https://edin.ac/2KNwiMU"))
+``` 
+The data concerns a study investigating attitudes about fox-hunting in the UK. `r size` participants were asked to rate their attitude towards hunting by marking a point along a line. The endpoints of the line were labelled *strongly opposed* and *strongly in favour*; the distance of each mark along its line was later measured, and scaled to a variable ranging from 1\ (opposed) to 7\ (in favour). The resulting variable is called `prohunt` in the dataset.
 
 Also measured were where participants lived (`urban`, `suburban`, `country`) as well as their politics, using the Stone-Corley Wingedness Inventory, which returns a score along the political spectrum ranging from -100 (extremely left-wing, socialist) to 100 (extremely right-wing, conservative). This score can be found in the `spectrum` column. Finally, participants were asked to indicate whether they were prepared to participate in a follow-up interview; the `followup` column shows their response.
 
 ### The Task
 
 <div class="solText">
-**Your job this week is simply to 'analyse the data'. **
+**Your job this week is to clean, describe and analyse the data to answer the questions below. You should also create some graphics to accompany your findings. **
 
-By 'analyse', we mean look at the data, and produce some graphics and statistics to indicate what the relationship is between where people live, their politics, and their attitudes towards fox-hunting.
+**Questions: **
+  
+* How do participants' political view and the rurality of where they live predict their attitudes towards foxhunting?  
+  Is the relationship between political views and foxhunting attitudes different between different ruralities? If so, how?  
 
-**Some things you might want to think about: **
+**Some things you might want to think about first: **
 
-* Does all of the data look sensible, given the descriptions above?
-
-* Might the variables interact to predict attitudes towards hunting?
+* Does all of the data look sensible, given the descriptions above?  
 
 * Did participants decide not to participate in the follow-up at random?
+  What are the predicted probability of completing follow-up for each value of `spectrum`?  
+  
 
-The types of output you *might* produce include regression statistics, scatterplots, and graphs showing regression effects, as well as documented `R`\ code to show what you did in analysing the data.
+The types of output you *might* produce include regression statistics, scatterplots, and graphs showing regression effects. Don't forget to document your `R`\ code to show what you did.
 </div>
 
 \  
