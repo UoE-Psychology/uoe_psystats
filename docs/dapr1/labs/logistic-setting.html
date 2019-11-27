@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Logistic setting | Data Analysis for Psychology Using R</title>
+  <meta name="description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Logistic setting | Data Analysis for Psychology Using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Logistic setting | Data Analysis for Psychology Using R" />
+  
+  <meta name="twitter:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="coffee-break.html">
+<link rel="next" href="now-for-advanced-logistic-mixed-effects.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PPLS Summer Training (R and Stats)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-outcomes"><i class="fa fa-check"></i>Learning Outcomes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preparation"><i class="fa fa-check"></i>Preparation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#expectations"><i class="fa fa-check"></i>Expectations</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#list-of-extra-resources"><i class="fa fa-check"></i>List of extra resources</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authorship"><i class="fa fa-check"></i>Authorship</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#last-but-not-least"><i class="fa fa-check"></i>Last, but not least</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="extra-resources.html"><a href="extra-resources.html"><i class="fa fa-check"></i><b>1</b> Extra Resources</a><ul>
+<li class="chapter" data-level="1.1" data-path="extra-resources.html"><a href="extra-resources.html#more-r-practice"><i class="fa fa-check"></i><b>1.1</b> More R practice</a></li>
+<li class="chapter" data-level="1.2" data-path="extra-resources.html"><a href="extra-resources.html#data-cleaning"><i class="fa fa-check"></i><b>1.2</b> Data Cleaning</a></li>
+<li class="chapter" data-level="1.3" data-path="extra-resources.html"><a href="extra-resources.html#visualisations"><i class="fa fa-check"></i><b>1.3</b> Visualisations</a></li>
+<li class="chapter" data-level="1.4" data-path="extra-resources.html"><a href="extra-resources.html#other-common-methods-in-r"><i class="fa fa-check"></i><b>1.4</b> Other Common Methods in R</a></li>
+<li class="chapter" data-level="1.5" data-path="extra-resources.html"><a href="extra-resources.html#big-data"><i class="fa fa-check"></i><b>1.5</b> Big Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-step"><i class="fa fa-check"></i><b>2.1</b> First Step</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#second-step"><i class="fa fa-check"></i><b>2.2</b> Second Step</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#r-as-an-interactive-envrionment"><i class="fa fa-check"></i><b>2.3</b> R as an interactive envrionment</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>2.4</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#spacing"><i class="fa fa-check"></i><b>2.5</b> Spacing</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#typos"><i class="fa fa-check"></i><b>2.6</b> Typos</a></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#unfinishe.-d"><i class="fa fa-check"></i><b>2.7</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#basic-arithmetic"><i class="fa fa-check"></i><b>2.8</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>2.9</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="2.10" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#short-example"><i class="fa fa-check"></i><b>2.10</b> Short Example</a></li>
+<li class="chapter" data-level="2.11" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#exercise-1"><i class="fa fa-check"></i><b>2.11</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.12" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#exercise-2"><i class="fa fa-check"></i><b>2.12</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html"><i class="fa fa-check"></i><b>3</b> Tests and modelling in R</a><ul>
+<li class="chapter" data-level="3.1" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="3.2" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#t-test"><i class="fa fa-check"></i><b>3.2</b> T test</a></li>
+<li class="chapter" data-level="3.3" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#chi-squared-distribution-and-test"><i class="fa fa-check"></i><b>3.3</b> Chi squared distribution and test</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#contingency-tables"><i class="fa fa-check"></i><b>3.3.1</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#chi-squared-distribution"><i class="fa fa-check"></i><b>3.4</b> Chi squared distribution</a></li>
+<li class="chapter" data-level="3.5" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#one-way-anova"><i class="fa fa-check"></i><b>3.5</b> One way Anova</a></li>
+<li class="chapter" data-level="3.6" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#sharks-and-ice-cream-example"><i class="fa fa-check"></i><b>3.6</b> Sharks and ice cream example</a></li>
+<li class="chapter" data-level="3.7" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#simple-linear-regression-in-r"><i class="fa fa-check"></i><b>3.7</b> Simple Linear Regression in R</a></li>
+<li class="chapter" data-level="3.8" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#regression-diagnostics---assess-the-validity-of-a-model"><i class="fa fa-check"></i><b>3.8</b> Regression Diagnostics - assess the validity of a model</a><ul>
+<li class="chapter" data-level="3.8.1" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#violations-of-the-assumptions-available-treatments"><i class="fa fa-check"></i><b>3.8.1</b> Violations of the assumptions: available treatments</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#standardisation"><i class="fa fa-check"></i><b>3.9</b> Standardisation</a></li>
+<li class="chapter" data-level="3.10" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#interaction-simple-slope-and-multiple-explanatory-factors"><i class="fa fa-check"></i><b>3.10</b> Interaction (simple slope) and multiple explanatory factors</a></li>
+<li class="chapter" data-level="3.11" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#aic-bic"><i class="fa fa-check"></i><b>3.11</b> AIC &amp; BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html"><i class="fa fa-check"></i><b>4</b> Simple Linear Model and Mixed Methods</a><ul>
+<li class="chapter" data-level="4.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#data-sets"><i class="fa fa-check"></i><b>4.1</b> Data sets</a></li>
+<li class="chapter" data-level="4.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#longitudinal-data"><i class="fa fa-check"></i><b>4.2</b> Longitudinal Data</a></li>
+<li class="chapter" data-level="4.3" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#why-a-new-model"><i class="fa fa-check"></i><b>4.3</b> Why a new model?</a></li>
+<li class="chapter" data-level="4.4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#ecological-fallacy-quick-illustration---no-need-to-run"><i class="fa fa-check"></i><b>4.4</b> Ecological Fallacy (quick illustration) - no need to run</a></li>
+<li class="chapter" data-level="4.5" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#simple-example"><i class="fa fa-check"></i><b>4.5</b> Simple Example</a></li>
+<li class="chapter" data-level="4.6" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#now-for-advanced-model-set-up"><i class="fa fa-check"></i><b>4.6</b> Now for Advanced: Model set up</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#pooling"><i class="fa fa-check"></i><b>4.6.1</b> Pooling</a></li>
+<li class="chapter" data-level="4.6.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#no-pooling"><i class="fa fa-check"></i><b>4.6.2</b> No pooling</a></li>
+<li class="chapter" data-level="4.6.3" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#partial-pooling-varying-intercepts"><i class="fa fa-check"></i><b>4.6.3</b> Partial Pooling (varying intercepts)</a></li>
+<li class="chapter" data-level="4.6.4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#partial-pooling-extended---varying-intercepts-andor-slopes"><i class="fa fa-check"></i><b>4.6.4</b> Partial Pooling Extended - (varying intercepts and/or slopes)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#multilevel-modelling-with-random-intercepts-and-slopes"><i class="fa fa-check"></i><b>4.7</b> Multilevel modelling with random intercepts and slopes</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#overview-of-the-data-set"><i class="fa fa-check"></i><b>4.7.1</b> Overview of the data set</a></li>
+<li class="chapter" data-level="4.7.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#prepare"><i class="fa fa-check"></i><b>4.7.2</b> Prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#random-slopes-intercepts-and-cross-level-interactions-optional"><i class="fa fa-check"></i><b>4.8</b> Random slopes, intercepts and cross level interactions (optional)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="testing-the-assumptions.html"><a href="testing-the-assumptions.html"><i class="fa fa-check"></i><b>5</b> Testing the assumptions</a></li>
+<li class="chapter" data-level="6" data-path="coffee-break.html"><a href="coffee-break.html"><i class="fa fa-check"></i><b>6</b> Coffee break</a></li>
+<li class="chapter" data-level="7" data-path="logistic-setting.html"><a href="logistic-setting.html"><i class="fa fa-check"></i><b>7</b> Logistic setting</a><ul>
+<li class="chapter" data-level="7.1" data-path="logistic-setting.html"><a href="logistic-setting.html#simple-example-1"><i class="fa fa-check"></i><b>7.1</b> Simple Example</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="logistic-setting.html"><a href="logistic-setting.html#optional-odds-refresher"><i class="fa fa-check"></i><b>7.1.1</b> Optional (Odds Refresher)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="now-for-advanced-logistic-mixed-effects.html"><a href="now-for-advanced-logistic-mixed-effects.html"><i class="fa fa-check"></i><b>8</b> Now for Advanced: logistic mixed effects</a></li>
+<li class="chapter" data-level="9" data-path="now-over-to-you.html"><a href="now-over-to-you.html"><i class="fa fa-check"></i><b>9</b> Now, over to you!</a><ul>
+<li class="chapter" data-level="9.1" data-path="now-over-to-you.html"><a href="now-over-to-you.html#data-description"><i class="fa fa-check"></i><b>9.1</b> Data Description</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>10</b> week 4</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology Using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="logistic-setting" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Logistic setting</h1>
+<p>Just before we get on with Logistic Mixed Effect Model, lets us have a quick reminder about the fundamental differences between linear model and logistic model. <strong>We will use the board for this one.</strong></p>
+<p><img src="lin_log.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>We can begin by first running through a very quick illustration of a simple logistic model before getting into mixed effects. We will use quite a generic example - Titanic Survival Dataset. We will walk you through the main stages: model setup, model interpretation and finally, model evaluation.</p>
+<p>Lets again recall and compare the simple model specification.</p>
+<p>Linear model set up:
+<span class="math display">\[\begin{equation}
+Y_[i] = \beta_0 + \beta_1 * X_i + \epsilon_i
+
+\end{equation}\]</span></p>
+<p>Logistic model set up:</p>
+<p><span class="math display">\[\begin{equation}
+log(\frac{P}{1-P})=\beta_0 +\beta_1 X_1 + \beta_2 X_2 + ... + \beta_k X_k
+\end{equation}\]</span></p>
+<p>Hopefully you can note that <span class="math inline">\(\frac{P}{1-P}\)</span> would be the formula for the odds.</p>
+<p>We cant really work directly with log(odds) - however we can get to odds via log-inverse:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{P}{1-P}= \epsilon^(\beta_0 +\beta_1 X_1 + \beta_2 X_2 + ... + \beta_k X_k)
+\end{equation}\]</span></p>
+<p>To get to actual P:
+<span class="math display">\[\begin{equation}
+Pr(Y=1|X_1, X_2, ... X_k) = F(\beta_0 +\beta_1 X_1 + \beta_2 X_2 + ... + \beta_k X_k) 
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+Pr(Y=1|X_1, X_2, ... X_k) = \frac{1}{1+\epsilon^-(\beta_0 +\beta_1 X_1 + \beta_2 X_2 + ... + \beta_k X_k)}
+\end{equation}\]</span>
+Note the difference in the writing and where our betas are allocated. This explain why we cannot simply use betas to comment on the size of the effects. What we may do instead is to take the log of the equation above.</p>
+<div id="simple-example-1" class="section level2">
+<h2><span class="header-section-number">7.1</span> Simple Example</h2>
+<p>We can illustrate a very simple set of logistic model analysis using an example of titanic data.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Read data in</span>
+titanic&lt;-<span class="kw">read.csv</span>(<span class="st">&#39;titanic.csv&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Lets check whats inside</span>
+<span class="kw">str</span>(titanic)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    891 obs. of  13 variables:
+##  $ X          : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ PassengerId: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Survived   : int  0 1 1 1 0 0 0 0 1 1 ...
+##  $ Pclass     : int  3 1 3 1 3 3 1 3 3 2 ...
+##  $ Name       : Factor w/ 891 levels &quot;Abbing, Mr. Anthony&quot;,..: 109 191 358 277 16 559 520 629 417 581 ...
+##  $ Sex        : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 2 1 1 1 2 2 2 2 1 1 ...
+##  $ Age        : int  22 38 26 35 35 NA 54 2 27 14 ...
+##  $ SibSp      : int  1 1 0 1 0 0 0 3 0 1 ...
+##  $ Parch      : int  0 0 0 0 0 0 0 1 2 0 ...
+##  $ Ticket     : Factor w/ 681 levels &quot;110152&quot;,&quot;110413&quot;,..: 524 597 670 50 473 276 86 396 345 133 ...
+##  $ Fare       : num  7.25 71.28 7.92 53.1 8.05 ...
+##  $ Cabin      : Factor w/ 148 levels &quot;&quot;,&quot;A10&quot;,&quot;A14&quot;,..: 1 83 1 57 1 1 131 1 1 1 ...
+##  $ Embarked   : Factor w/ 4 levels &quot;&quot;,&quot;C&quot;,&quot;Q&quot;,&quot;S&quot;: 4 2 4 4 4 3 4 4 4 2 ...</code></pre>
+<p>Lets quickly factorise the outcome (Survived) and few of our explanatory variables (i.e. Pclass)</p>
+<pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>Survived&lt;-<span class="kw">as.factor</span>(titanic<span class="op">$</span>Survived)
+titanic<span class="op">$</span>Pclass&lt;-<span class="kw">as.factor</span>(titanic<span class="op">$</span>Pclass)
+titanic<span class="op">$</span>Sex&lt;-<span class="kw">as.factor</span>(titanic<span class="op">$</span>Sex)</code></pre>
+<p>Lets also make sure that there are no NAs</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Clean </span>
+titanic&lt;-<span class="kw">na.omit</span>(titanic)</code></pre>
+<p>When it comes to model set up we need a few modifications to our <code>lm()</code> structure, namely we need to specify the distribution family.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Logit model</span>
+logit_titanic&lt;-<span class="kw">glm</span>(Survived<span class="op">~</span><span class="st"> </span>Pclass <span class="op">+</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>Age, <span class="dt">data=</span>titanic, <span class="dt">family=</span><span class="st">&#39;binomial&#39;</span> )</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Lets explore the results</span>
+<span class="kw">summary</span>(logit_titanic)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Survived ~ Pclass + Sex + Age, family = &quot;binomial&quot;, 
+##     data = titanic)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.7299  -0.6779  -0.3953   0.6483   2.4655  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  3.775690   0.401178   9.412  &lt; 2e-16 ***
+## Pclass2     -1.309659   0.278072  -4.710 2.48e-06 ***
+## Pclass3     -2.580495   0.281493  -9.167  &lt; 2e-16 ***
+## Sexmale     -2.522727   0.207379 -12.165  &lt; 2e-16 ***
+## Age         -0.036949   0.007658  -4.825 1.40e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 964.52  on 713  degrees of freedom
+## Residual deviance: 647.35  on 709  degrees of freedom
+## AIC: 657.35
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p>Have a look as the output. Most of the things are familiar here (i.e. p values) but you will note that there is no R squared and in truth we should not be commenting on coefficients size here. We can report signs (there seem to be negative effect on survival from being in second or third class versus the first). We may also note negative relationship between age and survival, meaning that younger passengers were prioritised.</p>
+<p>In logistic setting the output you are seeing above is in log-odds. We can calculate the effects in terms of odds by taking log-inverse (exponential).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Take exp() of the coeficients</span>
+<span class="kw">exp</span>(logit_titanic<span class="op">$</span>coefficients)</code></pre>
+<pre><code>## (Intercept)     Pclass2     Pclass3     Sexmale         Age 
+## 43.62758784  0.26991200  0.07573651  0.08024047  0.96372495</code></pre>
+<p>These are now more comparable. For instance, we can say that in terms of odds change the effect of being in Class 3 on survival appear to be the strongest.</p>
+<p>There is an extra something we can do here. You may have noticed that there is no R-squared, but there are alternative measures to check the model fit. We can check how well our model predict survival. To do that, we can obtain predicted (fitted) values from the model and compare those to observed.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Obtain predictions</span>
+titanic<span class="op">$</span>predicted&lt;-<span class="kw">predict</span>(logit_titanic, <span class="dt">type=</span><span class="st">&#39;response&#39;</span>) <span class="co"># by specifying &#39;response&#39; we then will get values between 0/1</span></code></pre>
+<p>Check what you have stored in the predictions:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(titanic<span class="op">$</span>predicted)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.01693 0.10876 0.31892 0.40616 0.67023 0.97592</code></pre>
+<p>We may want to assign values of 0/1 to make the results comparable to the observed data.</p>
+<pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>predicted &lt;-<span class="st"> </span><span class="kw">ifelse</span>(titanic<span class="op">$</span>predicted <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dt">yes =</span> <span class="dv">1</span>, <span class="dt">no =</span> <span class="dv">0</span>) <span class="co"># we can assign 1 to those greater than 0.5, 0 otherwise</span></code></pre>
+<p>And now we can check the predicted against observed:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Create confusion matrix</span>
+confusion &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="dt">actual =</span> titanic<span class="op">$</span>Survived, <span class="dt">expected.value =</span> titanic<span class="op">$</span>predicted)
+confusion</code></pre>
+<pre><code>##       expected.value
+## actual   0   1
+##      0 356  68
+##      1  83 207</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Correctly predicted</span>
+ratio_correct_pred&lt;-(<span class="dv">356</span><span class="op">+</span><span class="dv">207</span>)<span class="op">/</span>(<span class="dv">356</span><span class="op">+</span><span class="dv">68</span><span class="op">+</span><span class="dv">83</span><span class="op">+</span><span class="dv">207</span>) <span class="co">#sum the diagonal and divide by the total N</span>
+ratio_correct_pred</code></pre>
+<pre><code>## [1] 0.7885154</code></pre>
+<p>Here we are: the model correctly predicted about 80 percent of cases. Please note that this is the value that arises due to our allocation of 0/1. You may choose a different threshold, depending on the weights you assign to predicting correctly on the outcomes.</p>
+<div id="optional-odds-refresher" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> Optional (Odds Refresher)</h3>
+<p>Odds can be read as the ratio of probability of success over probability of losing.
+<span class="math display">\[\begin{equation}
+Odds  =  \frac{P(Success)}{1-P(Success)}
+\end{equation}\]</span>
+Odds can take values from 0 to + ∞</p>
+<p>Interpretation</p>
+<ul>
+<li><p><strong>Negative (0 to 1)</strong>: probability of success is lower than that of losing<br />
+<span class="math display">\[\begin{equation}
+Odds= \frac{P(Success=0.2)}{1-P(Success)}= \frac{0.2}{0.8}=0.25 
+\end{equation}\]</span></p></li>
+<li><p><strong>Positive (1 to ∞)</strong>: probability of success is greater than that of losing
+<span class="math display">\[\begin{equation}
+Odds=  \frac{P(Success=0.8)}{1-P(Success)}={0.8}{0.2}=4
+\end{equation}\]</span></p></li>
+<li><p><strong>No effect (1)</strong>: there is equal chances of losing/winning
+<span class="math display">\[\begin{equation}
+Odds =\frac{P(Success=0.5)}{1-P(Success)}={0.5}{0.5}=1
+\end{equation}\]</span></p></li>
+</ul>
+<p>An example scenario: Consider the case where I told you that your odds of passing the stats course for our UG students <span class="math inline">\(\frac{0.5}{0.5}\)</span> or 1 meaning that you have an absolutely equal chances to pass this course to start with. Now, I run a regression on the student success (pass/fail) and found that the exponential of coefficient for attendance is equal to (β_(Attendance ) )= 2.5.</p>
+<p>Essentially, that would mean that now, if the student attended all ten weeks of the labs, their odds of success are multiplied by 2.5: <span class="math inline">\(\frac{0.5}{0.5}*2.5=2.5\)</span> or the odds of passing the module are increasing by 150%.</p>
+<p>You can also read an example based on logistic regression model <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2938757/">here</a></p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="coffee-break.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="now-for-advanced-logistic-mixed-effects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/Week_3.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

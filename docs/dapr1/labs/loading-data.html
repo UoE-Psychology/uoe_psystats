@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Loading Data | Data Analysis for Psychology Using R</title>
+  <meta name="description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Loading Data | Data Analysis for Psychology Using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Loading Data | Data Analysis for Psychology Using R" />
+  
+  <meta name="twitter:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-frames.html">
+<link rel="next" href="week-4.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PPLS Summer Training (R and Stats)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-outcomes"><i class="fa fa-check"></i>Learning Outcomes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preparation"><i class="fa fa-check"></i>Preparation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#expectations"><i class="fa fa-check"></i>Expectations</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#list-of-extra-resources"><i class="fa fa-check"></i>List of extra resources</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authorship"><i class="fa fa-check"></i>Authorship</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#last-but-not-least"><i class="fa fa-check"></i>Last, but not least</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="extra-resources.html"><a href="extra-resources.html"><i class="fa fa-check"></i>Extra Resources</a><ul>
+<li class="chapter" data-level="" data-path="extra-resources.html"><a href="extra-resources.html#r-practice"><i class="fa fa-check"></i>R practice</a></li>
+<li class="chapter" data-level="" data-path="extra-resources.html"><a href="extra-resources.html#data-cleaning"><i class="fa fa-check"></i>Data Cleaning</a></li>
+<li class="chapter" data-level="" data-path="extra-resources.html"><a href="extra-resources.html#visualisations"><i class="fa fa-check"></i>Visualisations</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>1</b> Week 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="week-1.html"><a href="week-1.html#introduction-to-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="week-1.html"><a href="week-1.html#install-the-recent-version-of-r-and-r-studio"><i class="fa fa-check"></i><b>1.2</b> Install the recent version of R and R Studio</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1.html"><a href="week-1.html#first-step"><i class="fa fa-check"></i><b>1.2.1</b> First Step</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1.html"><a href="week-1.html#second-step"><i class="fa fa-check"></i><b>1.2.2</b> Second Step</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1.html"><a href="week-1.html#getting-started-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Getting Started in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="week-1.html"><a href="week-1.html#r-as-an-interactive-envrionment"><i class="fa fa-check"></i><b>1.4</b> R as an interactive envrionment</a></li>
+<li class="chapter" data-level="1.5" data-path="week-1.html"><a href="week-1.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.5</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="1.6" data-path="week-1.html"><a href="week-1.html#the-console"><i class="fa fa-check"></i><b>1.6</b> The Console</a></li>
+<li class="chapter" data-level="1.7" data-path="week-1.html"><a href="week-1.html#spacing"><i class="fa fa-check"></i><b>1.7</b> Spacing</a></li>
+<li class="chapter" data-level="1.8" data-path="week-1.html"><a href="week-1.html#typos"><i class="fa fa-check"></i><b>1.8</b> Typos</a></li>
+<li class="chapter" data-level="1.9" data-path="week-1.html"><a href="week-1.html#unfinishe.-d"><i class="fa fa-check"></i><b>1.9</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="1.10" data-path="week-1.html"><a href="week-1.html#basic-arithmetic"><i class="fa fa-check"></i><b>1.10</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="1.11" data-path="week-1.html"><a href="week-1.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>1.11</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="1.12" data-path="week-1.html"><a href="week-1.html#r-scripts"><i class="fa fa-check"></i><b>1.12</b> R Scripts</a></li>
+<li class="chapter" data-level="1.13" data-path="week-1.html"><a href="week-1.html#short-example"><i class="fa fa-check"></i><b>1.13</b> Short Example</a></li>
+<li class="chapter" data-level="1.14" data-path="week-1.html"><a href="week-1.html#naming-variables"><i class="fa fa-check"></i><b>1.14</b> Naming variables</a></li>
+<li class="chapter" data-level="1.15" data-path="week-1.html"><a href="week-1.html#now-over-to-you"><i class="fa fa-check"></i><b>1.15</b> Now over to you</a><ul>
+<li class="chapter" data-level="1.15.1" data-path="week-1.html"><a href="week-1.html#exercise-1"><i class="fa fa-check"></i><b>1.15.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="1.15.2" data-path="week-1.html"><a href="week-1.html#exercise-2"><i class="fa fa-check"></i><b>1.15.2</b> Exercise 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i>Week 2</a><ul>
+<li class="chapter" data-level="1.16" data-path="week-2.html"><a href="week-2.html#introduction-to-rmarkdown"><i class="fa fa-check"></i><b>1.16</b> Introduction to RMarkdown</a></li>
+<li class="chapter" data-level="1.17" data-path="week-2.html"><a href="week-2.html#what-is-r-markdown"><i class="fa fa-check"></i><b>1.17</b> What is R Markdown?</a></li>
+<li class="chapter" data-level="1.18" data-path="week-2.html"><a href="week-2.html#getting-things-ready"><i class="fa fa-check"></i><b>1.18</b> Getting things ready</a></li>
+<li class="chapter" data-level="1.19" data-path="week-2.html"><a href="week-2.html#r-markdown-basics"><i class="fa fa-check"></i><b>1.19</b> R Markdown basics</a></li>
+<li class="chapter" data-level="1.20" data-path="week-2.html"><a href="week-2.html#rmd-read-along"><i class="fa fa-check"></i><b>1.20</b> Rmd read-along</a></li>
+<li class="chapter" data-level="1.21" data-path="week-2.html"><a href="week-2.html#a-short-aside-on-urls-in-r-markdown"><i class="fa fa-check"></i><b>1.21</b> A short aside on URLs in R Markdown</a></li>
+<li class="chapter" data-level="1.22" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>1.22</b> Code chunks</a></li>
+<li class="chapter" data-level="1.23" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>1.23</b> Generating documents</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i>Week 3</a><ul>
+<li class="chapter" data-level="1.24" data-path="week-3.html"><a href="week-3.html#vectorslists-data-frames-and-data-types"><i class="fa fa-check"></i><b>1.24</b> Vectors,lists, data frames and data types</a></li>
+<li class="chapter" data-level="1.25" data-path="week-3.html"><a href="week-3.html#numeric-data"><i class="fa fa-check"></i><b>1.25</b> Numeric Data</a></li>
+<li class="chapter" data-level="1.26" data-path="week-3.html"><a href="week-3.html#textcharacter-data"><i class="fa fa-check"></i><b>1.26</b> Text/Character Data</a></li>
+<li class="chapter" data-level="1.27" data-path="week-3.html"><a href="week-3.html#logical-data"><i class="fa fa-check"></i><b>1.27</b> Logical Data</a><ul>
+<li class="chapter" data-level="1.27.1" data-path="week-3.html"><a href="week-3.html#exercise"><i class="fa fa-check"></i><b>1.27.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="variable-classes.html"><a href="variable-classes.html"><i class="fa fa-check"></i><b>2</b> Variable Classes</a><ul>
+<li class="chapter" data-level="2.1" data-path="variable-classes.html"><a href="variable-classes.html#factors"><i class="fa fa-check"></i><b>2.1</b> Factors</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="variable-classes.html"><a href="variable-classes.html#exercise-3"><i class="fa fa-check"></i><b>2.1.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lists.html"><a href="lists.html"><i class="fa fa-check"></i><b>3</b> Lists</a></li>
+<li class="chapter" data-level="4" data-path="matrices.html"><a href="matrices.html"><i class="fa fa-check"></i><b>4</b> Matrices</a></li>
+<li class="chapter" data-level="5" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>5</b> Data Frames</a></li>
+<li class="chapter" data-level="6" data-path="loading-data.html"><a href="loading-data.html"><i class="fa fa-check"></i><b>6</b> Loading Data</a><ul>
+<li class="chapter" data-level="6.1" data-path="loading-data.html"><a href="loading-data.html#practical-example"><i class="fa fa-check"></i><b>6.1</b> Practical Example</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i>Week 4</a><ul>
+<li class="chapter" data-level="6.2" data-path="week-4.html"><a href="week-4.html#visualisations-1"><i class="fa fa-check"></i><b>6.2</b> Visualisations</a></li>
+<li class="chapter" data-level="6.3" data-path="week-4.html"><a href="week-4.html#simple-plots"><i class="fa fa-check"></i><b>6.3</b> Simple Plots</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="week-4.html"><a href="week-4.html#using-plot"><i class="fa fa-check"></i><b>6.3.1</b> Using <code>plot()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="week-4.html"><a href="week-4.html#customising-plots"><i class="fa fa-check"></i><b>6.4</b> Customising Plots</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="week-4.html"><a href="week-4.html#labels"><i class="fa fa-check"></i><b>6.4.1</b> Labels</a></li>
+<li class="chapter" data-level="6.4.2" data-path="week-4.html"><a href="week-4.html#plot-type"><i class="fa fa-check"></i><b>6.4.2</b> Plot Type</a></li>
+<li class="chapter" data-level="6.4.3" data-path="week-4.html"><a href="week-4.html#other-customisable-features"><i class="fa fa-check"></i><b>6.4.3</b> Other Customisable Features</a></li>
+<li class="chapter" data-level="6.4.4" data-path="week-4.html"><a href="week-4.html#change-axes"><i class="fa fa-check"></i><b>6.4.4</b> Change Axes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="week-4.html"><a href="week-4.html#dont-panic"><i class="fa fa-check"></i><b>6.5</b> Don’t Panic!</a></li>
+<li class="chapter" data-level="6.6" data-path="week-4.html"><a href="week-4.html#other-simple-plots"><i class="fa fa-check"></i><b>6.6</b> Other Simple Plots</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="week-4.html"><a href="week-4.html#histograms"><i class="fa fa-check"></i><b>6.6.1</b> Histograms</a></li>
+<li class="chapter" data-level="6.6.2" data-path="week-4.html"><a href="week-4.html#boxplots"><i class="fa fa-check"></i><b>6.6.2</b> Boxplots</a></li>
+<li class="chapter" data-level="6.6.3" data-path="week-4.html"><a href="week-4.html#scatterplots"><i class="fa fa-check"></i><b>6.6.3</b> Scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="week-4.html"><a href="week-4.html#how-to-save-image-files"><i class="fa fa-check"></i><b>6.7</b> How to Save Image Files</a></li>
+<li class="chapter" data-level="6.8" data-path="week-4.html"><a href="week-4.html#plotting-with-ggplot2"><i class="fa fa-check"></i><b>6.8</b> Plotting with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="6.8.1" data-path="week-4.html"><a href="week-4.html#ggplot"><i class="fa fa-check"></i><b>6.8.1</b> <code>ggplot()</code></a></li>
+<li class="chapter" data-level="6.8.2" data-path="week-4.html"><a href="week-4.html#iris-example"><i class="fa fa-check"></i><b>6.8.2</b> Iris Example</a></li>
+<li class="chapter" data-level="6.8.3" data-path="week-4.html"><a href="week-4.html#ggplot-with-our-mydata-file"><i class="fa fa-check"></i><b>6.8.3</b> <code>ggplot()</code> with our <code>mydata</code> file</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="week-4.html"><a href="week-4.html#bring-it-all-together"><i class="fa fa-check"></i><b>6.9</b> Bring It All Together</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology Using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="loading-data" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Loading Data</h1>
+<p>For most analyses that you conduct in <code>R</code>, the first step involves importing a data set into <code>R</code>. There are lots of different ways to load data into <code>R</code>, and many different types of data it can read too.</p>
+<p>Datasets that we will use for this section can be downloaded <a href="https://anaushakova.files.wordpress.com/2019/06/data_part1.zip">here</a>. It is a zip folder. Save it somewhere where you can easily find it.</p>
+<p>We will be using the <code>read.csv</code> function to do this, as our data is stored in Excel files. One thing to be mindful of here is the <em>path</em> to the file.</p>
+<p>If you have saved the file within your current working directory, you can simply write:</p>
+<pre class="sourceCode r"><code class="sourceCode r">books &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;books.csv&quot;</span>, <span class="dt">header =</span> T)</code></pre>
+<p>Note that the books dataset has now appeared in the <em>Global Environment</em>.</p>
+<p>There are other ways that you can do this too. For example, you can use the <code>read.table()</code> function, and you can also use the <code>read.spss()</code> or <code>read.sav()</code> functions for SPSS files too. <em>Note</em>, to use the SPSS import functions, you will need to load the <em>foreign</em> or <em>haven</em> packages (more on this later).</p>
+<p>Now that we have our data read into <code>R</code>, lets have a look at it. We might first want to see a breakdown of the data frame. We can do this by using the <code>str()</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(books)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    500 obs. of  2 variables:
+##  $ comic   : int  -44 20 0 -18 -19 13 16 14 -6 11 ...
+##  $ statbook: int  16 -14 6 -13 7 -33 3 -7 -6 -3 ...</code></pre>
+<p>We can see that we have 2 variables, one called <code>comic</code> and one called <code>statbook</code>. Both are numeric, and there are 500 observations in each. We could also extract the specific information in single commands:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(books) <span class="co">#number of columns</span></code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(books) <span class="co">#number of rows</span></code></pre>
+<pre><code>## [1] 500</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(books) <span class="co">#column names</span></code></pre>
+<pre><code>## [1] &quot;comic&quot;    &quot;statbook&quot;</code></pre>
+<p>If we wanted to have a quick glance at the data, you could use the <code>head()</code> or <code>tail(</code>)<code>functions. If you really wanted to see all of your data, you can use the</code>print()` function.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(books) <span class="co">#first 6 rows</span></code></pre>
+<pre><code>##   comic statbook
+## 1   -44       16
+## 2    20      -14
+## 3     0        6
+## 4   -18      -13
+## 5   -19        7
+## 6    13      -33</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(books) <span class="co">#last 6 rows</span></code></pre>
+<pre><code>##     comic statbook
+## 495    11        3
+## 496     9       13
+## 497    10      -10
+## 498    11      -22
+## 499    10      -10
+## 500    26       10</code></pre>
+<div id="practical-example" class="section level2">
+<h2><span class="header-section-number">6.1</span> Practical Example</h2>
+<p>(Example is partially adapted from A. Field, “Discovering statistics using R”, Sage, chapter 10, p. 400)</p>
+<p>The example contains data relating to what contributed to pain relief for patients and compares the
+effects – of administering a sugar pill to a patient (placebo condition, dose code = 1), or a low dose
+of a drug, for instance ibuprofen (dose code = 2) or a high dose of the same drug (dose code = 3).</p>
+<p>We thus have two main variables and we surveyed 15 participants: Condition – 1 (Placebo), 2 (Low dose of ibuprofen), 3 (high dose of ibuprofen); and Pain level (effect) – measured at scale 1-10</p>
+<p>Now its over to you - read in the ‘dose.csv’ file, check the type of data you have, level and label where appropriate. You should also explore the data using the commands that we used above too.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Read in data</span>
+exp &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;dose.csv&quot;</span>, <span class="dt">header =</span> T)
+exp</code></pre>
+<pre><code>##    ID dose effect
+## 1   1    1      3
+## 2   2    1      2
+## 3   3    1      1
+## 4   4    1      1
+## 5   5    1      4
+## 6   6    2      5
+## 7   7    2      2
+## 8   8    2      4
+## 9   9    2      2
+## 10 10    2      3
+## 11 11    3      7
+## 12 12    3      4
+## 13 13    3      5
+## 14 14    3      3
+## 15 15    3      6</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(exp)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    15 obs. of  3 variables:
+##  $ ID    : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ dose  : int  1 1 1 1 1 2 2 2 2 2 ...
+##  $ effect: int  3 2 1 1 4 5 2 4 2 3 ...</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">exp<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(exp<span class="op">$</span>dose, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Low_dose&quot;</span>, <span class="st">&quot;High_dose&quot;</span>))
+<span class="kw">is.factor</span>(exp<span class="op">$</span>dose)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(exp)</code></pre>
+<pre><code>##   ID     dose effect
+## 1  1  Placebo      3
+## 2  2  Placebo      2
+## 3  3  Placebo      1
+## 4  4  Placebo      1
+## 5  5  Placebo      4
+## 6  6 Low_dose      5</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-frames.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="week-4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/Week_3.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Now for Advanced: logistic mixed effects | Data Analysis for Psychology Using R</title>
+  <meta name="description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Now for Advanced: logistic mixed effects | Data Analysis for Psychology Using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Now for Advanced: logistic mixed effects | Data Analysis for Psychology Using R" />
+  
+  <meta name="twitter:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="logistic-setting.html">
+<link rel="next" href="now-over-to-you.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PPLS Summer Training (R and Stats)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-outcomes"><i class="fa fa-check"></i>Learning Outcomes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preparation"><i class="fa fa-check"></i>Preparation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#expectations"><i class="fa fa-check"></i>Expectations</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#list-of-extra-resources"><i class="fa fa-check"></i>List of extra resources</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authorship"><i class="fa fa-check"></i>Authorship</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#last-but-not-least"><i class="fa fa-check"></i>Last, but not least</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="extra-resources.html"><a href="extra-resources.html"><i class="fa fa-check"></i><b>1</b> Extra Resources</a><ul>
+<li class="chapter" data-level="1.1" data-path="extra-resources.html"><a href="extra-resources.html#more-r-practice"><i class="fa fa-check"></i><b>1.1</b> More R practice</a></li>
+<li class="chapter" data-level="1.2" data-path="extra-resources.html"><a href="extra-resources.html#data-cleaning"><i class="fa fa-check"></i><b>1.2</b> Data Cleaning</a></li>
+<li class="chapter" data-level="1.3" data-path="extra-resources.html"><a href="extra-resources.html#visualisations"><i class="fa fa-check"></i><b>1.3</b> Visualisations</a></li>
+<li class="chapter" data-level="1.4" data-path="extra-resources.html"><a href="extra-resources.html#other-common-methods-in-r"><i class="fa fa-check"></i><b>1.4</b> Other Common Methods in R</a></li>
+<li class="chapter" data-level="1.5" data-path="extra-resources.html"><a href="extra-resources.html#big-data"><i class="fa fa-check"></i><b>1.5</b> Big Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-step"><i class="fa fa-check"></i><b>2.1</b> First Step</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#second-step"><i class="fa fa-check"></i><b>2.2</b> Second Step</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#r-as-an-interactive-envrionment"><i class="fa fa-check"></i><b>2.3</b> R as an interactive envrionment</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>2.4</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#spacing"><i class="fa fa-check"></i><b>2.5</b> Spacing</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#typos"><i class="fa fa-check"></i><b>2.6</b> Typos</a></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#unfinishe.-d"><i class="fa fa-check"></i><b>2.7</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="2.8" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#basic-arithmetic"><i class="fa fa-check"></i><b>2.8</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="2.9" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>2.9</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="2.10" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#short-example"><i class="fa fa-check"></i><b>2.10</b> Short Example</a></li>
+<li class="chapter" data-level="2.11" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#exercise-1"><i class="fa fa-check"></i><b>2.11</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.12" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#exercise-2"><i class="fa fa-check"></i><b>2.12</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html"><i class="fa fa-check"></i><b>3</b> Tests and modelling in R</a><ul>
+<li class="chapter" data-level="3.1" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="3.2" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#t-test"><i class="fa fa-check"></i><b>3.2</b> T test</a></li>
+<li class="chapter" data-level="3.3" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#chi-squared-distribution-and-test"><i class="fa fa-check"></i><b>3.3</b> Chi squared distribution and test</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#contingency-tables"><i class="fa fa-check"></i><b>3.3.1</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#chi-squared-distribution"><i class="fa fa-check"></i><b>3.4</b> Chi squared distribution</a></li>
+<li class="chapter" data-level="3.5" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#one-way-anova"><i class="fa fa-check"></i><b>3.5</b> One way Anova</a></li>
+<li class="chapter" data-level="3.6" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#sharks-and-ice-cream-example"><i class="fa fa-check"></i><b>3.6</b> Sharks and ice cream example</a></li>
+<li class="chapter" data-level="3.7" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#simple-linear-regression-in-r"><i class="fa fa-check"></i><b>3.7</b> Simple Linear Regression in R</a></li>
+<li class="chapter" data-level="3.8" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#regression-diagnostics---assess-the-validity-of-a-model"><i class="fa fa-check"></i><b>3.8</b> Regression Diagnostics - assess the validity of a model</a><ul>
+<li class="chapter" data-level="3.8.1" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#violations-of-the-assumptions-available-treatments"><i class="fa fa-check"></i><b>3.8.1</b> Violations of the assumptions: available treatments</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#standardisation"><i class="fa fa-check"></i><b>3.9</b> Standardisation</a></li>
+<li class="chapter" data-level="3.10" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#interaction-simple-slope-and-multiple-explanatory-factors"><i class="fa fa-check"></i><b>3.10</b> Interaction (simple slope) and multiple explanatory factors</a></li>
+<li class="chapter" data-level="3.11" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#aic-bic"><i class="fa fa-check"></i><b>3.11</b> AIC &amp; BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html"><i class="fa fa-check"></i><b>4</b> Simple Linear Model and Mixed Methods</a><ul>
+<li class="chapter" data-level="4.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#data-sets"><i class="fa fa-check"></i><b>4.1</b> Data sets</a></li>
+<li class="chapter" data-level="4.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#longitudinal-data"><i class="fa fa-check"></i><b>4.2</b> Longitudinal Data</a></li>
+<li class="chapter" data-level="4.3" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#why-a-new-model"><i class="fa fa-check"></i><b>4.3</b> Why a new model?</a></li>
+<li class="chapter" data-level="4.4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#ecological-fallacy-quick-illustration---no-need-to-run"><i class="fa fa-check"></i><b>4.4</b> Ecological Fallacy (quick illustration) - no need to run</a></li>
+<li class="chapter" data-level="4.5" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#simple-example"><i class="fa fa-check"></i><b>4.5</b> Simple Example</a></li>
+<li class="chapter" data-level="4.6" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#now-for-advanced-model-set-up"><i class="fa fa-check"></i><b>4.6</b> Now for Advanced: Model set up</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#pooling"><i class="fa fa-check"></i><b>4.6.1</b> Pooling</a></li>
+<li class="chapter" data-level="4.6.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#no-pooling"><i class="fa fa-check"></i><b>4.6.2</b> No pooling</a></li>
+<li class="chapter" data-level="4.6.3" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#partial-pooling-varying-intercepts"><i class="fa fa-check"></i><b>4.6.3</b> Partial Pooling (varying intercepts)</a></li>
+<li class="chapter" data-level="4.6.4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#partial-pooling-extended---varying-intercepts-andor-slopes"><i class="fa fa-check"></i><b>4.6.4</b> Partial Pooling Extended - (varying intercepts and/or slopes)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#multilevel-modelling-with-random-intercepts-and-slopes"><i class="fa fa-check"></i><b>4.7</b> Multilevel modelling with random intercepts and slopes</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#overview-of-the-data-set"><i class="fa fa-check"></i><b>4.7.1</b> Overview of the data set</a></li>
+<li class="chapter" data-level="4.7.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#prepare"><i class="fa fa-check"></i><b>4.7.2</b> Prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#random-slopes-intercepts-and-cross-level-interactions-optional"><i class="fa fa-check"></i><b>4.8</b> Random slopes, intercepts and cross level interactions (optional)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="testing-the-assumptions.html"><a href="testing-the-assumptions.html"><i class="fa fa-check"></i><b>5</b> Testing the assumptions</a></li>
+<li class="chapter" data-level="6" data-path="coffee-break.html"><a href="coffee-break.html"><i class="fa fa-check"></i><b>6</b> Coffee break</a></li>
+<li class="chapter" data-level="7" data-path="logistic-setting.html"><a href="logistic-setting.html"><i class="fa fa-check"></i><b>7</b> Logistic setting</a><ul>
+<li class="chapter" data-level="7.1" data-path="logistic-setting.html"><a href="logistic-setting.html#simple-example-1"><i class="fa fa-check"></i><b>7.1</b> Simple Example</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="logistic-setting.html"><a href="logistic-setting.html#optional-odds-refresher"><i class="fa fa-check"></i><b>7.1.1</b> Optional (Odds Refresher)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="now-for-advanced-logistic-mixed-effects.html"><a href="now-for-advanced-logistic-mixed-effects.html"><i class="fa fa-check"></i><b>8</b> Now for Advanced: logistic mixed effects</a></li>
+<li class="chapter" data-level="9" data-path="now-over-to-you.html"><a href="now-over-to-you.html"><i class="fa fa-check"></i><b>9</b> Now, over to you!</a><ul>
+<li class="chapter" data-level="9.1" data-path="now-over-to-you.html"><a href="now-over-to-you.html#data-description"><i class="fa fa-check"></i><b>9.1</b> Data Description</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>10</b> week 4</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology Using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="now-for-advanced-logistic-mixed-effects" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Now for Advanced: logistic mixed effects</h1>
+<p>Here we will consider two examples, one will be quite general - we will study the predictors of lung cancer remission (<em>adapted from UCLA Statistical Consulting Group</em>) and the other one from linguistics - based on a dataset available in the package <code>languageR</code> which consists of data sets and functions accompanying the book <strong>’Analyzing Linguistic Data: A practical introduction to statistics’</strong>, Cambridge University Press, 2007. The latter one will be left for you to try to replicate some of the main findings in the paper. ( see section DIY)</p>
+<p>The main stages will be illustrated on a simplistic dataset but you are welcome to explore either <em>Dative</em> or your own data to try what you have learnt later.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We wil need quite a few packages (some for plots)</span>
+<span class="kw">library</span>(GGally)
+<span class="kw">library</span>(reshape2)
+<span class="kw">library</span>(compiler)
+<span class="kw">library</span>(parallel)
+<span class="kw">library</span>(boot)
+<span class="kw">library</span>(ggplot2)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Lets load the data</span>
+lung_cancer &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;lung_cancer.csv&quot;</span>)</code></pre>
+<p>Explore the data a little before getting on with the analysis.You will see that we have quite a lot different variables. Remember that for good model, there is no need to include everything but key predictors should always be in. We can focus on <strong>Length of Stay</strong>, <strong>Experience</strong> and <strong>Cancer Stage</strong>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We can use str()</span>
+<span class="kw">str</span>(lung_cancer)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    8525 obs. of  28 variables:
+##  $ X           : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ tumorsize   : num  68 64.7 51.6 86.4 53.4 ...
+##  $ co2         : num  1.53 1.68 1.53 1.45 1.57 ...
+##  $ pain        : int  4 2 6 3 3 4 3 3 4 5 ...
+##  $ wound       : int  4 3 3 3 4 5 4 3 4 4 ...
+##  $ mobility    : int  2 2 2 2 2 2 2 3 3 3 ...
+##  $ ntumors     : int  0 0 0 0 0 0 0 0 2 0 ...
+##  $ nmorphine   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ remission   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ lungcapacity: num  0.801 0.326 0.565 0.848 0.886 ...
+##  $ Age         : num  65 53.9 53.3 41.4 46.8 ...
+##  $ Married     : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 2 1 1 2 2 1 2 1 ...
+##  $ FamilyHx    : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 1 1 1 1 1 1 2 1 ...
+##  $ SmokingHx   : Factor w/ 3 levels &quot;current&quot;,&quot;former&quot;,..: 2 2 3 2 3 3 1 2 2 3 ...
+##  $ Sex         : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 2 1 1 2 2 2 1 2 2 2 ...
+##  $ CancerStage : Factor w/ 4 levels &quot;I&quot;,&quot;II&quot;,&quot;III&quot;,..: 2 2 2 1 2 1 2 2 2 2 ...
+##  $ LengthofStay: int  6 6 5 5 6 5 4 5 6 7 ...
+##  $ WBC         : num  6088 6700 6043 7163 6443 ...
+##  $ RBC         : num  4.87 4.68 5.01 5.27 4.98 ...
+##  $ BMI         : num  24.1 29.4 29.5 21.6 29.8 ...
+##  $ IL6         : num  3.7 2.63 13.9 3.01 3.89 ...
+##  $ CRP         : num  8.086 0.803 4.034 2.126 1.349 ...
+##  $ DID         : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Experience  : int  25 25 25 25 25 25 25 25 25 25 ...
+##  $ School      : Factor w/ 2 levels &quot;average&quot;,&quot;top&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Lawsuits    : int  3 3 3 3 3 3 3 3 3 3 ...
+##  $ HID         : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Medicaid    : num  0.606 0.606 0.606 0.606 0.606 ...</code></pre>
+<p>For main predictors we picked four variables to double check their distribution and to make sure that there are no multicolinearity in predictors. Check that you can do quick checks of how continuous values are grouped by categorical ones - <code>ggpairs()</code> is quite handy for that.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="co">#We can study our variables in one go and check: distributions and correlations of the main predictors</span>
+<span class="kw">ggpairs</span>(lung_cancer[, <span class="kw">c</span>(<span class="st">&quot;CancerStage&quot;</span>, <span class="st">&quot;LengthofStay&quot;</span>, <span class="st">&quot;Experience&quot;</span>)])</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-80-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We can also check how the continuous predictors relate to our outcome variable &#39;remission&#39;</span>
+tmp &lt;-<span class="st"> </span><span class="kw">melt</span>(lung_cancer[, <span class="kw">c</span>(<span class="st">&quot;remission&quot;</span>,  <span class="st">&quot;LengthofStay&quot;</span>, <span class="st">&quot;Experience&quot;</span>)],
+  <span class="dt">id.vars=</span><span class="st">&quot;remission&quot;</span>)
+
+<span class="co">#Plot</span>
+<span class="kw">ggplot</span>(tmp, <span class="kw">aes</span>(<span class="kw">factor</span>(remission), <span class="dt">y =</span> value, <span class="dt">fill=</span><span class="kw">factor</span>(remission))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable, <span class="dt">scales=</span><span class="st">&quot;free_y&quot;</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Estimate the model and store results in model_lc</span>
+model_lc &lt;-<span class="st"> </span><span class="kw">glmer</span>(remission <span class="op">~</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>LengthofStay <span class="op">+</span><span class="st"> </span>FamilyHx <span class="op">+</span><span class="st"> </span>CancerStage <span class="op">+</span><span class="st">  </span>CancerStage <span class="op">+</span><span class="st"> </span>Experience <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>DID) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>HID),
+                  <span class="dt">data =</span> lung_cancer, <span class="dt">family =</span> binomial, <span class="dt">optimizer=</span><span class="st">&#39;Nelder_Mead&#39;</span>) <span class="co">#note that I have updated the optimizer (to avoid warnings)</span>
+
+<span class="co"># Print the mod results:what do you find?</span>
+<span class="kw">summary</span>(model_lc)</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: 
+## remission ~ Age + LengthofStay + FamilyHx + CancerStage + CancerStage +  
+##     Experience + (1 | DID) + (1 | HID)
+##    Data: lung_cancer
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   7225.6   7296.1  -3602.8   7205.6     8515 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9563 -0.4229 -0.1890  0.3629  8.2299 
+## 
+## Random effects:
+##  Groups Name        Variance Std.Dev.
+##  DID    (Intercept) 3.8471   1.9614  
+##  HID    (Intercept) 0.2419   0.4919  
+## Number of obs: 8525, groups:  DID, 407; HID, 35
+## 
+## Fixed effects:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)    -1.960353   0.568451  -3.449 0.000564 ***
+## Age            -0.015968   0.005904  -2.705 0.006836 ** 
+## LengthofStay   -0.043030   0.035505  -1.212 0.225524    
+## FamilyHxyes    -1.295706   0.093369 -13.877  &lt; 2e-16 ***
+## CancerStageII  -0.321924   0.076376  -4.215 2.50e-05 ***
+## CancerStageIII -0.857475   0.100025  -8.573  &lt; 2e-16 ***
+## CancerStageIV  -2.137657   0.162281 -13.173  &lt; 2e-16 ***
+## Experience      0.125360   0.026881   4.664 3.11e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Age    LngthS FmlyHx CncSII CnSIII CncSIV
+## Age         -0.390                                          
+## LengthofSty -0.141 -0.319                                   
+## FamilyHxyes -0.013  0.103 -0.112                            
+## CancerStgII  0.084 -0.181 -0.186 -0.052                     
+## CancrStgIII  0.139 -0.222 -0.239 -0.051  0.513              
+## CancerStgIV  0.148 -0.220 -0.194 -0.012  0.357  0.347       
+## Experience  -0.835 -0.009 -0.004 -0.022 -0.002 -0.005 -0.012
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.858202 (tol = 0.001, component 1)</code></pre>
+<p>We can do some analysis that is based on model object. In fact, you can extract even more if you need.</p>
+<pre class="sourceCode r"><code class="sourceCode r">se &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">vcov</span>(model_lc))) <span class="co">#standard errors</span>
+<span class="co"># table of estimates with 95% CI using errors we obtained above</span>
+(CI_estimates &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Est =</span> <span class="kw">fixef</span>(model_lc), <span class="dt">LL =</span> <span class="kw">fixef</span>(model_lc) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se, <span class="dt">UL =</span> <span class="kw">fixef</span>(model_lc) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span>
+<span class="st">    </span>se))</code></pre>
+<pre><code>##                        Est          LL           UL
+## (Intercept)    -1.96035276 -3.07451662 -0.846188910
+## Age            -0.01596794 -0.02753911 -0.004396764
+## LengthofStay   -0.04303048 -0.11261951  0.026558540
+## FamilyHxyes    -1.29570603 -1.47870949 -1.112702564
+## CancerStageII  -0.32192409 -0.47162068 -0.172227491
+## CancerStageIII -0.85747504 -1.05352351 -0.661426574
+## CancerStageIV  -2.13765689 -2.45572684 -1.819586939
+## Experience      0.12536019  0.07267364  0.178046738</code></pre>
+<p>We can look at the effect in terms of odds and associated CIs.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#To get to the odds, we can take exponential of beta estimates</span>
+<span class="kw">exp</span>(CI_estimates)</code></pre>
+<pre><code>##                      Est         LL        UL
+## (Intercept)    0.1408087 0.04621196 0.4290470
+## Age            0.9841589 0.97283663 0.9956129
+## LengthofStay   0.9578822 0.89349056 1.0269144
+## FamilyHxyes    0.2737046 0.22793165 0.3286695
+## CancerStageII  0.7247532 0.62399016 0.8417877
+## CancerStageIII 0.4242319 0.34870691 0.5161145
+## CancerStageIV  0.1179308 0.08580081 0.1620927
+## Experience     1.1335567 1.07537951 1.1948812</code></pre>
+<p>To see the overall variation around the intercepts estimate we can use dotplot() from lattice:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Try with dotplot from lattice</span>
+<span class="kw">dotplot</span>(<span class="kw">ranef</span>(model_lc, <span class="dt">which =</span> <span class="st">&quot;DID&quot;</span>, <span class="dt">condVar =</span> <span class="ot">TRUE</span>), <span class="co">#I specify the ID and whether I want conditional var.</span>
+        <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">y =</span> <span class="kw">list</span>(<span class="dt">alternating =</span> <span class="dv">0</span>))) <span class="co"># by adjusting this I am less bother about exact ID</span></code></pre>
+<pre><code>## $DID</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Shorter for ranef since we have less hospitals then individuals</span>
+<span class="kw">dotplot</span>(<span class="kw">ranef</span>(model_lc, <span class="dt">which =</span> <span class="st">&quot;HID&quot;</span>, <span class="dt">condVar =</span> <span class="ot">TRUE</span>))</code></pre>
+<pre><code>## $HID</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
+<p>Lets also vary the slopes for each patient:</p>
+<pre class="sourceCode r"><code class="sourceCode r">model_lc_slope&lt;-<span class="kw">glmer</span>(remission <span class="op">~</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>LengthofStay <span class="op">+</span><span class="st"> </span>FamilyHx <span class="op">+</span><span class="st"> </span>CancerStage <span class="op">+</span>
+<span class="st">    </span>Experience <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>LengthofStay <span class="op">|</span><span class="st"> </span>DID) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>HID), <span class="dt">data =</span> lung_cancer, <span class="dt">family =</span> binomial,
+    <span class="dt">nAGQ =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
+## control$checkConv, : Model failed to converge with max|grad| = 0.077799
+## (tol = 0.001, component 1)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(model_lc_slope)</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: 
+## remission ~ Age + LengthofStay + FamilyHx + CancerStage + Experience +  
+##     (1 + LengthofStay | DID) + (1 | HID)
+##    Data: lung_cancer
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   7173.7   7258.4  -3574.9   7149.7     8513 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.5499 -0.4239 -0.1790  0.3642  8.1358 
+## 
+## Random effects:
+##  Groups Name         Variance Std.Dev. Corr 
+##  DID    (Intercept)  0.2873   0.5360        
+##         LengthofStay 0.1498   0.3870   -0.27
+##  HID    (Intercept)  0.5164   0.7186        
+## Number of obs: 8525, groups:  DID, 407; HID, 35
+## 
+## Fixed effects:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)    -0.881739   0.540500  -1.631 0.102819    
+## Age            -0.015834   0.005929  -2.671 0.007573 ** 
+## LengthofStay   -0.193961   0.045356  -4.276 1.90e-05 ***
+## FamilyHxyes    -1.343919   0.095171 -14.121  &lt; 2e-16 ***
+## CancerStageII  -0.294438   0.076198  -3.864 0.000111 ***
+## CancerStageIII -0.862329   0.101282  -8.514  &lt; 2e-16 ***
+## CancerStageIV  -2.278712   0.169756 -13.423  &lt; 2e-16 ***
+## Experience      0.106943   0.023653   4.521 6.14e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Age    LngthS FmlyHx CncSII CnSIII CncSIV
+## Age         -0.418                                          
+## LengthofSty -0.247 -0.252                                   
+## FamilyHxyes -0.024  0.104 -0.072                            
+## CancerStgII  0.105 -0.181 -0.163 -0.054                     
+## CancrStgIII  0.146 -0.221 -0.181 -0.051  0.496              
+## CancerStgIV  0.119 -0.212 -0.115  0.002  0.335  0.336       
+## Experience  -0.803 -0.002  0.068 -0.020 -0.013 -0.007  0.011
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.077799 (tol = 0.001, component 1)</code></pre>
+<p>We can then plot both intercepts and slopes variability:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dotplot</span>(<span class="kw">ranef</span>(model_lc_slope, <span class="dt">which =</span> <span class="st">&quot;DID&quot;</span>, <span class="dt">condVar =</span> <span class="ot">TRUE</span>),
+                 <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">y =</span> <span class="kw">list</span>(<span class="dt">alternating =</span> <span class="dv">0</span>)))</code></pre>
+<pre><code>## $DID</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<p>We can also do something which I think is magical, using package <code>sjPlot</code> - we can without effort get plots of random effects and CI for predicted probabilities.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(effects)
+<span class="kw">library</span>(sjPlot)
+<span class="co">#We can plot either random effects</span>
+<span class="kw">plot_model</span>(model_lc, <span class="dt">type=</span><span class="st">&#39;re&#39;</span>)</code></pre>
+<pre><code>## [[1]]</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
+<pre><code>## 
+## [[2]]</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-89-2.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Or we can check predicted probabilities </span>
+<span class="kw">plot_model</span>(model_lc, <span class="dt">type=</span><span class="st">&#39;eff&#39;</span>)</code></pre>
+<pre><code>## $Age</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
+<pre><code>## 
+## $LengthofStay</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-2.png" width="672" /></p>
+<pre><code>## 
+## $FamilyHx</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-3.png" width="672" /></p>
+<pre><code>## 
+## $CancerStage</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-4.png" width="672" /></p>
+<pre><code>## 
+## $Experience</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-5.png" width="672" /></p>
+<p>Lastly, what we may want to do is to evaluate our predictions in terms of overall accuracy:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Use the models to predict the outcome </span>
+predictions_lc &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">predict</span>(model_lc, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)<span class="op">&gt;</span><span class="fl">0.5</span>)
+predictions_lc_slopes&lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">predict</span>(model_lc_slope, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)<span class="op">&gt;</span><span class="fl">0.5</span>)</code></pre>
+<p>Now lets investigate the ratio of correctly predicted cases over observed via confusion matrix, you can either use table() or confusionMatrix() from the package ‘caret’.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Simple table. Note: we ll have to claculate by hand the ratio of correctly predicted cases over the total:</span>
+
+<span class="kw">table</span>(predictions_lc, lung_cancer<span class="op">$</span>remission)</code></pre>
+<pre><code>##               
+## predictions_lc    0    1
+##              0 5517  929
+##              1  487 1592</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Sum the corrected cases and divide by total n=8525</span>
+ratio_correct&lt;-<span class="st"> </span>(<span class="dv">5529</span><span class="op">+</span><span class="dv">1617</span>)<span class="op">/</span><span class="dv">8525</span>
+ratio_correct</code></pre>
+<pre><code>## [1] 0.8382405</code></pre>
+<p>I personally would use <code>caret</code> as results will look tidier and more complete.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Load caret</span>
+<span class="kw">library</span>(caret)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Confusion matrix between predicted and observed</span>
+<span class="kw">confusionMatrix</span>(<span class="kw">as.factor</span>(predictions_lc), <span class="kw">as.factor</span>(lung_cancer<span class="op">$</span>remission), <span class="dt">dnn =</span> <span class="kw">c</span>(<span class="st">&quot;Prediction&quot;</span>, <span class="st">&quot;Reference&quot;</span>))</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    0    1
+##          0 5517  929
+##          1  487 1592
+##                                           
+##                Accuracy : 0.8339          
+##                  95% CI : (0.8258, 0.8417)
+##     No Information Rate : 0.7043          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.5799          
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt; 2.2e-16       
+##                                           
+##             Sensitivity : 0.9189          
+##             Specificity : 0.6315          
+##          Pos Pred Value : 0.8559          
+##          Neg Pred Value : 0.7658          
+##              Prevalence : 0.7043          
+##          Detection Rate : 0.6472          
+##    Detection Prevalence : 0.7561          
+##       Balanced Accuracy : 0.7752          
+##                                           
+##        &#39;Positive&#39; Class : 0               
+## </code></pre>
+<p>Well, clearly confusion matrix gives us a much nicer output :)</p>
+<p>Let us see now whether our final model with varying slopes and varying intercepts is better in predicting remission cases.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Create confusion matrix with varying slopes model</span>
+<span class="kw">confusionMatrix</span>(<span class="kw">as.factor</span>(predictions_lc_slopes), <span class="kw">as.factor</span>(lung_cancer<span class="op">$</span>remission), <span class="co">#specify variables</span>
+                <span class="dt">dnn =</span> <span class="kw">c</span>(<span class="st">&quot;Prediction&quot;</span>, <span class="st">&quot;Reference&quot;</span>)) <span class="co">#give labels to the columns</span></code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    0    1
+##          0 5501  889
+##          1  503 1632
+##                                           
+##                Accuracy : 0.8367          
+##                  95% CI : (0.8287, 0.8445)
+##     No Information Rate : 0.7043          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.5898          
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt; 2.2e-16       
+##                                           
+##             Sensitivity : 0.9162          
+##             Specificity : 0.6474          
+##          Pos Pred Value : 0.8609          
+##          Neg Pred Value : 0.7644          
+##              Prevalence : 0.7043          
+##          Detection Rate : 0.6453          
+##    Detection Prevalence : 0.7496          
+##       Balanced Accuracy : 0.7818          
+##                                           
+##        &#39;Positive&#39; Class : 0               
+## </code></pre>
+<p>The improvement is rather tiny if judged by <strong>accuracy</strong> only. To be sure, lets also run a <strong>likelihood ratio test</strong>:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Likelihood ratio test </span>
+<span class="kw">lrtest</span>(model_lc, model_lc_slope)</code></pre>
+<pre><code>## Likelihood ratio test
+## 
+## Model 1: remission ~ Age + LengthofStay + FamilyHx + CancerStage + CancerStage + 
+##     Experience + (1 | DID) + (1 | HID)
+## Model 2: remission ~ Age + LengthofStay + FamilyHx + CancerStage + Experience + 
+##     (1 + LengthofStay | DID) + (1 | HID)
+##   #Df  LogLik Df  Chisq Pr(&gt;Chisq)    
+## 1  10 -3602.8                         
+## 2  12 -3574.9  2 55.826  7.542e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The test suggests that the second model may offer an improvement in the fit regardless of marginally small change in the predictive power. After we have performed so many checks we may perhaps just go with the last model as, theoretically, it would also make sense.</p>
+<p><em>Quick Note</em>: The example was partially adapted from UCLA’s worked example of GGLM. You can check more <a href="https://stats.idre.ucla.edu/r/dae/mixed-effects-logistic-regression/">here</a>, where you can also find a bit more on visualisations and few other tricks.</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="logistic-setting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="now-over-to-you.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/Week_3.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

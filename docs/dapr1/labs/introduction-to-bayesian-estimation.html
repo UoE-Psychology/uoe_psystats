@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 26 Introduction to Bayesian Estimation | PPLS PhD Training Workshop: Statistics and R</title>
+  <meta name="description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 26 Introduction to Bayesian Estimation | PPLS PhD Training Workshop: Statistics and R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 26 Introduction to Bayesian Estimation | PPLS PhD Training Workshop: Statistics and R" />
+  
+  <meta name="twitter:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  
+
+<meta name="author" content="Anastasia Ushakova and Emma Waterston">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="now-over-to-you.html">
+<link rel="next" href="diy-2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PPLS Summer Training (R and Stats)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-outcomes"><i class="fa fa-check"></i>Learning Outcomes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preparation"><i class="fa fa-check"></i>Preparation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-sets"><i class="fa fa-check"></i>Data sets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#expectations"><i class="fa fa-check"></i>Expectations</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#lets-stay-in-touch"><i class="fa fa-check"></i>Lets stay in touch</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#list-of-extra-resources"><i class="fa fa-check"></i>List of extra resources</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authorship"><i class="fa fa-check"></i>Authorship</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#last-but-not-least"><i class="fa fa-check"></i>Last, but not least</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="getting-started-in-rstudio.html"><a href="getting-started-in-rstudio.html"><i class="fa fa-check"></i><b>1</b> Getting Started in RStudio</a><ul>
+<li class="chapter" data-level="1.1" data-path="getting-started-in-rstudio.html"><a href="getting-started-in-rstudio.html#r-as-an-interactive-envrionment"><i class="fa fa-check"></i><b>1.1</b> R as an interactive envrionment</a></li>
+<li class="chapter" data-level="1.2" data-path="getting-started-in-rstudio.html"><a href="getting-started-in-rstudio.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.2</b> Setting Up Your Working Directory</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="the-console.html"><a href="the-console.html"><i class="fa fa-check"></i><b>2</b> The Console</a><ul>
+<li class="chapter" data-level="2.1" data-path="the-console.html"><a href="the-console.html#spacing"><i class="fa fa-check"></i><b>2.1</b> Spacing</a></li>
+<li class="chapter" data-level="2.2" data-path="the-console.html"><a href="the-console.html#typos"><i class="fa fa-check"></i><b>2.2</b> Typos</a></li>
+<li class="chapter" data-level="2.3" data-path="the-console.html"><a href="the-console.html#unfinishe.-d"><i class="fa fa-check"></i><b>2.3</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="2.4" data-path="the-console.html"><a href="the-console.html#basic-arithmetic"><i class="fa fa-check"></i><b>2.4</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="2.5" data-path="the-console.html"><a href="the-console.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>2.5</b> Using Functions for Calculations</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r-scripts.html"><a href="r-scripts.html"><i class="fa fa-check"></i><b>3</b> R Scripts</a><ul>
+<li class="chapter" data-level="3.1" data-path="r-scripts.html"><a href="r-scripts.html#short-example"><i class="fa fa-check"></i><b>3.1</b> Short Example</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="naming-variables.html"><a href="naming-variables.html"><i class="fa fa-check"></i><b>4</b> Naming variables</a></li>
+<li class="chapter" data-level="5" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>5</b> Vectors</a><ul>
+<li class="chapter" data-level="5.1" data-path="vectors.html"><a href="vectors.html#numeric-data"><i class="fa fa-check"></i><b>5.1</b> Numeric Data</a></li>
+<li class="chapter" data-level="5.2" data-path="vectors.html"><a href="vectors.html#textcharacter-data"><i class="fa fa-check"></i><b>5.2</b> Text/Character Data</a></li>
+<li class="chapter" data-level="5.3" data-path="vectors.html"><a href="vectors.html#logical-data"><i class="fa fa-check"></i><b>5.3</b> Logical Data</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="vectors.html"><a href="vectors.html#exercise"><i class="fa fa-check"></i><b>5.3.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="variable-classes.html"><a href="variable-classes.html"><i class="fa fa-check"></i><b>6</b> Variable Classes</a><ul>
+<li class="chapter" data-level="6.1" data-path="variable-classes.html"><a href="variable-classes.html#factors"><i class="fa fa-check"></i><b>6.1</b> Factors</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="variable-classes.html"><a href="variable-classes.html#exercise-1"><i class="fa fa-check"></i><b>6.1.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lists.html"><a href="lists.html"><i class="fa fa-check"></i><b>7</b> Lists</a></li>
+<li class="chapter" data-level="8" data-path="matrices.html"><a href="matrices.html"><i class="fa fa-check"></i><b>8</b> Matrices</a></li>
+<li class="chapter" data-level="9" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>9</b> Data Frames</a></li>
+<li class="chapter" data-level="10" data-path="loading-data.html"><a href="loading-data.html"><i class="fa fa-check"></i><b>10</b> Loading Data</a><ul>
+<li class="chapter" data-level="10.1" data-path="loading-data.html"><a href="loading-data.html#practical-example"><i class="fa fa-check"></i><b>10.1</b> Practical Example</a></li>
+<li class="chapter" data-level="10.2" data-path="loading-data.html"><a href="loading-data.html#subsetting-dataframes"><i class="fa fa-check"></i><b>10.2</b> Subsetting Dataframes</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="loading-data.html"><a href="loading-data.html#replacing-values-nas"><i class="fa fa-check"></i><b>10.2.1</b> Replacing Values &amp; NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="loading-data.html"><a href="loading-data.html#indexing-data-frames"><i class="fa fa-check"></i><b>10.3</b> Indexing Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="packages.html"><a href="packages.html"><i class="fa fa-check"></i><b>11</b> Packages</a></li>
+<li class="chapter" data-level="12" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>12</b> Summary Statistics</a><ul>
+<li class="chapter" data-level="12.1" data-path="summary-statistics.html"><a href="summary-statistics.html#data-cleaning"><i class="fa fa-check"></i><b>12.1</b> Data Cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="visualisations.html"><a href="visualisations.html"><i class="fa fa-check"></i><b>13</b> Visualisations</a><ul>
+<li class="chapter" data-level="13.1" data-path="visualisations.html"><a href="visualisations.html#simple-plots"><i class="fa fa-check"></i><b>13.1</b> Simple Plots</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="visualisations.html"><a href="visualisations.html#using-plot"><i class="fa fa-check"></i><b>13.1.1</b> Using <code>plot()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="visualisations.html"><a href="visualisations.html#customising-plots"><i class="fa fa-check"></i><b>13.2</b> Customising Plots</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="visualisations.html"><a href="visualisations.html#labels"><i class="fa fa-check"></i><b>13.2.1</b> Labels</a></li>
+<li class="chapter" data-level="13.2.2" data-path="visualisations.html"><a href="visualisations.html#plot-type"><i class="fa fa-check"></i><b>13.2.2</b> Plot Type</a></li>
+<li class="chapter" data-level="13.2.3" data-path="visualisations.html"><a href="visualisations.html#other-customisable-features"><i class="fa fa-check"></i><b>13.2.3</b> Other Customisable Features</a></li>
+<li class="chapter" data-level="13.2.4" data-path="visualisations.html"><a href="visualisations.html#change-axes"><i class="fa fa-check"></i><b>13.2.4</b> Change Axes</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="visualisations.html"><a href="visualisations.html#dont-panic"><i class="fa fa-check"></i><b>13.3</b> Don’t Panic!</a></li>
+<li class="chapter" data-level="13.4" data-path="visualisations.html"><a href="visualisations.html#other-simple-plots"><i class="fa fa-check"></i><b>13.4</b> Other Simple Plots</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="visualisations.html"><a href="visualisations.html#histograms"><i class="fa fa-check"></i><b>13.4.1</b> Histograms</a></li>
+<li class="chapter" data-level="13.4.2" data-path="visualisations.html"><a href="visualisations.html#boxplots"><i class="fa fa-check"></i><b>13.4.2</b> Boxplots</a></li>
+<li class="chapter" data-level="13.4.3" data-path="visualisations.html"><a href="visualisations.html#scatterplots"><i class="fa fa-check"></i><b>13.4.3</b> Scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="visualisations.html"><a href="visualisations.html#how-to-save-image-files"><i class="fa fa-check"></i><b>13.5</b> How to Save Image Files</a></li>
+<li class="chapter" data-level="13.6" data-path="visualisations.html"><a href="visualisations.html#plotting-with-ggplot2"><i class="fa fa-check"></i><b>13.6</b> Plotting with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="13.6.1" data-path="visualisations.html"><a href="visualisations.html#ggplot"><i class="fa fa-check"></i><b>13.6.1</b> <code>ggplot()</code></a></li>
+<li class="chapter" data-level="13.6.2" data-path="visualisations.html"><a href="visualisations.html#iris-example"><i class="fa fa-check"></i><b>13.6.2</b> Iris Example</a></li>
+<li class="chapter" data-level="13.6.3" data-path="visualisations.html"><a href="visualisations.html#ggplot-with-our-mydata-file"><i class="fa fa-check"></i><b>13.6.3</b> <code>ggplot()</code> with our <code>mydata</code> file</a></li>
+</ul></li>
+<li class="chapter" data-level="13.7" data-path="visualisations.html"><a href="visualisations.html#bring-it-all-together"><i class="fa fa-check"></i><b>13.7</b> Bring It All Together</a></li>
+<li class="chapter" data-level="13.8" data-path="visualisations.html"><a href="visualisations.html#write-out-files"><i class="fa fa-check"></i><b>13.8</b> Write Out Files</a></li>
+<li class="chapter" data-level="13.9" data-path="visualisations.html"><a href="visualisations.html#questions"><i class="fa fa-check"></i><b>13.9</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="diy.html"><a href="diy.html"><i class="fa fa-check"></i><b>14</b> DIY</a></li>
+<li class="chapter" data-level="15" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html"><i class="fa fa-check"></i><b>15</b> Tests and modelling in R</a><ul>
+<li class="chapter" data-level="15.1" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#hypothesis-testing"><i class="fa fa-check"></i><b>15.1</b> Hypothesis testing</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html"><i class="fa fa-check"></i><b>16</b> Examining Relationships (more than one variable)</a><ul>
+<li class="chapter" data-level="16.1" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#t-test"><i class="fa fa-check"></i><b>16.1</b> T test</a></li>
+<li class="chapter" data-level="16.2" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#chi-squared-distribution-and-test"><i class="fa fa-check"></i><b>16.2</b> Chi squared distribution and test</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#contingency-tables"><i class="fa fa-check"></i><b>16.2.1</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#chi-squared-distribution"><i class="fa fa-check"></i><b>16.3</b> Chi squared distribution</a></li>
+<li class="chapter" data-level="16.4" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#one-way-anova"><i class="fa fa-check"></i><b>16.4</b> One way Anova</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html"><i class="fa fa-check"></i><b>17</b> Correlation, Causation, and LM</a><ul>
+<li class="chapter" data-level="17.1" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#sharks-and-ice-cream-example"><i class="fa fa-check"></i><b>17.1</b> Sharks and ice cream example</a></li>
+<li class="chapter" data-level="17.2" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#simple-linear-regression-in-r"><i class="fa fa-check"></i><b>17.2</b> Simple Linear Regression in R</a></li>
+<li class="chapter" data-level="17.3" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#regression-diagnostics---assess-the-validity-of-a-model"><i class="fa fa-check"></i><b>17.3</b> Regression Diagnostics - assess the validity of a model</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#violations-of-the-assumptions-available-treatments"><i class="fa fa-check"></i><b>17.3.1</b> Violations of the assumptions: available treatments</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#standardisation"><i class="fa fa-check"></i><b>17.4</b> Standardisation</a></li>
+<li class="chapter" data-level="17.5" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#interaction-simple-slope-and-multiple-explanatory-factors"><i class="fa fa-check"></i><b>17.5</b> Interaction (simple slope) and multiple explanatory factors</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>18</b> Model selection</a><ul>
+<li class="chapter" data-level="18.1" data-path="model-selection.html"><a href="model-selection.html#aic-bic"><i class="fa fa-check"></i><b>18.1</b> AIC &amp; BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="diy-1.html"><a href="diy-1.html"><i class="fa fa-check"></i><b>19</b> DIY</a></li>
+<li class="chapter" data-level="20" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html"><i class="fa fa-check"></i><b>20</b> Simple Linear Model and Mixed Methods</a><ul>
+<li class="chapter" data-level="20.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#data-sets-1"><i class="fa fa-check"></i><b>20.1</b> Data sets</a></li>
+<li class="chapter" data-level="20.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#longitudinal-data"><i class="fa fa-check"></i><b>20.2</b> Longitudinal Data</a></li>
+<li class="chapter" data-level="20.3" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#why-a-new-model"><i class="fa fa-check"></i><b>20.3</b> Why a new model?</a></li>
+<li class="chapter" data-level="20.4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#ecological-fallacy-quick-illustration---no-need-to-run"><i class="fa fa-check"></i><b>20.4</b> Ecological Fallacy (quick illustration) - no need to run</a></li>
+<li class="chapter" data-level="20.5" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#simple-example"><i class="fa fa-check"></i><b>20.5</b> Simple Example</a></li>
+<li class="chapter" data-level="20.6" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#now-for-advanced-model-set-up"><i class="fa fa-check"></i><b>20.6</b> Now for Advanced: Model set up</a><ul>
+<li class="chapter" data-level="20.6.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#pooling"><i class="fa fa-check"></i><b>20.6.1</b> Pooling</a></li>
+<li class="chapter" data-level="20.6.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#no-pooling"><i class="fa fa-check"></i><b>20.6.2</b> No pooling</a></li>
+<li class="chapter" data-level="20.6.3" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#partial-pooling-varying-intercepts"><i class="fa fa-check"></i><b>20.6.3</b> Partial Pooling (varying intercepts)</a></li>
+<li class="chapter" data-level="20.6.4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#partial-pooling-extended---varying-intercepts-andor-slopes"><i class="fa fa-check"></i><b>20.6.4</b> Partial Pooling Extended - (varying intercepts and/or slopes)</a></li>
+</ul></li>
+<li class="chapter" data-level="20.7" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#multilevel-modelling-with-random-intercepts-and-slopes"><i class="fa fa-check"></i><b>20.7</b> Multilevel modelling with random intercepts and slopes</a><ul>
+<li class="chapter" data-level="20.7.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#overview-of-the-data-set"><i class="fa fa-check"></i><b>20.7.1</b> Overview of the data set</a></li>
+<li class="chapter" data-level="20.7.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#prepare"><i class="fa fa-check"></i><b>20.7.2</b> Prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="20.8" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#random-slopes-intercepts-and-cross-level-interactions-optional"><i class="fa fa-check"></i><b>20.8</b> Random slopes, intercepts and cross level interactions (optional)</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="testing-the-assumptions.html"><a href="testing-the-assumptions.html"><i class="fa fa-check"></i><b>21</b> Testing the assumptions</a></li>
+<li class="chapter" data-level="22" data-path="coffee-break.html"><a href="coffee-break.html"><i class="fa fa-check"></i><b>22</b> Coffee break</a></li>
+<li class="chapter" data-level="23" data-path="logistic-setting.html"><a href="logistic-setting.html"><i class="fa fa-check"></i><b>23</b> Logistic setting</a><ul>
+<li class="chapter" data-level="23.1" data-path="logistic-setting.html"><a href="logistic-setting.html#simple-example-1"><i class="fa fa-check"></i><b>23.1</b> Simple Example</a><ul>
+<li class="chapter" data-level="23.1.1" data-path="logistic-setting.html"><a href="logistic-setting.html#optional-odds-refresher"><i class="fa fa-check"></i><b>23.1.1</b> Optional (Odds Refresher)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="now-for-advanced-logistic-mixed-effects.html"><a href="now-for-advanced-logistic-mixed-effects.html"><i class="fa fa-check"></i><b>24</b> Now for Advanced: logistic mixed effects</a></li>
+<li class="chapter" data-level="25" data-path="now-over-to-you.html"><a href="now-over-to-you.html"><i class="fa fa-check"></i><b>25</b> Now, over to you!</a><ul>
+<li class="chapter" data-level="25.1" data-path="now-over-to-you.html"><a href="now-over-to-you.html#data-description"><i class="fa fa-check"></i><b>25.1</b> Data Description</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html"><i class="fa fa-check"></i><b>26</b> Introduction to Bayesian Estimation</a><ul>
+<li class="chapter" data-level="26.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#intro-to-bayesian-estimation"><i class="fa fa-check"></i><b>26.1</b> Intro to Bayesian estimation</a><ul>
+<li class="chapter" data-level="26.1.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#data-sets-2"><i class="fa fa-check"></i><b>26.1.1</b> Data sets</a></li>
+</ul></li>
+<li class="chapter" data-level="26.2" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bayes-inference-and-one-sample-t-test"><i class="fa fa-check"></i><b>26.2</b> Bayes inference and one-sample t-test</a></li>
+<li class="chapter" data-level="26.3" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#difference-between-two-groups-means"><i class="fa fa-check"></i><b>26.3</b> Difference between two groups’ means</a></li>
+<li class="chapter" data-level="26.4" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bayes-factor-example"><i class="fa fa-check"></i><b>26.4</b> Bayes Factor Example</a></li>
+<li class="chapter" data-level="26.5" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bayes-factor-and-anova"><i class="fa fa-check"></i><b>26.5</b> Bayes Factor and Anova</a><ul>
+<li class="chapter" data-level="26.5.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#exercise-2"><i class="fa fa-check"></i><b>26.5.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="26.6" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#linear-models-with-bas"><i class="fa fa-check"></i><b>26.6</b> Linear models with BAS</a><ul>
+<li class="chapter" data-level="26.6.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bic-and-r-squared"><i class="fa fa-check"></i><b>26.6.1</b> BIC and R squared</a></li>
+</ul></li>
+<li class="chapter" data-level="26.7" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#predictions-from-bas.lm"><i class="fa fa-check"></i><b>26.7</b> Predictions from bas.lm</a></li>
+<li class="chapter" data-level="26.8" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#examining-and-presenting-results"><i class="fa fa-check"></i><b>26.8</b> Examining and presenting results</a></li>
+<li class="chapter" data-level="26.9" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bayesian-mixed-methods-example-optional"><i class="fa fa-check"></i><b>26.9</b> Bayesian Mixed methods example (Optional)</a><ul>
+<li class="chapter" data-level="26.9.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#data"><i class="fa fa-check"></i><b>26.9.1</b> Data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="diy-2.html"><a href="diy-2.html"><i class="fa fa-check"></i><b>27</b> DIY</a><ul>
+<li class="chapter" data-level="27.1" data-path="diy-2.html"><a href="diy-2.html#extra-resources-to-check"><i class="fa fa-check"></i><b>27.1</b> Extra Resources to check</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="extra-resources.html"><a href="extra-resources.html"><i class="fa fa-check"></i><b>28</b> Extra Resources</a><ul>
+<li class="chapter" data-level="28.1" data-path="extra-resources.html"><a href="extra-resources.html#more-r-practice"><i class="fa fa-check"></i><b>28.1</b> More R practice</a></li>
+<li class="chapter" data-level="28.2" data-path="extra-resources.html"><a href="extra-resources.html#data-cleaning-1"><i class="fa fa-check"></i><b>28.2</b> Data Cleaning</a></li>
+<li class="chapter" data-level="28.3" data-path="extra-resources.html"><a href="extra-resources.html#visualisations-1"><i class="fa fa-check"></i><b>28.3</b> Visualisations</a></li>
+<li class="chapter" data-level="28.4" data-path="extra-resources.html"><a href="extra-resources.html#other-common-methods-in-r"><i class="fa fa-check"></i><b>28.4</b> Other Common Methods in R</a></li>
+<li class="chapter" data-level="28.5" data-path="extra-resources.html"><a href="extra-resources.html#big-data"><i class="fa fa-check"></i><b>28.5</b> Big Data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PPLS PhD Training Workshop: Statistics and R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction-to-bayesian-estimation" class="section level1">
+<h1><span class="header-section-number">Chapter 26</span> Introduction to Bayesian Estimation</h1>
+<p>In this section we will cover:</p>
+<ul>
+<li>Intro to Bayesian estimation</li>
+<li>Hypothesis testing and Bayes Factor</li>
+<li>Simple Linear Model in Bayesian Setting</li>
+<li>Visualisations for Bayes</li>
+<li>Other Extensions</li>
+</ul>
+<div id="intro-to-bayesian-estimation" class="section level2">
+<h2><span class="header-section-number">26.1</span> Intro to Bayesian estimation</h2>
+<p>Before we get into R let us first provide an overview about the differences in thinking and how we approach probability and uncertainty in both frequentist and Bayesian settings. You may need to be equipped with the basics of probability and conditional probability to follow whats going on, but we will quickly overview those at the start.</p>
+<p>You can find the slides <a href="https://anaushakova.files.wordpress.com/2019/06/bayes_slides-handout.pdf">here</a>.</p>
+<p>Now we have seen a bit of conceptual differences and concepts definitions we can finally try some staff in R. We try where possible use the examples from the chapter 2. In general, you find that the data we use is quite generic but that will hopefully help in communicating the concepts.</p>
+<p>In R, there are quite a lot of ways to do Bayesian statistics. During past months the volume of resources have grown so it is quite easy to get lost in the abundance of packages and tutorials. Whether its a good news or bad news, its up to you to decide. In fact, depending on the modelling technique you want to use you may find that certain packages will be more useful than others. Here, we will review just a few, yet the ones we picked (‘bayesian inference’ (Hypothesis testing), ‘brms’ (Bayesian LMER), ‘BAS’(Bayesian LM) and ‘BayesFactor’ (Bayes ANOVA) ) are perhaps the most intuitive and easiest to navigate. We will provide few other recommendations at the end of the chapter.</p>
+<div id="data-sets-2" class="section level3">
+<h3><span class="header-section-number">26.1.1</span> Data sets</h3>
+<p>The data sets that we will need externally can be downloaded <a href="https://anaushakova.files.wordpress.com/2019/06/data_part4.zip">here</a>.</p>
+<p>We will start by getting some data in R and doing simple analysis. Most of our examples will be based on uniform priors. You will find that , especially, when working with more complex models you may need to have a very clear picture of prior distribution (i.e. fixed effects prior dist.) - these will require more advanced knowledge. Whilst we will not have a chance to cover those yet, please have a look at further resources at the end of the chapter where you can learn much more about those.</p>
+</div>
+</div>
+<div id="bayes-inference-and-one-sample-t-test" class="section level2">
+<h2><span class="header-section-number">26.2</span> Bayes inference and one-sample t-test</h2>
+<p>Thanks to amazing package <code>statsr</code> it doesn’t take much effort for one to perform a quick bayesian inference analysis using a quick line of code.</p>
+<p>We will use for calculating Credible Intervals and providing quick visualizations. Do not worry too much yet about all the parameters related to the type of distribution. We would like to start by working with some examples we already saw in part of the course and we will be mainly working with normal distributions conjugates.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(statsr)</code></pre>
+<p>We will use the example we had last week. Remember, we have generated the distribution of grades and we were testing the chances of observing various means under the null distribution:</p>
+<pre class="sourceCode r"><code class="sourceCode r">grades&lt;-<span class="kw">c</span>(<span class="dv">63</span>, <span class="dv">68</span>, <span class="dv">72</span>, <span class="dv">53</span>, <span class="dv">43</span>, <span class="dv">59</span>, <span class="dv">56</span>, <span class="dv">58</span>, <span class="dv">76</span>, <span class="dv">54</span>, <span class="dv">46</span>, <span class="dv">62</span>, <span class="dv">58</span>, <span class="dv">54</span>, <span class="dv">45</span>, 
+          <span class="dv">53</span>, <span class="dv">82</span>, <span class="dv">69</span>, <span class="dv">51</span>, <span class="dv">58</span>, <span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">73</span>, <span class="dv">62</span>, <span class="dv">56</span>, <span class="dv">60</span>, <span class="dv">53</span>, <span class="dv">61</span>, <span class="dv">56</span>,
+          <span class="dv">43</span>, <span class="dv">39</span>, <span class="dv">61</span>, <span class="dv">68</span>, <span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">58</span>, <span class="dv">61</span>, <span class="dv">63</span>, <span class="dv">59</span>, <span class="dv">58</span>, <span class="dv">73</span>, <span class="dv">54</span>, <span class="dv">55</span>, <span class="dv">57</span>, <span class="dv">62</span>, <span class="dv">71</span>, <span class="dv">58</span>, <span class="dv">84</span>, <span class="dv">68</span>)
+grades&lt;-<span class="kw">as.data.frame</span>(grades)
+<span class="kw">summary</span>(grades)</code></pre>
+<pre><code>##      grades     
+##  Min.   :39.00  
+##  1st Qu.:54.00  
+##  Median :58.50  
+##  Mean   :59.36  
+##  3rd Qu.:62.75  
+##  Max.   :84.00</code></pre>
+<p>The above summary is our data or evidence about grades that we collected this year and it will form our posterior probability distribution. We may all have some prior beliefs what it may look like and we can then change our mind if the evidence is far off from what we thought the grades will be. I personally expected grades to vary but mean would be somewhere around 60. Recall the ideas of elicitation we were considering earlier and how we should updated our self-elicit priors as we observe data.</p>
+<pre class="sourceCode r"><code class="sourceCode r">grades_posterior =<span class="st"> </span><span class="kw">bayes_inference</span>(<span class="dt">y =</span> grades, <span class="dt">data =</span> grades, 
+                              <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;ci&quot;</span>,  <span class="co">#use &quot;ci&#39; to calculate credible intervals</span>
+                              <span class="dt">prior_family =</span> <span class="st">&quot;JZS&quot;</span>, <span class="dt">null=</span><span class="dv">60</span>, <span class="dt">rscale =</span> <span class="dv">1</span>,
+                              <span class="dt">method =</span> <span class="st">&quot;simulation&quot;</span>,
+                              <span class="dt">cred_level =</span> <span class="fl">0.95</span>)</code></pre>
+<pre><code>## Single numerical variable
+## n = 50, y-bar = 59.36, s = 9.4906
+## (Assuming Zellner-Siow Cauchy prior:  mu | sigma^2 ~ C(60, 1*sigma)
+## (Assuming improper Jeffreys prior: p(sigma^2) = 1/sigma^2
+## 
+## Posterior Summaries
+##              2.5%        25%       50%       75%    97.5%
+## mu    56.55297521 58.3772633 59.292935 60.225940 61.97944
+## sigma  7.99551401  9.0114549  9.667244 10.370244 11.99068
+## n_0    0.06254174  0.7227023  1.797462  3.699337 10.39609
+## 
+## 95% CI for mu: (56.553, 61.9794)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-306-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>We can change now to hypothesis testing setting and vary our priors about the mean via <code>null=...</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">grades_posterior =<span class="st"> </span><span class="kw">bayes_inference</span>(<span class="dt">y =</span> grades, <span class="dt">data =</span> grades, 
+                              <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;ht&quot;</span>, <span class="co">#ht allows to have a hypothsis testing setting </span>
+                               <span class="dt">null=</span><span class="dv">62</span>,
+                             <span class="dt">alternative=</span><span class="st">&#39;twosided&#39;</span>) </code></pre>
+<pre><code>## Warning in if (is.na(which_method)) {: the condition has length &gt; 1 and
+## only the first element will be used</code></pre>
+<pre><code>## Single numerical variable
+## n = 50, y-bar = 59.36, s = 9.4906
+## (Using Zellner-Siow Cauchy prior:  mu ~ C(62, 1*sigma)
+## (Using Jeffreys prior: p(sigma^2) = 1/sigma^2
+## 
+## Hypotheses:
+## H1: mu = 62 versus H2: mu != 62
+## Priors:
+## P(H1) = 0.5 , P(H2) = 0.5
+## Results:
+## BF[H1:H2] = 1.4487
+## P(H1|data) = 0.5916  P(H2|data) = 0.4084 
+## 
+## Posterior summaries for mu under H2:
+## Single numerical variable
+## n = 50, y-bar = 59.36, s = 9.4906
+## (Assuming Zellner-Siow Cauchy prior:  mu | sigma^2 ~ C(62, 1*sigma)
+## (Assuming improper Jeffreys prior: p(sigma^2) = 1/sigma^2
+## 
+## Posterior Summaries
+##              2.5%        25%       50%       75%    97.5%
+## mu    56.56991016 58.3768868 59.298353 60.218085 62.01873
+## sigma  7.99309544  9.0195344  9.652150 10.359955 11.96532
+## n_0    0.06482948  0.7369134  1.790951  3.631447 10.13694
+## 
+## 95% CI for mu: (56.5699, 62.0187)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-307-1.png" width="672" /></p>
+<p>We can check what we have in store of the object, most of these are appearing above:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Use names</span>
+<span class="kw">names</span>(grades_posterior) <span class="co">#check whats inside</span></code></pre>
+<pre><code>##  [1] &quot;hypothesis_prior&quot; &quot;order&quot;            &quot;O&quot;               
+##  [4] &quot;BF&quot;               &quot;PO&quot;               &quot;post_H1&quot;         
+##  [7] &quot;post_H2&quot;          &quot;mu&quot;               &quot;post_den&quot;        
+## [10] &quot;cred_level&quot;       &quot;post_mean&quot;        &quot;post_sd&quot;         
+## [13] &quot;ci&quot;               &quot;samples&quot;          &quot;summary&quot;         
+## [16] &quot;plot&quot;</code></pre>
+<p>Unlike in frequents cases, our output would provide us with the overview of support for each of the competing hypothesis. In some applications, such results might be a more pragmatic way to comment on significance rather then using traditionally based on p-values. There is also no need to be bounded to the language of <code>rejecting the null</code>.</p>
+</div>
+<div id="difference-between-two-groups-means" class="section level2">
+<h2><span class="header-section-number">26.3</span> Difference between two groups’ means</h2>
+<p>We can use a simple example to show you how we can test for difference in two means using <code>bayesian_inference</code>. We can again use some data on the revenues of the books we were trying to sell from this course. We collected the data for two variables one will be our sales before running the course and one after, we want to check if there are significant differences. I got some data on our revenues before and after the course, I collected some priors about what people thought should happen - given that some did not really like our book and some thought that it will be sold out in no time :)</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Read the data in</span>
+revenue&lt;-<span class="kw">read.csv</span>(<span class="st">&#39;revenue.csv&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Quick visualisation</span>
+<span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>(revenue, <span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> revenue)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-310-1.png" width="672" />
+We did a bit better after the course finished. Looking at the visualisition, clearly, there are no overlaps and we should be fairly confidently observing differences in the revenues for these two groups.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run frequentist test first</span>
+<span class="kw">t.test</span>(revenue<span class="op">~</span>time, <span class="dt">data=</span>revenue)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  revenue by time
+## t = 9.0171, df = 48.446, p-value = 6.159e-12
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##   71.14586 111.96683
+## sample estimates:
+##  mean in group after mean in group before 
+##             293.3531             201.7967</code></pre>
+<p>And now lets check what we get if we were to set a uniform prior and perform a Bayesian analysis instead, the competing hypotheses are:</p>
+<p><span class="math display">\[ H_1: \mu_{\text{before}} = \mu_{\text{after}}\qquad \Longrightarrow \qquad H_1: \mu_{\text{diff}} = 0, \]</span></p>
+<p><span class="math display">\[ H_2: \mu_{\text{before}} \neq \mu_{\text{after}}\qquad \Longrightarrow \qquad H_1: \mu_{\text{diff}} \neq 0, \]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bayes_inference</span>(<span class="dt">y =</span> revenue, <span class="dt">x =</span> time, <span class="dt">data =</span> revenue, 
+                <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, 
+                <span class="dt">type =</span> <span class="st">&quot;ht&quot;</span>, <span class="dt">alternative =</span> <span class="st">&quot;twosided&quot;</span>, <span class="dt">null =</span> <span class="dv">0</span>, <span class="co">#null for hypothesis test</span>
+                <span class="dt">prior =</span> <span class="st">&quot;JZS&quot;</span>, <span class="dt">rscale =</span> <span class="dv">1</span>, <span class="co"># these are realted to our prior distribution (go with the defaul if working under normal)</span>
+                <span class="dt">method =</span> <span class="st">&quot;theoretical&quot;</span>, <span class="co"># we can use quantile based inference or simulation (&#39;simulation&#39;)</span>
+                <span class="dt">show_plot =</span> <span class="ot">TRUE</span>) <span class="co"># we can hide plot if we want to</span></code></pre>
+<pre><code>## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_after = 30, y_bar_after = 293.3531, s_after = 47.257
+## n_before = 30, y_bar_before = 201.7967, s_before = 29.3205
+## (Assuming Zellner-Siow Cauchy prior on the difference of means. )
+## (Assuming independent Jeffreys prior on the overall mean and variance. )
+## Hypotheses:
+## H1: mu_after  = mu_before
+## H2: mu_after != mu_before
+## 
+## Priors: P(H1) = 0.5  P(H2) = 0.5 
+## 
+## Results:
+## BF[H2:H1] = 5595513029
+## P(H1|data) = 0 
+## P(H2|data) = 1 
+## 
+## Posterior summaries for under H2:
+## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_after = 30, y_bar_after = 293.3531, s_after = 47.257
+## n_before = 30, y_bar_before = 201.7967, s_before = 29.3205
+## (Assuming Zellner-Siow Cauchy prior for difference in means)
+## (Assuming independent Jeffrey&#39;s priors for overall mean and variance)
+## 
+## 
+## Posterior Summaries
+##                              2.5%         25%        50%         75%
+## overall mean          237.4241072  244.096652  247.56597  251.008586
+## mu_after - mu_before   69.2984107   82.363588   89.48975   96.635845
+## sigma^2              1119.8176265 1399.667812 1583.37722 1797.687180
+## effect size             1.6034912    2.022579    2.25179    2.481296
+## n_0                     0.4548788    5.473153   13.63814   27.820123
+##                            97.5%
+## overall mean          257.817907
+## mu_after - mu_before  109.844025
+## sigma^2              2333.783150
+## effect size             2.914491
+## n_0                    80.015784
+## 95% Cred. Int.: (69.2984 , 109.844)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-312-1.png" width="672" /></p>
+<p>We have a very strong evidence for Hypothesis 2 being true given the data but check quickly Bayes factor as well.</p>
+<p>What if we had different priors:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bayes_inference</span>(<span class="dt">y =</span> revenue, <span class="dt">x =</span> time, <span class="dt">data =</span> revenue, 
+                <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, 
+                <span class="dt">type =</span> <span class="st">&quot;ht&quot;</span>, <span class="dt">alternative =</span> <span class="st">&quot;twosided&quot;</span>, <span class="dt">null =</span> <span class="dv">0</span>,  <span class="dt">hypothesis_prior =</span> <span class="kw">c</span>(<span class="dt">H1=</span><span class="fl">0.9</span>, <span class="dt">H2=</span><span class="fl">0.1</span>),
+                <span class="dt">prior =</span> <span class="st">&quot;JZS&quot;</span>, <span class="dt">rscale =</span> <span class="dv">1</span>,
+                <span class="dt">method =</span> <span class="st">&quot;theoretical&quot;</span>, 
+                <span class="dt">show_plot =</span> <span class="ot">TRUE</span>) </code></pre>
+<pre><code>## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_after = 30, y_bar_after = 293.3531, s_after = 47.257
+## n_before = 30, y_bar_before = 201.7967, s_before = 29.3205
+## (Assuming Zellner-Siow Cauchy prior on the difference of means. )
+## (Assuming independent Jeffreys prior on the overall mean and variance. )
+## Hypotheses:
+## H1: mu_after  = mu_before
+## H2: mu_after != mu_before
+## 
+## Priors: P(H1) = 0.9  P(H2) = 0.1 
+## 
+## Results:
+## BF[H2:H1] = 5595513029
+## P(H1|data) = 0 
+## P(H2|data) = 1 
+## 
+## Posterior summaries for under H2:
+## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_after = 30, y_bar_after = 293.3531, s_after = 47.257
+## n_before = 30, y_bar_before = 201.7967, s_before = 29.3205
+## (Assuming Zellner-Siow Cauchy prior for difference in means)
+## (Assuming independent Jeffrey&#39;s priors for overall mean and variance)
+## 
+## 
+## Posterior Summaries
+##                              2.5%         25%         50%         75%
+## overall mean          237.5660587  244.084966  247.554386  251.157404
+## mu_after - mu_before   69.4249348   82.424880   89.613029   96.478308
+## sigma^2              1119.4360349 1395.303458 1579.328682 1795.357631
+## effect size             1.6065140    2.026853    2.252328    2.485366
+## n_0                     0.4505696    5.599073   13.596544   27.986252
+##                            97.5%
+## overall mean          257.806226
+## mu_after - mu_before  109.970704
+## sigma^2              2338.957431
+## effect size             2.917952
+## n_0                    81.311643
+## 95% Cred. Int.: (69.4249 , 109.9707)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-313-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bayes_inference</span>(<span class="dt">y =</span> revenue, <span class="dt">x =</span> time, <span class="dt">data =</span> revenue, 
+                <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, 
+                <span class="dt">type =</span> <span class="st">&quot;ci&quot;</span>, <span class="dt">alternative =</span> <span class="st">&quot;twosided&quot;</span>, <span class="dt">null =</span> <span class="dv">0</span>, 
+                <span class="dt">prior =</span> <span class="st">&quot;JZS&quot;</span>, <span class="dt">rscale =</span> <span class="dv">1</span>, 
+                <span class="dt">method =</span> <span class="st">&quot;simulation&quot;</span>, <span class="dt">show_plot =</span> <span class="ot">TRUE</span>)</code></pre>
+<pre><code>## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_after = 30, y_bar_after = 293.3531, s_after = 47.257
+## n_before = 30, y_bar_before = 201.7967, s_before = 29.3205
+## (Assuming Zellner-Siow Cauchy prior for difference in means)
+## (Assuming independent Jeffrey&#39;s priors for overall mean and variance)
+## 
+## 
+## Posterior Summaries
+##                              2.5%         25%         50%         75%
+## overall mean          237.2011675  244.165056  247.515701  251.008790
+## mu_after - mu_before   68.6313860   82.315259   89.441286   96.336399
+## sigma^2              1117.2271225 1396.532818 1586.165242 1793.071786
+## effect size             1.5881816    2.021066    2.249806    2.479735
+## n_0                     0.4853595    5.542992   13.738701   28.521343
+##                            97.5%
+## overall mean          257.555526
+## mu_after - mu_before  109.486919
+## sigma^2              2316.905207
+## effect size             2.914246
+## n_0                    80.510332
+## 95% Cred. Int.: (68.6314 , 109.4869)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-314-1.png" width="672" /></p>
+<p>What if we had smaller sample, I ll pick sample of 25:</p>
+<pre class="sourceCode r"><code class="sourceCode r">revenue_sample1&lt;-revenue[<span class="kw">sample</span>(<span class="kw">nrow</span>(revenue), <span class="dv">25</span>), ]</code></pre>
+<p>Pretty much same setting below:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bayes_inference</span>(<span class="dt">y =</span> revenue, <span class="dt">x =</span> time, <span class="dt">data =</span> revenue_sample1, 
+                <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, 
+                <span class="dt">type =</span> <span class="st">&quot;ht&quot;</span>, <span class="dt">alternative =</span> <span class="st">&quot;twosided&quot;</span>, <span class="dt">null =</span> <span class="dv">0</span>, 
+                <span class="dt">prior =</span> <span class="st">&quot;JZS&quot;</span>, <span class="dt">rscale =</span> <span class="dv">1</span>, 
+                <span class="dt">method =</span> <span class="st">&quot;theoretical&quot;</span>, <span class="dt">show_plot =</span> <span class="ot">FALSE</span>)</code></pre>
+<pre><code>## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_after = 14, y_bar_after = 285.0834, s_after = 57.9366
+## n_before = 11, y_bar_before = 209.6601, s_before = 14.6336
+## (Assuming Zellner-Siow Cauchy prior on the difference of means. )
+## (Assuming independent Jeffreys prior on the overall mean and variance. )
+## Hypotheses:
+## H1: mu_after  = mu_before
+## H2: mu_after != mu_before
+## 
+## Priors: P(H1) = 0.5  P(H2) = 0.5 
+## 
+## Results:
+## BF[H2:H1] = 83.9787
+## P(H1|data) = 0.0118 
+## P(H2|data) = 0.9882</code></pre>
+<p>On a smaller sample, certainty is a bit lower but still very strong!The reason being that we indeed have quite different distributions we are dealing with here.</p>
+<p>Lets do one more:</p>
+<pre class="sourceCode r"><code class="sourceCode r">revenue_sample2&lt;-revenue[<span class="kw">sample</span>(<span class="kw">nrow</span>(revenue), <span class="dv">8</span>), ]</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bayes_inference</span>(<span class="dt">y =</span> revenue, <span class="dt">x =</span> time, <span class="dt">data =</span> revenue_sample2, 
+                <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, <span class="co">#you can change it depending on which distribution you are working with</span>
+                <span class="dt">type =</span> <span class="st">&quot;ht&quot;</span>, <span class="co">#allows us to perform hypothesis testing</span>
+                <span class="dt">alternative =</span> <span class="st">&quot;twosided&quot;</span>, <span class="dt">null =</span> <span class="dv">0</span>, 
+                <span class="dt">prior =</span> <span class="st">&quot;JZS&quot;</span>, <span class="dt">rscale =</span> <span class="dv">1</span>,  
+                <span class="dt">method =</span> <span class="st">&quot;theoretical&quot;</span>, <span class="dt">show_plot =</span> <span class="ot">FALSE</span>) <span class="co">#vary the plot argument, by default it will always show you some info about CIs</span></code></pre>
+<pre><code>## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_after = 5, y_bar_after = 273.3182, s_after = 62.2517
+## n_before = 3, y_bar_before = 175.6248, s_before = 21.237
+## (Assuming Zellner-Siow Cauchy prior on the difference of means. )
+## (Assuming independent Jeffreys prior on the overall mean and variance. )
+## Hypotheses:
+## H1: mu_after  = mu_before
+## H2: mu_after != mu_before
+## 
+## Priors: P(H1) = 0.5  P(H2) = 0.5 
+## 
+## Results:
+## BF[H2:H1] = 2.1961
+## P(H1|data) = 0.3129 
+## P(H2|data) = 0.6871</code></pre>
+<p>Note that we are slightly uncertain now and we have a right to do so given that we may have not collected enough evidence to be hundred percent sure. Although with a simple t test, you will get quite a confident answer.</p>
+<p>Lets check with a sample test.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(revenue<span class="op">~</span>time, <span class="dt">data=</span>revenue_sample2)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  revenue by time
+## t = 3.2115, df = 5.3032, p-value = 0.0218
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##   20.82134 174.56537
+## sample estimates:
+##  mean in group after mean in group before 
+##             273.3182             175.6248</code></pre>
+<p>Yet if you look at actual t-test you have evidence to reject you null at alpha=0.01. Tricky here but hopefully you can see how Bayesian may offer you a bit of a pragmatic vision on a smaller sample.</p>
+</div>
+<div id="bayes-factor-example" class="section level2">
+<h2><span class="header-section-number">26.4</span> Bayes Factor Example</h2>
+<p>The other criteria which may motivate the test beyond the sample size its the variance in your groups. Check out the example below on a different dataset. We will use the data on newborns weights from the package. You can use the dataset to practice other methods in Bayesian setting (i.e.lm() or BayesFactor() ). The example was adapted from <a href="https://statswithr.github.io/book/index.html">Clyde et al (2019) Introduction to Baeysian Thinking</a></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Read data in (available via package)</span>
+weight&lt;-nc</code></pre>
+<p>Brief description of the data:</p>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="73%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>variable</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>fage</code></td>
+<td>father’s age in years.</td>
+</tr>
+<tr class="even">
+<td><code>mage</code></td>
+<td>mother’s age in years.</td>
+</tr>
+<tr class="odd">
+<td><code>mature</code></td>
+<td>maturity status of mother.</td>
+</tr>
+<tr class="even">
+<td><code>weeks</code></td>
+<td>length of pregnancy in weeks.</td>
+</tr>
+<tr class="odd">
+<td><code>premie</code></td>
+<td>whether the birth was classified as premature (premie) or full-term.</td>
+</tr>
+<tr class="even">
+<td><code>visits</code></td>
+<td>number of hospital visits during pregnancy.</td>
+</tr>
+<tr class="odd">
+<td><code>marital</code></td>
+<td>whether mother is <code>married</code> or <code>not married</code> at birth.</td>
+</tr>
+<tr class="even">
+<td><code>gained</code></td>
+<td>weight gained by mother during pregnancy in pounds.</td>
+</tr>
+<tr class="odd">
+<td><code>weight</code></td>
+<td>weight of the baby at birth in pounds.</td>
+</tr>
+<tr class="even">
+<td><code>lowbirthweight</code></td>
+<td>whether baby was classified as low birthweight (<code>low</code>) or not (<code>not low</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>gender</code></td>
+<td>gender of the baby, <code>female</code> or <code>male</code>.</td>
+</tr>
+<tr class="even">
+<td><code>habit</code></td>
+<td>status of the mother as a <code>nonsmoker</code> or a <code>smoker</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>whitemom</code></td>
+<td>whether mom is <code>white</code> or <code>not white</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>We will focus on testing whether smoking has any impact on new-born weight. We will need first to specify that we are looking at the full-term mothers only. Note that we have unbalanced sample in terms of variable <code>habit</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">weight_fullterm &lt;-<span class="st"> </span><span class="kw">subset</span>(weight, premie <span class="op">==</span><span class="st"> &#39;full term&#39;</span>)
+<span class="kw">summary</span>(weight_fullterm)</code></pre>
+<pre><code>##       fage            mage            mature        weeks      
+##  Min.   :14.00   Min.   :13   mature mom :109   Min.   :37.00  
+##  1st Qu.:25.00   1st Qu.:22   younger mom:737   1st Qu.:38.00  
+##  Median :30.00   Median :27                     Median :39.00  
+##  Mean   :30.24   Mean   :27                     Mean   :39.25  
+##  3rd Qu.:35.00   3rd Qu.:32                     3rd Qu.:40.00  
+##  Max.   :50.00   Max.   :50                     Max.   :45.00  
+##  NA&#39;s   :132                                                   
+##        premie        visits             marital        gained     
+##  full term:846   Min.   : 0.00   married    :312   Min.   : 0.00  
+##  premie   :  0   1st Qu.:10.00   not married:534   1st Qu.:22.00  
+##                  Median :12.00                     Median :30.00  
+##                  Mean   :12.35                     Mean   :31.13  
+##                  3rd Qu.:15.00                     3rd Qu.:40.00  
+##                  Max.   :30.00                     Max.   :85.00  
+##                  NA&#39;s   :6                         NA&#39;s   :19     
+##      weight       lowbirthweight    gender          habit    
+##  Min.   : 3.750   low    : 30    female:431   nonsmoker:739  
+##  1st Qu.: 6.750   not low:816    male  :415   smoker   :107  
+##  Median : 7.440                                              
+##  Mean   : 7.459                                              
+##  3rd Qu.: 8.190                                              
+##  Max.   :11.750                                              
+##                                                              
+##       whitemom  
+##  not white:228  
+##  white    :616  
+##  NA&#39;s     :  2  
+##                 
+##                 
+##                 
+## </code></pre>
+<p>Lets do some quick visualisations:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>(<span class="dt">data =</span> weight_fullterm, <span class="kw">aes</span>(<span class="dt">x =</span> gained)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">5</span>)</code></pre>
+<pre><code>## Warning: Removed 19 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="bookdown-demo_files/figure-html/hist-weight-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(weight_fullterm, <span class="kw">aes</span>(<span class="dt">x =</span> habit, <span class="dt">y =</span> weight)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-322-1.png" width="672" /></p>
+<p>Note that in the example above there are overlaps across the two distributions. We can use familiar test specification to test what would be the chances to observe the difference between the two. Same competing hypotheses as before:</p>
+<p><span class="math display">\[ H_1: \mu_{\text{before}} = \mu_{\text{after}}\qquad \Longrightarrow \qquad H_1: \mu_{\text{diff}} = 0, \]</span></p>
+<p><span class="math display">\[ H_2: \mu_{\text{before}} \neq \mu_{\text{after}}\qquad \Longrightarrow \qquad H_1: \mu_{\text{diff}} \neq 0, \]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bayes_inference</span>(<span class="dt">y =</span> weight, <span class="dt">x =</span> habit, <span class="dt">data =</span> weight_fullterm, 
+                <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, 
+                <span class="dt">type =</span> <span class="st">&quot;ht&quot;</span>, <span class="dt">alternative =</span> <span class="st">&quot;twosided&quot;</span>, <span class="dt">null =</span> <span class="dv">0</span>,
+                <span class="dt">hypothesis_prior =</span> <span class="kw">c</span>(<span class="dt">H1 =</span> <span class="fl">0.8</span>, <span class="dt">H2 =</span> <span class="fl">0.2</span>), <span class="co"># note that we can change hypothesis priors (try to vary)</span>
+                <span class="dt">prior =</span> <span class="st">&quot;JZS&quot;</span>, <span class="dt">rscale =</span> <span class="dv">1</span>, 
+                <span class="dt">method =</span> <span class="st">&quot;theoretical&quot;</span>, <span class="dt">show_plot =</span> <span class="ot">FALSE</span>)</code></pre>
+<pre><code>## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_nonsmoker = 739, y_bar_nonsmoker = 7.5011, s_nonsmoker = 1.0833
+## n_smoker = 107, y_bar_smoker = 7.1713, s_smoker = 0.9724
+## (Assuming Zellner-Siow Cauchy prior on the difference of means. )
+## (Assuming independent Jeffreys prior on the overall mean and variance. )
+## Hypotheses:
+## H1: mu_nonsmoker  = mu_smoker
+## H2: mu_nonsmoker != mu_smoker
+## 
+## Priors: P(H1) = 0.8  P(H2) = 0.2 
+## 
+## Results:
+## BF[H2:H1] = 6.237
+## P(H1|data) = 0.3907 
+## P(H2|data) = 0.6093</code></pre>
+<p>Lets compare to the results under uniform priors (make a note of the differences in probability)</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bayes_inference</span>(<span class="dt">y =</span> weight, <span class="dt">x =</span> habit, <span class="dt">data =</span> weight_fullterm, 
+                <span class="dt">statistic =</span> <span class="st">&quot;mean&quot;</span>, 
+                <span class="dt">type =</span> <span class="st">&quot;ht&quot;</span>, <span class="dt">alternative =</span> <span class="st">&quot;twosided&quot;</span>, <span class="dt">null =</span> <span class="dv">0</span>,
+                <span class="dt">hypothesis_prior =</span> <span class="kw">c</span>(<span class="dt">H1 =</span> <span class="fl">0.5</span>, <span class="dt">H2 =</span> <span class="fl">0.5</span>), <span class="co"># note that we can change hypothesis priors (try vary)</span>
+                <span class="dt">prior =</span> <span class="st">&quot;JZS&quot;</span>, <span class="dt">rscale =</span> <span class="dv">1</span>, 
+                <span class="dt">method =</span> <span class="st">&quot;theoretical&quot;</span>, <span class="dt">show_plot =</span> <span class="ot">FALSE</span>)</code></pre>
+<pre><code>## Response variable: numerical, Explanatory variable: categorical (2 levels)
+## n_nonsmoker = 739, y_bar_nonsmoker = 7.5011, s_nonsmoker = 1.0833
+## n_smoker = 107, y_bar_smoker = 7.1713, s_smoker = 0.9724
+## (Assuming Zellner-Siow Cauchy prior on the difference of means. )
+## (Assuming independent Jeffreys prior on the overall mean and variance. )
+## Hypotheses:
+## H1: mu_nonsmoker  = mu_smoker
+## H2: mu_nonsmoker != mu_smoker
+## 
+## Priors: P(H1) = 0.5  P(H2) = 0.5 
+## 
+## Results:
+## BF[H2:H1] = 6.237
+## P(H1|data) = 0.1382 
+## P(H2|data) = 0.8618</code></pre>
+<p>What if we used t-test?</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(weight<span class="op">~</span>habit, weight_fullterm)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  weight by habit
+## t = 3.2303, df = 146.84, p-value = 0.001526
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.1280399 0.5315896
+## sample estimates:
+## mean in group nonsmoker    mean in group smoker 
+##                7.501123                7.171308</code></pre>
+<p>Quite strong evidence for rejecting the null. I personally would go here with Bayesian reasoning, having a bit of uncertainty about both is important.</p>
+</div>
+<div id="bayes-factor-and-anova" class="section level2">
+<h2><span class="header-section-number">26.5</span> Bayes Factor and Anova</h2>
+<p>We can try to use other types of data. Lets try with the <code>dose</code> that we had before:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Load the data</span>
+experiment&lt;-<span class="kw">read.csv</span>(<span class="st">&#39;dose.csv&#39;</span>)
+<span class="co">#Recode as factor</span>
+experiment<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(experiment<span class="op">$</span>dose, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Low_dose&quot;</span>, <span class="st">&quot;High_dose&quot;</span>))</code></pre>
+<p>For two or more groups we can use Bayesfactor to test two competing hypotheses:
+- There are no differences between means in each group, all means are equal
+- At least one of the means is different</p>
+<p>We can test this first with a traditional anova:</p>
+<pre class="sourceCode r"><code class="sourceCode r">anova&lt;-<span class="kw">aov</span>(effect<span class="op">~</span>dose, <span class="dt">data=</span>experiment)
+<span class="kw">summary</span>(anova)</code></pre>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## dose         2  20.13  10.067   5.119 0.0247 *
+## Residuals   12  23.60   1.967                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>We can use BayesFactor now to compare:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(BayesFactor)</code></pre>
+<p>There is a very short specification in this example. However, if you are using repeated measures design you can also specify it using <code>whichRandom</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Set up a simple anova</span>
+ anovaB&lt;-<span class="kw">anovaBF</span>(effect<span class="op">~</span>dose, <span class="dt">data=</span>experiment, <span class="dt">whichRandom =</span> <span class="ot">NULL</span>, <span class="co"># you can adjust this if having random factors</span>
+     <span class="dt">iterations =</span> <span class="dv">10000</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Summarise</span>
+<span class="kw">summary</span>(anovaB)</code></pre>
+<pre><code>## Bayes factor analysis
+## --------------
+## [1] dose : 3.070605 ±0.01%
+## 
+## Against denominator:
+##   Intercept only 
+## ---
+## Bayes factor type: BFlinearModel, JZS</code></pre>
+<p>We can anylyse Bayes factor here instead. Such will allow us to decide whether we are in favour of the null or the alternative given the posterior probability distribution. Remember that Bayes factor is the odds of favouring the alternative (ratio of the likelihood for the alternative, over the null)</p>
+<p>Recall, the interpretation of BF:</p>
+<table>
+<thead>
+<tr class="header">
+<th>BF[H_1:H_2]</th>
+<th>Evidence against H_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 to 3</td>
+<td>Not worth a bare mention</td>
+</tr>
+<tr class="even">
+<td>3 to 20</td>
+<td>Positive</td>
+</tr>
+<tr class="odd">
+<td>20 to 150 Strong</td>
+<td>Strong</td>
+</tr>
+</tbody>
+</table>
+<div id="exercise-2" class="section level3">
+<h3><span class="header-section-number">26.5.1</span> Exercise</h3>
+<p>Why not to try one yourself? Go back to data on new borns weights - explore other relationships in your data using Bayes.</p>
+</div>
+</div>
+<div id="linear-models-with-bas" class="section level2">
+<h2><span class="header-section-number">26.6</span> Linear models with BAS</h2>
+<p>Let us now finally get to linear models. You will find that generally there are lots of similarities when it comes to finding your estimates and fitting line of best fit. However, the crucial difference comes from approach to uncertainty about the error term and most importantly, the model selection process. The example below was also adapted from <a href="https://statswithr.github.io/book/index.html">Clyde et al (2019) Introduction to Baeysian Thinking</a></p>
+<div id="bic-and-r-squared" class="section level3">
+<h3><span class="header-section-number">26.6.1</span> BIC and R squared</h3>
+<p>You know by now that there are few ways we can measure the goodness of fit in linear models. In Bayesian setting BIC will be quite preferred but on that later. Lets get on with the example. We’ll first need to get a new package <code>BAS</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Load BAS</span>
+<span class="kw">library</span>(BAS)</code></pre>
+<p>And lets get a new data set. We will use the one on wages (Wooldrige, 2018) and I am going to create a model which has multiple predictors:</p>
+<table>
+<thead>
+<tr class="header">
+<th>variable</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>wage</code></td>
+<td>weekly earnings (dollars)</td>
+</tr>
+<tr class="even">
+<td><code>hours</code></td>
+<td>average hours worked per week</td>
+</tr>
+<tr class="odd">
+<td><code>iq</code></td>
+<td>IQ score</td>
+</tr>
+<tr class="even">
+<td><code>kww</code></td>
+<td>knowledge of world work score</td>
+</tr>
+<tr class="odd">
+<td><code>educ</code></td>
+<td>number of years of education</td>
+</tr>
+<tr class="even">
+<td><code>exper</code></td>
+<td>years of work experience</td>
+</tr>
+<tr class="odd">
+<td><code>tenure</code></td>
+<td>years with current employer</td>
+</tr>
+<tr class="even">
+<td><code>age</code></td>
+<td>age in years</td>
+</tr>
+<tr class="odd">
+<td><code>married</code></td>
+<td>=1 if married</td>
+</tr>
+<tr class="even">
+<td><code>black</code></td>
+<td>=1 if black</td>
+</tr>
+<tr class="odd">
+<td><code>south</code></td>
+<td>=1 if live in south</td>
+</tr>
+<tr class="even">
+<td><code>urban</code></td>
+<td>=1 if live in a Standard Metropolitan Statistical Area</td>
+</tr>
+<tr class="odd">
+<td><code>sibs</code></td>
+<td>number of siblings</td>
+</tr>
+<tr class="even">
+<td><code>brthord</code></td>
+<td>birth order</td>
+</tr>
+<tr class="odd">
+<td><code>meduc</code></td>
+<td>mother’s education (years)</td>
+</tr>
+<tr class="even">
+<td><code>feduc</code></td>
+<td>father’s education (years)</td>
+</tr>
+<tr class="odd">
+<td><code>lwage</code></td>
+<td>natural log of <code>wage</code></td>
+</tr>
+</tbody>
+</table>
+<p>The data set comes together with <code>statsr</code> package. The illustration below is adapted from the amazing coursera course on Bayesian Statistics which is associated with the book cited above. See further resources for more.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Set the seed (this can be anything really)</span>
+<span class="kw">set.seed</span>(<span class="dv">230290</span>)
+<span class="co">#Load the data</span>
+<span class="kw">data</span>(wage)</code></pre>
+<p>We can explore data a bit, make some plots, check the structure, etc.:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Plot Y</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> wage, <span class="kw">aes</span>(<span class="dt">x =</span> wage)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">70</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-333-1.png" width="672" /></p>
+<p>I also want to check how does wage vary with respect to some common predictors (i.e. hours, IQ, education)</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Plot Y against a predictor (hours)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> wage, <span class="kw">aes</span>(<span class="dt">y =</span> wage,<span class="dt">x=</span>hours)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-334-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Plot Y against a predictor (iq)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> wage, <span class="kw">aes</span>(<span class="dt">y =</span> wage,<span class="dt">x=</span>iq)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-335-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Plot Y against a predictor (educ)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> wage, <span class="kw">aes</span>(<span class="dt">y =</span> wage,<span class="dt">x=</span>educ)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-336-1.png" width="672" /></p>
+<p>Lets focus on <code>iq</code> just for the time being as it seems to vary most and may have some important information with respect to the variability in wages:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#I will add a lm fit here as well (using stat_smooth)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> wage, <span class="kw">aes</span>(<span class="dt">y =</span> wage,<span class="dt">x=</span>iq)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="co">#note that you can vary se =T/F if keen to see the uncertainty</span></code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-337-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run a simple lm</span>
+model_wage&lt;-<span class="kw">lm</span>(lwage<span class="op">~</span>.<span class="op">-</span>wage, <span class="dt">data=</span>wage) <span class="co"># note how I use ~. to include all covariates for now, we use -wage to not include raw variable of wage</span>
+<span class="kw">summary</span>(model_wage)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lwage ~ . - wage, data = wage)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.96887 -0.19460  0.00923  0.22401  1.34185 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  5.156439   0.225286  22.888  &lt; 2e-16 ***
+## hours       -0.006548   0.001934  -3.385 0.000754 ***
+## iq           0.003186   0.001223   2.604 0.009425 ** 
+## kww          0.003735   0.002390   1.562 0.118662    
+## educ         0.041267   0.008942   4.615 4.74e-06 ***
+## exper        0.010749   0.004435   2.424 0.015629 *  
+## tenure       0.007102   0.002894   2.454 0.014401 *  
+## age          0.009107   0.005977   1.524 0.128058    
+## married1     0.200760   0.045998   4.365 1.48e-05 ***
+## black1      -0.105141   0.055667  -1.889 0.059373 .  
+## south1      -0.049076   0.030753  -1.596 0.111019    
+## urban1       0.195658   0.031240   6.263 6.88e-10 ***
+## sibs         0.009619   0.007876   1.221 0.222423    
+## brthord     -0.018465   0.011569  -1.596 0.110975    
+## meduc        0.009633   0.006167   1.562 0.118753    
+## feduc        0.005590   0.005398   1.036 0.300805    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3507 on 647 degrees of freedom
+##   (272 observations deleted due to missingness)
+## Multiple R-squared:  0.2925, Adjusted R-squared:  0.2761 
+## F-statistic: 17.84 on 15 and 647 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Not bad, right? Most of the variables do seem important. Could be few highly correlated as well (iq, educ). I would not be 100% sure that we picked the best ones here. With BAS we can do something a bit more pragmatic, known as incremental Bayesian model selection, check this out below:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run a bayes lm</span>
+<span class="co"># First: clean</span>
+<span class="co">#Exclude observations with missing values in the data set</span>
+wage_clean &lt;-<span class="st"> </span><span class="kw">na.omit</span>(wage)
+<span class="co"># Fit the model using Bayesian linear regression, `bas.lm` </span>
+wage_bayes &lt;-<span class="st"> </span><span class="kw">bas.lm</span>(lwage <span class="op">~</span><span class="st"> </span>. <span class="op">-</span>wage, <span class="dt">data =</span> wage_clean,
+                   <span class="dt">prior =</span> <span class="st">&quot;BIC&quot;</span>, 
+                   <span class="dt">modelprior =</span> <span class="kw">uniform</span>()) <span class="co">#uniform prior specifies that we do not outweight any prior</span>
+
+<span class="co"># Print out the marginal posterior inclusion probabilities for each variable                </span>
+wage_bayes</code></pre>
+<pre><code>## 
+## Call:
+## bas.lm(formula = lwage ~ . - wage, data = wage_clean, prior = &quot;BIC&quot;, 
+##     modelprior = uniform())
+## 
+## 
+##  Marginal Posterior Inclusion Probabilities: 
+## Intercept      hours         iq        kww       educ      exper  
+##   1.00000    0.85540    0.89732    0.34790    0.99887    0.70999  
+##    tenure        age   married1     black1     south1     urban1  
+##   0.70389    0.52468    0.99894    0.34636    0.32029    1.00000  
+##      sibs    brthord      meduc      feduc  
+##   0.04152    0.12241    0.57339    0.23274</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Now we can check the best 5 most probable models:</span>
+<span class="kw">summary</span>(wage_bayes)</code></pre>
+<pre><code>##           P(B != 0 | Y)    model 1       model 2       model 3
+## Intercept    1.00000000     1.0000     1.0000000     1.0000000
+## hours        0.85540453     1.0000     1.0000000     1.0000000
+## iq           0.89732383     1.0000     1.0000000     1.0000000
+## kww          0.34789688     0.0000     0.0000000     0.0000000
+## educ         0.99887165     1.0000     1.0000000     1.0000000
+## exper        0.70999255     0.0000     1.0000000     1.0000000
+## tenure       0.70388781     1.0000     1.0000000     1.0000000
+## age          0.52467710     1.0000     1.0000000     0.0000000
+## married1     0.99894488     1.0000     1.0000000     1.0000000
+## black1       0.34636467     0.0000     0.0000000     0.0000000
+## south1       0.32028825     0.0000     0.0000000     0.0000000
+## urban1       0.99999983     1.0000     1.0000000     1.0000000
+## sibs         0.04152242     0.0000     0.0000000     0.0000000
+## brthord      0.12241286     0.0000     0.0000000     0.0000000
+## meduc        0.57339302     1.0000     1.0000000     1.0000000
+## feduc        0.23274084     0.0000     0.0000000     0.0000000
+## BF                   NA     1.0000     0.5219483     0.5182769
+## PostProbs            NA     0.0455     0.0237000     0.0236000
+## R2                   NA     0.2710     0.2767000     0.2696000
+## dim                  NA     9.0000    10.0000000     9.0000000
+## logmarg              NA -1490.0530 -1490.7032349 -1490.7102938
+##                 model 4       model 5
+## Intercept     1.0000000     1.0000000
+## hours         1.0000000     1.0000000
+## iq            1.0000000     1.0000000
+## kww           1.0000000     0.0000000
+## educ          1.0000000     1.0000000
+## exper         1.0000000     0.0000000
+## tenure        1.0000000     1.0000000
+## age           0.0000000     1.0000000
+## married1      1.0000000     1.0000000
+## black1        0.0000000     1.0000000
+## south1        0.0000000     0.0000000
+## urban1        1.0000000     1.0000000
+## sibs          0.0000000     0.0000000
+## brthord       0.0000000     0.0000000
+## meduc         1.0000000     1.0000000
+## feduc         0.0000000     0.0000000
+## BF            0.4414346     0.4126565
+## PostProbs     0.0201000     0.0188000
+## R2            0.2763000     0.2762000
+## dim          10.0000000    10.0000000
+## logmarg   -1490.8707736 -1490.9381880</code></pre>
+<p>Quite a lot of info! Lets study it very carefully!</p>
+<p>We can also do some quick plots:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(wage_bayes, <span class="dt">ask =</span> F)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-341-1.png" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-341-2.png" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-341-3.png" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-341-4.png" width="672" /></p>
+<p>Note that <strong>0</strong> and <strong>1</strong> suggest you whether predictor should be kept in or not in the model. You can also note R squared values in the main output. Interestingly, Bayes suggest that we may drop, among many, the variables such as kww, sibs, brthord.</p>
+<p>One of the other handy ways to see what would be the choices via BAS is using <code>image()</code>. We can check the rank of the models together with an illustration of which variables may be important to keep. You will find that hours, iq and urban are the only three which show to be valuable to keep in every single model, regardless of the rank.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Use image()</span>
+<span class="kw">image</span>(wage_bayes)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-342-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>When it comes to presenting the results, all of the above can be really handy. You can also perhaps show the overview of models comparison instead of choosing one final one like we did in the previous sections. This is useful in scenarios when you want to evaluate a relative important of certain variable as some theoretically should still be there.</p>
+<p>Remember also, that we have quite Naive prior here - we do not really put any weight on anything before we start - this can be helpful at times but also may not be optimal if theoretically you do believe the other relationship must exist (i.e. can be presented via prior). One addition to the final output would be a table of uncertainty associated with each of the estimates:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Extract the coefficients</span>
+coef_wage &lt;-<span class="st"> </span><span class="kw">coefficients</span>(wage_bayes)
+<span class="co">#  we can focus on IQ to provide some quick visualiation (note: `iq` is the 3rd variable)</span>
+<span class="kw">plot</span>(coef_wage, <span class="dt">subset =</span> <span class="dv">3</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-343-1.png" width="672" />
+What can we say?</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Extract the coefficients</span>
+coef_wage &lt;-<span class="st"> </span><span class="kw">coefficients</span>(wage_bayes)
+<span class="co">#  we can focus on hours isntead to provide some quick visualiation (note: `hours` is the 2nd variable)</span>
+<span class="kw">plot</span>(coef_wage, <span class="dt">subset =</span> <span class="dv">2</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-344-1.png" width="672" /></p>
+<p>We can also just glimpse at the credible intervals for the others just to gauge where our effects are:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Get the CIs</span>
+<span class="kw">confint</span>(coef_wage)</code></pre>
+<pre><code>##                   2.5%       97.5%          beta
+## Intercept  6.787125969 6.840330132  6.8142970694
+## hours     -0.009264429 0.000000000 -0.0053079979
+## iq         0.000000000 0.006269294  0.0037983313
+## kww        0.000000000 0.008426781  0.0019605787
+## educ       0.023178579 0.066087921  0.0440707549
+## exper      0.000000000 0.021075593  0.0100264057
+## tenure     0.000000000 0.012848868  0.0059357058
+## age        0.000000000 0.025541837  0.0089659753
+## married1   0.117613573 0.298830834  0.2092940731
+## black1    -0.190768975 0.000000000 -0.0441863361
+## south1    -0.101937569 0.000000000 -0.0221757978
+## urban1     0.137746068 0.261286962  0.1981221313
+## sibs       0.000000000 0.000000000  0.0000218455
+## brthord   -0.019058583 0.000000000 -0.0019470674
+## meduc      0.000000000 0.022850629  0.0086717156
+## feduc      0.000000000 0.015457295  0.0025125930
+## attr(,&quot;Probability&quot;)
+## [1] 0.95
+## attr(,&quot;class&quot;)
+## [1] &quot;confint.bas&quot;</code></pre>
+<p>Those can be plotted too:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Use plot for confint of coefficients</span>
+<span class="kw">plot</span>(<span class="kw">confint</span>(<span class="kw">coef</span>(wage_bayes), <span class="dt">parm =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">16</span>)) <span class="co">#parm stands for parameters </span></code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-346-1.png" width="672" /></p>
+<pre><code>## NULL</code></pre>
+<p>Make a note of the Bayes factor we found in the main summary and how it changes as we move down the ranking of the models. You can also evaluate carefully the probability of observing <em>Beta!=0 </em> as well whilst we are here.</p>
+<p>Lets try now given the analysis suggestion remove the covariates which seem not to add much to our estimation.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Create reduced dataset</span>
+wage_reduced &lt;-<span class="st"> </span><span class="kw">within</span>(wage, <span class="kw">rm</span>(<span class="st">&#39;wage&#39;</span>, <span class="st">&#39;sibs&#39;</span>, <span class="st">&#39;brthord&#39;</span>, <span class="st">&#39;meduc&#39;</span>, <span class="st">&#39;feduc&#39;</span>, <span class="st">&#39;kww&#39;</span>))
+<span class="kw">str</span>(wage_reduced)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    935 obs. of  11 variables:
+##  $ hours  : int  40 50 40 40 40 40 40 40 45 40 ...
+##  $ iq     : int  93 119 108 96 74 116 91 114 111 95 ...
+##  $ educ   : int  12 18 14 12 11 16 10 18 15 12 ...
+##  $ exper  : int  11 11 11 13 14 14 13 8 13 16 ...
+##  $ tenure : int  2 16 9 7 5 2 0 14 1 16 ...
+##  $ age    : int  31 37 33 32 34 35 30 38 36 36 ...
+##  $ married: Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 2 2 2 2 2 1 2 2 2 ...
+##  $ black  : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 1 1 1 1 2 1 1 1 1 ...
+##  $ south  : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ urban  : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 2 2 2 2 2 2 2 1 2 ...
+##  $ lwage  : num  6.65 6.69 6.72 6.48 6.33 ...</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Lets run a new model</span>
+wage_bayes_reduced &lt;-<span class="st"> </span><span class="kw">bas.lm</span>(lwage <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> wage_reduced,  
+                        <span class="dt">prior =</span> <span class="st">&quot;ZS-null&quot;</span>,
+                        <span class="dt">modelprior =</span> <span class="kw">uniform</span>())
+<span class="kw">summary</span>(wage_bayes_reduced)</code></pre>
+<pre><code>##           P(B != 0 | Y)  model 1     model 2     model 3    model 4
+## Intercept     1.0000000   1.0000   1.0000000   1.0000000   1.000000
+## hours         0.9365342   1.0000   1.0000000   1.0000000   1.000000
+## iq            0.9859702   1.0000   1.0000000   1.0000000   1.000000
+## educ          1.0000000   1.0000   1.0000000   1.0000000   1.000000
+## exper         0.9333596   1.0000   1.0000000   0.0000000   1.000000
+## tenure        0.9989689   1.0000   1.0000000   1.0000000   1.000000
+## age           0.3842205   0.0000   1.0000000   1.0000000   0.000000
+## married1      0.9999821   1.0000   1.0000000   1.0000000   1.000000
+## black1        0.9933565   1.0000   1.0000000   1.0000000   1.000000
+## south1        0.9005810   1.0000   1.0000000   1.0000000   0.000000
+## urban1        1.0000000   1.0000   1.0000000   1.0000000   1.000000
+## BF                   NA   1.0000   0.5290852   0.1110048   0.109291
+## PostProbs            NA   0.5028   0.2660000   0.0558000   0.054900
+## R2                   NA   0.2708   0.2737000   0.2674000   0.263400
+## dim                  NA  10.0000  11.0000000  10.0000000   9.000000
+## logmarg              NA 120.6574 120.0208031 118.4592272 118.443668
+##                model 5
+## Intercept   1.00000000
+## hours       0.00000000
+## iq          1.00000000
+## educ        1.00000000
+## exper       1.00000000
+## tenure      1.00000000
+## age         0.00000000
+## married1    1.00000000
+## black1      1.00000000
+## south1      1.00000000
+## urban1      1.00000000
+## BF          0.07606137
+## PostProbs   0.03820000
+## R2          0.26280000
+## dim         9.00000000
+## logmarg   118.08119408</code></pre>
+<p>Explore the reduced model further by yourself.</p>
+</div>
+</div>
+<div id="predictions-from-bas.lm" class="section level2">
+<h2><span class="header-section-number">26.7</span> Predictions from bas.lm</h2>
+<p>When it comes to predictions we can specify which model we want to use given the results we observed earlier. There are three main choices you have:
+<em>Best Predictive Model</em> (<code>BPM</code>)
+<em>Highest Probability Model</em> (<code>HPM</code>)
+<em>Median Probability Model</em> (<code>MPM</code>)</p>
+<p>Lets try each of these, given that depending how we aces the best model , you can also check variable.names of predicted object to see which variables would be kept:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Store the predictions using BPM</span>
+BPM_pred_wage &lt;-<span class="st"> </span><span class="kw">predict</span>(wage_bayes, <span class="dt">estimator =</span> <span class="st">&quot;BPM&quot;</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)
+<span class="kw">variable.names</span>(BPM_pred_wage) <span class="co">#Check what was kept</span></code></pre>
+<pre><code>##  [1] &quot;Intercept&quot; &quot;hours&quot;     &quot;iq&quot;        &quot;kww&quot;       &quot;educ&quot;     
+##  [6] &quot;exper&quot;     &quot;tenure&quot;    &quot;age&quot;       &quot;married1&quot;  &quot;urban1&quot;   
+## [11] &quot;meduc&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Store the predictions using HPM</span>
+HPM_pred_wage &lt;-<span class="st"> </span><span class="kw">predict</span>(wage_bayes, <span class="dt">estimator =</span> <span class="st">&quot;HPM&quot;</span>)
+<span class="kw">variable.names</span>(HPM_pred_wage)</code></pre>
+<pre><code>## [1] &quot;Intercept&quot; &quot;hours&quot;     &quot;iq&quot;        &quot;educ&quot;      &quot;tenure&quot;    &quot;age&quot;      
+## [7] &quot;married1&quot;  &quot;urban1&quot;    &quot;meduc&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Store the predictions using MPM</span>
+MPM_pred_wage &lt;-<span class="st"> </span><span class="kw">predict</span>(wage_bayes, <span class="dt">estimator =</span> <span class="st">&quot;MPM&quot;</span>)
+<span class="kw">variable.names</span>(MPM_pred_wage)</code></pre>
+<pre><code>##  [1] &quot;Intercept&quot; &quot;hours&quot;     &quot;iq&quot;        &quot;educ&quot;      &quot;exper&quot;    
+##  [6] &quot;tenure&quot;    &quot;age&quot;       &quot;married1&quot;  &quot;urban1&quot;    &quot;meduc&quot;</code></pre>
+<p>Note how the set of variables changes.</p>
+<p>We can do few other things whilst still here. We can evaluate the CIs of individual prediction.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Find the index of observation with the largest fitted value</span>
+opt &lt;-<span class="st"> </span><span class="kw">which.max</span>(BPM_pred_wage<span class="op">$</span>fit)
+
+<span class="co"># Extract the row with this observation and check whats in</span>
+wage_clean [opt,]</code></pre>
+<pre><code>## # A tibble: 1 x 17
+##    wage hours    iq   kww  educ exper tenure   age married black south
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;fct&gt;   &lt;fct&gt; &lt;fct&gt;
+## 1  1586    40   127    48    16    16     12    37 1       0     0    
+## # … with 6 more variables: urban &lt;fct&gt;, sibs &lt;int&gt;, brthord &lt;int&gt;,
+## #   meduc &lt;int&gt;, feduc &lt;int&gt;, lwage &lt;dbl&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">ci_wage &lt;-<span class="st"> </span><span class="kw">confint</span>(BPM_pred_wage, <span class="dt">parm =</span> <span class="st">&quot;pred&quot;</span>)
+ci_wage[opt,]</code></pre>
+<pre><code>##     2.5%    97.5%     pred 
+## 6.661863 8.056457 7.359160</code></pre>
+<p>These are in logs since our model was estimated using lwage.</p>
+<p>We can taransfer back to real values via exp()</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exp</span>(ci_wage[opt,])</code></pre>
+<pre><code>##      2.5%     97.5%      pred 
+##  782.0062 3154.0967 1570.5169</code></pre>
+<p>As the choice of the model dictated prediction, we would also find that our CIs will be slightly different:</p>
+<p>If we were to use BMA, the interval would be:</p>
+<pre class="sourceCode r"><code class="sourceCode r">BMA_pred_wage &lt;-<span class="st"> </span><span class="kw">predict</span>(wage_bayes, <span class="dt">estimator =</span> <span class="st">&quot;BMA&quot;</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)
+ci_bma_wage &lt;-<span class="st"> </span><span class="kw">confint</span>(BMA_pred_wage, <span class="dt">estimator =</span> <span class="st">&quot;BMA&quot;</span>)
+opt_bma &lt;-<span class="st"> </span><span class="kw">which.max</span>(BMA_pred_wage<span class="op">$</span>fit)
+<span class="kw">exp</span>(ci_bma_wage[opt_bma, ])</code></pre>
+<pre><code>##      2.5%     97.5%      pred 
+##  748.1206 3086.3529 1494.9899</code></pre>
+<p>You can go on exploring as much as you want here and hopefully you can see now that with Bayesian approach there is a lot going on.</p>
+</div>
+<div id="examining-and-presenting-results" class="section level2">
+<h2><span class="header-section-number">26.8</span> Examining and presenting results</h2>
+<p>It would be useful ideally to present all possible combinations as depending what reader may look for - they may find that seeing visuals is useful to evaluate the relative importance of variables, etc. You can also do some diagnostics for your residuals.</p>
+<p>Why? You want to be confident about what you found, some answers may be much more important to be precise than others - this is one of the reason why Bayesian staistics may be useful when interested to provide more <strong>humble</strong> approach to what has been observed given the prior beliefs, your data and likelihood of the data given your model set up. You can provide your reader with your comparisons. These will form a useful evidence for the future research.</p>
+</div>
+<div id="bayesian-mixed-methods-example-optional" class="section level2">
+<h2><span class="header-section-number">26.9</span> Bayesian Mixed methods example (Optional)</h2>
+<p>We will illustrate two examples here that you have already seen in Chapter 3. We will compare results we obtain from Bayesian alternative to lmer (bmer) and to glmer (brm). We may not have time to cover all, but please do have a look at your own time. We will provde an introduction to the main steps. You will see that estimation itself takes no time at all but you will need to explore your outputs a bit more, given the variety of the specifications you are presented with in Bayesian settings.</p>
+<div id="data" class="section level3">
+<h3><span class="header-section-number">26.9.1</span> Data</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Lets load the data</span>
+lung_cancer &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;lung_cancer.csv&quot;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Check out the structure</span>
+<span class="kw">str</span>(lung_cancer)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    8525 obs. of  28 variables:
+##  $ X           : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ tumorsize   : num  68 64.7 51.6 86.4 53.4 ...
+##  $ co2         : num  1.53 1.68 1.53 1.45 1.57 ...
+##  $ pain        : int  4 2 6 3 3 4 3 3 4 5 ...
+##  $ wound       : int  4 3 3 3 4 5 4 3 4 4 ...
+##  $ mobility    : int  2 2 2 2 2 2 2 3 3 3 ...
+##  $ ntumors     : int  0 0 0 0 0 0 0 0 2 0 ...
+##  $ nmorphine   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ remission   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ lungcapacity: num  0.801 0.326 0.565 0.848 0.886 ...
+##  $ Age         : num  65 53.9 53.3 41.4 46.8 ...
+##  $ Married     : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 2 1 1 2 2 1 2 1 ...
+##  $ FamilyHx    : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 1 1 1 1 1 1 2 1 ...
+##  $ SmokingHx   : Factor w/ 3 levels &quot;current&quot;,&quot;former&quot;,..: 2 2 3 2 3 3 1 2 2 3 ...
+##  $ Sex         : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 2 1 1 2 2 2 1 2 2 2 ...
+##  $ CancerStage : Factor w/ 4 levels &quot;I&quot;,&quot;II&quot;,&quot;III&quot;,..: 2 2 2 1 2 1 2 2 2 2 ...
+##  $ LengthofStay: int  6 6 5 5 6 5 4 5 6 7 ...
+##  $ WBC         : num  6088 6700 6043 7163 6443 ...
+##  $ RBC         : num  4.87 4.68 5.01 5.27 4.98 ...
+##  $ BMI         : num  24.1 29.4 29.5 21.6 29.8 ...
+##  $ IL6         : num  3.7 2.63 13.9 3.01 3.89 ...
+##  $ CRP         : num  8.086 0.803 4.034 2.126 1.349 ...
+##  $ DID         : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Experience  : int  25 25 25 25 25 25 25 25 25 25 ...
+##  $ School      : Factor w/ 2 levels &quot;average&quot;,&quot;top&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Lawsuits    : int  3 3 3 3 3 3 3 3 3 3 ...
+##  $ HID         : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Medicaid    : num  0.606 0.606 0.606 0.606 0.606 ...</code></pre>
+<p>Fit the model using a mixture of variables that theoretically are important here:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lme4)
+<span class="co"># Estimate the model and store results in model_lc</span>
+model_lc &lt;-<span class="st"> </span><span class="kw">glmer</span>(remission <span class="op">~</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>LengthofStay <span class="op">+</span><span class="st"> </span>FamilyHx <span class="op">+</span><span class="st"> </span>CancerStage <span class="op">+</span><span class="st">  </span>CancerStage <span class="op">+</span><span class="st"> </span>Experience <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>DID) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>HID),
+                  <span class="dt">data =</span> lung_cancer, <span class="dt">family =</span> binomial, <span class="dt">optimizer=</span><span class="st">&#39;Nelder_Mead&#39;</span>) <span class="co">#note that I have updated the optimizer (to avoid warnings)</span></code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
+## control$checkConv, : Model failed to converge with max|grad| = 0.858202
+## (tol = 0.001, component 1)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Print the mod results:what do you find?</span>
+<span class="kw">summary</span>(model_lc)</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: 
+## remission ~ Age + LengthofStay + FamilyHx + CancerStage + CancerStage +  
+##     Experience + (1 | DID) + (1 | HID)
+##    Data: lung_cancer
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   7225.6   7296.1  -3602.8   7205.6     8515 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9563 -0.4229 -0.1890  0.3629  8.2299 
+## 
+## Random effects:
+##  Groups Name        Variance Std.Dev.
+##  DID    (Intercept) 3.8471   1.9614  
+##  HID    (Intercept) 0.2419   0.4919  
+## Number of obs: 8525, groups:  DID, 407; HID, 35
+## 
+## Fixed effects:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)    -1.960353   0.568451  -3.449 0.000564 ***
+## Age            -0.015968   0.005904  -2.705 0.006836 ** 
+## LengthofStay   -0.043030   0.035505  -1.212 0.225524    
+## FamilyHxyes    -1.295706   0.093369 -13.877  &lt; 2e-16 ***
+## CancerStageII  -0.321924   0.076376  -4.215 2.50e-05 ***
+## CancerStageIII -0.857475   0.100025  -8.573  &lt; 2e-16 ***
+## CancerStageIV  -2.137657   0.162281 -13.173  &lt; 2e-16 ***
+## Experience      0.125360   0.026881   4.664 3.11e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Age    LngthS FmlyHx CncSII CnSIII CncSIV
+## Age         -0.390                                          
+## LengthofSty -0.141 -0.319                                   
+## FamilyHxyes -0.013  0.103 -0.112                            
+## CancerStgII  0.084 -0.181 -0.186 -0.052                     
+## CancrStgIII  0.139 -0.222 -0.239 -0.051  0.513              
+## CancerStgIV  0.148 -0.220 -0.194 -0.012  0.357  0.347       
+## Experience  -0.835 -0.009 -0.004 -0.022 -0.002 -0.005 -0.012
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.858202 (tol = 0.001, component 1)</code></pre>
+<p>Lets also build CIs while we are here - we can compare those later to Credible Intervals from brm.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lme4)
+se &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">vcov</span>(model_lc))) <span class="co">#standard errors</span>
+<span class="co"># table of estimates with 95% CI using errors we obtained above</span>
+(CI_estimates &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Est =</span> <span class="kw">fixef</span>(model_lc), <span class="dt">LL =</span> <span class="kw">fixef</span>(model_lc) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se, <span class="dt">UL =</span> <span class="kw">fixef</span>(model_lc) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span>
+<span class="st">    </span>se))</code></pre>
+<pre><code>##                        Est          LL           UL
+## (Intercept)    -1.96035276 -3.07451662 -0.846188910
+## Age            -0.01596794 -0.02753911 -0.004396764
+## LengthofStay   -0.04303048 -0.11261951  0.026558540
+## FamilyHxyes    -1.29570603 -1.47870949 -1.112702564
+## CancerStageII  -0.32192409 -0.47162068 -0.172227491
+## CancerStageIII -0.85747504 -1.05352351 -0.661426574
+## CancerStageIV  -2.13765689 -2.45572684 -1.819586939
+## Experience      0.12536019  0.07267364  0.178046738</code></pre>
+<p>We have seen these ones before. Lets us now see what happens if were to move into Bayesian setting:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(brms)
+mod =<span class="st"> </span>brms<span class="op">::</span><span class="kw">brm</span>(remission <span class="op">~</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>LengthofStay <span class="op">+</span><span class="st"> </span>FamilyHx <span class="op">+</span><span class="st"> </span>CancerStage <span class="op">+</span><span class="st">  </span>CancerStage <span class="op">+</span><span class="st"> </span>Experience <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>DID)
+                <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>HID),
+                  <span class="dt">data =</span> lung_cancer,
+<span class="dt">family =</span> <span class="st">&#39;bernoulli&#39;</span>,
+<span class="dt">prior =</span> <span class="kw">set_prior</span>(<span class="st">&#39;normal(0, 3)&#39;</span>), <span class="dt">iter =</span> <span class="dv">2000</span>,
+<span class="dt">chains =</span> <span class="dv">4</span>,
+<span class="dt">cores =</span> <span class="dv">4</span>
+)</code></pre>
+<pre><code>## Compiling the C++ model</code></pre>
+<pre><code>## Start sampling</code></pre>
+<pre><code>## Warning: There were 3 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
+## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
+<pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mod)</code></pre>
+<pre><code>## Warning: There were 3 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help.
+## See http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
+<pre><code>##  Family: bernoulli 
+##   Links: mu = logit 
+## Formula: remission ~ Age + LengthofStay + FamilyHx + CancerStage + CancerStage + Experience + (1 | DID) + (1 | HID) 
+##    Data: lung_cancer (Number of observations: 8525) 
+## Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup samples = 4000
+## 
+## Group-Level Effects: 
+## ~DID (Number of levels: 407) 
+##               Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sd(Intercept)     2.02      0.11     1.83     2.24        878 1.00
+## 
+## ~HID (Number of levels: 35) 
+##               Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sd(Intercept)     0.53      0.19     0.13     0.90        280 1.01
+## 
+## Population-Level Effects: 
+##                Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## Intercept         -1.97      0.60    -3.18    -0.80        737 1.01
+## Age               -0.02      0.01    -0.03    -0.00       5432 1.00
+## LengthofStay      -0.04      0.04    -0.11     0.03       4477 1.00
+## FamilyHxyes       -1.30      0.09    -1.49    -1.12       5373 1.00
+## CancerStageII     -0.32      0.08    -0.47    -0.17       3140 1.00
+## CancerStageIII    -0.86      0.10    -1.06    -0.66       3551 1.00
+## CancerStageIV     -2.14      0.17    -2.47    -1.81       3769 1.00
+## Experience         0.13      0.03     0.07     0.18        573 1.01
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
+## is a crude measure of effective sample size, and Rhat is the potential 
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Various plots are available :plot either all </span>
+<span class="kw">plot</span>(mod, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-359-1.png" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-359-2.png" width="672" /></p>
+<p>If you compare the resulting plots to those that we found last time using glmer() you ll be surprised to find out how some CIs have changed once we are in a Bayesian setting.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Can also check ME</span>
+brms<span class="op">::</span><span class="kw">marginal_effects</span>(mod, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-360-1.png" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-360-2.png" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-360-3.png" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-360-4.png" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-360-5.png" width="672" /></p>
+<p>You will note that at overall, the results are quite similar when it comes to coefficients. However, we may find that our uncertainty is estimated with more information in mind here. If you have faith in Bayesian thinking, then consequently you will have more faith in the above results or vice versa :)</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="now-over-to-you.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="diy-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-bayes.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

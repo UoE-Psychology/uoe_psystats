@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 16 Examining Relationships (more than one variable) | PPLS PhD Training Workshop: Statistics and R</title>
+  <meta name="description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 16 Examining Relationships (more than one variable) | PPLS PhD Training Workshop: Statistics and R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 16 Examining Relationships (more than one variable) | PPLS PhD Training Workshop: Statistics and R" />
+  
+  <meta name="twitter:description" content="This is the main page of the course and contains a course overview, schedule and learning outcomes." />
+  
+
+<meta name="author" content="Anastasia Ushakova and Emma Waterston">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="tests-and-modelling-in-r.html">
+<link rel="next" href="correlation-causation-and-lm.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PPLS Summer Training (R and Stats)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-outcomes"><i class="fa fa-check"></i>Learning Outcomes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preparation"><i class="fa fa-check"></i>Preparation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-sets"><i class="fa fa-check"></i>Data sets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#expectations"><i class="fa fa-check"></i>Expectations</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#lets-stay-in-touch"><i class="fa fa-check"></i>Lets stay in touch</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#list-of-extra-resources"><i class="fa fa-check"></i>List of extra resources</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authorship"><i class="fa fa-check"></i>Authorship</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#last-but-not-least"><i class="fa fa-check"></i>Last, but not least</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="getting-started-in-rstudio.html"><a href="getting-started-in-rstudio.html"><i class="fa fa-check"></i><b>1</b> Getting Started in RStudio</a><ul>
+<li class="chapter" data-level="1.1" data-path="getting-started-in-rstudio.html"><a href="getting-started-in-rstudio.html#r-as-an-interactive-envrionment"><i class="fa fa-check"></i><b>1.1</b> R as an interactive envrionment</a></li>
+<li class="chapter" data-level="1.2" data-path="getting-started-in-rstudio.html"><a href="getting-started-in-rstudio.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.2</b> Setting Up Your Working Directory</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="the-console.html"><a href="the-console.html"><i class="fa fa-check"></i><b>2</b> The Console</a><ul>
+<li class="chapter" data-level="2.1" data-path="the-console.html"><a href="the-console.html#spacing"><i class="fa fa-check"></i><b>2.1</b> Spacing</a></li>
+<li class="chapter" data-level="2.2" data-path="the-console.html"><a href="the-console.html#typos"><i class="fa fa-check"></i><b>2.2</b> Typos</a></li>
+<li class="chapter" data-level="2.3" data-path="the-console.html"><a href="the-console.html#unfinishe.-d"><i class="fa fa-check"></i><b>2.3</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="2.4" data-path="the-console.html"><a href="the-console.html#basic-arithmetic"><i class="fa fa-check"></i><b>2.4</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="2.5" data-path="the-console.html"><a href="the-console.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>2.5</b> Using Functions for Calculations</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r-scripts.html"><a href="r-scripts.html"><i class="fa fa-check"></i><b>3</b> R Scripts</a><ul>
+<li class="chapter" data-level="3.1" data-path="r-scripts.html"><a href="r-scripts.html#short-example"><i class="fa fa-check"></i><b>3.1</b> Short Example</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="naming-variables.html"><a href="naming-variables.html"><i class="fa fa-check"></i><b>4</b> Naming variables</a></li>
+<li class="chapter" data-level="5" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>5</b> Vectors</a><ul>
+<li class="chapter" data-level="5.1" data-path="vectors.html"><a href="vectors.html#numeric-data"><i class="fa fa-check"></i><b>5.1</b> Numeric Data</a></li>
+<li class="chapter" data-level="5.2" data-path="vectors.html"><a href="vectors.html#textcharacter-data"><i class="fa fa-check"></i><b>5.2</b> Text/Character Data</a></li>
+<li class="chapter" data-level="5.3" data-path="vectors.html"><a href="vectors.html#logical-data"><i class="fa fa-check"></i><b>5.3</b> Logical Data</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="vectors.html"><a href="vectors.html#exercise"><i class="fa fa-check"></i><b>5.3.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="variable-classes.html"><a href="variable-classes.html"><i class="fa fa-check"></i><b>6</b> Variable Classes</a><ul>
+<li class="chapter" data-level="6.1" data-path="variable-classes.html"><a href="variable-classes.html#factors"><i class="fa fa-check"></i><b>6.1</b> Factors</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="variable-classes.html"><a href="variable-classes.html#exercise-1"><i class="fa fa-check"></i><b>6.1.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lists.html"><a href="lists.html"><i class="fa fa-check"></i><b>7</b> Lists</a></li>
+<li class="chapter" data-level="8" data-path="matrices.html"><a href="matrices.html"><i class="fa fa-check"></i><b>8</b> Matrices</a></li>
+<li class="chapter" data-level="9" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>9</b> Data Frames</a></li>
+<li class="chapter" data-level="10" data-path="loading-data.html"><a href="loading-data.html"><i class="fa fa-check"></i><b>10</b> Loading Data</a><ul>
+<li class="chapter" data-level="10.1" data-path="loading-data.html"><a href="loading-data.html#practical-example"><i class="fa fa-check"></i><b>10.1</b> Practical Example</a></li>
+<li class="chapter" data-level="10.2" data-path="loading-data.html"><a href="loading-data.html#subsetting-dataframes"><i class="fa fa-check"></i><b>10.2</b> Subsetting Dataframes</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="loading-data.html"><a href="loading-data.html#replacing-values-nas"><i class="fa fa-check"></i><b>10.2.1</b> Replacing Values &amp; NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="loading-data.html"><a href="loading-data.html#indexing-data-frames"><i class="fa fa-check"></i><b>10.3</b> Indexing Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="packages.html"><a href="packages.html"><i class="fa fa-check"></i><b>11</b> Packages</a></li>
+<li class="chapter" data-level="12" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>12</b> Summary Statistics</a><ul>
+<li class="chapter" data-level="12.1" data-path="summary-statistics.html"><a href="summary-statistics.html#data-cleaning"><i class="fa fa-check"></i><b>12.1</b> Data Cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="visualisations.html"><a href="visualisations.html"><i class="fa fa-check"></i><b>13</b> Visualisations</a><ul>
+<li class="chapter" data-level="13.1" data-path="visualisations.html"><a href="visualisations.html#simple-plots"><i class="fa fa-check"></i><b>13.1</b> Simple Plots</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="visualisations.html"><a href="visualisations.html#using-plot"><i class="fa fa-check"></i><b>13.1.1</b> Using <code>plot()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="visualisations.html"><a href="visualisations.html#customising-plots"><i class="fa fa-check"></i><b>13.2</b> Customising Plots</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="visualisations.html"><a href="visualisations.html#labels"><i class="fa fa-check"></i><b>13.2.1</b> Labels</a></li>
+<li class="chapter" data-level="13.2.2" data-path="visualisations.html"><a href="visualisations.html#plot-type"><i class="fa fa-check"></i><b>13.2.2</b> Plot Type</a></li>
+<li class="chapter" data-level="13.2.3" data-path="visualisations.html"><a href="visualisations.html#other-customisable-features"><i class="fa fa-check"></i><b>13.2.3</b> Other Customisable Features</a></li>
+<li class="chapter" data-level="13.2.4" data-path="visualisations.html"><a href="visualisations.html#change-axes"><i class="fa fa-check"></i><b>13.2.4</b> Change Axes</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="visualisations.html"><a href="visualisations.html#dont-panic"><i class="fa fa-check"></i><b>13.3</b> Don’t Panic!</a></li>
+<li class="chapter" data-level="13.4" data-path="visualisations.html"><a href="visualisations.html#other-simple-plots"><i class="fa fa-check"></i><b>13.4</b> Other Simple Plots</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="visualisations.html"><a href="visualisations.html#histograms"><i class="fa fa-check"></i><b>13.4.1</b> Histograms</a></li>
+<li class="chapter" data-level="13.4.2" data-path="visualisations.html"><a href="visualisations.html#boxplots"><i class="fa fa-check"></i><b>13.4.2</b> Boxplots</a></li>
+<li class="chapter" data-level="13.4.3" data-path="visualisations.html"><a href="visualisations.html#scatterplots"><i class="fa fa-check"></i><b>13.4.3</b> Scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="visualisations.html"><a href="visualisations.html#how-to-save-image-files"><i class="fa fa-check"></i><b>13.5</b> How to Save Image Files</a></li>
+<li class="chapter" data-level="13.6" data-path="visualisations.html"><a href="visualisations.html#plotting-with-ggplot2"><i class="fa fa-check"></i><b>13.6</b> Plotting with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="13.6.1" data-path="visualisations.html"><a href="visualisations.html#ggplot"><i class="fa fa-check"></i><b>13.6.1</b> <code>ggplot()</code></a></li>
+<li class="chapter" data-level="13.6.2" data-path="visualisations.html"><a href="visualisations.html#iris-example"><i class="fa fa-check"></i><b>13.6.2</b> Iris Example</a></li>
+<li class="chapter" data-level="13.6.3" data-path="visualisations.html"><a href="visualisations.html#ggplot-with-our-mydata-file"><i class="fa fa-check"></i><b>13.6.3</b> <code>ggplot()</code> with our <code>mydata</code> file</a></li>
+</ul></li>
+<li class="chapter" data-level="13.7" data-path="visualisations.html"><a href="visualisations.html#bring-it-all-together"><i class="fa fa-check"></i><b>13.7</b> Bring It All Together</a></li>
+<li class="chapter" data-level="13.8" data-path="visualisations.html"><a href="visualisations.html#write-out-files"><i class="fa fa-check"></i><b>13.8</b> Write Out Files</a></li>
+<li class="chapter" data-level="13.9" data-path="visualisations.html"><a href="visualisations.html#questions"><i class="fa fa-check"></i><b>13.9</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="diy.html"><a href="diy.html"><i class="fa fa-check"></i><b>14</b> DIY</a></li>
+<li class="chapter" data-level="15" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html"><i class="fa fa-check"></i><b>15</b> Tests and modelling in R</a><ul>
+<li class="chapter" data-level="15.1" data-path="tests-and-modelling-in-r.html"><a href="tests-and-modelling-in-r.html#hypothesis-testing"><i class="fa fa-check"></i><b>15.1</b> Hypothesis testing</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html"><i class="fa fa-check"></i><b>16</b> Examining Relationships (more than one variable)</a><ul>
+<li class="chapter" data-level="16.1" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#t-test"><i class="fa fa-check"></i><b>16.1</b> T test</a></li>
+<li class="chapter" data-level="16.2" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#chi-squared-distribution-and-test"><i class="fa fa-check"></i><b>16.2</b> Chi squared distribution and test</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#contingency-tables"><i class="fa fa-check"></i><b>16.2.1</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#chi-squared-distribution"><i class="fa fa-check"></i><b>16.3</b> Chi squared distribution</a></li>
+<li class="chapter" data-level="16.4" data-path="examining-relationships-more-than-one-variable.html"><a href="examining-relationships-more-than-one-variable.html#one-way-anova"><i class="fa fa-check"></i><b>16.4</b> One way Anova</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html"><i class="fa fa-check"></i><b>17</b> Correlation, Causation, and LM</a><ul>
+<li class="chapter" data-level="17.1" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#sharks-and-ice-cream-example"><i class="fa fa-check"></i><b>17.1</b> Sharks and ice cream example</a></li>
+<li class="chapter" data-level="17.2" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#simple-linear-regression-in-r"><i class="fa fa-check"></i><b>17.2</b> Simple Linear Regression in R</a></li>
+<li class="chapter" data-level="17.3" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#regression-diagnostics---assess-the-validity-of-a-model"><i class="fa fa-check"></i><b>17.3</b> Regression Diagnostics - assess the validity of a model</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#violations-of-the-assumptions-available-treatments"><i class="fa fa-check"></i><b>17.3.1</b> Violations of the assumptions: available treatments</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#standardisation"><i class="fa fa-check"></i><b>17.4</b> Standardisation</a></li>
+<li class="chapter" data-level="17.5" data-path="correlation-causation-and-lm.html"><a href="correlation-causation-and-lm.html#interaction-simple-slope-and-multiple-explanatory-factors"><i class="fa fa-check"></i><b>17.5</b> Interaction (simple slope) and multiple explanatory factors</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>18</b> Model selection</a><ul>
+<li class="chapter" data-level="18.1" data-path="model-selection.html"><a href="model-selection.html#aic-bic"><i class="fa fa-check"></i><b>18.1</b> AIC &amp; BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="diy-1.html"><a href="diy-1.html"><i class="fa fa-check"></i><b>19</b> DIY</a></li>
+<li class="chapter" data-level="20" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html"><i class="fa fa-check"></i><b>20</b> Simple Linear Model and Mixed Methods</a><ul>
+<li class="chapter" data-level="20.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#data-sets-1"><i class="fa fa-check"></i><b>20.1</b> Data sets</a></li>
+<li class="chapter" data-level="20.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#longitudinal-data"><i class="fa fa-check"></i><b>20.2</b> Longitudinal Data</a></li>
+<li class="chapter" data-level="20.3" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#why-a-new-model"><i class="fa fa-check"></i><b>20.3</b> Why a new model?</a></li>
+<li class="chapter" data-level="20.4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#ecological-fallacy-quick-illustration---no-need-to-run"><i class="fa fa-check"></i><b>20.4</b> Ecological Fallacy (quick illustration) - no need to run</a></li>
+<li class="chapter" data-level="20.5" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#simple-example"><i class="fa fa-check"></i><b>20.5</b> Simple Example</a></li>
+<li class="chapter" data-level="20.6" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#now-for-advanced-model-set-up"><i class="fa fa-check"></i><b>20.6</b> Now for Advanced: Model set up</a><ul>
+<li class="chapter" data-level="20.6.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#pooling"><i class="fa fa-check"></i><b>20.6.1</b> Pooling</a></li>
+<li class="chapter" data-level="20.6.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#no-pooling"><i class="fa fa-check"></i><b>20.6.2</b> No pooling</a></li>
+<li class="chapter" data-level="20.6.3" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#partial-pooling-varying-intercepts"><i class="fa fa-check"></i><b>20.6.3</b> Partial Pooling (varying intercepts)</a></li>
+<li class="chapter" data-level="20.6.4" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#partial-pooling-extended---varying-intercepts-andor-slopes"><i class="fa fa-check"></i><b>20.6.4</b> Partial Pooling Extended - (varying intercepts and/or slopes)</a></li>
+</ul></li>
+<li class="chapter" data-level="20.7" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#multilevel-modelling-with-random-intercepts-and-slopes"><i class="fa fa-check"></i><b>20.7</b> Multilevel modelling with random intercepts and slopes</a><ul>
+<li class="chapter" data-level="20.7.1" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#overview-of-the-data-set"><i class="fa fa-check"></i><b>20.7.1</b> Overview of the data set</a></li>
+<li class="chapter" data-level="20.7.2" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#prepare"><i class="fa fa-check"></i><b>20.7.2</b> Prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="20.8" data-path="simple-linear-model-and-mixed-methods.html"><a href="simple-linear-model-and-mixed-methods.html#random-slopes-intercepts-and-cross-level-interactions-optional"><i class="fa fa-check"></i><b>20.8</b> Random slopes, intercepts and cross level interactions (optional)</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="testing-the-assumptions.html"><a href="testing-the-assumptions.html"><i class="fa fa-check"></i><b>21</b> Testing the assumptions</a></li>
+<li class="chapter" data-level="22" data-path="coffee-break.html"><a href="coffee-break.html"><i class="fa fa-check"></i><b>22</b> Coffee break</a></li>
+<li class="chapter" data-level="23" data-path="logistic-setting.html"><a href="logistic-setting.html"><i class="fa fa-check"></i><b>23</b> Logistic setting</a><ul>
+<li class="chapter" data-level="23.1" data-path="logistic-setting.html"><a href="logistic-setting.html#simple-example-1"><i class="fa fa-check"></i><b>23.1</b> Simple Example</a><ul>
+<li class="chapter" data-level="23.1.1" data-path="logistic-setting.html"><a href="logistic-setting.html#optional-odds-refresher"><i class="fa fa-check"></i><b>23.1.1</b> Optional (Odds Refresher)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="now-for-advanced-logistic-mixed-effects.html"><a href="now-for-advanced-logistic-mixed-effects.html"><i class="fa fa-check"></i><b>24</b> Now for Advanced: logistic mixed effects</a></li>
+<li class="chapter" data-level="25" data-path="now-over-to-you.html"><a href="now-over-to-you.html"><i class="fa fa-check"></i><b>25</b> Now, over to you!</a><ul>
+<li class="chapter" data-level="25.1" data-path="now-over-to-you.html"><a href="now-over-to-you.html#data-description"><i class="fa fa-check"></i><b>25.1</b> Data Description</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html"><i class="fa fa-check"></i><b>26</b> Introduction to Bayesian Estimation</a><ul>
+<li class="chapter" data-level="26.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#intro-to-bayesian-estimation"><i class="fa fa-check"></i><b>26.1</b> Intro to Bayesian estimation</a><ul>
+<li class="chapter" data-level="26.1.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#data-sets-2"><i class="fa fa-check"></i><b>26.1.1</b> Data sets</a></li>
+</ul></li>
+<li class="chapter" data-level="26.2" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bayes-inference-and-one-sample-t-test"><i class="fa fa-check"></i><b>26.2</b> Bayes inference and one-sample t-test</a></li>
+<li class="chapter" data-level="26.3" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#difference-between-two-groups-means"><i class="fa fa-check"></i><b>26.3</b> Difference between two groups’ means</a></li>
+<li class="chapter" data-level="26.4" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bayes-factor-example"><i class="fa fa-check"></i><b>26.4</b> Bayes Factor Example</a></li>
+<li class="chapter" data-level="26.5" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bayes-factor-and-anova"><i class="fa fa-check"></i><b>26.5</b> Bayes Factor and Anova</a><ul>
+<li class="chapter" data-level="26.5.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#exercise-2"><i class="fa fa-check"></i><b>26.5.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="26.6" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#linear-models-with-bas"><i class="fa fa-check"></i><b>26.6</b> Linear models with BAS</a><ul>
+<li class="chapter" data-level="26.6.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bic-and-r-squared"><i class="fa fa-check"></i><b>26.6.1</b> BIC and R squared</a></li>
+</ul></li>
+<li class="chapter" data-level="26.7" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#predictions-from-bas.lm"><i class="fa fa-check"></i><b>26.7</b> Predictions from bas.lm</a></li>
+<li class="chapter" data-level="26.8" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#examining-and-presenting-results"><i class="fa fa-check"></i><b>26.8</b> Examining and presenting results</a></li>
+<li class="chapter" data-level="26.9" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#bayesian-mixed-methods-example-optional"><i class="fa fa-check"></i><b>26.9</b> Bayesian Mixed methods example (Optional)</a><ul>
+<li class="chapter" data-level="26.9.1" data-path="introduction-to-bayesian-estimation.html"><a href="introduction-to-bayesian-estimation.html#data"><i class="fa fa-check"></i><b>26.9.1</b> Data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="diy-2.html"><a href="diy-2.html"><i class="fa fa-check"></i><b>27</b> DIY</a><ul>
+<li class="chapter" data-level="27.1" data-path="diy-2.html"><a href="diy-2.html#extra-resources-to-check"><i class="fa fa-check"></i><b>27.1</b> Extra Resources to check</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="extra-resources.html"><a href="extra-resources.html"><i class="fa fa-check"></i><b>28</b> Extra Resources</a><ul>
+<li class="chapter" data-level="28.1" data-path="extra-resources.html"><a href="extra-resources.html#more-r-practice"><i class="fa fa-check"></i><b>28.1</b> More R practice</a></li>
+<li class="chapter" data-level="28.2" data-path="extra-resources.html"><a href="extra-resources.html#data-cleaning-1"><i class="fa fa-check"></i><b>28.2</b> Data Cleaning</a></li>
+<li class="chapter" data-level="28.3" data-path="extra-resources.html"><a href="extra-resources.html#visualisations-1"><i class="fa fa-check"></i><b>28.3</b> Visualisations</a></li>
+<li class="chapter" data-level="28.4" data-path="extra-resources.html"><a href="extra-resources.html#other-common-methods-in-r"><i class="fa fa-check"></i><b>28.4</b> Other Common Methods in R</a></li>
+<li class="chapter" data-level="28.5" data-path="extra-resources.html"><a href="extra-resources.html#big-data"><i class="fa fa-check"></i><b>28.5</b> Big Data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PPLS PhD Training Workshop: Statistics and R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="examining-relationships-more-than-one-variable" class="section level1">
+<h1><span class="header-section-number">Chapter 16</span> Examining Relationships (more than one variable)</h1>
+<p>You are probably familiar with two of the most typical ways of examining the differences between the distributions that generated variables in your data. We will briefly discuss those here with the reference to two sample t test and chi-squared test. We will also attempt to do these in <code>R</code>, and report the results. Assumptions diagnostics tools will be presented briefly.</p>
+<p>Above we have seen an example with one sample t test. Imagine now, we have a variable that is grouped by another variable (i.e. treatment, condition) and we would like to test whether the means in both groups come from the same distribution. Pretty common set up, right?</p>
+<div id="t-test" class="section level2">
+<h2><span class="header-section-number">16.1</span> T test</h2>
+<p>We will do an example of a paired t test below. This test is used to determine whether there is a difference between two groups within the population.</p>
+<p><strong>Problem overview</strong></p>
+<p>Our null hypothesis: <em>There is no difference between the effects on happiness levels from reading
+order for a stats book and a comic book</em></p>
+<p>Our alternative hypothesis: <em>There <strong>is</strong> a difference between the effects on happiness levels from reading order for a stats book and a comic book</em></p>
+<p>Researchers enrolled 500 subjects and made them read both a comic books and a statistics book. Some people read the comic book first, others read the statistics book first, to counterbalance. There was a delay of six days in between the two reads. The researchers then measured their happiness in a scale going from 50 (bliss) to -50 (tearful).</p>
+<p>Our main steps will be:</p>
+<ol style="list-style-type: decimal">
+<li>Import the data from the file <code>books.csv</code></li>
+<li>Explore the data and check for assumptions</li>
+<li>Choose an appropriate test to check for differences</li>
+<li>Run an <code>R</code> command (with appropriate parameters) to execute the test you chose</li>
+<li>Write up the results in a short paragraph</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Load psych</span>
+<span class="kw">library</span>(psych)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">books &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;books.csv&quot;</span>, <span class="dt">header =</span> T)</code></pre>
+<p>That’s step 1 complete.</p>
+<p>Now lets get some summary statistics and make some basic plots. Break this down into smaller tasks:</p>
+<ul>
+<li>Look at the data structure
+*Examine the data using functions <code>summary</code> and/or <code>describe</code> (if you really want to, you can use the <code>describeBy()</code> function here too)</li>
+<li>Report how many variables are in the data sets, their mean, standard deviation and standard error of the mean</li>
+<li>Use <code>boxplot</code> to plot the median and quantiles. Title the axes appropriately, and change the axis limits to reflect the min and max possible scores.</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(books)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    500 obs. of  2 variables:
+##  $ comic   : int  -44 20 0 -18 -19 13 16 14 -6 11 ...
+##  $ statbook: int  16 -14 6 -13 7 -33 3 -7 -6 -3 ...</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(books) </code></pre>
+<pre><code>##      comic           statbook      
+##  Min.   :-44.00   Min.   :-42.000  
+##  1st Qu.: -6.00   1st Qu.:-14.000  
+##  Median :  4.00   Median : -3.000  
+##  Mean   :  3.62   Mean   : -3.596  
+##  3rd Qu.: 14.00   3rd Qu.:  6.000  
+##  Max.   : 43.00   Max.   : 45.000</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#or</span>
+<span class="kw">describe</span>(books)</code></pre>
+<pre><code>##          vars   n  mean    sd median trimmed   mad min max range  skew
+## comic       1 500  3.62 15.05      4    3.79 14.83 -44  43    87 -0.12
+## statbook    2 500 -3.60 14.14     -3   -3.74 14.83 -42  45    87  0.13
+##          kurtosis   se
+## comic       -0.02 0.67
+## statbook     0.01 0.63</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#visualise</span>
+<span class="kw">boxplot</span>(books<span class="op">$</span>comic, books<span class="op">$</span>statbook,
+        <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;Comic&quot;</span>, <span class="st">&quot;Stats&quot;</span>),
+        <span class="dt">main =</span> <span class="st">&quot;Happiness Score by Book&quot;</span>, 
+        <span class="dt">xlab =</span> <span class="st">&quot;Book&quot;</span>, 
+        <span class="dt">ylab =</span> <span class="st">&quot;Happiness Rating&quot;</span>,
+        <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">50</span>, <span class="dv">50</span>)
+        )</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+<p>Check the assumptions in <code>R</code>, these are also very common for other tests, including ANOVA and linear models.</p>
+<p><strong>Normality</strong>
+To check for normality or in other words, if the variables we want to analyse are normally distributed we can use both specific statistical tests and histograms.</p>
+<p>We can use the Shapiro-Wilk test using one line of code in <code>R</code>. The null hypothesis of this test is that the data are normally distributed, and the alternative is that the data are not normally distributed.</p>
+<p>To run this, try the following:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Test for normality</span>
+<span class="kw">shapiro.test</span>(books<span class="op">$</span>comic)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  books$comic
+## W = 0.99677, p-value = 0.421</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(books<span class="op">$</span>statbook)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  books$statbook
+## W = 0.99612, p-value = 0.2609</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Interpret the output: the p-value is greater than the significance level 0.05, and thus implied that the distribution of the data are not significantly different from the normal distribtion. Put simply, we can assume normality.</span>
+
+<span class="co"># Check visually for normality</span>
+<span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) <span class="co"># par() here displays plots in a 1 by 2 matrix</span>
+<span class="kw">hist</span>(books<span class="op">$</span>comic, <span class="dt">main =</span> <span class="st">&quot;Comic&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Happiness Scores for Comic Books&quot;</span>) 
+<span class="kw">hist</span>(books<span class="op">$</span>statbook, <span class="dt">main =</span> <span class="st">&quot;Statbook&quot;</span>, <span class="dt">xlab=</span> <span class="st">&quot;Happiness Scores for Stats Books&quot;</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
+<p>Or using qqnorm:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qqnorm</span>(books<span class="op">$</span>comic, <span class="dt">main =</span> <span class="st">&quot;Comic Book&quot;</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qqnorm</span>(books<span class="op">$</span>statbook, <span class="dt">main =</span> <span class="st">&quot;Stats Book&quot;</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-139-2.png" width="672" /></p>
+<p><strong>Variance check</strong></p>
+<p>Some tests assume that although your different samples can come from populations with different means, that they do have the <em>same</em> variance. Equal variances (homoscedasticity) is when the variances are approximately the same across your samples. Unequal variances (heteroscedasticity) can affect the Type I error rate, lead to false positives, and lead to incorrect conclusions.</p>
+<p>To check whether you have an equal variance among two groups, we can use a simple test. Conveniently, it is called <code>var.test</code> and the null hypothesis we are testing is whether the ratio of two variances is equal to one or in other words:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check for equality of variance</span>
+<span class="kw">var.test</span>(books<span class="op">$</span>comic, books<span class="op">$</span>statbook, 
+         <span class="dt">ratio =</span> <span class="dv">1</span>, <span class="co">#the more our ratio deviates from 1, the stronger the evidence for unequal variances</span>
+         <span class="dt">conf.level =</span> <span class="fl">.95</span>)</code></pre>
+<pre><code>## 
+##  F test to compare two variances
+## 
+## data:  books$comic and books$statbook
+## F = 1.1324, num df = 499, denom df = 499, p-value = 0.1652
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.949963 1.349898
+## sample estimates:
+## ratio of variances 
+##            1.13241</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Interpret your output: The p-value of is greater than the significance level 0.05. There is no significant difference between the two variances.</span></code></pre>
+<p>Looking good!</p>
+<p><strong>Finally lets run the test.</strong>*</p>
+<p>Examine the arguments below carefully and pick whether you want to use <code>paired</code> or <code>var.equal</code>.</p>
+<p>The one we will use:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Paired t-test</span>
+<span class="kw">t.test</span>(books<span class="op">$</span>comic, books<span class="op">$</span>statbook, 
+       <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="co">#is our data paired? Yes, each individual read both books, and we have &#39;pairs of observations&#39;</span>
+       <span class="dt">var.equal =</span> <span class="ot">TRUE</span> <span class="co">#can we assume equal variances? Yes, given the results above</span>
+       )</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  books$comic and books$statbook
+## t = 7.4608, df = 499, p-value = 3.847e-13
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  5.31574 9.11626
+## sample estimates:
+## mean of the differences 
+##                   7.216</code></pre>
+<p>Study the results. What do you conclude?</p>
+<p>We might say something along the lines of…</p>
+<p>Researchers enrolled 500 subjects and made them read both a comic books and a statistics book. Some people read the comic book first, others read the statistics book first, to counterbalance. There was a delay of six days in between the two reads. The researchers then measured their happiness in a scale going from 50 (bliss) to -50 (tearful).</p>
+<p>A paired-samples t-test was conducted to compare the happiness levels in relation to the reading order of comic and stats book reading. There was a significant difference in the scores for reading the comic book (<em>M</em>=3.62, <em>SD</em>=15.05) and the stat book (<em>M</em>=-3.60, <em>SD</em>=14.14) conditions; <em>t</em>(499)=7.22, <em>p</em> &lt; .01</p>
+</div>
+<div id="chi-squared-distribution-and-test" class="section level2">
+<h2><span class="header-section-number">16.2</span> Chi squared distribution and test</h2>
+<p>When discussing the uses of the normal distribution, we generally assumed a large number of samples (&gt; 30), here we consider small samples (&lt; 30) theory. A more suitable name could be ‘exact sampling theory’ since the results obtained hold for large samples as well as small samples. Three important small samples distributions are the <em>chi-square distribution</em>, <em>F distribution</em> and the <em>Student’s t-test distribution</em>.</p>
+<div id="contingency-tables" class="section level3">
+<h3><span class="header-section-number">16.2.1</span> Contingency tables</h3>
+<p>A categorical variable consists of possible responses in the form of a set of categories rather than numbers on a continuous scale. Categorical variables may be inherently categorical, such as <em>gender</em> (male, female or other), or <em>political affiliation</em>. Or they may be created by categorizing a continuous or discrete variable. For example, <em>blood pressure</em> can be recorded in specific measurements such as 120/80 mmHg, or defined as “low”, “normal”, “pre-hypertensive”, “hypertensive”.</p>
+<p>Ordinal variables are categorical variables in which the categories might be ranked in order, such as the <em>Likert scale</em> (strongly agree, agree, neutral, disagree and strongly disagree). A specific set of analytical techniques has been developed for ordinal data, even if categorical techniques can also be applied.</p>
+</div>
+</div>
+<div id="chi-squared-distribution" class="section level2">
+<h2><span class="header-section-number">16.3</span> Chi squared distribution</h2>
+<p>Hypothesis testing on categorical variables requires a way to evaluate whether our results are significant. With RxC tables, the statistic of choice is often one of the chi-square tests, which draw on known properties of the chi-square distribution.</p>
+<p>The chi-square distribution is a continuous theoretical probability distribution, a special case of the gamma distribution, with only one parameter <em>k</em> which specifies the degrees of freedom (remember, the normal distribution had two parameters: the mean and the standard deviation).The chi-square distribution has the following properties:</p>
+<ul>
+<li>The mean of the distribution is equal to the number of degrees of freedom: μ = df.</li>
+<li>The variance is equal to two times the number of degrees of freedom: σ2 = 2 * df</li>
+<li>The chi-square distribution only has positive values, because is based on the sum of squared quantities (as indicated by its name, chi square) and is right-skewed</li>
+<li>As the degrees of freedom increase, the chi-square curve approaches a normal distribution. As k approaches infinity, the chi-square distribution approaches a normal distribution.</li>
+</ul>
+<p><img src="Chi.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>For this exercise, we can generate the data ourselves. We want to replicate the following table:</p>
+<p><img src="eyes.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Create the data in a matrix:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Create matrix</span>
+eyedata &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">38</span>, <span class="dv">14</span>, <span class="dv">11</span>, <span class="dv">51</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)
+eyedata</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   38   11
+## [2,]   14   51</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(eyedata) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Blue Eyes&quot;</span>,<span class="st">&quot;Brown Eyes&quot;</span>)
+<span class="kw">rownames</span>(eyedata) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Fair Hair&quot;</span>,<span class="st">&quot;Dark Hair&quot;</span>)</code></pre>
+<p>The chi-squared test tests the hypothesis that there is no relationship between two categorical
+variables. It compares the observed frequencies from the data with frequencies which would be
+expected if there was no relationship between the variables. Let’s visualise the relationship:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Plot the data</span>
+<span class="kw">barplot</span>(<span class="kw">prop.table</span>(eyedata)<span class="op">*</span><span class="dv">100</span>,
+        <span class="dt">xlab=</span><span class="st">&#39;Eye Colour&#39;</span>,<span class="dt">ylab=</span><span class="st">&#39;Percentages&#39;</span>,
+        <span class="dt">main=</span><span class="st">&quot;Percentage eye colour by hair colour&quot;</span>,<span class="dt">beside=</span>T,<span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;yellow&quot;</span>,<span class="st">&quot;brown&quot;</span>),
+        <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">100</span>),
+        <span class="dt">legend=</span><span class="kw">rownames</span>(eyedata), <span class="dt">args.legend =</span> <span class="kw">list</span>(<span class="dt">x =</span> <span class="st">&quot;top&quot;</span>))</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-145-1.png" width="672" /></p>
+<p>What does the plot tell us?</p>
+<p>There <strong>does</strong> seem to be an association between hair and eye colour. Clearly, those with blue eyes seem to have fair hair, and those with brown eyes seem to have dark hair.</p>
+<p>We can run the test and assign the results to the object (i.e. ‘eyeresults’)</p>
+<pre class="sourceCode r"><code class="sourceCode r">eyeresults &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(eyedata)
+eyeresults</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  eyedata
+## X-squared = 33.112, df = 1, p-value = 8.7e-09</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">prop.table</span>(eyedata)</code></pre>
+<pre><code>##           Blue Eyes Brown Eyes
+## Fair Hair 0.3333333 0.09649123
+## Dark Hair 0.1228070 0.44736842</code></pre>
+<p>We have a chi-squared value of 33.11. Since we get a <em>p-value</em> less than the significance level of .05, we reject the null hypothesis and conclude that the two variables are dependent. Written more formally: A Pearson’s Chi-Squared test was carried out to assess whether eye colour and hair colour were related. There was significant evidence of an association, (<em>χ2</em>(1) = 33.11, <em>p</em> &lt; .001).</p>
+<p>We can further analyse the residuals. This is one of the approaches to study which cells contributed to the significance of the test. A residual is the difference between the observed and expected values for a cell. The larger the residual, the greater the contribution of the cell to the magnitude of the resulting chi-square.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Get the residuals from the results object</span>
+eyeresults<span class="op">$</span>residuals</code></pre>
+<pre><code>##           Blue Eyes Brown Eyes
+## Fair Hair  3.310112  -3.031437
+## Dark Hair -2.873982   2.632024</code></pre>
+<p>What do you conclude?</p>
+<p>By looking at the residuals, we can determine which categories have the largest difference between the expected counts and the actual counts relative to sample size. We can see that these differences are largest for the fair hair conditions. The sign matters here too - a positive value tells you that there were <em>more</em> X than expected, and a negative value tells you that there were <em>less</em>. That means in our sample, looking at the fair hair condition, there were more blue eyes, but less brown, than expected.</p>
+</div>
+<div id="one-way-anova" class="section level2">
+<h2><span class="header-section-number">16.4</span> One way Anova</h2>
+<p>Here we will present simple one way analysis of variance (ANOVA) example, as we extend on the t test we saw earlier. The one-way ANOVA is used to determine whether there are any statistically significant differences between the means of two or more independent (unrelated) groups. The extensions to other types of ANOVA can be easily build on top of this baseline. If you are dealing with repeated measures ANOVA, you will find package <code>ezAnova</code> to be quite useful. We won’t be covering it here but we hope that once you mastered <code>R</code> over these few days you wont need our help to get yourself going with other packages :)</p>
+<p>We will use the data set that has data on effects on blood pressure from taking various pain-relief medication. This is the <code>exp</code> data from the last session.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Load the data</span>
+experiment&lt;-<span class="kw">read.csv</span>(<span class="st">&#39;dose.csv&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Look at the data structure</span>
+<span class="kw">str</span>(experiment)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    15 obs. of  3 variables:
+##  $ ID    : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ dose  : int  1 1 1 1 1 2 2 2 2 2 ...
+##  $ effect: int  3 2 1 1 4 5 2 4 2 3 ...</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Recode dose as a factor</span>
+experiment<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(experiment<span class="op">$</span>dose, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Low_dose&quot;</span>, <span class="st">&quot;High_dose&quot;</span>))</code></pre>
+<p>Lets summarise the data. In <code>R</code> there are quite a few ways that can present you nice descriptive statistics of variables by groups.</p>
+<p>Using describe from <code>psych</code>:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describeBy</span>(experiment<span class="op">$</span>effect, experiment<span class="op">$</span>dose)</code></pre>
+<pre><code>## 
+##  Descriptive statistics by group 
+## group: Placebo
+##    vars n mean  sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 5  2.2 1.3      2     2.2 1.48   1   4     3 0.26    -1.96 0.58
+## -------------------------------------------------------- 
+## group: Low_dose
+##    vars n mean  sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 5  3.2 1.3      3     3.2 1.48   2   5     3 0.26    -1.96 0.58
+## -------------------------------------------------------- 
+## group: High_dose
+##    vars n mean   sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 5    5 1.58      5       5 1.48   3   7     4    0    -1.91 0.71</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#And plot using boxplot directly</span>
+<span class="kw">boxplot</span>(experiment<span class="op">$</span>effect<span class="op">~</span>experiment<span class="op">$</span>dose, 
+        <span class="dt">ylab=</span><span class="st">&#39;Pain Relief Effect&#39;</span>,
+        <span class="dt">main=</span><span class="st">&#39;Effect on pain from each condition&#39;</span>, 
+        <span class="dt">col=</span><span class="kw">rainbow</span>(<span class="dv">3</span>))</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-150-1.png" width="672" /></p>
+<p>What does the boxplot tell us?</p>
+<p>Generally speaking, it shows that there does seem to be differences between the groups. It also shows that each dose group has a different amount of variation/spread in pain relief effect, and that there is overlap between the groups.</p>
+<p>We can also extract the means and sd for our groups:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Get the means</span>
+means &lt;-<span class="st"> </span><span class="kw">by</span>(<span class="dt">data =</span> experiment[, <span class="st">&quot;effect&quot;</span>], <span class="dt">INDICES =</span> experiment<span class="op">$</span>dose, <span class="dt">FUN =</span> mean)
+means</code></pre>
+<pre><code>## experiment$dose: Placebo
+## [1] 2.2
+## -------------------------------------------------------- 
+## experiment$dose: Low_dose
+## [1] 3.2
+## -------------------------------------------------------- 
+## experiment$dose: High_dose
+## [1] 5</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Get standard deviaation</span>
+<span class="kw">by</span>(<span class="dt">data =</span> experiment[, <span class="st">&quot;effect&quot;</span>], <span class="dt">INDICES =</span> experiment<span class="op">$</span>dose, <span class="dt">FUN =</span> sd)</code></pre>
+<pre><code>## experiment$dose: Placebo
+## [1] 1.30384
+## -------------------------------------------------------- 
+## experiment$dose: Low_dose
+## [1] 1.30384
+## -------------------------------------------------------- 
+## experiment$dose: High_dose
+## [1] 1.581139</code></pre>
+<p>Another way would be to install <code>pasctecs</code> package and get full descriptives for each group, including confidence intervals and standard error of the mean estimates:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install &#39;pasctecs&#39; and get detailed descriptive stats for each group</span>
+<span class="kw">library</span>(pastecs)
+<span class="kw">by</span>(<span class="dt">data =</span> experiment[, <span class="st">&quot;effect&quot;</span>], <span class="dt">INDICES =</span> experiment<span class="op">$</span>dose, <span class="dt">FUN =</span> stat.desc)</code></pre>
+<pre><code>## experiment$dose: Placebo
+##      nbr.val     nbr.null       nbr.na          min          max 
+##    5.0000000    0.0000000    0.0000000    1.0000000    4.0000000 
+##        range          sum       median         mean      SE.mean 
+##    3.0000000   11.0000000    2.0000000    2.2000000    0.5830952 
+## CI.mean.0.95          var      std.dev     coef.var 
+##    1.6189318    1.7000000    1.3038405    0.5926548 
+## -------------------------------------------------------- 
+## experiment$dose: Low_dose
+##      nbr.val     nbr.null       nbr.na          min          max 
+##    5.0000000    0.0000000    0.0000000    2.0000000    5.0000000 
+##        range          sum       median         mean      SE.mean 
+##    3.0000000   16.0000000    3.0000000    3.2000000    0.5830952 
+## CI.mean.0.95          var      std.dev     coef.var 
+##    1.6189318    1.7000000    1.3038405    0.4074502 
+## -------------------------------------------------------- 
+## experiment$dose: High_dose
+##      nbr.val     nbr.null       nbr.na          min          max 
+##    5.0000000    0.0000000    0.0000000    3.0000000    7.0000000 
+##        range          sum       median         mean      SE.mean 
+##    4.0000000   25.0000000    5.0000000    5.0000000    0.7071068 
+## CI.mean.0.95          var      std.dev     coef.var 
+##    1.9632432    2.5000000    1.5811388    0.3162278</code></pre>
+<p>ANOVA will allow us to test whether these variations between the dose means are due to true differences about the group means or if they are just due to sampling variability.</p>
+<p>We can now run our ANOVA test, but let us first check that the assumption for the equal variances is met. We will do this using the Levene Test, which is used to assess the equality of variances for a variable calculated for two or more groups. The null hypothesis is that all variances are equal.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We will need to load package &#39;car&#39; first</span>
+<span class="kw">library</span>(car)</code></pre>
+<p>Levene test:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">leveneTest</span>(<span class="dt">y =</span>experiment<span class="op">$</span>effect, <span class="co">#response variable</span>
+           <span class="dt">group =</span> experiment<span class="op">$</span>dose, <span class="co">#actor defining group</span>
+           <span class="dt">center =</span> median <span class="co">#median, provides a more robust test</span>
+           )</code></pre>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
+##       Df F value Pr(&gt;F)
+## group  2  0.1176   0.89
+##       12</code></pre>
+<p>A quick interpretation of the output would be: Since the <em>p-value</em> is greater than .05, this indicates that there is no significant difference in variances between the dose groups in effect scores.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Run ANOVA</span>
+drugAnova &lt;-<span class="st"> </span><span class="kw">aov</span>(<span class="dt">formula =</span> effect <span class="op">~</span><span class="st"> </span>dose, 
+                 <span class="dt">data =</span> experiment)
+
+<span class="co">#Summarise results</span>
+<span class="kw">summary</span>(drugAnova)</code></pre>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## dose         2  20.13  10.067   5.119 0.0247 *
+## Residuals   12  23.60   1.967                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>ANOVA calculates a parameter called the <em>F statistic</em>, which compares the variation between sample means (among different dose conditions in our case) to the variation within groups (within dose groups). The variation of pain relief effect <em>between</em> different doses is much larger than the variation of pain relief effect <em>within</em> each dose condition.</p>
+<p>In our one-way ANOVA test, the significant <em>p-value</em> indicates that some of the group means are different, but we <strong>don’t</strong> know which ones. All we can conclude so far is that there is a significant relationship between dose and pain relief effects. Linear regression may aid our understanding about which means were significantly different.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Summarise as linear model</span>
+<span class="kw">summary.lm</span>(drugAnova)</code></pre>
+<pre><code>## 
+## Call:
+## aov(formula = effect ~ dose, data = experiment)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##   -2.0   -1.2   -0.2    0.9    2.0 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)     2.2000     0.6272   3.508  0.00432 **
+## doseLow_dose    1.0000     0.8869   1.127  0.28158   
+## doseHigh_dose   2.8000     0.8869   3.157  0.00827 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.402 on 12 degrees of freedom
+## Multiple R-squared:  0.4604, Adjusted R-squared:  0.3704 
+## F-statistic: 5.119 on 2 and 12 DF,  p-value: 0.02469</code></pre>
+<p>We can see how much difference in expected effect on pain relief can be found from high and low dose of medicine versus the placebo. These results indicate that there was a significant difference between the placebo and high dose groups, but not between placebo and low dose.</p>
+<p>Another way to determine where the differences are between the groups would be to use the post-hoc Tukey test.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Tuk&lt;-<span class="st"> </span><span class="kw">TukeyHSD</span>(drugAnova)
+Tuk</code></pre>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = effect ~ dose, data = experiment)
+## 
+## $dose
+##                    diff        lwr      upr     p adj
+## Low_dose-Placebo    1.0 -1.3662412 3.366241 0.5162761
+## High_dose-Placebo   2.8  0.4337588 5.166241 0.0209244
+## High_dose-Low_dose  1.8 -0.5662412 4.166241 0.1474576</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Tuk) <span class="co">#Significant differences are the ones which not cross the zero value.</span></code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-158-1.png" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tests-and-modelling-in-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="correlation-causation-and-lm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-lm-testsRmd.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
