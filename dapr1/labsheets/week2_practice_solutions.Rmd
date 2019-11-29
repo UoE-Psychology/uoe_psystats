@@ -1,0 +1,193 @@
+---
+title: 'Introduction to RMarkdown '
+author: "Put your name here"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+Here is the simplified version of what you have seen in the guided part of the lab. Check if you need to update anything above. We will be helping you along your practice so if anything is unclear just raise your hand :)
+
+To see how changes in your Rmd file affect the final output - you can press knit to HTML once you completed the steps below. 
+
+# Headings
+
+First, lets look at how you would make headings.  
+
+# Section 1 <- `# Section 1`
+
+## Subsection 1 <- `## Subsection 1`
+
+### Sub subsection 1 <- `### Sub subsection 1` 
+
+
+
+
+
+# Text
+
+You can also vary the format of your text:
+
+`*italics*` returns *italics*
+  
+`**bold**` returns **bold**
+  
+
+# Adding Code
+
+Now, lets add in some code. The syntax for code chunks looks like this:
+
+```{r}
+#PUT YOUR CODE HERE
+```
+
+Here is my first code chunk:
+
+```{r}
+# Create an object a and b
+a <- 1
+b <- 5
+
+```
+
+We can now use the values assigned in the above chunk, like you would in a script:
+
+```{r}
+c<-a+b
+```
+
+
+Take a note on what appears in your environment once you have done the above.
+
+# Code Chunks edit options
+
+You can edit the way the output gets presented in your final document. 
+
+* `name` - This allows you to name your code chunks, but is not necessary
+* `echo` - Whether to display the code chunk or just show the results. `echo=FALSE` will embed the code in the document, but the reader won't be able to see it
+* `eval` - Whether to run the code in the code chunk. `eval=FALSE` will display the code but not run it
+* `warning` - Whether to display warning messages in the document
+* `message` - Whether to display code messages in the document
+* `results` - Whether and how to display the computation of the results
+
+### Example
+
+### `Warning`
+```{r, warning = TRUE, message = TRUE}
+library(ggplot2)
+```
+```{r, warning = FALSE, message = FALSE}
+library(ggplot2)
+```
+
+### `Echo`
+Now lets try some simple code chunks:
+```{r, echo = TRUE}
+Fab <- 1*5
+Fab
+```
+Same code, with `echo = FALSE`:
+```{r, echo = FALSE}
+Fab <- 1*5
+Fab
+```
+
+### `Eval`
+
+Here is the same code chunk with `eval = FALSE`. This just shows the code chunk but the code is never run - i.e. you cannot use `Fab` later.
+
+```{r, eval = FALSE}
+Fab <- 1*5
+Fab
+```
+
+### `Results`
+
+Same code chunk, but with `results = 'hide'`. Similar to the above, but you CAN use `Fab` later.
+
+```{r, results= 'hide'}
+Fab <- 1*5
+Fab
+```
+
+
+# Tables
+
+We can create the tables that summarize useful info.
+
+Operation       | R code                | Example Input    | Example Output
+-------------   | -------------         |--------------    | -------------
+Square root     | `sqrt( )`             | sqrt(100)        | 10
+Absolute value  | `abs( )`              | abs(-100)        | 100
+Round           | `round(x, digits = )` | round(12.345, 2) | 12.35
+Min             | `min(...)`            | min(2.21, 2.22)  | 2.21
+Max             | `max(...)`            | max(2.21, 2.22)  | 2.22
+
+
+
+
+# Adding links
+
+Remember that you can add links to your text quite easily, using square brackets and including the webpage link e.g. [here] (LINK). In practice, just remove the space.
+
+Can you add a link to the lab notes using the structure above?
+
+My link is here: [dapR1](https://bookdown.org/animestina/dapr1_labs/)
+
+# Adding figures & pictures
+
+I also want to add a picture to my final document. There is quite nice one that is accessible via this link: http://poster.keepcalmandposters.com/209215.png
+
+Can you include it as well? 
+
+
+Include picture from online:
+```{r, echo=TRUE,  fig.align="center"}
+knitr::include_graphics("http://poster.keepcalmandposters.com/209215.png")
+```
+
+If you can hide the code from the final output and only display the picture that would be even better! Go back to `Code Chunks` section to see which option you may want to add. Hint: you need to adjust `echo`.
+
+
+# Extra practice
+
+Remember the revenue example we had last week. We practiced using the scripts and the console so it is not that great for us if we want to have it in our notes. Can you incorporate the code and comments into your Rmd file?
+
+```{r}
+#Revenue example
+sales <-50
+royalties <-45
+revenue <- sales*royalties
+```
+
+Nice! 
+
+
+You can stop here if you want or if wanting to see more advanced bits, try to work out the example below.
+
+# Inline Text (Advanced)
+
+Inline code allows you to 'fill in' information in your document that is updated as your data is updated.The syntax for inline code starts with a `'r` and ends with `'`.
+
+Lets create an example:
+```{r}
+nextsales <- 20
+nextmonth <- "July"
+thissales <- 50
+thismonth <- "June"
+```
+
+Add the inline code::
+
+In **r thismonth**, we sold **r thissales** copies of our Rbook. We are predicted to sell **r nextsales** in **r nextmonth**. This is **r ifelse(nextsales < thissales, "down", "up")** from **r thismonth**.
+
+This will give us the following summary:
+
+In `r thismonth`, we sold `r thissales` copies of our Rbook. We are predicted to sell `r nextsales` in `r nextmonth`. This is `r ifelse(nextsales < thissales, "down", "up")` from `r thismonth`.
+
+Now, compile the file with the information we provided above.  Note what you see.
+
+
+Come back to Rmd editor and adjust the sales to new numbers. Compile again - can you see any changes in the your summary paragraph as well?
+

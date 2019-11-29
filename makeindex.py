@@ -69,6 +69,7 @@ INDEX_TEMPLATE = r"""
 """
 
 EXCLUDED = ['index.html']
+EXCLUDEDDIR = ['book']
 
 import os
 import argparse
@@ -87,7 +88,7 @@ def fun(dir,rootdir):
     f = open(dir+'/index.html','w')
     print(Template(INDEX_TEMPLATE).render(dirnames=dirnames,filenames=filenames, header=dir,ROOTDIR=rootdir,time=time.ctime(os.path.getctime(dir))),file=f)
     f.close()
-    for subdir in dirnames:
+    for subdir in [dirnames for dirnames in dirnames if dirnames not in EXCLUDEDDIR]:
         try:
             fun(dir+subdir+"/",rootdir+'../')
         except:

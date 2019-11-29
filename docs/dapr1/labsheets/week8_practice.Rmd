@@ -1,0 +1,121 @@
+---
+title: "Week8 Practice"
+author: "Put Your Name Here"
+date: "07/11/2019"
+output: html_document
+---
+
+## Sex of the babies  born in the UK
+
+Work with the following example to study the probability of males and females being born in the UK. You can read more about the actual report [here] (https://www.gov.uk/government/statistics/sex-ratios-at-birth-in-great-britain-2013-to-2017) 
+and check the methodologies on how people determine whether there is or isn't evidence for sex selection at birth. 
+
+```{r, echo=FALSE}
+knitr::include_graphics("https://anaushakova.files.wordpress.com/2019/11/screenshot-2019-11-07-at-13.36.59.png?w=1248")
+```
+There were 3.7 million births registered in Great Britain in this period with a ratio of males to females being 105.4. This also can be interpreted as the odds being 105.4 to 100 for males to females.
+
+$$ \frac{male}{female} = \frac{105.4}{100} $$
+
+To convert from odds to probability, divide the odds by one plus the odds. So to convert odds of 105.4/100 to a probability we can use the following: 
+
+$$ {\frac{105.4}{100}}/({\frac{105.4}{100} +{\frac{100}{100}}}) = 0.51$$
+
+
+From the information we were given we can then conclude that there might be a pretty random chance for baby male and baby female being registered and there is no evidence for sex selection at birth.
+
+Can you generate a sample of 100 babies that follow this distribution and then provide us with the plot?
+
+
+```{r}
+# Assign some outcome variable
+outcomes_babies <- 
+
+# We then will sample the outcomes 100 times with replacement
+
+``` 
+
+
+```{r}
+# Or increase to a 1000 and put into a tibble
+simulation_babies <-
+```
+
+```{r}
+# How many babies for each group?
+
+```
+
+To provide a comparison, let's plot as well: 
+
+```{r}
+# Barplot for babies
+```
+
+What if there were differences? Assign the probabilities as 0.3 and 0.7 and see what happens:
+
+```{r}
+# Change the probabilities as if not random and generate a simulation
+
+```
+
+To provide a comparison, let's plot as well: 
+
+```{r}
+# Barplot for a new distribution
+
+```
+
+Try to play with it by resimulating your data and plot again. You will note that there is likely to be a switch between the two bars when we have a random event but a stronger tendency towards differences when the probability was pre-determined.
+
+## Pen and Paper Exercises
+
+Work with pen and paper on these ones. Try to calculate probabilities given the information below - go to your lab notes where necessary.
+
+### Boys and girls paradox  (Mr. Jones and Mr. Smith) 
+
+The Boy or Girl paradox, also known as **The Two Child Problem**, comes from a problem set up in the 1950s that asks two questions about the children of Mr. Jones and Mr. Smith. It was first published by  Martin Gardner in the October 1959 "Mathematical Games column" in Scientific American. The paradox comes as follows.
+
+- Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?
+- Mr. Smith has two children. At least one of them is a boy. What is the probability that both children are boys?
+
+How would you calculate these given the information you have just been given? It is a bit tricker then one may think.
+
+The answer could easily be 50/50 but it can also vary given how much extra information we know. Whenever we are calculating probabilities for real world events we do need to make certain assumptions. If it is a random event, then:
+
+- Each child is either male or female.
+- Each child has the same chance of being male as being female (50/50).
+- The sex of each child is independent of the sex of the other -  there is no conditional effect.
+
+Given this, there are four possible options, and for Mr.Jones we can immediately eleminate the last two:
+
+- **Older Child = Girl, Younger Child = Boy**
+- **Older Child = Girl, Younger Child = Girl**
+- **Older Child = Boy, Younger Child = Boy**
+- **Older Child = Boy, Younger Child = Girl**
+
+But what about Mr.Smith? We can't really know the combination so perhaps there could be three options, which will lead to the probability of the second child being a boy being $1/3$ or $0.33$ - can you tell which ones we would keep to calculate these?
+
+- **Older Child = Girl, Younger Child = Boy**
+- **Older Child = Girl, Younger Child = Girl**
+- **Older Child = Boy, Younger Child = Boy**
+- **Older Child = Boy, Younger Child = Girl**
+
+A very nice article that discussed the paradox was written by Peter Lynch in 2011, titled ['*The Two-Child Paradox: Dichotomy and Ambiguity'*](https://www.maths.tcd.ie/pub/ims/bull67/2011-6-1.pdf): quite worth having a look! :)
+
+### Rugby captain
+ 
+A rugby team contains 6 Englishmen, 4 Welshmen, 8 Irishmen and 2 Scotsmen. If the captain is chosen at random, find the probability that he is:
+ 
+ a) Scottish
+ b) Welsh
+ c) Irish or Scottish
+ d) Not Scottish
+
+### Defective
+
+A batch of ten electronic components contains three that are defective. If two components are selected from the batch, find the probability that:
+
+ a) Both are defective
+ b) Neither is defective
+ c) At least one is defective

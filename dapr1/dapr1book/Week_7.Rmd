@@ -1,0 +1,406 @@
+# Week 7 {}
+
+Practice.Rmd [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week7_practice.Rmd) or on Learn. A zipped folder of **all** the datasets can be downloaded [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/datasets_all.zip) or from Learn. Individual datasets are also available:  
+- [data_students_1.csv](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/data_students_1.csv)  
+- [data_students_2.txt](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/data_students_2.txt)  
+- [data_students_3.csv](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/data_students_3.csv)  
+- [data_students_3.dta](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/data_students_3.dta)  
+- [data_students_3.sav](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/data_students_3.sav)  
+
+
+## Reading in Data, Merge and More R Practice
+
+This week we will focus on reading various datasets and merging them together where necessary. This can be useful if you collected data at different times or might be merging datasets from different studies for your analysis. We will also work through a few code examples that can help you to navigate around the data and filter observations, using `filter` and `arrange` from `tidyverse`. 
+
+You can find more examples in the books here: 
+
+[Chapter 5 on Data Transformation - R for Data Science by Garett Grolemund and Hadley Wikham](https://r4ds.had.co.nz/transform.html)
+
+[Chapter on Descriptive Statistics and Data Manipuliation - Modern R with the Tidyverse by Bruno Rodrigues](https://b-rodrigues.github.io/modern_R/descriptive-statistics-and-data-manipulation.html)
+
+Reading in and merging data of different formats can be tricky if you don't have R to help you. We will walk you through a fairly simple example today to build your intutition. When you get to Years 3 and 4 you will get to work with your own dissertation data - we hope you'll find the notes here useful for then.
+
+First things first, let's load `tidyverse`.
+
+```{r}
+library(tidyverse)
+```
+
+This week we will work with the datasets that have information on students' grades for different programmes. We have got three separate datasets which we want to put together for the analysis. The first one has data on  programmes for 15 students. The second dataset provides grades for the same students.  We then have a separate dataset that has information on another 15 students and their respective programmes and grades. 
+
+On top of that, each dataset comes in a different format. We have .csv, .txt, .sav (SPSS) and also .dta (STATA) format. Confusing right?
+
+Our task for today will be to find an efficient way to create a single dataset that has information for these 30 students that you will then work with in your practice.
+
+## Dataset 1 (.csv)
+
+We have student IDs and grades. In terms of observations, we have 15 in total.
+
+- ID (ID1, ID2, ID3... ID15)
+- grades (1-100)
+
+The dataset comes in the format familiar to us, csv, so we know how to read that one in, please note that this week we introduce a tidyverse read_csv() function which can be useful for us when it comes to joining the data.
+
+
+```{r}
+data_students_1 <- read.csv('data_students_1.csv')
+```
+
+## Dataset 2 (.txt)
+
+We have student IDs and programme. In terms of observations, we have 15 in total.
+
+- ID (ID1, ID2, ID3... ID15)
+- programme ('psych', 'lang', and 'phil')
+
+
+
+Here, we have got a .txt format. Not a problem for R:
+
+```{r}
+data_students_2 <- read.table("data_students_2.txt", header = TRUE) # Note that we add the header TRUE which will read the first line in the file as the column names.
+```
+
+## Dataset 3 (.sav and .dta)
+
+We have student IDs, grades and programme. In terms of observations, we have 15 in total but these are different students so we will want to add those with the previous datasets later.
+
+- ID (ID16... ID30)
+- grades (1-100)
+- programme ('psych', 'lang', and 'phil')
+
+
+
+We have .dta format here which may look foreign to you as it looks like the data was saved by a different software. To deal with those in R, we can install package `foreign` and then read directly from the format:
+
+```{r}
+library(foreign) 
+data_students_3 <- read.dta('data_students_3.dta')
+```
+
+
+You may also note that we have `data_students_3.sav`.
+This format comes from very popular software that psychology researchers often use, SPSS.
+
+
+
+We can open it vis `foreign` as well:
+
+```{r, eval=FALSE}
+data_students_3 <- read.spss("data_students_3.sav", to.data.frame=TRUE) # note the argument for data.frame - if you don't specify, the data will be loaded as the list
+```
+
+## Merging datasets together
+
+Once the data is visible in the environment, we can start attempting to bring them together. There are number of ways to do this. Let us start with the most intuitive one. We can merge datasets 1 and 2 using the ID column. We are lucky to have a unique identifier which can allow us to bring datasets together so we can have our grades and programme all in one dataset.
+
+Exploring data first can help:
+```{r}
+head(data_students_1)
+```
+```{r}
+head(data_students_2)
+```
+
+We can merge data by ID now and we will use `full_join()`.
+
+```{r}
+# Full join
+students_grades_prog <- full_join(data_students_1, data_students_2, by = c('ID')) # We can specify the unqiue variable we use to match the datasets via the 'by =' argument.
+```
+
+Quickly check that you got what you wanted:
+
+```{r}
+head(students_grades_prog)
+```
+Nice! Now we can work with this data a bit using some extra functions from `tidyverse`.
+ 
+## Sorting and arrange()
+
+To check how the data looks when sorted we can use `arrange()`::
+
+```{r}
+# Sort in ascending order (default option)
+students_grades_prog %>%
+  arrange(grades) 
+```
+
+
+```{r}
+# Sort in descending order (add 'desc')
+students_grades_prog %>%
+  arrange(desc(grades))
+```
+
+We can also sort by other variables:
+
+```{r}
+# Sort in ascending order by programme (just remove desc())
+students_grades_prog %>%
+  arrange(programme) 
+```
+
+## Data description
+
+Now, we have a full dataset we can try to do some simple analysis on the data and study the variation in grades across the cohort and by programme.
+
+```{r}
+# All grades 
+students_grades_prog %>%
+  summarise(mean = mean(grades),
+            median = median(grades),
+            sd = sd(grades))
+```
+
+```{r}
+# Group grades by programme
+students_grades_prog %>%
+  group_by(programme) %>%
+  summarise(mean = mean(grades),
+            median = median(grades),
+            sd = sd(grades))
+```
+
+## Using filter()
+
+We can use a handy option `filter()` to do descriptives only for certain observations in the data. Let's group descriptives by programme but only look at 'psych'.
+
+```{r}
+# Check programme 'psych'
+students_grades_prog %>%
+  filter(programme == 'psych') %>%
+  summarise(mean_psych = mean(grades),
+            median_psych = median(grades),
+            sd_psych = sd(grades))
+```
+
+Try with 'lang' and 'phil' too.
+```{r}
+# Check programme 'lang'
+students_grades_prog %>%
+  filter(programme == 'lang') %>%
+  summarise(mean_lang = mean(grades),
+            median_lang = median(grades),
+            sd_lang = sd(grades))
+```
+
+```{r}
+# Check programme 'phil'
+students_grades_prog %>%
+  filter(programme == 'phil') %>%
+  summarise(mean_phil = mean(grades),
+            median_phil = median(grades),
+            sd_phil = sd(grades))
+```
+
+Where necessary, we can also focus on studying only specific values in our data. For instance, imagine you just wanted to study students who have received grades of 50 and above in 'psych'.
+
+```{r}
+# Check programme 'psych', grades > 50
+students_grades_prog %>%
+  filter(programme == 'phil', grades > 50) %>%
+  summarise(mean_phil = mean(grades),
+            median_phil = median(grades),
+            sd_phil = sd(grades))
+```
+
+You will get much higher means now as you removed the grades which were lower.
+
+We can also use `filter()` to check just the for occurence of specific values. For example, what if we focused on only very high grades or very low grades in psych?
+
+```{r}
+# Check programme 'psych' grades above 70 or below 40
+students_grades_prog %>%
+  filter(programme == 'psych') %>%
+  filter(grades > 70 | grades < 40) # Take a note of how we use '|' to specify OR.
+```
+
+There are two extreme values in our data for our specification but let's look at all the programmes together as well.
+
+```{r}
+# Group programmes and check for extreme values
+students_grades_prog %>%
+  group_by(programme) %>%
+  filter(grades > 80 | grades < 40) 
+```
+
+## Visualisations
+
+Lastly, as usual, always visualise your data to gauge what the distribution looks like.
+
+```{r}
+# Visualise
+ggplot(data = students_grades_prog, aes(x = grades)) + 
+  geom_histogram(bins = 15, color = 'grey', fill = 'blue') + 
+  labs(x = 'Grades', y = 'Frequency', title = 'Histogram of Student Grades') + 
+  theme_minimal()
+```
+
+What about by programme? Try plotting with subsets. Bear in mind we don't have that many observations.
+
+```{r}
+# Example for psych only
+ggplot(data = subset(students_grades_prog, programme %in% c('psych')), aes(x = grades)) +
+  geom_histogram(bins = 20, color = 'grey', fill = 'blue') + 
+  labs(x = 'Grades', y = 'Frequency', title = 'Histogram of Student Grades (Psych)') + 
+  theme_minimal()
+```
+
+## Save the file in your folder
+
+Before finishing off, we can also write the merged dataset into our folder so it can be saved for the future. Check your folder after you run below. 
+
+```{r}
+write.csv(students_grades_prog, 'student_grades_prog.csv') # Note how we first specify the object we want to save and then the name of the file including the extension '.csv'.
+```
+
+## Practice.Rmd Solutions
+
+First, make sure that all the necessary packages are loaded:
+
+```{r}
+library(tidyverse)
+library(foreign)
+```
+
+For your practice work with the same data as in the tutorial. You will need to use `filter` and `arrange` and also `mutate` to answer the questions below. 
+
+You are also required to provide some simple visualisations for your data to show what is happening in student grades by programme.
+
+Here is the breakdown of the tasks we want you to do and the solutions:
+
+- Read all three datasets in (data_students_1, data_students_2, data_students_3). Since they come in different formats make sure to check your notes from the tutorial. Note that you have data_students_3 in different formats so you can choose which one you want to read in. After you've read them in, check what's inside of each dataset.
+
+```{r}
+# Dataset 1
+data_students_1 <- read.csv('data_students_1.csv')
+head(data_students_1)
+```
+
+```{r}
+# Dataset 2
+data_students_2 <- read.table("data_students_2.txt", header = TRUE) 
+head(data_students_2)
+```
+
+```{r}
+# Dataset 3
+data_students_3 <- read.dta('data_students_3.dta')
+head(data_students_3)
+# Or
+data_students_3 <- read.csv('data_students_3.csv')
+head(data_students_3)
+```
+
+Note that we have IDs 16-30 which means that we have got data for an extra 15 students. We can now add these to the other dataset we have. Let us first merge grades and programme for data_students_1 and data_students_2. 
+
+- Merge datasets together. First merge data_students_1 and data_students_2, then merge the resulting data with data_students_3. Hint: you will need to use full_join(). 
+
+```{r}
+# Dataset 1 + Dataset 2
+students_grades_prog <- full_join(data_students_1, data_students_2, by = c('ID')) # We can specify the unqiue variable we use to match the datasets via the 'by =' argument.
+```
+
+```{r, message=FALSE, warning=FALSE}
+# + Dataset 3
+students_grades_prog_all <- full_join(students_grades_prog, data_students_3) # Please note that we do not need to specify a unique identifier here as we just want to match data by columns and R is clever enough to know what to do.
+head(students_grades_prog_all)
+```
+
+- Work with the final dataset that has information on all students (30 observations).
+
+- Provide means, medians and standard deviations for grades in each programme.
+
+```{r}
+students_grades_prog_all %>%
+  group_by(programme) %>%
+  summarise(mean = mean(grades),
+            median = median(grades),
+            sd = sd(grades))
+```
+
+- Provide a simple visualisaiton for each programme.
+
+```{r}
+# Psych
+ggplot(data = subset(students_grades_prog_all, programme %in% c('psych')), aes(x = grades)) +
+  geom_histogram(bins = 20, color = 'grey', fill = 'cornsilk') + 
+  labs(x = 'Grades', y = 'Frequency', title = 'Histogram of Student Grades (Psych)') + 
+  theme_minimal()
+```
+
+```{r}
+# Lang
+ggplot(data = subset(students_grades_prog_all, programme %in% c('lang')), aes(x = grades)) +
+  geom_histogram(bins = 20,color = 'grey', fill = 'lightblue') + 
+  labs(x = 'Grades', y = 'Frequency', title = 'Histogram of Student Grades (Lang)') + 
+  theme_minimal()
+```
+
+```{r}
+# Phil
+ggplot(data = subset(students_grades_prog_all, programme %in% c('phil')), aes(x = grades)) +
+  geom_histogram(bins = 20, color = 'grey', fill = 'coral') + 
+  labs(x = 'Grades', y = 'Frequency', title = 'Histogram of Student Grades (Phil)') + 
+  theme_minimal()
+```
+
+Now, try to answer the following questions:
+
+- How many students in the dataset received the grades above 70?
+
+```{r}
+# Filter for grades above 70
+students_grades_prog_all %>%
+  filter(grades > 70)
+```
+
+The answer is three.
+ 
+- What is the mean and the median grade for those who got more than 65?
+
+```{r}
+# Mean and median for grades above 70
+students_grades_prog_all %>%
+  filter(grades > 65)  %>%
+  summarise(mean_above_65 = mean(grades),
+            median_above_65 = median(grades))
+
+```
+
+The answer is 72 and 70.
+
+- How many students received grades that were between 40 and 50 in philosophy programme?
+
+```{r}
+# Phil grades between 40 and 50
+students_grades_prog_all %>%
+  filter(programme == 'phil') %>%
+  filter(grades > 40 & grades < 50) # Note that we use '&' to specify that we want grades both less than 50 and more than 40.
+```
+
+There are two students.
+
+- Considering only philosophy programme, what were the top three grades in the cohort? 
+
+```{r}
+# Only phil arranged
+students_grades_prog_all %>%
+  filter(programme == 'phil') %>%
+  arrange(desc(grades))
+```
+The answer is 72, 70 and 68.
+
+- Now, for language, what were the three lowest grades in the cohort? 
+
+```{r}
+# Only lang arranged 
+students_grades_prog_all %>%
+  filter(programme == 'lang')  %>%
+  arrange(grades)
+```
+
+It should be 35, 38 and 40.
+
+Well done. It may have taken a while to build all of these code chunks but it is an essential part of the practice to keep playing with the code we are showing you. Try to arrange things differently and see what happens.

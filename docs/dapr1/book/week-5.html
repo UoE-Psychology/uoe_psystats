@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Week 5 | Data Analysis for Psychology in R (dapR1) - Labs</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Week 5 | Data Analysis for Psychology in R (dapR1) - Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Week 5 | Data Analysis for Psychology in R (dapR1) - Labs" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="week-4.html"/>
+<link rel="next" href="week-6.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">DAPR1</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>1</b> Week 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="week-1.html"><a href="week-1.html#introduction-to-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="week-1.html"><a href="week-1.html#install-the-recent-version-of-r-and-r-studio"><i class="fa fa-check"></i><b>1.2</b> Install the recent version of R and R Studio</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1.html"><a href="week-1.html#first-step"><i class="fa fa-check"></i><b>1.2.1</b> First Step</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1.html"><a href="week-1.html#second-step"><i class="fa fa-check"></i><b>1.2.2</b> Second Step</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1.html"><a href="week-1.html#getting-started-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Getting Started in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="week-1.html"><a href="week-1.html#r-as-an-interactive-environment"><i class="fa fa-check"></i><b>1.4</b> R as an interactive environment</a></li>
+<li class="chapter" data-level="1.5" data-path="week-1.html"><a href="week-1.html#check-your-settings"><i class="fa fa-check"></i><b>1.5</b> Check your settings</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="week-1.html"><a href="week-1.html#disable-automatic-saving-of-your-workspace"><i class="fa fa-check"></i><b>1.5.1</b> Disable automatic saving of your workspace</a></li>
+<li class="chapter" data-level="1.5.2" data-path="week-1.html"><a href="week-1.html#adjust-fontscolours-if-you-like"><i class="fa fa-check"></i><b>1.5.2</b> Adjust fonts/colours if you like</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="week-1.html"><a href="week-1.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.6</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="1.7" data-path="week-1.html"><a href="week-1.html#the-console"><i class="fa fa-check"></i><b>1.7</b> The Console</a></li>
+<li class="chapter" data-level="1.8" data-path="week-1.html"><a href="week-1.html#spacing"><i class="fa fa-check"></i><b>1.8</b> Spacing</a></li>
+<li class="chapter" data-level="1.9" data-path="week-1.html"><a href="week-1.html#typos"><i class="fa fa-check"></i><b>1.9</b> Typos</a></li>
+<li class="chapter" data-level="1.10" data-path="week-1.html"><a href="week-1.html#unfinishe.-d"><i class="fa fa-check"></i><b>1.10</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="1.11" data-path="week-1.html"><a href="week-1.html#basic-arithmetic"><i class="fa fa-check"></i><b>1.11</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="1.12" data-path="week-1.html"><a href="week-1.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>1.12</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="1.13" data-path="week-1.html"><a href="week-1.html#r-scripts"><i class="fa fa-check"></i><b>1.13</b> R Scripts</a></li>
+<li class="chapter" data-level="1.14" data-path="week-1.html"><a href="week-1.html#short-example"><i class="fa fa-check"></i><b>1.14</b> Short Example</a></li>
+<li class="chapter" data-level="1.15" data-path="week-1.html"><a href="week-1.html#naming-variables"><i class="fa fa-check"></i><b>1.15</b> Naming variables</a></li>
+<li class="chapter" data-level="1.16" data-path="week-1.html"><a href="week-1.html#now-over-to-you"><i class="fa fa-check"></i><b>1.16</b> Now over to you</a><ul>
+<li class="chapter" data-level="1.16.1" data-path="week-1.html"><a href="week-1.html#exercise-1"><i class="fa fa-check"></i><b>1.16.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="1.16.2" data-path="week-1.html"><a href="week-1.html#exercise-2"><i class="fa fa-check"></i><b>1.16.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="1.17" data-path="week-1.html"><a href="week-1.html#solutions"><i class="fa fa-check"></i><b>1.17</b> Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2</b> Week 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="week-2.html"><a href="week-2.html#introduction-to-rmarkdown"><i class="fa fa-check"></i><b>2.1</b> Introduction to RMarkdown</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html#what-is-r-markdown"><i class="fa fa-check"></i><b>2.2</b> What is R Markdown?</a></li>
+<li class="chapter" data-level="2.3" data-path="week-2.html"><a href="week-2.html#getting-things-ready"><i class="fa fa-check"></i><b>2.3</b> Getting things ready</a></li>
+<li class="chapter" data-level="2.4" data-path="week-2.html"><a href="week-2.html#r-markdown-basics"><i class="fa fa-check"></i><b>2.4</b> R Markdown basics</a></li>
+<li class="chapter" data-level="2.5" data-path="week-2.html"><a href="week-2.html#headings"><i class="fa fa-check"></i><b>2.5</b> Headings</a></li>
+<li class="chapter" data-level="2.6" data-path="week-2.html"><a href="week-2.html#text"><i class="fa fa-check"></i><b>2.6</b> Text</a></li>
+<li class="chapter" data-level="2.7" data-path="week-2.html"><a href="week-2.html#tables"><i class="fa fa-check"></i><b>2.7</b> Tables</a></li>
+<li class="chapter" data-level="2.8" data-path="week-2.html"><a href="week-2.html#lists"><i class="fa fa-check"></i><b>2.8</b> Lists</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="week-2.html"><a href="week-2.html#unordered"><i class="fa fa-check"></i><b>2.8.1</b> Unordered</a></li>
+<li class="chapter" data-level="2.8.2" data-path="week-2.html"><a href="week-2.html#ordered"><i class="fa fa-check"></i><b>2.8.2</b> Ordered</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
+<li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.11</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.11.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.11.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.11.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.11.2</b> Adding figures &amp; pictures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.12</b> Generating documents</a></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.13</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
+<li class="chapter" data-level="3.2" data-path="week-3.html"><a href="week-3.html#get-the-package-first"><i class="fa fa-check"></i><b>3.2</b> Get the package first</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3.html"><a href="week-3.html#numeric-data"><i class="fa fa-check"></i><b>3.3</b> Numeric Data</a></li>
+<li class="chapter" data-level="3.4" data-path="week-3.html"><a href="week-3.html#textcharacter-data"><i class="fa fa-check"></i><b>3.4</b> Text/Character Data</a></li>
+<li class="chapter" data-level="3.5" data-path="week-3.html"><a href="week-3.html#logical-data"><i class="fa fa-check"></i><b>3.5</b> Logical Data</a></li>
+<li class="chapter" data-level="3.6" data-path="week-3.html"><a href="week-3.html#variable-classes"><i class="fa fa-check"></i><b>3.6</b> Variable Classes</a></li>
+<li class="chapter" data-level="3.7" data-path="week-3.html"><a href="week-3.html#factors"><i class="fa fa-check"></i><b>3.7</b> Factors</a></li>
+<li class="chapter" data-level="3.8" data-path="week-3.html"><a href="week-3.html#lists-1"><i class="fa fa-check"></i><b>3.8</b> Lists</a></li>
+<li class="chapter" data-level="3.9" data-path="week-3.html"><a href="week-3.html#practice.rmd-solutions"><i class="fa fa-check"></i><b>3.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="week-3.html"><a href="week-3.html#exercise-1-1"><i class="fa fa-check"></i><b>3.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.9.2" data-path="week-3.html"><a href="week-3.html#exercise-2-1"><i class="fa fa-check"></i><b>3.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.9.3" data-path="week-3.html"><a href="week-3.html#exercise-3"><i class="fa fa-check"></i><b>3.9.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>4</b> Week 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="week-4.html"><a href="week-4.html#introduction-to-plots-geoms-ggplot"><i class="fa fa-check"></i><b>4.1</b> Introduction to plots &amp; geoms (ggplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="week-4.html"><a href="week-4.html#visualisations"><i class="fa fa-check"></i><b>4.2</b> Visualisations</a></li>
+<li class="chapter" data-level="4.3" data-path="week-4.html"><a href="week-4.html#get-our-data-sorted"><i class="fa fa-check"></i><b>4.3</b> Get our data sorted</a></li>
+<li class="chapter" data-level="4.4" data-path="week-4.html"><a href="week-4.html#numerical-data"><i class="fa fa-check"></i><b>4.4</b> Numerical data</a></li>
+<li class="chapter" data-level="4.5" data-path="week-4.html"><a href="week-4.html#simple-one-variable-plot-using-ggplot"><i class="fa fa-check"></i><b>4.5</b> Simple one-variable plot using ggplot()</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="week-4.html"><a href="week-4.html#continuous-variable"><i class="fa fa-check"></i><b>4.5.1</b> Continuous variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="week-4.html"><a href="week-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.6</b> Categorical variables</a></li>
+<li class="chapter" data-level="4.7" data-path="week-4.html"><a href="week-4.html#continuous-variables-grouped-by-a-categorical-one"><i class="fa fa-check"></i><b>4.7</b> Continuous variables grouped by a categorical one</a></li>
+<li class="chapter" data-level="4.8" data-path="week-4.html"><a href="week-4.html#even-more-advanced"><i class="fa fa-check"></i><b>4.8</b> Even more advanced</a></li>
+<li class="chapter" data-level="4.9" data-path="week-4.html"><a href="week-4.html#practice.rmd-solutions-1"><i class="fa fa-check"></i><b>4.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="week-4.html"><a href="week-4.html#exercise-1-2"><i class="fa fa-check"></i><b>4.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="4.9.2" data-path="week-4.html"><a href="week-4.html#exercise-2-2"><i class="fa fa-check"></i><b>4.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.9.3" data-path="week-4.html"><a href="week-4.html#exercise-3---advanced"><i class="fa fa-check"></i><b>4.9.3</b> Exercise 3 - Advanced</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>5</b> Week 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="week-5.html"><a href="week-5.html#central-tendency-and-variability"><i class="fa fa-check"></i><b>5.1</b> Central Tendency and Variability</a></li>
+<li class="chapter" data-level="5.2" data-path="week-5.html"><a href="week-5.html#load-all-the-necessary-packages"><i class="fa fa-check"></i><b>5.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="5.3" data-path="week-5.html"><a href="week-5.html#descriptive-statistics"><i class="fa fa-check"></i><b>5.3</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="5.4" data-path="week-5.html"><a href="week-5.html#central-tendency-variability"><i class="fa fa-check"></i><b>5.4</b> Central tendency &amp; variability</a></li>
+<li class="chapter" data-level="5.5" data-path="week-5.html"><a href="week-5.html#mean-and-median"><i class="fa fa-check"></i><b>5.5</b> Mean and median</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="week-5.html"><a href="week-5.html#reading-data-in"><i class="fa fa-check"></i><b>5.5.1</b> Reading data in</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="week-5.html"><a href="week-5.html#using-piping-operator-for-descriptive-statistics"><i class="fa fa-check"></i><b>5.6</b> Using piping operator for descriptive statistics</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="week-5.html"><a href="week-5.html#mean"><i class="fa fa-check"></i><b>5.6.1</b> Mean</a></li>
+<li class="chapter" data-level="5.6.2" data-path="week-5.html"><a href="week-5.html#median"><i class="fa fa-check"></i><b>5.6.2</b> Median</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="week-5.html"><a href="week-5.html#standard-deviation"><i class="fa fa-check"></i><b>5.7</b> Standard deviation</a></li>
+<li class="chapter" data-level="5.8" data-path="week-5.html"><a href="week-5.html#visualise-your-data"><i class="fa fa-check"></i><b>5.8</b> Visualise your data</a></li>
+<li class="chapter" data-level="5.9" data-path="week-5.html"><a href="week-5.html#practice.rmd-solutions-2"><i class="fa fa-check"></i><b>5.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="week-5.html"><a href="week-5.html#income-distribution-example"><i class="fa fa-check"></i><b>5.9.1</b> Income Distribution Example</a></li>
+<li class="chapter" data-level="5.9.2" data-path="week-5.html"><a href="week-5.html#visualisations-1"><i class="fa fa-check"></i><b>5.9.2</b> Visualisations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>6</b> Week 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="week-6.html"><a href="week-6.html#plotting-functions-and-simple-data-transformation"><i class="fa fa-check"></i><b>6.1</b> Plotting Functions and Simple Data Transformation</a></li>
+<li class="chapter" data-level="6.2" data-path="week-6.html"><a href="week-6.html#load-all-the-necessary-packages-1"><i class="fa fa-check"></i><b>6.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="6.3" data-path="week-6.html"><a href="week-6.html#part-1-hand-plotting-functions"><i class="fa fa-check"></i><b>6.3</b> Part 1: Hand plotting functions</a></li>
+<li class="chapter" data-level="6.4" data-path="week-6.html"><a href="week-6.html#basics"><i class="fa fa-check"></i><b>6.4</b> Basics</a></li>
+<li class="chapter" data-level="6.5" data-path="week-6.html"><a href="week-6.html#linear-functions"><i class="fa fa-check"></i><b>6.5</b> Linear functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="week-6.html"><a href="week-6.html#tree-height-example"><i class="fa fa-check"></i><b>6.5.1</b> Tree height example</a></li>
+<li class="chapter" data-level="6.5.2" data-path="week-6.html"><a href="week-6.html#non-linear-functions-first-order-polynomials"><i class="fa fa-check"></i><b>6.5.2</b> Non-linear functions (first order polynomials)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="week-6.html"><a href="week-6.html#practice-plotting"><i class="fa fa-check"></i><b>6.6</b> Practice plotting</a></li>
+<li class="chapter" data-level="6.7" data-path="week-6.html"><a href="week-6.html#part-2-introduction-to-data-transformation"><i class="fa fa-check"></i><b>6.7</b> Part 2: Introduction to Data Transformation</a></li>
+<li class="chapter" data-level="6.8" data-path="week-6.html"><a href="week-6.html#renaming"><i class="fa fa-check"></i><b>6.8</b> Renaming</a></li>
+<li class="chapter" data-level="6.9" data-path="week-6.html"><a href="week-6.html#adding-new-variables"><i class="fa fa-check"></i><b>6.9</b> Adding new variables</a></li>
+<li class="chapter" data-level="6.10" data-path="week-6.html"><a href="week-6.html#transformation-and-skewness"><i class="fa fa-check"></i><b>6.10</b> Transformation and skewness</a></li>
+<li class="chapter" data-level="6.11" data-path="week-6.html"><a href="week-6.html#mean-centering"><i class="fa fa-check"></i><b>6.11</b> Mean Centering</a></li>
+<li class="chapter" data-level="6.12" data-path="week-6.html"><a href="week-6.html#standardisation"><i class="fa fa-check"></i><b>6.12</b> Standardisation</a></li>
+<li class="chapter" data-level="6.13" data-path="week-6.html"><a href="week-6.html#practice.rmd-solutions-3"><i class="fa fa-check"></i><b>6.13</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>7</b> Week 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="week-7.html"><a href="week-7.html#reading-in-data-merge-and-more-r-practice"><i class="fa fa-check"></i><b>7.1</b> Reading in Data, Merge and More R Practice</a></li>
+<li class="chapter" data-level="7.2" data-path="week-7.html"><a href="week-7.html#dataset-1-.csv"><i class="fa fa-check"></i><b>7.2</b> Dataset 1 (.csv)</a></li>
+<li class="chapter" data-level="7.3" data-path="week-7.html"><a href="week-7.html#dataset-2-.txt"><i class="fa fa-check"></i><b>7.3</b> Dataset 2 (.txt)</a></li>
+<li class="chapter" data-level="7.4" data-path="week-7.html"><a href="week-7.html#dataset-3-.sav-and-.dta"><i class="fa fa-check"></i><b>7.4</b> Dataset 3 (.sav and .dta)</a></li>
+<li class="chapter" data-level="7.5" data-path="week-7.html"><a href="week-7.html#merging-datasets-together"><i class="fa fa-check"></i><b>7.5</b> Merging datasets together</a></li>
+<li class="chapter" data-level="7.6" data-path="week-7.html"><a href="week-7.html#sorting-and-arrange"><i class="fa fa-check"></i><b>7.6</b> Sorting and arrange()</a></li>
+<li class="chapter" data-level="7.7" data-path="week-7.html"><a href="week-7.html#data-description"><i class="fa fa-check"></i><b>7.7</b> Data description</a></li>
+<li class="chapter" data-level="7.8" data-path="week-7.html"><a href="week-7.html#using-filter"><i class="fa fa-check"></i><b>7.8</b> Using filter()</a></li>
+<li class="chapter" data-level="7.9" data-path="week-7.html"><a href="week-7.html#visualisations-2"><i class="fa fa-check"></i><b>7.9</b> Visualisations</a></li>
+<li class="chapter" data-level="7.10" data-path="week-7.html"><a href="week-7.html#save-the-file-in-your-folder"><i class="fa fa-check"></i><b>7.10</b> Save the file in your folder</a></li>
+<li class="chapter" data-level="7.11" data-path="week-7.html"><a href="week-7.html#practice.rmd-solutions-4"><i class="fa fa-check"></i><b>7.11</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="week-8.html"><a href="week-8.html"><i class="fa fa-check"></i><b>8</b> Week 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="week-8.html"><a href="week-8.html#introduction-to-probability"><i class="fa fa-check"></i><b>8.1</b> Introduction to Probability</a></li>
+<li class="chapter" data-level="8.2" data-path="week-8.html"><a href="week-8.html#example-1-hot-hand"><i class="fa fa-check"></i><b>8.2</b> Example 1 (hot hand)</a></li>
+<li class="chapter" data-level="8.3" data-path="week-8.html"><a href="week-8.html#example-2-coin-toss"><i class="fa fa-check"></i><b>8.3</b> Example 2 (coin toss)</a></li>
+<li class="chapter" data-level="8.4" data-path="week-8.html"><a href="week-8.html#example-3-independent-shooter"><i class="fa fa-check"></i><b>8.4</b> Example 3 (Independent shooter)</a></li>
+<li class="chapter" data-level="8.5" data-path="week-8.html"><a href="week-8.html#practice-rmd.-solutions"><i class="fa fa-check"></i><b>8.5</b> Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.jones-and-mr.smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
+<li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
+<li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
+<li class="chapter" data-level="8.6.5" data-path="week-8.html"><a href="week-8.html#answers-1"><i class="fa fa-check"></i><b>8.6.5</b> Answers</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="week-9.html"><a href="week-9.html"><i class="fa fa-check"></i><b>9</b> Week 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="week-9.html"><a href="week-9.html#introduction-to-probability-distributions-and-revision"><i class="fa fa-check"></i><b>9.1</b> Introduction to Probability Distributions and Revision</a></li>
+<li class="chapter" data-level="9.2" data-path="week-9.html"><a href="week-9.html#discrete-example-guessing-homework-answers"><i class="fa fa-check"></i><b>9.2</b> Discrete example (guessing homework answers)</a></li>
+<li class="chapter" data-level="9.3" data-path="week-9.html"><a href="week-9.html#generate-a-homework-attempt"><i class="fa fa-check"></i><b>9.3</b> Generate a homework attempt</a></li>
+<li class="chapter" data-level="9.4" data-path="week-9.html"><a href="week-9.html#changing-the-probability-truefalse"><i class="fa fa-check"></i><b>9.4</b> Changing the probability (TRUE/FALSE)</a></li>
+<li class="chapter" data-level="9.5" data-path="week-9.html"><a href="week-9.html#studying-the-distribution"><i class="fa fa-check"></i><b>9.5</b> Studying the distribution</a></li>
+<li class="chapter" data-level="9.6" data-path="week-9.html"><a href="week-9.html#cumulative-probability-advanced"><i class="fa fa-check"></i><b>9.6</b> Cumulative Probability (Advanced)</a></li>
+<li class="chapter" data-level="9.7" data-path="week-9.html"><a href="week-9.html#revision-practice-rmd.-solutions"><i class="fa fa-check"></i><b>9.7</b> Revision Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="week-9.html"><a href="week-9.html#provide-descriptive-statistics-for-age-and-memory-score-variables"><i class="fa fa-check"></i><b>9.7.1</b> Provide descriptive statistics for age and memory score variables</a></li>
+<li class="chapter" data-level="9.7.2" data-path="week-9.html"><a href="week-9.html#descriptives-by-groups"><i class="fa fa-check"></i><b>9.7.2</b> Descriptives by groups</a></li>
+<li class="chapter" data-level="9.7.3" data-path="week-9.html"><a href="week-9.html#visualise"><i class="fa fa-check"></i><b>9.7.3</b> Visualise</a></li>
+<li class="chapter" data-level="9.7.4" data-path="week-9.html"><a href="week-9.html#visualise-a-subset"><i class="fa fa-check"></i><b>9.7.4</b> Visualise a subset</a></li>
+<li class="chapter" data-level="9.7.5" data-path="week-9.html"><a href="week-9.html#variable-by-a-group"><i class="fa fa-check"></i><b>9.7.5</b> Variable by a group</a></li>
+<li class="chapter" data-level="9.7.6" data-path="week-9.html"><a href="week-9.html#create-a-new-variable-using-mutate"><i class="fa fa-check"></i><b>9.7.6</b> Create a new variable using mutate()</a></li>
+<li class="chapter" data-level="9.7.7" data-path="week-9.html"><a href="week-9.html#subset-observations-using-filter"><i class="fa fa-check"></i><b>9.7.7</b> Subset observations using filter()</a></li>
+<li class="chapter" data-level="9.7.8" data-path="week-9.html"><a href="week-9.html#sort-via-arrange"><i class="fa fa-check"></i><b>9.7.8</b> Sort via arrange()</a></li>
+<li class="chapter" data-level="9.7.9" data-path="week-9.html"><a href="week-9.html#lets-do-some-specific-count-using-filter"><i class="fa fa-check"></i><b>9.7.9</b> Let’s do some specific count() using filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="week-9.html"><a href="week-9.html#extra-probability-practice"><i class="fa fa-check"></i><b>9.8</b> Extra Probability Practice</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="week-9.html"><a href="week-9.html#truefalse-questions"><i class="fa fa-check"></i><b>9.8.1</b> TRUE/FALSE questions</a></li>
+<li class="chapter" data-level="9.8.2" data-path="week-9.html"><a href="week-9.html#count-the-occurencies"><i class="fa fa-check"></i><b>9.8.2</b> Count the occurencies</a></li>
+<li class="chapter" data-level="9.8.3" data-path="week-9.html"><a href="week-9.html#plot"><i class="fa fa-check"></i><b>9.8.3</b> Plot</a></li>
+<li class="chapter" data-level="9.8.4" data-path="week-9.html"><a href="week-9.html#use-dbinom-to-study-the-probability"><i class="fa fa-check"></i><b>9.8.4</b> Use dbinom() to study the probability</a></li>
+<li class="chapter" data-level="9.8.5" data-path="week-9.html"><a href="week-9.html#less-than-five-or-more-than-five"><i class="fa fa-check"></i><b>9.8.5</b> Less than five or more than five?</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology in R (dapR1) - Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="week-5" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Week 5</h1>
+<div id="central-tendency-and-variability" class="section level2">
+<h2><span class="header-section-number">5.1</span> Central Tendency and Variability</h2>
+<p><em>The recommended additional reading can be found in <a href="https://learningstatisticswithr.com/book/descriptives.html">Chapter 5 of Navarro Textbook</a>.</em></p>
+<p>We have largely summarised the key information from the reading and the lecture notes in this week’s materials so that you can get a grasp of how to quickly produce descriptions of your data in R. By the end of this week, hopefully you will get some intuition about reading data in R and providing visualisations to accompany your descriptive data analysis.</p>
+</div>
+<div id="load-all-the-necessary-packages" class="section level2">
+<h2><span class="header-section-number">5.2</span> Load all the necessary packages</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+</div>
+<div id="descriptive-statistics" class="section level2">
+<h2><span class="header-section-number">5.3</span> Descriptive Statistics</h2>
+<p>When statisticians are asked to describe what their data looks like, they will often start with descriptive statistics as a quick way to inform people about their data or variable distributions. It may sound weird now but as you move through the years of doing statistics you will find that just reporting the mean, median and standard deviation can easily allow you to visualise the data in your mind without the need for any graphics.</p>
+<p>Descriptive statistics are an essential component of any research paper or report and you will often find them in those of your readings that use empirical evidence.</p>
+<p>Interestingly, when it comes to news articles, often only the mean or median are reported (e.g. “Median wage in the UK is £29,588”). Without additional information on sample size or other measures of central tendency, these statistics can be quite meaningless and can trick the reader. We will show you why in the practice exercises below.</p>
+</div>
+<div id="central-tendency-variability" class="section level2">
+<h2><span class="header-section-number">5.4</span> Central tendency &amp; variability</h2>
+<p>To illustrate measures of central tendency we will be using quite a common but easy to understand example of flight delays. Knowing the average flight delay is handy when you are making plans for travelling, but without knowing the actual distribution of the delays for a given dataset, we cannot really know exactly what to expect.</p>
+<p>Here is some data I found online about average flight delays across some of the UK’s biggest airports. <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<p><img src="https://ichef.bbci.co.uk/news/624/cpsprodpb/11DA3/production/_107132137_airdelays2-nc.png" /><!-- --></p>
+</div>
+<div id="mean-and-median" class="section level2">
+<h2><span class="header-section-number">5.5</span> Mean and median</h2>
+<p>We will work with flight delays in Edinburgh, since we are based here! You will know from experience that you rarely have a delay of exactly 15.8 minutes and in reality, delays could easily range from a minute to a few hours. This may depend on the day of the year, the airline, the time of day and many other factors. Consequently, taking the mean at face value is not always the best strategy!</p>
+<p>I have collected the data for the delay times of flights on <strong>Christmas Eve</strong> and a randomly selected <strong>midweek day</strong> during autumn. Let’s see what we have. The data comes in minutes. Read the data in using the command below. We will then explore the data using some descriptive measures. We will try to see if we can tell anything about the distribution of the data from the central tendency measures - we will then visualise it to check how good our intuition was.</p>
+<div id="reading-data-in" class="section level3">
+<h3><span class="header-section-number">5.5.1</span> Reading data in</h3>
+<p>We will need to read in the data after saving it in our folder. We will do the steps together but if you forgotten here is the quick guide:</p>
+<p><img src="loadfile.gif" /><!-- --></p>
+<p>For RCloud it is the same process really, just make sure you have uploaded your file, then select working directory and read in the file.</p>
+<p><img src="loadfilecloud.gif" /><!-- --></p>
+<p>There is another way to set your working directory. Go to <strong>Session</strong> -&gt; <strong>Set Working Directory</strong> -&gt;<strong>Choose Directory</strong> -&gt;<strong>Locate your folder</strong> . Then run the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Read data in</span>
+edinburgh_delays &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;edinburgh_delays.csv&#39;</span>)</code></pre></div>
+<p>Note that data now appears in your <code>Environment</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check what is inside</span>
+<span class="kw">head</span>(edinburgh_delays)</code></pre></div>
+<pre><code>##   delay_time           day
+## 1         10 christmas eve
+## 2         26 christmas eve
+## 3         35 christmas eve
+## 4         12 christmas eve
+## 5        120 christmas eve
+## 6        100 christmas eve</code></pre>
+</div>
+</div>
+<div id="using-piping-operator-for-descriptive-statistics" class="section level2">
+<h2><span class="header-section-number">5.6</span> Using piping operator for descriptive statistics</h2>
+<div id="mean" class="section level3">
+<h3><span class="header-section-number">5.6.1</span> Mean</h3>
+<p>The mean is also known as the average across your observations and is achieved by summing all of the observations together and then dividing by the total number of obervations (N).</p>
+<p>The equation for the mean is:</p>
+<p><span class="math display">\[\frac{\sum\limits_{i = 1}^{N}x_i}{N}\]</span> Get the means:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Overall mean</span>
+edinburgh_delays <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(delay_time))</code></pre></div>
+<pre><code>##     mean
+## 1 27.775</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mean (grouped by day)</span>
+edinburgh_delays <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(delay_time))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   day            Mean
+##   &lt;fct&gt;         &lt;dbl&gt;
+## 1 average day    15.3
+## 2 christmas eve  40.2</code></pre>
+<p>It seems like the mean delay time on an ‘average day’ is much closer to what the article reported compared to the mean Christmas Eve delay time which is more than double. Let’s explore it a bit more.</p>
+</div>
+<div id="median" class="section level3">
+<h3><span class="header-section-number">5.6.2</span> Median</h3>
+<p>The median suggests where the centre of the distribution is. If the data is skewed (e.g. remember our diamond prices from last week?), the median is certainly a better measure of central tendency than the mean.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">edinburgh_delays <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Median =</span> <span class="kw">median</span>(delay_time))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   day           Median
+##   &lt;fct&gt;          &lt;dbl&gt;
+## 1 average day     15.5
+## 2 christmas eve   26</code></pre>
+<p>Note the median for Christmas Eve.</p>
+<p>Or all in one go:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">edinburgh_delays <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(
+        <span class="dt">median =</span> <span class="kw">median</span>(delay_time),
+        <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time)
+    )</code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   day           median  mean
+##   &lt;fct&gt;          &lt;dbl&gt; &lt;dbl&gt;
+## 1 average day     15.5  15.3
+## 2 christmas eve   26    40.2</code></pre>
+</div>
+</div>
+<div id="standard-deviation" class="section level2">
+<h2><span class="header-section-number">5.7</span> Standard deviation</h2>
+<p>We can also calculate standard deviation to get an idea of the variability around our means. Note the formula for the overall variance around the mean first:</p>
+<p><span class="math display">\[{\sigma}^2=\frac{1}{N-1}\sum_{i=1}^{N} (X_{i} -\bar{X})^2 \]</span></p>
+<p>The standard deviation is by derivation:</p>
+<p><span class="math display">\[{\sigma}=\sqrt{\frac{1}{N-1}\sum_{i=1}^{N} (X_{i} -\bar{X})^2} \]</span> Let’s see what it looks like numerically:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Describe the flight delays (mean, median, variance, sd)</span>
+edinburgh_delays <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(
+      <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time),
+      <span class="dt">median =</span> <span class="kw">median</span>(delay_time),
+      <span class="dt">variance =</span> <span class="kw">var</span>(delay_time),
+      <span class="dt">sd =</span> <span class="kw">sd</span>(delay_time)
+      )</code></pre></div>
+<pre><code>## # A tibble: 2 x 5
+##   day            mean median variance    sd
+##   &lt;fct&gt;         &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 average day    15.3   15.5     14.8  3.85
+## 2 christmas eve  40.2   26     1400.  37.4</code></pre>
+<p>We can make some preliminary conclusions about the data. Note the standard deviation for Christmas Eve. We already know there is a large difference between the two means, but standard deviation can tell us about the spread of our data around the mean. There is less variation on an average day than on Christmas Eve.</p>
+<p>Before we make some plots, note that you can save your summary statistics as an object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Save descriptives as an object</span>
+descriptives &lt;-<span class="st"> </span>edinburgh_delays <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(
+      <span class="dt">median =</span> <span class="kw">median</span>(delay_time),
+      <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time),
+      <span class="dt">variance =</span> <span class="kw">var</span>(delay_time),
+      <span class="dt">sd =</span> <span class="kw">sd</span>(delay_time)
+      )</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">descriptives</code></pre></div>
+<pre><code>## # A tibble: 2 x 5
+##   day           median  mean variance    sd
+##   &lt;fct&gt;          &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 average day     15.5  15.3     14.8  3.85
+## 2 christmas eve   26    40.2   1400.  37.4</code></pre>
+</div>
+<div id="visualise-your-data" class="section level2">
+<h2><span class="header-section-number">5.8</span> Visualise your data</h2>
+<p>Now we have gathered all the numerical descriptions, let’s see how good our intuition was about what the data looks like.</p>
+<p>Let’s try visualising the delays regardless of the day:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the data using histogram</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.7</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Delay time (min)&quot;</span>) <span class="op">+</span><span class="st">  </span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Distribution of Delays&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-127-1.png" width="672" /></p>
+<p>We have quite a variation. We also know that there were differences in the means and the standard deviations when we checked the variable by day. Let’s now visulise each day separately.</p>
+<p>We can do these with a mini <code>%in%</code> in ggplot(). Pretty cool, right?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the data using a histogram by day (average day)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)),  <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the data using a histogram by day (average day)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span><span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span><span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the data using a histogram by day (Christmas Eve)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span>
+<span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<p>Conclusions?</p>
+<p>Of course, when describing the average delay for the news article it is best to focus on an average day rather than Christmas Eve. From the example above, if we take an average autumn weekday our data matches what the article suggests pretty well. Nevertheless, it tell us little about what to expect during the weekend or a busy public holiday. To gauge the range of delays and the variation around the mean value, we would need statistics for the mean, median and standard deviation to get a better picture about the situation. Graphics will help us even more!</p>
+<p>As a final one, let’s also add a box plot or ggridges():</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Boxplot to visualise a comparison</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">y =</span> delay_time, <span class="dt">x =</span> day, <span class="dt">fill =</span> day)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Delay time (min) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Delays at the Edinburgh Airport &quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-131-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ggridges</span>
+<span class="kw">library</span>(ggridges)
+<span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">y =</span> day, <span class="dt">x =</span> delay_time, <span class="dt">fill =</span> day)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_density_ridges2</span>() <span class="op">+</span><span class="st">  </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Delays at the Edinburgh Airport&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<pre><code>## Picking joint bandwidth of 8.38</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
+<p><strong>Note:</strong> before jumping to any conclusions, remember that we only have records for 40 flights for each of the days. Edinburgh Airport can see as many as <strong>313 flights a day</strong>. Since we picked our data at <strong>random</strong> we can consider our samples representative (note: a rule of thumb is &gt; 25 but this can vary depending on the phenomena you are trying to describe).</p>
+<p>Let’s try to explore something else now. Load your practice file for today and work with the income data in a similar fashion to what we just did.</p>
+</div>
+<div id="practice.rmd-solutions-2" class="section level2">
+<h2><span class="header-section-number">5.9</span> Practice.Rmd Solutions</h2>
+<p>Make sure to load the packages first:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load tidyverse</span>
+<span class="kw">library</span>(tidyverse)</code></pre></div>
+<div id="income-distribution-example" class="section level3">
+<h3><span class="header-section-number">5.9.1</span> Income Distribution Example</h3>
+<p>Let’s look at some data on income collected for the UK in 2017 by ONS. Note the mean and median values and the skew. What can you say about the income distribution in the UK? How representative is the data of the true population? You can read more about income calculations in the <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/householddisposableincomeandinequality/financialyearending2017">ONS report</a>, if curious of course.</p>
+<p><img src="https://www.ons.gov.uk/resource?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/householddisposableincomeandinequality/financialyearending2017/3471bf9a.png" /><!-- --></p>
+<p>I decided to collect my own sample of individuals so I collected the data for 115 residents aged 18+ in London. I further grouped them into North or South London. Use the data to study the variation in income.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get the data</span>
+income_london &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;income_london.csv&quot;</span>)</code></pre></div>
+<p>Open your Rmd template (from <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week5_practice.Rmd">here</a> or from Learn) and the data (from <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/income_london.csv">here</a> or Learn) for this week and attempt the following steps.</p>
+<ul>
+<li>Work with the data on income to provide information about the income distribution for Londoners.</li>
+<li>Save an RMarkdown file for this lab, make notes where necessary and replicate the steps you have seen in the worked example.</li>
+<li>Make sure to visualise the data, describe it and write a few notes with conclusions about what you found.</li>
+<li>Are there differences based on geography (i.e. North versus South)?</li>
+<li>Pay attention to the sample size and how representative it is of the <strong>true population</strong> (i.e. can we use the London mean to represent the UK?)</li>
+<li>Compile your file in the end to produce the final report. Polish off some chunks to make it all look nicer!</li>
+<li>Congratulate yourself on the amazing work you have done over past five weeks!</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check what&#39;s inside</span>
+<span class="kw">head</span>(income_london)</code></pre></div>
+<pre><code>##   income region
+## 1  64352  north
+## 2  49667  north
+## 3  57265  north
+## 4  20106  north
+## 5  54457  north
+## 6  72379  north</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Means</span>
+income_london <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(income))</code></pre></div>
+<pre><code>##       mean
+## 1 35504.47</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Means by region</span>
+income_london <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(income))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   region   mean
+##   &lt;fct&gt;   &lt;dbl&gt;
+## 1 north  37348.
+## 2 south  33661.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Medians by region</span>
+income_london <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">median =</span> <span class="kw">median</span>(income))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   region median
+##   &lt;fct&gt;   &lt;dbl&gt;
+## 1 north  35766 
+## 2 south  34016.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Means, medians and SDs by region</span>
+descriptives &lt;-<span class="st"> </span>income_london <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">mean =</span> <span class="kw">mean</span>(income),
+    <span class="dt">median =</span> <span class="kw">median</span>(income),
+    <span class="dt">sd =</span> <span class="kw">sd</span>(income)
+    )
+
+descriptives</code></pre></div>
+<pre><code>## # A tibble: 2 x 4
+##   region   mean median     sd
+##   &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 north  37348. 35766  14937.
+## 2 south  33661. 34016. 10719.</code></pre>
+</div>
+<div id="visualisations-1" class="section level3">
+<h3><span class="header-section-number">5.9.2</span> Visualisations</h3>
+<div id="visualise-the-distribution-of-income" class="section level4">
+<h4><span class="header-section-number">5.9.2.1</span> Visualise the distribution of income</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the data using a histogram and/or a density plot</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;yellow&#39;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income&quot;</span>) </code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-141-1.png" width="672" /></p>
+</div>
+<div id="visualise-the-distribution-of-income-by-region" class="section level4">
+<h4><span class="header-section-number">5.9.2.2</span> Visualise the distribution of income by region</h4>
+<p>Now, focus on regions and provide a separate plot for ‘South’ and ‘North’. Feel free to add mean and median lines too. You will note that the central tendency measures may have changed a little but the shape of the data remains almost the same (i.e. approximately normal).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the data using a histogram by region (South)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(income_london, region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;south&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;orange&#39;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income (South)&quot;</span>) </code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-142-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the data using a histogram by region (North)</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(income_london, region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;north&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income (North)&quot;</span>) </code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-143-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Boxplot to visualise a comparison</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">y =</span> income, <span class="dt">x =</span> region, <span class="dt">fill =</span> region)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Region&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Income (£) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income by Region&quot;</span>) </code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-144-1.png" width="672" /></p>
+<p>What can you conclude about regional differences from studying your data? We observed that there are slight differences in the central tendency measures between North and South London, however we cannot say anything more at this point. Next semester, we will show you an appropriate statistical test that you can use to provide a confident answer to such questions.</p>
+<p>Compare the results you have observed to the graphic we have from ONS. Are there any differences? Can we use the London data to describe the whole population?</p>
+<p>Finally, praise yourself for all the work so far :)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(praise)
+<span class="kw">praise</span>()</code></pre></div>
+<pre><code>## [1] &quot;You are delightful!&quot;</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>Original Article <a href="https://www.bbc.co.uk/news/uk-england-48424232">‘The average flight delay at each of the UK’s 25 busiest airports’</a><a href="week-5.html#fnref2">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="week-4.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="week-6.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

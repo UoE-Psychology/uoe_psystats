@@ -1,0 +1,175 @@
+---
+title: "Week9_Revision_Practice"
+author: "Data Analysis for Psychology in R"
+date: "17/11/2019"
+output: html_document
+---
+
+## Revision Practice Rmd.
+
+This week's practice is built around the key material we covered during the past eight weeks. You will need to load the data from Learn and then work with the key variables to provide descriptive statistics and visualisations. There is an extra practice at the end for you to work on the discrete probability distribution example as well. 
+
+The dataset has information on participants that took part in the memory experiment: ' IDs, Age, Memory score on three different tasks (Task A, Task B, and Placebo), and data on whether the participant received saw information/text twice.
+
+We are trying to explore whether treament (i.e. task) and seeing information twice may affect the memory scores.
+
+- `ID`: 1 to 143
+- `Age`: 18-51
+- `Memory Score`: 1-100 (100 when remembered everything)
+-  `Task`: Task A, Task B, Placebo
+-  `Saw_twice`: Yes/No (if participant saw the text twice)
+
+```{r}
+# Load tidyverse
+library(tidyverse)
+```
+
+```{r}
+# Read data in
+data <- read.csv('week_9.csv')
+```
+
+```{r}
+# Check what's inside
+head(data)
+```
+
+### Provide descriptive statistics for age and memory score variables
+
+```{r}
+# First age
+
+```
+
+```{r}
+# Then memory
+
+```
+
+
+### Descriptives by groups
+Provide descriptives of the memory scores by task and by whether someone saw the information on the task twice (hint: use `group_by()`:
+
+```{r}
+# By treatment/task
+
+```
+
+```{r}
+# By whether someone saw information on task twice
+
+```
+
+### Visualise
+
+Provide distributions of age and memory scores (hint: use `geom_histogram()`)
+
+```{r}
+# Age
+
+```
+
+```{r}
+# Memory Scorea
+
+```
+
+What about a plot of Memory Score by Task?
+
+```{r}
+#Boxplot
+```
+
+Anything more advanced? Maybe you could try ggridges?
+
+```{r}
+library(ggridges)
+
+```
+
+### Visualise a subset
+
+What about memory scores only for Task A?
+```{r}
+# Memory scores for Task A
+```
+
+
+### Create a new variable using mutate()
+
+Let's change memory scores into percentages. How would you add an extra variable that converts scores (1-100) into percentages??
+
+```{r}
+# We can use mutate (try first adding the new variable via piping)
+data %>%
+  mutate(Memory_score=Memory_score/100)
+```
+
+We can see a new variable  above but if you head your data it won't appear:
+```{r}
+head(data)
+```
+
+That's because we have not assigned it to a dataset. To do so, we will need to use `<-` :
+
+```{r}
+#Assign the dataset with mutate() to a new tibble()
+```
+
+
+### Subset observations using filter()
+
+Can you subset only `Task A` and `Placebo` from the data? We can use filter and then assign the filtered observations to an object too:
+
+```{r}
+#Filter for Task == c('Task A', 'Placebo').
+```
+
+Now, put it inside a new dataset, called `reduced`, specify which variables you want to keep using select():
+
+```{r}
+reduced_data <- data %>%
+  filter() %>%
+  select()
+
+```
+
+### Sort via arrange() 
+
+We can check the lowest and highest memory scores via sorting in each group:
+
+```{r}
+# Task A (highest memory scores)
+
+```
+
+What about the longest in Task B?
+
+```{r}
+# Task B (lowest memory scores)
+
+```
+
+### Let's do some specific count() using filter() 
+
+- First check how many people we have in each Task group:
+
+```{r}
+
+```
+
+- Can you show how many people above 40 years of age and saw the information on the task twice in each Task  group?
+
+```{r}
+
+```
+- For the last one, show how people with the highest memore scores  split by task. Use a memory score threshold of 50 out of 100:
+
+```{r}
+
+```
+Task A has greater quantity of high memory scores.
+
+Nicely done! If you got to the end, you have now succefully practiced all the key code and functions we have learnt in previous weeks. Play more if you like for the practice.
+
+

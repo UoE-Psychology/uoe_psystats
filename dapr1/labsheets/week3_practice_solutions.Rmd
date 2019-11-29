@@ -1,0 +1,128 @@
+---
+title: "Week 3 Practice Solutions"
+author: "Put your name here"
+pdf_document: default
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Solutions
+To do this practice, we will use  `tidyverse`.
+
+Make sure that you first run the installation code for the package in your console. Remember once you have done it once, there is no need to do it ever again.
+
+```{r, eval=FALSE}
+install.packages('tidyverse')
+```
+
+```{r}
+# Load packages
+library('tidyverse')
+```
+
+### Exercise 1
+
+Create a list with some information about yourself or play around and store something you think can be best described using lists. Check out the example you saw in the tutorial.
+
+```{r}
+# Exercise 1 (example answer)
+Anastasia<- list(favourite_colour = 'blue',
+                married = TRUE ,
+                speak_languages = c("English", "Russian")
+                )
+```
+
+### Exercise 2
+
+Create a nominal variable called `sex` with three groups: *male*, *female*, and *other*, with four individuals in each group. Make sure to `level` and `label` your variable appropriately! I provided an example for this one, try to figure out the second one by yourself.
+
+```{r}
+# Exercise 2 (example answer)
+
+# Create the variable
+sex <- c(1,1,1,1,2,2,2,2,3,3,3,3)
+
+# Transform into factor
+sex <- as_factor(sex)
+
+# Label the levels
+levels(sex) <- c("male", "female", "other")
+print(sex)
+```
+
+Create a variable called "group" that you saw in the tutorial. Remember that one to three represent *low*, *high*, and *control* conditions respectively.
+
+```{r}
+# Create group (example answer)
+group <- c(1,2,3,1,2,2,3,3,1,2,3,3)
+
+# Tranform into factor
+group <- as_factor(group)
+
+# Label the levels
+levels(group) <- c("low", "high", "control")
+print(group)
+```
+
+### Exercise 3
+
+Earlier we created two variables called `group` and `sex`. We also have the test scores and ages of these individuals, so let's record those as well so we can create a full data set that has everything together.
+
+- My records for age were: 20, 22, 49, 41, 35, 47, 18, 33, 21, 24, 22, 28
+- My records were scores were: 70, 89, 56, 60, 68, 62, 93, 63, 71, 65, 54, 67
+
+```{r}
+# Exercise 3 (example answer)
+age <- c(20, 22, 49, 41, 35, 47, 18, 33, 21, 24, 22, 28)
+score <- c(70, 89, 56, 60, 68, 62, 93, 63, 71, 65, 54, 67)
+```
+
+We now have four variables of the same size in our environment - `age`, `sex`, `group`, and `score`. Each of them are the same size (i.e. vectors with four elements) and the first entry for age (i.e. `age[1]`) corresponds to the same person for `sex[1]`. All of these four variables correspond to the same data set, but `R` doesn't know this yet, we need to tell it!
+
+Now, let's put everything side by side: 
+
+```{r}
+# Now let's put everything together
+mydata <- tibble(age, sex, group, score)
+mydata
+```
+
+Note that data is now completely self-contained, and if you were to make changes to say, your original age variable stored in a vector, it will not make any changes to age stored in your data frame.
+
+When you have large data frames, you might want to check what variables you have stored in there. To do this, you can ask `R` to return the names of each of the variables using the `names()` function.
+
+```{r}
+# Check for the variable names
+names(mydata)
+```
+
+```{r}
+# Glimpse at your data
+glimpse(mydata)
+```
+
+This gives you a very basic overview of your data, but is a very helpful tool in displaying the breakdown of what is contained in an object.
+
+You might want to get some specific data out of your data frame, as opposed to all four columns. You need to be specific in asking `R` to return you this information.  For example, let's say you want to extract the scores.
+
+```{r}
+# Select specific column
+select(mydata, score) # Note how we specify data first, then the variable we want
+```
+
+
+```{r}
+# Same fo age
+select(mydata, age) 
+```
+
+**Quick note**: Remember the steps you used to create 'mydata' as we will use it again next week to build plots and visualisations. 
