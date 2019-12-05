@@ -16,7 +16,7 @@ There is an index.html, but to update this you need to run the makeindex.py scri
 - DAPR2: #e41a1c   
 - DAPR3: #4daf4a
 - USMR: #FCBB06  
-- MSMR: #ff7f00  
+- MSMR: #a41ae4  
 
 ## DAPR1  
 ### Lectures  
