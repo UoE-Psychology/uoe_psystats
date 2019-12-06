@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Lab 3 | Univariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Lab 3 | Univariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Lab 3 | Univariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab-2.html"/>
+<link rel="next" href="lab-4.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">USMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="lab-1.html"><a href="lab-1.html"><i class="fa fa-check"></i><b>1</b> Lab 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="lab-1.html"><a href="lab-1.html#lets-get-going"><i class="fa fa-check"></i><b>1.1</b> Let’s get going!</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="lab-1.html"><a href="lab-1.html#rstudio"><i class="fa fa-check"></i><b>1.1.1</b> RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="lab-1.html"><a href="lab-1.html#console"><i class="fa fa-check"></i><b>1.1.2</b> Console</a></li>
+<li class="chapter" data-level="1.1.3" data-path="lab-1.html"><a href="lab-1.html#editor"><i class="fa fa-check"></i><b>1.1.3</b> Editor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="lab-1.html"><a href="lab-1.html#a-simple-analysis"><i class="fa fa-check"></i><b>1.2</b> A simple analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="lab-1.html"><a href="lab-1.html#last-things"><i class="fa fa-check"></i><b>1.2.1</b> Last Things</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab-2.html"><a href="lab-2.html"><i class="fa fa-check"></i><b>2</b> Lab 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="lab-2.html"><a href="lab-2.html#first-things-first"><i class="fa fa-check"></i><b>2.1</b> First things first</a></li>
+<li class="chapter" data-level="2.2" data-path="lab-2.html"><a href="lab-2.html#classes"><i class="fa fa-check"></i><b>2.2</b> Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="lab-2.html"><a href="lab-2.html#data-structures"><i class="fa fa-check"></i><b>2.3</b> Data structures</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lab-2.html"><a href="lab-2.html#subsetting"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lab-2.html"><a href="lab-2.html#subsetting-using-names"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting using names</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lab-2.html"><a href="lab-2.html#replacement"><i class="fa fa-check"></i><b>2.4</b> Replacement</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab-3.html"><a href="lab-3.html"><i class="fa fa-check"></i><b>3</b> Lab 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="lab-3.html"><a href="lab-3.html#logical-subsetting"><i class="fa fa-check"></i><b>3.1</b> Logical subsetting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="lab-3.html"><a href="lab-3.html#complementary-subsetting"><i class="fa fa-check"></i><b>3.1.1</b> Complementary subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab-3.html"><a href="lab-3.html#sorting"><i class="fa fa-check"></i><b>3.2</b> Sorting</a></li>
+<li class="chapter" data-level="3.3" data-path="lab-3.html"><a href="lab-3.html#subsetting-with-commands"><i class="fa fa-check"></i><b>3.3</b> Subsetting with commands</a></li>
+<li class="chapter" data-level="3.4" data-path="lab-3.html"><a href="lab-3.html#creating-variables"><i class="fa fa-check"></i><b>3.4</b> Creating variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab-4.html"><a href="lab-4.html"><i class="fa fa-check"></i><b>4</b> Lab 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="lab-4.html"><a href="lab-4.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="lab-4.html"><a href="lab-4.html#simple-plots"><i class="fa fa-check"></i><b>4.2</b> Simple Plots</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="lab-4.html"><a href="lab-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.2.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab-4.html"><a href="lab-4.html#ordinal-categorical-variables"><i class="fa fa-check"></i><b>4.2.2</b> Ordinal Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lab-4.html"><a href="lab-4.html#continuous-variables"><i class="fa fa-check"></i><b>4.2.3</b> Continuous Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab-4.html"><a href="lab-4.html#scatterplots-visualizing-associations"><i class="fa fa-check"></i><b>4.3</b> Scatterplots: Visualizing associations</a></li>
+<li class="chapter" data-level="4.4" data-path="lab-4.html"><a href="lab-4.html#boxplots-visualizing-group-differences"><i class="fa fa-check"></i><b>4.4</b> Boxplots: Visualizing group differences</a></li>
+<li class="chapter" data-level="4.5" data-path="lab-4.html"><a href="lab-4.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="4.6" data-path="lab-4.html"><a href="lab-4.html#more-advanced-plotting"><i class="fa fa-check"></i><b>4.6</b> More advanced plotting</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="lab-4.html"><a href="lab-4.html#pinpointing-data"><i class="fa fa-check"></i><b>4.6.1</b> Pinpointing data</a></li>
+<li class="chapter" data-level="4.6.2" data-path="lab-4.html"><a href="lab-4.html#customising-plots"><i class="fa fa-check"></i><b>4.6.2</b> Customising plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="lab-4.html"><a href="lab-4.html#multiple-plots-in-one"><i class="fa fa-check"></i><b>4.7</b> Multiple Plots in One</a></li>
+<li class="chapter" data-level="4.8" data-path="lab-4.html"><a href="lab-4.html#lets-put-all-this-into-practice"><i class="fa fa-check"></i><b>4.8</b> Let’s put all this into practice</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="lab-4.html"><a href="lab-4.html#code-book"><i class="fa fa-check"></i><b>4.8.1</b> Code Book</a></li>
+<li class="chapter" data-level="4.8.2" data-path="lab-4.html"><a href="lab-4.html#questions"><i class="fa fa-check"></i><b>4.8.2</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="lab-4.html"><a href="lab-4.html#lab-4-ggplot"><i class="fa fa-check"></i><b>4.9</b> Lab 4 GGPLOT</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="lab-4.html"><a href="lab-4.html#introduction-1"><i class="fa fa-check"></i><b>4.9.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.9.2" data-path="lab-4.html"><a href="lab-4.html#ggplot2"><i class="fa fa-check"></i><b>4.9.2</b> <code>ggplot2</code></a></li>
+<li class="chapter" data-level="4.9.3" data-path="lab-4.html"><a href="lab-4.html#qplot"><i class="fa fa-check"></i><b>4.9.3</b> <code>qplot()</code></a></li>
+<li class="chapter" data-level="4.9.4" data-path="lab-4.html"><a href="lab-4.html#your-turn"><i class="fa fa-check"></i><b>4.9.4</b> Your Turn</a></li>
+<li class="chapter" data-level="4.9.5" data-path="lab-4.html"><a href="lab-4.html#using-ggplot"><i class="fa fa-check"></i><b>4.9.5</b> Using <code>ggplot()</code></a></li>
+<li class="chapter" data-level="4.9.6" data-path="lab-4.html"><a href="lab-4.html#your-turn-1"><i class="fa fa-check"></i><b>4.9.6</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab-5.html"><a href="lab-5.html"><i class="fa fa-check"></i><b>5</b> Lab 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="lab-5.html"><a href="lab-5.html#finally-stats"><i class="fa fa-check"></i><b>5.1</b> Finally stats</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="lab-5.html"><a href="lab-5.html#data-set"><i class="fa fa-check"></i><b>5.1.1</b> Data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab-5.html"><a href="lab-5.html#read-in-and-clean-data"><i class="fa fa-check"></i><b>5.1.2</b> Read in and clean data</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab-5.html"><a href="lab-5.html#impossible-values"><i class="fa fa-check"></i><b>5.1.3</b> Impossible values</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab-5.html"><a href="lab-5.html#improbable-values"><i class="fa fa-check"></i><b>5.1.4</b> Improbable values</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab-5.html"><a href="lab-5.html#non-integer-values"><i class="fa fa-check"></i><b>5.1.5</b> Non-integer values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab-5.html"><a href="lab-5.html#lets-stats"><i class="fa fa-check"></i><b>5.2</b> Let’s stats!</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="lab-5.html"><a href="lab-5.html#categorical-variables-1"><i class="fa fa-check"></i><b>5.2.1</b> Categorical variables</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab-5.html"><a href="lab-5.html#analysing-continuous-data"><i class="fa fa-check"></i><b>5.2.2</b> Analysing continuous data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab-5.html"><a href="lab-5.html#more-analysis"><i class="fa fa-check"></i><b>5.2.3</b> More analysis!</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab-5.html"><a href="lab-5.html#extra-get-loopy"><i class="fa fa-check"></i><b>5.2.4</b> Extra: Get loopy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab-6.html"><a href="lab-6.html"><i class="fa fa-check"></i><b>6</b> Lab 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="lab-6.html"><a href="lab-6.html#some-more-r-skills"><i class="fa fa-check"></i><b>6.1</b> Some more R skills</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lab-6.html"><a href="lab-6.html#two-types-of-subscripting"><i class="fa fa-check"></i><b>6.1.1</b> Two types of subscripting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lab-6.html"><a href="lab-6.html#your-turn-2"><i class="fa fa-check"></i><b>6.2</b> Your Turn</a></li>
+<li class="chapter" data-level="6.3" data-path="lab-6.html"><a href="lab-6.html#real-data"><i class="fa fa-check"></i><b>6.3</b> Real Data</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lab-6.html"><a href="lab-6.html#the-data"><i class="fa fa-check"></i><b>6.3.1</b> The data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab-6.html"><a href="lab-6.html#the-questions"><i class="fa fa-check"></i><b>6.3.2</b> The questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab-7.html"><a href="lab-7.html"><i class="fa fa-check"></i><b>7</b> Lab 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="lab-7.html"><a href="lab-7.html#merging-and-missing-values"><i class="fa fa-check"></i><b>7.1</b> Merging and missing values</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="lab-7.html"><a href="lab-7.html#missing-values"><i class="fa fa-check"></i><b>7.1.1</b> Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab-7.html"><a href="lab-7.html#writing-a-function"><i class="fa fa-check"></i><b>7.2</b> Writing a function</a></li>
+<li class="chapter" data-level="7.3" data-path="lab-7.html"><a href="lab-7.html#some-data-manipulation"><i class="fa fa-check"></i><b>7.3</b> Some data manipulation</a></li>
+<li class="chapter" data-level="7.4" data-path="lab-7.html"><a href="lab-7.html#a-note-on-correlation"><i class="fa fa-check"></i><b>7.4</b> A note on correlation</a></li>
+<li class="chapter" data-level="7.5" data-path="lab-7.html"><a href="lab-7.html#some-statistics"><i class="fa fa-check"></i><b>7.5</b> Some statistics!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html"><i class="fa fa-check"></i><b>8</b> Lab 8 - The General Linear Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#a-brief-note-on-with"><i class="fa fa-check"></i><b>8.1</b> A brief note on <code>with()</code></a></li>
+<li class="chapter" data-level="8.2" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#linear-models"><i class="fa fa-check"></i><b>8.2</b> Linear Models</a></li>
+<li class="chapter" data-level="8.3" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-prediction-and-visualisation"><i class="fa fa-check"></i><b>8.3</b> Model prediction and visualisation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#predict"><i class="fa fa-check"></i><b>8.3.1</b> Predict()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-criticism"><i class="fa fa-check"></i><b>8.4</b> Model criticism</a></li>
+<li class="chapter" data-level="8.5" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#multiple-regression"><i class="fa fa-check"></i><b>8.5</b> Multiple regression</a></li>
+<li class="chapter" data-level="8.6" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#contrast-coding"><i class="fa fa-check"></i><b>8.6</b> Contrast coding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html"><i class="fa fa-check"></i><b>9</b> Lab 9 - Interactions and GLM&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#interactions"><i class="fa fa-check"></i><b>9.1</b> Interactions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#specifying-interactions-in-r"><i class="fa fa-check"></i><b>9.1.1</b> Specifying interactions in R</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#simulating-data"><i class="fa fa-check"></i><b>9.1.2</b> Simulating data</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#visualising-interactions"><i class="fa fa-check"></i><b>9.1.3</b> Visualising interactions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#modelling-interactions"><i class="fa fa-check"></i><b>9.1.4</b> Modelling interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#generalised-linear-model-glm"><i class="fa fa-check"></i><b>9.2</b> General<strong>ised</strong> Linear Model (GLM)</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#log-odds-and-predicted-probabilities"><i class="fa fa-check"></i><b>9.2.1</b> Log-odds and predicted probabilities</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#predicted-vs-observed"><i class="fa fa-check"></i><b>9.2.2</b> Predicted vs Observed</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#your-turn-less-guidance"><i class="fa fa-check"></i><b>9.3</b> Your turn (Less guidance)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab-10.html"><a href="lab-10.html"><i class="fa fa-check"></i><b>10</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="lab-10.html"><a href="lab-10.html#apply-functions"><i class="fa fa-check"></i><b>10.1</b> <code>apply</code> functions</a></li>
+<li class="chapter" data-level="10.2" data-path="lab-10.html"><a href="lab-10.html#lab-10-1"><i class="fa fa-check"></i><b>10.2</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lab-10.html"><a href="lab-10.html#the-task"><i class="fa fa-check"></i><b>10.2.1</b> The Task</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Univariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab-3" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Lab 3</h1>
+<p>This week, we’ll pick up where we left off last time. We’ll talk about using logical vectors for subsetting, and how to use subsetting to do all sorts of data manipulations.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a new RStudio project in a new directory called “Lab3” within your “Univariate” folder.</p>
+<div id="logical-subsetting" class="section level2">
+<h2><span class="header-section-number">3.1</span> Logical subsetting</h2>
+<p>Last time, you learnt how use numeric indices to subset vectors, matrices, and data frames. Another way of going about the same task is to use vectors of booleans (<code>TRUE</code>/<code>FALSE</code>) inside the <code>[]</code>s. An important requirement here is that the vector <strong>must be the same length as the one being subsetted</strong>. So, for a vector with three elements, we need to provide three logical values, <code>TRUE</code> for “<em>I want this one</em>” and <code>FALSE</code> for “<em>I don’t want this one</em>”. Let’s demonstrate this on the same vector we used for indices:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;I&quot;</span>, <span class="st">&quot; &quot;</span>, <span class="st">&quot;l&quot;</span>, <span class="st">&quot;o&quot;</span>, <span class="st">&quot;v&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot; &quot;</span>, <span class="st">&quot;R&quot;</span>)
+
+<span class="co"># get the 6th element</span>
+x[<span class="kw">c</span>(F, F, F, F, F, T, F, F)]</code></pre></div>
+<pre><code>## [1] &quot;e&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#get elements 3-6</span>
+x[<span class="kw">c</span>(F, F, T, T, T, T, F, F)]</code></pre></div>
+<pre><code>## [1] &quot;l&quot; &quot;o&quot; &quot;v&quot; &quot;e&quot;</code></pre>
+<p> </p>
+<p>All the other principles we talked about regarding indexing apply also to logical vectors. Note also, that 2D structures need a <em>logical row vector</em> and a <em>logical column vector</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># recall our mat</span>
+mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>], <span class="dt">ncol =</span> <span class="dv">5</span>)
+mat</code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,] &quot;A&quot;  &quot;E&quot;  &quot;I&quot;  &quot;M&quot;  &quot;Q&quot; 
+## [2,] &quot;B&quot;  &quot;F&quot;  &quot;J&quot;  &quot;N&quot;  &quot;R&quot; 
+## [3,] &quot;C&quot;  &quot;G&quot;  &quot;K&quot;  &quot;O&quot;  &quot;S&quot; 
+## [4,] &quot;D&quot;  &quot;H&quot;  &quot;L&quot;  &quot;P&quot;  &quot;T&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rows 2 and 4</span>
+mat[<span class="kw">c</span>(T, F, T, F), ]</code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,] &quot;A&quot;  &quot;E&quot;  &quot;I&quot;  &quot;M&quot;  &quot;Q&quot; 
+## [2,] &quot;C&quot;  &quot;G&quot;  &quot;K&quot;  &quot;O&quot;  &quot;S&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Your turn. Use logical subsetting to get row 4 of the first two columns of <code>mat</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat[<span class="kw">c</span>(F, F, F, T), <span class="kw">c</span>(T, T, F, F, F)]</code></pre></div>
+<pre><code>## [1] &quot;D&quot; &quot;H&quot;</code></pre>
+<p> </p>
+<p>You can even COMBINE the two ways!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[<span class="dv">4</span>, <span class="kw">c</span>(T, T, F, F, F)]</code></pre></div>
+<pre><code>## [1] &quot;D&quot; &quot;H&quot;</code></pre>
+<p> </p>
+And as if vectors weren’t enough, you can even use matrices of logical values to subset matrices and data frames.
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Recreate the <code>df</code> data frame from last time (see below). Don’t copy the code, type it all up again so that your brain gets used to basic <code>R</code> syntax and commands. Remember, the <code>id</code> and <code>dpt</code> variables should be <code>factors</code>, <code>degree</code> should be <code>ordered</code>, and <code>age</code> should be <code>numberic</code>. <em>Hint:</em> <code>data.frame(variable1_name = vector1, variable2_name = vector2...)</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> <span class="kw">factor</span>(<span class="dv">1001</span><span class="op">:</span><span class="dv">1006</span>), <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">23</span>, <span class="dv">25</span>, <span class="dv">33</span>, <span class="dv">26</span>, <span class="dv">25</span>, <span class="dv">24</span>),
+                   <span class="dt">eye_col =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;brown&quot;</span>, <span class="st">&quot;brown&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;brown&quot;</span>)),
+                   <span class="dt">dpt =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;psy&quot;</span>, <span class="st">&quot;cog&quot;</span>, <span class="st">&quot;lel&quot;</span>, <span class="st">&quot;psy&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lel&quot;</span>)),
+                   <span class="dt">degree =</span> <span class="kw">ordered</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2:1&quot;</span>, <span class="st">&quot;2:2&quot;</span>)))
+df</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 1 1001  23    blue psy    2:2
+## 2 1002  25   brown cog      1
+## 3 1003  33   brown lel      1
+## 4 1004  26   green psy      1
+## 5 1005  25    blue phi    2:1
+## 6 1006  24   brown lel    2:1</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a matrix called <code>mat_logic</code> that looks like the one below. There are multiple ways of doing this but a reasonably efficient one would be to bind 5 columns. These columns can easily be constructed with the <code>rep()</code> function (if you’re not familiar with it yet, look it up using <code>?rep</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat_logic &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">rep</span>(F, <span class="dv">6</span>), <span class="kw">rep</span>(F, <span class="dv">6</span>), <span class="kw">rep</span>(<span class="kw">c</span>(F, T), <span class="dt">each =</span> <span class="dv">3</span>), <span class="kw">rep</span>(F, <span class="dv">6</span>), <span class="kw">rep</span>(<span class="kw">c</span>(T, F), <span class="dt">each =</span> <span class="dv">3</span>))
+mat_logic</code></pre></div>
+<pre><code>##       [,1]  [,2]  [,3]  [,4]  [,5]
+## [1,] FALSE FALSE FALSE FALSE  TRUE
+## [2,] FALSE FALSE FALSE FALSE  TRUE
+## [3,] FALSE FALSE FALSE FALSE  TRUE
+## [4,] FALSE FALSE  TRUE FALSE FALSE
+## [5,] FALSE FALSE  TRUE FALSE FALSE
+## [6,] FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now use <code>mat_logic</code> to subset <code>df</code>. Since you are using a 2D object to subset another 2D object, you don’t need to worry about dimensions within the <code>[]</code>s.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[mat_logic]</code></pre></div>
+<pre><code>## [1] &quot;green&quot; &quot;blue&quot;  &quot;brown&quot; &quot;2:2&quot;   &quot;1&quot;     &quot;1&quot;</code></pre>
+<p> </p>
+<p>Notice, however, that the output is a vector so two things happened: first, the rectangular structure has been erased and second, since vectors can only contain elements of the same class (see above), the numbers got converted into character strings (hence the <code>&quot;&quot;</code>s). Nevertheless, this method of subsetting using logical matrices can be useful for replacing several values in different rows and columns with another value:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># replace with NAs</span>
+df[mat_logic] &lt;-<span class="st"> </span><span class="ot">NA</span>
+df</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 1 1001  23    blue psy   &lt;NA&gt;
+## 2 1002  25   brown cog   &lt;NA&gt;
+## 3 1003  33   brown lel   &lt;NA&gt;
+## 4 1004  26    &lt;NA&gt; psy      1
+## 5 1005  25    &lt;NA&gt; phi    2:1
+## 6 1006  24    &lt;NA&gt; lel    2:1</code></pre>
+<p> </p>
+<p>To use a different example, take the function <code>lower.tri()</code>. It can be used to subset a matrix in order to get the lower triangle (with or without the diagonal). Consider matrix <code>mat2</code> which has <code>&quot;L&quot;</code>s in its lower triangle, <code>&quot;U&quot;</code>s in its upper triangle, and <code>&quot;D&quot;</code>s on the diagonal:</p>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,] &quot;D&quot;  &quot;U&quot;  &quot;U&quot;  &quot;U&quot; 
+## [2,] &quot;L&quot;  &quot;D&quot;  &quot;U&quot;  &quot;U&quot; 
+## [3,] &quot;L&quot;  &quot;L&quot;  &quot;D&quot;  &quot;U&quot; 
+## [4,] &quot;L&quot;  &quot;L&quot;  &quot;L&quot;  &quot;D&quot;</code></pre>
+<p> </p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create <code>mat2</code> just like the one above and use it as an argument of <code>lower.tri()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># elegant way</span>
+mat2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="st">&quot;U&quot;</span>, <span class="dv">16</span>), <span class="dt">ncol =</span> <span class="dv">4</span>) <span class="co"># first, create a matrix of &quot;U&quot;s</span>
+mat2[<span class="kw">col</span>(mat2) <span class="op">==</span><span class="st"> </span><span class="kw">row</span>(mat2)] &lt;-<span class="st"> &quot;D&quot;</span> <span class="co"># replace the diagonal elements with &quot;D&quot;s</span>
+mat2[<span class="kw">lower.tri</span>(mat2)] &lt;-<span class="st"> &quot;L&quot;</span> <span class="co"># replace lower triangle with &quot;L&quot;s</span>
+mat2 <span class="co"># et voila!</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,] &quot;D&quot;  &quot;U&quot;  &quot;U&quot;  &quot;U&quot; 
+## [2,] &quot;L&quot;  &quot;D&quot;  &quot;U&quot;  &quot;U&quot; 
+## [3,] &quot;L&quot;  &quot;L&quot;  &quot;D&quot;  &quot;U&quot; 
+## [4,] &quot;L&quot;  &quot;L&quot;  &quot;L&quot;  &quot;D&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">lower.tri</span>(mat)</code></pre></div>
+<pre><code>##       [,1]  [,2]  [,3]  [,4]  [,5]
+## [1,] FALSE FALSE FALSE FALSE FALSE
+## [2,]  TRUE FALSE FALSE FALSE FALSE
+## [3,]  TRUE  TRUE FALSE FALSE FALSE
+## [4,]  TRUE  TRUE  TRUE FALSE FALSE</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now, you can use this command inside the <code>[]</code>s to subset out the elements in the lower triangle of <code>mat2</code>. Try it now! You should only get <code>&quot;L&quot;</code>s.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat2[<span class="kw">lower.tri</span>(mat2)]</code></pre></div>
+<pre><code>## [1] &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot;</code></pre>
+<p> </p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Adding the <code>, diag = T</code> argument to the <code>lower.tri()</code> function will return the lower triangle along with the diagonal. Edit the command above to include this argument.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># we get only &quot;L&quot;s and &quot;D&quot;s</span>
+mat2[<span class="kw">lower.tri</span>(mat2, <span class="dt">diag =</span> T)]</code></pre></div>
+<pre><code>##  [1] &quot;D&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;D&quot; &quot;L&quot; &quot;L&quot; &quot;D&quot; &quot;L&quot; &quot;D&quot;</code></pre>
+<p> </p>
+<p>So what does the function actually do? What is this sorcery? Let’s look at the output of the function again:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lower.tri</span>(mat2)</code></pre></div>
+<pre><code>##       [,1]  [,2]  [,3]  [,4]
+## [1,] FALSE FALSE FALSE FALSE
+## [2,]  TRUE FALSE FALSE FALSE
+## [3,]  TRUE  TRUE FALSE FALSE
+## [4,]  TRUE  TRUE  TRUE FALSE</code></pre>
+<p>So the function produces a matrix of logicals, the same size as out <code>mat2</code>, with <code>TRUE</code>s in the lower triangle and <code>FALSE</code>s elsewhere. What we did above is simply use this matrix to subset <code>mat2[]</code>.</p>
+<p>If you’re curious how the function produces the logical matrix then, first of all, that’s great, keep it up and second, you can look at the code wrapped in the <code>lower.tri</code> object (since functions are only objects of a special kind with code inside instead of data):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lower.tri
+
+<span class="cf">function</span> (x, <span class="dt">diag =</span> <span class="ot">FALSE</span>)
+{
+    x &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(x)
+    <span class="cf">if</span> (diag)
+        <span class="kw">row</span>(x) <span class="op">&gt;=</span><span class="st"> </span><span class="kw">col</span>(x)
+    <span class="cf">else</span> <span class="kw">row</span>(x) <span class="op">&gt;</span><span class="st"> </span><span class="kw">col</span>(x)
+}
+<span class="op">&lt;</span>bytecode<span class="op">:</span><span class="st"> </span><span class="dv">0x0000000015a39ab0</span><span class="op">&gt;</span>
+<span class="er">&lt;</span>environment<span class="op">:</span><span class="st"> </span>namespace<span class="op">:</span>base<span class="op">&gt;</span></code></pre></div>
+<p>Right, let’s see. If we set the <code>diag</code> argument to <code>TRUE</code> the function returns <code>row(x) &gt;= col(x)</code>. If we leave it set to <code>FALSE</code> (default), it returns <code>row(x) &gt; col(x)</code>. Let’s substitute <code>x</code> for our <code>mat2</code> and try it out:</p>
+<p> </p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">row</span>(mat2)</code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    1    1    1
+## [2,]    2    2    2    2
+## [3,]    3    3    3    3
+## [4,]    4    4    4    4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">col</span>(mat2)</code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    2    3    4
+## [2,]    1    2    3    4
+## [3,]    1    2    3    4
+## [4,]    1    2    3    4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># diag = TRUE case</span>
+<span class="kw">row</span>(mat2) <span class="op">&gt;=</span><span class="st"> </span><span class="kw">col</span>(mat2)</code></pre></div>
+<pre><code>##      [,1]  [,2]  [,3]  [,4]
+## [1,] TRUE FALSE FALSE FALSE
+## [2,] TRUE  TRUE FALSE FALSE
+## [3,] TRUE  TRUE  TRUE FALSE
+## [4,] TRUE  TRUE  TRUE  TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># use it for subsetting mat2</span>
+mat2[<span class="kw">row</span>(mat2) <span class="op">&gt;=</span><span class="st"> </span><span class="kw">col</span>(mat2)]</code></pre></div>
+<pre><code>##  [1] &quot;D&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;D&quot; &quot;L&quot; &quot;L&quot; &quot;D&quot; &quot;L&quot; &quot;D&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># diag = FALSE case</span>
+<span class="kw">row</span>(mat2) <span class="op">&gt;</span><span class="st"> </span><span class="kw">col</span>(mat2)</code></pre></div>
+<pre><code>##       [,1]  [,2]  [,3]  [,4]
+## [1,] FALSE FALSE FALSE FALSE
+## [2,]  TRUE FALSE FALSE FALSE
+## [3,]  TRUE  TRUE FALSE FALSE
+## [4,]  TRUE  TRUE  TRUE FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat2[<span class="kw">row</span>(mat2) <span class="op">&gt;</span><span class="st"> </span><span class="kw">col</span>(mat2)]</code></pre></div>
+<pre><code>## [1] &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot;</code></pre>
+<p> </p>
+<p><strong>MAGIC!</strong></p>
+<p> </p>
+<p><strong>Take home message: </strong>When subsetting using logical vectors, the vectors must be <strong>the same length</strong> as the vectors you are subsetting. The same goes for logical matrices: they must be <strong>the same size</strong> as the matrix/data frame you are subsetting.</p>
+<div id="complementary-subsetting" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Complementary subsetting</h3>
+<p>Both ways of asking for subsets of data can be inverted. For indices, you can simply put a <code>-</code> sign before the vector:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># elements 3-6 of x</span>
+x[<span class="dv">3</span><span class="op">:</span><span class="dv">6</span>]</code></pre></div>
+<pre><code>## [1] &quot;l&quot; &quot;o&quot; &quot;v&quot; &quot;e&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># invert the selection</span>
+x[<span class="op">-</span>(<span class="dv">3</span><span class="op">:</span><span class="dv">6</span>)]</code></pre></div>
+<pre><code>## [1] &quot;I&quot; &quot; &quot; &quot; &quot; &quot;R&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#equivalent to</span>
+x[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">8</span>)]</code></pre></div>
+<pre><code>## [1] &quot;I&quot; &quot; &quot; &quot; &quot; &quot;R&quot;</code></pre>
+<p> </p>
+<p>For logical subsetting, you need to <em>negate</em> the values. That is done using the logical negation operator ‘<code>!</code>’ (AKA “not”):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span>T
+y</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># negation</span>
+<span class="op">!</span>y</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>You can also negate a matrix of logicals. Use the complement (negation) of <code>mat_logic</code> to subset our <code>df</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat_logic</code></pre></div>
+<pre><code>##       [,1]  [,2]  [,3]  [,4]  [,5]
+## [1,] FALSE FALSE FALSE FALSE  TRUE
+## [2,] FALSE FALSE FALSE FALSE  TRUE
+## [3,] FALSE FALSE FALSE FALSE  TRUE
+## [4,] FALSE FALSE  TRUE FALSE FALSE
+## [5,] FALSE FALSE  TRUE FALSE FALSE
+## [6,] FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="op">!</span>mat_logic</code></pre></div>
+<pre><code>##      [,1] [,2]  [,3] [,4]  [,5]
+## [1,] TRUE TRUE  TRUE TRUE FALSE
+## [2,] TRUE TRUE  TRUE TRUE FALSE
+## [3,] TRUE TRUE  TRUE TRUE FALSE
+## [4,] TRUE TRUE FALSE TRUE  TRUE
+## [5,] TRUE TRUE FALSE TRUE  TRUE
+## [6,] TRUE TRUE FALSE TRUE  TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[<span class="op">!</span>mat_logic]</code></pre></div>
+<pre><code>##  [1] &quot;1001&quot;  &quot;1002&quot;  &quot;1003&quot;  &quot;1004&quot;  &quot;1005&quot;  &quot;1006&quot;  &quot;23&quot;    &quot;25&quot;   
+##  [9] &quot;33&quot;    &quot;26&quot;    &quot;25&quot;    &quot;24&quot;    &quot;blue&quot;  &quot;brown&quot; &quot;brown&quot; &quot;psy&quot;  
+## [17] &quot;cog&quot;   &quot;lel&quot;   &quot;psy&quot;   &quot;phi&quot;   &quot;lel&quot;   &quot;1&quot;     &quot;2:1&quot;   &quot;2:1&quot;</code></pre>
+<p> </p>
+<p><strong>Bear in mind that all data cleaning and transforming ultimately boils down to using either or both of these two ways of subsetting elements!</strong></p>
+</div>
+</div>
+<div id="sorting" class="section level2">
+<h2><span class="header-section-number">3.2</span> Sorting</h2>
+<p>Sorting is often an important step in cleaning or otherwise processing your data. It is also something that should never be done in Excel<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a>. SO let’s have a look at how to sort vectors and data frames!</p>
+<p>There are two main base <code>R</code> functions that are useful for sorting, <code>sort()</code> and <code>order()</code></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create an object <code>lttrs</code> containing vector of 5 randomly ordered letters of the alphabet. Use the <code>LETTERS</code> object (created by default when you open <code>R</code>) and the <code>sample()</code> function to do this. <em>Note.</em> Your vector of 5 letters will differ from the below due to random sampling.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">lttrs &lt;-<span class="st"> </span><span class="kw">sample</span>(LETTERS, <span class="dv">5</span>)
+lttrs</code></pre></div>
+<pre><code>## [1] &quot;U&quot; &quot;T&quot; &quot;G&quot; &quot;N&quot; &quot;S&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Call the <code>sort()</code> function on the object (<em>i.e.,</em> provide the object as an argument to the function).</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">sort</span>(lttrs)</code></pre></div>
+<pre><code>## [1] &quot;G&quot; &quot;N&quot; &quot;S&quot; &quot;T&quot; &quot;U&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What if you want to reverse the order? Check out the help file for the function (<code>?sort</code>) and get a vector of reverse-ordered <code>lttrs</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">sort</span>(lttrs, <span class="dt">decreasing =</span> T)</code></pre></div>
+<pre><code>## [1] &quot;U&quot; &quot;T&quot; &quot;S&quot; &quot;N&quot; &quot;G&quot;</code></pre>
+<p> </p>
+<p>OK, so this is easy, <code>sort()</code> is used to, well, sort vectors of numbers or letters. I can be useful in situations when you want to know if, let’s say, a vector of numbers contains all the numbers within a given range. Imagine we want to know if the command <code>sample(20)</code> gives us all the numbers between 1 and 20, albeit in a random order:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sample</span>(<span class="dv">20</span>)</code></pre></div>
+<pre><code>##  [1]  8  1  7 15  4  2 19  5 16 10 17 13  9 11 14  3 12 20  6 18</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">sample</span>(<span class="dv">20</span>))</code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compare the sort(sample(20)) vector with the 1:20 vector element by element</span>
+<span class="kw">sort</span>(<span class="kw">sample</span>(<span class="dv">20</span>)) <span class="op">==</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">20</span></code></pre></div>
+<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+## [15] TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># are all of the resulting logicals TRUE?</span>
+<span class="kw">all</span>(<span class="kw">sort</span>(<span class="kw">sample</span>(<span class="dv">20</span>)) <span class="op">==</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">20</span>)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p> </p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>So much for <code>sort()</code>. Let’s call <code>order()</code> on <code>lttrs</code> and try to figure out what the output means.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">order</span>(lttrs)</code></pre></div>
+<pre><code>## [1] 3 4 5 2 1</code></pre>
+<p> </p>
+<p>As you may have figured out, <code>order()</code> gives you the indices of each element’s position in an ordered vector consisting of the same elements. That means that if you use the output of <code>order()</code> to index out <code>lttrs</code>, you’ll get the same result as with <code>sort(lttrs)</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lttrs[<span class="kw">order</span>(lttrs)]</code></pre></div>
+<pre><code>## [1] &quot;G&quot; &quot;N&quot; &quot;S&quot; &quot;T&quot; &quot;U&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Just like <code>sort()</code>, <code>order()</code> can be reversed. Use <code>order()</code> to sort <code>df$id</code> in decreasing order like this:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df<span class="op">$</span>id[<span class="kw">order</span>(df<span class="op">$</span>id, <span class="dt">decreasing =</span> T)]</code></pre></div>
+<pre><code>## [1] 1006 1005 1004 1003 1002 1001
+## Levels: 1001 1002 1003 1004 1005 1006</code></pre>
+<p> </p>
+<p>You might be wondering what the point of <code>order()</code> is when there is <code>sort()</code>. Well, since <code>order()</code> produces a vector of indices that is independent of the input to the function, you can use it to order one vector according to the order of another:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">order</span>(df<span class="op">$</span>age) <span class="co"># order indices (ranks) of elements of age</span></code></pre></div>
+<pre><code>## [1] 1 6 2 5 4 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df<span class="op">$</span>id[<span class="kw">order</span>(df<span class="op">$</span>age)] <span class="co"># sort id from youngest to oldest</span></code></pre></div>
+<pre><code>## [1] 1001 1006 1002 1005 1004 1003
+## Levels: 1001 1002 1003 1004 1005 1006</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try ordering the entire <code>df</code> in order of <em>decreasing</em> age. <em>Hint:</em> don’t forget that data frames are 2-dimensional.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[<span class="kw">order</span>(df<span class="op">$</span>age, <span class="dt">decreasing =</span> T), ]</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 3 1003  33   brown lel   &lt;NA&gt;
+## 4 1004  26    &lt;NA&gt; psy      1
+## 2 1002  25   brown cog   &lt;NA&gt;
+## 5 1005  25    &lt;NA&gt; phi    2:1
+## 6 1006  24    &lt;NA&gt; lel    2:1
+## 1 1001  23    blue psy   &lt;NA&gt;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>A bit of a challenge now. Try sorting the columns of <code>df</code> according to the alphabetical order of their names. <em>Hint:</em> the <code>names() (or</code>colnames()`) function produces a vector of column names of its argument. You can use it to get the rank indices. are 2-dimensional.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[ , <span class="kw">order</span>(<span class="kw">names</span>(df))]</code></pre></div>
+<pre><code>##   age degree dpt eye_col   id
+## 1  23   &lt;NA&gt; psy    blue 1001
+## 2  25   &lt;NA&gt; cog   brown 1002
+## 3  33   &lt;NA&gt; lel   brown 1003
+## 4  26      1 psy    &lt;NA&gt; 1004
+## 5  25    2:1 phi    &lt;NA&gt; 1005
+## 6  24    2:1 lel    &lt;NA&gt; 1006</code></pre>
+</div>
+<div id="subsetting-with-commands" class="section level2">
+<h2><span class="header-section-number">3.3</span> Subsetting with commands</h2>
+<p>You will have noticed that, when subsetting objects, we are not restricted to raw numeric and logical vectors but we can also use certain functions and operations. That is because <code>R</code> doesn’t distinguish between vectors provided manually and those returned by functions. For that reason, you should get into the habit of <strong>always thinking about functions and objects in terms of their output</strong>! This is an extremely important point when it comes to programming in <code>R</code>, hence the exclamation point. It’s so important that I’m tempted to repeat it in capital letters, but I don’t think I could live with myself if I did.</p>
+<p>Any function that returns either a numeric vector, a logical vector of the right length, or a logical matrix of the right size can be used for subsetting (think back to <code>df[ , order(names(df))]</code> or <code>mat[lower.tri(mat)]</code>. Let’s explore a few ways of using functions in this way.</p>
+<p>Comparative operators are useful for querying your dataset for rows for which some variable is equal to (<code>==</code>), larger than (<code>&gt;</code>), smaller than (<code>&lt;</code>), at least (<code>&gt;=</code>), or at most (<code>&lt;=</code>) some desired value.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df<span class="op">$</span>age <span class="op">==</span><span class="st"> </span><span class="dv">25</span></code></pre></div>
+<pre><code>## [1] FALSE  TRUE FALSE FALSE  TRUE FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df[df<span class="op">$</span>age <span class="op">==</span><span class="st"> </span><span class="dv">25</span>, ]</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 2 1002  25   brown cog   &lt;NA&gt;
+## 5 1005  25    &lt;NA&gt; phi    2:1</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Why does this command for getting the subset of <code>df</code> for LEL students not work? Read the error and try to understand it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df[df<span class="op">$</span>dpt <span class="op">==</span><span class="st"> </span>lel, ]</code></pre></div>
+<pre><code>## Error in `[.data.frame`(df, df$dpt == lel, ): object &#39;lel&#39; not found</code></pre>
+<p> </p>
+<p>The error tells us that <code>R</code> is interpreting <code>lel</code> as a name of an object. Of course, <code>lel</code> is not an object, it is a level of the <code>df$dpt</code> factor and thus <code>R</code> fails to find it and throws an error. What do you need to do to make <code>R</code> understand that <code>lel</code> is a string?</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Go on, correct the error in the code above.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[df<span class="op">$</span>dpt <span class="op">==</span><span class="st"> &quot;lel&quot;</span>, ]</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 3 1003  33   brown lel   &lt;NA&gt;
+## 6 1006  24    &lt;NA&gt; lel    2:1</code></pre>
+<p> </p>
+<p>Believe it or not, getting the error is actually a lucky case. Imagine you make the same mistake but – by coincidence – the level of the factor has the same name as some existing object in your environment. <code>R</code> might be able to run that command and quietly do something completely different than you expected. Coding is a lot about attention to details like these!</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Get a subset of <code>df</code> of students who are 25 or older.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[df<span class="op">$</span>age <span class="op">&gt;=</span><span class="st"> </span><span class="dv">25</span>, ]</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 2 1002  25   brown cog   &lt;NA&gt;
+## 3 1003  33   brown lel   &lt;NA&gt;
+## 4 1004  26    &lt;NA&gt; psy      1
+## 5 1005  25    &lt;NA&gt; phi    2:1</code></pre>
+<p> </p>
+<p>You can combine and modify any operations that produce logicals using boolean operators (<code>&amp;</code>, <code>|</code>, <code>xor()</code>, <code>!</code>). Let’s say we only want to subset those students who are older than 25 OR younger than 24:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[df<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span> <span class="op">|</span><span class="st"> </span>df<span class="op">$</span>age <span class="op">&lt;</span><span class="st"> </span><span class="dv">24</span>, ]</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 1 1001  23    blue psy   &lt;NA&gt;
+## 3 1003  33   brown lel   &lt;NA&gt;
+## 4 1004  26    &lt;NA&gt; psy      1</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Get a subset of those students who do psychology, philosophy, or cognitive science.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df[df<span class="op">$</span>dpt <span class="op">!=</span><span class="st"> &quot;lel&quot;</span>, ]</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 1 1001  23    blue psy   &lt;NA&gt;
+## 2 1002  25   brown cog   &lt;NA&gt;
+## 4 1004  26    &lt;NA&gt; psy      1
+## 5 1005  25    &lt;NA&gt; phi    2:1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># same df[!df$dpt == &quot;lel&quot;, ]</span></code></pre></div>
+<p> </p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>If you asked for <code>pdt</code> equal to <code>&quot;psy&quot;</code> OR <code>&quot;phi&quot;</code> OR <code>&quot;cog&quot;</code>, that’s fine: it works. However, sometimes it’s easier to flip things around. In this case, the same result can be achieved by asking for <code>dpt</code> NOT equal to <code>&quot;lel&quot;</code>. Try it now!</p>
+<p> </p>
+<p>Just like there’s no need to limit yourself to one operation, there’s also no need to limit yourself to a single variable. We can get a subset of students older than 24 who at the same time either study psychology or don’t have green eyes. Why? Because we <em>can</em>!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df[df<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">24</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">xor</span>(df<span class="op">$</span>dpt <span class="op">==</span><span class="st"> &quot;psy&quot;</span>, df<span class="op">$</span>eye_col <span class="op">!=</span><span class="st"> &quot;green&quot;</span>), ]</code></pre></div>
+<pre><code>##        id age eye_col  dpt degree
+## 2    1002  25   brown  cog   &lt;NA&gt;
+## 3    1003  33   brown  lel   &lt;NA&gt;
+## NA   &lt;NA&gt;  NA    &lt;NA&gt; &lt;NA&gt;   &lt;NA&gt;
+## NA.1 &lt;NA&gt;  NA    &lt;NA&gt; &lt;NA&gt;   &lt;NA&gt;</code></pre>
+<p>Notice something weird? Yeah, there are a couple of rows of <code>NA</code>s. The reason for that is that the result of the command we used for subsetting is a vector that contains 2 <code>NA</code>s. That’s because any comparative operation (<code>==</code>, <code>&gt;=</code>, <em>etc</em>.) performed on an <code>NA</code> will return <code>NA</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">24</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">xor</span>(df<span class="op">$</span>dpt <span class="op">==</span><span class="st"> &quot;psy&quot;</span>, df<span class="op">$</span>eye_col <span class="op">!=</span><span class="st"> &quot;green&quot;</span>)</code></pre></div>
+<pre><code>## [1] FALSE  TRUE  TRUE    NA    NA FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="ot">NA</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">100</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<p>To prevent the subset from including the <code>NA</code> rows, we can get <code>R</code> to only give us indices of those rows for which the statement is <code>TRUE</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(df<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">24</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">xor</span>(df<span class="op">$</span>dpt <span class="op">==</span><span class="st"> &quot;psy&quot;</span>, df<span class="op">$</span>eye_col <span class="op">!=</span><span class="st"> &quot;green&quot;</span>))</code></pre></div>
+<pre><code>## [1] 2 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df[<span class="kw">which</span>(df<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">24</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">xor</span>(df<span class="op">$</span>dpt <span class="op">==</span><span class="st"> &quot;psy&quot;</span>, df<span class="op">$</span>eye_col <span class="op">!=</span><span class="st"> &quot;green&quot;</span>)), ]</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 2 1002  25   brown cog   &lt;NA&gt;
+## 3 1003  33   brown lel   &lt;NA&gt;</code></pre>
+<p>Finally, you can subset cases based on how they compare to the output of some function. Again, that’s because <code>R</code> doesn’t care if you say <code>&gt; 24</code> or <code>&gt; function_that_returns_24()</code>.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>what is the mean age in our <code>df</code>? <em>Hint:</em> The function to use here is, rather conveniently, called <code>mean()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">mean</span>(df<span class="op">$</span>age)</code></pre></div>
+<pre><code>## [1] 26</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>. Get the IDs of those students whose age is less or equal to the mean age.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[df<span class="op">$</span>age <span class="op">&lt;=</span><span class="st"> </span><span class="kw">mean</span>(df<span class="op">$</span>age), <span class="st">&quot;id&quot;</span>]</code></pre></div>
+<pre><code>## [1] 1001 1002 1004 1005 1006
+## Levels: 1001 1002 1003 1004 1005 1006</code></pre>
+<p class="why">
+We’ve covered several things here. You’ve learned most there is to learn about subsetting. This is an extremely useful skill for all data processing. You also saw that you can peer into the code of functions to understand what they do (or, more often, why they don’t do what you’d like them to do). We <strong>Strongly</strong> encourage this kind of curiosity. Picking things apart and putting them back together is a very good way to learn! Finally, you learned to <strong>think of functions in terms of their output</strong> and understood that functions and operations can be used for subsetting. Understand these basic principles and you’re sorted! The only other thing you will ever need is a repertoire of functions to use. But that will come with experience…
+</p>
+</div>
+<div id="creating-variables" class="section level2">
+<h2><span class="header-section-number">3.4</span> Creating variables</h2>
+<p>Sometimes – quite often, actually – you will want to create new variables in your data. Once you realise that variables are just vectors, there’s nothing easier than to add new ones to a data frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># let&#39;s say all of the students in df are in Group 1 in our study</span>
+df<span class="op">$</span>group &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co">#  the 1 will get recycled the right number of times</span>
+df</code></pre></div>
+<pre><code>##     id age eye_col dpt degree group
+## 1 1001  23    blue psy   &lt;NA&gt;     1
+## 2 1002  25   brown cog   &lt;NA&gt;     1
+## 3 1003  33   brown lel   &lt;NA&gt;     1
+## 4 1004  26    &lt;NA&gt; psy      1     1
+## 5 1005  25    &lt;NA&gt; phi    2:1     1
+## 6 1006  24    &lt;NA&gt; lel    2:1     1</code></pre>
+<p>Indexing can be very helpful for creating new variables in your data. Imagine, we want to categorise our students into younger and older according to a cut-off point of 25 years (those older than 25 are in the “older” group). The way to do this is to create a new variable – <code>age_group</code>, for instance – that equals, say, <code>&quot;younger&quot;</code> for <em>everyone</em>.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong> go ahead and create this variable. Make sure your <code>df</code> ends up looking something like this:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df<span class="op">$</span>age_group &lt;-<span class="st"> &quot;younger&quot;</span>
+df</code></pre></div>
+<pre><code>##     id age eye_col dpt degree group age_group
+## 1 1001  23    blue psy   &lt;NA&gt;     1   younger
+## 2 1002  25   brown cog   &lt;NA&gt;     1   younger
+## 3 1003  33   brown lel   &lt;NA&gt;     1   younger
+## 4 1004  26    &lt;NA&gt; psy      1     1   younger
+## 5 1005  25    &lt;NA&gt; phi    2:1     1   younger
+## 6 1006  24    &lt;NA&gt; lel    2:1     1   younger</code></pre>
+<p>OK, now use indexing to assign the value <code>&quot;older&quot;</code> to those cases of our new variable for whom age &gt; 25. This should be the result:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df<span class="op">$</span>age_group[df<span class="op">$</span>age <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>] &lt;-<span class="st"> &quot;older&quot;</span>
+df</code></pre></div>
+<pre><code>##     id age eye_col dpt degree group age_group
+## 1 1001  23    blue psy   &lt;NA&gt;     1   younger
+## 2 1002  25   brown cog   &lt;NA&gt;     1   younger
+## 3 1003  33   brown lel   &lt;NA&gt;     1     older
+## 4 1004  26    &lt;NA&gt; psy      1     1     older
+## 5 1005  25    &lt;NA&gt; phi    2:1     1   younger
+## 6 1006  24    &lt;NA&gt; lel    2:1     1   younger</code></pre>
+<p> </p>
+<p>No problem, right? Good!</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>To practice a little more, create another variable in the data frame called <code>has_col</code> that will tell us, whether or not the given student has a record of their eye colour. <em>Hint:</em> Check out the <code>is.na()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df<span class="op">$</span>has_col &lt;-<span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(df<span class="op">$</span>eye_col)
+df</code></pre></div>
+<pre><code>##     id age eye_col dpt degree group age_group has_col
+## 1 1001  23    blue psy   &lt;NA&gt;     1   younger    TRUE
+## 2 1002  25   brown cog   &lt;NA&gt;     1   younger    TRUE
+## 3 1003  33   brown lel   &lt;NA&gt;     1     older    TRUE
+## 4 1004  26    &lt;NA&gt; psy      1     1     older   FALSE
+## 5 1005  25    &lt;NA&gt; phi    2:1     1   younger   FALSE
+## 6 1006  24    &lt;NA&gt; lel    2:1     1   younger   FALSE</code></pre>
+<p class="why">
+The combination of indexing and calculating new variables is an immensely powerful tool in your data-processing arsenal!
+</p>
+<p> </p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Finally, save and exit the project..</p>
+<p> </p>
+<div id="thats-it-for-today-feedback-on-this-and-whether-you-feel-you-learnt-anything-very-welcome.-1" class="section level4">
+<h4><span class="header-section-number">3.4.0.1</span> That’s it for today! Feedback on this, and whether you feel you learnt anything, very welcome.</h4>
+<p>For a quick reference, check out <a href="https://mivalek.github.io/resources/saviouR.html#handy_functions_that_return_logicals" target="_blank">this short account</a> of useful functions that return logical vectors</p>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="6">
+<li id="fn6"><p>If the plot disappears after a split-second, just click inside the RStudio plotting window and it should pop back up.<a href="lab-3.html#fnref6">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lab-4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

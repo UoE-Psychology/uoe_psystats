@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Lab 9 - Interactions and GLM&quot; | Univariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Lab 9 - Interactions and GLM&quot; | Univariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Lab 9 - Interactions and GLM&quot; | Univariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab-8-the-general-linear-model.html"/>
+<link rel="next" href="lab-10.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">USMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="lab-1.html"><a href="lab-1.html"><i class="fa fa-check"></i><b>1</b> Lab 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="lab-1.html"><a href="lab-1.html#lets-get-going"><i class="fa fa-check"></i><b>1.1</b> Let’s get going!</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="lab-1.html"><a href="lab-1.html#rstudio"><i class="fa fa-check"></i><b>1.1.1</b> RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="lab-1.html"><a href="lab-1.html#console"><i class="fa fa-check"></i><b>1.1.2</b> Console</a></li>
+<li class="chapter" data-level="1.1.3" data-path="lab-1.html"><a href="lab-1.html#editor"><i class="fa fa-check"></i><b>1.1.3</b> Editor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="lab-1.html"><a href="lab-1.html#a-simple-analysis"><i class="fa fa-check"></i><b>1.2</b> A simple analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="lab-1.html"><a href="lab-1.html#last-things"><i class="fa fa-check"></i><b>1.2.1</b> Last Things</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab-2.html"><a href="lab-2.html"><i class="fa fa-check"></i><b>2</b> Lab 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="lab-2.html"><a href="lab-2.html#first-things-first"><i class="fa fa-check"></i><b>2.1</b> First things first</a></li>
+<li class="chapter" data-level="2.2" data-path="lab-2.html"><a href="lab-2.html#classes"><i class="fa fa-check"></i><b>2.2</b> Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="lab-2.html"><a href="lab-2.html#data-structures"><i class="fa fa-check"></i><b>2.3</b> Data structures</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lab-2.html"><a href="lab-2.html#subsetting"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lab-2.html"><a href="lab-2.html#subsetting-using-names"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting using names</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lab-2.html"><a href="lab-2.html#replacement"><i class="fa fa-check"></i><b>2.4</b> Replacement</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab-3.html"><a href="lab-3.html"><i class="fa fa-check"></i><b>3</b> Lab 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="lab-3.html"><a href="lab-3.html#logical-subsetting"><i class="fa fa-check"></i><b>3.1</b> Logical subsetting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="lab-3.html"><a href="lab-3.html#complementary-subsetting"><i class="fa fa-check"></i><b>3.1.1</b> Complementary subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab-3.html"><a href="lab-3.html#sorting"><i class="fa fa-check"></i><b>3.2</b> Sorting</a></li>
+<li class="chapter" data-level="3.3" data-path="lab-3.html"><a href="lab-3.html#subsetting-with-commands"><i class="fa fa-check"></i><b>3.3</b> Subsetting with commands</a></li>
+<li class="chapter" data-level="3.4" data-path="lab-3.html"><a href="lab-3.html#creating-variables"><i class="fa fa-check"></i><b>3.4</b> Creating variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab-4.html"><a href="lab-4.html"><i class="fa fa-check"></i><b>4</b> Lab 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="lab-4.html"><a href="lab-4.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="lab-4.html"><a href="lab-4.html#simple-plots"><i class="fa fa-check"></i><b>4.2</b> Simple Plots</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="lab-4.html"><a href="lab-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.2.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab-4.html"><a href="lab-4.html#ordinal-categorical-variables"><i class="fa fa-check"></i><b>4.2.2</b> Ordinal Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lab-4.html"><a href="lab-4.html#continuous-variables"><i class="fa fa-check"></i><b>4.2.3</b> Continuous Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab-4.html"><a href="lab-4.html#scatterplots-visualizing-associations"><i class="fa fa-check"></i><b>4.3</b> Scatterplots: Visualizing associations</a></li>
+<li class="chapter" data-level="4.4" data-path="lab-4.html"><a href="lab-4.html#boxplots-visualizing-group-differences"><i class="fa fa-check"></i><b>4.4</b> Boxplots: Visualizing group differences</a></li>
+<li class="chapter" data-level="4.5" data-path="lab-4.html"><a href="lab-4.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="4.6" data-path="lab-4.html"><a href="lab-4.html#more-advanced-plotting"><i class="fa fa-check"></i><b>4.6</b> More advanced plotting</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="lab-4.html"><a href="lab-4.html#pinpointing-data"><i class="fa fa-check"></i><b>4.6.1</b> Pinpointing data</a></li>
+<li class="chapter" data-level="4.6.2" data-path="lab-4.html"><a href="lab-4.html#customising-plots"><i class="fa fa-check"></i><b>4.6.2</b> Customising plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="lab-4.html"><a href="lab-4.html#multiple-plots-in-one"><i class="fa fa-check"></i><b>4.7</b> Multiple Plots in One</a></li>
+<li class="chapter" data-level="4.8" data-path="lab-4.html"><a href="lab-4.html#lets-put-all-this-into-practice"><i class="fa fa-check"></i><b>4.8</b> Let’s put all this into practice</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="lab-4.html"><a href="lab-4.html#code-book"><i class="fa fa-check"></i><b>4.8.1</b> Code Book</a></li>
+<li class="chapter" data-level="4.8.2" data-path="lab-4.html"><a href="lab-4.html#questions"><i class="fa fa-check"></i><b>4.8.2</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="lab-4.html"><a href="lab-4.html#lab-4-ggplot"><i class="fa fa-check"></i><b>4.9</b> Lab 4 GGPLOT</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="lab-4.html"><a href="lab-4.html#introduction-1"><i class="fa fa-check"></i><b>4.9.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.9.2" data-path="lab-4.html"><a href="lab-4.html#ggplot2"><i class="fa fa-check"></i><b>4.9.2</b> <code>ggplot2</code></a></li>
+<li class="chapter" data-level="4.9.3" data-path="lab-4.html"><a href="lab-4.html#qplot"><i class="fa fa-check"></i><b>4.9.3</b> <code>qplot()</code></a></li>
+<li class="chapter" data-level="4.9.4" data-path="lab-4.html"><a href="lab-4.html#your-turn"><i class="fa fa-check"></i><b>4.9.4</b> Your Turn</a></li>
+<li class="chapter" data-level="4.9.5" data-path="lab-4.html"><a href="lab-4.html#using-ggplot"><i class="fa fa-check"></i><b>4.9.5</b> Using <code>ggplot()</code></a></li>
+<li class="chapter" data-level="4.9.6" data-path="lab-4.html"><a href="lab-4.html#your-turn-1"><i class="fa fa-check"></i><b>4.9.6</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab-5.html"><a href="lab-5.html"><i class="fa fa-check"></i><b>5</b> Lab 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="lab-5.html"><a href="lab-5.html#finally-stats"><i class="fa fa-check"></i><b>5.1</b> Finally stats</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="lab-5.html"><a href="lab-5.html#data-set"><i class="fa fa-check"></i><b>5.1.1</b> Data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab-5.html"><a href="lab-5.html#read-in-and-clean-data"><i class="fa fa-check"></i><b>5.1.2</b> Read in and clean data</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab-5.html"><a href="lab-5.html#impossible-values"><i class="fa fa-check"></i><b>5.1.3</b> Impossible values</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab-5.html"><a href="lab-5.html#improbable-values"><i class="fa fa-check"></i><b>5.1.4</b> Improbable values</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab-5.html"><a href="lab-5.html#non-integer-values"><i class="fa fa-check"></i><b>5.1.5</b> Non-integer values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab-5.html"><a href="lab-5.html#lets-stats"><i class="fa fa-check"></i><b>5.2</b> Let’s stats!</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="lab-5.html"><a href="lab-5.html#categorical-variables-1"><i class="fa fa-check"></i><b>5.2.1</b> Categorical variables</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab-5.html"><a href="lab-5.html#analysing-continuous-data"><i class="fa fa-check"></i><b>5.2.2</b> Analysing continuous data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab-5.html"><a href="lab-5.html#more-analysis"><i class="fa fa-check"></i><b>5.2.3</b> More analysis!</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab-5.html"><a href="lab-5.html#extra-get-loopy"><i class="fa fa-check"></i><b>5.2.4</b> Extra: Get loopy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab-6.html"><a href="lab-6.html"><i class="fa fa-check"></i><b>6</b> Lab 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="lab-6.html"><a href="lab-6.html#some-more-r-skills"><i class="fa fa-check"></i><b>6.1</b> Some more R skills</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lab-6.html"><a href="lab-6.html#two-types-of-subscripting"><i class="fa fa-check"></i><b>6.1.1</b> Two types of subscripting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lab-6.html"><a href="lab-6.html#your-turn-2"><i class="fa fa-check"></i><b>6.2</b> Your Turn</a></li>
+<li class="chapter" data-level="6.3" data-path="lab-6.html"><a href="lab-6.html#real-data"><i class="fa fa-check"></i><b>6.3</b> Real Data</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lab-6.html"><a href="lab-6.html#the-data"><i class="fa fa-check"></i><b>6.3.1</b> The data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab-6.html"><a href="lab-6.html#the-questions"><i class="fa fa-check"></i><b>6.3.2</b> The questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab-7.html"><a href="lab-7.html"><i class="fa fa-check"></i><b>7</b> Lab 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="lab-7.html"><a href="lab-7.html#merging-and-missing-values"><i class="fa fa-check"></i><b>7.1</b> Merging and missing values</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="lab-7.html"><a href="lab-7.html#missing-values"><i class="fa fa-check"></i><b>7.1.1</b> Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab-7.html"><a href="lab-7.html#writing-a-function"><i class="fa fa-check"></i><b>7.2</b> Writing a function</a></li>
+<li class="chapter" data-level="7.3" data-path="lab-7.html"><a href="lab-7.html#some-data-manipulation"><i class="fa fa-check"></i><b>7.3</b> Some data manipulation</a></li>
+<li class="chapter" data-level="7.4" data-path="lab-7.html"><a href="lab-7.html#a-note-on-correlation"><i class="fa fa-check"></i><b>7.4</b> A note on correlation</a></li>
+<li class="chapter" data-level="7.5" data-path="lab-7.html"><a href="lab-7.html#some-statistics"><i class="fa fa-check"></i><b>7.5</b> Some statistics!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html"><i class="fa fa-check"></i><b>8</b> Lab 8 - The General Linear Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#a-brief-note-on-with"><i class="fa fa-check"></i><b>8.1</b> A brief note on <code>with()</code></a></li>
+<li class="chapter" data-level="8.2" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#linear-models"><i class="fa fa-check"></i><b>8.2</b> Linear Models</a></li>
+<li class="chapter" data-level="8.3" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-prediction-and-visualisation"><i class="fa fa-check"></i><b>8.3</b> Model prediction and visualisation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#predict"><i class="fa fa-check"></i><b>8.3.1</b> Predict()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-criticism"><i class="fa fa-check"></i><b>8.4</b> Model criticism</a></li>
+<li class="chapter" data-level="8.5" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#multiple-regression"><i class="fa fa-check"></i><b>8.5</b> Multiple regression</a></li>
+<li class="chapter" data-level="8.6" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#contrast-coding"><i class="fa fa-check"></i><b>8.6</b> Contrast coding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html"><i class="fa fa-check"></i><b>9</b> Lab 9 - Interactions and GLM&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#interactions"><i class="fa fa-check"></i><b>9.1</b> Interactions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#specifying-interactions-in-r"><i class="fa fa-check"></i><b>9.1.1</b> Specifying interactions in R</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#simulating-data"><i class="fa fa-check"></i><b>9.1.2</b> Simulating data</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#visualising-interactions"><i class="fa fa-check"></i><b>9.1.3</b> Visualising interactions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#modelling-interactions"><i class="fa fa-check"></i><b>9.1.4</b> Modelling interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#generalised-linear-model-glm"><i class="fa fa-check"></i><b>9.2</b> General<strong>ised</strong> Linear Model (GLM)</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#log-odds-and-predicted-probabilities"><i class="fa fa-check"></i><b>9.2.1</b> Log-odds and predicted probabilities</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#predicted-vs-observed"><i class="fa fa-check"></i><b>9.2.2</b> Predicted vs Observed</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#your-turn-less-guidance"><i class="fa fa-check"></i><b>9.3</b> Your turn (Less guidance)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab-10.html"><a href="lab-10.html"><i class="fa fa-check"></i><b>10</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="lab-10.html"><a href="lab-10.html#apply-functions"><i class="fa fa-check"></i><b>10.1</b> <code>apply</code> functions</a></li>
+<li class="chapter" data-level="10.2" data-path="lab-10.html"><a href="lab-10.html#lab-10-1"><i class="fa fa-check"></i><b>10.2</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lab-10.html"><a href="lab-10.html#the-task"><i class="fa fa-check"></i><b>10.2.1</b> The Task</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Univariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab-9---interactions-and-glm" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Lab 9 - Interactions and GLM&quot;</h1>
+<p>Today’s lab is primarily focused on extending our knowledge/experience of conducting and interpreting linear models.</p>
+<div id="interactions" class="section level2">
+<h2><span class="header-section-number">9.1</span> Interactions</h2>
+<div id="specifying-interactions-in-r" class="section level3">
+<h3><span class="header-section-number">9.1.1</span> Specifying interactions in R</h3>
+<p>In the lecture last week, you were introduced to interactions in linear models. Therefore we need to know how to tell R to also fit interaction terms in our calls to <code>lm()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1)
+<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2)</code></pre></div>
+<p>So far, these are the types of linear models we have been asking R to fit. In the first example, the command tells R we want to predict <code>y</code> using the explanatory variable <code>x1</code>. The second example extends this by also using <code>x2</code> as an explanatory variable. To also ask for R to fit the interaction between <code>x1</code> and <code>x2</code>, we can execute:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x1<span class="op">:</span>x2)</code></pre></div>
+<p>We use a colon to separate two terms to indicate we want to fit the interaction between these terms. An alternative method is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">*</span><span class="st"> </span>x2)</code></pre></div>
+<p>Using the * tells R to fit the full model using these variables: each of the variables individually and the interaction term.  </p>
+</div>
+<div id="simulating-data" class="section level3">
+<h3><span class="header-section-number">9.1.2</span> Simulating data</h3>
+<p>Today’s exercise is a little different: We’re going to analyse a dataset, but we’re going to build it ourselves.<br />
+The purpose if this is because we can define the relationships between the variables, and so link this more clearly to our regression formula (<span class="math inline">\(y_i=b_0+b_1x_{1i}+b_2x_{2i}+{}...{}+b_nx_{ni}+\epsilon_i\)</span>) and model output.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a data frame to hold your data with participant labels for 100 people. To do this, you can simple use the colon <code>:</code> to make a sequence from 1 to 100, and wrap the whole thing in <code>factor()</code> to make sure R knows that it is categorical.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">my.data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ppt =</span> <span class="kw">factor</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>))</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now let’s add in some information about these participants. Give some values for their <code>age</code>, and their <code>musicality</code> (some measure of how interested the participant is in music generally).</p>
+<p>Make up some values that vary plausibly for each column. So, for example, if you thought that <code>age</code> was best expressed in years and our participants’ ages should vary uniformly from 20 to 60, you might type:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.data<span class="op">$</span>age &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">100</span>, <span class="dv">20</span>, <span class="dv">60</span>)</code></pre></div>
+<p><em>but this is only an example.</em> You might assume that the age of participants is normally distributed; you might want to express it in months; and so on.</p>
+<p>Similarly, you can define <code>musicality</code> however you like: You could use <code>rnorm()</code> or some other random function to assign values to it; or you might want to <code>sample()</code> (with replacement) from a strict set of numbers such as <code>1:7</code>, for example.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">## Here are some simple versions based on the hints above:
+my.data<span class="op">$</span>musicality &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Have a look at the dataset you have created: <code>my.data</code>. Have a look at a summary of the variables you have created: <code>summary(my.data)</code>. Do they look sensible? <em>Most likely yes, but make sure nothing stands out as strange.</em></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">## here&#39;s the summary based on the commands above:
+<span class="kw">summary</span>(my.data)</code></pre></div>
+<pre><code>##       ppt          age          musicality  
+##  1      : 1   Min.   :20.42   Min.   :1.00  
+##  2      : 1   1st Qu.:28.72   1st Qu.:2.00  
+##  3      : 1   Median :39.59   Median :4.00  
+##  4      : 1   Mean   :39.93   Mean   :3.89  
+##  5      : 1   3rd Qu.:50.11   3rd Qu.:6.00  
+##  6      : 1   Max.   :59.62   Max.   :7.00  
+##  (Other):94</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a variable called <code>spotify_hours</code> in your data frame. This will represent the number of hours each participant spent listening to spotify over the course of a year. We want this to be a <em>function</em> of <code>musicality</code> and <code>age</code>. In other words, you’re being asked: `What is the (fictional) way in which age and musicality predict the numbers of hours that people listen to spotify over the course of a year?’<br />
+To do this, you’ll need to think about regression equations in general, and in particular, about interaction terms. How do age and musicality <em>interact</em>? Will old musical people listen to spotify less than young musical people? And so on. The exact formula is <em>up to you</em> but, it’s a linear equation, so it should be something like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.data<span class="op">$</span>spotify_hours &lt;-<span class="st"> </span>... <span class="op">+</span><span class="st"> </span>(... <span class="op">*</span><span class="st"> </span>my.data<span class="op">$</span>age) <span class="op">+</span><span class="st"> </span>(... <span class="op">*</span><span class="st"> </span>my.data<span class="op">$</span>musicality) <span class="op">+</span>
+<span class="st">  </span>(... <span class="op">*</span><span class="st"> </span>my.data<span class="op">$</span>age <span class="op">*</span><span class="st"> </span>my.data<span class="op">$</span>musicality)</code></pre></div>
+<p>In this equation, the …’s represent spaces where <span class="math inline">\(b_0\)</span>, <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span>, and so on <em>(see slides 36-37 from lecture 8)</em>. For our example, the following might work:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.data<span class="op">$</span>spotify_hours &lt;-<span class="st"> </span><span class="dv">300</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">*</span><span class="st"> </span>my.data<span class="op">$</span>age <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>my.data<span class="op">$</span>musicality <span class="op">+</span>
+<span class="st">  </span>.<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>my.data<span class="op">$</span>age <span class="op">*</span><span class="st"> </span>my.data<span class="op">$</span>musicality
+
+<span class="co">#this would mean that someone who is 20, and who is very musical (scores 7), </span>
+<span class="co">#listens to spotify for 300-(1*20)+(2*7)+(.2*20*7) = 322 hours </span>
+<span class="co">#(that&#39;s a little under an hour a day). </span>
+
+<span class="co">#We&#39;ve said that for every year older, people listen 1 hour less, and for every </span>
+<span class="co">#unit of musicality, people listen 2 hours more. </span>
+<span class="co">#We&#39;ve also stated that for every year older, there is an extra .2 effect of musicality. </span>
+<span class="co">#(maybe older musical people have more time to listen? younger people are all stuck in statistics courses!)</span></code></pre></div>
+<p> </p>
+</div>
+<div id="visualising-interactions" class="section level3">
+<h3><span class="header-section-number">9.1.3</span> Visualising interactions</h3>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Have a look at your data. There are various ways of doing this! For a fancy 3D-plot you can install the <code>plotly</code> package and try the code below<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a>, and then move the resulting graph around with your mouse.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(plotly)
+<span class="co"># if you don&#39;t include the &#39;~&#39;s, the axes will be labelled &#39;X&#39;, &#39;y&#39;, and &#39;z&#39;. </span>
+<span class="kw">with</span>(my.data, <span class="kw">plot_ly</span>(<span class="dt">x =</span> <span class="op">~</span>age, <span class="dt">y =</span> <span class="op">~</span>musicality, <span class="dt">z =</span> <span class="op">~</span>spotify_hours))</code></pre></div>
+<p>If you are having problems with <code>plotly</code> or want to stay within 2-dimensions, try a flat plot, like this:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(my.data[, <span class="kw">c</span>(<span class="st">&#39;age&#39;</span>, <span class="st">&#39;musicality&#39;</span>, <span class="st">&#39;spotify_hours&#39;</span>)])</code></pre></div>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-326-1.png" width="672" />
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Does everything look relatively plausible? If not, you could start again at Task 4 (or earlier), changing values or the formula to create <code>spotify_hours</code> until you’re happy with the result.</p>
+<p>The variable <code>spotify_hours</code> we’ve created above is a bit like <em>fitted values</em> - based on specific choice of <span class="math inline">\(b_0\)</span>, <span class="math inline">\(b_1\)</span>, etc, we’ve <strong>perfectly</strong> explained <code>spotify hours</code> in terms of <code>age</code> and <code>musicality</code>. But real data is <em>noisy</em> - even when the relationship is extremely strong the real values will not lie perfectly on the ‘line of best fit’.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Add some noise to <code>spotify_hours</code><br />
+<em>hint:</em> ‘noise’ is random, and the linear model assumes that residual (<span class="math inline">\(\epsilon_i\)</span>) is normally distributed.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">my.data<span class="op">$</span>spotify_hours &lt;-<span class="st"> </span>my.data<span class="op">$</span>spotify_hours <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">5</span>)</code></pre></div>
+<p> </p>
+</div>
+<div id="modelling-interactions" class="section level3">
+<h3><span class="header-section-number">9.1.4</span> Modelling interactions</h3>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Test how <code>age</code>, <code>musicality</code>, and their interaction predict <code>spotify_hours</code>. Examine your model. How close are the coefficients to the <span class="math inline">\(b\)</span> values that you initially entered into the equation?</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(spotify_hours <span class="op">~</span><span class="st"> </span>age <span class="op">*</span><span class="st"> </span>musicality, <span class="dt">data =</span> my.data)
+<span class="kw">summary</span>(model)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = spotify_hours ~ age * musicality, data = my.data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -13.3758  -2.7977   0.1205   3.2512  10.9172 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    301.34010    4.30198  70.047  &lt; 2e-16 ***
+## age             -1.04024    0.10544  -9.866 2.89e-16 ***
+## musicality       1.42275    1.01520   1.401    0.164    
+## age:musicality   0.21569    0.02412   8.942 2.79e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.144 on 96 degrees of freedom
+## Multiple R-squared:  0.942,  Adjusted R-squared:  0.9402 
+## F-statistic: 519.8 on 3 and 96 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Check the model assumptions. Are the residuals normal? Do the other diagnostics look sensible?</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">hist</span>(<span class="kw">resid</span>(model))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-329-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)) <span class="co"># to plot all of the below in one window</span>
+<span class="kw">plot</span>(model)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-329-2.png" width="672" /></p>
+<div class="noteBox">
+<h3 id="optional"><span class="header-section-number">9.1.4</span> Optional</h3>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Re-run the equation you created at Task 4 (this resets the <code>spotify_hours</code> variable to the exact fitted values without the noise (<span class="math inline">\(\epsilon\)</span>)). Instead of adding a normally distributed residual (like you did in task 6), try adding one which is not. Then re-run the regression and check the model assumptions. What has changed?</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>If you selected a continuous measure of musicality you were working with a <em>continuous</em><span class="math inline">\(\times\)</span><em>continuous</em> interaction. A good way to visualise this is to ‘bin’ the data based on one of the explanatory variables. In the example above we might create a grouped age variable that split age into 4 or 5 equal sized categories (the function <code>cut()</code> will help you to achieve this). Construct a plot showing the relationship of <code>spotify_hours</code> and <code>musicality</code> for 4 different age-groups. This could be a different line for each age-group, or a different ‘facet’ for each.</p>
+<p>The code below introduces two new things we might not have come across within <code>ggplot2</code>: <code>geom_smooth()</code> and <code>facet_grid()</code>.<br />
+*<a href="Tip:*" class="uri">Tip:*</a> Remember plotting the confidence interval around the regression line in last week’s lab? <code>geom_smooth()</code> saves so much time!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A few different examples of illustrating this:</span>
+my.data<span class="op">$</span>cutAge &lt;-<span class="st"> </span><span class="kw">cut</span>(my.data<span class="op">$</span>age, <span class="dv">4</span>)
+
+<span class="co">#a ggplot</span>
+<span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>(<span class="dt">data =</span> my.data, <span class="kw">aes</span>(<span class="dt">x =</span> musicality, <span class="dt">y =</span> spotify_hours, <span class="dt">col=</span>cutAge, <span class="dt">fill=</span>cutAge)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>, <span class="dt">se=</span>T)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-332-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> my.data, <span class="kw">aes</span>(<span class="dt">x =</span> musicality, <span class="dt">y =</span> spotify_hours)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(<span class="op">~</span>cutAge)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-332-2.png" width="672" /></p>
+</div>
+<p> </p>
+</div>
+</div>
+<div id="generalised-linear-model-glm" class="section level2">
+<h2><span class="header-section-number">9.2</span> General<strong>ised</strong> Linear Model (GLM)</h2>
+<p>Okay, moving on from interactions, we’re now going to take a look at the <em>generalised linear model</em>, which you were introduced to in this weeks lecture (lecture 9).</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Load in the <code>titanic</code> data using the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://is.gd/rYCGR3&quot;</span>))</code></pre></div>
+<p>In the lecture, we saw how to model the odds that an alien would be splatted by a disco ball given their quality of singing. Along similar lines, we’re now going to construct a model of the odds of someone surviving the sinking of the titanic, given factors such as age, sex, class of ticket etc.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">passenger_id</td>
+<td align="left">ID of passenger</td>
+</tr>
+<tr class="even">
+<td align="left">survived</td>
+<td align="left">Categorical indicating whether (1) or not (0) the passenger survived</td>
+</tr>
+<tr class="odd">
+<td align="left">pclass</td>
+<td align="left">Class of ticket (1,2,3)</td>
+</tr>
+<tr class="even">
+<td align="left">name</td>
+<td align="left">Name of passenger</td>
+</tr>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="left">Sex of passenger (‘male’/‘female’)</td>
+</tr>
+<tr class="even">
+<td align="left">age</td>
+<td align="left">Age in year</td>
+</tr>
+<tr class="odd">
+<td align="left">sib_sp</td>
+<td align="left">Number of spouses and siblings on board</td>
+</tr>
+<tr class="even">
+<td align="left">parch</td>
+<td align="left">Number of parents or children on board</td>
+</tr>
+<tr class="odd">
+<td align="left">ticket</td>
+<td align="left">Ticket code</td>
+</tr>
+<tr class="even">
+<td align="left">fare</td>
+<td align="left">Ticket fare</td>
+</tr>
+<tr class="odd">
+<td align="left">cabin</td>
+<td align="left">Cabin number</td>
+</tr>
+<tr class="even">
+<td align="left">embarked</td>
+<td align="left">Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)</td>
+</tr>
+</tbody>
+</table>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Plot the <code>survived</code> variable against the <code>pclass</code> variable, and use <code>abline()</code> to add to this the line for a simple regression of survival by class of ticket.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">with</span>(titanic, <span class="kw">plot</span>(survived <span class="op">~</span><span class="st"> </span>pclass))
+<span class="kw">abline</span>(<span class="kw">lm</span>(survived<span class="op">~</span>pclass, <span class="dt">data=</span>titanic))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-336-1.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Probability p(x) <strong>can’t</strong> be linear. Odds, ranging from 0 to Infinity, are calculated as <span class="math inline">\(p(x)/(1-p(x))\)</span>. Log-odds are more linear, and range from -Infinity to +Infinity.<br />
+If the probability of someone surviving is 0.6. What are the odds, and what are the log odds?</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">p=<span class="fl">0.6</span>
+(p<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>p)) <span class="co"># odds</span></code></pre></div>
+<pre><code>## [1] 1.5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">log</span>(p<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>p)) <span class="co"># log odds</span></code></pre></div>
+<pre><code>## [1] 0.4054651</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Use <code>glm()</code> to model <code>survival</code> predicted by <code>pclass</code>. Remember to set <code>family=binomial</code>, and take a look at the coefficients using <code>coef()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">logit_mod &lt;-<span class="st"> </span><span class="kw">glm</span>(survived <span class="op">~</span><span class="st"> </span>pclass, <span class="dt">data =</span> titanic, <span class="dt">family=</span>binomial)
+
+<span class="kw">coef</span>(logit_mod)</code></pre></div>
+<pre><code>## (Intercept)      pclass 
+##   1.4467895  -0.8501067</code></pre>
+<div id="log-odds-and-predicted-probabilities" class="section level3">
+<h3><span class="header-section-number">9.2.1</span> Log-odds and predicted probabilities</h3>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Where the equation for our linear model was <span class="math inline">\(y=b_0+b_1x\)</span>, for our logit model it is <span class="math inline">\(ln(\frac{p}{(1-p)})=b_0+b_1x\)</span>.<br />
+For the model we just ran, it is <span class="math inline">\(ln(\frac{p}{(1-p)})=1.45-0.85*pclass\)</span>.<br />
+We can construct these fitted values using the code below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>fit =<span class="st"> </span><span class="fl">1.4467895</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.8501067</span><span class="op">*</span>titanic<span class="op">$</span>pclass
+<span class="co">#or</span>
+titanic<span class="op">$</span>fit =<span class="st"> </span><span class="kw">coef</span>(logit_mod)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(logit_mod)[<span class="dv">2</span>]<span class="op">*</span>titanic<span class="op">$</span>pclass</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Remembering that these numbers are on the scale of log-odds, we can, get out the predicted probability of survival using the inverse logit <span class="math inline">\(p_i=\frac{e^L_i}{(1+e^L_i)}\)</span> (this is the inverse of the log-odds formula <span class="math inline">\(L_i=log(\frac{p_i}{1-p_i}))\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predicted_probs &lt;-<span class="st"> </span><span class="kw">exp</span>(titanic<span class="op">$</span>fit) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(titanic<span class="op">$</span>fit))</code></pre></div>
+<p>And this is exactly what we get when we use the predict() function!<br />
+<strong>Note:</strong> we specify <code>type=&quot;response&quot;</code> here, but if you use <code>type=&quot;link&quot;</code> you get the log-odds which we just calculated.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic<span class="op">$</span>p_surv &lt;-<span class="st"> </span><span class="kw">predict</span>(logit_mod, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+<span class="co">#and check that they are the same using the all.equal() function</span>
+<span class="kw">all.equal</span>(predicted_probs, titanic<span class="op">$</span>p_surv)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="noteBox">
+<p><strong>Maximum likelihood estimation</strong><br />
+How does the model find the coefficients? We’re no longer talking about minimising sums of squares, like we were with a continuous variable and <code>lm()</code>. This is also why we don’t have things like <span class="math inline">\(R^2\)</span> for logit regression, because <span class="math inline">\(SS_\text{regression}/SS_\text{total}\)</span> no longer makes sense in the context of 0s and 1s.</p>
+<p>Instead, models are fitted use Maximum Likelihood Estimation (MLE) to work out the coefficients which maximise the likelihood of the observed data. (There’s a lot of info on MLE if you want to google it!)</p>
+</div>
+</div>
+<div id="predicted-vs-observed" class="section level3">
+<h3><span class="header-section-number">9.2.2</span> Predicted vs Observed</h3>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now that we have our fitted values in the <code>p_surv</code> variable, we can compare those to the observed data.<br />
+Use the <code>ifelse()</code> function to assign values of 0 and 1 to the <code>p_surv</code> predictions based on whether they are above or below 0.5.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">titanic<span class="op">$</span>p_surv &lt;-<span class="st"> </span><span class="kw">ifelse</span>(titanic<span class="op">$</span>p_surv <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong> Create a table of these predictions against the <code>survived</code> variable (the observed data).</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">table</span>(
+  <span class="dt">actual =</span> titanic<span class="op">$</span>survived,
+  <span class="dt">predicted =</span> titanic<span class="op">$</span>p_surv
+)</code></pre></div>
+<pre><code>##       predicted
+## actual   0   1
+##      0 469  80
+##      1 206 136</code></pre>
+</div>
+</div>
+<div id="your-turn-less-guidance" class="section level2">
+<h2><span class="header-section-number">9.3</span> Your turn (Less guidance)</h2>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What factors contribute to increased odds of survival for passengers on the titanic?</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">titanic_model &lt;-<span class="st"> </span><span class="kw">glm</span>(survived <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>pclass <span class="op">+</span><span class="st"> </span>sib_sp <span class="op">+</span><span class="st"> </span>parch, <span class="dt">data =</span> titanic, <span class="dt">family=</span>binomial)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>How does a passenger being male (relative to female) influence the <strong>odds</strong> of survival?</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">exp</span>(<span class="kw">coef</span>(titanic_model))</code></pre></div>
+<pre><code>## (Intercept)         age     sexmale      pclass      sib_sp       parch 
+## 275.2051697   0.9565700   0.0715638   0.2682218   0.6947680   0.9636555</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># 0.07 odds of survival for males relative females</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: Extra:</strong> Try doing a bit of googling to find the function which can quickly give you some confidence intervals for your betas.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># remember to exp()!</span>
+<span class="kw">exp</span>(<span class="kw">confint</span>(titanic_model))</code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##                   2.5 %      97.5 %
+## (Intercept) 97.35567063 832.4627665
+## age          0.94104651   0.9716845
+## sexmale      0.04603557   0.1089289
+## pclass       0.20199683   0.3512246
+## sib_sp       0.53799311   0.8843912
+## parch        0.75718485   1.2146246</code></pre>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="7">
+<li id="fn7"><p>If the plot disappears after a split-second, just click inside the RStudio plotting window and it should pop back up.<a href="lab-9-interactions-and-glm.html#fnref7">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab-8-the-general-linear-model.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lab-10.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
