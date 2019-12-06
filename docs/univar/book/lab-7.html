@@ -257,7 +257,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="merging-and-missing-values" class="section level2">
 <h2><span class="header-section-number">7.1</span> Merging and missing values</h2>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>First of all, generate a data frame with IQ measurements for 5 people (Amy, Jill, Kim, Dave, and Earl). IQ should be a normally distributed variable with <span class="math inline">\(Mean = 100\)</span> and <span class="math inline">\(SD = 15\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">iq.f &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">name =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Amy&#39;</span>, <span class="st">&#39;Jill&#39;</span>, <span class="st">&#39;Kim&#39;</span>, <span class="st">&#39;Dave&#39;</span>, <span class="st">&#39;Earl&#39;</span>)), 
@@ -269,7 +269,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 4 Dave 102.51666
 ## 5 Earl 110.01594</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Next, create another data frame with height measurements for 5 people (Jill, Dave, Earl, Fred, and Jen).</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">ht.f &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">name =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Jill&#39;</span>, <span class="st">&#39;Dave&#39;</span>, <span class="st">&#39;Earl&#39;</span>, <span class="st">&#39;Fred&#39;</span>, <span class="st">&#39;Jen&#39;</span>)), 
@@ -283,7 +283,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p> </p>
 <p>You’ll notice that the data frames you’ve created contain some overlapping information. If you wanted to test for a relationship between IQ and height it would be useful to create one merged data frame. The <code>R</code> function for this is <code>merge()</code>.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Try the following commands.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">merge</span>(iq.f, ht.f)</code></pre></div>
@@ -302,7 +302,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 7  Jen        NA 164.8891</code></pre>
 <p>What’s the difference between these two commands? What would you do if the columns in each data frame had different names? (Look at <code>?merge</code>).</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now create a new merged data frame with no missing values for IQ. <strong>Hint: </strong> Look at the <code>all.x</code> argument in <code>?merge</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">new.f &lt;-<span class="st"> </span><span class="kw">merge</span>(iq.f, ht.f, <span class="dt">all.x =</span> T)
@@ -314,7 +314,7 @@ new.f</code></pre></div>
 ## 4 Jill  93.30838 161.3152
 ## 5  Kim  86.73938       NA</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Calculate the mean of the IQ column. <em>Revision: These two commands do the same thing (why?)</em></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(new.f<span class="op">$</span>iq)</code></pre></div>
@@ -322,7 +322,7 @@ new.f</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(new.f[ ,<span class="dv">2</span>])</code></pre></div>
 <pre><code>## [1] 103.8818</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now calculate the mean <code>height</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">mean</span>(new.f<span class="op">$</span>height)</code></pre></div>
@@ -347,7 +347,7 @@ new.f</code></pre></div>
 }</code></pre></div>
 <p><strong>Tip: </strong>Your function takes two values: <code>obs</code> (a vector or matrix of observations), and <code>x</code>, as above. <code>x = 2.5</code> passes a <em>default value</em> to <code>x</code>, so that, if you don’t specify a value, the default of 2.5 will be used. This means that you can run <code>outliers(vec)</code>, which would use the default value; or you could run <code>outliers(vec, 2)</code> if you wanted to use 2 sds instead.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now write the code to complete the function.</p>
 <p><strong>Hint: </strong>Suppose you have a matrix <code>mat</code>. Code that replace elements in <code>mat</code> that are more than 2.5 sds above the mean with <code>NA</code>s could look something like this: <code>mat[mat &gt; mean(mat) + 2.5 * sd(mat)] &lt;- NA</code>.</p>
@@ -360,7 +360,7 @@ outliers &lt;-<span class="st"> </span><span class="cf">function</span>(obs, <sp
 <p>You also need to think about detecting values that are ‘x’ standard deviations <em>below</em> the mean as well.</p>
 <p><strong>Pro tip: </strong>A neat solution to this problem might involve using the <code>abs()</code> function which converts values to their absolute value. See <code>?abs</code>, and look <a href="https://www.mathsisfun.com/numbers/absolute-value.html">here</a> for more on what an absolute value is.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Test your <code>outliers</code> function with the following code: Does it correctly identify the 2 outliers?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">20</span>, <span class="dv">100</span>, <span class="dv">15</span>)
@@ -377,7 +377,7 @@ vec <span class="co"># inspect vector to find outliers</span></code></pre></div>
 <p>The aim of this exercise is for you to load some data, get it into a suitable format for analysis, and perform a correlation, and a linear regression.</p>
 <p><em>Note: </em>Most of this exercise is about getting data into shape before you do the stats!</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Download the data from the LEARN (lab7.Rdata), and load it into <code>R</code>.</p>
 <p><strong>Tip: </strong>This data is in <code>R</code> format, not <code>.csv</code> (because it contains several data frames). Save it into your project folder. Use the command below to load it into <code>R</code>.</p>
@@ -524,7 +524,7 @@ y3 =<span class="st"> </span><span class="dv">4</span> <span class="op">*</span>
 <div id="some-statistics" class="section level2">
 <h2><span class="header-section-number">7.5</span> Some statistics!</h2>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Using <code>cor.test()</code> and <code>lm()</code>, first run a correlation, and then a linear regression, to examine the relationship between IQ and exam performance in the <code>schools</code> dataset you’ve created. What can you conclude from your analyses?</p>
 <p><strong>Tip: </strong><code>cor.test()</code> is a simple function that prints out information immediately. <code>lm()</code> is a bit more complex: You will need to assign its output to an object (e.g. <code>model &lt;- lm(...)</code>) and then use <code>summary()</code> on that object to get useful information about it (<code>summary(model)</code>).</p>

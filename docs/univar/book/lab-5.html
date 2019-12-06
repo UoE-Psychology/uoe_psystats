@@ -257,7 +257,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">5.1</span> Finally stats</h2>
 <p>Welcome to lab 5! Today, we will dip our toes in the wonderful world of statistical analysis. We’ll use <code>R</code> to gain some experience analysing data.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>You know what’s coming, don’t you? That’s right, create a new <code>R</code> project.</p>
 <p><strong>TIP: </strong>You <em>really</em> want to work from both the script and the console here. Any commands that <em>modify the data</em> or create plots and output analysis <em>that you want to have access to</em> belong in the script. Any other commands (one-off stuff) should be left for the console.</p>
@@ -277,14 +277,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="read-in-and-clean-data" class="section level3">
 <h3><span class="header-section-number">5.1.2</span> Read in and clean data</h3>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Read the data into <code>R</code>. Use the <code>read.csv()</code> function to save the data set into an object called <code>data</code>. <strong>Hint. </strong>If you save the file somewhere else than your project directory, you will have to specify the path to it so that <code>R</code> knows where to find it.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/Lab5_data.csv&quot;</span>)</code></pre></div>
 <p> </p>
 <p>As a first step in analysis, you need to familiarise yourself with the data. looking at the first few rows is a good way of doing this.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Use the <code>head()</code> function to see the first few rows of <code>data</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">head</span>(data)</code></pre></div>
@@ -298,14 +298,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p> </p>
 <p>OK, you can probably see that the data set isn’t quite ready for analysis. This is often the case with real data. You might get your hands on all sorts of data sets collected by people with varying degrees of methodological prowess. Getting data into shape for analysis can be a time-consuming and frustrating process and the ability to do it is a crucial skill.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Look, the data set doesn’t have proper variable names, just some <code>V</code> labels. Let’s remedy this. Name the columns according to the code book. <strong>Hint. </strong>The <code>names()</code> function will be handy here</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">names</span>(data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;lab&quot;</span>, <span class="st">&quot;programme&quot;</span>, <span class="st">&quot;lab_time&quot;</span>, <span class="st">&quot;task3&quot;</span>, <span class="st">&quot;task4&quot;</span>)</code></pre></div>
 <p> </p>
 <p>Now that our variables have informative names, let’s look at some descriptive statistics. This is a quick way of spotting obvious errors in the data set.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Use the <code>describe()</code> function from package <code>psych</code> to cast a first glance on your data. <strong>Hint. </strong>Don’t forget that to use functions from packages that are not pre-loaded at the start of the <code>R</code> session, you have to load them using <code>library()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">library</span>(psych)
@@ -327,12 +327,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p> </p>
 <p>This should be raising some red flags! Check out the minima and maxima of the variables. Is this what you’d expect based on what the code book says? No, I didn’t think so… :)</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>What class is <code>id</code>? It’s a categorical variable so let’s tell <code>R</code> to treat is as such. <strong>Hint. </strong>You want to turn it into a <code>factor</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">factor</span>(data<span class="op">$</span>id)</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Can you spot what’s wrong with the <code>lab</code> variable? How many levels does it have? How many is it supposed to have? Can you fix it? Read on for a more step-by-step guide if you’re feeling a bit lost.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">table</span>(data<span class="op">$</span>lab) <span class="co"># we have some typos!</span></code></pre></div>
@@ -343,14 +343,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p> </p>
 <p>You might have noticed that <code>lab</code> is already a <code>factor</code>. That is because the <code>read.csv()</code> function turns variables with character strings. You can easily change factors into character vectors using <code>as.character()</code> but, as a general rule, it might be worth reading data in the rawest possible format.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Can you figure out how to tell <code>read.csv()</code> not to turn strings into factors? <strong>Hint. </strong>Look up the help file for the function and read through the list of arguments it takes.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">read.csv</span>(..., <span class="dt">stringsAsFactors =</span> F)</code></pre></div>
 <p> </p>
 <p>The nice thing about the script (you have been using the script, haven’t you?) is that if you realise you should have done something slightly different earlier in the process of cleaning and analysing your data, you can just edit and re-run the code.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Edit the script code to read in the data without turning strings into factors and re-run the remainder of the code you’ve written thus far.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># only these 3 lines are required</span>
@@ -360,7 +360,7 @@ data<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">f
 <p> </p>
 <p>Now that’s done, you can do something about the <code>lab</code> variable.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Change the inappropriate values of <code>lab</code>. <strong>Hint. </strong>This is where logical subsetting comes in handy so good thing you spilled so much sweat over it!</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># only these 3 lines are required</span>
@@ -376,25 +376,25 @@ Analytical decisions
 <p>You will have noticed that one of the weird values in <code>data$lab</code> is not really a typo. What to do about it is sort of your call. You might argue that it <em>is</em> a typo and change it to the value it resembles. However, it is possible that the data is self-reported, in which case you might legitimately ask if including data from some space cadet who doesn’t know what day it is is useful. I would probably exclude this person’s entry for the <code>lab</code> variable (by replacing it with <code>NA</code>). <strong>I would not recommend ever deleting entire rows from your data frames.</strong></p>
 </div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Good, now you can change the variable into a <code>factor</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>lab &lt;-<span class="st"> </span><span class="kw">factor</span>(data<span class="op">$</span>lab)</code></pre></div>
 <p> </p>
 <p>So that’s <code>lab</code> sorted. Let’s move on to <code>programme</code>. As you can see, it only has numeric values. It is also not a <code>factor</code>. It would be good to do something about this, don’t you think?</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>First things first though! Have a closer look at the variable. Does it look fine?</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>If you’re happy with it, tell <code>R</code> it’s a factor with labels as per the code book. <strong>Hint. </strong>There are several ways to do this. For instance, you can use the <code>factor(..., labels = ...)</code> approach, or opt for the <code>recode()</code> function from package <code>car</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>programme &lt;-<span class="st"> </span><span class="kw">factor</span>(data<span class="op">$</span>programme, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Psychology&quot;</span>, <span class="st">&quot;Linguistics&quot;</span>, <span class="st">&quot;CogScience&quot;</span>))</code></pre></div>
 <p> </p>
 <p>Grand! Moving on to <code>lab_time</code>. Definitely something fishy going on here. Can you spot what it is?</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Fix the <code>lab_time</code> so that it conforms to the criteria in the code book. <strong>Hint. </strong>There are 3 problems with the values: there are impossible ones, improbable ones, and the format of the numbers suggests that there are also non-integer ones. Dealing with the third issue is going to be a bit of a puzzle.</p>
 </div>
@@ -402,7 +402,7 @@ Analytical decisions
 <h3><span class="header-section-number">5.1.3</span> Impossible values</h3>
 <p>It stands to reason that average time spent on the lab sheets should not be negative.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Get rid of the negative values by replacing them with <code>NA</code>s. <strong>Hint. </strong>again, logical subsetting is the way to go!</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>lab_time[data<span class="op">$</span>lab_time <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></code></pre></div>
@@ -411,14 +411,14 @@ Analytical decisions
 <div id="improbable-values" class="section level3">
 <h3><span class="header-section-number">5.1.4</span> Improbable values</h3>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Have a look at the distribution of <code>lab_time</code>. Use a histogram or a box plot to visualise it.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">boxplot</span>(data<span class="op">$</span>lab_time)</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-199-1.png" width="672" /></p>
 <p>You should hopefully see that there’s an improbably large value in the variable.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Choose a safe cut-off point and use it to remove the offending data point.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>lab_time[data<span class="op">$</span>lab_time <span class="op">&gt;</span><span class="st"> </span><span class="dv">200</span>] &lt;-<span class="st"> </span><span class="ot">NA</span> <span class="co"># only one point larger than 200</span></code></pre></div>
@@ -439,7 +439,7 @@ Analytical decisions
 <pre><code>## [1] &quot;integer&quot;</code></pre>
 <p>You see that <code>task3</code> is a vector of integers, just like we’d expect it to be. <code>lab_time</code>, however, is not. The only reason for that is that <em>at least one</em> of the values of <code>lab_time</code> is a decimal number and so the entire vector must be decimal. Since the code book above tells us that <code>lab_time</code> is supposed to be an integer, any decimal values must be typos. To get rid of them, we first need to identify them</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>How can we programmatically spot non-integers?</p>
 <p> </p>
@@ -449,20 +449,20 @@ Analytical decisions
 <pre><code>## [1] 0.452</code></pre>
 <p>Putting it all together, <code>lab_time</code> modulo 1 should be 0. If it’s not, we should get rid of the value.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Use <code>%% 1</code> and logical subsetting to get rid of non-integer values.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>lab_time[data<span class="op">$</span>lab_time <span class="op">%%</span><span class="st"> </span><span class="dv">1</span> <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></code></pre></div>
 <p> </p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>If we want, we can now safely turn <code>lab_time</code> into integer. <strong>Hint. </strong><code>as.integer()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>lab_time &lt;-<span class="st"> </span><span class="kw">as.integer</span>(data<span class="op">$</span>lab_time)</code></pre></div>
 <p> </p>
 <p>Two more variables to go. These are fairly straight-forward so I’ll let you deal with them unaided. Just apply the same reasoning and principles as we did above.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Clean the <code>tasks3</code> and <code>tasks4</code> variables so that they conform to the code book rules.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>task3[data<span class="op">$</span>task3 <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>data<span class="op">$</span>task3 <span class="op">&gt;</span><span class="st"> </span><span class="dv">18</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
@@ -496,7 +496,7 @@ data<span class="op">$</span>task4[data<span class="op">$</span>task4 <span clas
 <p><span class="math display">\[H_0: P(Thursday) = P(Friday)\]</span></p>
 <p>To test this null hypothesis, let’s first simply look at the frequency table.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Ask <code>R</code> to dive you a table of the <code>lab</code> variable. Save this table into an object called <code>lab_table</code> since it will come in handy later. Once that’s done, look at it in the console.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">lab_table &lt;-<span class="st"> </span><span class="kw">table</span>(data<span class="op">$</span>lab)
@@ -510,7 +510,7 @@ lab_table</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-208-1.png" width="672" /></p>
 <p>We can test our hypothesis using a Chi-square test (specifically a goodness-of-fit test). In other words, we want to see if the distribution of <code>lab</code> is significantly different from uniform. To do that, we first need to know what frequencies we expect under a uniform distribution.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Create an object <code>exp</code> with the expected frequencies. Try doing this programmatically rather than manually typing in the numbers. <strong>Hint. </strong>The expected frequency of each category is half of all the observations.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">exp &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">sum</span>(lab_table)<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span>)
@@ -519,7 +519,7 @@ exp</code></pre></div>
 <p> </p>
 <p>Now we want a measure of just how much our observed distribution deviates from the expected one. Squares of differences are a good measure (if we just took differences they would cancel each other out), however, a difference of 1 if the expected value is 100 isn’t the same as a difference of 1 if the expected value is 10. So to get a more proportional measure, let’s scale the squared differences between the observed and expected counts by the expected counts (<span class="math inline">\((obs - exp)^2/exp\)</span>)</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Do this in <code>R</code>! Create an object <code>sq_scaled</code> that includes these scaled squared differences</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">sq_scaled &lt;-<span class="st"> </span>(lab_table <span class="op">-</span><span class="st"> </span>exp)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>exp
@@ -529,7 +529,7 @@ sq_scaled</code></pre></div>
 ## 0.5903614 0.5903614</code></pre>
 <p>We still have as many numbers as we have categories. To get a single measure of the departure from expectation, let’s just add the numbers up. Since this is our test statistic, let’s call it <code>chi_sq</code>.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Calculate the <code>chi_sq</code> statistic.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">chi_sq &lt;-<span class="st"> </span><span class="kw">sum</span>(sq_scaled)
@@ -545,7 +545,7 @@ chi_sq</code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>Let’s calculate the degrees of freedom. If you know what the marginal value is, <em>i.e.,</em> how many people are there altogether, how many entries in <code>lab_table</code> are free to vary?</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>OK, now that we have the number of <em>df</em>s figured out, let’s get the <em>p</em>-value associated with our observed <code>chi_sq</code>!</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">pchisq</span>(chi_sq, <span class="dv">1</span>, <span class="dt">lower.tail =</span> F)
@@ -554,7 +554,7 @@ p</code></pre></div>
 <p> </p>
 <p>As a sanity check, we can run the test using <code>R</code>’s <code>chisq.test()</code> function. If you pull up its documentation, you’ll see that for a Chi-square test such as this one, it requires a table as the only argument.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Run the test using the <code>R</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">chisq.test</span>(lab_table)</code></pre></div>
@@ -569,7 +569,7 @@ p</code></pre></div>
 <p>A Chi-square test showed that the distribution of lab group attendance did not significantly depart from uniform, <span class="math inline">\(\chi^2(1) = 1.18,\ p=.277\)</span>.</p>
 </div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Perform a Chi-square test on the distribution of <code>programme</code> separately for the Thursday and Friday labs. The null hypothesis assumes that both are uniform. Write up the results.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">chisq.test</span>(<span class="kw">table</span>(data<span class="op">$</span>programme[data<span class="op">$</span>lab <span class="op">==</span><span class="st"> &quot;Thursday&quot;</span>]))</code></pre></div>
@@ -590,7 +590,7 @@ p</code></pre></div>
 <p><strong>This is the kind of multiple testing that inflates Type I error, so don’t do it in practice! :)</strong></p>
 <p>Instead, let’s see if there is a relationship between the day on which the lab takes place and who attends it.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>First, create a contingency table <code>cont</code>, cross-tabulating <code>lab</code> and <code>programme</code>. You can do this in several ways but two of the more convenient ones are using <code>table()</code> or <code>xtabs()</code>. The latter produces a table that looks like this:</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">cont &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>lab <span class="op">+</span><span class="st"> </span>programme, data)
@@ -603,7 +603,7 @@ cont</code></pre></div>
 <p>Above, we used a Chi-square goodness-of-fit test to see how well a uniform distribution fit our data. We can also use a Chi-square test to compare two (or more) observed distributions in a Chi-square test of independance.</p>
 <p>To perform a Chi-square test, we need the observed counts, the expected counts and the degrees of freedom. We just got the first one in our contingency table. The latter two can be derived using observed and marginal counts. <strong>Marginal</strong> counts are called marginal because they are the row and column sums of the contingency table and are, thus, in its margins.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Add margins to <code>cont</code>. There is a function that does that. <strong>Hint. </strong>If you don’t know its name, maybe try asking the internet how to add margins to a table in <code>R</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">addmargins</span>(cont)</code></pre></div>
@@ -616,7 +616,7 @@ cont</code></pre></div>
 <p>If you want, you can calculate the expected counts by hand. However, what I’d like you to do is figure out how many degrees of freedom there are in this table. If the marginal counts are fixed, how many independent values do you need to know before you know what the others are?</p>
 <p>Start by fixing the number of the cell <code>[1, 1]</code> to some number. Does that tell you anything about some other values in other cells, given that the marginal counts are fixed? Fix another one, say <code>[1, 2]</code>, what about now? Carry on in the same vein until you can solve the table. In a way, it’s a bit like sudoku. In fact, a sudoku with only one solution is basically a table with 0 degrees of freedom!</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>How many <em>df</em>s do we have?</p>
 <p> </p>
@@ -629,7 +629,7 @@ cont</code></pre></div>
 <p>Great! Now, you should understand why the formula for <em>df</em> for Chi-square tests is what it is (<span class="math inline">\((r-1)(c-1)\)</span> where r is the number of rows and c is the number of columns).</p>
 <p>Let’s run the test itself! There are, yet again, several ways of telling the <code>chisq.test()</code> function that you want to perform the test of independence. You can give it a contingency table (without marginal counts!) or two variables. Consult the function documentations (<code>?chisq.test</code>) for examples and details.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Run the Chi-square test of independence to see if the day of the lab is related to the distribution of programme. Write up the results.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">chisq.test</span>(data<span class="op">$</span>lab, data<span class="op">$</span>programme)</code></pre></div>
@@ -655,7 +655,7 @@ cont</code></pre></div>
 <h4><span class="header-section-number">5.2.2.1</span> Known <span class="math inline">\(\sigma\)</span></h4>
 <p>Let’s look at the average time spent on a lab sheet. What if I told you, that – as far as undergraduate psychology students are concerned – the mean time spent on these kinds of labs sheets is 103.7 minutes with the population std. deviation <span class="math inline">\(\sigma = 14.6\)</span>? Could you use this knowledge to test whether USMR students are a random sample from the psych undergrad population or not?</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Try testing the null hypothesis using a 2-tailed <em>z</em>-test. Do it “by hand” (there’s no built-in <code>R</code> function for the <em>z</em>-test anyway). Remember, all you’re doing is calculating the <em>z</em>-statistic and getting the <em>p</em>-value of this <strong>or more extreme</strong> statistic under the standard normal distribution.</p>
 <p><strong>Hint: </strong>The formula for the <em>z</em>-test is <span class="math inline">\(z = \frac{\bar{x} - \mu}{SE}\)</span>, with <span class="math inline">\(SE = \frac{\sigma}{\sqrt{n}}\)</span>. The function you need to get the <em>p</em>-value is <code>pnorm()</code>. Think about which tail of the normal distribution you’re interested in and how to get the 2-tailed <em>p</em>-value.</p>
@@ -676,7 +676,7 @@ z &lt;-<span class="st"> </span><span class="kw">round</span>(z, <span class="dv
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">paste</span>(<span class="st">&quot;p =&quot;</span>, p)</code></pre></div>
 <pre><code>## [1] &quot;p = 9.4e-06&quot;</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Write up the results of the <em>z</em>-test.</p>
 <div class="solutiontext" style="display:block">
@@ -687,7 +687,7 @@ z &lt;-<span class="st"> </span><span class="kw">round</span>(z, <span class="dv
 <h4><span class="header-section-number">5.2.2.2</span> Unknown <span class="math inline">\(\sigma\)</span></h4>
 <p>As you know, the <em>z</em>-test required the population variance to be known and so I told you what it is so that you could run the test. Let’s try a more realistic scenario, where we don’t know <span class="math inline">\(\sigma^2\)</span>. Let’s keep the hull hypothesis the same tough, <span class="math inline">\(H_0: \mu = 103.7\)</span>.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Run the one-sample <em>t</em>-test on the same variable and write up the results. Take note of the similarities and differences between the results of the <em>z</em>- and the <em>t</em>-test. <strong>Hint. </strong>By default, the test assumes that <span class="math inline">\(\mu = 0\)</span>. The documentation to the <code>t.test()</code> function will help you find out how to change this value.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">t.test</span>(data<span class="op">$</span>lab_time, <span class="dt">mu =</span> mu)</code></pre></div>
@@ -707,7 +707,7 @@ z &lt;-<span class="st"> </span><span class="kw">round</span>(z, <span class="dv
 </div>
 <p>The result of the <em>t</em>-test should be very close to that of the <em>z</em>-test. However, the smaller the sample size, the larger the effect of random statistical fluctuations.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Re-run the <em>t</em>-test on a random sample of 20 elements of <code>lab_time</code> to see that sometimes size really does matter!</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">t.test</span>(data<span class="op">$</span>lab_time[<span class="kw">sample</span>(n, <span class="dv">20</span>)], <span class="dt">mu =</span> mu)</code></pre></div>
@@ -730,14 +730,14 @@ z &lt;-<span class="st"> </span><span class="kw">round</span>(z, <span class="dv
 <p>Thinking about it, it doesn’t seem to me like we’ve explored <code>lab_time</code> enough yet. Let’s see what else hides within! To encourage some healthy rivalry (for when has that gone wrong?!), let’s compare the Thursday and the Friday folks to see who’s fastest with the lab sheets.</p>
 <p>We can assume, that people attend either one or the other group.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Write down the null hypothesis. <strong>Hint. </strong>We are looking at differences in means of average time spent on lab sheets in the two groups.</p>
 <div class="solutiontext style=" display:block"="">
 <p><span class="math inline">\(H_0: \mu_{Thursday} = \mu_{Frisday}\)</span></p>
 </div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>OK, let’s test the null with a Welch’s <em>t</em>-test. That’s the one <code>R</code> does by default when you ask it to perform a <em>t</em>-test on independent data. Write up the results. <strong>Hint. </strong>The function documentation should help you find out how to specify the test formula. If it doesn’t, ask the Internet.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">t.test</span>(lab_time <span class="op">~</span><span class="st"> </span>lab, data)</code></pre></div>
@@ -757,7 +757,7 @@ z &lt;-<span class="st"> </span><span class="kw">round</span>(z, <span class="dv
 </div>
 <p>Great! Finally, let’s see if there’s been a change in the number of tasks students are able to complete in the labs between week 3 and 4.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>What is the null hypothesis and which test is appropriate to test it?</p>
 <div class="solutiontext" style="display:block">
@@ -765,7 +765,7 @@ z &lt;-<span class="st"> </span><span class="kw">round</span>(z, <span class="dv
 <p>The paired sample <em>t</em>-test is the one to pick as the observations are paired (and therefore not independent) – one observation per week from each student.</p>
 </div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Run the test and write up the results.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">t.test</span>(data<span class="op">$</span>task3, data<span class="op">$</span>task4, <span class="dt">paired =</span> T)</code></pre></div>
@@ -816,7 +816,7 @@ z &lt;-<span class="st"> </span><span class="kw">round</span>(z, <span class="dv
 }</code></pre></div>
 <p>This will run all the iterations of the inner loop for each iteration of the outer one.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Have a go at writing a loop that will print <code>data[1, 1]</code>, then <code>data[2, 2]</code>, then <code>data[3, 3]</code>, <em>etc.,</em> for as many times as there are columns of <code>data</code>. <strong>Hint. </strong><code>ncol()</code> is a good function to use to specify the vector over which to loop. The output should look like this:</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(data)) {
@@ -840,7 +840,7 @@ z &lt;-<span class="st"> </span><span class="kw">round</span>(z, <span class="dv
 out</code></pre></div>
 <pre><code>##  [1]  NA  93 114 102 107  81  94  88  NA  87</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Combine the two tasks above and create a vector <code>out</code> that includes <code>data[1, 1]</code>, <code>data[2, 2]</code>, <code>data[3, 3]</code>, <em>etc</em>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">out &lt;-<span class="st"> </span><span class="kw">c</span>()
@@ -852,19 +852,19 @@ out</code></pre></div>
 <hr />
 <p>Now that you have an inkling about how to use loops, let’s see if we can make use of them to simulate our sampling distribution</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>First, let’s create an empty vector that will store each estimate of out <em>t</em>-statistic. Call it <code>t_est</code>, why not!</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">t_est &lt;-<span class="st"> </span><span class="kw">c</span>()</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Next, let’s write the core structure of a loop. Say we want the loop to run 10<sup>4</sup> times. Don’t worry about the code inside <code>{}</code> just yet.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span><span class="op">^</span><span class="dv">4</span>) {
   <span class="co"># code</span>
 }</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now, inside of the loop, you want to sample the same number of observation as we have in our data from a normally distributed population with <span class="math inline">\(\mu=103.7\)</span> and <em>SD</em> of <code>sd(data$lab_time, na.rm = T)</code>. Save this sample into an object called <code>samp</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span><span class="op">^</span><span class="dv">4</span>) {
@@ -873,7 +873,7 @@ out</code></pre></div>
 }</code></pre></div>
 <p><strong>Tip: </strong> You want to make sure each of the constituent commands within the loop run on it own, otherwise the entire loop won’t run either. You can trial-run things in the console.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now, we want to get the <em>t</em>-statistic for this sample and add it to our for now empty <code>t_est</code> vector. You can calculate it by hand if you wish but maybe you can somehow extract it from <code>t.test()</code>? <strong>Hint: </strong><code>t.test()</code> returns a list of values. This list, just like any list, can be queried using <code>$</code>. The <em>Value</em> section of the function documentations will tell you the rest.</p>
 <div class="noteBox">
@@ -885,11 +885,11 @@ out</code></pre></div>
   t_est &lt;-<span class="st"> </span><span class="kw">c</span>(t_est, <span class="kw">t.test</span>(samp, <span class="dt">mu =</span> mu)<span class="op">$</span>statistic)
 }</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>That’s it! You can run the loop now and sit back</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Let’s look at the histogram of <code>t_est</code>. To see it in a higher resolution, let’s ask for 50 breaks.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">hist</span>(t_est, <span class="dt">breaks =</span> <span class="dv">50</span>)</code></pre></div>
@@ -898,7 +898,7 @@ out</code></pre></div>
 <p>Beautiful, isn’t it?</p>
 <p>OK, final stretch! We have successfully simulated the sampling distribution of the <em>t</em>-statistic <strong>under the null hypothesis</strong>. Let’s use it to get a <em>p</em>-value for our observed <em>t</em> (-5.2003)</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Calculate the 2-tailed <em>p</em>-value using our sampling distribution. Basically, you want to know what proportion of the individual <em>t</em> estimates in the distribution have values that are more extreme than the observed one.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">### step by step

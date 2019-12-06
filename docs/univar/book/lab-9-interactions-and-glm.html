@@ -272,12 +272,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Today’s exercise is a little different: We’re going to analyse a dataset, but we’re going to build it ourselves.<br />
 The purpose if this is because we can define the relationships between the variables, and so link this more clearly to our regression formula (<span class="math inline">\(y_i=b_0+b_1x_{1i}+b_2x_{2i}+{}...{}+b_nx_{ni}+\epsilon_i\)</span>) and model output.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Create a data frame to hold your data with participant labels for 100 people. To do this, you can simple use the colon <code>:</code> to make a sequence from 1 to 100, and wrap the whole thing in <code>factor()</code> to make sure R knows that it is categorical.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">my.data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ppt =</span> <span class="kw">factor</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>))</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now let’s add in some information about these participants. Give some values for their <code>age</code>, and their <code>musicality</code> (some measure of how interested the participant is in music generally).</p>
 <p>Make up some values that vary plausibly for each column. So, for example, if you thought that <code>age</code> was best expressed in years and our participants’ ages should vary uniformly from 20 to 60, you might type:</p>
@@ -287,7 +287,7 @@ The purpose if this is because we can define the relationships between the varia
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">## Here are some simple versions based on the hints above:
 my.data<span class="op">$</span>musicality &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Have a look at the dataset you have created: <code>my.data</code>. Have a look at a summary of the variables you have created: <code>summary(my.data)</code>. Do they look sensible? <em>Most likely yes, but make sure nothing stands out as strange.</em></p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">## here&#39;s the summary based on the commands above:
@@ -301,7 +301,7 @@ my.data<span class="op">$</span>musicality &lt;-<span class="st"> </span><span c
 ##  6      : 1   Max.   :59.62   Max.   :7.00  
 ##  (Other):94</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Create a variable called <code>spotify_hours</code> in your data frame. This will represent the number of hours each participant spent listening to spotify over the course of a year. We want this to be a <em>function</em> of <code>musicality</code> and <code>age</code>. In other words, you’re being asked: `What is the (fictional) way in which age and musicality predict the numbers of hours that people listen to spotify over the course of a year?’<br />
 To do this, you’ll need to think about regression equations in general, and in particular, about interaction terms. How do age and musicality <em>interact</em>? Will old musical people listen to spotify less than young musical people? And so on. The exact formula is <em>up to you</em> but, it’s a linear equation, so it should be something like:</p>
@@ -325,7 +325,7 @@ To do this, you’ll need to think about regression equations in general, and in
 <div id="visualising-interactions" class="section level3">
 <h3><span class="header-section-number">9.1.3</span> Visualising interactions</h3>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Have a look at your data. There are various ways of doing this! For a fancy 3D-plot you can install the <code>plotly</code> package and try the code below<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a>, and then move the resulting graph around with your mouse.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(plotly)
@@ -335,12 +335,12 @@ To do this, you’ll need to think about regression equations in general, and in
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(my.data[, <span class="kw">c</span>(<span class="st">&#39;age&#39;</span>, <span class="st">&#39;musicality&#39;</span>, <span class="st">&#39;spotify_hours&#39;</span>)])</code></pre></div>
 <img src="bookdown-demo_files/figure-html/unnamed-chunk-326-1.png" width="672" />
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Does everything look relatively plausible? If not, you could start again at Task 4 (or earlier), changing values or the formula to create <code>spotify_hours</code> until you’re happy with the result.</p>
 <p>The variable <code>spotify_hours</code> we’ve created above is a bit like <em>fitted values</em> - based on specific choice of <span class="math inline">\(b_0\)</span>, <span class="math inline">\(b_1\)</span>, etc, we’ve <strong>perfectly</strong> explained <code>spotify hours</code> in terms of <code>age</code> and <code>musicality</code>. But real data is <em>noisy</em> - even when the relationship is extremely strong the real values will not lie perfectly on the ‘line of best fit’.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Add some noise to <code>spotify_hours</code><br />
 <em>hint:</em> ‘noise’ is random, and the linear model assumes that residual (<span class="math inline">\(\epsilon_i\)</span>) is normally distributed.</p>
@@ -350,7 +350,7 @@ To do this, you’ll need to think about regression equations in general, and in
 <div id="modelling-interactions" class="section level3">
 <h3><span class="header-section-number">9.1.4</span> Modelling interactions</h3>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Test how <code>age</code>, <code>musicality</code>, and their interaction predict <code>spotify_hours</code>. Examine your model. How close are the coefficients to the <span class="math inline">\(b\)</span> values that you initially entered into the equation?</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(spotify_hours <span class="op">~</span><span class="st"> </span>age <span class="op">*</span><span class="st"> </span>musicality, <span class="dt">data =</span> my.data)
@@ -376,7 +376,7 @@ To do this, you’ll need to think about regression equations in general, and in
 ## Multiple R-squared:  0.942,  Adjusted R-squared:  0.9402 
 ## F-statistic: 519.8 on 3 and 96 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Check the model assumptions. Are the residuals normal? Do the other diagnostics look sensible?</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">hist</span>(<span class="kw">resid</span>(model))</code></pre></div>
@@ -387,11 +387,11 @@ To do this, you’ll need to think about regression equations in general, and in
 <div class="noteBox">
 <h3 id="optional"><span class="header-section-number">9.1.4</span> Optional</h3>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Re-run the equation you created at Task 4 (this resets the <code>spotify_hours</code> variable to the exact fitted values without the noise (<span class="math inline">\(\epsilon\)</span>)). Instead of adding a normally distributed residual (like you did in task 6), try adding one which is not. Then re-run the regression and check the model assumptions. What has changed?</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>If you selected a continuous measure of musicality you were working with a <em>continuous</em><span class="math inline">\(\times\)</span><em>continuous</em> interaction. A good way to visualise this is to ‘bin’ the data based on one of the explanatory variables. In the example above we might create a grouped age variable that split age into 4 or 5 equal sized categories (the function <code>cut()</code> will help you to achieve this). Construct a plot showing the relationship of <code>spotify_hours</code> and <code>musicality</code> for 4 different age-groups. This could be a different line for each age-group, or a different ‘facet’ for each.</p>
 <p>The code below introduces two new things we might not have come across within <code>ggplot2</code>: <code>geom_smooth()</code> and <code>facet_grid()</code>.<br />
@@ -418,7 +418,7 @@ my.data<span class="op">$</span>cutAge &lt;-<span class="st"> </span><span class
 <h2><span class="header-section-number">9.2</span> General<strong>ised</strong> Linear Model (GLM)</h2>
 <p>Okay, moving on from interactions, we’re now going to take a look at the <em>generalised linear model</em>, which you were introduced to in this weeks lecture (lecture 9).</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Load in the <code>titanic</code> data using the following code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://is.gd/rYCGR3&quot;</span>))</code></pre></div>
@@ -482,14 +482,14 @@ my.data<span class="op">$</span>cutAge &lt;-<span class="st"> </span><span class
 </tbody>
 </table>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Plot the <code>survived</code> variable against the <code>pclass</code> variable, and use <code>abline()</code> to add to this the line for a simple regression of survival by class of ticket.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">with</span>(titanic, <span class="kw">plot</span>(survived <span class="op">~</span><span class="st"> </span>pclass))
 <span class="kw">abline</span>(<span class="kw">lm</span>(survived<span class="op">~</span>pclass, <span class="dt">data=</span>titanic))</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-336-1.png" width="672" /></p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Probability p(x) <strong>can’t</strong> be linear. Odds, ranging from 0 to Infinity, are calculated as <span class="math inline">\(p(x)/(1-p(x))\)</span>. Log-odds are more linear, and range from -Infinity to +Infinity.<br />
 If the probability of someone surviving is 0.6. What are the odds, and what are the log odds?</p>
@@ -499,7 +499,7 @@ If the probability of someone surviving is 0.6. What are the odds, and what are 
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">log</span>(p<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>p)) <span class="co"># log odds</span></code></pre></div>
 <pre><code>## [1] 0.4054651</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Use <code>glm()</code> to model <code>survival</code> predicted by <code>pclass</code>. Remember to set <code>family=binomial</code>, and take a look at the coefficients using <code>coef()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">logit_mod &lt;-<span class="st"> </span><span class="kw">glm</span>(survived <span class="op">~</span><span class="st"> </span>pclass, <span class="dt">data =</span> titanic, <span class="dt">family=</span>binomial)
@@ -510,7 +510,7 @@ If the probability of someone surviving is 0.6. What are the odds, and what are 
 <div id="log-odds-and-predicted-probabilities" class="section level3">
 <h3><span class="header-section-number">9.2.1</span> Log-odds and predicted probabilities</h3>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Where the equation for our linear model was <span class="math inline">\(y=b_0+b_1x\)</span>, for our logit model it is <span class="math inline">\(ln(\frac{p}{(1-p)})=b_0+b_1x\)</span>.<br />
 For the model we just ran, it is <span class="math inline">\(ln(\frac{p}{(1-p)})=1.45-0.85*pclass\)</span>.<br />
@@ -519,7 +519,7 @@ We can construct these fitted values using the code below:</p>
 <span class="co">#or</span>
 titanic<span class="op">$</span>fit =<span class="st"> </span><span class="kw">coef</span>(logit_mod)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(logit_mod)[<span class="dv">2</span>]<span class="op">*</span>titanic<span class="op">$</span>pclass</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Remembering that these numbers are on the scale of log-odds, we can, get out the predicted probability of survival using the inverse logit <span class="math inline">\(p_i=\frac{e^L_i}{(1+e^L_i)}\)</span> (this is the inverse of the log-odds formula <span class="math inline">\(L_i=log(\frac{p_i}{1-p_i}))\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predicted_probs &lt;-<span class="st"> </span><span class="kw">exp</span>(titanic<span class="op">$</span>fit) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(titanic<span class="op">$</span>fit))</code></pre></div>
@@ -538,13 +538,13 @@ How does the model find the coefficients? We’re no longer talking about minimi
 <div id="predicted-vs-observed" class="section level3">
 <h3><span class="header-section-number">9.2.2</span> Predicted vs Observed</h3>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now that we have our fitted values in the <code>p_surv</code> variable, we can compare those to the observed data.<br />
 Use the <code>ifelse()</code> function to assign values of 0 and 1 to the <code>p_surv</code> predictions based on whether they are above or below 0.5.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">titanic<span class="op">$</span>p_surv &lt;-<span class="st"> </span><span class="kw">ifelse</span>(titanic<span class="op">$</span>p_surv <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong> Create a table of these predictions against the <code>survived</code> variable (the observed data).</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">table</span>(
@@ -560,12 +560,12 @@ Use the <code>ifelse()</code> function to assign values of 0 and 1 to the <code>
 <div id="your-turn-less-guidance" class="section level2">
 <h2><span class="header-section-number">9.3</span> Your turn (Less guidance)</h2>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>What factors contribute to increased odds of survival for passengers on the titanic?</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">titanic_model &lt;-<span class="st"> </span><span class="kw">glm</span>(survived <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>pclass <span class="op">+</span><span class="st"> </span>sib_sp <span class="op">+</span><span class="st"> </span>parch, <span class="dt">data =</span> titanic, <span class="dt">family=</span>binomial)</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>How does a passenger being male (relative to female) influence the <strong>odds</strong> of survival?</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">exp</span>(<span class="kw">coef</span>(titanic_model))</code></pre></div>
@@ -573,7 +573,7 @@ Use the <code>ifelse()</code> function to assign values of 0 and 1 to the <code>
 ## 275.2051697   0.9565700   0.0715638   0.2682218   0.6947680   0.9636555</code></pre>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># 0.07 odds of survival for males relative females</span></code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: Extra:</strong> Try doing a bit of googling to find the function which can quickly give you some confidence intervals for your betas.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># remember to exp()!</span>

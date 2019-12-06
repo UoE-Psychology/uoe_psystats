@@ -290,7 +290,7 @@ x_bin &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="
 ##  0  1 
 ## 34 66</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>: So, thinking back to how we specified the creation of our random variable (<code>rbinom(100, 1, .6)</code>), why is it we do not have 60 1s? Also, why is it that you may have a different number of 1s to the person sat next to you?</p>
 <p>Hopefully you can see that this is your first taste of probability theory and random variables (although you may not have quite phrased it that way), which we will discuss lots more next week. For now, lets continue looking at plots. Note from this point on your plots will look different to mine (and your neighbours) because you have different random variables.</p>
@@ -315,7 +315,7 @@ data &lt;-<span class="st"> </span><span class="kw">cbind</span>(x_bin, y_bin)
 ## [5,]     1     2
 ## [6,]     2     1</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>: Look at the first few lines carefully. Why is R showing the values of <code>x_bin</code> and <code>y_bin</code> to be 1 and 2 instead of 0 and 1? More importantly, if we assume this is a nominal variable, does this matter?</p>
 <p>A very quick refresher on indexing. <code>R</code> uses 2-dimensional indexing with <code>[ ]</code> when indexing rows, columns and individual cells in a data frame or matrix. The numbers appear in the order [row, column]. So;</p>
@@ -345,7 +345,7 @@ data &lt;-<span class="st"> </span><span class="kw">cbind</span>(x_bin, y_bin)
 ##  1  2 
 ## 34 66</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>What is the code line <code>sum(data[ , 1] == 1)</code> doing? Although in principle this is quite simple, how <code>R</code> does something of this sort takes a bit of getting used to. <em>Hint</em>: Think logical vectors.</p>
 <p>One last thing before we get back to plots. I want to give our variables names so we can pretend we have collected real data (instead of just simulating). So, here we use <code>colnames()</code> to change the names of the variables. We create a vector of new names, here <code>&quot;programme&quot;</code> and <code>&quot;over18&quot;</code>, and then we assign this to data:</p>
@@ -373,7 +373,7 @@ data<span class="op">$</span>programme &lt;-<span class="st"> </span><span class
 <p>And we can see we have 2 levels with numerical labels <code>1</code> and <code>2</code>. So now we assign new informative verbal labels:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(data<span class="op">$</span>programme) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Psychology&quot;</span>, <span class="st">&quot;Linguistics&quot;</span>) </code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now do the same for the <code>over18</code> variable but, this time, use indexing in our code.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data[, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">as.factor</span>(data[, <span class="dv">2</span>])
@@ -383,7 +383,7 @@ data<span class="op">$</span>programme &lt;-<span class="st"> </span><span class
 <pre><code>## [1] &quot;1&quot; &quot;2&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">levels</span>(data[, <span class="dv">2</span>]) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>)</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Back to plotting (finally)! Let’s look at the bar plots of the frequencies for both variables:</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data<span class="op">$</span>programme)</code></pre></div>
@@ -392,7 +392,7 @@ data<span class="op">$</span>programme &lt;-<span class="st"> </span><span class
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-2.png" width="672" /></p>
 <p>Now, if we want to consider the ratio of psychologists and linguists who are over 18, we can compute a mosaic plot. To do this we simply give <code>plot()</code> two categorical variables.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Why don’t you try it yourself!</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data<span class="op">$</span>programme, data<span class="op">$</span>over18)</code></pre></div>
@@ -400,19 +400,19 @@ data<span class="op">$</span>programme &lt;-<span class="st"> </span><span class
 <p><strong>Time to Think</strong>: What do you think would happen if we used <code>data[, 1]</code> instead of <code>data$programme</code>? What can we conclude from this plot? Are there proportionally more psychologists than linguists 18+? Again, why does your plot look different to mine and your neighbour?</p>
 <p>We can extend all the principles above to considering multiple nominal variables. Let’s add a variable to our data called <code>sport</code>. Let’s suppose our sample of 100 people play five sports (football, running, hockey, golf &amp; swimming).</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Let’s create this variable. <code>sample()</code> is going to come in handy here.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>sport &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;football&quot;</span>, <span class="st">&quot;running&quot;</span>, <span class="st">&quot;hockey&quot;</span>, <span class="st">&quot;golf&quot;</span>, <span class="st">&quot;swimming&quot;</span>),
                             <span class="dv">100</span>, <span class="dt">replace =</span> T))</code></pre></div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Look at the bar chart for the <code>sport</code> variable.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data<span class="op">$</span>sport)</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now ask for a mosaic plot of <code>sport</code> by <code>programme</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data[, <span class="dv">1</span>], data[, <span class="dv">3</span>])</code></pre></div>
@@ -440,7 +440,7 @@ initial_fitness &lt;-<span class="st"> </span><span class="kw">as.numeric</span>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
 <p>We can see how the distribution of our variables degrades when we coarsely categorize <code>norm</code> by using histograms.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Look at the histograms of <code>norm</code> and <code>initial_fitness</code>. If you’ve been using <code>plot()</code> until now, this time use <code>hist()</code>)</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">hist</span>(norm)</code></pre></div>
@@ -448,7 +448,7 @@ initial_fitness &lt;-<span class="st"> </span><span class="kw">as.numeric</span>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">hist</span>(initial_fitness)</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-141-2.png" width="672" /></p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>With 8 categories, this does not look too bad, but what would it look like if we used say 4 categories? Check this out, create a new variable with a different name, and use the <code>cut()</code> function and the continuous variable <code>norm</code> to categorize it. Then plot it on a bar chart.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">barplot</span>(<span class="kw">table</span>(<span class="kw">as.numeric</span>(<span class="kw">cut</span>(norm, <span class="dv">4</span>))), <span class="dt">xlab =</span> <span class="st">&quot;Categorised fitness&quot;</span>)</code></pre></div>
@@ -470,7 +470,7 @@ initial_fitness &lt;-<span class="st"> </span><span class="kw">as.numeric</span>
 ##  1  2  3  4  5  6  7  8 
 ##  5  7 15 22 22 20  8  1</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Let’s add it to our other data.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>fitness &lt;-<span class="st"> </span>fitness <span class="co"># add fitness</span></code></pre></div>
@@ -479,14 +479,14 @@ initial_fitness &lt;-<span class="st"> </span><span class="kw">as.numeric</span>
 <h3><span class="header-section-number">4.2.3</span> Continuous Variables</h3>
 <p>In some cases our variables will truly be continuously measured on a ratio scale. When this is the case, we can visualize the distribution of the variable in a number of ways. We can use a histogram, but in doing so we need to decide how many bins to use. Alternatively, we can use a kernel density plot. We have gone over a number of examples of this slowly, so let’s do this in one quick hit of code.</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Create a normally distributed variable <code>weight</code> (let’s say in kg, with mean = 81 and <em>SD</em> = 12) in <code>data</code> and plot it on a histogram.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>weight &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">81</span>, <span class="dv">12</span>), <span class="dt">replace =</span> F)
 <span class="kw">hist</span>(data<span class="op">$</span>weight)</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Now try creating a density plot of the variable.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">density</span>(data<span class="op">$</span>weight))</code></pre></div>
@@ -501,7 +501,7 @@ initial_fitness &lt;-<span class="st"> </span><span class="kw">as.numeric</span>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-148-1.png" width="672" /></p>
 <p><strong>Time to Think</strong>: Although we are treating <code>fitness</code> as continuous, this scatterplot looks odd. Why do you think this is?</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Instead of using the categorized variable <code>fitness</code>, why don’t we use the <code>norm</code> instead. Though not in your data set, this is still in your <code>R</code> environment (look down the values list in the top right).</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(norm, data<span class="op">$</span>weight)</code></pre></div>
@@ -600,7 +600,7 @@ empty</code></pre></div>
 ## Weight  79.84445   NA
 ## Fitness       NA   NA</code></pre>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Finish this table by adding the other three values. If you want an extra challenge, edit the code to add a third column for the standard deviation of the mean (<code>sd</code> column in the <code>describe()</code> output). Put this column between the <code>Mean</code> and <code>Skew</code> columns of <code>empty</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># we can do </span>
@@ -654,7 +654,7 @@ x2_coord &lt;-<span class="st"> </span>norm[<span class="dv">1</span><span class
 <span class="kw">points</span>(x2_coord, y2_coord, <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> <span class="st">&quot;green&quot;</span>)</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-158-1.png" width="672" /></p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Using xy.coords can be a little tricky at times. Look up the function <code>identify()</code> and see if you can do the same thing.</p>
 <p> </p>
@@ -674,7 +674,7 @@ x2_coord &lt;-<span class="st"> </span>norm[<span class="dv">1</span><span class
        <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">15</span>))</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-160-1.png" width="672" /></p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Look at <code>?legend</code>, and think through why we have put in all the elements we have. Particularly think about why we have used <code>c()</code> to create the different column vectors. As a practice task, change the points symbols and colours in the plot and legend, and move the legend to a different location.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(norm, data[, <span class="dv">5</span>], <span class="dt">main =</span> <span class="st">&quot;Association Between </span><span class="ch">\n</span><span class="st">Fitness and Weight&quot;</span>, 
@@ -730,7 +730,7 @@ x2_coord &lt;-<span class="st"> </span>norm[<span class="dv">1</span><span class
 <p> </p>
 <p>If we want to plot two density plots for two groups on the same plot, there is a useful function in the <code>sm</code> package to help us (we can use all the normal graphical parameters here:</p>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Install and load the package <code>sm</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co">#install.packages(&quot;sm&quot;)</span>
@@ -762,7 +762,7 @@ x2_coord &lt;-<span class="st"> </span>norm[<span class="dv">1</span><span class
 <p>If you get an error complaining about plot margins being too small, that is beause the plotting window in the bottom right panel of your RStudio is, well, too small for the plot to be rendered. Making it bigger should help.</p>
 </div>
 <div style="position: absolute;">
-<img style="position:relative;left:-25px;width:15px" src="images/task.png"/>
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
 </div>
 <p><strong>Task: </strong>Use everything you’ve learnt today to create this figure with four plots.</p>
 <div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># first we use the mfrow command to tell R we want to divide the plotting space</span>
