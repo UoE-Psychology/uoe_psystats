@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Lab 8 - The General Linear Model | Univariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Lab 8 - The General Linear Model | Univariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Lab 8 - The General Linear Model | Univariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab-7.html"/>
+<link rel="next" href="lab-9-interactions-and-glm.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">USMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="lab-1.html"><a href="lab-1.html"><i class="fa fa-check"></i><b>1</b> Lab 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="lab-1.html"><a href="lab-1.html#lets-get-going"><i class="fa fa-check"></i><b>1.1</b> Let’s get going!</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="lab-1.html"><a href="lab-1.html#rstudio"><i class="fa fa-check"></i><b>1.1.1</b> RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="lab-1.html"><a href="lab-1.html#console"><i class="fa fa-check"></i><b>1.1.2</b> Console</a></li>
+<li class="chapter" data-level="1.1.3" data-path="lab-1.html"><a href="lab-1.html#editor"><i class="fa fa-check"></i><b>1.1.3</b> Editor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="lab-1.html"><a href="lab-1.html#a-simple-analysis"><i class="fa fa-check"></i><b>1.2</b> A simple analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="lab-1.html"><a href="lab-1.html#last-things"><i class="fa fa-check"></i><b>1.2.1</b> Last Things</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab-2.html"><a href="lab-2.html"><i class="fa fa-check"></i><b>2</b> Lab 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="lab-2.html"><a href="lab-2.html#first-things-first"><i class="fa fa-check"></i><b>2.1</b> First things first</a></li>
+<li class="chapter" data-level="2.2" data-path="lab-2.html"><a href="lab-2.html#classes"><i class="fa fa-check"></i><b>2.2</b> Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="lab-2.html"><a href="lab-2.html#data-structures"><i class="fa fa-check"></i><b>2.3</b> Data structures</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lab-2.html"><a href="lab-2.html#subsetting"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lab-2.html"><a href="lab-2.html#subsetting-using-names"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting using names</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lab-2.html"><a href="lab-2.html#replacement"><i class="fa fa-check"></i><b>2.4</b> Replacement</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab-3.html"><a href="lab-3.html"><i class="fa fa-check"></i><b>3</b> Lab 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="lab-3.html"><a href="lab-3.html#logical-subsetting"><i class="fa fa-check"></i><b>3.1</b> Logical subsetting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="lab-3.html"><a href="lab-3.html#complementary-subsetting"><i class="fa fa-check"></i><b>3.1.1</b> Complementary subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab-3.html"><a href="lab-3.html#sorting"><i class="fa fa-check"></i><b>3.2</b> Sorting</a></li>
+<li class="chapter" data-level="3.3" data-path="lab-3.html"><a href="lab-3.html#subsetting-with-commands"><i class="fa fa-check"></i><b>3.3</b> Subsetting with commands</a></li>
+<li class="chapter" data-level="3.4" data-path="lab-3.html"><a href="lab-3.html#creating-variables"><i class="fa fa-check"></i><b>3.4</b> Creating variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab-4.html"><a href="lab-4.html"><i class="fa fa-check"></i><b>4</b> Lab 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="lab-4.html"><a href="lab-4.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="lab-4.html"><a href="lab-4.html#simple-plots"><i class="fa fa-check"></i><b>4.2</b> Simple Plots</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="lab-4.html"><a href="lab-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.2.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab-4.html"><a href="lab-4.html#ordinal-categorical-variables"><i class="fa fa-check"></i><b>4.2.2</b> Ordinal Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lab-4.html"><a href="lab-4.html#continuous-variables"><i class="fa fa-check"></i><b>4.2.3</b> Continuous Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab-4.html"><a href="lab-4.html#scatterplots-visualizing-associations"><i class="fa fa-check"></i><b>4.3</b> Scatterplots: Visualizing associations</a></li>
+<li class="chapter" data-level="4.4" data-path="lab-4.html"><a href="lab-4.html#boxplots-visualizing-group-differences"><i class="fa fa-check"></i><b>4.4</b> Boxplots: Visualizing group differences</a></li>
+<li class="chapter" data-level="4.5" data-path="lab-4.html"><a href="lab-4.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="4.6" data-path="lab-4.html"><a href="lab-4.html#more-advanced-plotting"><i class="fa fa-check"></i><b>4.6</b> More advanced plotting</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="lab-4.html"><a href="lab-4.html#pinpointing-data"><i class="fa fa-check"></i><b>4.6.1</b> Pinpointing data</a></li>
+<li class="chapter" data-level="4.6.2" data-path="lab-4.html"><a href="lab-4.html#customising-plots"><i class="fa fa-check"></i><b>4.6.2</b> Customising plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="lab-4.html"><a href="lab-4.html#multiple-plots-in-one"><i class="fa fa-check"></i><b>4.7</b> Multiple Plots in One</a></li>
+<li class="chapter" data-level="4.8" data-path="lab-4.html"><a href="lab-4.html#lets-put-all-this-into-practice"><i class="fa fa-check"></i><b>4.8</b> Let’s put all this into practice</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="lab-4.html"><a href="lab-4.html#code-book"><i class="fa fa-check"></i><b>4.8.1</b> Code Book</a></li>
+<li class="chapter" data-level="4.8.2" data-path="lab-4.html"><a href="lab-4.html#questions"><i class="fa fa-check"></i><b>4.8.2</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="lab-4.html"><a href="lab-4.html#lab-4-ggplot"><i class="fa fa-check"></i><b>4.9</b> Lab 4 GGPLOT</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="lab-4.html"><a href="lab-4.html#introduction-1"><i class="fa fa-check"></i><b>4.9.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.9.2" data-path="lab-4.html"><a href="lab-4.html#ggplot2"><i class="fa fa-check"></i><b>4.9.2</b> <code>ggplot2</code></a></li>
+<li class="chapter" data-level="4.9.3" data-path="lab-4.html"><a href="lab-4.html#qplot"><i class="fa fa-check"></i><b>4.9.3</b> <code>qplot()</code></a></li>
+<li class="chapter" data-level="4.9.4" data-path="lab-4.html"><a href="lab-4.html#your-turn"><i class="fa fa-check"></i><b>4.9.4</b> Your Turn</a></li>
+<li class="chapter" data-level="4.9.5" data-path="lab-4.html"><a href="lab-4.html#using-ggplot"><i class="fa fa-check"></i><b>4.9.5</b> Using <code>ggplot()</code></a></li>
+<li class="chapter" data-level="4.9.6" data-path="lab-4.html"><a href="lab-4.html#your-turn-1"><i class="fa fa-check"></i><b>4.9.6</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab-5.html"><a href="lab-5.html"><i class="fa fa-check"></i><b>5</b> Lab 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="lab-5.html"><a href="lab-5.html#finally-stats"><i class="fa fa-check"></i><b>5.1</b> Finally stats</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="lab-5.html"><a href="lab-5.html#data-set"><i class="fa fa-check"></i><b>5.1.1</b> Data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab-5.html"><a href="lab-5.html#read-in-and-clean-data"><i class="fa fa-check"></i><b>5.1.2</b> Read in and clean data</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab-5.html"><a href="lab-5.html#impossible-values"><i class="fa fa-check"></i><b>5.1.3</b> Impossible values</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab-5.html"><a href="lab-5.html#improbable-values"><i class="fa fa-check"></i><b>5.1.4</b> Improbable values</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab-5.html"><a href="lab-5.html#non-integer-values"><i class="fa fa-check"></i><b>5.1.5</b> Non-integer values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab-5.html"><a href="lab-5.html#lets-stats"><i class="fa fa-check"></i><b>5.2</b> Let’s stats!</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="lab-5.html"><a href="lab-5.html#categorical-variables-1"><i class="fa fa-check"></i><b>5.2.1</b> Categorical variables</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab-5.html"><a href="lab-5.html#analysing-continuous-data"><i class="fa fa-check"></i><b>5.2.2</b> Analysing continuous data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab-5.html"><a href="lab-5.html#more-analysis"><i class="fa fa-check"></i><b>5.2.3</b> More analysis!</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab-5.html"><a href="lab-5.html#extra-get-loopy"><i class="fa fa-check"></i><b>5.2.4</b> Extra: Get loopy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab-6.html"><a href="lab-6.html"><i class="fa fa-check"></i><b>6</b> Lab 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="lab-6.html"><a href="lab-6.html#some-more-r-skills"><i class="fa fa-check"></i><b>6.1</b> Some more R skills</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lab-6.html"><a href="lab-6.html#two-types-of-subscripting"><i class="fa fa-check"></i><b>6.1.1</b> Two types of subscripting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lab-6.html"><a href="lab-6.html#your-turn-2"><i class="fa fa-check"></i><b>6.2</b> Your Turn</a></li>
+<li class="chapter" data-level="6.3" data-path="lab-6.html"><a href="lab-6.html#real-data"><i class="fa fa-check"></i><b>6.3</b> Real Data</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lab-6.html"><a href="lab-6.html#the-data"><i class="fa fa-check"></i><b>6.3.1</b> The data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab-6.html"><a href="lab-6.html#the-questions"><i class="fa fa-check"></i><b>6.3.2</b> The questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab-7.html"><a href="lab-7.html"><i class="fa fa-check"></i><b>7</b> Lab 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="lab-7.html"><a href="lab-7.html#merging-and-missing-values"><i class="fa fa-check"></i><b>7.1</b> Merging and missing values</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="lab-7.html"><a href="lab-7.html#missing-values"><i class="fa fa-check"></i><b>7.1.1</b> Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab-7.html"><a href="lab-7.html#writing-a-function"><i class="fa fa-check"></i><b>7.2</b> Writing a function</a></li>
+<li class="chapter" data-level="7.3" data-path="lab-7.html"><a href="lab-7.html#some-data-manipulation"><i class="fa fa-check"></i><b>7.3</b> Some data manipulation</a></li>
+<li class="chapter" data-level="7.4" data-path="lab-7.html"><a href="lab-7.html#a-note-on-correlation"><i class="fa fa-check"></i><b>7.4</b> A note on correlation</a></li>
+<li class="chapter" data-level="7.5" data-path="lab-7.html"><a href="lab-7.html#some-statistics"><i class="fa fa-check"></i><b>7.5</b> Some statistics!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html"><i class="fa fa-check"></i><b>8</b> Lab 8 - The General Linear Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#a-brief-note-on-with"><i class="fa fa-check"></i><b>8.1</b> A brief note on <code>with()</code></a></li>
+<li class="chapter" data-level="8.2" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#linear-models"><i class="fa fa-check"></i><b>8.2</b> Linear Models</a></li>
+<li class="chapter" data-level="8.3" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-prediction-and-visualisation"><i class="fa fa-check"></i><b>8.3</b> Model prediction and visualisation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#predict"><i class="fa fa-check"></i><b>8.3.1</b> Predict()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-criticism"><i class="fa fa-check"></i><b>8.4</b> Model criticism</a></li>
+<li class="chapter" data-level="8.5" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#multiple-regression"><i class="fa fa-check"></i><b>8.5</b> Multiple regression</a></li>
+<li class="chapter" data-level="8.6" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#contrast-coding"><i class="fa fa-check"></i><b>8.6</b> Contrast coding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html"><i class="fa fa-check"></i><b>9</b> Lab 9 - Interactions and GLM&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#interactions"><i class="fa fa-check"></i><b>9.1</b> Interactions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#specifying-interactions-in-r"><i class="fa fa-check"></i><b>9.1.1</b> Specifying interactions in R</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#simulating-data"><i class="fa fa-check"></i><b>9.1.2</b> Simulating data</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#visualising-interactions"><i class="fa fa-check"></i><b>9.1.3</b> Visualising interactions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#modelling-interactions"><i class="fa fa-check"></i><b>9.1.4</b> Modelling interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#generalised-linear-model-glm"><i class="fa fa-check"></i><b>9.2</b> General<strong>ised</strong> Linear Model (GLM)</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#log-odds-and-predicted-probabilities"><i class="fa fa-check"></i><b>9.2.1</b> Log-odds and predicted probabilities</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#predicted-vs-observed"><i class="fa fa-check"></i><b>9.2.2</b> Predicted vs Observed</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#your-turn-less-guidance"><i class="fa fa-check"></i><b>9.3</b> Your turn (Less guidance)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab-10.html"><a href="lab-10.html"><i class="fa fa-check"></i><b>10</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="lab-10.html"><a href="lab-10.html#apply-functions"><i class="fa fa-check"></i><b>10.1</b> <code>apply</code> functions</a></li>
+<li class="chapter" data-level="10.2" data-path="lab-10.html"><a href="lab-10.html#lab-10-1"><i class="fa fa-check"></i><b>10.2</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lab-10.html"><a href="lab-10.html#the-task"><i class="fa fa-check"></i><b>10.2.1</b> The Task</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Univariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab-8---the-general-linear-model" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Lab 8 - The General Linear Model</h1>
+<p>This week we’ll run a linear model and scale our predictors, learn how to plot the fitted (or predicted) values, and get some practice with model criticism and multiple regression.</p>
+<div id="a-brief-note-on-with" class="section level2">
+<h2><span class="header-section-number">8.1</span> A brief note on <code>with()</code></h2>
+<p>You may have noticed a really useful function in the solutions for last couple of weeks - the <code>with()</code> function. This function allows you to specify a data frame that an expression uses. This means you don’t have to keep typing <code>mydataframe$variable</code>. Instead, you can use <code>with(data, function(variable, ....))</code>.<br />
+See the following example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(schools<span class="op">$</span>exam, schools<span class="op">$</span>revision_hours)</code></pre></div>
+<p>This command can be written as:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(schools, <span class="kw">plot</span>(exam, revision_hours))</code></pre></div>
+<p>This can:<br />
+* make your code more readable<br />
+* save time and effort when you are referring to the same dataframe multiple times.</p>
+</div>
+<div id="linear-models" class="section level2">
+<h2><span class="header-section-number">8.2</span> Linear Models</h2>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<strong>Task: </strong>Download the <code>sharks1</code> dataset from LEARN, create a new script file, and load in the data using the <code>load()</code> function. This will load in a dataframe called <code>sharks</code>.<br />
+
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong> Create a linear model and inspect it by typing the code below.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(shark_attacks <span class="op">~</span><span class="st"> </span>ice_cream_sales, <span class="dt">data =</span> sharks)
+<span class="kw">summary</span>(model)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = shark_attacks ~ ice_cream_sales, data = sharks)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -16.6352  -4.8057  -0.9863   4.8565  17.7059 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      4.54859    5.28649   0.860    0.392    
+## ice_cream_sales  0.33444    0.05921   5.648 2.33e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 7.21 on 81 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.2826, Adjusted R-squared:  0.2737 
+## F-statistic:  31.9 on 1 and 81 DF,  p-value: 2.329e-07</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<strong>Task: </strong>Which is the intercept? Which is the slope? How can you interpret each of them?<br />
+
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a new model, <code>model2</code>, using <code>scale(ice_cream_sales)</code> instead of <code>ice_cream_sales</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">model2 &lt;-<span class="st"> </span><span class="kw">lm</span>(shark_attacks <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(ice_cream_sales), <span class="dt">data =</span> sharks)
+<span class="kw">summary</span>(model2)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = shark_attacks ~ scale(ice_cream_sales), data = sharks)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -16.6352  -4.8057  -0.9863   4.8565  17.7059 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)             34.0723     0.7914  43.052  &lt; 2e-16 ***
+## scale(ice_cream_sales)   4.4974     0.7962   5.648 2.33e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 7.21 on 81 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.2826, Adjusted R-squared:  0.2737 
+## F-statistic:  31.9 on 1 and 81 DF,  p-value: 2.329e-07</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What does the intercept of <code>model2</code> tell us? And the slope? <em>(Take a look at the slides from this weeks lecture on standardisation for some guidance with this)</em></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co">#the intercept is predicted exam score when scale(ice_cream_sales) is 0. </span>
+<span class="co">#the scale() function centres a variable around its mean, and standardises it so </span>
+<span class="co">#that we can talk in terms of +/-1 standard deviation. </span>
+<span class="co">#This means that:</span>
+<span class="co">#- the intercept is the predicted shark attacks for the mean number of ice cream sales.</span>
+<span class="co">#- the slope now represents the change in shark attacks units for 1 standard deviation increase in ice cream sales.</span></code></pre></div>
+</div>
+<div id="model-prediction-and-visualisation" class="section level2">
+<h2><span class="header-section-number">8.3</span> Model prediction and visualisation</h2>
+Coefficients can sometimes get a little tricky to interpret, and visualising the model can be really helpful. We’ve seen in an earlier lab one way of visualising a linear model, using the <code>abline()</code> function (<strong>Hint:</strong> See Week 7 solutions).<br />
+
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Run the code below to create a plot, and then use <code>abline()</code> to add the regression line from the linear model which we named <code>model</code> earlier. The code below also sets the colours and aesthetics of the plots - feel free to try changing these to see how they work!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(sharks, <span class="kw">plot</span>(ice_cream_sales, shark_attacks,
+                  <span class="dt">xlab=</span><span class="st">&quot;- Monthly ice cream sales -&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Monthly shark attacks&quot;</span>,
+                  <span class="dt">main=</span><span class="st">&quot;Shark attacks!&quot;</span>,
+                  <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;slateblue&quot;</span>), <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>,
+                  <span class="dt">pch=</span><span class="dv">20</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">with</span>(sharks, <span class="kw">plot</span>(ice_cream_sales, shark_attacks,
+                  <span class="dt">xlab=</span><span class="st">&quot;- Monthly ice cream sales -&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Monthly shark attacks&quot;</span>,
+                  <span class="dt">main=</span><span class="st">&quot;Shark attacks!&quot;</span>,
+                  <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;slateblue&quot;</span>), <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>,
+                  <span class="dt">pch=</span><span class="dv">20</span>))
+<span class="kw">abline</span>(model)</code></pre></div>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-298-1.png" width="672" />
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Do the same for <code>model2</code>. What do you think should be on the x-axis of your plot?</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">with</span>(sharks, <span class="kw">plot</span>(<span class="kw">scale</span>(ice_cream_sales), shark_attacks,
+                  <span class="dt">xlab=</span><span class="st">&quot;- Monthly ice cream sales -&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Monthly shark attacks&quot;</span>,
+                  <span class="dt">main=</span><span class="st">&quot;Shark attacks!&quot;</span>,
+                  <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;slateblue&quot;</span>), <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>,
+                  <span class="dt">pch=</span><span class="dv">20</span>))
+<span class="kw">abline</span>(model2)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-299-1.png" width="672" /></p>
+<div id="predict" class="section level3">
+<h3><span class="header-section-number">8.3.1</span> Predict()</h3>
+<p>We can get at the y-values for these lines by using the <code>predict()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">predict</span>(model)) <span class="co"># head() will just print out the first 6 rows</span></code></pre></div>
+<pre><code>##        1        3        4        5        6        7 
+## 29.96629 34.98294 36.32072 38.99626 40.66848 38.66182</code></pre>
+The <code>predict()</code> function is especially useful as we can ask for model predictions given some <em>new</em> data (e.g., new numbers of monthly ice cream sales).<br />
+
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What do you think the code below tells us?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_months &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ice_cream_sales=</span><span class="kw">c</span>(<span class="dv">70</span>, <span class="dv">120</span>))
+<span class="kw">predict</span>(model, <span class="dt">newdata=</span>new_months) </code></pre></div>
+<pre><code>##        1        2 
+## 27.95963 44.68180</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># They are the number of shark attacks predicted by our model for months in which 70 and 120 ice creams are sold.</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>We can also ask the <code>predict()</code> function to return a confidence interval. Try the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p.sharks &lt;-<span class="st"> </span><span class="kw">predict</span>(model, <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>)
+<span class="kw">head</span>(p.sharks)</code></pre></div>
+<pre><code>##        fit      lwr      upr
+## 1 29.96629 27.82816 32.10442
+## 3 34.98294 33.37592 36.58997
+## 4 36.32072 34.55807 38.08336
+## 5 38.99626 36.65359 41.33894
+## 6 40.66848 37.86161 43.47535
+## 7 38.66182 36.40498 40.91866</code></pre>
+<p>There are three columns: <code>fit</code> is the fitted (predicted) value of shark_attacks for each number of ice cream sales; <code>lwr</code> and <code>upper</code> are the upper and lower bounds of the model confidence interval for each value of <code>sharks$ice_cream_sales</code>.</p>
+Note that the row names seem to miss out number 2? In fact, there are actually only 83 values in <code>p.sharks</code>, but we had 84 months in our sharks dataset. If you look carefully at the output of <code>summary(model)</code> above, it tells us that 1 observation has been deleted due to “missingness”. The row names of <code>p.sharks</code> are actually the original row names of the sharks dataset (the one which we fit our model on).<br />
+
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Merge the <code>sharks</code> data with <code>p.sharks</code>, and call it <code>sharks_pred</code>. You will need to use <code>by = &quot;row.names&quot;</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">sharks_pred &lt;-<span class="st"> </span><span class="kw">merge</span>(sharks, p.sharks, <span class="dt">by=</span><span class="st">&quot;row.names&quot;</span>)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>We can now plot the confidence intervals. You can see this below using the <code>plot()</code> and <code>lines()</code> functions, and with <code>ggplot()</code>. You can also see below how to change some of the aesthetics in <code>ggplot()</code>.</p>
+<div class="noteBox">
+<p>Note that to make this work using <code>plot()</code> and <code>lines()</code>, we need to <em>order</em> the dataframe first. Otherwise R will join points to make a line in the order they appear in the data.<br />
+If you’re keen to understand this more, try running <code>plot(x=c(5,1,3,4), y=c(1,2,3,4), type=&quot;l&quot;)</code> to see what happens!</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sharks_pred_ordered &lt;-<span class="st"> </span>sharks_pred[<span class="kw">order</span>(sharks_pred<span class="op">$</span>ice_cream_sales),]
+<span class="kw">with</span>(sharks, <span class="kw">plot</span>(ice_cream_sales, shark_attacks,
+                  <span class="dt">xlab=</span><span class="st">&quot;- Monthly ice cream sales -&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Monthly shark attacks&quot;</span>,
+                  <span class="dt">main=</span><span class="st">&quot;Shark attacks!&quot;</span>,
+                  <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;slateblue&quot;</span>), <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>,
+                  <span class="dt">pch=</span><span class="dv">20</span>))
+<span class="kw">with</span>(sharks_pred_ordered, <span class="kw">lines</span>(ice_cream_sales, fit))
+<span class="kw">with</span>(sharks_pred_ordered, <span class="kw">lines</span>(ice_cream_sales, lwr))
+<span class="kw">with</span>(sharks_pred_ordered, <span class="kw">lines</span>(ice_cream_sales, upr))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-305-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+
+<span class="kw">ggplot</span>(sharks_pred, <span class="kw">aes</span>(<span class="dt">x=</span>ice_cream_sales))<span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="co"># we want ice_cream_sales on the x-axis</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y=</span>shark_attacks), <span class="dt">col=</span><span class="st">&quot;slateblue&quot;</span>)<span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="co"># for the points, we want the y to be the actual (observed) shark attacks</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y=</span>fit))<span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="co"># for the line, we want the fitted model values (the &quot;fit&quot; column)</span>
+<span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymin=</span>lwr,<span class="dt">ymax=</span>upr), <span class="dt">fill=</span><span class="st">&quot;orange&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">4</span>) <span class="op">+</span>
+<span class="st">  </span><span class="co"># the &quot;ribbon&quot; is the upper and lower bounds of the confidence interval. the alpha bit just makes it slightly transparent.</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;- Ice cream sales - &quot;</span>,<span class="dt">y=</span><span class="st">&quot;Shark attacks&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-306-1.png" width="672" /></p>
+</div>
+</div>
+<div id="model-criticism" class="section level2">
+<h2><span class="header-section-number">8.4</span> Model criticism</h2>
+<p>You’ll also notice that in the sharks data there is information capturing the temperature of each month.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Construct a linear model to see if monthly temperature predicts the number of ice cream sales.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">model.b &lt;-<span class="st"> </span><span class="kw">lm</span>(ice_cream_sales <span class="op">~</span><span class="st"> </span>temperature, <span class="dt">data =</span> sharks)
+<span class="kw">summary</span>(model.b)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = ice_cream_sales ~ temperature, data = sharks)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -26.704  -5.914   2.341   7.295  17.415 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   51.206      5.720   8.951 9.91e-14 ***
+## temperature    1.975      0.298   6.627 3.51e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.9 on 81 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.3516, Adjusted R-squared:  0.3436 
+## F-statistic: 43.92 on 1 and 81 DF,  p-value: 3.505e-09</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Plot the regression line and confidence interval, as seen above.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">icecream_pred &lt;-<span class="st"> </span><span class="kw">merge</span>(sharks, <span class="kw">predict</span>(model.b, <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>), <span class="dt">by=</span><span class="st">&quot;row.names&quot;</span>)
+
+<span class="kw">ggplot</span>(icecream_pred, <span class="kw">aes</span>(<span class="dt">x=</span>temperature))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y=</span>ice_cream_sales, <span class="dt">col=</span>temperature))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y=</span>fit))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymin=</span>lwr,<span class="dt">ymax=</span>upr), <span class="dt">fill=</span><span class="st">&quot;red&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">4</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;- Temperature -&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Ice cream sales&quot;</span>)</code></pre></div>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-308-1.png" width="672" />
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<strong>Task: </strong>Use some of the model criticism tools you saw in the lecture to examine your model. Try using <code>plot()</code> on your model.<br />
+
+<div class="noteBox">
+<p>Here are some quick explanations of the plots you get out:</p>
+<ul>
+<li><p><strong>Residuals vs Fitted:</strong> Can show if the residuals have non-linear patterns. A “good” model will show equally spread residuals around a horizontal line.</p></li>
+<li><p><strong>Normal Q-Q:</strong> This is a way of plotting the residuals against the equivalent quantiles of a standard normal distribution (mean = 0, sd = 1). A “good” model will have residuals close to the straight dashed line.</p></li>
+<li><p><strong>Scale-Location:</strong> (also called <em>Spread-Location</em>). This shows if the residuals are spread equally along the range of the predictors (This is the assumption of equal variance, or <em>homoscedaticity</em>). Ideally, we want a horizontal line with points spread equally from across the plot.</p></li>
+<li><strong>Residuals vs Leverage:</strong> This helps to find influential points in the regression. Cook’s Distance is shown on these plots by red dashed lines, and points which fall outside of these lines are influential to the model. A really good illustration of influence can be found <a href="https://omaymas.shinyapps.io/Influence_Analysis/">here</a>.<br />
+</li>
+</ul>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># Model Check (Visually):</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))
+<span class="kw">plot</span>(model.b, <span class="dt">which =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-309-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># There might be some issues:</span>
+  <span class="co"># There may be a slight non-linear pattern to the data.</span>
+  <span class="co"># QQ-Plot shows a small deviation at the lower end.</span>
+  <span class="co"># Homogeneity of Variance also potentially problematic</span>
+  <span class="co"># A couple of quite influential points</span></code></pre></div>
+</div>
+<div id="multiple-regression" class="section level2">
+<h2><span class="header-section-number">8.5</span> Multiple regression</h2>
+<p>Think about the relationship we found earlier between ice cream sales and shark attacks. Does this make sense to you? (see also the <a href="https://www.tylervigen.com/spurious-correlations">Spurious Correlations</a> page). What might explain the relationship?</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Does the number of ice cream sales predict shark attaacks <em>over and above</em> what temperature predicts?<br />
+<strong>Tip: </strong>You’ll want to test whether adding a new predictor improves on chance (using <code>anova()</code>) as part of your answer… <em>Part 2 of Lecture 7 will help you here.</em></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">model.c &lt;-<span class="st"> </span><span class="kw">lm</span>(shark_attacks <span class="op">~</span><span class="st"> </span>temperature <span class="op">+</span><span class="st"> </span>ice_cream_sales, <span class="dt">data =</span> sharks)
+<span class="kw">anova</span>(model.c)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: shark_attacks
+##                 Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## temperature      1 3000.00 3000.00 86.8115 2.093e-14 ***
+## ice_cream_sales  1  104.96  104.96  3.0374   0.08521 .  
+## Residuals       80 2764.61   34.56                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">summary</span>(model.c)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = shark_attacks ~ temperature + ice_cream_sales, data = sharks)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -15.2533  -2.6712  -0.0836   2.9513  16.6902 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      0.60047    4.35313   0.138   0.8906    
+## temperature      1.29170    0.19966   6.469 7.27e-09 ***
+## ice_cream_sales  0.10448    0.05995   1.743   0.0852 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.879 on 80 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.529,  Adjusted R-squared:  0.5172 
+## F-statistic: 44.92 on 2 and 80 DF,  p-value: 8.339e-14</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Think about what we know about our predictors (<code>ice_cream_sales</code> and <code>temperature</code>) - they are correlated. This will make the standard error of the coefficient bigger (you can see the standard errors in the <code>SE</code> column in the <code>summary()</code> output for a model). Use the <code>vif()</code> function from the <code>car</code> package to see how much the SE of the effect of <code>ice_cream_sales</code> on <code>shark_attacks</code> has been inflated by the inclusion of <code>temperature</code>. Is it problematic?<br />
+<strong>Hint:</strong> See slide 36 of Lecture 7.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">library</span>(car)
+<span class="kw">vif</span>(model.c)</code></pre></div>
+<pre><code>##     temperature ice_cream_sales 
+##        1.542181        1.542181</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co">#VIFs of less than 4 are usually not too bad, so we&#39;re okay here.</span>
+<span class="co">#square root of VIF tells you inflation of SE. </span>
+<span class="kw">sqrt</span>(<span class="fl">1.542181</span>)</code></pre></div>
+<pre><code>## [1] 1.241846</code></pre>
+</div>
+<div id="contrast-coding" class="section level2">
+<h2><span class="header-section-number">8.6</span> Contrast coding</h2>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>The data we’ve been working with has captured great white shark attacks. But what about other types of shark? Load in the <code>sharks_extra</code> data set from learn. It will load in a dataset called <code>sharks2</code>. It contains data for hammerheads and basking shark attacks as well as the attacks by the great whites.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Use orthogonal contrasts to answer the following questions:<br />
+- Do basking sharks attack fewer people than great whites and hammerheads?<br />
+- Do numbers of great whites attacks differ from hammerhead attacks?</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/sharks_extra.Rdata&quot;</span>)
+
+<span class="kw">contrasts</span>(sharks2<span class="op">$</span>shark)</code></pre></div>
+<pre><code>##             basking hammerhead
+## great_white       0          0
+## basking           1          0
+## hammerhead        0          1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">contrasts</span>(sharks2<span class="op">$</span>shark)&lt;-<span class="kw">cbind</span>(<span class="st">&quot;GWHvB&quot;</span>=<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>),
+                                <span class="st">&quot;GWvH&quot;</span>=<span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span>))
+shark_model&lt;-<span class="kw">lm</span>(shark_attacks <span class="op">~</span><span class="st"> </span>shark, <span class="dt">data =</span> sharks2)
+
+<span class="kw">summary</span>(shark_model)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = shark_attacks ~ shark, data = sharks2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -20.5357  -7.2738  -0.2738   7.4643  18.4643 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  25.9365     0.5639  45.994   &lt;2e-16 ***
+## sharkGWHvB  -24.9940     1.1962 -20.894   &lt;2e-16 ***
+## sharkGWvH    -0.5357     1.3813  -0.388    0.698    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 8.952 on 249 degrees of freedom
+## Multiple R-squared:  0.6369, Adjusted R-squared:  0.634 
+## F-statistic: 218.4 on 2 and 249 DF,  p-value: &lt; 2.2e-16</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab-7.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lab-9-interactions-and-glm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

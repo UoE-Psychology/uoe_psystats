@@ -1,0 +1,678 @@
+```{r echo=FALSE}
+solution=TRUE
+```
+
+# Lab 4
+
+## Introduction
+
+In this lab, you are going to begin to become accustomed to randomly generating data of different types in `R`, generating appropriate plots for different types of data, reading in real data and checking data sets, summarising variables, and plotting real data. The last sections of this lab are intended to be completed as homework, however if you get it all done in the 2 hours - good for you. So let's get started.
+
+Before we begin, set up a project for today's lab!
+
+## Simple Plots
+
+### Categorical Variables
+
+Let's start with the visualization of binary variables. First, let's randomly generate a single binary variable.
+
+```{r}
+# Randomly Generate a Single Binary Variable
+x_bin <- rbinom(100, 1, .6)
+```
+
+Take a look at `?rbinom` and try to work out what frequency of 1s we might expect to see in `x_bin`? We will come back to this shortly.
+
+Now let's look to make a plot of this variable.
+
+```{r}
+plot(x_bin)
+```
+
+What has gone wrong here?
+
+`plot()` is generally quite a clever function in that it will produce appropriate plots for the type of data we give it. But we need to make sure the variables we give `plot()` are of the type we would like. Let's check whether the variable we created is being treated as a factor (`R` language for categorical variables):
+
+```{r}
+is.factor(x_bin) #Asking R whether x_bin is being treated as a factor.
+```
+
+So R is not recognising our variable as a categorical variable. What is R treating the `xbin` as;
+
+```{r}
+class(x_bin)
+```
+
+We want this to be a factor (nominal categories), so We can change the status of this variable as follows:
+
+```{r}
+x_bin <- as.factor(x_bin)
+is.factor(x_bin)
+```
+
+Excellent! `R` now recognises the variable as a categorical variable. Now let's see what `plot()` does:
+
+```{r}
+plot(x_bin)
+```
+
+`plot()` has now given us a very basic frequency bar chart of 0s and 1s, for the variable `x_bin`. 
+
+Let's briefly return to the question above - what is the frequency of 1s in `x_bin`? From looking at the plot above, we can see there are more 1s than 0s, but as it stands the plot is not much use to us in seeing the exact frequency (we will deal with editing plots shortly). Let's ask R to give us the actual frequencies of 0s and 1s:
+
+
+```{r}
+table(x_bin) # this produces a frequency table for our variable
+```
+
+`r task()`: So, thinking back to how we specified the creation of our random variable (`rbinom(100, 1, .6)`), why is it we do not have 60 1s? Also, why is it that you may have a different number of 1s to the person sat next to you?
+
+Hopefully you can see that this is your first taste of probability theory and random variables (although you may not have quite phrased it that way), which we will discuss lots more next week. For now, lets continue looking at plots. Note from this point on your plots will look different to mine (and your neighbours) because you have different random variables. 
+
+Now let's create a second binary variable and create a mini data set with both variables:
+
+```{r}
+y_bin <- rbinom(100, 1, .75)
+# look at the frequencies of 0 and 1
+table(y_bin)
+# tell R y_bin is a binary categorical variable
+y_bin <- as.factor(y_bin)
+# cbind() combines two columns into a single object, here called data
+data <- cbind(x_bin, y_bin)
+# shows the column and row names and the first few lines of data
+head(data)
+```
+
+`r task()`: Look at the first few lines carefully. Why is R showing the values of `x_bin` and `y_bin` to be 1 and 2 instead of 0 and 1? More importantly, if we assume this is a nominal variable, does this matter?
+
+A very quick refresher on indexing. `R` uses 2-dimensional indexing with `[ ]` when indexing rows, columns and individual cells in a data frame or matrix. The numbers appear in the order [row, column]. So;
+
+* `[1, ]` = the first row
+* `[ , 1]` = the first column
+* `[1, 1]` = the value in the first row, first column
+
+Indexing is a very useful tool. We can use it to highlight individual elements, perform tasks on single rows or columns, subset data *etc*. Indexing will appear in lots of the code that follows. You can use the basic rules here to help you "read R". As an example:
+
+```{r}
+data[3, 2] #calls the value in the third row, second column of our data set
+head(data) # which we can check by looking the top few rows of data
+```
+
+You can play around with this a little if you are not yet convinced. For example, we could use indexing to give us the total number of 1s in the first column;
+
+```{r}
+sum(data[ , 1] == 1)
+```
+
+We can then check this is correct using the `table()` function again.
+
+```{r}
+table(data[ , 1]) #then we can check the answer using table()
+```
+
+`r task()`What is the code line `sum(data[ , 1] == 1)` doing? Although in principle this is quite simple, how `R` does something of this sort takes a bit of getting used to. *Hint*: Think logical vectors.
+
+One last thing before we get back to plots. I want to give our variables names so we can pretend we have collected real data (instead of just simulating). So, here we use `colnames()` to change the names of the variables. We create a vector of new names, here `"programme"` and `"over18"`, and then we assign this to data: 
+
+```{r}
+colnames(data) <- c("programme", "over18") 
+head(data) # we can then check the names have changed
+```
+
+This is good. But now we need our numerical labels to mean something consistent with the variable names. So we need to assign verbal labels to the numerical values.
+
+```{r}
+# To manipulate our data, we first make it a data frame
+data <- as.data.frame(data)
+
+# Now we make sure our variable is recognised as a factor
+data$programme <- as.factor(data$programme)
+is.factor(data$programme)
+```
+
+OK, all looking good so far. Remember you looked up logical vectors earlier, well you should recognise that when we use `is.factor()` (asking `R` a direct question of whether the variable is a factor or not) it returns a logical vector.
+
+Before we assign verbal labels to the numerical values, we should first check how many levels (in `R` speak, levels are the number of unique numerical labels) we have:
+
+```{r}
+levels(data$programme) 
+```
+
+And we can see we have 2 levels with numerical labels `1` and `2`. So now we assign new informative verbal labels:
+
+```{r}
+levels(data$programme) <- c("Psychology", "Linguistics") 
+```
+
+`r task()`Now do the same for the `over18` variable but, this time, use indexing in our code.
+
+```{r, include=solution, class.source="solution"}
+data[, 2] <- as.factor(data[, 2])
+is.factor(data[, 2])
+levels(data[, 2])
+levels(data[, 2]) <- c("Yes", "No")
+```
+
+`r task()`Back to plotting (finally)! Let's look at the bar plots of the frequencies for both variables:
+
+```{r, include=solution, class.source="solution"}
+plot(data$programme)
+plot(data[, 2]) # indexing works too but notice axis labels
+```
+
+Now, if we want to consider the ratio of psychologists and linguists who are over 18, we can compute a mosaic plot. To do this we simply give `plot()` two categorical variables.
+
+`r task()`Why don't you try it yourself!
+
+```{r, include=solution, class.source="solution"}
+plot(data$programme, data$over18)
+```
+
+**Time to Think**: What do you think would happen if we used `data[, 1]` instead of `data$programme`? What can we conclude from this plot? Are there proportionally more psychologists than linguists 18+? Again, why does your plot look different to mine and your neighbour?
+
+We can extend all the principles above to considering multiple nominal variables. Let's add a variable to our data called `sport`. Let's suppose our sample of 100 people play five sports (football, running, hockey, golf & swimming). 
+
+`r task()`Let's create this variable. `sample()` is going to come in handy here.
+
+```{r, include=solution, class.source="solution"}
+data$sport <- factor(sample(c("football", "running", "hockey", "golf", "swimming"),
+                            100, replace = T))
+```
+
+`r task()`Look at the bar chart for the `sport` variable.
+
+```{r, include=solution, class.source="solution"}
+plot(data$sport)
+```
+
+`r task()`Now ask for a mosaic plot of `sport` by `programme`:
+
+```{r, include=solution, class.source="solution"}
+plot(data[, 1], data[, 3])
+```
+
+**Time to think**: Look at the help for `?sample`. Look at the third argument, `prob` in the help and think about the lecture on probability. Can you work out from the help what the default settings for the weights are? How do you think the mosaic plot may change if we changed these weights? If you want to play with the weights you can. Add the argument `prob = c()` to the code for creating the sport variable. Inside the parentheses, list 5 numbers which sum to 1. For example: `prob = c(.1, .5, .2, .1, .1)`. 
+
+**Note**: You could try to make these meaningful by estimating the actual popularities of these sports.
+
+<div class="noteBox">
+#### Plotting order
+
+With all of the plots in this section, it really doesn't matter what order we plot the variables in as they are nominal variables. There is no order of presentation for programme which makes more logical sense than any other. However, the same is not true for ordered categorical variables.
+</div>
+
+### Ordinal Categorical Variables
+
+For ordered categorical data, our primary tool for visualization is the same as for the binary and nominal variables - the bar plot. However, here, order matters for reasons that should be clear from the lecture. Unlike nominal categorical variables, order does matter and we want to preserve this in our visualizations. 
+
+Remember, with an ordered categorical variable we often assume that the data we observe come from a truly normally distributed variable, but that our measurements are coarsely categorized. For the purpose of our generated data, let's create a variable, `fitness`, that is individuals self-rated fitness level on a scale of 1-8:
+
+```{r}
+norm <- rnorm(100, 0, 1) # start by creating a random normal variable
+initial_fitness <- cut(norm, 8)
+initial_fitness <- as.numeric(initial_fitness)
+```
+
+Here we first cut our normally distributed variable into 8 categories, and then told `R` that this new variable `initial_fitness` was numeric. However, in `R`, we can easily put functions within other functions, so we could have written the same thing as:
+
+`initial_fitness <- as.numeric(cut(norm, 8))`
+
+Look out for this as we go through the practical.
+
+In the second line, we have used the `cut()` function to create 8 equally sized groups from our normally distributed variable. These represent our coarse divisions of an underlying normal variable. We use `as.numeric()` to tell `R` we want to treat this variable as if it were numeric, not as a factor.
+
+**Remember**: There is much debate about whether coarsely categorized variables should be treated as continuous or not. This is an important decision you will have to make in your own analyses and you will need to make sure you have told `R` what type of variable each variable in your data set is. As an aside, if you want to check what `R` thinks each variable is, you can use:
+
+```{r}
+class(initial_fitness)
+```
+
+We can see how the distribution of our variables degrades when we coarsely categorize `norm` by using histograms.
+
+`r task()`Look at the histograms of `norm` and `initial_fitness`. If you've been using `plot()` until now, this time use `hist()`)
+
+
+```{r, fig.height = 4, include=solution, class.source="solution"}
+hist(norm)
+hist(initial_fitness)
+```
+
+`r task()`With 8 categories, this does not look too bad, but what would it look like if we used say 4 categories? Check this out, create a new variable with a different name, and use the `cut()` function and the continuous variable `norm` to categorize it. Then plot it on a bar chart.
+
+```{r, fig.height = 4, include=solution, class.source="solution"}
+barplot(table(as.numeric(cut(norm, 4))), xlab = "Categorised fitness")
+```
+
+Now let's add `initial_fitness` to the data set. We could just attach it as it is, but to show you another method to manipulate your data, let's jumble up the order a bit using `sample()`.
+
+```{r}
+fitness <- sample(initial_fitness, 100, replace = F)
+```
+
+**Time to Think**: We have used `sample()` before. Have a go at describing what we are doing with sample here. *Hint: *use `?sample` and focus on size we have requested (given sample size), and what it might mean to not replace values.
+
+We can then compare the first few lines to see we have jumbled it up, and the cell frequencies to show this is all we have done;
+
+```{r}
+head(initial_fitness)
+head(fitness)
+table(initial_fitness)
+table(fitness)
+```
+
+`r task()`Let's add it to our other data.
+
+```{r, include=solution, class.source="solution"}
+data$fitness <- fitness # add fitness
+```
+
+
+### Continuous Variables
+
+In some cases our variables will truly be continuously measured on a ratio scale. When this is the case, we can visualize the distribution of the variable in a number of ways. We can use a histogram, but in doing so we need to decide how many bins to use. Alternatively, we can use a kernel density plot. We have gone over a number of examples of this slowly, so let's do this in one quick hit of code. 
+
+`r task()`Create a normally distributed variable `weight` (let's say in kg, with mean = 81 and *SD* = 12) in `data` and plot it on a histogram.
+
+```{r, fig.height = 4, include=solution, class.source="solution"}
+data$weight <- sample(rnorm(100, 81, 12), replace = F)
+hist(data$weight)
+```
+
+`r task()`Now try creating a density plot of the variable.
+
+```{r, fig.height = 4, include=solution, class.source="solution"}
+plot(density(data$weight))
+```
+
+
+## Scatterplots: Visualizing associations
+
+Sometimes we might want to use plots to look at the relations between variables. We will cover lots of different types of plots to do this as the course progresses (particularly plots which help check assumptions in GLM). As a simple case, consider looking at the relationship between two continuous variables. We already have two variables we are treating as continuous in our data, Fitness and Weight.  
+
+This time, instead of giving plot a single variable, we give it two. Again, it is smart enough to know what to do with these data:
+
+```{r}
+plot(data$fitness, data$weight)
+```
+
+**Time to Think**: Although we are treating `fitness` as continuous, this scatterplot looks odd. Why do you think this is?
+
+`r task()`Instead of using the categorized variable `fitness`, why don't we use the `norm` instead. Though not in your data set, this is still in your `R` environment (look down the values list in the top right).
+
+```{r, include = solution, class.source="solution"}
+plot(norm, data$weight)
+```
+
+## Boxplots: Visualizing group differences
+
+So, the scatterplot gives us the association between two variables, but what about comparing the mean score on a continuous variable given a categorical variable. This type of plot is very useful if you are conducting a *t*-test (next week!). You have in fact already done this in the first lab, so this code should seem familiar and we wont linger on it:
+
+```{r}
+# I am using this here to remind myself how each of the variables is named in data
+names(data)
+boxplot(weight~programme, data = data)
+```
+
+
+## Descriptive Statistics
+
+As well as the basics of plotting, it is also useful to be able to produce basic descriptive statistics for the variables in your data set. So let's look at the options for this. My preference for descriptive statistics is to use the `describe()` function in the `psych` package. This is simple to use.
+
+<div class="noteBox">
+<title>An aside on packages</title>
+We talked about how functions in `R` are just objects with a bunch of code inside. Therefore, there must be some code somewhere that creates these objects. Packages are basically libraries of functions that define these objects. Many of them come as part of basic installation of `R` and even more are available on the internet (the repository of all tested `R` packages is called CRAN). If you want to see a list of the packages currently installed on your computer, type `installed.packages()`.
+
+To install a package, use the `install.package()` function. It takes as the only required argument the name of the package in double quotes, *e.g.,* `install.package("psych")`. You only have to install a package once so if you want this command in your script, comment it out *after first use* (by potting `#` at the beginning of the line). This way it won't run every time you run your code!
+
+Once a package is installed on your computer, the files that define the functions contained in the package will be made available to `R`. However, if you want to use them yourself, you need to **load** the package. To load *an installed package*, use the `library()` function, giving it the name of the package as argument: `library(psych)`
+
+Once you load a package, you will be able to use its functions just like any other function you've already used.
+</div>
+
+```{r}
+# install.packages("psych")
+library(psych)
+describe(data)
+```
+
+However, as you can see, `psych` reports the arithmetic mean, *SD*, and *SE* for all variables, even those which are factors. We can tell which `psych` and R are treating as factors as a * appears after the name of the variable on the left. 
+
+`psych` does give us the median, minimum and maximum values, range, skew and kurtosis - so it is doing pretty well in describing our data. But we may want a couple of other things. 
+
+```{r}
+# as we have seen, this gives frequencies
+table(data$programme) 
+
+# we can use quantile to give us the values at a given percentile of our variable
+# here we select the 25th and 75th
+quantile(data$weight, c(.25, .75))
+
+# we could also use this to get the inter-quartile range
+lower <- as.numeric(quantile(data$weight, c(.25)))
+upper <- as.numeric(quantile(data$weight, c(.75)))
+IQR <- upper-lower
+IQR
+
+# we can also get the mode. For multiple category variables, 
+# we just want the largest value from the 2nd row of table()
+table(data[, 4])
+```
+
+Sometimes we may want to create our own table of results that includes the appropriate statistics given our variables. Let's have a go.
+
+```{r}
+# first job, lets create an empty 2x2 matrix
+empty <- matrix(nrow = 2, ncol = 2)
+colnames(empty) <- c("Mean", "Skew") # and then give the columns names
+rownames(empty) <- c("Weight", "Fitness") # and the rows names
+empty # and lets take a look
+```
+
+Now let's put some values in. First we need to compute the statistics (here I will use `describe()`, save the output as an object, and then use indexing to isolate the values of interest and enter them into our empty table:
+
+```{r}
+descriptive <- describe(data)
+descriptive # so lets take the mean of weight. 
+descriptive[5, 3] # which is in the fifth row, third column.
+
+# now we can add this to our matrix
+empty[1, 1] <- descriptive[5, 3]
+empty
+```
+
+`r task()`Finish this table by adding the other three values. If you want an extra challenge, edit the code to add a third column for the standard deviation of the mean (`sd` column in the `describe()` output). Put this column between the `Mean` and `Skew` columns of `empty`.
+
+```{r, include=solution, class.source="solution"}
+# we can do 
+empty[2, 1] <- descriptive[4, 3]
+empty[1, 2] <- descriptive[5, 12]
+empty[2, 2] <- descriptive[4, 12]
+empty <- cbind(empty[ , 1], descriptive$sd[5:4], empty[ , 2])
+colnames(empty) <- c("Mean", "SD", "Kurtosis")
+empty # output is a matrix
+
+# this also works
+empty <- descriptive[5:4, c(3, 4, 12)]
+names(empty) <- c("Mean", "SD", "Kurtosis")
+row.names(empty) <- c("Weight", "Fitness")
+empty # output is a data frame
+```
+
+## More advanced plotting
+
+OK, now we have, at some length in both labs 1 and 2, looked at the basic forms of plots in R and some basic skills of manipulating and using objects in R. Now let's start adding a bit of finesse to our plots and some additional features. The examples below are in no way exhaustive of the HUGE variety of things you can do with plots in R, but they should give you a feel for what is possible. 
+
+Let's start with our scatterplot from above and add some basic options.
+
+```{r fig.height = 4 }
+# Let's start with labels
+plot(norm, data[, 5], main = "Association Between \nFitness and Weight", 
+     xlab = "Fitness Normal Distribution", ylab = "Weight")
+```
+
+As something new, we can use the `\n` to split titles across multiple lines. Now how about adding bold and italics to labels? We can do this with `expression`;
+
+```{r fig.height = 4}
+plot(norm, data[, 5], main = "Association Between \nFitness and Weight", 
+     xlab = expression(bold(Fitness~Normal~Distribution)), 
+     ylab = expression(italic(Weight)))
+```
+
+Note, when using `expression()`, we need to use a `~` to connect words. Given the plot above, use what you learnt last week to change the colour, size and symbol used for all the points.
+
+### Pinpointing data
+
+OK, now let's see how we can pick out single points, and include plots for multiple groups. So, to identify a single point (or multiple points), we want to create an object which gives the x and y coordinates of the points;
+
+
+```{r fig.height = 4}
+y_coord <- data$weight[90] #take 90th element in weight
+x_coord <- norm[90] # take 90th element in norm
+
+# create a vector of weight values for elements 1 to 10
+y2_coord <- data$weight[1:10]
+x2_coord <- norm[1:10] # and the same for norm
+
+plot(norm, data[, 5], main = "Association Between \nFitness and Weight", 
+     xlab = expression(bold(Fitness~Normal~Distribution)),
+     ylab = expression(italic(Weight)))
+# we can then use points to adjust particular points give the co-ordinates above
+points(x_coord, y_coord, pch = 15, col = "red")
+points(x2_coord, y2_coord, pch = 15, col = "green")
+
+```
+
+`r task()`Using xy.coords can be a little tricky at times. Look up the function `identify()` and see if you can do the same thing.
+
+\ 
+
+So that is individual points, now how about 2 groups on the same plot. Let's have the points for psychologists and linguists coloured differently on our scatterplot.
+
+```{r fig.height = 4}
+plot(norm, data[, 5], main = "Association Between \nFitness and Weight", 
+     xlab = expression(bold(Fitness~Normal~Distribution)),
+     ylab = expression(italic(Weight)), 
+     pch = 15, col = c("blue", "red")[data$programme])
+```
+
+Here we use `data$programme` to index the colour vector. Provided the variable we use is a factor, and the length of the `col` vector matches the number of levels, this will work for us.
+
+Now we have different coloured points on the plot, we had better add a legend to explain what they are. So;
+
+```{r fig.height = 4}
+plot(norm, data[, 5], main = "Association Between \nFitness and Weight", 
+     xlab = expression(bold(Fitness~Normal~Distribution)),
+     ylab = expression(italic(Weight)), 
+     pch = 15, col = c("blue", "red"))
+legend("topleft", legend = c("Psychology", "Linguistics"),
+       col = c("blue", "red"), pch = c(15, 15))
+```
+
+`r task()`Look at `?legend`, and think through why we have put in all the elements we have. Particularly think about why we have used `c()` to create the different column vectors. As a practice task, change the points symbols and colours in the plot and legend, and move the legend to a different location.
+
+```{r fig.height = 4, include=solution, class.source="solution"}
+plot(norm, data[, 5], main = "Association Between \nFitness and Weight", 
+     xlab = expression(bold(Fitness~Normal~Distribution)),
+     ylab = expression(italic(Weight)), 
+     pch = 20, col = c("purple", "darkgreen"))
+legend("bottomright", legend = c("Psychology", "Linguistics"),
+       col = c("purple", "darkgreen"), pch = 20, 
+       bty="n") # gets rid of the box around legent (box type = none)
+```
+
+*Hint: *Look up the help for the function `locator()`. This has multiple uses, much like `identify()`, and may be of use when producing your own plots.
+
+\ 
+
+One last thing, lets add some lines to our scatterplot. There are multiple reasons why we may want to add lines. Below I add regression lines for psychologists and linguists (more about this in the GLM lectures), vertical and horizontal lines, and curved loess fit lines. Clearly, we would never want all these on one plot, but this is simply to show what can be done. So;
+
+```{r fig.height = 4}
+plot(norm, data[, 5], main = "Association Between \nFitness and Weight", 
+     xlab = expression(bold(Fitness~Normal~Distribution)),
+     ylab = expression(italic(Weight)), 
+     pch = 15, col = c("blue", "red"))
+legend("topleft", legend = c("Psychology", "Linguistics"),
+       col = c("blue", "red"), pch = c(15, 15))
+abline(v = 0, col = "green", lwd = 2) # vertical line at norm = 0
+# horizontal line at weight = 100
+abline(h = 100, col = "black", lty = 5, lwd = 2)
+# regression line linguists
+abline(lm(data[, 5]~norm, subset = data$programme=="Linguistics"),
+       col = "red", lwd = 2)
+# regression line psychologists
+abline(lm(data[, 5]~norm, subset = data$programme=="Psychology"),
+       col = "blue", lwd = 2)
+# lowess line of best fit
+lines(lowess(norm, data[, 5]), col = "purple", lwd = 2)
+```
+
+### Customising plots
+
+As noted above, many of the plotting features are general across types of plot. One of the last things we should look at is changing the axes on a plot.
+
+
+```{r}
+hist(data$weight, main = "Histogram for Weight",
+     xlab = "Weight", ylab = "Frequency", col = "red")
+```
+
+So this plot now has some pretty colours, but our axes don't look very good. The x and y axes don't join for a start. So let's get rid of these and draw them ourself:
+
+```{r}
+hist(data$weight, main = "Histogram for Weight",
+     xlab = "Weight", ylab = "Frequency", col = "red", 
+     axes = F) # this line removes the axes from the plot
+```
+
+And now we can add some new ones using `axis()`:
+
+```{r}
+hist(data$weight, main = "Histogram for Weight",
+     xlab = "Weight", ylab = "Frequency", col = "red", 
+     axes = F) # this puts an L shaped box (2 sides) onto our plot
+box(bty = "L")
+# we can use axis for each side to put the default check marks back
+axis(side = 1, xpd = T)
+axis(side = 2, xpd = T)
+```
+
+\ 
+
+If we want to plot two density plots for two groups on the same plot, there is a useful function in the `sm` package to help us (we can use all the normal graphical parameters here:
+
+`r task()`Install and load the package `sm`.
+
+```{r, include = solution, class.source="solution"}
+#install.packages("sm")
+library(sm)
+```
+
+\ 
+
+This is how it's done:
+
+```{r}
+sm.density.compare(data$weight, data$programme, col = c("blue", "red"), lty = c(1, 2))
+legend("topleft", levels(data$programme), lty = c(1, 2), col = c("blue", "red"))
+```
+
+\ 
+
+## Multiple Plots in One
+
+So we have now done some fancy things with the basic plots for different types of data. There is one more step that is important to highlight to you with respect to plotting in R. Not only can we have quite fine control over the plots themselves, we can also control the space that the plots are drawn in. The way in which we do this is by adjusting the basic graphical parameters. So let's follow through a simple example of plotting two plots on top of each other. We will use the code developed above for the plots, so all we need to worry about here is adjusting the space.
+
+```{r fig.height = 7}
+# first we use the mfrow command to tell R we want to divide the plotting space
+par(mfrow = c(2, 1))
+# then we give it the two plots. 
+# Automatically the first set of code plots the top plot, 
+# the second the lower plot
+sm.density.compare(data$weight, data$programme, col = c("blue", "red"), lty = c(1, 2))
+legend("topleft", levels(data$programme), lty = c(1, 2), col = c("blue", "red"))
+
+hist(data$weight, main = "Histogram for Weight",
+     xlab = "Weight", ylab = "Frequency", col = "red")
+```
+
+<div class="noteBox">
+##### Plot margins too small?
+
+If you get an error complaining about plot margins being too small, that is beause the plotting window in the bottom right panel of your RStudio is, well, too small for the plot to be rendered. Making it bigger should help.
+</div>
+
+`r task()`Use everything you've learnt today to create this figure with four plots.
+
+```{r fig.height = 7, echo = solution, class.source="solution"}
+# first we use the mfrow command to tell R we want to divide the plotting space
+par(mfrow = c(2, 2))
+# then we give it the two plots. 
+# Automatically the first set of code plots the top plot, 
+# the second the lower plot
+sm.density.compare(data$weight, data$programme, col = c("blue", "red"), lty = c(1, 2))
+legend("topleft", levels(data$programme), lty = c(1, 2), col = c("blue", "red"))
+
+hist(data$weight, main = "Histogram for Weight",
+     xlab = "Weight", ylab = "Frequency", col = "darkred")
+plot(data$programme, main = "Bar chart for Programme",
+     xlab = "Weight", ylab = "Frequency", col = "darkblue")
+boxplot(data$weight ~ data$programme , main = "Boxplot for Weight by Programme",
+     xlab = "Weight", ylab = "Frequency", col = "darkgreen")
+par(mfrow = c(1, 1))
+```
+
+Sometimes we may want more space on one side of our plot. If this is the case, we need to change the margins in the plotting space. We do this within `par()` as well. First though, it can be useful to see what our actual margins are. We can see this by simply typing `par()`. This produces quite a lot of output as it lists all the graphical parameters settings. But we can just look at the margins using;
+
+```{r}
+check <- par()
+check$mar
+```
+
+Here you have four numbers corresponding to the sides of the plot
+
+* 1 = bottom = 5.1
+* 2 = left = 4.1
+* 3 = top = 4.1
+* 4 = right = 2.1
+
+To change the margins we simple add;
+
+```{r}
+# first we use the mfrow command to tell R we want to divide the plotting space
+# then change margins
+par(mfrow = c(2, 1), mar = c(3, 1, 1, 1))
+
+# once graphical parameters are changed, you can create plots
+sm.density.compare(data$weight, data$programme,
+                   col = c("blue", "red"), lty = c(1, 2))
+legend("topleft", levels(data$programme), lty = c(1, 2), col = c("blue", "red"))
+
+hist(data$weight, main = "Histogram for Weight",
+     xlab = "Weight", ylab = "Frequency", col = "red")
+```
+
+You can see that these are not very good settings. We have lost the title on the top plot, and we have lost the axes labels on the left hand side. However, this does shows you the basics of how to adjust the margins. We will want to set out plotting space back to the default. We do this by simply clicking the "Clear All" option on the plotting screen.
+
+That wraps up the tutorial part of the lab for now. We will do more with plotting in the course of future labs, but for now, this will do us.
+
+## Let's put all this into practice
+
+Start a new project called something like "Lab 4 Real Data". This will make it easier to reference back to your project code (above) when answering the questions.
+
+In all the examples above, we have been using randomly generated data. Now let's (assume!!) we have got some real data (*i.e.*, you have not seen me simulate it).
+
+So, let's get practising, describing and visualizing our data. First, read the data into R. Look back at the instructions from week 2 if you can not remember how to do this. The data is a .csv file, so you can also look at `?read.csv`. The data set is saved on LEARN in the Week 4 folder.
+
+OK, so now I have a list of tasks. All of these should be achievable by looking at the code above and adjusting it for the new names of variables, size of the data set, *etc*. 
+
+First, here is some information about the variables. You will notice there is very little useful labelling in the data set.
+
+### Code Book
+
+Variables in the order they appear in the data set:
+
+1. Daily energy expenditure (vigorous activity)
+2. Daily energy expenditure (light activity)
+3. Programme (0 = Linguistics; 1 = Psychology)
+4. BDNF-alpha genotype (0 = Risk Allele Not Present ; 1 = Risk Allele Present)
+5. Attitude to exercise (1-8; 1 = lowest, 8 = highest) 
+
+### Questions
+
+1. Add an ID to the data set. *Hint: *see Week 2 lab
+2. Name all variables.
+3. Add labels to the `programme` and `BDNF-alpha` variables. 
+4. Produce a descriptives table with appropriate measures of central tendency and a column for sample size.
+4. Produce a frequency plot for Attitude to Exercise and a density plot for Daily energy expenditure (vigorous).
+5. Plot the association between Daily energy expenditure vigorous activity and light activity.
+6. Produce a plot to show the relative frequencies of BDNF-alpha risk alleles among psychologists and linguists.
+7. Produce a plot comparing the densities of daily energy expenditure (light activity) in psychologists and linguists.
+8. Combine these four plots into one figure.
+
+\ 
+
+**Good luck!**
+
+\ 
+
+\ 

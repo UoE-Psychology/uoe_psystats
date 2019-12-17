@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Lab 4 | Univariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Lab 4 | Univariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Lab 4 | Univariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab-3.html"/>
+<link rel="next" href="lab-5.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">USMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="lab-1.html"><a href="lab-1.html"><i class="fa fa-check"></i><b>1</b> Lab 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="lab-1.html"><a href="lab-1.html#lets-get-going"><i class="fa fa-check"></i><b>1.1</b> Let’s get going!</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="lab-1.html"><a href="lab-1.html#rstudio"><i class="fa fa-check"></i><b>1.1.1</b> RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="lab-1.html"><a href="lab-1.html#console"><i class="fa fa-check"></i><b>1.1.2</b> Console</a></li>
+<li class="chapter" data-level="1.1.3" data-path="lab-1.html"><a href="lab-1.html#editor"><i class="fa fa-check"></i><b>1.1.3</b> Editor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="lab-1.html"><a href="lab-1.html#a-simple-analysis"><i class="fa fa-check"></i><b>1.2</b> A simple analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="lab-1.html"><a href="lab-1.html#last-things"><i class="fa fa-check"></i><b>1.2.1</b> Last Things</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab-2.html"><a href="lab-2.html"><i class="fa fa-check"></i><b>2</b> Lab 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="lab-2.html"><a href="lab-2.html#first-things-first"><i class="fa fa-check"></i><b>2.1</b> First things first</a></li>
+<li class="chapter" data-level="2.2" data-path="lab-2.html"><a href="lab-2.html#classes"><i class="fa fa-check"></i><b>2.2</b> Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="lab-2.html"><a href="lab-2.html#data-structures"><i class="fa fa-check"></i><b>2.3</b> Data structures</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lab-2.html"><a href="lab-2.html#subsetting"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lab-2.html"><a href="lab-2.html#subsetting-using-names"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting using names</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lab-2.html"><a href="lab-2.html#replacement"><i class="fa fa-check"></i><b>2.4</b> Replacement</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab-3.html"><a href="lab-3.html"><i class="fa fa-check"></i><b>3</b> Lab 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="lab-3.html"><a href="lab-3.html#logical-subsetting"><i class="fa fa-check"></i><b>3.1</b> Logical subsetting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="lab-3.html"><a href="lab-3.html#complementary-subsetting"><i class="fa fa-check"></i><b>3.1.1</b> Complementary subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab-3.html"><a href="lab-3.html#sorting"><i class="fa fa-check"></i><b>3.2</b> Sorting</a></li>
+<li class="chapter" data-level="3.3" data-path="lab-3.html"><a href="lab-3.html#subsetting-with-commands"><i class="fa fa-check"></i><b>3.3</b> Subsetting with commands</a></li>
+<li class="chapter" data-level="3.4" data-path="lab-3.html"><a href="lab-3.html#creating-variables"><i class="fa fa-check"></i><b>3.4</b> Creating variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab-4.html"><a href="lab-4.html"><i class="fa fa-check"></i><b>4</b> Lab 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="lab-4.html"><a href="lab-4.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="lab-4.html"><a href="lab-4.html#simple-plots"><i class="fa fa-check"></i><b>4.2</b> Simple Plots</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="lab-4.html"><a href="lab-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.2.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab-4.html"><a href="lab-4.html#ordinal-categorical-variables"><i class="fa fa-check"></i><b>4.2.2</b> Ordinal Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lab-4.html"><a href="lab-4.html#continuous-variables"><i class="fa fa-check"></i><b>4.2.3</b> Continuous Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab-4.html"><a href="lab-4.html#scatterplots-visualizing-associations"><i class="fa fa-check"></i><b>4.3</b> Scatterplots: Visualizing associations</a></li>
+<li class="chapter" data-level="4.4" data-path="lab-4.html"><a href="lab-4.html#boxplots-visualizing-group-differences"><i class="fa fa-check"></i><b>4.4</b> Boxplots: Visualizing group differences</a></li>
+<li class="chapter" data-level="4.5" data-path="lab-4.html"><a href="lab-4.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="4.6" data-path="lab-4.html"><a href="lab-4.html#more-advanced-plotting"><i class="fa fa-check"></i><b>4.6</b> More advanced plotting</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="lab-4.html"><a href="lab-4.html#pinpointing-data"><i class="fa fa-check"></i><b>4.6.1</b> Pinpointing data</a></li>
+<li class="chapter" data-level="4.6.2" data-path="lab-4.html"><a href="lab-4.html#customising-plots"><i class="fa fa-check"></i><b>4.6.2</b> Customising plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="lab-4.html"><a href="lab-4.html#multiple-plots-in-one"><i class="fa fa-check"></i><b>4.7</b> Multiple Plots in One</a></li>
+<li class="chapter" data-level="4.8" data-path="lab-4.html"><a href="lab-4.html#lets-put-all-this-into-practice"><i class="fa fa-check"></i><b>4.8</b> Let’s put all this into practice</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="lab-4.html"><a href="lab-4.html#code-book"><i class="fa fa-check"></i><b>4.8.1</b> Code Book</a></li>
+<li class="chapter" data-level="4.8.2" data-path="lab-4.html"><a href="lab-4.html#questions"><i class="fa fa-check"></i><b>4.8.2</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="lab-4.html"><a href="lab-4.html#lab-4-ggplot"><i class="fa fa-check"></i><b>4.9</b> Lab 4 GGPLOT</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="lab-4.html"><a href="lab-4.html#introduction-1"><i class="fa fa-check"></i><b>4.9.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.9.2" data-path="lab-4.html"><a href="lab-4.html#ggplot2"><i class="fa fa-check"></i><b>4.9.2</b> <code>ggplot2</code></a></li>
+<li class="chapter" data-level="4.9.3" data-path="lab-4.html"><a href="lab-4.html#qplot"><i class="fa fa-check"></i><b>4.9.3</b> <code>qplot()</code></a></li>
+<li class="chapter" data-level="4.9.4" data-path="lab-4.html"><a href="lab-4.html#your-turn"><i class="fa fa-check"></i><b>4.9.4</b> Your Turn</a></li>
+<li class="chapter" data-level="4.9.5" data-path="lab-4.html"><a href="lab-4.html#using-ggplot"><i class="fa fa-check"></i><b>4.9.5</b> Using <code>ggplot()</code></a></li>
+<li class="chapter" data-level="4.9.6" data-path="lab-4.html"><a href="lab-4.html#your-turn-1"><i class="fa fa-check"></i><b>4.9.6</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab-5.html"><a href="lab-5.html"><i class="fa fa-check"></i><b>5</b> Lab 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="lab-5.html"><a href="lab-5.html#finally-stats"><i class="fa fa-check"></i><b>5.1</b> Finally stats</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="lab-5.html"><a href="lab-5.html#data-set"><i class="fa fa-check"></i><b>5.1.1</b> Data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab-5.html"><a href="lab-5.html#read-in-and-clean-data"><i class="fa fa-check"></i><b>5.1.2</b> Read in and clean data</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab-5.html"><a href="lab-5.html#impossible-values"><i class="fa fa-check"></i><b>5.1.3</b> Impossible values</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab-5.html"><a href="lab-5.html#improbable-values"><i class="fa fa-check"></i><b>5.1.4</b> Improbable values</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab-5.html"><a href="lab-5.html#non-integer-values"><i class="fa fa-check"></i><b>5.1.5</b> Non-integer values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab-5.html"><a href="lab-5.html#lets-stats"><i class="fa fa-check"></i><b>5.2</b> Let’s stats!</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="lab-5.html"><a href="lab-5.html#categorical-variables-1"><i class="fa fa-check"></i><b>5.2.1</b> Categorical variables</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab-5.html"><a href="lab-5.html#analysing-continuous-data"><i class="fa fa-check"></i><b>5.2.2</b> Analysing continuous data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab-5.html"><a href="lab-5.html#more-analysis"><i class="fa fa-check"></i><b>5.2.3</b> More analysis!</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab-5.html"><a href="lab-5.html#extra-get-loopy"><i class="fa fa-check"></i><b>5.2.4</b> Extra: Get loopy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab-6.html"><a href="lab-6.html"><i class="fa fa-check"></i><b>6</b> Lab 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="lab-6.html"><a href="lab-6.html#some-more-r-skills"><i class="fa fa-check"></i><b>6.1</b> Some more R skills</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lab-6.html"><a href="lab-6.html#two-types-of-subscripting"><i class="fa fa-check"></i><b>6.1.1</b> Two types of subscripting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lab-6.html"><a href="lab-6.html#your-turn-2"><i class="fa fa-check"></i><b>6.2</b> Your Turn</a></li>
+<li class="chapter" data-level="6.3" data-path="lab-6.html"><a href="lab-6.html#real-data"><i class="fa fa-check"></i><b>6.3</b> Real Data</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lab-6.html"><a href="lab-6.html#the-data"><i class="fa fa-check"></i><b>6.3.1</b> The data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab-6.html"><a href="lab-6.html#the-questions"><i class="fa fa-check"></i><b>6.3.2</b> The questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab-7.html"><a href="lab-7.html"><i class="fa fa-check"></i><b>7</b> Lab 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="lab-7.html"><a href="lab-7.html#merging-and-missing-values"><i class="fa fa-check"></i><b>7.1</b> Merging and missing values</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="lab-7.html"><a href="lab-7.html#missing-values"><i class="fa fa-check"></i><b>7.1.1</b> Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab-7.html"><a href="lab-7.html#writing-a-function"><i class="fa fa-check"></i><b>7.2</b> Writing a function</a></li>
+<li class="chapter" data-level="7.3" data-path="lab-7.html"><a href="lab-7.html#some-data-manipulation"><i class="fa fa-check"></i><b>7.3</b> Some data manipulation</a></li>
+<li class="chapter" data-level="7.4" data-path="lab-7.html"><a href="lab-7.html#a-note-on-correlation"><i class="fa fa-check"></i><b>7.4</b> A note on correlation</a></li>
+<li class="chapter" data-level="7.5" data-path="lab-7.html"><a href="lab-7.html#some-statistics"><i class="fa fa-check"></i><b>7.5</b> Some statistics!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html"><i class="fa fa-check"></i><b>8</b> Lab 8 - The General Linear Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#a-brief-note-on-with"><i class="fa fa-check"></i><b>8.1</b> A brief note on <code>with()</code></a></li>
+<li class="chapter" data-level="8.2" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#linear-models"><i class="fa fa-check"></i><b>8.2</b> Linear Models</a></li>
+<li class="chapter" data-level="8.3" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-prediction-and-visualisation"><i class="fa fa-check"></i><b>8.3</b> Model prediction and visualisation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#predict"><i class="fa fa-check"></i><b>8.3.1</b> Predict()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-criticism"><i class="fa fa-check"></i><b>8.4</b> Model criticism</a></li>
+<li class="chapter" data-level="8.5" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#multiple-regression"><i class="fa fa-check"></i><b>8.5</b> Multiple regression</a></li>
+<li class="chapter" data-level="8.6" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#contrast-coding"><i class="fa fa-check"></i><b>8.6</b> Contrast coding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html"><i class="fa fa-check"></i><b>9</b> Lab 9 - Interactions and GLM&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#interactions"><i class="fa fa-check"></i><b>9.1</b> Interactions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#specifying-interactions-in-r"><i class="fa fa-check"></i><b>9.1.1</b> Specifying interactions in R</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#simulating-data"><i class="fa fa-check"></i><b>9.1.2</b> Simulating data</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#visualising-interactions"><i class="fa fa-check"></i><b>9.1.3</b> Visualising interactions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#modelling-interactions"><i class="fa fa-check"></i><b>9.1.4</b> Modelling interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#generalised-linear-model-glm"><i class="fa fa-check"></i><b>9.2</b> General<strong>ised</strong> Linear Model (GLM)</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#log-odds-and-predicted-probabilities"><i class="fa fa-check"></i><b>9.2.1</b> Log-odds and predicted probabilities</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#predicted-vs-observed"><i class="fa fa-check"></i><b>9.2.2</b> Predicted vs Observed</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#your-turn-less-guidance"><i class="fa fa-check"></i><b>9.3</b> Your turn (Less guidance)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab-10.html"><a href="lab-10.html"><i class="fa fa-check"></i><b>10</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="lab-10.html"><a href="lab-10.html#apply-functions"><i class="fa fa-check"></i><b>10.1</b> <code>apply</code> functions</a></li>
+<li class="chapter" data-level="10.2" data-path="lab-10.html"><a href="lab-10.html#lab-10-1"><i class="fa fa-check"></i><b>10.2</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lab-10.html"><a href="lab-10.html#the-task"><i class="fa fa-check"></i><b>10.2.1</b> The Task</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Univariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab-4" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Lab 4</h1>
+<div id="introduction" class="section level2">
+<h2><span class="header-section-number">4.1</span> Introduction</h2>
+<p>In this lab, you are going to begin to become accustomed to randomly generating data of different types in <code>R</code>, generating appropriate plots for different types of data, reading in real data and checking data sets, summarising variables, and plotting real data. The last sections of this lab are intended to be completed as homework, however if you get it all done in the 2 hours - good for you. So let’s get started.</p>
+<p>Before we begin, set up a project for today’s lab!</p>
+</div>
+<div id="simple-plots" class="section level2">
+<h2><span class="header-section-number">4.2</span> Simple Plots</h2>
+<div id="categorical-variables" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Categorical Variables</h3>
+<p>Let’s start with the visualization of binary variables. First, let’s randomly generate a single binary variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Randomly Generate a Single Binary Variable</span>
+x_bin &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">100</span>, <span class="dv">1</span>, .<span class="dv">6</span>)</code></pre></div>
+<p>Take a look at <code>?rbinom</code> and try to work out what frequency of 1s we might expect to see in <code>x_bin</code>? We will come back to this shortly.</p>
+<p>Now let’s look to make a plot of this variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(x_bin)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-119-1.png" width="672" /></p>
+<p>What has gone wrong here?</p>
+<p><code>plot()</code> is generally quite a clever function in that it will produce appropriate plots for the type of data we give it. But we need to make sure the variables we give <code>plot()</code> are of the type we would like. Let’s check whether the variable we created is being treated as a factor (<code>R</code> language for categorical variables):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.factor</span>(x_bin) <span class="co">#Asking R whether x_bin is being treated as a factor.</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>So R is not recognising our variable as a categorical variable. What is R treating the <code>xbin</code> as;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(x_bin)</code></pre></div>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<p>We want this to be a factor (nominal categories), so We can change the status of this variable as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x_bin &lt;-<span class="st"> </span><span class="kw">as.factor</span>(x_bin)
+<span class="kw">is.factor</span>(x_bin)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Excellent! <code>R</code> now recognises the variable as a categorical variable. Now let’s see what <code>plot()</code> does:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(x_bin)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-123-1.png" width="672" /></p>
+<p><code>plot()</code> has now given us a very basic frequency bar chart of 0s and 1s, for the variable <code>x_bin</code>.</p>
+<p>Let’s briefly return to the question above - what is the frequency of 1s in <code>x_bin</code>? From looking at the plot above, we can see there are more 1s than 0s, but as it stands the plot is not much use to us in seeing the exact frequency (we will deal with editing plots shortly). Let’s ask R to give us the actual frequencies of 0s and 1s:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(x_bin) <span class="co"># this produces a frequency table for our variable</span></code></pre></div>
+<pre><code>## x_bin
+##  0  1 
+## 34 66</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>: So, thinking back to how we specified the creation of our random variable (<code>rbinom(100, 1, .6)</code>), why is it we do not have 60 1s? Also, why is it that you may have a different number of 1s to the person sat next to you?</p>
+<p>Hopefully you can see that this is your first taste of probability theory and random variables (although you may not have quite phrased it that way), which we will discuss lots more next week. For now, lets continue looking at plots. Note from this point on your plots will look different to mine (and your neighbours) because you have different random variables.</p>
+<p>Now let’s create a second binary variable and create a mini data set with both variables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y_bin &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">100</span>, <span class="dv">1</span>, .<span class="dv">75</span>)
+<span class="co"># look at the frequencies of 0 and 1</span>
+<span class="kw">table</span>(y_bin)</code></pre></div>
+<pre><code>## y_bin
+##  0  1 
+## 20 80</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tell R y_bin is a binary categorical variable</span>
+y_bin &lt;-<span class="st"> </span><span class="kw">as.factor</span>(y_bin)
+<span class="co"># cbind() combines two columns into a single object, here called data</span>
+data &lt;-<span class="st"> </span><span class="kw">cbind</span>(x_bin, y_bin)
+<span class="co"># shows the column and row names and the first few lines of data</span>
+<span class="kw">head</span>(data)</code></pre></div>
+<pre><code>##      x_bin y_bin
+## [1,]     2     2
+## [2,]     2     1
+## [3,]     1     2
+## [4,]     1     2
+## [5,]     1     2
+## [6,]     2     1</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>: Look at the first few lines carefully. Why is R showing the values of <code>x_bin</code> and <code>y_bin</code> to be 1 and 2 instead of 0 and 1? More importantly, if we assume this is a nominal variable, does this matter?</p>
+<p>A very quick refresher on indexing. <code>R</code> uses 2-dimensional indexing with <code>[ ]</code> when indexing rows, columns and individual cells in a data frame or matrix. The numbers appear in the order [row, column]. So;</p>
+<ul>
+<li><code>[1, ]</code> = the first row</li>
+<li><code>[ , 1]</code> = the first column</li>
+<li><code>[1, 1]</code> = the value in the first row, first column</li>
+</ul>
+<p>Indexing is a very useful tool. We can use it to highlight individual elements, perform tasks on single rows or columns, subset data <em>etc</em>. Indexing will appear in lots of the code that follows. You can use the basic rules here to help you “read R”. As an example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data[<span class="dv">3</span>, <span class="dv">2</span>] <span class="co">#calls the value in the third row, second column of our data set</span></code></pre></div>
+<pre><code>## y_bin 
+##     2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(data) <span class="co"># which we can check by looking the top few rows of data</span></code></pre></div>
+<pre><code>##      x_bin y_bin
+## [1,]     2     2
+## [2,]     2     1
+## [3,]     1     2
+## [4,]     1     2
+## [5,]     1     2
+## [6,]     2     1</code></pre>
+<p>You can play around with this a little if you are not yet convinced. For example, we could use indexing to give us the total number of 1s in the first column;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(data[ , <span class="dv">1</span>] <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<pre><code>## [1] 34</code></pre>
+<p>We can then check this is correct using the <code>table()</code> function again.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(data[ , <span class="dv">1</span>]) <span class="co">#then we can check the answer using table()</span></code></pre></div>
+<pre><code>## 
+##  1  2 
+## 34 66</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What is the code line <code>sum(data[ , 1] == 1)</code> doing? Although in principle this is quite simple, how <code>R</code> does something of this sort takes a bit of getting used to. <em>Hint</em>: Think logical vectors.</p>
+<p>One last thing before we get back to plots. I want to give our variables names so we can pretend we have collected real data (instead of just simulating). So, here we use <code>colnames()</code> to change the names of the variables. We create a vector of new names, here <code>&quot;programme&quot;</code> and <code>&quot;over18&quot;</code>, and then we assign this to data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;programme&quot;</span>, <span class="st">&quot;over18&quot;</span>) 
+<span class="kw">head</span>(data) <span class="co"># we can then check the names have changed</span></code></pre></div>
+<pre><code>##      programme over18
+## [1,]         2      2
+## [2,]         2      1
+## [3,]         1      2
+## [4,]         1      2
+## [5,]         1      2
+## [6,]         2      1</code></pre>
+<p>This is good. But now we need our numerical labels to mean something consistent with the variable names. So we need to assign verbal labels to the numerical values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># To manipulate our data, we first make it a data frame</span>
+data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(data)
+
+<span class="co"># Now we make sure our variable is recognised as a factor</span>
+data<span class="op">$</span>programme &lt;-<span class="st"> </span><span class="kw">as.factor</span>(data<span class="op">$</span>programme)
+<span class="kw">is.factor</span>(data<span class="op">$</span>programme)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>OK, all looking good so far. Remember you looked up logical vectors earlier, well you should recognise that when we use <code>is.factor()</code> (asking <code>R</code> a direct question of whether the variable is a factor or not) it returns a logical vector.</p>
+<p>Before we assign verbal labels to the numerical values, we should first check how many levels (in <code>R</code> speak, levels are the number of unique numerical labels) we have:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(data<span class="op">$</span>programme) </code></pre></div>
+<pre><code>## [1] &quot;1&quot; &quot;2&quot;</code></pre>
+<p>And we can see we have 2 levels with numerical labels <code>1</code> and <code>2</code>. So now we assign new informative verbal labels:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(data<span class="op">$</span>programme) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Psychology&quot;</span>, <span class="st">&quot;Linguistics&quot;</span>) </code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now do the same for the <code>over18</code> variable but, this time, use indexing in our code.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data[, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">as.factor</span>(data[, <span class="dv">2</span>])
+<span class="kw">is.factor</span>(data[, <span class="dv">2</span>])</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">levels</span>(data[, <span class="dv">2</span>])</code></pre></div>
+<pre><code>## [1] &quot;1&quot; &quot;2&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">levels</span>(data[, <span class="dv">2</span>]) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Back to plotting (finally)! Let’s look at the bar plots of the frequencies for both variables:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data<span class="op">$</span>programme)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data[, <span class="dv">2</span>]) <span class="co"># indexing works too but notice axis labels</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-2.png" width="672" /></p>
+<p>Now, if we want to consider the ratio of psychologists and linguists who are over 18, we can compute a mosaic plot. To do this we simply give <code>plot()</code> two categorical variables.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Why don’t you try it yourself!</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data<span class="op">$</span>programme, data<span class="op">$</span>over18)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
+<p><strong>Time to Think</strong>: What do you think would happen if we used <code>data[, 1]</code> instead of <code>data$programme</code>? What can we conclude from this plot? Are there proportionally more psychologists than linguists 18+? Again, why does your plot look different to mine and your neighbour?</p>
+<p>We can extend all the principles above to considering multiple nominal variables. Let’s add a variable to our data called <code>sport</code>. Let’s suppose our sample of 100 people play five sports (football, running, hockey, golf &amp; swimming).</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Let’s create this variable. <code>sample()</code> is going to come in handy here.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>sport &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;football&quot;</span>, <span class="st">&quot;running&quot;</span>, <span class="st">&quot;hockey&quot;</span>, <span class="st">&quot;golf&quot;</span>, <span class="st">&quot;swimming&quot;</span>),
+                            <span class="dv">100</span>, <span class="dt">replace =</span> T))</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Look at the bar chart for the <code>sport</code> variable.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data<span class="op">$</span>sport)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now ask for a mosaic plot of <code>sport</code> by <code>programme</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(data[, <span class="dv">1</span>], data[, <span class="dv">3</span>])</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
+<p><strong>Time to think</strong>: Look at the help for <code>?sample</code>. Look at the third argument, <code>prob</code> in the help and think about the lecture on probability. Can you work out from the help what the default settings for the weights are? How do you think the mosaic plot may change if we changed these weights? If you want to play with the weights you can. Add the argument <code>prob = c()</code> to the code for creating the sport variable. Inside the parentheses, list 5 numbers which sum to 1. For example: <code>prob = c(.1, .5, .2, .1, .1)</code>.</p>
+<p><strong>Note</strong>: You could try to make these meaningful by estimating the actual popularities of these sports.</p>
+<div class="noteBox">
+<h4 id="plotting-order"><span class="header-section-number">4.2.1</span> Plotting order</h4>
+<p>With all of the plots in this section, it really doesn’t matter what order we plot the variables in as they are nominal variables. There is no order of presentation for programme which makes more logical sense than any other. However, the same is not true for ordered categorical variables.</p>
+</div>
+</div>
+<div id="ordinal-categorical-variables" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Ordinal Categorical Variables</h3>
+<p>For ordered categorical data, our primary tool for visualization is the same as for the binary and nominal variables - the bar plot. However, here, order matters for reasons that should be clear from the lecture. Unlike nominal categorical variables, order does matter and we want to preserve this in our visualizations.</p>
+<p>Remember, with an ordered categorical variable we often assume that the data we observe come from a truly normally distributed variable, but that our measurements are coarsely categorized. For the purpose of our generated data, let’s create a variable, <code>fitness</code>, that is individuals self-rated fitness level on a scale of 1-8:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">norm &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="co"># start by creating a random normal variable</span>
+initial_fitness &lt;-<span class="st"> </span><span class="kw">cut</span>(norm, <span class="dv">8</span>)
+initial_fitness &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(initial_fitness)</code></pre></div>
+<p>Here we first cut our normally distributed variable into 8 categories, and then told <code>R</code> that this new variable <code>initial_fitness</code> was numeric. However, in <code>R</code>, we can easily put functions within other functions, so we could have written the same thing as:</p>
+<p><code>initial_fitness &lt;- as.numeric(cut(norm, 8))</code></p>
+<p>Look out for this as we go through the practical.</p>
+<p>In the second line, we have used the <code>cut()</code> function to create 8 equally sized groups from our normally distributed variable. These represent our coarse divisions of an underlying normal variable. We use <code>as.numeric()</code> to tell <code>R</code> we want to treat this variable as if it were numeric, not as a factor.</p>
+<p><strong>Remember</strong>: There is much debate about whether coarsely categorized variables should be treated as continuous or not. This is an important decision you will have to make in your own analyses and you will need to make sure you have told <code>R</code> what type of variable each variable in your data set is. As an aside, if you want to check what <code>R</code> thinks each variable is, you can use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(initial_fitness)</code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<p>We can see how the distribution of our variables degrades when we coarsely categorize <code>norm</code> by using histograms.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Look at the histograms of <code>norm</code> and <code>initial_fitness</code>. If you’ve been using <code>plot()</code> until now, this time use <code>hist()</code>)</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">hist</span>(norm)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-141-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">hist</span>(initial_fitness)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-141-2.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>With 8 categories, this does not look too bad, but what would it look like if we used say 4 categories? Check this out, create a new variable with a different name, and use the <code>cut()</code> function and the continuous variable <code>norm</code> to categorize it. Then plot it on a bar chart.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">barplot</span>(<span class="kw">table</span>(<span class="kw">as.numeric</span>(<span class="kw">cut</span>(norm, <span class="dv">4</span>))), <span class="dt">xlab =</span> <span class="st">&quot;Categorised fitness&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-142-1.png" width="672" /></p>
+<p>Now let’s add <code>initial_fitness</code> to the data set. We could just attach it as it is, but to show you another method to manipulate your data, let’s jumble up the order a bit using <code>sample()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness &lt;-<span class="st"> </span><span class="kw">sample</span>(initial_fitness, <span class="dv">100</span>, <span class="dt">replace =</span> F)</code></pre></div>
+<p><strong>Time to Think</strong>: We have used <code>sample()</code> before. Have a go at describing what we are doing with sample here. <em>Hint: </em>use <code>?sample</code> and focus on size we have requested (given sample size), and what it might mean to not replace values.</p>
+<p>We can then compare the first few lines to see we have jumbled it up, and the cell frequencies to show this is all we have done;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(initial_fitness)</code></pre></div>
+<pre><code>## [1] 4 5 6 3 7 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(fitness)</code></pre></div>
+<pre><code>## [1] 4 6 3 4 8 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(initial_fitness)</code></pre></div>
+<pre><code>## initial_fitness
+##  1  2  3  4  5  6  7  8 
+##  5  7 15 22 22 20  8  1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(fitness)</code></pre></div>
+<pre><code>## fitness
+##  1  2  3  4  5  6  7  8 
+##  5  7 15 22 22 20  8  1</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Let’s add it to our other data.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>fitness &lt;-<span class="st"> </span>fitness <span class="co"># add fitness</span></code></pre></div>
+</div>
+<div id="continuous-variables" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Continuous Variables</h3>
+<p>In some cases our variables will truly be continuously measured on a ratio scale. When this is the case, we can visualize the distribution of the variable in a number of ways. We can use a histogram, but in doing so we need to decide how many bins to use. Alternatively, we can use a kernel density plot. We have gone over a number of examples of this slowly, so let’s do this in one quick hit of code.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a normally distributed variable <code>weight</code> (let’s say in kg, with mean = 81 and <em>SD</em> = 12) in <code>data</code> and plot it on a histogram.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">data<span class="op">$</span>weight &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">81</span>, <span class="dv">12</span>), <span class="dt">replace =</span> F)
+<span class="kw">hist</span>(data<span class="op">$</span>weight)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now try creating a density plot of the variable.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">density</span>(data<span class="op">$</span>weight))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-147-1.png" width="672" /></p>
+</div>
+</div>
+<div id="scatterplots-visualizing-associations" class="section level2">
+<h2><span class="header-section-number">4.3</span> Scatterplots: Visualizing associations</h2>
+<p>Sometimes we might want to use plots to look at the relations between variables. We will cover lots of different types of plots to do this as the course progresses (particularly plots which help check assumptions in GLM). As a simple case, consider looking at the relationship between two continuous variables. We already have two variables we are treating as continuous in our data, Fitness and Weight.</p>
+<p>This time, instead of giving plot a single variable, we give it two. Again, it is smart enough to know what to do with these data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(data<span class="op">$</span>fitness, data<span class="op">$</span>weight)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-148-1.png" width="672" /></p>
+<p><strong>Time to Think</strong>: Although we are treating <code>fitness</code> as continuous, this scatterplot looks odd. Why do you think this is?</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Instead of using the categorized variable <code>fitness</code>, why don’t we use the <code>norm</code> instead. Though not in your data set, this is still in your <code>R</code> environment (look down the values list in the top right).</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(norm, data<span class="op">$</span>weight)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-149-1.png" width="672" /></p>
+</div>
+<div id="boxplots-visualizing-group-differences" class="section level2">
+<h2><span class="header-section-number">4.4</span> Boxplots: Visualizing group differences</h2>
+<p>So, the scatterplot gives us the association between two variables, but what about comparing the mean score on a continuous variable given a categorical variable. This type of plot is very useful if you are conducting a <em>t</em>-test (next week!). You have in fact already done this in the first lab, so this code should seem familiar and we wont linger on it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># I am using this here to remind myself how each of the variables is named in data</span>
+<span class="kw">names</span>(data)</code></pre></div>
+<pre><code>## [1] &quot;programme&quot; &quot;over18&quot;    &quot;sport&quot;     &quot;fitness&quot;   &quot;weight&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boxplot</span>(weight<span class="op">~</span>programme, <span class="dt">data =</span> data)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-150-1.png" width="672" /></p>
+</div>
+<div id="descriptive-statistics" class="section level2">
+<h2><span class="header-section-number">4.5</span> Descriptive Statistics</h2>
+<p>As well as the basics of plotting, it is also useful to be able to produce basic descriptive statistics for the variables in your data set. So let’s look at the options for this. My preference for descriptive statistics is to use the <code>describe()</code> function in the <code>psych</code> package. This is simple to use.</p>
+<div class="noteBox">
+<title>
+An aside on packages
+</title>
+<p>We talked about how functions in <code>R</code> are just objects with a bunch of code inside. Therefore, there must be some code somewhere that creates these objects. Packages are basically libraries of functions that define these objects. Many of them come as part of basic installation of <code>R</code> and even more are available on the internet (the repository of all tested <code>R</code> packages is called CRAN). If you want to see a list of the packages currently installed on your computer, type <code>installed.packages()</code>.</p>
+<p>To install a package, use the <code>install.package()</code> function. It takes as the only required argument the name of the package in double quotes, <em>e.g.,</em> <code>install.package(&quot;psych&quot;)</code>. You only have to install a package once so if you want this command in your script, comment it out <em>after first use</em> (by potting <code>#</code> at the beginning of the line). This way it won’t run every time you run your code!</p>
+<p>Once a package is installed on your computer, the files that define the functions contained in the package will be made available to <code>R</code>. However, if you want to use them yourself, you need to <strong>load</strong> the package. To load <em>an installed package</em>, use the <code>library()</code> function, giving it the name of the package as argument: <code>library(psych)</code></p>
+<p>Once you load a package, you will be able to use its functions just like any other function you’ve already used.</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;psych&quot;)</span>
+<span class="kw">library</span>(psych)
+<span class="kw">describe</span>(data)</code></pre></div>
+<pre><code>##            vars   n  mean    sd median trimmed   mad   min    max range
+## programme*    1 100  1.66  0.48   2.00    1.70  0.00  1.00   2.00  1.00
+## over18*       2 100  1.80  0.40   2.00    1.88  0.00  1.00   2.00  1.00
+## sport*        3 100  2.84  1.50   3.00    2.80  1.48  1.00   5.00  4.00
+## fitness       4 100  4.46  1.61   5.00    4.51  1.48  1.00   8.00  7.00
+## weight        5 100 79.84 11.88  78.99   79.62 10.42 53.85 112.97 59.12
+##             skew kurtosis   se
+## programme* -0.67    -1.57 0.05
+## over18*    -1.48     0.19 0.04
+## sport*      0.20    -1.38 0.15
+## fitness    -0.26    -0.55 0.16
+## weight      0.23    -0.12 1.19</code></pre>
+<p>However, as you can see, <code>psych</code> reports the arithmetic mean, <em>SD</em>, and <em>SE</em> for all variables, even those which are factors. We can tell which <code>psych</code> and R are treating as factors as a * appears after the name of the variable on the left.</p>
+<p><code>psych</code> does give us the median, minimum and maximum values, range, skew and kurtosis - so it is doing pretty well in describing our data. But we may want a couple of other things.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># as we have seen, this gives frequencies</span>
+<span class="kw">table</span>(data<span class="op">$</span>programme) </code></pre></div>
+<pre><code>## 
+##  Psychology Linguistics 
+##          34          66</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we can use quantile to give us the values at a given percentile of our variable</span>
+<span class="co"># here we select the 25th and 75th</span>
+<span class="kw">quantile</span>(data<span class="op">$</span>weight, <span class="kw">c</span>(.<span class="dv">25</span>, .<span class="dv">75</span>))</code></pre></div>
+<pre><code>##      25%      75% 
+## 72.01751 86.04928</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we could also use this to get the inter-quartile range</span>
+lower &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">quantile</span>(data<span class="op">$</span>weight, <span class="kw">c</span>(.<span class="dv">25</span>)))
+upper &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">quantile</span>(data<span class="op">$</span>weight, <span class="kw">c</span>(.<span class="dv">75</span>)))
+IQR &lt;-<span class="st"> </span>upper<span class="op">-</span>lower
+IQR</code></pre></div>
+<pre><code>## [1] 14.03177</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we can also get the mode. For multiple category variables, </span>
+<span class="co"># we just want the largest value from the 2nd row of table()</span>
+<span class="kw">table</span>(data[, <span class="dv">4</span>])</code></pre></div>
+<pre><code>## 
+##  1  2  3  4  5  6  7  8 
+##  5  7 15 22 22 20  8  1</code></pre>
+<p>Sometimes we may want to create our own table of results that includes the appropriate statistics given our variables. Let’s have a go.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first job, lets create an empty 2x2 matrix</span>
+empty &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">2</span>)
+<span class="kw">colnames</span>(empty) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Mean&quot;</span>, <span class="st">&quot;Skew&quot;</span>) <span class="co"># and then give the columns names</span>
+<span class="kw">rownames</span>(empty) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Weight&quot;</span>, <span class="st">&quot;Fitness&quot;</span>) <span class="co"># and the rows names</span>
+empty <span class="co"># and lets take a look</span></code></pre></div>
+<pre><code>##         Mean Skew
+## Weight    NA   NA
+## Fitness   NA   NA</code></pre>
+<p>Now let’s put some values in. First we need to compute the statistics (here I will use <code>describe()</code>, save the output as an object, and then use indexing to isolate the values of interest and enter them into our empty table:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">descriptive &lt;-<span class="st"> </span><span class="kw">describe</span>(data)
+descriptive <span class="co"># so lets take the mean of weight. </span></code></pre></div>
+<pre><code>##            vars   n  mean    sd median trimmed   mad   min    max range
+## programme*    1 100  1.66  0.48   2.00    1.70  0.00  1.00   2.00  1.00
+## over18*       2 100  1.80  0.40   2.00    1.88  0.00  1.00   2.00  1.00
+## sport*        3 100  2.84  1.50   3.00    2.80  1.48  1.00   5.00  4.00
+## fitness       4 100  4.46  1.61   5.00    4.51  1.48  1.00   8.00  7.00
+## weight        5 100 79.84 11.88  78.99   79.62 10.42 53.85 112.97 59.12
+##             skew kurtosis   se
+## programme* -0.67    -1.57 0.05
+## over18*    -1.48     0.19 0.04
+## sport*      0.20    -1.38 0.15
+## fitness    -0.26    -0.55 0.16
+## weight      0.23    -0.12 1.19</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">descriptive[<span class="dv">5</span>, <span class="dv">3</span>] <span class="co"># which is in the fifth row, third column.</span></code></pre></div>
+<pre><code>## [1] 79.84445</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># now we can add this to our matrix</span>
+empty[<span class="dv">1</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span>descriptive[<span class="dv">5</span>, <span class="dv">3</span>]
+empty</code></pre></div>
+<pre><code>##             Mean Skew
+## Weight  79.84445   NA
+## Fitness       NA   NA</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Finish this table by adding the other three values. If you want an extra challenge, edit the code to add a third column for the standard deviation of the mean (<code>sd</code> column in the <code>describe()</code> output). Put this column between the <code>Mean</code> and <code>Skew</code> columns of <code>empty</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># we can do </span>
+empty[<span class="dv">2</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span>descriptive[<span class="dv">4</span>, <span class="dv">3</span>]
+empty[<span class="dv">1</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span>descriptive[<span class="dv">5</span>, <span class="dv">12</span>]
+empty[<span class="dv">2</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span>descriptive[<span class="dv">4</span>, <span class="dv">12</span>]
+empty &lt;-<span class="st"> </span><span class="kw">cbind</span>(empty[ , <span class="dv">1</span>], descriptive<span class="op">$</span>sd[<span class="dv">5</span><span class="op">:</span><span class="dv">4</span>], empty[ , <span class="dv">2</span>])
+<span class="kw">colnames</span>(empty) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Mean&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;Kurtosis&quot;</span>)
+empty <span class="co"># output is a matrix</span></code></pre></div>
+<pre><code>##             Mean        SD   Kurtosis
+## Weight  79.84445 11.875848 -0.1181091
+## Fitness  4.46000  1.610697 -0.5537514</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># this also works</span>
+empty &lt;-<span class="st"> </span>descriptive[<span class="dv">5</span><span class="op">:</span><span class="dv">4</span>, <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">12</span>)]
+<span class="kw">names</span>(empty) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Mean&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;Kurtosis&quot;</span>)
+<span class="kw">row.names</span>(empty) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Weight&quot;</span>, <span class="st">&quot;Fitness&quot;</span>)
+empty <span class="co"># output is a data frame</span></code></pre></div>
+<pre><code>##          Mean    SD Kurtosis
+## Weight  79.84 11.88    -0.12
+## Fitness  4.46  1.61    -0.55</code></pre>
+</div>
+<div id="more-advanced-plotting" class="section level2">
+<h2><span class="header-section-number">4.6</span> More advanced plotting</h2>
+<p>OK, now we have, at some length in both labs 1 and 2, looked at the basic forms of plots in R and some basic skills of manipulating and using objects in R. Now let’s start adding a bit of finesse to our plots and some additional features. The examples below are in no way exhaustive of the HUGE variety of things you can do with plots in R, but they should give you a feel for what is possible.</p>
+<p>Let’s start with our scatterplot from above and add some basic options.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Let&#39;s start with labels</span>
+<span class="kw">plot</span>(norm, data[, <span class="dv">5</span>], <span class="dt">main =</span> <span class="st">&quot;Association Between </span><span class="ch">\n</span><span class="st">Fitness and Weight&quot;</span>, 
+     <span class="dt">xlab =</span> <span class="st">&quot;Fitness Normal Distribution&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Weight&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-156-1.png" width="672" /></p>
+<p>As something new, we can use the <code>\n</code> to split titles across multiple lines. Now how about adding bold and italics to labels? We can do this with <code>expression</code>;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(norm, data[, <span class="dv">5</span>], <span class="dt">main =</span> <span class="st">&quot;Association Between </span><span class="ch">\n</span><span class="st">Fitness and Weight&quot;</span>, 
+     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">bold</span>(Fitness<span class="op">~</span>Normal<span class="op">~</span>Distribution)), 
+     <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">italic</span>(Weight)))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-157-1.png" width="672" /></p>
+<p>Note, when using <code>expression()</code>, we need to use a <code>~</code> to connect words. Given the plot above, use what you learnt last week to change the colour, size and symbol used for all the points.</p>
+<div id="pinpointing-data" class="section level3">
+<h3><span class="header-section-number">4.6.1</span> Pinpointing data</h3>
+<p>OK, now let’s see how we can pick out single points, and include plots for multiple groups. So, to identify a single point (or multiple points), we want to create an object which gives the x and y coordinates of the points;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y_coord &lt;-<span class="st"> </span>data<span class="op">$</span>weight[<span class="dv">90</span>] <span class="co">#take 90th element in weight</span>
+x_coord &lt;-<span class="st"> </span>norm[<span class="dv">90</span>] <span class="co"># take 90th element in norm</span>
+
+<span class="co"># create a vector of weight values for elements 1 to 10</span>
+y2_coord &lt;-<span class="st"> </span>data<span class="op">$</span>weight[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]
+x2_coord &lt;-<span class="st"> </span>norm[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>] <span class="co"># and the same for norm</span>
+
+<span class="kw">plot</span>(norm, data[, <span class="dv">5</span>], <span class="dt">main =</span> <span class="st">&quot;Association Between </span><span class="ch">\n</span><span class="st">Fitness and Weight&quot;</span>, 
+     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">bold</span>(Fitness<span class="op">~</span>Normal<span class="op">~</span>Distribution)),
+     <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">italic</span>(Weight)))
+<span class="co"># we can then use points to adjust particular points give the co-ordinates above</span>
+<span class="kw">points</span>(x_coord, y_coord, <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+<span class="kw">points</span>(x2_coord, y2_coord, <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> <span class="st">&quot;green&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-158-1.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Using xy.coords can be a little tricky at times. Look up the function <code>identify()</code> and see if you can do the same thing.</p>
+<p> </p>
+<p>So that is individual points, now how about 2 groups on the same plot. Let’s have the points for psychologists and linguists coloured differently on our scatterplot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(norm, data[, <span class="dv">5</span>], <span class="dt">main =</span> <span class="st">&quot;Association Between </span><span class="ch">\n</span><span class="st">Fitness and Weight&quot;</span>, 
+     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">bold</span>(Fitness<span class="op">~</span>Normal<span class="op">~</span>Distribution)),
+     <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">italic</span>(Weight)), 
+     <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>)[data<span class="op">$</span>programme])</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-159-1.png" width="672" /></p>
+<p>Here we use <code>data$programme</code> to index the colour vector. Provided the variable we use is a factor, and the length of the <code>col</code> vector matches the number of levels, this will work for us.</p>
+<p>Now we have different coloured points on the plot, we had better add a legend to explain what they are. So;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(norm, data[, <span class="dv">5</span>], <span class="dt">main =</span> <span class="st">&quot;Association Between </span><span class="ch">\n</span><span class="st">Fitness and Weight&quot;</span>, 
+     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">bold</span>(Fitness<span class="op">~</span>Normal<span class="op">~</span>Distribution)),
+     <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">italic</span>(Weight)), 
+     <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Psychology&quot;</span>, <span class="st">&quot;Linguistics&quot;</span>),
+       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">15</span>))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-160-1.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Look at <code>?legend</code>, and think through why we have put in all the elements we have. Particularly think about why we have used <code>c()</code> to create the different column vectors. As a practice task, change the points symbols and colours in the plot and legend, and move the legend to a different location.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(norm, data[, <span class="dv">5</span>], <span class="dt">main =</span> <span class="st">&quot;Association Between </span><span class="ch">\n</span><span class="st">Fitness and Weight&quot;</span>, 
+     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">bold</span>(Fitness<span class="op">~</span>Normal<span class="op">~</span>Distribution)),
+     <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">italic</span>(Weight)), 
+     <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;purple&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))
+<span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Psychology&quot;</span>, <span class="st">&quot;Linguistics&quot;</span>),
+       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;purple&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>), <span class="dt">pch =</span> <span class="dv">20</span>, 
+       <span class="dt">bty=</span><span class="st">&quot;n&quot;</span>) <span class="co"># gets rid of the box around legent (box type = none)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-161-1.png" width="672" /></p>
+<p><em>Hint: </em>Look up the help for the function <code>locator()</code>. This has multiple uses, much like <code>identify()</code>, and may be of use when producing your own plots.</p>
+<p> </p>
+<p>One last thing, lets add some lines to our scatterplot. There are multiple reasons why we may want to add lines. Below I add regression lines for psychologists and linguists (more about this in the GLM lectures), vertical and horizontal lines, and curved loess fit lines. Clearly, we would never want all these on one plot, but this is simply to show what can be done. So;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(norm, data[, <span class="dv">5</span>], <span class="dt">main =</span> <span class="st">&quot;Association Between </span><span class="ch">\n</span><span class="st">Fitness and Weight&quot;</span>, 
+     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">bold</span>(Fitness<span class="op">~</span>Normal<span class="op">~</span>Distribution)),
+     <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">italic</span>(Weight)), 
+     <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Psychology&quot;</span>, <span class="st">&quot;Linguistics&quot;</span>),
+       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">15</span>))
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>, <span class="dt">col =</span> <span class="st">&quot;green&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>) <span class="co"># vertical line at norm = 0</span>
+<span class="co"># horizontal line at weight = 100</span>
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">100</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">lty =</span> <span class="dv">5</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="co"># regression line linguists</span>
+<span class="kw">abline</span>(<span class="kw">lm</span>(data[, <span class="dv">5</span>]<span class="op">~</span>norm, <span class="dt">subset =</span> data<span class="op">$</span>programme<span class="op">==</span><span class="st">&quot;Linguistics&quot;</span>),
+       <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="co"># regression line psychologists</span>
+<span class="kw">abline</span>(<span class="kw">lm</span>(data[, <span class="dv">5</span>]<span class="op">~</span>norm, <span class="dt">subset =</span> data<span class="op">$</span>programme<span class="op">==</span><span class="st">&quot;Psychology&quot;</span>),
+       <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="co"># lowess line of best fit</span>
+<span class="kw">lines</span>(<span class="kw">lowess</span>(norm, data[, <span class="dv">5</span>]), <span class="dt">col =</span> <span class="st">&quot;purple&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-162-1.png" width="672" /></p>
+</div>
+<div id="customising-plots" class="section level3">
+<h3><span class="header-section-number">4.6.2</span> Customising plots</h3>
+<p>As noted above, many of the plotting features are general across types of plot. One of the last things we should look at is changing the axes on a plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(data<span class="op">$</span>weight, <span class="dt">main =</span> <span class="st">&quot;Histogram for Weight&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-163-1.png" width="672" /></p>
+<p>So this plot now has some pretty colours, but our axes don’t look very good. The x and y axes don’t join for a start. So let’s get rid of these and draw them ourself:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(data<span class="op">$</span>weight, <span class="dt">main =</span> <span class="st">&quot;Histogram for Weight&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, 
+     <span class="dt">axes =</span> F) <span class="co"># this line removes the axes from the plot</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-164-1.png" width="672" /></p>
+<p>And now we can add some new ones using <code>axis()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(data<span class="op">$</span>weight, <span class="dt">main =</span> <span class="st">&quot;Histogram for Weight&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, 
+     <span class="dt">axes =</span> F) <span class="co"># this puts an L shaped box (2 sides) onto our plot</span>
+<span class="kw">box</span>(<span class="dt">bty =</span> <span class="st">&quot;L&quot;</span>)
+<span class="co"># we can use axis for each side to put the default check marks back</span>
+<span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">xpd =</span> T)
+<span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>, <span class="dt">xpd =</span> T)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-165-1.png" width="672" /></p>
+<p> </p>
+<p>If we want to plot two density plots for two groups on the same plot, there is a useful function in the <code>sm</code> package to help us (we can use all the normal graphical parameters here:</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Install and load the package <code>sm</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co">#install.packages(&quot;sm&quot;)</span>
+<span class="kw">library</span>(sm)</code></pre></div>
+<p> </p>
+<p>This is how it’s done:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sm.density.compare</span>(data<span class="op">$</span>weight, data<span class="op">$</span>programme, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">levels</span>(data<span class="op">$</span>programme), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-167-1.png" width="672" /></p>
+<p> </p>
+</div>
+</div>
+<div id="multiple-plots-in-one" class="section level2">
+<h2><span class="header-section-number">4.7</span> Multiple Plots in One</h2>
+<p>So we have now done some fancy things with the basic plots for different types of data. There is one more step that is important to highlight to you with respect to plotting in R. Not only can we have quite fine control over the plots themselves, we can also control the space that the plots are drawn in. The way in which we do this is by adjusting the basic graphical parameters. So let’s follow through a simple example of plotting two plots on top of each other. We will use the code developed above for the plots, so all we need to worry about here is adjusting the space.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first we use the mfrow command to tell R we want to divide the plotting space</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))
+<span class="co"># then we give it the two plots. </span>
+<span class="co"># Automatically the first set of code plots the top plot, </span>
+<span class="co"># the second the lower plot</span>
+<span class="kw">sm.density.compare</span>(data<span class="op">$</span>weight, data<span class="op">$</span>programme, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">levels</span>(data<span class="op">$</span>programme), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))
+
+<span class="kw">hist</span>(data<span class="op">$</span>weight, <span class="dt">main =</span> <span class="st">&quot;Histogram for Weight&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-168-1.png" width="672" /></p>
+<div class="noteBox">
+<h5 id="plot-margins-too-small"><span class="header-section-number">4.7</span> Plot margins too small?</h5>
+<p>If you get an error complaining about plot margins being too small, that is beause the plotting window in the bottom right panel of your RStudio is, well, too small for the plot to be rendered. Making it bigger should help.</p>
+</div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Use everything you’ve learnt today to create this figure with four plots.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># first we use the mfrow command to tell R we want to divide the plotting space</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))
+<span class="co"># then we give it the two plots. </span>
+<span class="co"># Automatically the first set of code plots the top plot, </span>
+<span class="co"># the second the lower plot</span>
+<span class="kw">sm.density.compare</span>(data<span class="op">$</span>weight, data<span class="op">$</span>programme, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">levels</span>(data<span class="op">$</span>programme), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))
+
+<span class="kw">hist</span>(data<span class="op">$</span>weight, <span class="dt">main =</span> <span class="st">&quot;Histogram for Weight&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;darkred&quot;</span>)
+<span class="kw">plot</span>(data<span class="op">$</span>programme, <span class="dt">main =</span> <span class="st">&quot;Bar chart for Programme&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;darkblue&quot;</span>)
+<span class="kw">boxplot</span>(data<span class="op">$</span>weight <span class="op">~</span><span class="st"> </span>data<span class="op">$</span>programme , <span class="dt">main =</span> <span class="st">&quot;Boxplot for Weight by Programme&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-169-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</code></pre></div>
+<p>Sometimes we may want more space on one side of our plot. If this is the case, we need to change the margins in the plotting space. We do this within <code>par()</code> as well. First though, it can be useful to see what our actual margins are. We can see this by simply typing <code>par()</code>. This produces quite a lot of output as it lists all the graphical parameters settings. But we can just look at the margins using;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check &lt;-<span class="st"> </span><span class="kw">par</span>()
+check<span class="op">$</span>mar</code></pre></div>
+<pre><code>## [1] 5.1 4.1 4.1 2.1</code></pre>
+<p>Here you have four numbers corresponding to the sides of the plot</p>
+<ul>
+<li>1 = bottom = 5.1</li>
+<li>2 = left = 4.1</li>
+<li>3 = top = 4.1</li>
+<li>4 = right = 2.1</li>
+</ul>
+<p>To change the margins we simple add;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first we use the mfrow command to tell R we want to divide the plotting space</span>
+<span class="co"># then change margins</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+
+<span class="co"># once graphical parameters are changed, you can create plots</span>
+<span class="kw">sm.density.compare</span>(data<span class="op">$</span>weight, data<span class="op">$</span>programme,
+                   <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">levels</span>(data<span class="op">$</span>programme), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))
+
+<span class="kw">hist</span>(data<span class="op">$</span>weight, <span class="dt">main =</span> <span class="st">&quot;Histogram for Weight&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Weight&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-171-1.png" width="672" /></p>
+<p>You can see that these are not very good settings. We have lost the title on the top plot, and we have lost the axes labels on the left hand side. However, this does shows you the basics of how to adjust the margins. We will want to set out plotting space back to the default. We do this by simply clicking the “Clear All” option on the plotting screen.</p>
+<p>That wraps up the tutorial part of the lab for now. We will do more with plotting in the course of future labs, but for now, this will do us.</p>
+</div>
+<div id="lets-put-all-this-into-practice" class="section level2">
+<h2><span class="header-section-number">4.8</span> Let’s put all this into practice</h2>
+<p>Start a new project called something like “Lab 4 Real Data”. This will make it easier to reference back to your project code (above) when answering the questions.</p>
+<p>In all the examples above, we have been using randomly generated data. Now let’s (assume!!) we have got some real data (<em>i.e.</em>, you have not seen me simulate it).</p>
+<p>So, let’s get practising, describing and visualizing our data. First, read the data into R. Look back at the instructions from week 2 if you can not remember how to do this. The data is a .csv file, so you can also look at <code>?read.csv</code>. The data set is saved on LEARN in the Week 4 folder.</p>
+<p>OK, so now I have a list of tasks. All of these should be achievable by looking at the code above and adjusting it for the new names of variables, size of the data set, <em>etc</em>.</p>
+<p>First, here is some information about the variables. You will notice there is very little useful labelling in the data set.</p>
+<div id="code-book" class="section level3">
+<h3><span class="header-section-number">4.8.1</span> Code Book</h3>
+<p>Variables in the order they appear in the data set:</p>
+<ol style="list-style-type: decimal">
+<li>Daily energy expenditure (vigorous activity)</li>
+<li>Daily energy expenditure (light activity)</li>
+<li>Programme (0 = Linguistics; 1 = Psychology)</li>
+<li>BDNF-alpha genotype (0 = Risk Allele Not Present ; 1 = Risk Allele Present)</li>
+<li>Attitude to exercise (1-8; 1 = lowest, 8 = highest)</li>
+</ol>
+</div>
+<div id="questions" class="section level3">
+<h3><span class="header-section-number">4.8.2</span> Questions</h3>
+<ol style="list-style-type: decimal">
+<li>Add an ID to the data set. <em>Hint: </em>see Week 2 lab</li>
+<li>Name all variables.</li>
+<li>Add labels to the <code>programme</code> and <code>BDNF-alpha</code> variables.</li>
+<li>Produce a descriptives table with appropriate measures of central tendency and a column for sample size.</li>
+<li>Produce a frequency plot for Attitude to Exercise and a density plot for Daily energy expenditure (vigorous).</li>
+<li>Plot the association between Daily energy expenditure vigorous activity and light activity.</li>
+<li>Produce a plot to show the relative frequencies of BDNF-alpha risk alleles among psychologists and linguists.</li>
+<li>Produce a plot comparing the densities of daily energy expenditure (light activity) in psychologists and linguists.</li>
+<li>Combine these four plots into one figure.</li>
+</ol>
+<p> </p>
+<p><strong>Good luck!</strong></p>
+<p> </p>
+<p> </p>
+
+</div>
+</div>
+<div id="lab-4-ggplot" class="section level2">
+<h2><span class="header-section-number">4.9</span> Lab 4 GGPLOT</h2>
+<div id="introduction-1" class="section level3">
+<h3><span class="header-section-number">4.9.1</span> Introduction</h3>
+<p>Hopefully by now you are starting to see the power of <code>R</code> and the benefits of using such a tool compared to something like SPSS. Once you have mastered some basics you have the skills to go on and complete any number of tasks that wouldn’t be possible without having a full programming environment to work in. The real beauty of <code>R</code> is a combination of it being free to use and the package system for accessing ready-made functions/procedures for completing tasks. We rarely have to start from scratch if we have a complicated task we want to carry out using <code>R</code> (there is most probably a package for it), and if we don’t like the way some things are done by default we don’t have to accept it (there is most probably a package that does it differently). One such example of the second situation is visualising data using the <code>plot()</code> family of functions that is part of the base <code>R</code> installation. While plot can be made to do almost anything you could want it to do, there are alternatives. A package that provides an alternative option for plotting data is <a href="http://ggplot2.org/">ggplot2</a> by Hadley Wickham.</p>
+</div>
+<div id="ggplot2" class="section level3">
+<h3><span class="header-section-number">4.9.2</span> <code>ggplot2</code></h3>
+<p>The syntax for building a graphic in <code>ggplot2</code> is different from the basic <code>plot()</code> method. Some of you may prefer it, some may not. The point is to use this is an example of how - by using <code>R</code> - we are not forced to do things a certain way but instead can pick from different options (or create our own).</p>
+<p>Go ahead and install <code>ggplot2</code> and load the library.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;ggplot2&quot;)</span>
+<span class="kw">library</span>(ggplot2)</code></pre></div>
+<p>Now, some data to work with.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;gcookbook&quot;)</span>
+<span class="co"># install.packages(&quot;Ecdat&quot;)</span>
+<span class="kw">library</span>(gcookbook)
+<span class="kw">library</span>(Ecdat)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We can now access a bunch of datasets that are included in these packages.</span>
+<span class="kw">data</span>() <span class="co"># provides a list of datasets currently accessible in your R environment</span></code></pre></div>
+<p>You should see a list of usable datasets under a tab in the editor section of Rstudio (top-left by default). You can use the standard help method to get information on these datasets <em>e.g.,</em> <code>?aapl ?Star</code>.</p>
+</div>
+<div id="qplot" class="section level3">
+<h3><span class="header-section-number">4.9.3</span> <code>qplot()</code></h3>
+<p>We will start our exploration of <code>ggplot2</code> with the <strong><code>qplot()</code></strong> function. <code>qplot()</code> works just like <code>plot()</code> in that it is usually very smart and creates the type of plot you want based on the input. For example, when we pass <code>qplot()</code> a single continuous variable it assumes we want a histogram.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data =</span> Star, tmathssk, <span class="dt">binwidth =</span> <span class="dv">25</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-175-1.png" width="672" /></p>
+<p>If we give <code>qplot()</code> two numeric variables then it produces a scatterplot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data =</span> Star, tmathssk, treadssk)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-176-1.png" width="672" /></p>
+<p>If we provide a single factor variable we get a ‘bar chart’ showing the counts for each level of the factor.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data =</span> Star, classk)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-177-1.png" width="672" /></p>
+<p>Many of the optional arguments we have played with so far in our <code>plot()</code> figures have an equivalent in <code>ggplot2</code>. Take this plot for example where we use variable mapping to colour points based on levels of a factor:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data =</span> Star, tmathssk,  treadssk, <span class="dt">colour =</span> sex)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-178-1.png" width="672" /></p>
+<p>There are plenty of other options and <code>qplot()</code> is clever enough to figure out what king of plot you probably have in mind depending on which arguments you specify. Take for example the fill option: if you specify the fill colour, it will figure out that you are probably looking for a barchart.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data =</span> Star, classk, <span class="dt">fill =</span> sex)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-179-1.png" width="672" /></p>
+<p>How about time-series type data such as the apple stock price information in the ‘aapl’ data. Notice the use of the <code>geom =</code> argument. Try it without this argument to see what qplot will do by default and why we might want to set <code>geom = &quot;line&quot;</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data =</span> aapl, date, adj_price, <span class="dt">geom =</span> <span class="st">&quot;line&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-180-1.png" width="672" /></p>
+</div>
+<div id="your-turn" class="section level3">
+<h3><span class="header-section-number">4.9.4</span> Your Turn</h3>
+<p>Using <code>qplot()</code> create the following plots:</p>
+<ol style="list-style-type: decimal">
+<li>Use the ‘mtcars’ dataset to produce a scatter plot visualising the relationship between horsepower and miles per gallon. Also make the points a different colour based on whether the car is an automatic or manual transmission. <em>think about types of variable and conversion methods</em></li>
+<li>Use the ‘worldpop’ dataset to plot a similar time-series illustration for the growth in world population over the timespan provided. Make your plot show a line describing the relationship but also include the specific points at each time point. You need to think about how you might provide two values to one of the arguments.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data =</span> mtcars, hp, mpg, <span class="dt">colour =</span> <span class="kw">factor</span>(am, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;auto&quot;</span>,<span class="st">&quot;manual&quot;</span>))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">colour =</span> <span class="st">&quot;Transmission&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-181-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data =</span> worldpop, Year, Population, <span class="dt">geom =</span> <span class="kw">c</span>(<span class="st">&quot;line&quot;</span>,<span class="st">&quot;point&quot;</span>))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-181-2.png" width="672" /></p>
+<p>There are many other features that can be used in conjunction with <code>qplot()</code> to get the plot needed. Feel free to use the help <code>?qplot</code> as well as other online resources to explore these more. Don’t be afraid to just try out changing some of the default values or by specifying extra arguments to simply observe the changes it creates. There is no better way to learn how to get the most out of ggplot than to execute code and observe the results.</p>
+<p>This section has served as a little introduction to <code>qplot()</code> but <code>ggplot()</code> is the meatier function in the <code>ggplot2</code> package. And it is to <code>ggplot()</code> that we now turn.</p>
+</div>
+<div id="using-ggplot" class="section level3">
+<h3><span class="header-section-number">4.9.5</span> Using <code>ggplot()</code></h3>
+<p>Using the <code>ggplot()</code> function creates a ggplot object within the <code>R</code> environment that is then parsed to create the plot we have defined. By using <code>ggplot()</code> rather than <code>qplot()</code> we can do a lot more. As an introduction to the syntax, let’s look at the code necessary to reproduce some of the plots shown above using <code>ggplot()</code> instead of <code>qplot()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Scatter plot between math and reading scores in the Star dataset.</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> Star) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> tmathssk, <span class="dt">y =</span> treadssk))
+<span class="co"># Bar chart showing frequencies of each level of the classk variable.</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> Star) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> classk))
+<span class="co"># Specifying fill within aes() to be the sex variable plots a barchart of classk by sex.</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> Star) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> classk, <span class="dt">fill =</span> sex))
+<span class="co"># Adding the position = &quot;dodge&quot; unstacks the bars.</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> Star) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> classk, <span class="dt">fill =</span> sex), <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)
+<span class="co"># Reproduce the scatter plot but colour points based on the sex variable.</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> Star) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> tmathssk, <span class="dt">y =</span> treadssk, <span class="dt">colour =</span> sex))
+<span class="co"># Time-Series view of the apple stock price</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> aapl) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> date, <span class="dt">y =</span> adj_price))</code></pre></div>
+<p>Try these in your <code>R</code> window and see that they produce the same plots as above. By using <code>ggplot()</code> we are now starting to use the layering approach to making our graphics.</p>
+<p>For the vast majority of our needs the following formula will work for us:</p>
+<pre><code>ggplot(data)
+   + geom_xxxx(aes())
+       + extra_option_1()
+           + extra_option_n()</code></pre>
+<p>We start by creating a ggplot object that contains the data we are going to be using <strong><code>ggplot(data)</code></strong>. We then need to tell ggplot what type of ‘thing’ we want to add to the plot in the form of a ‘geom’. We have already encountered <em><code>geom_point()</code>, <code>geom_line()</code>, and <code>geom_bar()</code></em> in the examples above. For a full list of available geoms see <a href="http://docs.ggplot2.org/current/">the documentation here</a>. Within the <strong><code>geom_xxxx()</code></strong> call we map variables to aesthetics within the <strong><code>aes()</code></strong> command.</p>
+<p><strong>Tip: Use <code>?geom_xxxx</code> to see what aesthetics can be set (some required, some optional)</strong></p>
+<p>Then we can build on the basic plot those steps create by adding other ‘geoms’ or options on top of that. Let’s put that in to action.</p>
+<p>The ‘movies’ dataset included in the ggplot2movies package contains information on over 50,000 films. Install the package if you haven’t aleady done so and load it. Use the help page (<code>?movies</code>) to see what some of the included variables are. Let’s use this dataset to create some plots summarising some of this information.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;ggplot2movies&quot;)</span>
+mov &lt;-<span class="st"> </span>ggplot2movies<span class="op">::</span>movies <span class="co"># puts movies in my environment so I can &#39;see&#39; it</span>
+
+mov<span class="op">$</span>cyear &lt;-<span class="st"> </span><span class="kw">cut</span>(mov<span class="op">$</span>year,<span class="dv">5</span>)
+mov<span class="op">$</span>cyear &lt;-<span class="st"> </span><span class="kw">factor</span>(mov<span class="op">$</span>cyear, <span class="dt">labels =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)
+<span class="co"># Here, we have added a categorical variable that reflects the age of the movies. </span>
+<span class="co"># The movies span a period of approx 100 years (range(mov$year)) so each level of </span>
+<span class="co"># the new cyear variable reflects approximately a 20-year window where 1 </span>
+<span class="co"># represents the oldest movies and 5 the newest movies.</span>
+
+<span class="co"># define our initial ggplot object with the data to use.</span>
+epic_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mov) 
+epic_plot <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> rating), <span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-182-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># confused by position = &quot;jitter&quot;, run the command without it and compare.</span>
+
+<span class="co"># We have a LOT of films in the more recent categories. We can use </span>
+<span class="co"># the alpha option to add transparency to the points to make it easier to see.</span>
+epic_plot <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> rating),
+                       <span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.1</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-182-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A boxplot might be more informative for summarising this data....but we </span>
+<span class="co"># want to keep the raw data points plotted also. We can add an additional </span>
+<span class="co"># layer to the plot:</span>
+epic_plot <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> rating), <span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> rating))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-182-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Notice that we have added to the plot we previously had, the addition </span>
+<span class="co"># of the geom_boxplot layer hasn&#39;t interfered with what came before it.</span>
+
+<span class="co"># Re-do that plot with some additional options to the boxplot_geom</span>
+epic_plot <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> rating),
+             <span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> rating),
+               <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">outlier.colour =</span> <span class="ot">NA</span>, <span class="dt">colour =</span> <span class="st">&quot;green&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-182-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Let&#39;s tidy up the labels so we can show off our plot</span>
+epic_plot <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> rating),
+             <span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> rating),
+               <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">outlier.colour =</span> <span class="ot">NA</span>, <span class="dt">colour =</span> <span class="st">&quot;green&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Film Quality Over Time&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;Year Quintile&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;IMDB User Rating&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-182-5.png" width="672" /></p>
+<p>Phew! That may have felt a bit long-winded because of the repeating code but in practice we wouldn’t have needed to repeat so much, we did it in more stages than necessary to learn from it. The principle of building up a graphic in layers is evident from this example.</p>
+<div class="noteBox">
+<h4 id="aesthetics"><span class="header-section-number">4.9.5</span> Aesthetics</h4>
+<p>Note that when we are mapping variables to aesthetics we put that code inside the <code>aes()</code>, but when we are setting an aesthetic property to a static value it goes outside the <code>aes()</code>.</p>
+</div>
+</div>
+<div id="your-turn-1" class="section level3">
+<h3><span class="header-section-number">4.9.6</span> Your Turn</h3>
+<p>Let’s have a closer look at whether film length might be related to user ratings.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># First inspect the length variable</span>
+<span class="kw">library</span>(psych)
+<span class="kw">describe</span>(mov<span class="op">$</span>length)</code></pre></div>
+<pre><code>##    vars     n  mean    sd median trimmed   mad min  max range  skew
+## X1    1 58788 82.34 44.35     90   84.63 17.79   1 5220  5219 31.07
+##    kurtosis   se
+## X1  3341.86 0.18</code></pre>
+<p> </p>
+<p>Some films in the database have extreme lengths (both short and long, look at the min and max). For the purposes of this exercise we will only look at standard film lengths and we will also narrow the data down to popular films (based on the number of ratings made). Execute the following commands:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mov &lt;-<span class="st"> </span><span class="kw">subset</span>(mov, length <span class="op">&gt;</span><span class="st"> </span><span class="dv">75</span> <span class="op">&amp;</span><span class="st"> </span>length <span class="op">&lt;</span><span class="st"> </span><span class="dv">200</span>)
+mov &lt;-<span class="st"> </span><span class="kw">subset</span>(mov, votes <span class="op">&gt;</span><span class="st"> </span><span class="dv">2000</span>)
+<span class="co"># use ?subset if you are unsure how this command works.</span>
+<span class="kw">describe</span>(mov<span class="op">$</span>length)</code></pre></div>
+<pre><code>##    vars    n   mean    sd median trimmed   mad min max range skew kurtosis
+## X1    1 3005 109.81 19.12    106  107.82 16.31  76 198   122 1.21     2.17
+##      se
+## X1 0.35</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describe</span>(mov<span class="op">$</span>votes)</code></pre></div>
+<pre><code>##    vars    n    mean       sd median trimmed     mad  min    max  range
+## X1    1 3005 9844.78 13204.39   5376 6984.08 4133.49 2001 149494 147493
+##    skew kurtosis     se
+## X1 4.35    26.73 240.88</code></pre>
+<p> </p>
+<p>Now that the <code>mov</code> dataset is restricted to only movies within our acceptable range of values, produce the following plots exactly as seen here:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">epic_plot_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mov)
+epic_plot_<span class="dv">2</span> <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> length), <span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> cyear, <span class="dt">y =</span> length),
+               <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">outlier.colour =</span> <span class="ot">NA</span>, <span class="dt">colour =</span> <span class="st">&quot;pink&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Movie Length Over Time&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;Year Quintile&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Movie Length (minutes)&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-185-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mov2 &lt;-<span class="st"> </span><span class="kw">subset</span>(mov, year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1980</span>)
+
+epic_plot_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mov2)
+epic_plot_<span class="dv">3</span> <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> length), <span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span><span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Film Length by Year (1980-2005)&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;Year Released&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Film Length (Minutes)&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-185-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">epic_plot_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mov)
+epic_plot_<span class="dv">4</span> <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> length, <span class="dt">y =</span> rating)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">x =</span> length, <span class="dt">y =</span> rating)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Relationship Between Movie Length and User Rating&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;Movie Length (minutes)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean IMDB User Rating&quot;</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-185-3.png" width="672" /></p>
+<p><strong>Tip: For the final plot look up <code>?geom_smooth</code></strong></p>
+<p> </p>
+<p>That’s it for now regarding <code>ggplot2</code> although we’ve only really scratched the surface of its potential. You are encouraged to keep exploring!</p>
+<p> </p>
+<p> </p>
+<p> </p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lab-5.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

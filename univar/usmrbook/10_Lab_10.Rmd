@@ -1,0 +1,301 @@
+```{r echo=FALSE}
+solution=TRUE
+# ctrl+F, replace display:none with display:block to hide/show solutions
+```
+
+# Lab 10
+
+``` {r, include = FALSE, eval = F}
+### if there is no fox.csv in course materials
+my.df <- data.frame(id = factor(sample(combn(LETTERS, 3, FUN = function(x) {paste(x, collapse = '')}), size)))
+### people who've declined have a different outcome
+my.df$home <- gl(3, 1, size, labels = c('country', 'suburban', 'urban'))
+my.df$spectrum <- round(rnorm(size, 0, 33), 0)
+
+fup <- -5 + (my.df$spectrum - min(my.df$spectrum)) / (diff(range(my.df$spectrum)) / 20)
+fup.2 <- exp(fup) / (1 + exp(fup))
+with(my.df, plot(spectrum[order(spectrum)], fup.2[order(spectrum)], type = 'l'))
+my.df$followup <- rbinom(size, 1, fup.2)
+with(my.df, points(spectrum, followup))
+m <- glm(followup ~ spectrum, data = my.df, family = binomial)
+### predict fox hunting from iq and environment (no diff betw urban & suburban)
+my.df$followup <- factor(my.df$followup, labels = c('N', 'Y'))
+country <- rep(0, size)
+country[my.df$home! = 'urban'] <- ifelse(my.df$home[my.df$home! = 'urban'] == 'suburban', .2, 2)
+my.df$prohunt <- 0*my.df$spectrum + 2*country + .02*country*my.df$spectrum
+my.df$prohunt[my.df$followup=='N'] <- min(my.df$prohunt) + rnorm(length(my.df$prohunt[my.df$followup=='N']), -2, .05)
+my.df$prohunt <- my.df$prohunt + rnorm(size, 0, 3)
+my.df$prohunt <- (my.df$prohunt - min(my.df$prohunt)) / diff(range(my.df$prohunt)) * 6 + 1
+plot(my.df$spectrum, my.df$prohunt, col = as.numeric(my.df$home))
+fox <- my.df
+fox <- fox[order(fox$id), ]
+fox$prohunt[sample(length(fox$prohunt), 2)] <- 0
+fox$spectrum[sample(length(fox$spectrum), 4)] <- -999
+fox$prohunt <- round(fox$prohunt, 2)
+save(fox, file = 'fox.Rdata')
+write.csv(fox, file = 'fox.csv', row.names = F)
+```
+
+```{r, include = F}
+size <- 412
+```
+
+**This lab is a little less guided, and a little more like the take-home exam.** The main thing to remember when carrying out an exercise like this is to make it clear *why* you made the decisions you made, either as a write-up or as comments (beginning with `#`) in the `R`\ code. There are no absolutely right or wrong answers, just sensible and less sensible things to try out!
+
+Take some time to read this document fully before getting started with any analyses. Think about each variable in the dataset in terms of what it measures and the type of data it provides.
+
+**Tip: **Don't be tempted to immediately run a certain model. Analysing a collected dataset is a process and these labs have been structured to illustrate many of the steps taken when analysing data 'for real'. Think about some of the exercises from past labs to generate ideas about the steps you want to take.
+
+## `apply` functions  
+
+There is one more bit of programming we'd like you to be familiar with -- the `apply()` family functions. These function take some data structure and apply any function to each element of that structure.
+
+To illustrate, let's look at `apply()`. Imagine I have a data frame like this:
+
+```{r}
+mat <- matrix(rnorm(100), ncol = 5)
+df <- data.frame(id = 1:20, mat)
+head(df)
+```
+
+let's say I want to know which of the `X1`-`X5` columns contains the largest value *for each participant*. If we only take the first row, for example, then the task is easy, right?
+
+```{r}
+df[1, 2:6]
+which.max(df[1, 2:6])
+```
+
+If we want to know this bit of information for every row of the data frame, doing it manually is quite tedious. We *could* instead use a `for` loop:
+
+```{r}
+max_col <- c()
+for (i in 1:nrow(df)) max_col <- c(max_col, which.max(df[i, 2:6]))
+max_col
+```
+
+This loop iterates over the rows of `df` (`for (i in 1:nrow(df))`) and for each cycle it adds the output of the `which.max()` function to the `max_col` variable.
+
+There is nothing wrong with this approach but it is a little wordy to write and not the fastest when it comes to computation time. The `apply()` function can be used to achieve the same outcome faster and using less code:
+
+```{r}
+max_col2 <- apply(X = df[ , 2:6], MARGIN = 1, FUN = which.max)
+max_col2
+all(max_col == max_col2) # result is the same
+```
+
+So how does this work? `apply()` requires 3 arguments:
+    - `X` -- a matrix (remember that data frames can be treated as matrices)
+    - `MARGIN` -- `1` for by row, `2` for by column
+    - `FUN` -- name of function to apply (notice no `()`s)
+    
+Other arguments can be provided, for example `na.rm = T` if the function applied takes the `na.rm =` argument (*e.g.,* `mean()`).
+
+The function takes the matrix provided to the `X =` argument and applies the function passed to `FUN =` along the margin (rows/columns) of the matrix, specified by the `MARGIN =` argument.
+
+This is useful, don't you think? The function becomes even more useful when you realise you can apply your own functions. Let's say, we want to know the standard error estimate based on the 5 values for each participant:
+
+```{r}
+ # define function
+std.error <- function(x, na.rm) sd(x, na.rm = na.rm)/sqrt(length(na.omit(x)))
+
+apply(df[ , 2:6], 1, std.error, na.rm = T) # na.rm value will get passed on to std.error
+```
+
+You don't even have to create a function object!
+
+```{r}
+# same thing, different way
+apply(df[ , 2:6], 1,
+      function(x) sd(x, na.rm = T)/sqrt(length(na.omit(x))))
+```
+
+`r task()`Calculate the standard deviation of each of the `X` **columns** of `df`.
+
+```{r, include=solution, class.source="solution"}
+apply(df[ , 2:6], 2, sd, na.rm = T)
+```
+
+There are quite a few functions in the `apply()` family (*e.g.,* `vapply()`, `tapply()`, `mapply()`, `sapply()`), each doing something slightly different and each appropriate for a different data structure (`vector`, `matrix`, `list`, `data.frame`) and different task. You can read about all of them, if you want but we'd like to tell you about one in particular -- `lapply()`
+
+The `lapply()` function takes a `list` (list apply) and applies a function to each of its elements. The function returns a list. This function is useful because data frames can also be treated as lists. This is what you do every time you use the `$` operator.
+
+So, to do Task 1 using `lapply()`, you can simply do:
+
+```{r}
+lapply(df[ , 2:6], sd, na.rm = T)
+```
+
+If you don't want the output to be a list, just use `unlist()`:
+
+```{r}
+unlist(lapply(df[ , 2:6], sd, na.rm = T))
+```
+
+`r task()`Round all the `X` columns to 2 decimal places.
+
+*Hint: *Don't forget you want to be modifying the columns in question.
+
+```{r, include=solution, class.source="solution"}
+df[ , 2:6] <- lapply(df[ , 2:6], round, 2)
+head(df)
+```
+
+So these are the two most useful functions from the `apply()` family you should know. As a general tip, you can use `apply()` for by-row operations and `lapply()` for by-column operations on data frames. The nice thing about these function is that they help you avoid repetitive code. For instance, you can now turn several columns of your data set into factors using something like `df[ , c(2, 5, 7, 8)] <- lapply(df[ , c(2, 5, 7, 8)], factor)`. Cool, innit?
+
+\ 
+
+## Lab 10  
+
+Load the data for this lab using the following code:  
+```{r, eval=F,echo=T}
+load(url("https://edin.ac/2KNwiMU"))
+``` 
+The data concerns a study investigating attitudes about fox-hunting in the UK. `r size` participants were asked to rate their attitude towards hunting by marking a point along a line. The endpoints of the line were labelled *strongly opposed* and *strongly in favour*; the distance of each mark along its line was later measured, and scaled to a variable ranging from 1\ (opposed) to 7\ (in favour). The resulting variable is called `prohunt` in the dataset.
+
+Also measured were where participants lived (`urban`, `suburban`, `country`) as well as their politics, using the Stone-Corley Wingedness Inventory, which returns a score along the political spectrum ranging from -100 (extremely left-wing, socialist) to 100 (extremely right-wing, conservative). This score can be found in the `spectrum` column. Finally, participants were asked to indicate whether they were prepared to participate in a follow-up interview; the `followup` column shows their response.
+
+### The Task
+
+**Your job this week is to clean, describe and analyse the data to answer the questions below. You should also create some graphics to accompany your findings. **
+
+**Questions: **
+  
+* How do participants' political view and the rurality of where they live predict their attitudes towards foxhunting?  
+  Is the relationship between political views and foxhunting attitudes different between different ruralities? If so, how?  
+
+**Some things you might want to think about first: **
+
+* Does all of the data look sensible, given the descriptions above?  
+
+* Did participants decide not to participate in the follow-up at random?
+  What are the predicted probability of completing follow-up for each value of `spectrum`?  
+  
+
+The types of output you *might* produce include regression statistics, scatterplots, and graphs showing regression effects. Don't forget to document your `R`\ code to show what you did.
+
+\  
+
+**Good luck with the exam!**
+
+
+
+<div class="solution" style="display:block">
+
+```{r, include = F}
+size <- 412
+```
+
+## An Example Analysis
+
+*(N.B., this is not a 'correct' answer, just a sensible one!)*
+
+Start by loading the data and examining it...
+```{r}
+fox <- read.csv('data/fox.csv')
+summary(fox)
+```
+
+Most aspects look quite sensible; there are `r size`\ rows, as promised, for example. However, there is **at least** one value of $-999$ in `spectrum` (likely indicates missing data) and also some 0s in `prohunt` (coding error perhaps as we know `prohunt` should be on the scale 1-7). Let's fix this, and record how many datapoints have been removed (this might go into a writeup)
+
+```{r}
+fox$spectrum[fox$spectrum == -999] <- NA
+fox$prohunt[fox$prohunt == 0] <- NA
+# complete.cases() might be new. Obviously there are other ways of doing it.
+# The "!" means "not"
+sum(!complete.cases(fox))
+# alternative
+sum(is.na(fox$prohunt))
+# etc.
+```
+
+Probably the next thing I would do is do a scatterplot of the data, to get the 'lay of the land'. `spectrum` makes a good $x$-axis variable. Two plot commands are below: The first, I did just to see what was going on. In the second, I used colour and shape to try and work out what was happening (note the trick of using `col = as.numeric(home)`; the values will be `c(1, 2, 3)`, and as long as those map onto different colours, I'm good to go). You can see the output in Fig. 1
+
+```{r, fig.cap="*Figure 1.*\ \ Two scatterplots of `fox`; the second is coloured by `home` (black = country, red = suburban, green = urban) and shaped by whether participants want to participate in the followup (cross = no)."}
+# Produces figure 1
+par(mfrow = c(1, 2)) # set two columns, 1 row
+with(fox, plot(spectrum, prohunt))
+# second plot, this time with colour (for levels of "home")
+# and shape (for "non-followup people")
+with(fox, plot(spectrum, prohunt, col = as.numeric(home),
+               pch = ifelse(followup=='Y', 2, 4)))
+```
+
+
+
+```{r, fig.cap="*Figure 2. *A ggplot alternative to exploring the role of `home` on the relationship between `spectrum` and `prohunt` (also considering `followup`)"}
+# A ggplot alternative for exploring this (produces figure 2):
+
+library(ggplot2)
+spec_pro <- ggplot(data = fox, aes(x = spectrum, y = prohunt, colour = followup))
+spec_pro + geom_point() + theme_minimal() + facet_grid(. ~ home)
+```
+
+OK, there's something weird about the no-followup guys. They all seem to be left-wing. Can I show that `spectrum` predicts whether you want to follow up? Remember this is a *logit* model.
+
+```{r}
+model <- glm(followup ~ spectrum, data = fox, family = binomial)
+# the test below shows that knowing about spectrum improves model fit
+anova(model, test = 'Chisq')
+# and the summary here shows that political spectrum is important
+summary(model)
+```
+
+We can summarise the model by saying that for each point to the right on `spectrum`, you're $e^{`r round(coef(model)[2], 2)`} = `r round(exp(coef(model)[2]), 2)`$ times more likely to agree to a followup study. Left-wingers don't seem keen at all!
+
+Here's how to draw a graph showing the model of the probability of accepting a followup depending on `spectrum` (output in Fig.\ 3).
+Note, it requires a bit of web-searching to find out about the `na.action = na.exclude` argument to `glm()` (and `lm()`). The search term I used was ``R include NAs in fitted()''.
+
+```{r}
+# Produces figure 3
+model <- glm(followup ~ spectrum, data = fox, family = binomial, na.action = na.exclude)
+```
+
+```{r, fig.cap="*Figure 3. *Probability of allowing a followup as a function of `spectrum`: model fit."}
+with(fox, plot(fitted(model)[order(spectrum)] ~ spectrum[order(spectrum)],
+               type = 'l', xlab = 'spectrum', ylab = 'p(followup)'))
+```
+
+### The main analysis
+
+Regardless of whether we decided to run the binomial model or not, it's clear that these non-followup people are odd -- they seem to be behaving differently to the rest of the population. I'd be tempted to take them out of the data and build a model without them. Note that the scatterplot makes it pretty obvious that there'll be some kind of interaction, so:
+```{r}
+# note the "subset" setting within "lm()" -- the lazy person's way!
+model <- lm(prohunt ~ spectrum*home, data = fox, subset = followup == 'Y')
+# this is equivalent:
+fox <- subset(fox, followup == 'Y')
+model <- lm(prohunt ~ spectrum * home, data = fox)
+anova(model)
+# shows that each term improves the model
+summary(model)
+```
+
+All the coefficients are significant in this model (*woop woop!*), and can be read top-to-bottom as follows:
+
+  1. People of middling political persuasion who live in the country, (`spectrum` = `0` and `home` = `country` at `(Intercept)`) have an attitude of `r round(coef(model)[1], 2)`.
+  2. For each additional `spectrum` point, that attitude goes up by `r round(coef(model)[2], 2)`, for people in the country.
+  3. People in suburban homes are less approving of foxhunting by `r round(coef(model)[3], 2)`.
+  4. People in urban homes are less approving of foxhunting by `r round(coef(model)[4], 2)`.
+  5. Points 3 and 4 hold for people at zero (intercept) on the political spectrum, but,
+  6. For suburban people the rise in 2 is reduced: actual rise $=`r round(coef(model)[2], 2)`+`r round(coef(model)[5], 2)`=`r round(coef(model)[2]+coef(model)[5], 2)`$.
+  7. Similarly, for urban people, the actual rise per point on the spectrum $=`r round(coef(model)[2], 2)`+`r round(coef(model)[6], 2)`=`r round(coef(model)[2]+coef(model)[6], 2)`$, or practically zero.
+
+So we can conclude that you need to live in the country and to be increasingly right-wing to have a positive attitude towards fox hunting.
+
+### Other stuff you could do
+You could re-run the analysis above using **orthogonal coding**, to compare townies (urban and suburban) to country-dwellers, and then different types of townie to each other. That would look something like this:
+
+```{r}
+contrasts(fox$home) <- cbind(CvSU = c(-2, 1, 1) / 3, SvU = c(0, -1, 1) / 2)
+
+# we've already removed the no-followup guys
+model <- lm(prohunt ~ spectrum*home, data = fox)
+
+# anova(model) will be the same
+
+summary(model)
+```
+
+This model shows that townie types (urban and suburban) are less likely to have positive attitudes to fox-hunting than country-dwellers (line 3); and that it's only the townies' attitudes are less affected by position on the political spectrum, although there's no difference between urbanites and suburbanites (lines 5 and 6).
+
+This last regression model may make the *most* sense of the data, such as it is, but, as long as you've explained why you've done what you've done, and as long as what you've done is reasonable, you've done a good job.
+</div>

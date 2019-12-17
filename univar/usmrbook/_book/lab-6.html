@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Lab 6 | Univariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Lab 6 | Univariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Lab 6 | Univariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab-5.html"/>
+<link rel="next" href="lab-7.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">USMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="lab-1.html"><a href="lab-1.html"><i class="fa fa-check"></i><b>1</b> Lab 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="lab-1.html"><a href="lab-1.html#lets-get-going"><i class="fa fa-check"></i><b>1.1</b> Let’s get going!</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="lab-1.html"><a href="lab-1.html#rstudio"><i class="fa fa-check"></i><b>1.1.1</b> RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="lab-1.html"><a href="lab-1.html#console"><i class="fa fa-check"></i><b>1.1.2</b> Console</a></li>
+<li class="chapter" data-level="1.1.3" data-path="lab-1.html"><a href="lab-1.html#editor"><i class="fa fa-check"></i><b>1.1.3</b> Editor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="lab-1.html"><a href="lab-1.html#a-simple-analysis"><i class="fa fa-check"></i><b>1.2</b> A simple analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="lab-1.html"><a href="lab-1.html#last-things"><i class="fa fa-check"></i><b>1.2.1</b> Last Things</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab-2.html"><a href="lab-2.html"><i class="fa fa-check"></i><b>2</b> Lab 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="lab-2.html"><a href="lab-2.html#first-things-first"><i class="fa fa-check"></i><b>2.1</b> First things first</a></li>
+<li class="chapter" data-level="2.2" data-path="lab-2.html"><a href="lab-2.html#classes"><i class="fa fa-check"></i><b>2.2</b> Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="lab-2.html"><a href="lab-2.html#data-structures"><i class="fa fa-check"></i><b>2.3</b> Data structures</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lab-2.html"><a href="lab-2.html#subsetting"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lab-2.html"><a href="lab-2.html#subsetting-using-names"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting using names</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lab-2.html"><a href="lab-2.html#replacement"><i class="fa fa-check"></i><b>2.4</b> Replacement</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab-3.html"><a href="lab-3.html"><i class="fa fa-check"></i><b>3</b> Lab 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="lab-3.html"><a href="lab-3.html#logical-subsetting"><i class="fa fa-check"></i><b>3.1</b> Logical subsetting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="lab-3.html"><a href="lab-3.html#complementary-subsetting"><i class="fa fa-check"></i><b>3.1.1</b> Complementary subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab-3.html"><a href="lab-3.html#sorting"><i class="fa fa-check"></i><b>3.2</b> Sorting</a></li>
+<li class="chapter" data-level="3.3" data-path="lab-3.html"><a href="lab-3.html#subsetting-with-commands"><i class="fa fa-check"></i><b>3.3</b> Subsetting with commands</a></li>
+<li class="chapter" data-level="3.4" data-path="lab-3.html"><a href="lab-3.html#creating-variables"><i class="fa fa-check"></i><b>3.4</b> Creating variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab-4.html"><a href="lab-4.html"><i class="fa fa-check"></i><b>4</b> Lab 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="lab-4.html"><a href="lab-4.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="lab-4.html"><a href="lab-4.html#simple-plots"><i class="fa fa-check"></i><b>4.2</b> Simple Plots</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="lab-4.html"><a href="lab-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.2.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab-4.html"><a href="lab-4.html#ordinal-categorical-variables"><i class="fa fa-check"></i><b>4.2.2</b> Ordinal Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lab-4.html"><a href="lab-4.html#continuous-variables"><i class="fa fa-check"></i><b>4.2.3</b> Continuous Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab-4.html"><a href="lab-4.html#scatterplots-visualizing-associations"><i class="fa fa-check"></i><b>4.3</b> Scatterplots: Visualizing associations</a></li>
+<li class="chapter" data-level="4.4" data-path="lab-4.html"><a href="lab-4.html#boxplots-visualizing-group-differences"><i class="fa fa-check"></i><b>4.4</b> Boxplots: Visualizing group differences</a></li>
+<li class="chapter" data-level="4.5" data-path="lab-4.html"><a href="lab-4.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="4.6" data-path="lab-4.html"><a href="lab-4.html#more-advanced-plotting"><i class="fa fa-check"></i><b>4.6</b> More advanced plotting</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="lab-4.html"><a href="lab-4.html#pinpointing-data"><i class="fa fa-check"></i><b>4.6.1</b> Pinpointing data</a></li>
+<li class="chapter" data-level="4.6.2" data-path="lab-4.html"><a href="lab-4.html#customising-plots"><i class="fa fa-check"></i><b>4.6.2</b> Customising plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="lab-4.html"><a href="lab-4.html#multiple-plots-in-one"><i class="fa fa-check"></i><b>4.7</b> Multiple Plots in One</a></li>
+<li class="chapter" data-level="4.8" data-path="lab-4.html"><a href="lab-4.html#lets-put-all-this-into-practice"><i class="fa fa-check"></i><b>4.8</b> Let’s put all this into practice</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="lab-4.html"><a href="lab-4.html#code-book"><i class="fa fa-check"></i><b>4.8.1</b> Code Book</a></li>
+<li class="chapter" data-level="4.8.2" data-path="lab-4.html"><a href="lab-4.html#questions"><i class="fa fa-check"></i><b>4.8.2</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="lab-4.html"><a href="lab-4.html#lab-4-ggplot"><i class="fa fa-check"></i><b>4.9</b> Lab 4 GGPLOT</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="lab-4.html"><a href="lab-4.html#introduction-1"><i class="fa fa-check"></i><b>4.9.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.9.2" data-path="lab-4.html"><a href="lab-4.html#ggplot2"><i class="fa fa-check"></i><b>4.9.2</b> <code>ggplot2</code></a></li>
+<li class="chapter" data-level="4.9.3" data-path="lab-4.html"><a href="lab-4.html#qplot"><i class="fa fa-check"></i><b>4.9.3</b> <code>qplot()</code></a></li>
+<li class="chapter" data-level="4.9.4" data-path="lab-4.html"><a href="lab-4.html#your-turn"><i class="fa fa-check"></i><b>4.9.4</b> Your Turn</a></li>
+<li class="chapter" data-level="4.9.5" data-path="lab-4.html"><a href="lab-4.html#using-ggplot"><i class="fa fa-check"></i><b>4.9.5</b> Using <code>ggplot()</code></a></li>
+<li class="chapter" data-level="4.9.6" data-path="lab-4.html"><a href="lab-4.html#your-turn-1"><i class="fa fa-check"></i><b>4.9.6</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab-5.html"><a href="lab-5.html"><i class="fa fa-check"></i><b>5</b> Lab 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="lab-5.html"><a href="lab-5.html#finally-stats"><i class="fa fa-check"></i><b>5.1</b> Finally stats</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="lab-5.html"><a href="lab-5.html#data-set"><i class="fa fa-check"></i><b>5.1.1</b> Data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab-5.html"><a href="lab-5.html#read-in-and-clean-data"><i class="fa fa-check"></i><b>5.1.2</b> Read in and clean data</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab-5.html"><a href="lab-5.html#impossible-values"><i class="fa fa-check"></i><b>5.1.3</b> Impossible values</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab-5.html"><a href="lab-5.html#improbable-values"><i class="fa fa-check"></i><b>5.1.4</b> Improbable values</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab-5.html"><a href="lab-5.html#non-integer-values"><i class="fa fa-check"></i><b>5.1.5</b> Non-integer values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab-5.html"><a href="lab-5.html#lets-stats"><i class="fa fa-check"></i><b>5.2</b> Let’s stats!</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="lab-5.html"><a href="lab-5.html#categorical-variables-1"><i class="fa fa-check"></i><b>5.2.1</b> Categorical variables</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab-5.html"><a href="lab-5.html#analysing-continuous-data"><i class="fa fa-check"></i><b>5.2.2</b> Analysing continuous data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab-5.html"><a href="lab-5.html#more-analysis"><i class="fa fa-check"></i><b>5.2.3</b> More analysis!</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab-5.html"><a href="lab-5.html#extra-get-loopy"><i class="fa fa-check"></i><b>5.2.4</b> Extra: Get loopy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab-6.html"><a href="lab-6.html"><i class="fa fa-check"></i><b>6</b> Lab 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="lab-6.html"><a href="lab-6.html#some-more-r-skills"><i class="fa fa-check"></i><b>6.1</b> Some more R skills</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lab-6.html"><a href="lab-6.html#two-types-of-subscripting"><i class="fa fa-check"></i><b>6.1.1</b> Two types of subscripting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lab-6.html"><a href="lab-6.html#your-turn-2"><i class="fa fa-check"></i><b>6.2</b> Your Turn</a></li>
+<li class="chapter" data-level="6.3" data-path="lab-6.html"><a href="lab-6.html#real-data"><i class="fa fa-check"></i><b>6.3</b> Real Data</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lab-6.html"><a href="lab-6.html#the-data"><i class="fa fa-check"></i><b>6.3.1</b> The data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab-6.html"><a href="lab-6.html#the-questions"><i class="fa fa-check"></i><b>6.3.2</b> The questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab-7.html"><a href="lab-7.html"><i class="fa fa-check"></i><b>7</b> Lab 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="lab-7.html"><a href="lab-7.html#merging-and-missing-values"><i class="fa fa-check"></i><b>7.1</b> Merging and missing values</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="lab-7.html"><a href="lab-7.html#missing-values"><i class="fa fa-check"></i><b>7.1.1</b> Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab-7.html"><a href="lab-7.html#writing-a-function"><i class="fa fa-check"></i><b>7.2</b> Writing a function</a></li>
+<li class="chapter" data-level="7.3" data-path="lab-7.html"><a href="lab-7.html#some-data-manipulation"><i class="fa fa-check"></i><b>7.3</b> Some data manipulation</a></li>
+<li class="chapter" data-level="7.4" data-path="lab-7.html"><a href="lab-7.html#a-note-on-correlation"><i class="fa fa-check"></i><b>7.4</b> A note on correlation</a></li>
+<li class="chapter" data-level="7.5" data-path="lab-7.html"><a href="lab-7.html#some-statistics"><i class="fa fa-check"></i><b>7.5</b> Some statistics!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html"><i class="fa fa-check"></i><b>8</b> Lab 8 - The General Linear Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#a-brief-note-on-with"><i class="fa fa-check"></i><b>8.1</b> A brief note on <code>with()</code></a></li>
+<li class="chapter" data-level="8.2" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#linear-models"><i class="fa fa-check"></i><b>8.2</b> Linear Models</a></li>
+<li class="chapter" data-level="8.3" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-prediction-and-visualisation"><i class="fa fa-check"></i><b>8.3</b> Model prediction and visualisation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#predict"><i class="fa fa-check"></i><b>8.3.1</b> Predict()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-criticism"><i class="fa fa-check"></i><b>8.4</b> Model criticism</a></li>
+<li class="chapter" data-level="8.5" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#multiple-regression"><i class="fa fa-check"></i><b>8.5</b> Multiple regression</a></li>
+<li class="chapter" data-level="8.6" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#contrast-coding"><i class="fa fa-check"></i><b>8.6</b> Contrast coding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html"><i class="fa fa-check"></i><b>9</b> Lab 9 - Interactions and GLM&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#interactions"><i class="fa fa-check"></i><b>9.1</b> Interactions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#specifying-interactions-in-r"><i class="fa fa-check"></i><b>9.1.1</b> Specifying interactions in R</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#simulating-data"><i class="fa fa-check"></i><b>9.1.2</b> Simulating data</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#visualising-interactions"><i class="fa fa-check"></i><b>9.1.3</b> Visualising interactions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#modelling-interactions"><i class="fa fa-check"></i><b>9.1.4</b> Modelling interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#generalised-linear-model-glm"><i class="fa fa-check"></i><b>9.2</b> General<strong>ised</strong> Linear Model (GLM)</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#log-odds-and-predicted-probabilities"><i class="fa fa-check"></i><b>9.2.1</b> Log-odds and predicted probabilities</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#predicted-vs-observed"><i class="fa fa-check"></i><b>9.2.2</b> Predicted vs Observed</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#your-turn-less-guidance"><i class="fa fa-check"></i><b>9.3</b> Your turn (Less guidance)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab-10.html"><a href="lab-10.html"><i class="fa fa-check"></i><b>10</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="lab-10.html"><a href="lab-10.html#apply-functions"><i class="fa fa-check"></i><b>10.1</b> <code>apply</code> functions</a></li>
+<li class="chapter" data-level="10.2" data-path="lab-10.html"><a href="lab-10.html#lab-10-1"><i class="fa fa-check"></i><b>10.2</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lab-10.html"><a href="lab-10.html#the-task"><i class="fa fa-check"></i><b>10.2.1</b> The Task</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Univariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab-6" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Lab 6</h1>
+<p>In today’s lab we are going to start working with some data that looks a little more “real”. What do I mean by real? Well, messy! Up until now we have largely been working with complete data sets where all the values for every variable are within the range we expect and there are no unusual cases. But for any of you who have previously had your hands on real raw data, you will know it rarely looks so neat. So our aims for today are to show you some more R skills for exploring your data to highlight potentially problematic values, and then to put these, and all your other skills to the test to answer some simple research questions using some real (messy) data.</p>
+<p>So let’s get started.</p>
+<div id="some-more-r-skills" class="section level2">
+<h2><span class="header-section-number">6.1</span> Some more R skills</h2>
+<div id="two-types-of-subscripting" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Two types of subscripting</h3>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a vector called “vec” with 10 numbers in it (you could use one of the following functions, <code>sample()</code>, or <code>seq()</code>, for example).</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">vec =<span class="st">  </span><span class="kw">seq</span>(<span class="dv">2</span>, <span class="dv">20</span>, <span class="dv">2</span>)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What does the next command do?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec[<span class="dv">8</span>]</code></pre></div>
+<pre><code>## [1] 16</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What about the following command?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec[<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">8</span>)]</code></pre></div>
+<pre><code>## [1]  4 16</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now try:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec[<span class="kw">c</span>(F, T, F, F, F, F, F, T, F, F)]</code></pre></div>
+<pre><code>## [1]  4 16</code></pre>
+<p>So what is going on here? In one case the subscripting is being done by <em>index</em>; in the other, it’s being done by truth values (these are called <em>logical</em> subscripts). Having both gives R enormous flexibility when it comes to manipulating data. In general, indexes are what you type in if you want to target specific values, but logical subscripts are the results of tests. Try the following and think about what the output represents:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="ot">NA</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)
+<span class="kw">is.na</span>(vec2)</code></pre></div>
+<pre><code>## [1] FALSE FALSE  TRUE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">4</span></code></pre></div>
+<pre><code>## [1] FALSE FALSE    NA FALSE  TRUE  TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec2<span class="op">/</span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span></code></pre></div>
+<pre><code>## [1] FALSE FALSE    NA  TRUE FALSE FALSE</code></pre>
+<p>What will the next two commands do? Think about it first and then try them out:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec2[vec2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">4</span>]</code></pre></div>
+<pre><code>## [1] NA  5  6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec2[vec2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">4</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></code></pre></div>
+<p>For matrices, R indexes by row, then by column in the format <code>matrix[row, column]</code>.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Let’s create a matrix:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">20</span>, <span class="dv">100</span>, <span class="dv">15</span>), <span class="dt">ncol =</span> <span class="dv">5</span>, <span class="dt">nrow =</span> <span class="dv">4</span>)
+<span class="co"># Here we specify some values (20 from a normal(100, 15) distribution)</span>
+<span class="co"># and then tell R how to organise the matrix (col and row sizes)</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What does the next command do (you have seen this before in previous labs - think about adding values to the empty matrix)?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[<span class="dv">2</span>, <span class="dv">3</span>]</code></pre></div>
+<pre><code>## [1] 101.6555</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What about the next one?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[ , <span class="dv">3</span>]</code></pre></div>
+<pre><code>## [1] 106.7639 101.6555  67.9537 101.8156</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What’s the difference between the folllowing two commands?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[<span class="dv">2</span>, <span class="dv">3</span>]</code></pre></div>
+<pre><code>## [1] 101.6555</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>), ]</code></pre></div>
+<pre><code>##          [,1]     [,2]     [,3]      [,4]     [,5]
+## [1,] 81.60815 93.44354 101.6555 107.10758 124.3886
+## [2,] 90.11979 94.36973  67.9537  94.17529 106.6617</code></pre>
+<p>Note that logical tests respect the shape of the input, as much as possible. To see what this means, try the following and think about what you expect the output to look like first:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span></code></pre></div>
+<pre><code>##       [,1]  [,2]  [,3]  [,4] [,5]
+## [1,] FALSE  TRUE  TRUE  TRUE TRUE
+## [2,] FALSE FALSE  TRUE  TRUE TRUE
+## [3,] FALSE FALSE FALSE FALSE TRUE
+## [4,]  TRUE  TRUE  TRUE  TRUE TRUE</code></pre>
+<p>You can use the matrix of truth values like so (the rows and columns are implicit because the truth values come as a matrix):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[mat <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>] &lt;-<span class="st"> </span><span class="dv">100</span>  <span class="co"># cap maximum score at 100 throughout</span></code></pre></div>
+</div>
+</div>
+<div id="your-turn-2" class="section level2">
+<h2><span class="header-section-number">6.2</span> Your Turn</h2>
+<p>If you’ve followed all this, you should be able to have a good go at the following:</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a 20-row, 2-column matrix called ‘mat2’ filled with random numbers drawn from a normal population with mean 100 and sd 15.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">15</span>), <span class="dt">nrow =</span> <span class="dv">20</span>, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Change the value at the 14th and 18th rows of the first column to 200 (in one command).</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat2[<span class="kw">c</span>(<span class="dv">14</span>, <span class="dv">18</span>), <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">200</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Change the value of the 3rd row of the second column to 200.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat2[<span class="dv">3</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">200</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Find the mean and the sd of all the values (using mean() and sd()).</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mean.mat2 &lt;-<span class="st"> </span><span class="kw">mean</span>(mat2)
+sd.mat2 &lt;-<span class="st"> </span><span class="kw">sd</span>(mat2)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>A typical task we want to carry out when ‘cleaning’ data prior to carrying out our formal analysis is to look for <strong>outliers</strong> and follow a protocol for dealing with them. For this particular analysis, exclude any values that are <strong>2 standard deviations above the mean</strong>. You need to convert any values in the matrix that fit this criteria to NA.</p>
+<p>This is a natural extension to some of the examples given above and while the code you produce may look scary it is just a case of joining together multiple parts.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">cutoff &lt;-<span class="st"> </span>mean.mat2 <span class="op">+</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd.mat2)
+mat2[mat2 <span class="op">&gt;</span><span class="st"> </span>cutoff] &lt;-<span class="st"> </span><span class="ot">NA</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Check that your code has worked by looking at the matrix either in the console or in the editor view in RStudio. Imagine you had a matrix with 10,000 rows and had just completed the same task and now wanted to check which values had been converted to NA. It would be difficult to do this by simply looking at the matrix. Try:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(<span class="kw">is.na</span>(mat2[ , <span class="dv">1</span>]))</code></pre></div>
+<p><em>Question: </em>What does which() do? <strong>Hint: </strong>Try <code>is.na(mat2[ , 1])</code> on its own.</p>
+<div class="solutiontext" style="display:block">
+<p><code>which()</code> returns the index values where the evaluation of the given condition is <code>TRUE</code>. Hence in this case we definitely get 14 and 18 as we set those values to 200. You may also have got other values depending on the random values selected initially.</p>
+</div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>If you have time: Repeat the exercise above (create a new matrix called mat3). This time, replace the values greater than 2 sds above the mean in <em>column 1 only</em>. <strong>Hint: </strong> Your command will start with something like “mat3[ , 1][mat3[ , 1] &gt; .]”</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat3 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">15</span>), <span class="dt">nrow =</span> <span class="dv">20</span>, <span class="dt">ncol =</span> <span class="dv">2</span>)
+mat3[<span class="kw">c</span>(<span class="dv">14</span>, <span class="dv">18</span>), <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">200</span>
+mat3[<span class="dv">3</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">200</span>
+cutoff &lt;-<span class="st"> </span><span class="kw">mean</span>(mat3) <span class="op">+</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(mat3))
+mat3[ , <span class="dv">1</span>][mat3[ , <span class="dv">1</span>] <span class="op">&gt;</span><span class="st"> </span>cutoff] &lt;-<span class="st"> </span><span class="ot">NA</span>
+mat3</code></pre></div>
+<pre><code>##            [,1]      [,2]
+##  [1,]  89.40008  60.90289
+##  [2,] 116.62812 115.50316
+##  [3,] 130.22246 200.00000
+##  [4,]  91.52784 101.77641
+##  [5,]  97.01684  94.22977
+##  [6,]  89.00230  92.78804
+##  [7,]  95.49700 101.85408
+##  [8,]  91.93028 105.84998
+##  [9,]  93.37270  92.47380
+## [10,]  92.94904  79.24207
+## [11,]  98.47387 105.40844
+## [12,]  90.37563  66.20067
+## [13,]  92.16715 101.59119
+## [14,]        NA 103.80897
+## [15,] 124.81714  79.55675
+## [16,]  88.33719 117.35854
+## [17,]  88.88372 130.10749
+## [18,]        NA  95.75119
+## [19,] 116.19086  98.57315
+## [20,]  92.57845  98.29681</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># Notice the 3rd value in column 2 is still 200 and not NA, so the code worked.</span></code></pre></div>
+</div>
+<div id="real-data" class="section level2">
+<h2><span class="header-section-number">6.3</span> Real Data</h2>
+<p>OK, now let’s have a look at analysing some real data to answer some research questions. The questions will require you to use your previously learnt R skills (cleaning data, describing data, plotting etc.).</p>
+<p>Though some elements may be repetitive, it is good practice to think through your analyses from start to finish each time. Think about what the question is asking and what is needed to answer it - basic descriptives of the variables, plots, tests of assumptions, etc.</p>
+<div id="the-data" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> The data</h3>
+<p>The data set is saved on LEARN as a .csv file. You can open this file by downloading it, saving it, and using the <code>read.csv()</code> to open the file. We have have used <code>read.csv()</code> previously so if you can’t recall how it works, use <code>?read.csv</code>.</p>
+<p>The data for this lab come from a study of exercise and cognitive ability in early and later adulthood. All participants were male and randomly sampled within age groups. Data were collected on 325 individuals, 151 from a young adulthood group (aged 20-28 years) and 174 from a later adulthood group (aged 50-58 years). Each person was asked to categorise the regularity of their exercise, and were given an IQ test.</p>
+<p>The data are in the file called <code>healthIQ.csv</code>. The variables are as follows:</p>
+<ol style="list-style-type: decimal">
+<li>ID</li>
+<li>AgeGroup: 1 = Young adulthood; 2 = Later adulthood</li>
+<li>ExGroup: 1 = no exercise; 2 = moderate exercise; 3 = intense exercise</li>
+<li>IQ score: IQ score</li>
+</ol>
+<p>In addition to this data, the researchers were given some seperate data from a colleague which used the same IQ test on a sample of approximately the same age as the later adulthood sample. This group had been tested at 2 points in time 3 years apart. The data file <code>repeatIQ.csv</code> contatins this data.The variables are:</p>
+<ol style="list-style-type: decimal">
+<li>ID</li>
+<li>IQ score wave 1: IQ score</li>
+<li>IQ score wave 2: IQ score</li>
+</ol>
+</div>
+<div id="the-questions" class="section level3">
+<h3><span class="header-section-number">6.3.2</span> The questions</h3>
+<div id="data-inspectioncleaning" class="section level4">
+<h4><span class="header-section-number">6.3.2.1</span> Data Inspection/Cleaning</h4>
+<p>You are going need to use your newly acquired indexing skills, as well as some of your already established skills to check all variables ahead of the analyses. What you should do here is use some tools (perhaps describe() in the psych package as a starting point?) to get a feel for the data. Are there any strange values, such as impossible values based on the codebook, for the variables given above? Any outliers? Is R treating each variable as the appropriate class (type) of data? e.g. factor or numeric…</p>
+<p>This should take you a little bit of time, it is an open ended exercise where you need to use your R skills and judgement to assess the data and fix any problems you encounter before moving on to the following questions:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># reading in and checking the data (my data files are in my project folder)</span>
+health =<span class="st">  </span><span class="kw">read.csv</span>(<span class="st">&quot;data/healthIQ.csv&quot;</span>, <span class="dt">header =</span> T)
+repIQ =<span class="st">  </span><span class="kw">read.csv</span>(<span class="st">&quot;data/repeatIQ.csv&quot;</span>, <span class="dt">header =</span> T)
+
+<span class="co"># Basic eyeball</span>
+<span class="kw">library</span>(psych)
+<span class="kw">describe</span>(health)</code></pre></div>
+<pre><code>##          vars   n   mean    sd median trimmed    mad min    max  range
+## ID          1 325 163.00 93.96 163.00  163.00 120.09   1 325.00 324.00
+## Agegroup    2 325   1.54  0.52   2.00    1.55   0.00   1   4.00   3.00
+## ExGroup     3 325   4.72 55.33   2.00    1.63   0.00   1 999.00 998.00
+## IQ          4 325 100.00 15.34  99.82  100.18  14.74  20 135.92 115.92
+##           skew kurtosis   se
+## ID        0.00    -1.21 5.21
+## Agegroup  0.16    -0.54 0.03
+## ExGroup  17.86   317.95 3.07
+## IQ       -0.46     1.70 0.85</code></pre>
+<div class="solutiontext" style="display:block">
+<p>This tells us a few things:</p>
+<ul>
+<li>There are no <code>*</code> so we can see that at the moment, <code>AgeGroup</code> and <code>ExGroup</code> are not being treated as factors.</li>
+<li>Second, we can see that the max value for <code>AgeGroup</code> is <code>4</code>, yet we know from the code book that there are only 2 groups. So we have a coding error here.</li>
+<li>Third, there is a max value of <code>999</code> for <code>ExGroup</code>, which is again out of range (we have 3 groups).</li>
+<li>Lastly, our minimum value for IQ is <code>20</code>. This is very low. On an IQ scale, we would not expect to see a value this low. This suggests we have a data entry problem. So let’s sort these out.</li>
+</ul>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># check factor versus numeric</span>
+<span class="kw">is.factor</span>(health<span class="op">$</span>Agegroup)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">is.factor</span>(health<span class="op">$</span>ExGroup)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">health<span class="op">$</span>Agegroup &lt;-<span class="st"> </span><span class="kw">as.factor</span>(health<span class="op">$</span>Agegroup)
+health<span class="op">$</span>ExGroup &lt;-<span class="st"> </span><span class="kw">as.factor</span>(health<span class="op">$</span>ExGroup)
+
+<span class="co"># Now they are factors let&#39;s deal with the levels</span>
+<span class="kw">levels</span>(health[ , <span class="dv">2</span>])</code></pre></div>
+<pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;4&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># so we have got a 4 where we don&#39;t need it. So let&#39;s give that NA</span>
+<span class="co"># NA is R generic code for missing data</span>
+<span class="kw">levels</span>(health[ , <span class="dv">2</span>]) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Young&quot;</span>, <span class="st">&quot;Older&quot;</span>, <span class="ot">NA</span>)
+<span class="kw">levels</span>(health[ , <span class="dv">2</span>])</code></pre></div>
+<pre><code>## [1] &quot;Young&quot; &quot;Older&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># And the same for Exercise Group</span>
+<span class="kw">levels</span>(health[ , <span class="dv">3</span>])</code></pre></div>
+<pre><code>## [1] &quot;1&quot;   &quot;2&quot;   &quot;3&quot;   &quot;999&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">levels</span>(health[ , <span class="dv">3</span>]) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;None&quot;</span>, <span class="st">&quot;Mod&quot;</span>, <span class="st">&quot;Intense&quot;</span>, <span class="ot">NA</span>)
+<span class="kw">levels</span>(health[ , <span class="dv">3</span>])</code></pre></div>
+<pre><code>## [1] &quot;None&quot;    &quot;Mod&quot;     &quot;Intense&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># Let&#39;s have a look at the effect of using NA</span>
+<span class="kw">describe</span>(health)</code></pre></div>
+<pre><code>##           vars   n   mean    sd median trimmed    mad min    max  range
+## ID           1 325 163.00 93.96 163.00  163.00 120.09   1 325.00 324.00
+## Agegroup*    2 324   1.54  0.50   2.00    1.55   0.00   1   2.00   1.00
+## ExGroup*     3 324   1.65  0.58   2.00    1.63   0.00   1   3.00   2.00
+## IQ           4 325 100.00 15.34  99.82  100.18  14.74  20 135.92 115.92
+##            skew kurtosis   se
+## ID         0.00    -1.21 5.21
+## Agegroup* -0.15    -1.98 0.03
+## ExGroup*   0.20    -0.71 0.03
+## IQ        -0.46     1.70 0.85</code></pre>
+<div class="solutiontext" style="display:block">
+<p>What we can see here is that we now have <code>*</code> and we have an <code>n</code> of <code>324</code> for Age group and Exercise group. In other words, <code>R</code> is now recognising that we have some missing data.</p>
+<p>We can now do exactly the same for the low IQ value and then the second data set.</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># For the IQ data, we can use what you have learnt above</span>
+health<span class="op">$</span>IQ[health<span class="op">$</span>IQ <span class="op">&lt;</span><span class="st"> </span><span class="dv">25</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
+<span class="kw">summary</span>(health<span class="op">$</span>IQ)</code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   55.78   90.19   99.83  100.24  110.51  135.92       1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># And the second data set</span>
+<span class="kw">describe</span>(repIQ)</code></pre></div>
+<pre><code>##          vars  n   mean    sd median trimmed   mad    min    max  range
+## ID          1 80 250.26 45.90 256.00  250.69 60.05 174.00 324.00 150.00
+## wave1_IQ    2 80  99.33 14.53  98.51   99.36 14.28  64.61 135.83  71.21
+## wave2_IQ    3 80  96.55 14.70  96.39   96.56 14.86  63.78 148.10  84.32
+##           skew kurtosis   se
+## ID       -0.10    -1.35 5.13
+## wave1_IQ  0.07     0.08 1.62
+## wave2_IQ  0.24     0.74 1.64</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># This one looks OK</span></code></pre></div>
+<div class="solutiontext" style="display:block">
+<p>You may have made different decisions, or encountered different potential issues. As long as you engaged with the data and highlighted that it wasn’t perfectly fit for analysis as it was, and took steps to fix it, then you passed the Quest!</p>
+</div>
+<div class="noteBox">
+<p>For the following questions, you need to think about what statistical procedure you can use to answer each question, and then implement it using R.</p>
+</div>
+<p><strong>Q1.</strong> Are age category (young versus old) and health activity category independent?</p>
+<div class="solutiontext" style="display:block">
+<p>Chi-square test of independance</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># Look at cell counts using xtabs:</span>
+<span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>Agegroup <span class="op">+</span><span class="st"> </span>ExGroup, <span class="dt">data =</span> health)</code></pre></div>
+<pre><code>##         ExGroup
+## Agegroup None Mod Intense
+##    Young   38 100      11
+##    Older   90  78       6</code></pre>
+<div class="solutiontext" style="display:block">
+<p>Some counts (Intense) are quite low so we will run the test with small <em>N</em> correction</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">library</span>(lsr)
+results =<span class="st"> </span><span class="kw">chisq.test</span>(health[ , <span class="dv">2</span>], health[ , <span class="dv">3</span>], <span class="dt">correct =</span> T)
+results</code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  health[, 2] and health[, 3]
+## X-squared = 23.521, df = 2, p-value = 7.808e-06</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># And look at some residuals</span>
+results<span class="op">$</span>residuals</code></pre></div>
+<pre><code>##            health[, 3]
+## health[, 2]      None       Mod   Intense
+##       Young -2.738935  1.974118  1.127668
+##       Older  2.534547 -1.826803 -1.043518</code></pre>
+<p><strong>Q2.</strong> A researcher has a hypothesis that extreme exercise is quite rare and no/moderate exercise are equally probable. Construct a single test for exercise volume with appropriate probabilities to test this hypothesis.</p>
+<div class="solutiontext" style="display:block">
+<p>This is a Chi-square goodness-of-fit test</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">observed =<span class="st">  </span><span class="kw">table</span>(health<span class="op">$</span>ExGroup)
+<span class="kw">chisq.test</span>(<span class="dt">x =</span> observed, <span class="dt">p =</span> <span class="kw">c</span>(.<span class="dv">45</span>, .<span class="dv">45</span>, .<span class="dv">10</span>))</code></pre></div>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  observed
+## X-squared = 16.367, df = 2, p-value = 0.0002792</code></pre>
+<div class="solutiontext" style="display:block">
+<p>The test is significant, suggesting that the proposed distribution is not reflected in the data</p>
+</div>
+<p><strong>Q3.</strong> Do younger and older individuals differ in IQ score?</p>
+<div class="solutiontext" style="display:block">
+<p>This is an independent sample t-test</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">bygroup =<span class="st">  </span><span class="kw">describeBy</span>(health, health<span class="op">$</span>Agegroup) 
+<span class="co"># describes the data for each factor level seperately</span>
+<span class="kw">as.data.frame</span>(bygroup<span class="op">$</span>Young)[<span class="dv">4</span>, <span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">11</span><span class="op">:</span><span class="dv">12</span>)] <span class="co"># narrow selection to what we are interested in</span></code></pre></div>
+<pre><code>##      n     mean       sd       skew  kurtosis
+## IQ 149 105.2388 14.45316 -0.2760457 0.1754786</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">as.data.frame</span>(bygroup<span class="op">$</span>Older)[<span class="dv">4</span>, <span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">11</span><span class="op">:</span><span class="dv">12</span>)] <span class="co"># narrow selection to what we are interested in</span></code></pre></div>
+<pre><code>##      n     mean       sd        skew   kurtosis
+## IQ 174 95.99017 13.61018 -0.02139273 -0.1367622</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># plot it</span>
+<span class="kw">boxplot</span>(health<span class="op">$</span>IQ <span class="op">~</span><span class="st"> </span>health<span class="op">$</span>Agegroup, 
+        <span class="dt">main =</span> <span class="st">&quot;Boxplot of Test Means&quot;</span>, 
+        <span class="dt">xlab =</span> <span class="st">&quot;Age Group&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;IQ&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-264-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># Or using ggplot2</span>
+<span class="kw">library</span>(ggplot2)
+iq_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span>  <span class="kw">na.omit</span>(health), <span class="kw">aes</span>(<span class="dt">x =</span>  Agegroup, <span class="dt">y =</span>  IQ))
+<span class="co"># use na.omit() to remove the case with NA value for Age Group.</span>
+<span class="co"># Otherwise we get a box plot for the NA group....</span>
+iq_plot <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-264-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co">#Assumptions</span>
+<span class="kw">qqnorm</span>(<span class="dt">y =</span> health<span class="op">$</span>IQ)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-264-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">shapiro.test</span>(health<span class="op">$</span>IQ)</code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  health$IQ
+## W = 0.99598, p-value = 0.5807</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">library</span>(car)
+<span class="kw">leveneTest</span>(health<span class="op">$</span>IQ <span class="op">~</span><span class="st"> </span>health<span class="op">$</span>Agegroup)</code></pre></div>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
+##        Df F value Pr(&gt;F)
+## group   1  0.5643 0.4531
+##       321</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># Test</span>
+q3 =<span class="st">  </span><span class="kw">t.test</span>(<span class="dt">formula =</span>  IQ <span class="op">~</span><span class="st"> </span>Agegroup, <span class="dt">data =</span> health, <span class="dt">var.equal =</span> T)
+q3<span class="op">$</span>statistic</code></pre></div>
+<pre><code>##        t 
+## 5.916355</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">q3<span class="op">$</span>parameter</code></pre></div>
+<pre><code>##  df 
+## 321</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">q3<span class="op">$</span>p.value</code></pre></div>
+<pre><code>## [1] 8.436336e-09</code></pre>
+<p><strong>Q4.</strong> Did IQ scores significantly increase across time points in the later adulthood sample?</p>
+<div class="solutiontext" style="display:block">
+<p>This is a paired-sample t-test</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">describe</span>(repIQ[ , <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)]) <span class="co"># Descriptive look at the variables</span></code></pre></div>
+<pre><code>##          vars  n  mean    sd median trimmed   mad   min    max range skew
+## wave1_IQ    1 80 99.33 14.53  98.51   99.36 14.28 64.61 135.83 71.21 0.07
+## wave2_IQ    2 80 96.55 14.70  96.39   96.56 14.86 63.78 148.10 84.32 0.24
+##          kurtosis   se
+## wave1_IQ     0.08 1.62
+## wave2_IQ     0.74 1.64</code></pre>
+<div class="solutiontext" style="display:block">
+<p>Essentially, follow the solution for the previous question except make sure to set the paired value to <code>TRUE</code> in <code>t.test()</code> and take note of the directional hypothesis using the <code>alternative = &quot;greater&quot;</code> argument.</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">q4 =<span class="st">  </span><span class="kw">t.test</span>(repIQ<span class="op">$</span>wave2_IQ, repIQ<span class="op">$</span>wave1_IQ, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>, <span class="dt">paired =</span>  <span class="ot">TRUE</span>)
+q4<span class="op">$</span>statistic</code></pre></div>
+<pre><code>##         t 
+## -2.088266</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">q4<span class="op">$</span>parameter</code></pre></div>
+<pre><code>## df 
+## 79</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">q4<span class="op">$</span>p.value</code></pre></div>
+<pre><code>## [1] 0.9800024</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab-5.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lab-7.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

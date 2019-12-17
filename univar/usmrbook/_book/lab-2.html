@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Lab 2 | Univariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Lab 2 | Univariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Lab 2 | Univariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab-1.html"/>
+<link rel="next" href="lab-3.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">USMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="lab-1.html"><a href="lab-1.html"><i class="fa fa-check"></i><b>1</b> Lab 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="lab-1.html"><a href="lab-1.html#lets-get-going"><i class="fa fa-check"></i><b>1.1</b> Let’s get going!</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="lab-1.html"><a href="lab-1.html#rstudio"><i class="fa fa-check"></i><b>1.1.1</b> RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="lab-1.html"><a href="lab-1.html#console"><i class="fa fa-check"></i><b>1.1.2</b> Console</a></li>
+<li class="chapter" data-level="1.1.3" data-path="lab-1.html"><a href="lab-1.html#editor"><i class="fa fa-check"></i><b>1.1.3</b> Editor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="lab-1.html"><a href="lab-1.html#a-simple-analysis"><i class="fa fa-check"></i><b>1.2</b> A simple analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="lab-1.html"><a href="lab-1.html#last-things"><i class="fa fa-check"></i><b>1.2.1</b> Last Things</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab-2.html"><a href="lab-2.html"><i class="fa fa-check"></i><b>2</b> Lab 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="lab-2.html"><a href="lab-2.html#first-things-first"><i class="fa fa-check"></i><b>2.1</b> First things first</a></li>
+<li class="chapter" data-level="2.2" data-path="lab-2.html"><a href="lab-2.html#classes"><i class="fa fa-check"></i><b>2.2</b> Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="lab-2.html"><a href="lab-2.html#data-structures"><i class="fa fa-check"></i><b>2.3</b> Data structures</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lab-2.html"><a href="lab-2.html#subsetting"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lab-2.html"><a href="lab-2.html#subsetting-using-names"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting using names</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lab-2.html"><a href="lab-2.html#replacement"><i class="fa fa-check"></i><b>2.4</b> Replacement</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab-3.html"><a href="lab-3.html"><i class="fa fa-check"></i><b>3</b> Lab 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="lab-3.html"><a href="lab-3.html#logical-subsetting"><i class="fa fa-check"></i><b>3.1</b> Logical subsetting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="lab-3.html"><a href="lab-3.html#complementary-subsetting"><i class="fa fa-check"></i><b>3.1.1</b> Complementary subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab-3.html"><a href="lab-3.html#sorting"><i class="fa fa-check"></i><b>3.2</b> Sorting</a></li>
+<li class="chapter" data-level="3.3" data-path="lab-3.html"><a href="lab-3.html#subsetting-with-commands"><i class="fa fa-check"></i><b>3.3</b> Subsetting with commands</a></li>
+<li class="chapter" data-level="3.4" data-path="lab-3.html"><a href="lab-3.html#creating-variables"><i class="fa fa-check"></i><b>3.4</b> Creating variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab-4.html"><a href="lab-4.html"><i class="fa fa-check"></i><b>4</b> Lab 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="lab-4.html"><a href="lab-4.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="lab-4.html"><a href="lab-4.html#simple-plots"><i class="fa fa-check"></i><b>4.2</b> Simple Plots</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="lab-4.html"><a href="lab-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.2.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab-4.html"><a href="lab-4.html#ordinal-categorical-variables"><i class="fa fa-check"></i><b>4.2.2</b> Ordinal Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lab-4.html"><a href="lab-4.html#continuous-variables"><i class="fa fa-check"></i><b>4.2.3</b> Continuous Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab-4.html"><a href="lab-4.html#scatterplots-visualizing-associations"><i class="fa fa-check"></i><b>4.3</b> Scatterplots: Visualizing associations</a></li>
+<li class="chapter" data-level="4.4" data-path="lab-4.html"><a href="lab-4.html#boxplots-visualizing-group-differences"><i class="fa fa-check"></i><b>4.4</b> Boxplots: Visualizing group differences</a></li>
+<li class="chapter" data-level="4.5" data-path="lab-4.html"><a href="lab-4.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="4.6" data-path="lab-4.html"><a href="lab-4.html#more-advanced-plotting"><i class="fa fa-check"></i><b>4.6</b> More advanced plotting</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="lab-4.html"><a href="lab-4.html#pinpointing-data"><i class="fa fa-check"></i><b>4.6.1</b> Pinpointing data</a></li>
+<li class="chapter" data-level="4.6.2" data-path="lab-4.html"><a href="lab-4.html#customising-plots"><i class="fa fa-check"></i><b>4.6.2</b> Customising plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="lab-4.html"><a href="lab-4.html#multiple-plots-in-one"><i class="fa fa-check"></i><b>4.7</b> Multiple Plots in One</a></li>
+<li class="chapter" data-level="4.8" data-path="lab-4.html"><a href="lab-4.html#lets-put-all-this-into-practice"><i class="fa fa-check"></i><b>4.8</b> Let’s put all this into practice</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="lab-4.html"><a href="lab-4.html#code-book"><i class="fa fa-check"></i><b>4.8.1</b> Code Book</a></li>
+<li class="chapter" data-level="4.8.2" data-path="lab-4.html"><a href="lab-4.html#questions"><i class="fa fa-check"></i><b>4.8.2</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="lab-4.html"><a href="lab-4.html#lab-4-ggplot"><i class="fa fa-check"></i><b>4.9</b> Lab 4 GGPLOT</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="lab-4.html"><a href="lab-4.html#introduction-1"><i class="fa fa-check"></i><b>4.9.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.9.2" data-path="lab-4.html"><a href="lab-4.html#ggplot2"><i class="fa fa-check"></i><b>4.9.2</b> <code>ggplot2</code></a></li>
+<li class="chapter" data-level="4.9.3" data-path="lab-4.html"><a href="lab-4.html#qplot"><i class="fa fa-check"></i><b>4.9.3</b> <code>qplot()</code></a></li>
+<li class="chapter" data-level="4.9.4" data-path="lab-4.html"><a href="lab-4.html#your-turn"><i class="fa fa-check"></i><b>4.9.4</b> Your Turn</a></li>
+<li class="chapter" data-level="4.9.5" data-path="lab-4.html"><a href="lab-4.html#using-ggplot"><i class="fa fa-check"></i><b>4.9.5</b> Using <code>ggplot()</code></a></li>
+<li class="chapter" data-level="4.9.6" data-path="lab-4.html"><a href="lab-4.html#your-turn-1"><i class="fa fa-check"></i><b>4.9.6</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab-5.html"><a href="lab-5.html"><i class="fa fa-check"></i><b>5</b> Lab 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="lab-5.html"><a href="lab-5.html#finally-stats"><i class="fa fa-check"></i><b>5.1</b> Finally stats</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="lab-5.html"><a href="lab-5.html#data-set"><i class="fa fa-check"></i><b>5.1.1</b> Data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab-5.html"><a href="lab-5.html#read-in-and-clean-data"><i class="fa fa-check"></i><b>5.1.2</b> Read in and clean data</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab-5.html"><a href="lab-5.html#impossible-values"><i class="fa fa-check"></i><b>5.1.3</b> Impossible values</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab-5.html"><a href="lab-5.html#improbable-values"><i class="fa fa-check"></i><b>5.1.4</b> Improbable values</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab-5.html"><a href="lab-5.html#non-integer-values"><i class="fa fa-check"></i><b>5.1.5</b> Non-integer values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab-5.html"><a href="lab-5.html#lets-stats"><i class="fa fa-check"></i><b>5.2</b> Let’s stats!</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="lab-5.html"><a href="lab-5.html#categorical-variables-1"><i class="fa fa-check"></i><b>5.2.1</b> Categorical variables</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab-5.html"><a href="lab-5.html#analysing-continuous-data"><i class="fa fa-check"></i><b>5.2.2</b> Analysing continuous data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab-5.html"><a href="lab-5.html#more-analysis"><i class="fa fa-check"></i><b>5.2.3</b> More analysis!</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab-5.html"><a href="lab-5.html#extra-get-loopy"><i class="fa fa-check"></i><b>5.2.4</b> Extra: Get loopy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab-6.html"><a href="lab-6.html"><i class="fa fa-check"></i><b>6</b> Lab 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="lab-6.html"><a href="lab-6.html#some-more-r-skills"><i class="fa fa-check"></i><b>6.1</b> Some more R skills</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lab-6.html"><a href="lab-6.html#two-types-of-subscripting"><i class="fa fa-check"></i><b>6.1.1</b> Two types of subscripting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lab-6.html"><a href="lab-6.html#your-turn-2"><i class="fa fa-check"></i><b>6.2</b> Your Turn</a></li>
+<li class="chapter" data-level="6.3" data-path="lab-6.html"><a href="lab-6.html#real-data"><i class="fa fa-check"></i><b>6.3</b> Real Data</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lab-6.html"><a href="lab-6.html#the-data"><i class="fa fa-check"></i><b>6.3.1</b> The data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab-6.html"><a href="lab-6.html#the-questions"><i class="fa fa-check"></i><b>6.3.2</b> The questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab-7.html"><a href="lab-7.html"><i class="fa fa-check"></i><b>7</b> Lab 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="lab-7.html"><a href="lab-7.html#merging-and-missing-values"><i class="fa fa-check"></i><b>7.1</b> Merging and missing values</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="lab-7.html"><a href="lab-7.html#missing-values"><i class="fa fa-check"></i><b>7.1.1</b> Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab-7.html"><a href="lab-7.html#writing-a-function"><i class="fa fa-check"></i><b>7.2</b> Writing a function</a></li>
+<li class="chapter" data-level="7.3" data-path="lab-7.html"><a href="lab-7.html#some-data-manipulation"><i class="fa fa-check"></i><b>7.3</b> Some data manipulation</a></li>
+<li class="chapter" data-level="7.4" data-path="lab-7.html"><a href="lab-7.html#a-note-on-correlation"><i class="fa fa-check"></i><b>7.4</b> A note on correlation</a></li>
+<li class="chapter" data-level="7.5" data-path="lab-7.html"><a href="lab-7.html#some-statistics"><i class="fa fa-check"></i><b>7.5</b> Some statistics!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html"><i class="fa fa-check"></i><b>8</b> Lab 8 - The General Linear Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#a-brief-note-on-with"><i class="fa fa-check"></i><b>8.1</b> A brief note on <code>with()</code></a></li>
+<li class="chapter" data-level="8.2" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#linear-models"><i class="fa fa-check"></i><b>8.2</b> Linear Models</a></li>
+<li class="chapter" data-level="8.3" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-prediction-and-visualisation"><i class="fa fa-check"></i><b>8.3</b> Model prediction and visualisation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#predict"><i class="fa fa-check"></i><b>8.3.1</b> Predict()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-criticism"><i class="fa fa-check"></i><b>8.4</b> Model criticism</a></li>
+<li class="chapter" data-level="8.5" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#multiple-regression"><i class="fa fa-check"></i><b>8.5</b> Multiple regression</a></li>
+<li class="chapter" data-level="8.6" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#contrast-coding"><i class="fa fa-check"></i><b>8.6</b> Contrast coding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html"><i class="fa fa-check"></i><b>9</b> Lab 9 - Interactions and GLM&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#interactions"><i class="fa fa-check"></i><b>9.1</b> Interactions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#specifying-interactions-in-r"><i class="fa fa-check"></i><b>9.1.1</b> Specifying interactions in R</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#simulating-data"><i class="fa fa-check"></i><b>9.1.2</b> Simulating data</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#visualising-interactions"><i class="fa fa-check"></i><b>9.1.3</b> Visualising interactions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#modelling-interactions"><i class="fa fa-check"></i><b>9.1.4</b> Modelling interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#generalised-linear-model-glm"><i class="fa fa-check"></i><b>9.2</b> General<strong>ised</strong> Linear Model (GLM)</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#log-odds-and-predicted-probabilities"><i class="fa fa-check"></i><b>9.2.1</b> Log-odds and predicted probabilities</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#predicted-vs-observed"><i class="fa fa-check"></i><b>9.2.2</b> Predicted vs Observed</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#your-turn-less-guidance"><i class="fa fa-check"></i><b>9.3</b> Your turn (Less guidance)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab-10.html"><a href="lab-10.html"><i class="fa fa-check"></i><b>10</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="lab-10.html"><a href="lab-10.html#apply-functions"><i class="fa fa-check"></i><b>10.1</b> <code>apply</code> functions</a></li>
+<li class="chapter" data-level="10.2" data-path="lab-10.html"><a href="lab-10.html#lab-10-1"><i class="fa fa-check"></i><b>10.2</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lab-10.html"><a href="lab-10.html#the-task"><i class="fa fa-check"></i><b>10.2.1</b> The Task</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Univariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab-2" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Lab 2</h1>
+<p>Today, you will learn about basic data structures in <code>R</code> and how to manipulate them. Before we kick off, there’s one thing we’d like to address. Some people feel reluctant to play around with <code>R</code> for fear of breaking something. This is quite normal, especially if they don’t really understand how <code>R</code> works yet. If this is your case, we’d like to reassure you that there’s nothing you can do by typing in the script or the console that will cause anything to explode (unless you really know what you’re doing and you set out to cause problems). So, be curious, play around, try things out, look up other people’s code (from trusted sources), break it down, try to understand it. That’s the best way to learn!</p>
+<div id="first-things-first" class="section level2">
+<h2><span class="header-section-number">2.1</span> First things first</h2>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a new RStudio project in a new directory called “Lab2” within your “Univariate” folder.</p>
+<p>Last week, we discussed objects in <code>R</code>. We talked about how basically everything in <code>R</code> is an object and how we can assign some content to an object using the <code>&lt;-</code> assignment operator. This week, we will talk about the different kinds (classes) of content and the different ways this content can be organised (data structures).</p>
+</div>
+<div id="classes" class="section level2">
+<h2><span class="header-section-number">2.2</span> Classes</h2>
+<p>All data in <code>R</code> are organised in some <em>structures</em>. We’ve already encountered one of them – vectors – but there are other types we will talk about in due course. First let’s focus on what these structures are made up of – <em>elements</em>. An element is a single number, boolean (<code>TRUE</code>/<code>FALSE</code>), or a character string (anything in “quotes”). Elements come in several <em>classes</em>:</p>
+<ul>
+<li><code>&quot;numeric&quot;</code>, as the name suggests, a numeric element is a <em>single number</em>: 1, 2, -725, 3.14159265, <em>etc.</em>. A numeric element is never in ‘single’ or “double” quotes! Numbers are cool because you can do a lot of maths (and stats!) with them.</li>
+</ul>
+<p> </p>
+<ul>
+<li><code>&quot;character&quot;</code>, a string of characters, no matter how long. It can be a single letter, <code>'g'</code>, but it can equally well be a sentence, <code>&quot;Elen s?la lumenn' omentielvo.&quot;</code> (if you want the string to contain any single quotes, use double quotes to surround the string with and <em>vice versa</em>). Notice that character strings in <code>R</code> are <em>always</em> in ‘single’ or “double” quotes. Conversely <em>anything in quotes</em> is a character string:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(<span class="dv">3</span>)</code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong> Try running the same command, just put the 3 in quotes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(<span class="st">&quot;3&quot;</span>) <span class="co"># in quotes, therefore character!</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>It stands to reason that you can’t do any maths with cahracter strings, <strong>not even if it’s a number that’s inside the quotes</strong>! Try adding <code>&quot;3&quot;</code> and <code>&quot;2&quot;</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="st">&quot;3&quot;</span> <span class="op">+</span><span class="st"> &quot;2&quot;</span></code></pre></div>
+<pre><code>## Error in &quot;3&quot; + &quot;2&quot;: non-numeric argument to binary operator</code></pre>
+<p> </p>
+<p>The error message <code>R</code> gives you is a little cryptic so let’s decode it. “Binary operator” refers to the addition. Other binary operators are, <em>e.g.</em>, <code>*</code>, <code>^</code>, or <code>%%</code> (<a href="https://en.wikipedia.org/wiki/Modulo_operation">modulo</a>). So <code>R</code> is telling you that you are trying to perform an arithmetic operation on non-numbers. Why does it not just say so like a normal person? No idea! You are most likely to get this error when you try to calculate something from your data (<em>e.g.</em>, a total score) but one of the variables is actually not <code>numeric</code> for some reason. Maybe the data weren’t read in right or you’ve selected the wrong column, <em>etc</em>.</p>
+<p> </p>
+<ul>
+<li><code>&quot;logical&quot;</code>, a logical element can take one of two values, <code>TRUE</code> or <code>FALSE</code>. Logicals are usually the output of logical operations (anything that can be phrased as a yes/no question, <em>e.g., is x equal to y?</em>). In formal logic, <code>TRUE</code> is represented as 1 and <code>FALSE</code> as 0. This is also the case in <code>R</code>:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># recall that c() is used to bind elements into a vector</span>
+<span class="co"># (that&#39;s just a fancy term for an ordered group of elements)</span>
+<span class="kw">class</span>(<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>We can force (‘coerce’, in R jargon) the vector to be numeric. Try doing that using the <code>as.numeric()</code> function instead of <code>class()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">as.numeric</span>(<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## [1] 1 0</code></pre>
+<p>This has interesting implications. First, is you have a logical vector of many <code>TRUE</code>s and <code>FALSE</code>s, you can quickly count the number of <code>TRUE</code>s by just taking the sum of the vector:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># consider vector of 50 logicals</span>
+x</code></pre></div>
+<pre><code>##  [1]  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+## [12]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
+## [23] FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE
+## [34]  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+## [45]  TRUE FALSE  TRUE  TRUE  TRUE FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># number of TRUEs</span>
+<span class="kw">sum</span>(x)</code></pre></div>
+<pre><code>## [1] 30</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># number of FALSEs is 50 minus number of TRUEs</span>
+<span class="kw">length</span>(x) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(x)</code></pre></div>
+<pre><code>## [1] 20</code></pre>
+<p>Second, you can perform all sorts of arithmetic operations on logicals:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># TRUE/FALSE can be shortened to T/F</span>
+T <span class="op">+</span><span class="st"> </span>T</code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">F <span class="op">-</span><span class="st"> </span>T</code></pre></div>
+<pre><code>## [1] -1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(T <span class="op">*</span><span class="st"> </span>T) <span class="op">+</span><span class="st"> </span>F</code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>Third, you can coerce numeric elements to valid logicals:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># zero is FALSE</span>
+<span class="kw">as.logical</span>(<span class="dv">0</span>)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># everything else is TRUE</span>
+<span class="kw">as.logical</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">12</span>, <span class="op">-</span><span class="fl">231.3525</span>))</code></pre></div>
+<pre><code>## [1] TRUE TRUE TRUE TRUE</code></pre>
+<p>Now, you may wonder that use this can possible be?! Well, this way you can perform basic logical operations, such as AND, OR, and XOR (see <a href="https://mivalek.github.io/Lectures/lecture2/Lecture_2.html#/thats-logic-innit">Lecture 2</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x * y is equivalent to x AND y</span>
+<span class="kw">as.logical</span>(T <span class="op">*</span><span class="st"> </span>T)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(T <span class="op">*</span><span class="st"> </span>F)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(F <span class="op">*</span><span class="st"> </span>T)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(F <span class="op">*</span><span class="st"> </span>F)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x + y is equivalent to x OR y</span>
+<span class="kw">as.logical</span>(T <span class="op">+</span><span class="st"> </span>T)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(T <span class="op">+</span><span class="st"> </span>F)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(F <span class="op">+</span><span class="st"> </span>T)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(F <span class="op">+</span><span class="st"> </span>F)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x - y is equivalent to x XOR y (eXclusive OR, either-or)</span>
+<span class="kw">as.logical</span>(T <span class="op">-</span><span class="st"> </span>T)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(T <span class="op">-</span><span class="st"> </span>F)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(F <span class="op">-</span><span class="st"> </span>T)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(F <span class="op">-</span><span class="st"> </span>F)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p> </p>
+<ul>
+<li><code>&quot;factor&quot;</code>, factors are a bit weird. They are used mainly for telling <code>R</code> that a vector represents a categorical variable. For instance, you can be comparing two groups, treatment and control.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a vector of 15 &quot;control&quot;s and 15 &quot;treatment&quot;s</span>
+x &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;treatment&quot;</span>), <span class="dt">each =</span> <span class="dv">15</span>)
+x</code></pre></div>
+<pre><code>##  [1] &quot;control&quot;   &quot;control&quot;   &quot;control&quot;   &quot;control&quot;   &quot;control&quot;  
+##  [6] &quot;control&quot;   &quot;control&quot;   &quot;control&quot;   &quot;control&quot;   &quot;control&quot;  
+## [11] &quot;control&quot;   &quot;control&quot;   &quot;control&quot;   &quot;control&quot;   &quot;control&quot;  
+## [16] &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot;
+## [21] &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot;
+## [26] &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot; &quot;treatment&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Run the code above. Don’t copy-paste, type it in manually. It will help you learn the syntax. Now, turn <code>x</code> into a factor using <code>factor()</code> or <code>as.factor()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># turn x into a factor</span>
+x &lt;-<span class="st"> </span><span class="kw">as.factor</span>(x)
+x</code></pre></div>
+<pre><code>##  [1] control   control   control   control   control   control   control  
+##  [8] control   control   control   control   control   control   control  
+## [15] control   treatment treatment treatment treatment treatment treatment
+## [22] treatment treatment treatment treatment treatment treatment treatment
+## [29] treatment treatment
+## Levels: control treatment</code></pre>
+<p>The first thing to notice is the line under the last printout that says “<code>Levels: control treatment</code>”. This informs you that <code>x</code> is now a factor with two levels (or, a categorical variable with two categories).</p>
+<p>Second thing you should take note of is that the words <code>control</code> and <code>treatment</code> don’t have quotes around them. This is another way <code>R</code> uses to tell you this is a factor.</p>
+<p>With factors, it is important to understand how they are represented in <code>R</code>. Despite, what they look like, <strong>under the hood, they are numbers</strong>. A one-level factor is a vector of <code>1</code>s, a two-level factor is a vector of <code>1</code>s and <code>2</code>s, a <em>n</em>-level factor is a vector of <code>1</code>s, <code>2</code>s, <code>3</code>s … <em>n</em>s. The levels, in our case <code>control</code> and <code>treatment</code>, are just labels attached to the <code>1</code>s and <code>2</code>s. Let’s demonstrate this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(x)</code></pre></div>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># integer is fancy for &quot;whole number&quot;</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try coercing <code>x</code> to numeric and see what happens. Don’t assign the result to <code>x</code>, just have it prited out.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">as.numeric</span>(x)</code></pre></div>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now look at the <code>levels()</code> of <code>x</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">levels</span>(x)</code></pre></div>
+<pre><code>## [1] &quot;control&quot;   &quot;treatment&quot;</code></pre>
+<p>The labels attached to the numbers in a factor can be whatever. Let’s say that in your raw data file, treatment group is coded as 1 and control group is coded as 0.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a vector of 15 zeros and 15 ones</span>
+x &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">each =</span> <span class="dv">15</span>)
+x</code></pre></div>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># turn x into a factor</span>
+x &lt;-<span class="st"> </span><span class="kw">as.factor</span>(x)
+x</code></pre></div>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+## Levels: 0 1</code></pre>
+<p>Since <code>x</code> is now a factor with levels <code>0</code> and <code>1</code>, we know that it is stored in <code>R</code> as a vector of <code>1</code>s and <code>2</code>s and <strong>the zeros and ones</strong>, representing the groups, <strong>are only labels</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.numeric</span>(x)</code></pre></div>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(x)</code></pre></div>
+<pre><code>## [1] &quot;0&quot; &quot;1&quot;</code></pre>
+<p>The fact that factors in <code>R</code> are represented as labelled integers has interesting implications. First, certain functions will coerce factors into numeric vectors which can shake things up. <code>cbind()</code> which <strong>bind</strong>s its arguments by <em>c</em>olumn is one such function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x</code></pre></div>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+## Levels: 0 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># let&#39;s bind the first 15 elements and the last 15 elements together as columns</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try <code>cbind()</code>-ing the first 15 and the last 15 elements of <code>x</code> into two columns. <em>Hint:</em> <code>x[1:15]</code> gives you the first 15 elements.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># printout truncated to first 5 rows to save space</span>
+<span class="kw">cbind</span>(x[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>], x[<span class="dv">16</span><span class="op">:</span><span class="dv">30</span>])</code></pre></div>
+<pre><code>##       [,1] [,2]
+##  [1,]    1    2
+##  [2,]    1    2
+##  [3,]    1    2
+##  [4,]    1    2
+##  [5,]    1    2
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 10 rows ]</code></pre>
+<p><code>cbind()</code> binds the vectors you provide into the columns of a matrix. Since matrices (yep, that’s the plural of ‘matrix’; also, more on matrices later) can only contain <code>logical</code>, <code>numeric</code>, and <code>character</code> elements, the <code>cbind()</code> function coerces the elements of the <code>x</code> factor (haha, the X-factor) into <code>numeric</code>, stripping the labels and leaving only <code>1</code>s and <code>2</code>s.</p>
+<p>The other two consequences of this labelled numbers system stem from the way the labels are stored. Every <code>R</code> object comes with a list of so called <em>attributes</em> attached to it. These are basically information about the object. For objects of class <code>factor</code>, the attributes include its levels (or the labels attached to the numbers) and class:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attributes</span>(x)</code></pre></div>
+<pre><code>## $levels
+## [1] &quot;0&quot; &quot;1&quot;
+## 
+## $class
+## [1] &quot;factor&quot;</code></pre>
+<p>So the labels are stored separately of the actual elements. This means, that even if you delete some of the numbers, the labels stay the same. Let’s demonstrate this implication on the <code>plot()</code> function. This function is smart enough to know that if you give it a factor it should plot it using a bar chart, and not a histogram or a scatter plot (more on plots next week).</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try plotting <code>x</code> with the <code>plot()</code> function. The result should be something like this:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">plot</span>(x)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now, let’s take the first 15 elements of <code>x</code>, which are all <code>0</code>s, store them in <code>y</code> and plot them:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">y &lt;-<span class="st"> </span>x[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
+<span class="kw">plot</span>(y)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>As you can see, even though our new object <code>y</code> only includes <code>0</code>s, the <code>levels</code> attribute still tells <code>R</code> that this is a factor of (at least <em>potentially</em>) two levels: <code>&quot;0&quot;</code> and <code>&quot;1&quot;</code> and so <code>plot()</code> leaves a room for the <code>1</code>s.</p>
+<p>The last consequence is directly related to this. Since the levels of an object of class <code>factor</code> are stored as its attributes, any additional values put inside the objects will be invalid and turned into <code>NA</code>s (<code>R</code> will warn us of this). In other words, you <strong>can only add those values that are among the ones produced by <code>levels()</code></strong> to an object of class <code>factor</code>:</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try adding invalid values -4 and 3 to the end of vector <code>x</code> (that’s <code>x[31:32]</code>) and then print out <code>x</code> to see what happened.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">31</span><span class="op">:</span><span class="dv">32</span>] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">3</span>)</code></pre></div>
+<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, 31:32, value = c(-4, 3)): invalid factor
+## level, NA generated</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x</code></pre></div>
+<pre><code>##  [1] 0    0    0    0    0    0    0    0    0    0    0    0    0    0   
+## [15] 0    1    1    1    1    1    1    1    1    1    1    1    1    1   
+## [29] 1    1    &lt;NA&gt; &lt;NA&gt;
+## Levels: 0 1</code></pre>
+<p>As you can see, <code>R</code> sort of goes with it but warns you that you are adding values that are not valid levels of the <code>factor</code>. Warnings are different from errors in that the commands still get executed but the outcome might not be what you want it to be. You need to be sure you understand the behaviour in order to judge whether or not this is a problem in any particular situation. The only way to add these values to a factor is to first coerce it to <code>numeric</code>, then add the values, and then turn it back into <code>factor</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># coerce x to numeric</span>
+x &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(x[<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>])
+<span class="kw">class</span>(x)</code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># but remember that 0s and 1s are now 1s and 2s!</span>
+x</code></pre></div>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># so subtract 1 to make the values 0s and 1s again</span>
+x &lt;-<span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="dv">1</span>
+<span class="co"># add the new values</span>
+x &lt;-<span class="st"> </span><span class="kw">c</span>(x, <span class="op">-</span><span class="dv">4</span>, <span class="dv">3</span>)
+<span class="co"># back into fractor</span>
+x &lt;-<span class="st"> </span><span class="kw">as.factor</span>(x)
+x</code></pre></div>
+<pre><code>##  [1] 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1 
+## [24] 1  1  1  1  1  1  1  -4 3 
+## Levels: -4 0 1 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># SUCCESS!</span>
+
+<span class="co"># reset</span>
+x &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">rep</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">each =</span> <span class="dv">15</span>))
+<span class="co"># one-liner</span>
+x &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="kw">as.numeric</span>(x[<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>]) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="op">-</span><span class="dv">4</span>, <span class="dv">3</span>))
+x</code></pre></div>
+<pre><code>##  [1] 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1 
+## [24] 1  1  1  1  1  1  1  -4 3 
+## Levels: -4 0 1 3</code></pre>
+<p>Told you factors were weird…</p>
+<p> </p>
+<ul>
+<li><code>&quot;ordered&quot;</code>, finally, these are the same as factors but, in addition to having levels, these levels are ordered and thus allow comparison (notice the <code>Levels: 0 &lt; 1</code> below):</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create an ordered x</span>
+x &lt;-<span class="st"> </span><span class="kw">as.ordered</span>(<span class="kw">rep</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">each =</span> <span class="dv">15</span>))
+x</code></pre></div>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+## Levels: 0 &lt; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we can now compare the levels</span>
+x[<span class="dv">1</span>] <span class="op">&lt;</span><span class="st"> </span>x[<span class="dv">30</span>]</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is not the case with factors</span>
+y &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">rep</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">each =</span> <span class="dv">15</span>))
+y[<span class="dv">1</span>] <span class="op">&lt;</span><span class="st"> </span>y[<span class="dv">30</span>]</code></pre></div>
+<pre><code>## Warning in Ops.factor(y[1], y[30]): &#39;&lt;&#39; not meaningful for factors</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>Objects of class <code>ordered</code> are useful for storing <em>ordinal</em> variables, <em>e.g.,</em> age group.</p>
+<p> </p>
+<p>In addition to these five sorts of elements, there are three special wee snowflakes:</p>
+<ul>
+<li><p><code>NA</code>, stands for “not applicable” and is used for missing data. Unlike other kinds of elements, it can be bound into a vector along with elements of any class.</p></li>
+<li><p><code>NaN</code>, stands for “not a number”. It is technically of class <code>numeric</code> but only occurs as the output of invalid mathematical operations, such as dividing zero by zero or taking a square root of a negative number:</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">0</span> <span class="op">/</span><span class="st"> </span><span class="dv">0</span></code></pre></div>
+<pre><code>## [1] NaN</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="op">-</span><span class="dv">12</span>)</code></pre></div>
+<pre><code>## Warning in sqrt(-12): NaNs produced</code></pre>
+<pre><code>## [1] NaN</code></pre>
+<ul>
+<li><code>Inf</code> (or <code>-Inf</code>), infinity. Reserved for division of a non-zero number by zero (no, it’s not <em>technically</em> right):</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">235</span> <span class="op">/</span><span class="st"> </span><span class="dv">0</span></code></pre></div>
+<pre><code>## [1] Inf</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">-</span><span class="fl">85.123</span> <span class="op">/</span><span class="st"> </span><span class="dv">0</span></code></pre></div>
+<pre><code>## [1] -Inf</code></pre>
+<p class="why">
+As you can see, understanding how <code>R</code> represents and treats different classes of data is crucial for data processing and analysis as well as avoiding potential pitfalls.
+</p>
+</div>
+<div id="data-structures" class="section level2">
+<h2><span class="header-section-number">2.3</span> Data structures</h2>
+<p> </p>
+<p>So that’s most of what you need to know about elements. Let’s talk about putting elements together. As mentioned above, elements can be grouped in various data structures. These differ in the ways in which they arrange elements:</p>
+<ul>
+<li><em>vectors</em> arrange elements in a line. they don’t have dimensions and can only contain elements of same class (<em>e.g.,</em> <code>&quot;numeric&quot;</code>, <code>&quot;character&quot;</code>, <code>&quot;logical&quot;</code>).</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># a vector</span>
+letters[<span class="dv">5</span><span class="op">:</span><span class="dv">15</span>]</code></pre></div>
+<pre><code>##  [1] &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot;</code></pre>
+<p>If you try to force elements of different classes to a single vector, they will all be converted to the <em>most complex</em> class. The order of complexity, from least to most complex, is: <code>logical</code>, <code>numeric</code>, and <code>character</code>. Elements of class <code>factor</code> and <code>ordered</code> cannot be meaningfully bound in a vector with other classes (nor with each other): they either get converted to <code>numeric</code>, <code>character</code> - if you’re lucky - or to <code>NA</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># c(logical, numeric) results in numeric</span>
+x &lt;-<span class="st"> </span><span class="kw">c</span>(T, F, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)
+x</code></pre></div>
+<pre><code>## [1] 1 0 1 2 3 4 5 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(x)</code></pre></div>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># integer is like numeric but only for whole numbers to save computer memory</span>
+
+<span class="co"># adding character results in character</span>
+x &lt;-<span class="st"> </span><span class="kw">c</span>(x, <span class="st">&quot;foo&quot;</span>)
+<span class="co"># the numbers 1-6 are not numeric any more!</span>
+x</code></pre></div>
+<pre><code>## [1] &quot;1&quot;   &quot;0&quot;   &quot;1&quot;   &quot;2&quot;   &quot;3&quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot;foo&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Verify that this is indeed the case by looking at class of x.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">class</span>(x)</code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p> </p>
+<ul>
+<li><em>matrices</em> arrange elements in a square/rectangle, <em>i.e.,</em> a two-dimensional arrangement of <em>rows</em> and <em>columns</em>. They can also only accommodate elements of the same class and cannot store attributes of elements. That means, <em>you can’t use them to store (ordered) factors</em>.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># a matrix</span>
+<span class="kw">matrix</span>(<span class="kw">sample</span>(<span class="dv">20</span>), <span class="dt">ncol =</span> <span class="dv">5</span>) <span class="co"># must be square/rectangular</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    7    1    9   16   10
+## [2,]   18   15    6   20   12
+## [3,]   14   13    3    8    2
+## [4,]    4   11    5   17   19</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># not suitable for factors</span>
+x &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">sample</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dt">replace =</span> T))
+x</code></pre></div>
+<pre><code>##  [1] 6  10 7  8  3  4  1  2  6  2  2  1  5  1  8  4  10 10 6  9 
+## Levels: 1 2 3 4 5 6 7 8 9 10</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a new factor <code>x</code> using the command above and put it in a matrix with 5 columns to see what happens.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># not factors any more!</span>
+<span class="kw">matrix</span>(x, <span class="dt">ncol =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,] &quot;6&quot;  &quot;3&quot;  &quot;6&quot;  &quot;5&quot;  &quot;10&quot;
+## [2,] &quot;10&quot; &quot;4&quot;  &quot;2&quot;  &quot;1&quot;  &quot;10&quot;
+## [3,] &quot;7&quot;  &quot;1&quot;  &quot;2&quot;  &quot;8&quot;  &quot;6&quot; 
+## [4,] &quot;8&quot;  &quot;2&quot;  &quot;1&quot;  &quot;4&quot;  &quot;9&quot;</code></pre>
+<p> </p>
+<ul>
+<li><em>lists</em> arrange elements in a collection of vectors or other data structures. Different vectors/structures can be of different lengths and contain elements of different classes. Elements of lists and, by extension, data frames can be accessed using the <code>$</code> operator, provided we gave them names.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># a list</span>
+my_list &lt;-<span class="st"> </span><span class="kw">list</span>(
+  <span class="co"># 1st element of list is a numeric matrix</span>
+  <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">20</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">5</span>), 
+  <span class="co"># 2nd element is a character vector</span>
+  <span class="dt">B =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>],
+  <span class="co"># third is a data.frame</span>
+  <span class="dt">C =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>), <span class="dt">y =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])
+)
+
+my_list</code></pre></div>
+<pre><code>## $A
+##          [,1]      [,2]       [,3]       [,4]      [,5]
+## [1,] 2.370343 1.7627046  1.1591492  0.9500066 0.3882741
+## [2,] 2.039706 1.7531991 -0.8776922  1.7634308 1.1053965
+## [3,] 1.490569 0.1393050  3.1276867  0.3352242 1.0815455
+## [4,] 1.309309 0.5922975  2.0394034 -0.5445432 0.8034688
+## 
+## $B
+## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot;
+## 
+## $C
+##   x y
+## 1 1 A
+## 2 2 B
+## 3 3 C</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we can use the $ operator to access NAMED elements of lists</span>
+my_list<span class="op">$</span>B</code></pre></div>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is also true for data frames</span>
+my_list<span class="op">$</span>C<span class="op">$</span>x</code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># but not for vectors or matrices</span>
+my_list<span class="op">$</span>A<span class="op">$</span><span class="dv">1</span></code></pre></div>
+<pre><code>## Error: &lt;text&gt;:2:11: unexpected numeric constant
+## 1: # but not for vectors or matrices
+## 2: my_list$A$1
+##              ^</code></pre>
+<p> </p>
+<ul>
+<li><em>data frames</em> are lists but have an additional constraint: all the vectors of a <code>data.frame</code> must be of the same length. That is the reasons why your datasets are always rectangular.</li>
+</ul>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a data frame called <code>df</code> that looks like the one from Lecture 2. The <code>id</code> and <code>dpt</code> variables should be <code>factors</code>, <code>degree</code> should be <code>ordered</code>, and <code>age</code> should be <code>numberic</code>. <em>Hint:</em> The function that creates a data frame is <code>data.frame()</code> and is used the same way as <code>list()</code>, <em>e.g.</em>, <code>data.frame(variable1_name = vector1, variable2_name = vector2...)</code>. The data frame should look like this:</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> <span class="kw">factor</span>(<span class="dv">1001</span><span class="op">:</span><span class="dv">1006</span>), <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">23</span>, <span class="dv">25</span>, <span class="dv">33</span>, <span class="dv">26</span>, <span class="dv">25</span>, <span class="dv">24</span>),
+           <span class="dt">eye_col =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;brown&quot;</span>, <span class="st">&quot;brown&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;brown&quot;</span>)),
+           <span class="dt">dpt =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;psy&quot;</span>, <span class="st">&quot;cog&quot;</span>, <span class="st">&quot;lel&quot;</span>, <span class="st">&quot;psy&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lel&quot;</span>)),
+           <span class="dt">degree =</span> <span class="kw">ordered</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2:1&quot;</span>, <span class="st">&quot;2:2&quot;</span>)))
+df</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 1 1001  23    blue psy    2:2
+## 2 1002  25   brown cog      1
+## 3 1003  33   brown lel      1
+## 4 1004  26   green psy      1
+## 5 1005  25    blue phi    2:1
+## 6 1006  24   brown lel    2:1</code></pre>
+<p> </p>
+<p class="why">
+Different data structures are useful for different things: data frames are like spreadsheets – each row represents an observation and each column represents a variable in your data set. Vectors are often used as representations of a single variable or observation. Matrices are the result of operations such as <code>cbind()</code>, <code>rbind()</code>, and others and lists are good for intermediate steps in complex data processing and, importantly, the output of many statistical methods in <code>R</code>. No matter the structure, though, bear in mind that, ultimately, <strong>they are all just bunches of elements</strong>. This understanding is crucial for working with data.
+</p>
+<p> </p>
+<div id="subsetting" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Subsetting</h3>
+<p>Now that you understand that all data boil down to elements, let’s look at how to ask <code>R</code> for the <em>subsets</em> elements you want.</p>
+<p>There are only two ways to do this:</p>
+<ol style="list-style-type: decimal">
+<li>indices</li>
+<li>logical vector</li>
+</ol>
+<p>Let’s take a closer look at indexing now. We’ll save logical vector subsetting for next week. Indexing is a way of asking for elements of a data structure by simply providing the numeric positions of the desired elements in the structure (vector, list…) in a set of square brackets <code>[]</code> at the end of the object name:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;I&quot;</span>, <span class="st">&quot; &quot;</span>, <span class="st">&quot;l&quot;</span>, <span class="st">&quot;o&quot;</span>, <span class="st">&quot;v&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot; &quot;</span>, <span class="st">&quot;R&quot;</span>)
+
+<span class="co"># get the 6th element</span>
+x[<span class="dv">6</span>]</code></pre></div>
+<pre><code>## [1] &quot;e&quot;</code></pre>
+<p> </p>
+<p>To get more than just one element at a time, you need to provide <em>a vector</em> of indices. For instance, to get the elements 3-6 of <code>x</code>, we can do:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">3</span><span class="op">:</span><span class="dv">6</span>]</code></pre></div>
+<pre><code>## [1] &quot;l&quot; &quot;o&quot; &quot;v&quot; &quot;e&quot;</code></pre>
+This is equivalent to inserting the vector <code>c(3, 4, 5, 6)</code> inside the square brackets.
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try doing that. First create the <code>x</code> vector as above and then subset it using <code>c(3, 4, 5, 6)</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)]</code></pre></div>
+<pre><code>## [1] &quot;l&quot; &quot;o&quot; &quot;v&quot; &quot;e&quot;</code></pre>
+<p> </p>
+<p>Remember that some structures can contain as their elements other structures. For example asking for the first element of <code>my_list</code> will return:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_list[<span class="dv">1</span>]</code></pre></div>
+<pre><code>## $A
+##          [,1]      [,2]       [,3]       [,4]      [,5]
+## [1,] 2.370343 1.7627046  1.1591492  0.9500066 0.3882741
+## [2,] 2.039706 1.7531991 -0.8776922  1.7634308 1.1053965
+## [3,] 1.490569 0.1393050  3.1276867  0.3352242 1.0815455
+## [4,] 1.309309 0.5922975  2.0394034 -0.5445432 0.8034688</code></pre>
+<p> </p>
+<p>The <code>$A</code> at the top of the output indicates that we have accessed the element <code>A</code> of <code>my_list</code> but not really accessed the matrix itself. Thus, at this stage, we wouldn’t be able to ask for its elements. To access the matrix contained in <code>my_list$A</code>, we need to write either exactly that, or use double brackets:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_list[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code>##          [,1]      [,2]       [,3]       [,4]      [,5]
+## [1,] 2.370343 1.7627046  1.1591492  0.9500066 0.3882741
+## [2,] 2.039706 1.7531991 -0.8776922  1.7634308 1.1053965
+## [3,] 1.490569 0.1393050  3.1276867  0.3352242 1.0815455
+## [4,] 1.309309 0.5922975  2.0394034 -0.5445432 0.8034688</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># with the $A now gone from output, we can access the matrix itself</span>
+my_list[[<span class="dv">1</span>]][<span class="dv">1</span>]</code></pre></div>
+<pre><code>## [1] 2.370343</code></pre>
+<p> </p>
+<p>As discussed above, some data structures are dimensionless (vectors, lists), while others are arranged in <em>n</em>-dimensional rectangles (where <em>n</em> &gt; 1). When indexing/subsetting elements of dimensional structures, we need to provide coordinates of the elements for each dimension. This is done by providing <em>n</em> numbers or vectors in the <code>[]</code>s separated by a comma.</p>
+<p>A matrix, for instance has 2 dimensions, rows and columns. The first number/vector in the <code>[]</code>s represents rows and the second columns. Leaving either position blank will return all rows/columns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>], <span class="dt">ncol =</span> <span class="dv">5</span>)
+mat</code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,] &quot;A&quot;  &quot;E&quot;  &quot;I&quot;  &quot;M&quot;  &quot;Q&quot; 
+## [2,] &quot;B&quot;  &quot;F&quot;  &quot;J&quot;  &quot;N&quot;  &quot;R&quot; 
+## [3,] &quot;C&quot;  &quot;G&quot;  &quot;K&quot;  &quot;O&quot;  &quot;S&quot; 
+## [4,] &quot;D&quot;  &quot;H&quot;  &quot;L&quot;  &quot;P&quot;  &quot;T&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># blank spaces technically not needed but improve code readability</span>
+mat[<span class="dv">1</span>, ] <span class="co"># first row</span></code></pre></div>
+<pre><code>## [1] &quot;A&quot; &quot;E&quot; &quot;I&quot; &quot;M&quot; &quot;Q&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Your turn now. Create the matrix <code>mat</code> as above and index out the first <em>column</em>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat[ , <span class="dv">1</span>] <span class="co"># first column</span></code></pre></div>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot;</code></pre>
+<p> </p>
+<p>In order to index more than one element, you need to provide a vector of indices:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), ] <span class="co"># rows 2 and 4, notice the c()</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,] &quot;B&quot;  &quot;F&quot;  &quot;J&quot;  &quot;N&quot;  &quot;R&quot; 
+## [2,] &quot;D&quot;  &quot;H&quot;  &quot;L&quot;  &quot;P&quot;  &quot;T&quot;</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>OK, now ask for rows 2 and 4 of columns 1-3.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">mat[<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>] <span class="co"># elements 2 and 4 of columns 1-3</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,] &quot;B&quot;  &quot;F&quot;  &quot;J&quot; 
+## [2,] &quot;D&quot;  &quot;H&quot;  &quot;L&quot;</code></pre>
+<p> </p>
+<p>To get the full matrix, we simply type its name. However, you can think of the same operation as asking for <em>all rows</em> and <em>all columns</em> of the matrix:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat[ , ] <span class="co"># all rows, all columns</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,] &quot;A&quot;  &quot;E&quot;  &quot;I&quot;  &quot;M&quot;  &quot;Q&quot; 
+## [2,] &quot;B&quot;  &quot;F&quot;  &quot;J&quot;  &quot;N&quot;  &quot;R&quot; 
+## [3,] &quot;C&quot;  &quot;G&quot;  &quot;K&quot;  &quot;O&quot;  &quot;S&quot; 
+## [4,] &quot;D&quot;  &quot;H&quot;  &quot;L&quot;  &quot;P&quot;  &quot;T&quot;</code></pre>
+<p> </p>
+<p>The same is the case with data frames:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df[<span class="dv">1</span>, ] <span class="co"># first row</span></code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 1 1001  23    blue psy    2:2</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Get rows 4-6 of columns 1 and 3 of our <code>df</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[<span class="dv">4</span><span class="op">:</span><span class="dv">6</span>, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)]</code></pre></div>
+<pre><code>##     id eye_col
+## 4 1004   green
+## 5 1005    blue
+## 6 1006   brown</code></pre>
+<p> </p>
+<p><strong>Take home message: </strong>when using indices to ask for elements, remember that to request more than one, you need to give a <strong>vector of indices</strong> (<em>i.e.,</em> numbers bound in a <code>c()</code>). Also remember that some data structures need you to specify dimensions <strong>separated by a comma</strong> (most often just rows and columns for matrices and data frames).</p>
+<p>A frequent error is to specify the wrong number of dimensions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">2</span>, <span class="dv">3</span>] <span class="co"># 2 dimensions where there&#39;s only 1</span></code></pre></div>
+<pre><code>## Error in x[2, 3]: incorrect number of dimensions</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df[<span class="dv">4</span><span class="op">:</span><span class="dv">6</span>] <span class="co"># 1 dimension where there are 2</span></code></pre></div>
+<pre><code>## Error in `[.data.frame`(df, 4:6): undefined columns selected</code></pre>
+<p> </p>
+<p><strong>Remember these error messages.</strong> Guaranteed this is not the last time you see them! :)</p>
+<p> </p>
+</div>
+<div id="subsetting-using-names" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> Subsetting using names</h3>
+<p>The columns of data frames must have names:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(df)</code></pre></div>
+<pre><code>## [1] &quot;id&quot;      &quot;age&quot;     &quot;eye_col&quot; &quot;dpt&quot;     &quot;degree&quot;</code></pre>
+<p>You can use the names for subsetting in a few ways:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using $ just like with lists</span>
+df<span class="op">$</span>eye_col <span class="co"># notice NO quotes</span></code></pre></div>
+<pre><code>## [1] blue  brown brown green blue  brown
+## Levels: blue brown green</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using [[]]</span>
+df[[<span class="st">&quot;eye_col&quot;</span>]] <span class="co"># notice the quotes</span></code></pre></div>
+<pre><code>## [1] blue  brown brown green blue  brown
+## Levels: blue brown green</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using [] putting the name in the 2nd dimension</span>
+df[ , <span class="st">&quot;eye_col&quot;</span>] <span class="co"># quotes!</span></code></pre></div>
+<pre><code>## [1] blue  brown brown green blue  brown
+## Levels: blue brown green</code></pre>
+<p>The latter way can be also used to subset several columns at a time. All you need to do is provide a vector of names – <code>data.frame[ , c(&quot;name1&quot;, &quot;name2&quot;, &quot;nameN&quot;)]</code>.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Get rows 1 and 3 of columns <code>age</code>, <code>dpt</code>, and <code>degree</code> of our <code>df</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">df[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="kw">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;dpt&quot;</span>, <span class="st">&quot;degree&quot;</span>)]</code></pre></div>
+<pre><code>##   age dpt degree
+## 1  23 psy    2:2
+## 3  33 lel      1</code></pre>
+</div>
+</div>
+<div id="replacement" class="section level2">
+<h2><span class="header-section-number">2.4</span> Replacement</h2>
+<p>Subsetting can be used for two things. First, it’s good for creating subsets of your data by assigning the outcome of the command to a new object. Let’s say we only want to work with the first 3 rows of <code>df</code>. We can assign the subset to a separate object:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df_subset &lt;-<span class="st"> </span>df[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, ]
+df_subset</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 1 1001  23    blue psy    2:2
+## 2 1002  25   brown cog      1
+## 3 1003  33   brown lel      1</code></pre>
+<p>Second, we can use subsetting to replace values in the object with other values. This is done by putting the subset to the left of the <code>&lt;-</code> operator:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df_subset<span class="op">$</span>eye_col[<span class="dv">2</span>] &lt;-<span class="st"> &quot;green&quot;</span>
+df_subset</code></pre></div>
+<pre><code>##     id age eye_col dpt degree
+## 1 1001  23    blue psy    2:2
+## 2 1002  25   green cog      1
+## 3 1003  33   brown lel      1</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Replace the 3<sup>th</sup>, 5<sup>th</sup>, and 6<sup>th</sup> value of <code>age</code> in <code>df</code> with <code>NA</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># ANY of the following works</span>
+df<span class="op">$</span>age[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span>
+df[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>), <span class="st">&quot;age&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
+df[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>), <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
+df[[<span class="st">&quot;age&quot;</span>]][<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span>
+df[[<span class="dv">2</span>]][<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span></code></pre></div>
+<p class="why">
+In case it’s not clear, subsetting constitutes the <strong>vast majority</strong> of all data processing/cleaning/manipulation. The importance of your understanding how it’s done simply cannot be overstated. Once you <em>really</em> get the hang of it, that’s pretty much you sorted with <code>R</code>
+</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Finally, exit the project (<kbd>Lab2</kbd> &gt; <kbd>Close Project</kbd>, save anything when asked).</p>
+<p> </p>
+<div id="thats-it-for-today-feedback-on-this-and-whether-you-feel-you-learnt-anything-very-welcome." class="section level4">
+<h4><span class="header-section-number">2.4.0.1</span> That’s it for today! Feedback on this, and whether you feel you learnt anything, very welcome.</h4>
+<p> </p>
+<p> </p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lab-3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

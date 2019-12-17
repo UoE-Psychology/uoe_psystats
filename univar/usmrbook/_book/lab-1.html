@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Lab 1 | Univariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Lab 1 | Univariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Lab 1 | Univariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="lab-2.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">USMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="lab-1.html"><a href="lab-1.html"><i class="fa fa-check"></i><b>1</b> Lab 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="lab-1.html"><a href="lab-1.html#lets-get-going"><i class="fa fa-check"></i><b>1.1</b> Let’s get going!</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="lab-1.html"><a href="lab-1.html#rstudio"><i class="fa fa-check"></i><b>1.1.1</b> RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="lab-1.html"><a href="lab-1.html#console"><i class="fa fa-check"></i><b>1.1.2</b> Console</a></li>
+<li class="chapter" data-level="1.1.3" data-path="lab-1.html"><a href="lab-1.html#editor"><i class="fa fa-check"></i><b>1.1.3</b> Editor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="lab-1.html"><a href="lab-1.html#a-simple-analysis"><i class="fa fa-check"></i><b>1.2</b> A simple analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="lab-1.html"><a href="lab-1.html#last-things"><i class="fa fa-check"></i><b>1.2.1</b> Last Things</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab-2.html"><a href="lab-2.html"><i class="fa fa-check"></i><b>2</b> Lab 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="lab-2.html"><a href="lab-2.html#first-things-first"><i class="fa fa-check"></i><b>2.1</b> First things first</a></li>
+<li class="chapter" data-level="2.2" data-path="lab-2.html"><a href="lab-2.html#classes"><i class="fa fa-check"></i><b>2.2</b> Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="lab-2.html"><a href="lab-2.html#data-structures"><i class="fa fa-check"></i><b>2.3</b> Data structures</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lab-2.html"><a href="lab-2.html#subsetting"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lab-2.html"><a href="lab-2.html#subsetting-using-names"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting using names</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lab-2.html"><a href="lab-2.html#replacement"><i class="fa fa-check"></i><b>2.4</b> Replacement</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab-3.html"><a href="lab-3.html"><i class="fa fa-check"></i><b>3</b> Lab 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="lab-3.html"><a href="lab-3.html#logical-subsetting"><i class="fa fa-check"></i><b>3.1</b> Logical subsetting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="lab-3.html"><a href="lab-3.html#complementary-subsetting"><i class="fa fa-check"></i><b>3.1.1</b> Complementary subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab-3.html"><a href="lab-3.html#sorting"><i class="fa fa-check"></i><b>3.2</b> Sorting</a></li>
+<li class="chapter" data-level="3.3" data-path="lab-3.html"><a href="lab-3.html#subsetting-with-commands"><i class="fa fa-check"></i><b>3.3</b> Subsetting with commands</a></li>
+<li class="chapter" data-level="3.4" data-path="lab-3.html"><a href="lab-3.html#creating-variables"><i class="fa fa-check"></i><b>3.4</b> Creating variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab-4.html"><a href="lab-4.html"><i class="fa fa-check"></i><b>4</b> Lab 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="lab-4.html"><a href="lab-4.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="lab-4.html"><a href="lab-4.html#simple-plots"><i class="fa fa-check"></i><b>4.2</b> Simple Plots</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="lab-4.html"><a href="lab-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.2.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab-4.html"><a href="lab-4.html#ordinal-categorical-variables"><i class="fa fa-check"></i><b>4.2.2</b> Ordinal Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lab-4.html"><a href="lab-4.html#continuous-variables"><i class="fa fa-check"></i><b>4.2.3</b> Continuous Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab-4.html"><a href="lab-4.html#scatterplots-visualizing-associations"><i class="fa fa-check"></i><b>4.3</b> Scatterplots: Visualizing associations</a></li>
+<li class="chapter" data-level="4.4" data-path="lab-4.html"><a href="lab-4.html#boxplots-visualizing-group-differences"><i class="fa fa-check"></i><b>4.4</b> Boxplots: Visualizing group differences</a></li>
+<li class="chapter" data-level="4.5" data-path="lab-4.html"><a href="lab-4.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="4.6" data-path="lab-4.html"><a href="lab-4.html#more-advanced-plotting"><i class="fa fa-check"></i><b>4.6</b> More advanced plotting</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="lab-4.html"><a href="lab-4.html#pinpointing-data"><i class="fa fa-check"></i><b>4.6.1</b> Pinpointing data</a></li>
+<li class="chapter" data-level="4.6.2" data-path="lab-4.html"><a href="lab-4.html#customising-plots"><i class="fa fa-check"></i><b>4.6.2</b> Customising plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="lab-4.html"><a href="lab-4.html#multiple-plots-in-one"><i class="fa fa-check"></i><b>4.7</b> Multiple Plots in One</a></li>
+<li class="chapter" data-level="4.8" data-path="lab-4.html"><a href="lab-4.html#lets-put-all-this-into-practice"><i class="fa fa-check"></i><b>4.8</b> Let’s put all this into practice</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="lab-4.html"><a href="lab-4.html#code-book"><i class="fa fa-check"></i><b>4.8.1</b> Code Book</a></li>
+<li class="chapter" data-level="4.8.2" data-path="lab-4.html"><a href="lab-4.html#questions"><i class="fa fa-check"></i><b>4.8.2</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="lab-4.html"><a href="lab-4.html#lab-4-ggplot"><i class="fa fa-check"></i><b>4.9</b> Lab 4 GGPLOT</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="lab-4.html"><a href="lab-4.html#introduction-1"><i class="fa fa-check"></i><b>4.9.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.9.2" data-path="lab-4.html"><a href="lab-4.html#ggplot2"><i class="fa fa-check"></i><b>4.9.2</b> <code>ggplot2</code></a></li>
+<li class="chapter" data-level="4.9.3" data-path="lab-4.html"><a href="lab-4.html#qplot"><i class="fa fa-check"></i><b>4.9.3</b> <code>qplot()</code></a></li>
+<li class="chapter" data-level="4.9.4" data-path="lab-4.html"><a href="lab-4.html#your-turn"><i class="fa fa-check"></i><b>4.9.4</b> Your Turn</a></li>
+<li class="chapter" data-level="4.9.5" data-path="lab-4.html"><a href="lab-4.html#using-ggplot"><i class="fa fa-check"></i><b>4.9.5</b> Using <code>ggplot()</code></a></li>
+<li class="chapter" data-level="4.9.6" data-path="lab-4.html"><a href="lab-4.html#your-turn-1"><i class="fa fa-check"></i><b>4.9.6</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab-5.html"><a href="lab-5.html"><i class="fa fa-check"></i><b>5</b> Lab 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="lab-5.html"><a href="lab-5.html#finally-stats"><i class="fa fa-check"></i><b>5.1</b> Finally stats</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="lab-5.html"><a href="lab-5.html#data-set"><i class="fa fa-check"></i><b>5.1.1</b> Data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab-5.html"><a href="lab-5.html#read-in-and-clean-data"><i class="fa fa-check"></i><b>5.1.2</b> Read in and clean data</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab-5.html"><a href="lab-5.html#impossible-values"><i class="fa fa-check"></i><b>5.1.3</b> Impossible values</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab-5.html"><a href="lab-5.html#improbable-values"><i class="fa fa-check"></i><b>5.1.4</b> Improbable values</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab-5.html"><a href="lab-5.html#non-integer-values"><i class="fa fa-check"></i><b>5.1.5</b> Non-integer values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab-5.html"><a href="lab-5.html#lets-stats"><i class="fa fa-check"></i><b>5.2</b> Let’s stats!</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="lab-5.html"><a href="lab-5.html#categorical-variables-1"><i class="fa fa-check"></i><b>5.2.1</b> Categorical variables</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab-5.html"><a href="lab-5.html#analysing-continuous-data"><i class="fa fa-check"></i><b>5.2.2</b> Analysing continuous data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab-5.html"><a href="lab-5.html#more-analysis"><i class="fa fa-check"></i><b>5.2.3</b> More analysis!</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab-5.html"><a href="lab-5.html#extra-get-loopy"><i class="fa fa-check"></i><b>5.2.4</b> Extra: Get loopy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab-6.html"><a href="lab-6.html"><i class="fa fa-check"></i><b>6</b> Lab 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="lab-6.html"><a href="lab-6.html#some-more-r-skills"><i class="fa fa-check"></i><b>6.1</b> Some more R skills</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lab-6.html"><a href="lab-6.html#two-types-of-subscripting"><i class="fa fa-check"></i><b>6.1.1</b> Two types of subscripting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lab-6.html"><a href="lab-6.html#your-turn-2"><i class="fa fa-check"></i><b>6.2</b> Your Turn</a></li>
+<li class="chapter" data-level="6.3" data-path="lab-6.html"><a href="lab-6.html#real-data"><i class="fa fa-check"></i><b>6.3</b> Real Data</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lab-6.html"><a href="lab-6.html#the-data"><i class="fa fa-check"></i><b>6.3.1</b> The data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab-6.html"><a href="lab-6.html#the-questions"><i class="fa fa-check"></i><b>6.3.2</b> The questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab-7.html"><a href="lab-7.html"><i class="fa fa-check"></i><b>7</b> Lab 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="lab-7.html"><a href="lab-7.html#merging-and-missing-values"><i class="fa fa-check"></i><b>7.1</b> Merging and missing values</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="lab-7.html"><a href="lab-7.html#missing-values"><i class="fa fa-check"></i><b>7.1.1</b> Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab-7.html"><a href="lab-7.html#writing-a-function"><i class="fa fa-check"></i><b>7.2</b> Writing a function</a></li>
+<li class="chapter" data-level="7.3" data-path="lab-7.html"><a href="lab-7.html#some-data-manipulation"><i class="fa fa-check"></i><b>7.3</b> Some data manipulation</a></li>
+<li class="chapter" data-level="7.4" data-path="lab-7.html"><a href="lab-7.html#a-note-on-correlation"><i class="fa fa-check"></i><b>7.4</b> A note on correlation</a></li>
+<li class="chapter" data-level="7.5" data-path="lab-7.html"><a href="lab-7.html#some-statistics"><i class="fa fa-check"></i><b>7.5</b> Some statistics!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html"><i class="fa fa-check"></i><b>8</b> Lab 8 - The General Linear Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#a-brief-note-on-with"><i class="fa fa-check"></i><b>8.1</b> A brief note on <code>with()</code></a></li>
+<li class="chapter" data-level="8.2" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#linear-models"><i class="fa fa-check"></i><b>8.2</b> Linear Models</a></li>
+<li class="chapter" data-level="8.3" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-prediction-and-visualisation"><i class="fa fa-check"></i><b>8.3</b> Model prediction and visualisation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#predict"><i class="fa fa-check"></i><b>8.3.1</b> Predict()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-criticism"><i class="fa fa-check"></i><b>8.4</b> Model criticism</a></li>
+<li class="chapter" data-level="8.5" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#multiple-regression"><i class="fa fa-check"></i><b>8.5</b> Multiple regression</a></li>
+<li class="chapter" data-level="8.6" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#contrast-coding"><i class="fa fa-check"></i><b>8.6</b> Contrast coding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html"><i class="fa fa-check"></i><b>9</b> Lab 9 - Interactions and GLM&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#interactions"><i class="fa fa-check"></i><b>9.1</b> Interactions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#specifying-interactions-in-r"><i class="fa fa-check"></i><b>9.1.1</b> Specifying interactions in R</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#simulating-data"><i class="fa fa-check"></i><b>9.1.2</b> Simulating data</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#visualising-interactions"><i class="fa fa-check"></i><b>9.1.3</b> Visualising interactions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#modelling-interactions"><i class="fa fa-check"></i><b>9.1.4</b> Modelling interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#generalised-linear-model-glm"><i class="fa fa-check"></i><b>9.2</b> General<strong>ised</strong> Linear Model (GLM)</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#log-odds-and-predicted-probabilities"><i class="fa fa-check"></i><b>9.2.1</b> Log-odds and predicted probabilities</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#predicted-vs-observed"><i class="fa fa-check"></i><b>9.2.2</b> Predicted vs Observed</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#your-turn-less-guidance"><i class="fa fa-check"></i><b>9.3</b> Your turn (Less guidance)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab-10.html"><a href="lab-10.html"><i class="fa fa-check"></i><b>10</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="lab-10.html"><a href="lab-10.html#apply-functions"><i class="fa fa-check"></i><b>10.1</b> <code>apply</code> functions</a></li>
+<li class="chapter" data-level="10.2" data-path="lab-10.html"><a href="lab-10.html#lab-10-1"><i class="fa fa-check"></i><b>10.2</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lab-10.html"><a href="lab-10.html#the-task"><i class="fa fa-check"></i><b>10.2.1</b> The Task</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Univariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab-1" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Lab 1</h1>
+<p>Welcome to the first Univariate statistics and Methodology in <code>R</code> lab. The labs are designed to give you an opportunity to learn and practice working with <code>R</code> as well as manipulating, visualising, and analysing data. Over the next 11 weeks, you will be given various tasks that will gently guide you through the process. These labs are the best time for you to make sure you understand the material covered and keep on top of things. So please, if you have any questions, ask the lecturers or the tutors. We are all keen to help!</p>
+<p> </p>
+<p>The aim of this first lab is to help you get started with the programming language. So, first of all, let us know if you had any installation problems with:</p>
+<ul>
+<li><code>R</code>, the programming language core</li>
+<li>RStudio, the integrated development environment for programming in <code>R</code></li>
+<li>Swirls, little interactive <code>R</code> lessons (not compulsory, but can be useful to practice)</li>
+</ul>
+<p>The installation instructions are in the “Lecture notes” tab of the course’s LEARN page, but you can also check the Navarro book, Part II, Chapter 3.1. If you have not installed <code>R</code> on your laptop yet, do it now.</p>
+<div id="lets-get-going" class="section level2">
+<h2><span class="header-section-number">1.1</span> Let’s get going!</h2>
+<p>Now that you have <code>R</code> installed on your machine, you can practice creating your first <code>R</code> project and writing your own first <code>R</code> script. A script is simply a text file, where you write some <code>R</code> commands that the <code>R</code> engine then executes for you. Again, instructions on how to run <code>R</code> code along with useful tips and tricks can be found on LEARN. Do check them out!</p>
+<div id="rstudio" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> RStudio</h3>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>First of all, let’s get organised: Create a folder called “Univariate” somewhere sensible on your computer (<em>e.g.,</em> in My Documents). You will use this folder to create <code>R</code> scripts and store data for these labs. It may also be a good idea to keep other documents related to this course in there. Make a choice where you want this folder to sit and stick to it. Moving it later on will cause more hassle than it’s worth so <strong>don’t do it</strong>!</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Start RStudio. Select the <kbd>Project</kbd> drop-down (top right) and create a new empty project in a new directory called “Lab1” (see Figure 1) within your “Univariate” folder.</p>
+<p> </p>
+<img src="images/rstudio1.png" />
+<p class="caption">
+<strong>Fig. 1:</strong> Creating a new project in a directory called <em>Lab1</em>.
+</p>
+<p> </p>
+<p><strong>Tip: </strong>If you’re not familiar with the idea of a directory (also sometimes called a folder), read Navarro, pp. 81-84, for an explanation. If, for example, you wanted the folder to be on your Desktop, you would create the project as a subdirectory of ~/Desktop (Mac) or ~/../Desktop (PC). Don’t do it though. Instead create the project in your [whatever location]/Univariate/ folder.</p>
+<p><strong>Pro tip: </strong>Before you do anything else, go to the <kbd>View</kbd> menu and zoom in or out to your satisfaction. RStudio will remember this setting when it next starts.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Select <kbd>File</kbd> &gt; <kbd>New File</kbd> &gt; <kbd>R Script</kbd>. In the window that appears, click on the <a href="https://en.wikipedia.org/wiki/Floppy_disk">floppy disk</a><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> icon (<img src="images/saveicon.png" width="25" />) just below <em>Untitled1</em> and save the (blank) script as <code>myscript.R</code></p>
+<p>Your RStudio window should now look like the one in Figure 2 (we’ve added some labels to the various windows for ease of reference).</p>
+<img src="images/rstudio2.png" />
+<p class="caption">
+<strong>Fig. 2:</strong> <code>myscript.R</code> ready to edit.
+</p>
+<p class="why">
+Projects are handy for several reasons. For instance, when you create a project, the default working directory will be set in the project’s folder<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. That means that, unless you tell it otherwise, <code>R</code> will look in the project folder for any files you tell it to access. Projects are also easily connected with version control software (<em>e.g.,</em> Git) and are great for collaborative scripts and documents. Additionally, <code>R</code> can be configured to have different default settings for each project which can be very useful. These topics may be somewhat advanced but it is a good idea to get into the habit of using RStudio projects. <strong>We strongly recommend you create a separate project within the Univariate folder for each lab.</strong>
+</p>
+</div>
+<div id="console" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Console</h3>
+<p>The “heart of <code>R</code>” is the <em>Console</em> window. This is where instructions are sent to <code>R</code>, and its responses are given. The console is, almost exclusively, the way of talking to <code>R</code> in RStudio.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Click on the console and type <code>1 + 1</code> (then hit <kbd>↵Enter</kbd>).</p>
+<p>You should see something like the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>The <em>Information</em> area (all of the right-hand side of RStudio) shows you useful information about the state of your project. At the moment, you can see some relevant files in the bottom pane, and an empty “Global Environment” at the top. The global environment is a virtual storage of all objects you create in <code>R</code>. So, for example, if you read in some data into <code>R</code> (more on that later), this is where they will be put and where <code>R</code> will look for them if you tell it to manipulate or analyse the data.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Click on the console and type <code>x &lt;- 1 + 1</code> and see what happens. Look at the Environment tab, in particular.</p>
+<p>As you can see, the tab now contains a “<strong>Values</strong>” section and, within it, there is a <code>x</code> and it’s associated value of <code>2</code> (the result of the <code>1 + 1</code> operation). What happened here is that you told <code>R</code> to run the <code>1 + 1</code> command and store its result inside an <em>object</em> labelled <code>x</code>. In, other words, you <em>assigned</em> the value resulting from the <code>1 + 1</code> command to the object <code>x</code> using the <em>assignment operator</em> <code>&lt;-</code> (think of it as an arrow pointing the result of the right-hand side command to the left-hand side object).</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Hit <kbd>Ctrl</kbd> + <kbd>↑</kbd> (<kbd>⌘</kbd> + <kbd>↑</kbd> on Mac). Highlight the <code>x &lt;- 1 + 1</code> line and press <kbd>↵Enter</kbd> (this will rewrite it to the console). Edit it so that it reads <code>x &lt;- x + 1</code>. What will this do? Press <kbd>↵Enter</kbd> to confirm your guess.</p>
+<p>If you look in at the Environment tab, you will see that <code>x</code> now stores the value of <code>3</code>. Though it may look like the <code>x</code> object simply got incremented by 1, let not that deceive you. What <code>R</code> really did was it took whatever was inside the <code>x</code> object and added <code>1</code> to it, storing the result of the operation in a different object. It then took the <code>x</code> label from the old object and put it on the new one, immediately forgetting all about the original object. It may seem to you like a distinction without a difference but, as will become clear later on, it is an important one.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try running the command <code>y &lt;- c(1, 2, 3, 4, 5)</code>. What happens? What kind of thing is <code>y</code>?</p>
+<p>Anything you put on the right-hand side of the <code>&lt;-</code> must be a valid <code>R</code> command and, as such, must be able run on its own. So, if you’re not sure what <code>c(1, 2, 3, 4, 5)</code> does, just type it into the console and press <kbd>↵Enter</kbd>…</p>
+<p>As you can see <code>R</code> returned a <strong>vector</strong> of numbers. A vector is just a fancy name for an ordered sequence of elements. In this case, since the elements are all numbers, the result is a <em>numeric vector</em> of five numbers (1-5).</p>
+<p>An important habit to get into is to think of commands in terms of their output and of objects in terms of their content. If someone asks you what the command <code>c(1, 2, 3, 4, 5)</code> does, you should say: “It returns a numeric vector of length 5 with values 1, 2, 3, 4, and 5.”</p>
+<p>Similarly, the answer to the question what is <code>y</code> should be the similar: “An object containing a numeric vector of length 5 with values 1, 2, 3, 4, and 5.” This mode of thinking and talking about commands and objects is not self-serving and will become crucial later on, when you are doing more complex things<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> in <code>R</code>.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try <code>y &lt;- y * 2</code> and guess what will happen before you press <kbd>↵Enter</kbd>.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Type <code>y</code> followed by <kbd>↵Enter</kbd>. This is one way you can get <code>R</code> to print out a value into the console.</p>
+<p>As you can see, each element of <code>y</code> was multiplied by 2. This means, that addition (as well as other arithmetic operations) in <code>R</code> is a <em>vectorised</em> function - it gets applied to each element of a vector.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>You can also perform arithmetic operations on two vectors. Try running the command <code>y / c(1, 2, 3, 4, 5)</code>.</p>
+<p>Here we performed a series of divisions: the first element of <code>y</code> (2) was divided by the first element of the vector <code>c(1, 2, 3, 4, 5)</code> (1), then the second elements of these vectors (4 and 2, respectively) were used for the division, and so on. The result is a numeric vector of length 5 containing five twos.</p>
+<p>If the vectors given to such a vectorised function differ in length, the shorter vector gets <em>recycled</em></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try <code>y + c(2, 3)</code> to see how that works.</p>
+<p>Right, so we added 2 to the first element of <code>y</code>, 3 to the 2<sup>nd</sup>, 2 again to the 3<sup>rd</sup> element, then 3 to the 4<sup>th</sup> and, once again, 2 to the last element of <code>y</code>. The ever so helpful <code>R</code> also warned us that the length of the longer of the two added vectors isn’t a whole number multiple of the shorter one and so the recycling was not complete.</p>
+<p class="why">
+Being able to perform all sorts of calculations and manipulations of objects is crucial for data processing and analysis. For instance, you might need to calculate a total score based on certain columns of your data representing items on a questionnaire. Some of these items might also be reverse-scored, meaning that you need to flip the values of that variable around<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>. Imagine, you have such a variable - a numeric vector of numbers between 1 and 5. Reverse-scoring means, that you want to turn 1s into 5s, 2s into 4, 4s into 2s, and 5s into 1s (3s stay as they are). The easiest, and most elegant, way of doing this is simply subtracting this vector from 6. Try it out by hand on a few numbers to convince yourself that this does indeed do the trick.
+</p>
+<p> </p>
+<p>Moving on…</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try <code>plot(y, y + 3)</code>. You should see a simple scatterplot appear in the bottom right panel, where information is shown.</p>
+<p>A scatterplot is a type of graph that shows a relationship between two numeric variables. Here, the x axis represents the <code>y</code> variable and the y axis shows <code>y + 3</code>. Both <code>y</code> and <code>y + 3</code> are numeric vectors (remember, think about commands in terms of their result!). Imagine them side by side as two columns, like this:</p>
+<pre><code>##       y y + 3
+## [1,]  2     5
+## [2,]  4     7
+## [3,]  6     9
+## [4,]  8    11
+## [5,] 10    13</code></pre>
+<p>Each point on the plot represents one row of this table, <em>e.g.,</em> the point in the bottom left corner is the first row with a <code>y</code> value of 2 and <code>y + 3</code> value of 5. The plot shows a positive relationship: as <code>y</code> gets larger, so does <code>y + 3</code>. Moreover, the relationship is perfectly linear (in case you’re wondering, yes, it <em>is</em> obvious).</p>
+<p>Note that RStudio has automatically <em>switched tab</em> to show the <em>Plots</em> tab, since you’ve just created a plot. Previously, it showed the <em>Files</em> tab. Finally, the <em>Packages</em> tab lists all the packages that you have installed and are available to be loaded using the <code>library()</code> command.</p>
+<p><strong>Tip: </strong>Click on <em>Zoom</em> to see your plot on a larger scale. Remember to close the pop-up window once you’re done admiring the plot.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Type <code>?plot</code> into the Console. What happens?</p>
+<p>This is the generic way of getting help on any function (such as <code>plot()</code>). <code>R</code> help can range from very useful to quite esoteric; once you’re familiar with <code>R</code>, the help will become more intelligible. In the meantime, the Web is often your friend.</p>
+<hr />
+<p><strong>An aside on functions</strong></p>
+<p>Every operation on a value, vector, object, and other structures in <code>R</code> is done using functions. You’ve already used several: <code>c()</code> is a function, as are <code>&lt;-</code>, <code>+</code>, <code>-</code>, <code>*</code>, <em>etc.</em> A function is a special kind of object that takes some arguments and uses them to run the code contained inside of it. Every function has the form <code>function.name()</code><a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a> and the arguments are given inside the brackets. Arguments <em>must be separated with a comma</em>. Different functions take different number of various arguments. The help file brought up by the <code>?...</code> gives a list of arguments used by the given function along with the description of what the arguments do and what legal values they take.</p>
+<p>In the help file for <code>plot()</code>, we can see that, apart from the x and y coordinates of the points to plot, the function takes an entire host of graphical parameters. For instance, if we add the <code>main =</code> argument and give it a legal value (<em>i.e.,</em> a string of characters, such as <code>&quot;My first plot&quot;</code>), the value will be used as a title of the plot. It is crucial to understand what arguments can be accepted by the functions you use and what the legal values of these arguments are.</p>
+<p>Functions are extremely useful and you will learn how to write your own later.</p>
+<hr />
+<p> </p>
+<p><em>The next exercise is a little harder:</em> Imagine you like your scatterplot but you don’t like the open circles it uses to mark each point. Instead, you want to use filled squares.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Open a web browser, and search the web for something like “change shape of points in R plot”. Using the links returned, see if you can reproduce the plot in Task 12 but make the points come out as filled squares. If that turns out to be easy, try red filled squares. Then try each square a different colour.</p>
+<p><strong>Tip: </strong>There are a lot of ways to do this! The simplest is to look for a <em>graphical parameter</em> to do with plot characters and add the appropriate argument to your <code>plot()</code> command.</p>
+<p class="why">
+Often a picture is worth a thousand words. A good plot will communicate important information in a clear and concise way both to you as the analyst and your intended audience. Data visualisation is one of <code>R</code>’s main strengths.
+</p>
+</div>
+<div id="editor" class="section level3">
+<h3><span class="header-section-number">1.1.3</span> Editor</h3>
+<p>So far you’ve been entering simple instructions into the Console. But this can be a pain, for two reasons:</p>
+<ol style="list-style-type: decimal">
+<li>As you change commands like <code>plot()</code>, it would be nice to be able to edit what you have already typed in.</li>
+<li>It would be good to keep a record of what you’ve done, so that you can do it again at a later stage, perhaps with changes.</li>
+</ol>
+<p>Instead of using the console, you can use the <em>Editor</em> to type commands. The Editor is used to write your script that then gets interpreted by <code>R</code> in a line by line fashion. Since the script is basically a plain text file (with some nice colours added by RStudio to improve readability) the commands you type in can be edited, added, or deleted just like if you were writing an ordinary document. You can run them again later, or build up complex commands and functions over several lines of text.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>In the Editor, type <code>x &lt;- seq(-3.5, 3.5)</code> and hit <kbd>↵Enter</kbd>. What happens?</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Click on the line you just typed in, and hit <kbd>Ctrl</kbd> + <kbd>↵Enter</kbd> (<kbd>⌘</kbd> + <kbd>↵Enter</kbd> if you’re on a Mac). What happens now?</p>
+<p>This is an important practical distinction between the Console and the Editor: In the Console, <kbd>↵Enter</kbd> runs the command. In the Editor, it just adds a new line. The purpose of this is to facilitate writing scripts without running each line of code. It also enables you to beak down your commands over multiple lines so that you don’t end up with a line that’s hundreds of characters long. For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">poisson_model &lt;-<span class="st"> </span><span class="kw">glm</span>( <span class="co"># R knows that an open bracket can&#39;t be the end of command...</span>
+  n_events <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(age) <span class="op">+</span><span class="st"> </span><span class="kw">scale</span>(n_children) <span class="op">+</span><span class="st"> </span><span class="co"># ...nor can a plus...</span>
+<span class="st">    </span><span class="kw">I</span>(SES <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(SES)) <span class="op">*</span><span class="st"> </span><span class="kw">scale</span>(years_emp, , F), <span class="co"># ...or a comma</span>
+  df, <span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span>) <span class="co"># closing bracket CAN be the end</span></code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What does <code>x</code> become? What does <code>seq()</code> do?</p>
+<p>Since <code>seq</code> is followed by a set of brackets, you know it’s a function. Whenever you encounter an unknown function, it is a good idea to look at its documentation by calling the <code>?...</code> command.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Add the following lines to the script in the Editor:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">dnorm</span>(x)
+<span class="co"># plot normal distribution</span>
+<span class="kw">plot</span>(x, y, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Click on <code>y &lt;- dnorm(x)</code>, and hit <kbd>Ctrl</kbd> + <kbd>↵Enter</kbd> (<kbd>⌘</kbd> + <kbd>↵Enter</kbd>). Press the keys twice more to pass the other lines to the console. What does <code>#</code> do? What is the end result?</p>
+<p>The hash (<code>#</code>) marks everything to the right of it as comment. Comments are useful for annotating the code so that you can remember what it means when you return to your code months later (it will happen!). It also improves code readability if you’re working on a script in collaboration with others. Comments should be clear but also concise. There is no point in paragraphs of verbose commentary.</p>
+<p>You might not be very satisfied with your end result (not a very curvy curve!). This is probably because we calculated values of the normal distribution (in <code>y</code>) for too few values of <code>x</code>. Maybe we can fix that…</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Change the first line of your script in the editor so that it reads:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="fl">3.5</span>, <span class="fl">3.5</span>, <span class="dt">length.out =</span> <span class="dv">49</span>)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>select your entire script using the mouse (or <kbd>Ctrl</kbd> + <kbd>A</kbd>), and press <kbd>Ctrl</kbd> + <kbd>↵Enter</kbd> (<kbd>⌘</kbd> + Enter</kbd>). What happens? Look both at the plot and at the Global Environment above it.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>change the last line of your script so that it reads:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># that&#39;s a small L, not a one</span>
+<span class="kw">plot</span>(x, y, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Create a new plot. Do you need to run just the <code>plot()</code> line or the whole script? Why? What does the plot look like now?</p>
+<p>Since the edited <code>plot(...)</code> line has the same first two arguments (<code>x</code> and <code>y</code>) as the version before, and since these two variables have already been created, there is no need to re-run anything but this particular line.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Advanced task: Using <a href="www.rseek.org" class="uri">www.rseek.org</a> and/or <code>R</code> help, try and edit your plot command to produce a plot similar to that in Fig. 3, including the title and axis labels</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="fl">3.5</span>, <span class="fl">3.5</span>, <span class="dt">length.out =</span> <span class="dv">49</span>)
+<span class="co"># notice how a long line of code can be wrapped over several lines</span>
+<span class="co"># in the editor to improve readability.</span>
+<span class="kw">plot</span>(x, <span class="kw">dnorm</span>(x), <span class="dt">main =</span> <span class="st">&#39;The Normal Distribution&#39;</span>,
+     <span class="dt">ylab =</span> <span class="st">&#39;Density&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;SDs from the Mean&#39;</span>,
+     <span class="dt">lwd =</span> <span class="dv">4</span>, <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</code></pre></div>
+<div class="figure"><span id="fig:nor"></span>
+<img src="bookdown-demo_files/figure-html/nor-1.png" alt="**Fig. 3:** Distribution produced using `seq()`, `dnorm()`, and `plot()`." width="672" />
+<p class="caption">
+Figure 1.1: <strong>Fig. 3:</strong> Distribution produced using <code>seq()</code>, <code>dnorm()</code>, and <code>plot()</code>.
+</p>
+</div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Save <code>myscript.R</code> (click on the disk icon).</p>
+<p class="why">
+Writing (and saving) scripts has just too many advantages over coding in the console to list and it it is crucial that you learn how to do it. It will enable you to write reproducible code you can rerun whenever needed, reuse chunks of code you created for a previous project in your analysis, and, when you realise you made a mistake somewhere (when, not if, because this too will happen!), you’ll be able to edit the code and recreate your analysis in a small fraction of the time it would take you to analyse your data anew without a script.
+</p>
+</div>
+</div>
+<div id="a-simple-analysis" class="section level2">
+<h2><span class="header-section-number">1.2</span> A simple analysis</h2>
+<p>The point of this section is to get you used to playing with <code>R</code>, including loading, creating, plotting, and analysing data. What follows isn’t necessarily meaningful or the ‘best’ way of doing things; all of the numbers are made up and the techniques used are a bit cumbersome. They should, however, give you a flavour of some of the things you can do. Don’t worry if you’re not familiar with all of the statistical concepts yet (although many of you will be); these will all be explained as the course progresses.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Open a new blank script; save it as <code>iq.R</code> (see Task 2)</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Type in the following and execute the commands:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## compare iqs
+<span class="kw">library</span>(foreign)
+df &lt;-<span class="st"> </span><span class="kw">read.spss</span>(<span class="st">&#39;http://is.gd/iqs_spss&#39;</span>, <span class="dt">to.data.frame =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## re-encoding from CP1252</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>You should see a new variable <code>df</code> in the Global environment. Click on this. You should get something like figure 4.</p>
+<img src="images/rstudio3.png" />
+<p class="caption">
+<strong>Fig. 4:</strong> Viewing the data in <code>df</code>.
+</p>
+<p><code>df</code> is some data in a <em>data frame</em>, roughly equivalent to an Excel spreadsheet or worksheet in SPSS. As you’ve seen, you can inspect it by clicking it in the Global Environment, but it’s not editable (through point and click); we’ll get on to editing <em>etc.,</em> later in the course.</p>
+<p>The two lines of script you’ve run have done a huge amount of work, in fact. They’ve connected to the internet and downloaded an SPSS <code>.sav</code> data file, and converted it to <code>R</code> format. If you look at the Console, you will see some (harmless) warnings reflecting the fact that the data was created in a recent version of SPSS.</p>
+<p>The data is supposed to represent the IQs of a particular football team, Fulchester United (11 players plus one substitute). We’d like to know whether Fulchester’s mean IQ is higher than what you might expect from a totally ‘average’ football team, drawn indiscriminately from the general population.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Type the following in to <code>iq.R</code> (you might need to click on the tab first):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># draw 12 random IQs from the `general population&#39;</span>
+<span class="co"># assuming mean population IQ is 100 and SD is 15</span>
+iqs &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">12</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What does <code>iqs</code> contain? (You might want to type <code>iqs</code> into the Console to see all of the values without affecting your script)</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Type <code>summary(iqs)</code> into the Console for some useful further information</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>look at your neighbour’s Console, if they’re at roughly the same stage as you. Why is their output for <code>summary(iqs)</code> different?</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now add the following lines to your script and run them</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create new data frame with labels</span>
+df2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ID =</span> LETTERS[<span class="dv">13</span><span class="op">:</span><span class="dv">24</span>], <span class="dt">IQ =</span> iqs)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Look at <code>df2</code> and see if you can work out what you’ve created</p>
+<p><strong>Pro tip: </strong><code>LETTERS[13:24]</code> is an example of <em>subscripting</em>. Go the console and type <code>LETTERS</code>. What do you get? On the next line, type <code>13:24</code> and see what that returns. Now run <code>LETTERS[13:24]</code>. Can you see what it’s doing? Try <code>LETTERS[c(13, 1, 18, 20, 9, 14)]</code></p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Type the following in to the <code>iq.R</code> script (<code>rbind()</code> binds by rows) and run it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bind the two data frames together</span>
+df &lt;-<span class="st"> </span><span class="kw">rbind</span>(df, df2)</code></pre></div>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>What has happened to <code>df</code>? (If you want to click on <code>df</code> but the tab is already open, close the tab first)</p>
+<p>Note that <code>df</code> contains all of the IQs in one column. We need to add another column to <em>index</em> which sample the IQs come from (called a <em>factor</em> in <code>R</code>).</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Add the following to your script and run it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># add a factor</span>
+df<span class="op">$</span>source &lt;-<span class="st"> </span><span class="kw">gl</span>(<span class="dv">2</span>, <span class="dv">12</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&#39;Fulchester&#39;</span>, <span class="st">&#39;Random&#39;</span>))</code></pre></div>
+<p><code>gl()</code> stands for ‘generate levels’ (of a factor). The first number gives the number of levels; the second, how many times each level is repeated; the <code>labels =</code> argument allows us to call the levels something more useful than <code>c(1, 2)</code> (which would be the default).</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Look at <code>df</code> again (you might need to close the tab and reopen it). What have you just added?</p>
+<p><strong>It’s time to do some statistics!</strong> This is a very simple test, and the results will vary depending on the random sample you created earlier, but let’s compare the Fulchester sample with our random sample:</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Add the following to your script and run it:</p>
+<p><strong>Tip: </strong><code>IQ ~ source</code> can be read as “<code>IQ</code> is predicted by <code>source</code>”. There are other ways of specifying a t-test but this way makes it clear what you are expecting to affect what</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># run a t-test</span>
+<span class="kw">t.test</span>(IQ <span class="op">~</span><span class="st"> </span>source, <span class="dt">data =</span> df)</code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  IQ by source
+## t = 4.2322, df = 19.393, p-value = 0.0004335
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##   9.784088 28.878328
+## sample estimates:
+## mean in group Fulchester     mean in group Random 
+##                113.41564                 94.08444</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>The output of the t-test should be in the Console below. What can you say about your totally fake data?</p>
+<div id="last-things" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Last Things</h3>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Exit the project (<kbd>Lab1</kbd> &gt; <kbd>Close Project</kbd>, save anything when asked)</p>
+<p>You should get an empty RStudio. You can create a different project for different work (using the <em>Project</em> drop-down), or you can re-open <em>Lab1</em> and you should be exactly where you were before.</p>
+<p>When you restart RStudio next time, you can go straight to the <em>Projects</em> tab to open an existing project (RStudio will remember where the relevant files are), or you can create a brand new project in a new directory (and switch between projects at will at any time).</p>
+<p> </p>
+<div id="thats-it-for-today-we-would-really-appreciate-you-feedback-on-this-and-future-labs-and-on-whether-you-feel-you-learnt-anything." class="section level4">
+<h4><span class="header-section-number">1.2.1.1</span> That’s it for today! We would really appreciate you feedback on this and future labs and on whether you feel you learnt anything.</h4>
+
+</div>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>If the plot disappears after a split-second, just click inside the RStudio plotting window and it should pop back up.<a href="lab-1.html#fnref1">↩</a></p></li>
+<li id="fn2"><p>You can have <code>R</code> print out the path to the current working directory by running the command <code>getwd()</code>.<a href="lab-1.html#fnref2">↩</a></p></li>
+<li id="fn3"><p>For example: <code>df$total_score &lt;- rowMeans(df[ , grep(&quot;item&quot;, names(df))], na.rm = T)</code><a href="lab-1.html#fnref3">↩</a></p></li>
+<li id="fn4"><p>Including such items is considered important good practice in psychometrics. For example, when measuring extraversion on a scale where low scores indicate introversion and high scores indicate extraversion, you may ask your participants to express their agreement with given statements on a scale from 1 (“Strongly disagree”) to 5 (“Strongly agree”). If one of the statements is, let’s say, “Usually, I would rather stay at home and read a book than go to a wild party.”, the participants’ scores on this item need to be reversed because strong extraverts will score low and strong introverts will get high scores.<a href="lab-1.html#fnref4">↩</a></p></li>
+<li id="fn5"><p>Some functions have an additional <em>infix</em> form: <code>x &lt;- 1 + 2</code> is just a shorthand for the basic (prefix) form <code>`&lt;-`(x, `+`(1, 2))</code>.<a href="lab-1.html#fnref5">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lab-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

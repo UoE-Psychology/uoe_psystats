@@ -1,0 +1,365 @@
+```{r echo=FALSE}
+solution=TRUE
+
+# ctrl+F, replace display:none with display:block to hide/show solutions
+
+```
+
+# Lab 6
+
+In today's lab we are going to start working with some data that looks a little more "real". What do I mean by real? Well, messy! Up until now we have largely been working with complete data sets where all the values for every variable are within the range we expect and there are no unusual cases. But for any of you who have previously had your hands on real raw data, you will know it rarely looks so neat. So our aims for today are to show you some more R skills for exploring your data to highlight potentially problematic values, and then to put these, and all your other skills to the test to answer some simple research questions using some real (messy) data.
+
+So let's get started.
+
+## Some more R skills
+
+### Two types of subscripting
+
+`r task()`Create a vector called "vec" with 10 numbers in it (you could use one of the following functions, `sample()`, or `seq()`, for example).
+
+```{r echo = solution, class.source="solution"}
+vec =  seq(2, 20, 2)
+```
+
+`r task()`What does the next command do?
+
+```{r eval = solution}
+vec[8]
+```
+
+`r task()`What about the following command?
+
+```{r eval = solution}
+vec[c(2, 8)]
+```
+
+`r task()`Now try:
+
+```{r eval = solution}
+vec[c(F, T, F, F, F, F, F, T, F, F)]
+```
+
+So what is going on here? In one case the subscripting is being done by *index*; in the other, it's being done by truth values (these are called *logical* subscripts). Having both gives R enormous flexibility when it comes to manipulating data.  In general, indexes are what you type in if you want to target specific values, but logical subscripts are the results of tests.  Try the following and think about what the output represents:
+
+```{r eval = solution}
+vec2 <- c(1, 2, NA, 4, 5, 6)
+is.na(vec2)
+vec2 > 4
+vec2/2 == 2
+```
+
+What will the next two commands do? Think about it first and then try them out:
+
+```{r eval = solution}
+vec2[vec2 > 4]
+vec2[vec2 > 4] <- NA
+```
+
+For matrices, R indexes by row, then by column in the format `matrix[row, column]`. 
+
+`r task()`Let's create a matrix:
+
+```{r eval = solution}
+mat <- matrix(rnorm(20, 100, 15), ncol = 5, nrow = 4)
+# Here we specify some values (20 from a normal(100, 15) distribution)
+# and then tell R how to organise the matrix (col and row sizes)
+```
+
+`r task()`What does the next command do (you have seen this before in previous labs - think about adding values to the empty matrix)?
+
+```{r eval = solution}
+mat[2, 3]
+```
+
+`r task()`What about the next one?
+
+```{r eval = solution}
+mat[ , 3]
+```
+
+`r task()`What's the difference between the folllowing two commands?
+
+```{r eval = solution}
+mat[2, 3]
+mat[c(2, 3), ]
+```
+
+Note that logical tests respect the shape of the input, as much as possible.  To see what this means, try the following and think about what you expect the output to look like first:
+
+```{r eval = solution}
+mat > 100
+```
+
+You can use the matrix of truth values like so (the rows and columns are implicit because the truth values come as a matrix):
+
+```{r eval = solution}
+mat[mat > 100] <- 100  # cap maximum score at 100 throughout
+```
+
+## Your Turn
+
+If you've followed all this, you should be able to have a good go at the following:
+
+`r task()`Create a 20-row, 2-column matrix called 'mat2' filled with random numbers drawn from a normal population with mean 100 and sd 15.
+
+```{r include = solution, class.source="solution"}
+mat2 <- matrix(rnorm(40, 100, 15), nrow = 20, ncol = 2)
+```
+
+`r task()`Change the value at the 14th and 18th rows of the first column to
+200 (in one command).
+
+```{r include = solution, class.source="solution"}
+mat2[c(14, 18), 1] <- 200
+```
+
+`r task()`Change the value of the 3rd row of the second column to 200.
+
+```{r include = solution, class.source="solution"}
+mat2[3, 2] <- 200
+```
+
+`r task()`Find the mean and the sd of all the values (using mean() and sd()).
+
+```{r include = solution, class.source="solution"}
+mean.mat2 <- mean(mat2)
+sd.mat2 <- sd(mat2)
+```
+
+`r task()`A typical task we want to carry out when 'cleaning' data prior to carrying out our formal analysis is to look for **outliers** and follow a protocol for dealing with them. For this particular analysis, exclude any values that are **2 standard deviations above the mean**. You need to convert any values in the matrix that fit this criteria to NA. 
+
+This is a natural extension to some of the examples given above and while the code you produce may look scary it is just a case of joining together multiple parts.
+
+```{r include = solution, class.source="solution"}
+cutoff <- mean.mat2 + (2 * sd.mat2)
+mat2[mat2 > cutoff] <- NA
+```
+
+`r task()`Check that your code has worked by looking at the matrix either in the console or in the editor view in RStudio. Imagine you had a matrix with 10,000 rows and had just completed the same task and now wanted to check which values had been converted to NA. It would be difficult to do this by simply looking at the matrix. Try:
+
+```{r eval = F}
+which(is.na(mat2[ , 1]))
+```
+
+*Question: *What does which() do?
+**Hint: **Try `is.na(mat2[ , 1])` on its own.
+
+<div class="solutiontext" style="display:block">
+`which()` returns the index values where the evaluation of the given condition is `TRUE`.
+Hence in this case we definitely get 14 and 18 as we set those values to 200.
+You may also have got other values depending on the random values selected initially.
+</div>
+
+`r task()`If you have time:  Repeat the exercise above (create a new matrix called mat3).  This time, replace the values greater than 2 sds above the mean in *column 1 only*. **Hint: ** Your command will start with something like "mat3[ , 1][mat3[ , 1] > .]"
+
+```{r include = solution, class.source="solution"}
+mat3 <- matrix(rnorm(40, 100, 15), nrow = 20, ncol = 2)
+mat3[c(14, 18), 1] <- 200
+mat3[3, 2] <- 200
+cutoff <- mean(mat3) + (2 * sd(mat3))
+mat3[ , 1][mat3[ , 1] > cutoff] <- NA
+mat3
+# Notice the 3rd value in column 2 is still 200 and not NA, so the code worked.
+```
+
+## Real Data 
+OK, now let's have a look at analysing some real data to answer some research questions. The questions will require you to use your previously learnt R skills (cleaning data, describing data, plotting etc.).
+
+Though some elements may be repetitive, it is good practice to think through your analyses from start to finish each time. Think about what the question is asking and what is needed to answer it - basic descriptives of the variables, plots, tests of assumptions, etc.
+
+### The data
+The data set is saved on LEARN as a .csv file. You can open this file by downloading it, saving it, and using the `read.csv()` to open the file. We have have used `read.csv()` previously so if you can't recall how it works, use `?read.csv`.
+
+The data for this lab come from a study of exercise and cognitive ability in early and later adulthood. All participants were male and randomly sampled within age groups. Data were collected on 325 individuals, 151 from a young adulthood group (aged 20-28 years) and 174 from a later adulthood group (aged 50-58 years). Each person was asked to categorise the regularity of their exercise, and were given an IQ test. 
+
+The data are in the file called `healthIQ.csv`. The variables are as follows:
+
+1. ID
+2. AgeGroup: 1 =  Young adulthood; 2 =  Later adulthood
+3. ExGroup: 1 =  no exercise; 2 =  moderate exercise; 3 =  intense exercise
+4. IQ score: IQ score
+
+In addition to this data, the researchers were given some seperate data from a colleague which used the same IQ test on a sample of approximately the same age as the later adulthood sample. This group had been tested at 2 points in time 3 years apart. The data file `repeatIQ.csv` contatins this data.The variables are:
+
+1. ID
+2. IQ score wave 1: IQ score
+3. IQ score wave 2: IQ score
+
+### The questions
+
+#### Data Inspection/Cleaning
+
+You are going need to use your newly acquired indexing skills, as well as some of your already established skills to check all variables ahead of the analyses. What you should do here is use some tools (perhaps describe() in the psych package as a starting point?) to get a feel for the data. Are there any strange values, such as impossible values based on the codebook, for the variables given above? Any outliers? Is R treating each variable as the appropriate class (type) of data? e.g. factor or numeric...
+
+This should take you a little bit of time, it is an open ended exercise where you need to use your R skills and judgement to assess the data and fix any problems you encounter before moving on to the following questions:
+
+```{r include = solution, class.source="solution"}
+# reading in and checking the data (my data files are in my project folder)
+health =  read.csv("data/healthIQ.csv", header = T)
+repIQ =  read.csv("data/repeatIQ.csv", header = T)
+
+# Basic eyeball
+library(psych)
+describe(health)
+```
+
+<div class="solutiontext" style="display:block">
+This tells us a few things:
+
+  - There are no `*` so we can see that at the moment, `AgeGroup` and `ExGroup` are not being treated as factors.
+  - Second, we can see that the max value for `AgeGroup` is `4`, yet we know from the code book that there are only 2 groups. So we have a coding error here.
+  - Third, there is a max value of `999` for `ExGroup`, which is again out of range (we have 3 groups).
+  - Lastly, our minimum value for IQ is `20`. This is very low. On an IQ scale, we would not expect to see a value this low. This suggests we have a data entry problem. 
+  So let's sort these out.
+</div>
+
+```{r include = solution, class.source="solution"}
+# check factor versus numeric
+is.factor(health$Agegroup)
+is.factor(health$ExGroup)
+health$Agegroup <- as.factor(health$Agegroup)
+health$ExGroup <- as.factor(health$ExGroup)
+
+# Now they are factors let's deal with the levels
+levels(health[ , 2])
+# so we have got a 4 where we don't need it. So let's give that NA
+# NA is R generic code for missing data
+levels(health[ , 2]) <- c("Young", "Older", NA)
+levels(health[ , 2])
+
+# And the same for Exercise Group
+levels(health[ , 3])
+levels(health[ , 3]) <- c("None", "Mod", "Intense", NA)
+levels(health[ , 3])
+
+
+# Let's have a look at the effect of using NA
+describe(health)
+```
+
+<div class="solutiontext" style="display:block">
+What we can see here is that we now have `*` and we have an `n` of `324` for Age group and Exercise group. In other words, `R` is now recognising that we have some missing data.
+
+We can now do exactly the same for the low IQ value and then the second data set.
+</div>
+
+```{r include = solution, class.source="solution"}
+# For the IQ data, we can use what you have learnt above
+health$IQ[health$IQ < 25] <- NA
+summary(health$IQ)
+
+# And the second data set
+describe(repIQ)
+
+# This one looks OK
+```
+
+<div class="solutiontext" style="display:block">
+You may have made different decisions, or encountered different potential issues. As long as you engaged with the data and highlighted that it wasn't perfectly fit for analysis as it was, and took steps to fix it, then you passed the Quest!
+</div>
+
+<div class="noteBox">
+For the following questions, you need to think about what statistical procedure you can use to answer each question, and then implement it using R.
+</div>
+
+**Q1.** Are age category (young versus old) and health activity category independent?
+
+<div class="solutiontext" style="display:block">
+Chi-square test of independance
+</div>
+
+```{r include = solution, class.source="solution"}
+# Look at cell counts using xtabs:
+xtabs(~ Agegroup + ExGroup, data = health)
+```
+
+<div class="solutiontext" style="display:block">
+Some counts (Intense) are quite low so we will run the test with small *N* correction
+</div>
+
+```{r include = solution, class.source="solution"}
+library(lsr)
+results = chisq.test(health[ , 2], health[ , 3], correct = T)
+results
+# And look at some residuals
+results$residuals
+```
+
+
+**Q2.** A researcher has a hypothesis that extreme exercise is quite rare and no/moderate exercise are equally probable. Construct a single test for exercise volume with appropriate probabilities to test this hypothesis.
+
+<div class="solutiontext" style="display:block">
+This is a Chi-square goodness-of-fit test
+</div>
+
+```{r include = solution, class.source="solution"}
+observed =  table(health$ExGroup)
+chisq.test(x = observed, p = c(.45, .45, .10))
+```
+
+<div class="solutiontext" style="display:block">
+The test is significant, suggesting that the proposed distribution is not reflected in the data
+</div>
+
+**Q3.** Do younger and older individuals differ in IQ score? 
+
+<div class="solutiontext" style="display:block">
+This is an independent sample t-test
+</div>
+
+```{r include = solution, class.source="solution"}
+bygroup =  describeBy(health, health$Agegroup) 
+# describes the data for each factor level seperately
+as.data.frame(bygroup$Young)[4, c(2:4, 11:12)] # narrow selection to what we are interested in
+as.data.frame(bygroup$Older)[4, c(2:4, 11:12)] # narrow selection to what we are interested in
+
+
+# plot it
+boxplot(health$IQ ~ health$Agegroup, 
+        main = "Boxplot of Test Means", 
+        xlab = "Age Group", ylab = "IQ")
+
+# Or using ggplot2
+library(ggplot2)
+iq_plot <- ggplot(data =  na.omit(health), aes(x =  Agegroup, y =  IQ))
+# use na.omit() to remove the case with NA value for Age Group.
+# Otherwise we get a box plot for the NA group....
+iq_plot + geom_boxplot()
+
+
+#Assumptions
+qqnorm(y = health$IQ)
+shapiro.test(health$IQ)
+library(car)
+leveneTest(health$IQ ~ health$Agegroup)
+
+
+# Test
+q3 =  t.test(formula =  IQ ~ Agegroup, data = health, var.equal = T)
+q3$statistic
+q3$parameter
+q3$p.value
+```
+
+
+**Q4.** Did IQ scores significantly increase across time points in the later adulthood sample?
+
+<div class="solutiontext" style="display:block">
+This is a paired-sample t-test
+</div>
+
+```{r include = solution, class.source="solution"}
+describe(repIQ[ , c(2, 3)]) # Descriptive look at the variables
+```
+
+<div class="solutiontext" style="display:block">
+Essentially, follow the solution for the previous question except make sure to set the paired value to `TRUE` in `t.test()` and take note of the directional hypothesis using the `alternative = "greater"` argument.
+</div>
+
+```{r include = solution, class.source="solution"}
+q4 =  t.test(repIQ$wave2_IQ, repIQ$wave1_IQ, alternative = "greater", paired =  TRUE)
+q4$statistic
+q4$parameter
+q4$p.value
+```
+

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Lab 7 | Univariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Lab 7 | Univariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Lab 7 | Univariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lab-6.html"/>
+<link rel="next" href="lab-8-the-general-linear-model.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">USMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="lab-1.html"><a href="lab-1.html"><i class="fa fa-check"></i><b>1</b> Lab 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="lab-1.html"><a href="lab-1.html#lets-get-going"><i class="fa fa-check"></i><b>1.1</b> Let’s get going!</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="lab-1.html"><a href="lab-1.html#rstudio"><i class="fa fa-check"></i><b>1.1.1</b> RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="lab-1.html"><a href="lab-1.html#console"><i class="fa fa-check"></i><b>1.1.2</b> Console</a></li>
+<li class="chapter" data-level="1.1.3" data-path="lab-1.html"><a href="lab-1.html#editor"><i class="fa fa-check"></i><b>1.1.3</b> Editor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="lab-1.html"><a href="lab-1.html#a-simple-analysis"><i class="fa fa-check"></i><b>1.2</b> A simple analysis</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="lab-1.html"><a href="lab-1.html#last-things"><i class="fa fa-check"></i><b>1.2.1</b> Last Things</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="lab-2.html"><a href="lab-2.html"><i class="fa fa-check"></i><b>2</b> Lab 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="lab-2.html"><a href="lab-2.html#first-things-first"><i class="fa fa-check"></i><b>2.1</b> First things first</a></li>
+<li class="chapter" data-level="2.2" data-path="lab-2.html"><a href="lab-2.html#classes"><i class="fa fa-check"></i><b>2.2</b> Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="lab-2.html"><a href="lab-2.html#data-structures"><i class="fa fa-check"></i><b>2.3</b> Data structures</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lab-2.html"><a href="lab-2.html#subsetting"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lab-2.html"><a href="lab-2.html#subsetting-using-names"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting using names</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lab-2.html"><a href="lab-2.html#replacement"><i class="fa fa-check"></i><b>2.4</b> Replacement</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lab-3.html"><a href="lab-3.html"><i class="fa fa-check"></i><b>3</b> Lab 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="lab-3.html"><a href="lab-3.html#logical-subsetting"><i class="fa fa-check"></i><b>3.1</b> Logical subsetting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="lab-3.html"><a href="lab-3.html#complementary-subsetting"><i class="fa fa-check"></i><b>3.1.1</b> Complementary subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="lab-3.html"><a href="lab-3.html#sorting"><i class="fa fa-check"></i><b>3.2</b> Sorting</a></li>
+<li class="chapter" data-level="3.3" data-path="lab-3.html"><a href="lab-3.html#subsetting-with-commands"><i class="fa fa-check"></i><b>3.3</b> Subsetting with commands</a></li>
+<li class="chapter" data-level="3.4" data-path="lab-3.html"><a href="lab-3.html#creating-variables"><i class="fa fa-check"></i><b>3.4</b> Creating variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lab-4.html"><a href="lab-4.html"><i class="fa fa-check"></i><b>4</b> Lab 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="lab-4.html"><a href="lab-4.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="lab-4.html"><a href="lab-4.html#simple-plots"><i class="fa fa-check"></i><b>4.2</b> Simple Plots</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="lab-4.html"><a href="lab-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.2.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lab-4.html"><a href="lab-4.html#ordinal-categorical-variables"><i class="fa fa-check"></i><b>4.2.2</b> Ordinal Categorical Variables</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lab-4.html"><a href="lab-4.html#continuous-variables"><i class="fa fa-check"></i><b>4.2.3</b> Continuous Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lab-4.html"><a href="lab-4.html#scatterplots-visualizing-associations"><i class="fa fa-check"></i><b>4.3</b> Scatterplots: Visualizing associations</a></li>
+<li class="chapter" data-level="4.4" data-path="lab-4.html"><a href="lab-4.html#boxplots-visualizing-group-differences"><i class="fa fa-check"></i><b>4.4</b> Boxplots: Visualizing group differences</a></li>
+<li class="chapter" data-level="4.5" data-path="lab-4.html"><a href="lab-4.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="4.6" data-path="lab-4.html"><a href="lab-4.html#more-advanced-plotting"><i class="fa fa-check"></i><b>4.6</b> More advanced plotting</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="lab-4.html"><a href="lab-4.html#pinpointing-data"><i class="fa fa-check"></i><b>4.6.1</b> Pinpointing data</a></li>
+<li class="chapter" data-level="4.6.2" data-path="lab-4.html"><a href="lab-4.html#customising-plots"><i class="fa fa-check"></i><b>4.6.2</b> Customising plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="lab-4.html"><a href="lab-4.html#multiple-plots-in-one"><i class="fa fa-check"></i><b>4.7</b> Multiple Plots in One</a></li>
+<li class="chapter" data-level="4.8" data-path="lab-4.html"><a href="lab-4.html#lets-put-all-this-into-practice"><i class="fa fa-check"></i><b>4.8</b> Let’s put all this into practice</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="lab-4.html"><a href="lab-4.html#code-book"><i class="fa fa-check"></i><b>4.8.1</b> Code Book</a></li>
+<li class="chapter" data-level="4.8.2" data-path="lab-4.html"><a href="lab-4.html#questions"><i class="fa fa-check"></i><b>4.8.2</b> Questions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="lab-4.html"><a href="lab-4.html#lab-4-ggplot"><i class="fa fa-check"></i><b>4.9</b> Lab 4 GGPLOT</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="lab-4.html"><a href="lab-4.html#introduction-1"><i class="fa fa-check"></i><b>4.9.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.9.2" data-path="lab-4.html"><a href="lab-4.html#ggplot2"><i class="fa fa-check"></i><b>4.9.2</b> <code>ggplot2</code></a></li>
+<li class="chapter" data-level="4.9.3" data-path="lab-4.html"><a href="lab-4.html#qplot"><i class="fa fa-check"></i><b>4.9.3</b> <code>qplot()</code></a></li>
+<li class="chapter" data-level="4.9.4" data-path="lab-4.html"><a href="lab-4.html#your-turn"><i class="fa fa-check"></i><b>4.9.4</b> Your Turn</a></li>
+<li class="chapter" data-level="4.9.5" data-path="lab-4.html"><a href="lab-4.html#using-ggplot"><i class="fa fa-check"></i><b>4.9.5</b> Using <code>ggplot()</code></a></li>
+<li class="chapter" data-level="4.9.6" data-path="lab-4.html"><a href="lab-4.html#your-turn-1"><i class="fa fa-check"></i><b>4.9.6</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lab-5.html"><a href="lab-5.html"><i class="fa fa-check"></i><b>5</b> Lab 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="lab-5.html"><a href="lab-5.html#finally-stats"><i class="fa fa-check"></i><b>5.1</b> Finally stats</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="lab-5.html"><a href="lab-5.html#data-set"><i class="fa fa-check"></i><b>5.1.1</b> Data set</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lab-5.html"><a href="lab-5.html#read-in-and-clean-data"><i class="fa fa-check"></i><b>5.1.2</b> Read in and clean data</a></li>
+<li class="chapter" data-level="5.1.3" data-path="lab-5.html"><a href="lab-5.html#impossible-values"><i class="fa fa-check"></i><b>5.1.3</b> Impossible values</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lab-5.html"><a href="lab-5.html#improbable-values"><i class="fa fa-check"></i><b>5.1.4</b> Improbable values</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lab-5.html"><a href="lab-5.html#non-integer-values"><i class="fa fa-check"></i><b>5.1.5</b> Non-integer values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lab-5.html"><a href="lab-5.html#lets-stats"><i class="fa fa-check"></i><b>5.2</b> Let’s stats!</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="lab-5.html"><a href="lab-5.html#categorical-variables-1"><i class="fa fa-check"></i><b>5.2.1</b> Categorical variables</a></li>
+<li class="chapter" data-level="5.2.2" data-path="lab-5.html"><a href="lab-5.html#analysing-continuous-data"><i class="fa fa-check"></i><b>5.2.2</b> Analysing continuous data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="lab-5.html"><a href="lab-5.html#more-analysis"><i class="fa fa-check"></i><b>5.2.3</b> More analysis!</a></li>
+<li class="chapter" data-level="5.2.4" data-path="lab-5.html"><a href="lab-5.html#extra-get-loopy"><i class="fa fa-check"></i><b>5.2.4</b> Extra: Get loopy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lab-6.html"><a href="lab-6.html"><i class="fa fa-check"></i><b>6</b> Lab 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="lab-6.html"><a href="lab-6.html#some-more-r-skills"><i class="fa fa-check"></i><b>6.1</b> Some more R skills</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lab-6.html"><a href="lab-6.html#two-types-of-subscripting"><i class="fa fa-check"></i><b>6.1.1</b> Two types of subscripting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lab-6.html"><a href="lab-6.html#your-turn-2"><i class="fa fa-check"></i><b>6.2</b> Your Turn</a></li>
+<li class="chapter" data-level="6.3" data-path="lab-6.html"><a href="lab-6.html#real-data"><i class="fa fa-check"></i><b>6.3</b> Real Data</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lab-6.html"><a href="lab-6.html#the-data"><i class="fa fa-check"></i><b>6.3.1</b> The data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lab-6.html"><a href="lab-6.html#the-questions"><i class="fa fa-check"></i><b>6.3.2</b> The questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lab-7.html"><a href="lab-7.html"><i class="fa fa-check"></i><b>7</b> Lab 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="lab-7.html"><a href="lab-7.html#merging-and-missing-values"><i class="fa fa-check"></i><b>7.1</b> Merging and missing values</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="lab-7.html"><a href="lab-7.html#missing-values"><i class="fa fa-check"></i><b>7.1.1</b> Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lab-7.html"><a href="lab-7.html#writing-a-function"><i class="fa fa-check"></i><b>7.2</b> Writing a function</a></li>
+<li class="chapter" data-level="7.3" data-path="lab-7.html"><a href="lab-7.html#some-data-manipulation"><i class="fa fa-check"></i><b>7.3</b> Some data manipulation</a></li>
+<li class="chapter" data-level="7.4" data-path="lab-7.html"><a href="lab-7.html#a-note-on-correlation"><i class="fa fa-check"></i><b>7.4</b> A note on correlation</a></li>
+<li class="chapter" data-level="7.5" data-path="lab-7.html"><a href="lab-7.html#some-statistics"><i class="fa fa-check"></i><b>7.5</b> Some statistics!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html"><i class="fa fa-check"></i><b>8</b> Lab 8 - The General Linear Model</a><ul>
+<li class="chapter" data-level="8.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#a-brief-note-on-with"><i class="fa fa-check"></i><b>8.1</b> A brief note on <code>with()</code></a></li>
+<li class="chapter" data-level="8.2" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#linear-models"><i class="fa fa-check"></i><b>8.2</b> Linear Models</a></li>
+<li class="chapter" data-level="8.3" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-prediction-and-visualisation"><i class="fa fa-check"></i><b>8.3</b> Model prediction and visualisation</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#predict"><i class="fa fa-check"></i><b>8.3.1</b> Predict()</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#model-criticism"><i class="fa fa-check"></i><b>8.4</b> Model criticism</a></li>
+<li class="chapter" data-level="8.5" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#multiple-regression"><i class="fa fa-check"></i><b>8.5</b> Multiple regression</a></li>
+<li class="chapter" data-level="8.6" data-path="lab-8-the-general-linear-model.html"><a href="lab-8-the-general-linear-model.html#contrast-coding"><i class="fa fa-check"></i><b>8.6</b> Contrast coding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html"><i class="fa fa-check"></i><b>9</b> Lab 9 - Interactions and GLM&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#interactions"><i class="fa fa-check"></i><b>9.1</b> Interactions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#specifying-interactions-in-r"><i class="fa fa-check"></i><b>9.1.1</b> Specifying interactions in R</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#simulating-data"><i class="fa fa-check"></i><b>9.1.2</b> Simulating data</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#visualising-interactions"><i class="fa fa-check"></i><b>9.1.3</b> Visualising interactions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#modelling-interactions"><i class="fa fa-check"></i><b>9.1.4</b> Modelling interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#generalised-linear-model-glm"><i class="fa fa-check"></i><b>9.2</b> General<strong>ised</strong> Linear Model (GLM)</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#log-odds-and-predicted-probabilities"><i class="fa fa-check"></i><b>9.2.1</b> Log-odds and predicted probabilities</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#predicted-vs-observed"><i class="fa fa-check"></i><b>9.2.2</b> Predicted vs Observed</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="lab-9-interactions-and-glm.html"><a href="lab-9-interactions-and-glm.html#your-turn-less-guidance"><i class="fa fa-check"></i><b>9.3</b> Your turn (Less guidance)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lab-10.html"><a href="lab-10.html"><i class="fa fa-check"></i><b>10</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="lab-10.html"><a href="lab-10.html#apply-functions"><i class="fa fa-check"></i><b>10.1</b> <code>apply</code> functions</a></li>
+<li class="chapter" data-level="10.2" data-path="lab-10.html"><a href="lab-10.html#lab-10-1"><i class="fa fa-check"></i><b>10.2</b> Lab 10</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lab-10.html"><a href="lab-10.html#the-task"><i class="fa fa-check"></i><b>10.2.1</b> The Task</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Univariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lab-7" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Lab 7</h1>
+<p>This week we’ll be merging data collected from a number of sources before running a correlation and a linear regression. You should end up knowing a bit more about data manipulation, as well as about running statistical tests. As always, create a new project in RStudio.</p>
+<div id="merging-and-missing-values" class="section level2">
+<h2><span class="header-section-number">7.1</span> Merging and missing values</h2>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>First of all, generate a data frame with IQ measurements for 5 people (Amy, Jill, Kim, Dave, and Earl). IQ should be a normally distributed variable with <span class="math inline">\(Mean = 100\)</span> and <span class="math inline">\(SD = 15\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">iq.f &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">name =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Amy&#39;</span>, <span class="st">&#39;Jill&#39;</span>, <span class="st">&#39;Kim&#39;</span>, <span class="st">&#39;Dave&#39;</span>, <span class="st">&#39;Earl&#39;</span>)), 
+          <span class="dt">iq =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>))</code></pre></div>
+<pre><code>##   name        iq
+## 1  Amy 126.82867
+## 2 Jill  93.30838
+## 3  Kim  86.73938
+## 4 Dave 102.51666
+## 5 Earl 110.01594</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Next, create another data frame with height measurements for 5 people (Jill, Dave, Earl, Fred, and Jen).</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">ht.f &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">name =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Jill&#39;</span>, <span class="st">&#39;Dave&#39;</span>, <span class="st">&#39;Earl&#39;</span>, <span class="st">&#39;Fred&#39;</span>, <span class="st">&#39;Jen&#39;</span>)), 
+          <span class="dt">height =</span> <span class="kw">rnorm</span>(<span class="dv">5</span>, <span class="dv">170</span>, <span class="dv">10</span>))</code></pre></div>
+<pre><code>##   name   height
+## 1 Jill 161.3152
+## 2 Dave 174.6044
+## 3 Earl 174.0020
+## 4 Fred 176.4006
+## 5  Jen 164.8891</code></pre>
+<p> </p>
+<p>You’ll notice that the data frames you’ve created contain some overlapping information. If you wanted to test for a relationship between IQ and height it would be useful to create one merged data frame. The <code>R</code> function for this is <code>merge()</code>.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Try the following commands.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">merge</span>(iq.f, ht.f)</code></pre></div>
+<pre><code>##   name        iq   height
+## 1 Dave 102.51666 174.6044
+## 2 Earl 110.01594 174.0020
+## 3 Jill  93.30838 161.3152</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">merge</span>(iq.f, ht.f, <span class="dt">all =</span> T)</code></pre></div>
+<pre><code>##   name        iq   height
+## 1  Amy 126.82867       NA
+## 2 Dave 102.51666 174.6044
+## 3 Earl 110.01594 174.0020
+## 4 Jill  93.30838 161.3152
+## 5  Kim  86.73938       NA
+## 6 Fred        NA 176.4006
+## 7  Jen        NA 164.8891</code></pre>
+<p>What’s the difference between these two commands? What would you do if the columns in each data frame had different names? (Look at <code>?merge</code>).</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now create a new merged data frame with no missing values for IQ. <strong>Hint: </strong> Look at the <code>all.x</code> argument in <code>?merge</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">new.f &lt;-<span class="st"> </span><span class="kw">merge</span>(iq.f, ht.f, <span class="dt">all.x =</span> T)
+new.f</code></pre></div>
+<pre><code>##   name        iq   height
+## 1  Amy 126.82867       NA
+## 2 Dave 102.51666 174.6044
+## 3 Earl 110.01594 174.0020
+## 4 Jill  93.30838 161.3152
+## 5  Kim  86.73938       NA</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Calculate the mean of the IQ column. <em>Revision: These two commands do the same thing (why?)</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(new.f<span class="op">$</span>iq)</code></pre></div>
+<pre><code>## [1] 103.8818</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(new.f[ ,<span class="dv">2</span>])</code></pre></div>
+<pre><code>## [1] 103.8818</code></pre>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now calculate the mean <code>height</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">mean</span>(new.f<span class="op">$</span>height)</code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<p> </p>
+<div id="missing-values" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> Missing Values</h3>
+<p><code>mean(new.f$height)</code> doesn’t give you a mean; instead it returns <code>NA</code>. If you completed last week’s worksheet you will have encountered <code>NA</code> values and perhaps learned to deal with them. The fact that <code>R</code> returns <code>NA</code> rather than just ignoring any missing values may seem odd at first, but in fact it’s based on an important principle: <em>You should know that there are missing values, and tell <code>R</code>.</em> If it automatically dealt with missing values that you didn’t know about, you could end up with misleading results.</p>
+<p>For functions (like <code>mean()</code>, <code>sd()</code>, etc.), the only way to get <code>R</code> to ignore <code>NA</code>s is as follows (<code>na.rm</code> means “<code>NA</code> remove”).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(new.f<span class="op">$</span>height, <span class="dt">na.rm =</span> T)</code></pre></div>
+<pre><code>## [1] 169.9739</code></pre>
+<p>For functions like <code>lm()</code>, which we’ll see below, an argument <code>na.action</code> is set to <code>na.omit</code> to remove missing values.</p>
+<p> </p>
+</div>
+</div>
+<div id="writing-a-function" class="section level2">
+<h2><span class="header-section-number">7.2</span> Writing a function</h2>
+<p>You may have come across writing functions before, and you have learnt about logical subsetting (where items in a vector or matrix are selected according to the logical values <code>T</code> or <code>F</code>). Can we put these together here?</p>
+<p>Write a function called <code>outliers()</code> to test whether observed values are greater than, or less than, <code>x</code> standard deviations from the mean (where <code>x</code> is a value passed to the function). You should use a template something like the following.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">outliers &lt;-<span class="st"> </span><span class="cf">function</span>(obs, <span class="dt">x =</span> <span class="fl">2.5</span>) {
+  <span class="co"># code goes here</span>
+}</code></pre></div>
+<p><strong>Tip: </strong>Your function takes two values: <code>obs</code> (a vector or matrix of observations), and <code>x</code>, as above. <code>x = 2.5</code> passes a <em>default value</em> to <code>x</code>, so that, if you don’t specify a value, the default of 2.5 will be used. This means that you can run <code>outliers(vec)</code>, which would use the default value; or you could run <code>outliers(vec, 2)</code> if you wanted to use 2 sds instead.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Now write the code to complete the function.</p>
+<p><strong>Hint: </strong>Suppose you have a matrix <code>mat</code>. Code that replace elements in <code>mat</code> that are more than 2.5 sds above the mean with <code>NA</code>s could look something like this: <code>mat[mat &gt; mean(mat) + 2.5 * sd(mat)] &lt;- NA</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">## one possible solution
+outliers &lt;-<span class="st"> </span><span class="cf">function</span>(obs, <span class="dt">x =</span> <span class="fl">2.5</span>) {
+ <span class="co"># the following line returns TRUE if outlier, FALSE otherwise (for each element of &#39;obs&#39;)</span>
+ <span class="kw">return</span>(<span class="kw">abs</span>(obs <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(obs, <span class="dt">na.rm =</span> T)) <span class="op">&gt;</span><span class="st"> </span>(<span class="kw">sd</span>(obs, <span class="dt">na.rm =</span> T) <span class="op">*</span><span class="st"> </span>x))
+}</code></pre></div>
+<p>Here, you’re being asked to produce a function that does something similar to the code inside the <code>[]</code> above. You want to use <code>x</code> rather than <code>2.5</code> so that the number of standard deviations can be specified. You will need to take into account that your input could include <code>NA</code>s.</p>
+<p>You also need to think about detecting values that are ‘x’ standard deviations <em>below</em> the mean as well.</p>
+<p><strong>Pro tip: </strong>A neat solution to this problem might involve using the <code>abs()</code> function which converts values to their absolute value. See <code>?abs</code>, and look <a href="https://www.mathsisfun.com/numbers/absolute-value.html">here</a> for more on what an absolute value is.</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Test your <code>outliers</code> function with the following code: Does it correctly identify the 2 outliers?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vec &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">20</span>, <span class="dv">100</span>, <span class="dv">15</span>)
+vec[<span class="kw">sample</span>(<span class="kw">length</span>(vec), <span class="dv">2</span>)] &lt;-<span class="st"> </span><span class="dv">250</span> <span class="co"># create two outliers at random</span>
+vec <span class="co"># inspect vector to find outliers</span></code></pre></div>
+<pre><code>##  [1]  89.22605 119.27710  83.13218  99.03670  75.09153 103.36543 102.95576
+##  [8] 130.21001  96.07631 250.00000 250.00000 113.37671 111.64968 114.56312
+## [15] 103.16879 112.40882 112.67822  74.78100 134.96395  91.31800</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(<span class="kw">outliers</span>(vec)) <span class="co"># check outliers function</span></code></pre></div>
+<pre><code>## [1] 10 11</code></pre>
+</div>
+<div id="some-data-manipulation" class="section level2">
+<h2><span class="header-section-number">7.3</span> Some data manipulation</h2>
+<p>The aim of this exercise is for you to load some data, get it into a suitable format for analysis, and perform a correlation, and a linear regression.</p>
+<p><em>Note: </em>Most of this exercise is about getting data into shape before you do the stats!</p>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Download the data from the LEARN (lab7.Rdata), and load it into <code>R</code>.</p>
+<p><strong>Tip: </strong>This data is in <code>R</code> format, not <code>.csv</code> (because it contains several data frames). Save it into your project folder. Use the command below to load it into <code>R</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&#39;data/lab7.Rdata&#39;</span>) <span class="co"># if your data is in your project folder</span></code></pre></div>
+<p><strong>Tip: </strong>The first thing you should do is look at the <code>Environment</code> tab in Rstudio (top right), or type <code>ls()</code>, to find out what new objects you’ve loaded.</p>
+<p><strong>Pro tip: </strong><code>ls()</code> returns a list of all the objects (variables and functions) in your workspace. That means it’s very useful if you want to delete everything and start again: You can use <code>rm(list = ls())</code> (or click on the broom in RStudio’s Environment tab). <code>rm()</code> is the function to remove things.</p>
+<p>You have data from three different Universities on students in their statistics classes. Each University (or School) has provided you with the same information; unfortunately, they have provided it in slightly different formats. Your task is to assemble all of the information into <em>one</em> data frame called <code>schools</code>, suitable for further analysis.</p>
+<p>The data set should consist of a unique student identifier and, for each student, the school they’re in, their IQ, an exam score, and their gender. Unfortunately, the records are not all complete (in particular, some exam scores are missing), and there may be other errors.</p>
+<p><strong>Tip: </strong>You will definitely want to use <code>merge()</code> to tackle this (be careful with the <code>all</code> arguments!). You may also be able to use <code>rbind()</code> to bind rows for some (but not all) merges. You should also be thinking about using your indexing skills. Below are some things you might want to think about:</p>
+<ul>
+<li>are the observations complete?</li>
+<li>are there any typos?</li>
+<li>do the column names match?</li>
+<li>are there any unlikely values, or outliers?</li>
+</ul>
+<p>The general approach is probably to merge data from each individual school, before merging the complete dataset together (<em>Note: </em>you can only merge two things at a time…)</p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">#### SOME STEPS YOU MIGHT TAKE
+
+<span class="kw">summary</span>(schoolA)</code></pre></div>
+<pre><code>##        id     school    gender         iq             exam     
+##  s023   : 1   a: 1   female:25   Min.   : 68.0   Min.   : 3.0  
+##  s028   : 1   A:62   male  :38   1st Qu.: 90.5   1st Qu.:43.0  
+##  s038   : 1                      Median : 99.0   Median :53.0  
+##  s059   : 1                      Mean   :101.3   Mean   :52.8  
+##  s103   : 1                      3rd Qu.:110.5   3rd Qu.:65.0  
+##  s105   : 1                      Max.   :250.0   Max.   :95.0  
+##  (Other):57                                      NA&#39;s   :14</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># maximum IQ of 250 looks suspect! Is it an outlier?</span>
+schoolA<span class="op">$</span>iq[<span class="kw">which</span>(<span class="kw">outliers</span>(schoolA<span class="op">$</span>iq))]</code></pre></div>
+<pre><code>## [1] 250</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># yes it is; fix it</span>
+schoolA<span class="op">$</span>iq[<span class="kw">which</span>(<span class="kw">outliers</span>(schoolA<span class="op">$</span>iq))] &lt;-<span class="st"> </span><span class="ot">NA</span>
+<span class="co"># exam range looks very broad; is the 3 unusual?</span>
+<span class="kw">which</span>(<span class="kw">outliers</span>(schoolA<span class="op">$</span>exam))</code></pre></div>
+<pre><code>## integer(0)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># actually there are no outliers at 2.5sd; just a wide spread, see:</span>
+<span class="kw">hist</span>(schoolA<span class="op">$</span>exam) </code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-282-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># or:</span>
+ggplot2<span class="op">::</span><span class="kw">qplot</span>(schoolA<span class="op">$</span>exam, <span class="dt">binwidth =</span> <span class="dv">10</span>)</code></pre></div>
+<pre><code>## Warning: Removed 14 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-282-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># look at the levels of school: &#39;a&#39; and &#39;A&#39;...</span>
+<span class="co"># there&#39;s an &#39;a&#39; where there should be an &#39;A&#39;</span>
+schoolA<span class="op">$</span>school[schoolA<span class="op">$</span>school <span class="op">==</span><span class="st"> &#39;a&#39;</span>] &lt;-<span class="st"> &#39;A&#39;</span>
+<span class="co"># (can be useful to drop levels, although merge() should cope with this later)</span>
+schoolA &lt;-<span class="st"> </span><span class="kw">droplevels</span>(schoolA)
+
+<span class="kw">summary</span>(schoolB.IQ)</code></pre></div>
+<pre><code>##        id           iq        
+##  s001   : 1   Min.   : 58.00  
+##  s039   : 1   1st Qu.: 92.25  
+##  s078   : 1   Median :102.00  
+##  s089   : 1   Mean   : 99.83  
+##  s133   : 1   3rd Qu.:109.00  
+##  s136   : 1   Max.   :130.00  
+##  (Other):58</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">summary</span>(schoolB.exam)</code></pre></div>
+<pre><code>##        id     school    gender        exam       
+##  s001   : 1   B:48   female:24   Min.   : 15.00  
+##  s039   : 1          male  :24   1st Qu.: 39.75  
+##  s078   : 1                      Median : 51.00  
+##  s133   : 1                      Mean   : 53.29  
+##  s136   : 1                      3rd Qu.: 66.00  
+##  s144   : 1                      Max.   :100.00  
+##  (Other):42</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># there are more IQ entries than exam entries (data frames are different lengths);</span>
+<span class="co"># we just have to exclude IQ info that doesn&#39;t have corresponding exam info.</span>
+schoolB &lt;-<span class="st"> </span><span class="kw">merge</span>(schoolB.IQ, schoolB.exam)
+<span class="kw">summary</span>(schoolB)</code></pre></div>
+<pre><code>##        id           iq         school    gender        exam       
+##  s001   : 1   Min.   : 58.00   B:48   female:24   Min.   : 15.00  
+##  s039   : 1   1st Qu.: 92.25          male  :24   1st Qu.: 39.75  
+##  s078   : 1   Median :102.00                      Median : 51.00  
+##  s133   : 1   Mean   : 99.77                      Mean   : 53.29  
+##  s136   : 1   3rd Qu.:108.00                      3rd Qu.: 66.00  
+##  s144   : 1   Max.   :130.00                      Max.   :100.00  
+##  (Other):42</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># everything else looks fine</span>
+
+<span class="co"># can now merge schools A&amp;B: all = T is important, think about why!</span>
+schools &lt;-<span class="st"> </span><span class="kw">merge</span>(schoolA, schoolB, <span class="dt">all =</span> T)
+
+<span class="kw">summary</span>(schoolC)</code></pre></div>
+<pre><code>##        id     school    gender         IQ              exam       
+##  s007   : 1   C:40   female:20   Min.   : 64.00   Min.   :  5.00  
+##  s010   : 1          male  :20   1st Qu.: 94.75   1st Qu.: 48.75  
+##  s011   : 1                      Median : 99.00   Median : 64.50  
+##  s035   : 1                      Mean   : 99.95   Mean   : 62.95  
+##  s041   : 1                      3rd Qu.:108.75   3rd Qu.: 75.50  
+##  s055   : 1                      Max.   :135.00   Max.   :104.00  
+##  (Other):34</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># column name is &quot;IQ&quot; rather than &quot;iq&quot;</span>
+<span class="kw">colnames</span>(schoolC)[<span class="dv">4</span>] &lt;-<span class="st"> &#39;iq&#39;</span>
+<span class="co"># there&#39;s quite a low exam score</span>
+<span class="kw">which</span>(<span class="kw">outliers</span>(schoolC<span class="op">$</span>exam))</code></pre></div>
+<pre><code>## [1] 35</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">schoolC<span class="op">$</span>exam[<span class="kw">which</span>(<span class="kw">outliers</span>(schoolC<span class="op">$</span>exam))]</code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="co"># the low score is an outlier, but there was a low score (not an outlier) for SchoolA</span>
+<span class="co"># so I&#39;ll wait until the scores are merged.</span>
+<span class="co"># However, there&#39;s an impossible exam mark of 104!</span>
+schoolC<span class="op">$</span>exam[schoolC<span class="op">$</span>exam <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
+
+<span class="co"># now merge again</span>
+schools &lt;-<span class="st"> </span><span class="kw">merge</span>(schools, schoolC, <span class="dt">all =</span> T)
+
+## check exam one more time for outliers
+<span class="kw">hist</span>(schools<span class="op">$</span>exam)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-282-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">which</span>(<span class="kw">outliers</span>(schools<span class="op">$</span>exam))</code></pre></div>
+<pre><code>## [1] 42</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">schools<span class="op">$</span>exam[<span class="kw">which</span>(<span class="kw">outliers</span>(schools<span class="op">$</span>exam))]</code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">### OK, the 3 in SchoolA *is* low according to the 2.5sd default
+schools<span class="op">$</span>exam[<span class="kw">which</span>(<span class="kw">outliers</span>(schools<span class="op">$</span>exam))] &lt;-<span class="st"> </span><span class="ot">NA</span></code></pre></div>
+<p> </p>
+</div>
+<div id="a-note-on-correlation" class="section level2">
+<h2><span class="header-section-number">7.4</span> A note on correlation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">150</span>, <span class="dv">4</span>)
+y =<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="kw">length</span>(x), <span class="dt">m =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">5</span>) <span class="co"># add some random noise to x and store it in y</span>
+y2 =<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="kw">length</span>(x), <span class="dt">m =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">10</span>)
+y3 =<span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="kw">length</span>(x), <span class="dt">m =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</code></pre></div>
+<p>Take a look at the plot generated below where the black, blue, and red values (and their ‘line of best fit’) represent different variables and their relationship with the variable <code>x</code>. Take a second to think about what you expect the correlations between <code>x</code> and the three different variables representing <code>y</code> (black, blue, and red) will be.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(x, y, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">650</span>))
+<span class="kw">points</span>(x, y2, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
+<span class="kw">points</span>(x, y3, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+<span class="kw">abline</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x))
+<span class="kw">abline</span>(<span class="kw">lm</span>(y2 <span class="op">~</span><span class="st"> </span>x), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
+<span class="kw">abline</span>(<span class="kw">lm</span>(y3 <span class="op">~</span><span class="st"> </span>x), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-284-1.png" width="672" /></p>
+<p>You may have been tempted to suggest that the blue line indicates a higher correlation than the black line, and the red line indicates a higher correlation than both the blue and black lines, etc. This is a common mistake when thinking about correlations. All these correlations are actually pretty much identical (almost 1).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(x, y) <span class="co"># Black</span></code></pre></div>
+<pre><code>## [1] 0.9916637</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(x, y2) <span class="co"># Blue</span></code></pre></div>
+<pre><code>## [1] 0.983024</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(x, y3) <span class="co"># Red</span></code></pre></div>
+<pre><code>## [1] 0.9894178</code></pre>
+<p>Remember that correlation tells you how well the line fits the data (how close the points are to the line), <em>not how steep it is</em>. Looking at all the lines again - you can see that in each case knowing the value of <code>x</code> for any one participant allows you to say, with almost certainty, what their <code>y</code> value would be.</p>
+<p>The steepness of the gradient is determined by the increase in <code>y</code> units for each one unit increase in <code>x</code> - this is the coefficient from the linear model.</p>
+<p> </p>
+</div>
+<div id="some-statistics" class="section level2">
+<h2><span class="header-section-number">7.5</span> Some statistics!</h2>
+<div style="position: absolute;">
+<img style="position:relative;left:-20px;width:15px" src="images/task.png"/>
+</div>
+<p><strong>Task: </strong>Using <code>cor.test()</code> and <code>lm()</code>, first run a correlation, and then a linear regression, to examine the relationship between IQ and exam performance in the <code>schools</code> dataset you’ve created. What can you conclude from your analyses?</p>
+<p><strong>Tip: </strong><code>cor.test()</code> is a simple function that prints out information immediately. <code>lm()</code> is a bit more complex: You will need to assign its output to an object (e.g. <code>model &lt;- lm(...)</code>) and then use <code>summary()</code> on that object to get useful information about it (<code>summary(model)</code>).</p>
+<div class="solution" style="display:block">
+<p><em>Note: </em> Results may differ slightly depending on the merging decisions you made.</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r"><span class="kw">with</span>(schools, <span class="kw">cor.test</span>(iq, exam))</code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  iq and exam
+## t = 3.015, df = 132, p-value = 0.003083
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.08802564 0.40593935
+## sample estimates:
+##       cor 
+## 0.2538249</code></pre>
+<div class="solution" style="display:block">
+<p>There’s a significant positive correlation between <code>iq</code> and <code>exam</code> - Higher IQ is associated with better exam score</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r solution"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(exam<span class="op">~</span>iq, <span class="dt">data =</span> schools)
+<span class="kw">summary</span>(model)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = exam ~ iq, data = schools)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -52.742 -14.319  -1.098  12.805  49.294 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  21.7961    11.4757   1.899  0.05970 . 
+## iq            0.3423     0.1135   3.015  0.00308 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 19.82 on 132 degrees of freedom
+##   (17 observations deleted due to missingness)
+## Multiple R-squared:  0.06443,    Adjusted R-squared:  0.05734 
+## F-statistic:  9.09 on 1 and 132 DF,  p-value: 0.003083</code></pre>
+<div class="solution" style="display:block">
+<p>The model is better than the null model (<em>F</em>(1, 132) = 9.09; <em>p &lt; .05</em>) For each point increase in <code>iq</code>, <code>exam</code> score goes up by 0.34 (<em>b</em> coefficient)</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lab-6.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lab-8-the-general-linear-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
