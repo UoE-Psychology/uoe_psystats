@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Week 9 | Data Analysis for Psychology in R (dapR1) - Labs</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Week 9 | Data Analysis for Psychology in R (dapR1) - Labs" />
   <meta property="og:type" content="book" />
@@ -39,6 +39,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -55,41 +58,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -155,12 +183,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
 <li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
-<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.11</b> Including images or links</a><ul>
-<li class="chapter" data-level="2.11.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.11.1</b> Adding links</a></li>
-<li class="chapter" data-level="2.11.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.11.2</b> Adding figures &amp; pictures</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
 </ul></li>
-<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.12</b> Generating documents</a></li>
-<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.13</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
 <li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
@@ -340,118 +369,119 @@ A revision practice .Rmd can be downloaded <a href="https://uoe-psychology.githu
 </div>
 <div id="generate-a-homework-attempt" class="section level2">
 <h2><span class="header-section-number">9.3</span> Generate a homework attempt</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We can generate an attempt for 10 questions</span>
-<span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># 10 attempts</span>
-       <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># 10 questions)</span>
-       <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Probability that one is correct (1/4)</span></code></pre></div>
-<pre><code>##  [1] 3 0 1 1 1 0 0 0 2 4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We can generate an attempt for 100 questions/trials</span>
-<span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="co"># 100 times of 10</span>
-       <span class="dt">size =</span> <span class="dv">10</span>, 
-       <span class="dt">prob =</span> <span class="fl">0.25</span>) </code></pre></div>
-<pre><code>##   [1] 1 2 3 2 4 4 3 3 5 4 5 1 1 3 2 4 1 4 3 2 5 4 4 0 4 3 4 1 3 3 4 1 2 5 1
-##  [36] 4 3 0 2 5 0 4 4 3 2 2 4 2 3 2 4 3 2 1 3 3 3 4 0 3 2 1 1 0 2 2 3 6 3 2
-##  [71] 0 0 3 1 0 4 1 4 2 2 3 0 7 6 1 3 3 0 3 1 1 1 2 4 2 3 2 3 0 1</code></pre>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" data-line-number="1"><span class="co"># We can generate an attempt for 10 questions</span></a>
+<a class="sourceLine" id="cb399-2" data-line-number="2"><span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># 10 attempts</span></a>
+<a class="sourceLine" id="cb399-3" data-line-number="3">       <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># 10 questions)</span></a>
+<a class="sourceLine" id="cb399-4" data-line-number="4">       <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Probability that one is correct (1/4)</span></a></code></pre></div>
+<pre><code>##  [1] 2 2 3 3 0 2 1 1 5 3</code></pre>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1"><span class="co"># We can generate an attempt for 100 questions/trials</span></a>
+<a class="sourceLine" id="cb401-2" data-line-number="2"><span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="co"># 100 times of 10</span></a>
+<a class="sourceLine" id="cb401-3" data-line-number="3">       <span class="dt">size =</span> <span class="dv">10</span>, </a>
+<a class="sourceLine" id="cb401-4" data-line-number="4">       <span class="dt">prob =</span> <span class="fl">0.25</span>) </a></code></pre></div>
+<pre><code>##   [1] 2 4 1 3 1 2 1 3 2 2 3 3 3 2 3 4 4 1 3 1 0 0 4 2 2 4 2 1 0 2 2 5 6 2 1
+##  [36] 1 2 2 4 2 1 3 3 2 3 2 4 6 2 3 1 3 2 1 5 3 2 1 4 2 3 3 3 1 3 5 4 1 0 5
+##  [71] 1 0 6 1 2 3 3 2 3 3 2 2 4 2 1 4 2 1 4 2 3 3 4 2 1 4 3 3 2 2</code></pre>
 <p>Let’s assign it to a tibble so we can calculate the proportions and make a plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-homework_guess &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">right_guess =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, 
-       <span class="dt">size =</span> <span class="dv">10</span>, 
-       <span class="dt">prob =</span> <span class="fl">0.25</span>))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homework_guess <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>(right_guess)</code></pre></div>
-<pre><code>## # A tibble: 7 x 2
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb403-2" data-line-number="2">homework_guess &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">right_guess =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, </a>
+<a class="sourceLine" id="cb403-3" data-line-number="3">       <span class="dt">size =</span> <span class="dv">10</span>, </a>
+<a class="sourceLine" id="cb403-4" data-line-number="4">       <span class="dt">prob =</span> <span class="fl">0.25</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1">homework_guess <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb404-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(right_guess)</a></code></pre></div>
+<pre><code>## # A tibble: 8 x 2
 ##   right_guess     n
 ##         &lt;int&gt; &lt;int&gt;
-## 1           0     6
-## 2           1    16
+## 1           0     2
+## 2           1    15
 ## 3           2    28
-## 4           3    27
+## 4           3    32
 ## 5           4    16
-## 6           5     6
-## 7           6     1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Count&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+## 6           5     4
+## 7           6     1
+## 8           7     2</code></pre>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb406-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb406-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Count&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb406-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-254-1.png" width="672" /></p>
 <p>We can change the scale on the graph to see all the options:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st">  </span><span class="co">#note how we add xlim()</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Count&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb407-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb407-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb407-3" data-line-number="3"><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st">  </span><span class="co">#note how we add xlim()</span></a>
+<a class="sourceLine" id="cb407-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Count&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb407-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_bar).</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-255-1.png" width="672" /></p>
 <p>What’s more, we can also change y units to probability.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)), <span class="co"># we will work with the function of count, hence we use&#39;..&#39;</span>
-           <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Probability&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb409-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb409-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)), <span class="co"># we will work with the function of count, hence we use&#39;..&#39;</span></a>
+<a class="sourceLine" id="cb409-3" data-line-number="3">           <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb409-4" data-line-number="4"><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb409-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Probability&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb409-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_bar).</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-256-1.png" width="672" /></p>
 </div>
 <div id="changing-the-probability-truefalse" class="section level2">
 <h2><span class="header-section-number">9.4</span> Changing the probability (TRUE/FALSE)</h2>
 <p>What if the multiple choice had only two choices for the answer (i.e. TRUE or FALSE questions) - the right answer will now have a probability of 0.5 instead. Let’s reflect on that and create a new <code>tibble()</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Homework guess distribution with TRUE/FALSE</span>
-homework_guess_true_false &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">right_guess =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, 
-       <span class="dt">size =</span> <span class="dv">10</span>, 
-       <span class="dt">prob =</span> <span class="fl">0.5</span>)) <span class="co"># Note that the probability of getting the right answer has gone up</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homework_guess_true_false <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>(right_guess)</code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb411-1" data-line-number="1"><span class="co">#Homework guess distribution with TRUE/FALSE</span></a>
+<a class="sourceLine" id="cb411-2" data-line-number="2">homework_guess_true_false &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">right_guess =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, </a>
+<a class="sourceLine" id="cb411-3" data-line-number="3">       <span class="dt">size =</span> <span class="dv">10</span>, </a>
+<a class="sourceLine" id="cb411-4" data-line-number="4">       <span class="dt">prob =</span> <span class="fl">0.5</span>)) <span class="co"># Note that the probability of getting the right answer has gone up</span></a></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" data-line-number="1">homework_guess_true_false <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb412-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(right_guess)</a></code></pre></div>
 <pre><code>## # A tibble: 8 x 2
 ##   right_guess     n
 ##         &lt;int&gt; &lt;int&gt;
 ## 1           1     1
-## 2           2     6
-## 3           3     9
-## 4           4    22
-## 5           5    24
-## 6           6    20
-## 7           7    12
-## 8           8     6</code></pre>
+## 2           2     3
+## 3           3    12
+## 4           4    23
+## 5           5    21
+## 6           6    21
+## 7           7    14
+## 8           8     5</code></pre>
 <p>Your chances are higher! Can you see why?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>)  <span class="op">+</span><span class="st">  </span>
-<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Count&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb414-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>)  <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb414-3" data-line-number="3"><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb414-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Count&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb414-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-259-1.png" width="672" /></p>
 <p>We have less options now, hence a higher chance of picking the correct ones.</p>
 <p>Let’s also plot with probabilities:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)), <span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Probability&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb415-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb415-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)), <span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb415-3" data-line-number="3"><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb415-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Probability&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb415-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-260-1.png" width="672" /></p>
 </div>
 <div id="studying-the-distribution" class="section level2">
 <h2><span class="header-section-number">9.5</span> Studying the distribution</h2>
 <p>What’s great about learning probability disitributions is that we can use the distribution above to find exact probability of guessing different numbers of questions correctly. We will use <code>dbinom()</code>.</p>
 <p>Check what the probability is of getting at least one question right when guessing at random:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">1</span>, <span class="co"># Number of outcomes that we got right</span>
-       <span class="dt">size=</span><span class="dv">10</span>, <span class="co"># 10 trials (we have 10 questions)</span>
-       <span class="dt">prob=</span><span class="fl">0.25</span>) <span class="co"># Probability of getting the right answer (1/4) </span></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">1</span>, <span class="co"># Number of outcomes that we got right</span></a>
+<a class="sourceLine" id="cb416-2" data-line-number="2">       <span class="dt">size=</span><span class="dv">10</span>, <span class="co"># 10 trials (we have 10 questions)</span></a>
+<a class="sourceLine" id="cb416-3" data-line-number="3">       <span class="dt">prob=</span><span class="fl">0.25</span>) <span class="co"># Probability of getting the right answer (1/4) </span></a></code></pre></div>
 <pre><code>## [1] 0.1877117</code></pre>
 <p>Or for two correct answers:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">2</span>, <span class="co"># Number of outcomes that we got right</span>
-       <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># 10 trials (we have 10 questions)</span>
-       <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Probability of getting the right answer (1/4) </span></code></pre></div>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">2</span>, <span class="co"># Number of outcomes that we got right</span></a>
+<a class="sourceLine" id="cb418-2" data-line-number="2">       <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># 10 trials (we have 10 questions)</span></a>
+<a class="sourceLine" id="cb418-3" data-line-number="3">       <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Probability of getting the right answer (1/4) </span></a></code></pre></div>
 <pre><code>## [1] 0.2815676</code></pre>
 <p>Or three:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">3</span>, <span class="co"># Number of outcomes that we got right</span>
-       <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># 10 trials (we have 10 questions)</span>
-       <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Probability of getting the right answer (1/4) </span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">3</span>, <span class="co"># Number of outcomes that we got right</span></a>
+<a class="sourceLine" id="cb420-2" data-line-number="2">       <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># 10 trials (we have 10 questions)</span></a>
+<a class="sourceLine" id="cb420-3" data-line-number="3">       <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Probability of getting the right answer (1/4) </span></a></code></pre></div>
 <pre><code>## [1] 0.2502823</code></pre>
 <p>And so on….</p>
 <p>What if we want to find the probability of guessing all 10 questions correctly? That’s a magical result!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>)  </code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>)  </a></code></pre></div>
 <pre><code>## [1] 9.536743e-07</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Round to 2 d.p.</span>
-<span class="kw">round</span>(<span class="kw">dbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>), <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1"><span class="co">#Round to 2 d.p.</span></a>
+<a class="sourceLine" id="cb424-2" data-line-number="2"><span class="kw">round</span>(<span class="kw">dbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>), <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p><strong>So rare that it is almost zero, so never try to do the quiz just relying on your luck! :)</strong></p>
 </div>
@@ -459,27 +489,28 @@ homework_guess_true_false &lt;-<span class="st"> </span><span class="kw">tibble<
 <h2><span class="header-section-number">9.6</span> Cumulative Probability (Advanced)</h2>
 <p>By adding the above we can also get a cumulative probability, meaning that we can study what would be the chance to get four or less right, meaning that you want to include the chances of getting zero, one, two, and three right as well.</p>
 <p>Graphically, we really want to analyse the probability mass here, given that all should sum up to one. To know the chances of getting one or two questions right we can sum the probabilities:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">1</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">dbinom</span>(<span class="dv">1</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">dbinom</span>(<span class="dv">2</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>)</code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">1</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb426-2" data-line-number="2"><span class="st">  </span><span class="kw">dbinom</span>(<span class="dv">1</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb426-3" data-line-number="3"><span class="st">  </span><span class="kw">dbinom</span>(<span class="dv">2</span>, <span class="dt">size =</span> <span class="dv">10</span>,  <span class="dt">prob =</span> <span class="fl">0.25</span>)</a></code></pre></div>
 <pre><code>## [1] 0.656991</code></pre>
 <p>A faster way to see all the probabilities at once would be:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">all_probs &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">dbinom</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>), <span class="dt">prob =</span> <span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">10</span>),<span class="dv">2</span>) <span class="co"># Note that we use round to see the values to two decimal places </span>
-all_probs</code></pre></div>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb428-1" data-line-number="1">all_probs &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">dbinom</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>), <span class="dt">prob =</span> <span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">10</span>),<span class="dv">2</span>) <span class="co"># Note that we use round to see the values to two decimal places </span></a>
+<a class="sourceLine" id="cb428-2" data-line-number="2">all_probs</a></code></pre></div>
 <pre><code>##  [1] 0.06 0.19 0.28 0.25 0.15 0.06 0.02 0.00 0.00 0.00 0.00</code></pre>
 <p>You can then find out what the probability is of getting five or less answers right versus five or more answers right:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Five or less</span>
-<span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">10</span>)</code></pre></div>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" data-line-number="1"><span class="co"># Five or less</span></a>
+<a class="sourceLine" id="cb430-2" data-line-number="2"><span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
 <pre><code>## [1] 0.9802723</code></pre>
 <p>Quite high chances :)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Five or more</span>
-<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">10</span> )</code></pre></div>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" data-line-number="1"><span class="co"># Five or more</span></a>
+<a class="sourceLine" id="cb432-2" data-line-number="2"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">10</span> )</a></code></pre></div>
 <pre><code>## [1] 0.01972771</code></pre>
 <p>Not that much! Can you see what we did? We found the probability of outcomes that are equal or less than five and then substracted it from total.</p>
 <p>Graphically we can show this as following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&#39;images/prob.jpg&#39;</span>)</code></pre></div>
-<p><img src="images/prob.jpg" /><!-- --></p>
-<p>There is an exercise for you to try this yourself with the distribution for TRUE/FALSE questions. <strong>Make sure that you revise this before coming back to the course in January as it will remind you of where we ended. </strong></p>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&#39;images/prob.jpg&#39;</span>)</a></code></pre></div>
+<p><img src="images/prob.jpg" width="1331" /></p>
+<p>There is an exercise for you to try this yourself with the distribution for TRUE/FALSE questions.
+<strong>Make sure that you revise this before coming back to the course in January as it will remind you of where we ended. </strong></p>
 </div>
 <div id="revision-practice-rmd.-solutions" class="section level2">
 <h2><span class="header-section-number">9.7</span> Revision Practice Rmd. Solutions</h2>
@@ -493,12 +524,12 @@ all_probs</code></pre></div>
 <li><code>Task</code>: Task A, Task B, Placebo</li>
 <li><code>Saw_twice</code>: Yes/No (if participant saw the text twice)</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load tidyverse</span>
-<span class="kw">library</span>(tidyverse)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Read data in</span>
-data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;week_9.csv&#39;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check what&#39;s inside</span>
-<span class="kw">head</span>(data)</code></pre></div>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb435-1" data-line-number="1"><span class="co"># Load tidyverse</span></a>
+<a class="sourceLine" id="cb435-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb436-1" data-line-number="1"><span class="co"># Read data in</span></a>
+<a class="sourceLine" id="cb436-2" data-line-number="2">data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;week_9.csv&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb437-1" data-line-number="1"><span class="co"># Check what&#39;s inside</span></a>
+<a class="sourceLine" id="cb437-2" data-line-number="2"><span class="kw">head</span>(data)</a></code></pre></div>
 <pre><code>##    ID Age Memory_score    Task Saw_twice
 ## 1 ID1  21           54  Task A        No
 ## 2 ID2  27           23  Task A       Yes
@@ -510,52 +541,52 @@ data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class=
 <h3><span class="header-section-number">9.7.1</span> Provide descriptive statistics for age and memory score variables</h3>
 <p>There are different ways to do so using what we have learned so far:</p>
 <p>Look at each variable separately:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># First age</span>
-data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Age),
-            <span class="dt">median =</span> <span class="kw">median</span>(Age),
-            <span class="dt">sd =</span> <span class="kw">sd</span>(Age))</code></pre></div>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb439-1" data-line-number="1"><span class="co"># First age</span></a>
+<a class="sourceLine" id="cb439-2" data-line-number="2">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb439-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Age),</a>
+<a class="sourceLine" id="cb439-4" data-line-number="4">            <span class="dt">median =</span> <span class="kw">median</span>(Age),</a>
+<a class="sourceLine" id="cb439-5" data-line-number="5">            <span class="dt">sd =</span> <span class="kw">sd</span>(Age))</a></code></pre></div>
 <pre><code>##       mean median       sd
 ## 1 34.39583   33.5 9.219331</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Then memory</span>
-data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Memory_score),
-            <span class="dt">median =</span> <span class="kw">median</span>(Memory_score),
-            <span class="dt">sd =</span> <span class="kw">sd</span>(Memory_score))</code></pre></div>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb441-1" data-line-number="1"><span class="co"># Then memory</span></a>
+<a class="sourceLine" id="cb441-2" data-line-number="2">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb441-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Memory_score),</a>
+<a class="sourceLine" id="cb441-4" data-line-number="4">            <span class="dt">median =</span> <span class="kw">median</span>(Memory_score),</a>
+<a class="sourceLine" id="cb441-5" data-line-number="5">            <span class="dt">sd =</span> <span class="kw">sd</span>(Memory_score))</a></code></pre></div>
 <pre><code>##       mean median       sd
 ## 1 44.03472     41 20.54516</code></pre>
 <p>Or do it all in one go:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_age =</span> <span class="kw">mean</span>(Age),
-            <span class="dt">mean_memory =</span> <span class="kw">mean</span>(Memory_score),
-            <span class="dt">median_age =</span> <span class="kw">median</span>(Age),
-            <span class="dt">median_memory =</span> <span class="kw">median</span> (Memory_score),
-            <span class="dt">sd_age =</span> <span class="kw">sd</span>(Age),
-            <span class="dt">sd_memory =</span> <span class="kw">sd</span>(Memory_score))</code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb443-1" data-line-number="1">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb443-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_age =</span> <span class="kw">mean</span>(Age),</a>
+<a class="sourceLine" id="cb443-3" data-line-number="3">            <span class="dt">mean_memory =</span> <span class="kw">mean</span>(Memory_score),</a>
+<a class="sourceLine" id="cb443-4" data-line-number="4">            <span class="dt">median_age =</span> <span class="kw">median</span>(Age),</a>
+<a class="sourceLine" id="cb443-5" data-line-number="5">            <span class="dt">median_memory =</span> <span class="kw">median</span> (Memory_score),</a>
+<a class="sourceLine" id="cb443-6" data-line-number="6">            <span class="dt">sd_age =</span> <span class="kw">sd</span>(Age),</a>
+<a class="sourceLine" id="cb443-7" data-line-number="7">            <span class="dt">sd_memory =</span> <span class="kw">sd</span>(Memory_score))</a></code></pre></div>
 <pre><code>##   mean_age mean_memory median_age median_memory   sd_age sd_memory
 ## 1 34.39583    44.03472       33.5            41 9.219331  20.54516</code></pre>
 </div>
 <div id="descriptives-by-groups" class="section level3">
 <h3><span class="header-section-number">9.7.2</span> Descriptives by groups</h3>
 <p>Provide descriptives of the memory scores by task, and by whether someone saw the information on the task twice:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># By treatment/task</span>
-data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(Task) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#note that we are adding group_by() to differentiate by a variable</span>
-<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Memory_score),
-            <span class="dt">median =</span> <span class="kw">median</span>(Memory_score),
-            <span class="dt">sd =</span> <span class="kw">sd</span>(Memory_score))</code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1"><span class="co"># By treatment/task</span></a>
+<a class="sourceLine" id="cb445-2" data-line-number="2">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb445-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(Task) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#note that we are adding group_by() to differentiate by a variable</span></a>
+<a class="sourceLine" id="cb445-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Memory_score),</a>
+<a class="sourceLine" id="cb445-5" data-line-number="5">            <span class="dt">median =</span> <span class="kw">median</span>(Memory_score),</a>
+<a class="sourceLine" id="cb445-6" data-line-number="6">            <span class="dt">sd =</span> <span class="kw">sd</span>(Memory_score))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   Task     mean median    sd
 ##   &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Placebo  43.2   41    21.9
 ## 2 Task A   45.7   41.5  19.8
 ## 3 Task B   43.4   42    20.2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># By whether someone saw information on the task twice</span>
-data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(Saw_twice) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Memory_score),
-            <span class="dt">median =</span> <span class="kw">median</span>(Memory_score),
-            <span class="dt">sd =</span> <span class="kw">sd</span>(Memory_score))</code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb447-1" data-line-number="1"><span class="co"># By whether someone saw information on the task twice</span></a>
+<a class="sourceLine" id="cb447-2" data-line-number="2">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb447-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(Saw_twice) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb447-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Memory_score),</a>
+<a class="sourceLine" id="cb447-5" data-line-number="5">            <span class="dt">median =</span> <span class="kw">median</span>(Memory_score),</a>
+<a class="sourceLine" id="cb447-6" data-line-number="6">            <span class="dt">sd =</span> <span class="kw">sd</span>(Memory_score))</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 4
 ##   Saw_twice  mean median    sd
 ##   &lt;fct&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
@@ -565,61 +596,61 @@ data <span class="op">%&gt;%</span>
 <div id="visualise" class="section level3">
 <h3><span class="header-section-number">9.7.3</span> Visualise</h3>
 <p>Provide distributions of age and memory scores.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Age</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> Age)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Age (Years)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Age&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb449-1" data-line-number="1"><span class="co"># Age</span></a>
+<a class="sourceLine" id="cb449-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> Age)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb449-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb449-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Age (Years)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Age&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb449-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-279-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Memory Scores</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> Memory_score)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Memory Score (1-100)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Memory Scores&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb451-1" data-line-number="1"><span class="co"># Memory Scores</span></a>
+<a class="sourceLine" id="cb451-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> Memory_score)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb451-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb451-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Memory Score (1-100)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Memory Scores&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb451-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-280-1.png" width="672" /></p>
 </div>
 <div id="visualise-a-subset" class="section level3">
 <h3><span class="header-section-number">9.7.4</span> Visualise a subset</h3>
 <p>What about memory scores only for Task A?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Memory Scores for Task A</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(data, Task <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Task A&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> Memory_score)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Memory Score (1-100)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Memory Scores (Task A)&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb453-1" data-line-number="1"><span class="co"># Memory Scores for Task A</span></a>
+<a class="sourceLine" id="cb453-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(data, Task <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Task A&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> Memory_score)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb453-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb453-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Memory Score (1-100)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Memory Scores (Task A)&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb453-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-281-1.png" width="672" /></p>
-<p>We can also use <code>%&gt;</code> to do the same. Check this out:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Memory Scores for Task A</span>
-data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span> (Task <span class="op">==</span><span class="st"> &#39;Task A&#39;</span>) <span class="op">%&gt;%</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> ., <span class="co">#note how we replace the data with `.` which will allow us to use the specification above as our input</span>
-       <span class="kw">aes</span>(<span class="dt">x =</span> Memory_score)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Memory Score (1-100)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Memory Scores (Task A)&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<p>We can also use <code>%&gt;%</code> to do the same. Check this out:</p>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb455-1" data-line-number="1"><span class="co"># Memory Scores for Task A</span></a>
+<a class="sourceLine" id="cb455-2" data-line-number="2">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb455-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span> (Task <span class="op">==</span><span class="st"> &#39;Task A&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb455-4" data-line-number="4"><span class="kw">ggplot</span>(<span class="dt">data =</span> ., <span class="co">#note how we replace the data with `.` which will allow us to use the specification above as our input</span></a>
+<a class="sourceLine" id="cb455-5" data-line-number="5">       <span class="kw">aes</span>(<span class="dt">x =</span> Memory_score)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb455-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">colour =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb455-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Memory Score (1-100)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Memory Scores (Task A)&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb455-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-282-1.png" width="672" /></p>
 </div>
 <div id="variable-by-a-group" class="section level3">
 <h3><span class="header-section-number">9.7.5</span> Variable by a group</h3>
 <p>What about a plot of Memory Score by Task?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> Task, <span class="dt">y =</span> Memory_score, <span class="dt">fill =</span> Task)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>() </code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb457-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> Task, <span class="dt">y =</span> Memory_score, <span class="dt">fill =</span> Task)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb457-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>() </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-283-1.png" width="672" /></p>
 <p>Anything more advanced? Maybe you could try ggridges?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggridges)
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> Memory_score, <span class="dt">y =</span> Task,  <span class="dt">fill=</span>Task)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_density_ridges</span>()</code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1"><span class="kw">library</span>(ggridges)</a>
+<a class="sourceLine" id="cb458-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> Memory_score, <span class="dt">y =</span> Task,  <span class="dt">fill=</span>Task)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_density_ridges</span>()</a></code></pre></div>
 <pre><code>## Picking joint bandwidth of 8.01</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-284-1.png" width="672" /></p>
 </div>
 <div id="create-a-new-variable-using-mutate" class="section level3">
 <h3><span class="header-section-number">9.7.6</span> Create a new variable using mutate()</h3>
 <p>Let’s change memory scores into percentages. How would you add an extra variable that converts scores (1-100) into percentages??</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We can use mutate (try first adding the new variable via piping)</span>
-data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Memory_score=</span>Memory_score<span class="op">/</span><span class="dv">100</span>)</code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1"><span class="co"># We can use mutate (try first adding the new variable via piping)</span></a>
+<a class="sourceLine" id="cb460-2" data-line-number="2">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb460-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Memory_score=</span>Memory_score<span class="op">/</span><span class="dv">100</span>)</a></code></pre></div>
 <pre><code>##        ID Age Memory_score    Task Saw_twice
 ## 1     ID1  21         0.54  Task A        No
 ## 2     ID2  27         0.23  Task A       Yes
@@ -766,7 +797,7 @@ data <span class="op">%&gt;%</span>
 ## 143 ID143  28         0.41 Placebo        No
 ## 144 ID144  32         0.65  Task A       Yes</code></pre>
 <p>We can see a new variable above but if you head your data it won’t appear:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(data)</code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1"><span class="kw">head</span>(data)</a></code></pre></div>
 <pre><code>##    ID Age Memory_score    Task Saw_twice
 ## 1 ID1  21           54  Task A        No
 ## 2 ID2  27           23  Task A       Yes
@@ -775,10 +806,10 @@ data <span class="op">%&gt;%</span>
 ## 5 ID5  49           43  Task B       Yes
 ## 6 ID6  47           32 Placebo        No</code></pre>
 <p>That’s because we have not assigned it to a dataset. To do so, we will need to use <code>&lt;-</code> in the following way:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Memory_score=</span>Memory_score<span class="op">/</span><span class="dv">100</span>)</code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1">new_data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb464-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Memory_score=</span>Memory_score<span class="op">/</span><span class="dv">100</span>)</a></code></pre></div>
 <p>Check now:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(new_data)</code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb465-1" data-line-number="1"><span class="kw">head</span>(new_data)</a></code></pre></div>
 <pre><code>##    ID Age Memory_score    Task Saw_twice
 ## 1 ID1  21         0.54  Task A        No
 ## 2 ID2  27         0.23  Task A       Yes
@@ -790,8 +821,8 @@ data <span class="op">%&gt;%</span>
 <div id="subset-observations-using-filter" class="section level3">
 <h3><span class="header-section-number">9.7.7</span> Subset observations using filter()</h3>
 <p>Can you subset only <code>Task A</code> and <code>Placebo</code> from the data? We can use filter and then assign the filtered observations to an object too:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Task <span class="op">==</span><span class="st"> &#39;Task A&#39;</span> <span class="op">|</span><span class="st"> </span>Task<span class="op">==</span><span class="st"> &#39;Placebo&#39;</span>) </code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb467-1" data-line-number="1">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb467-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Task <span class="op">==</span><span class="st"> &#39;Task A&#39;</span> <span class="op">|</span><span class="st"> </span>Task<span class="op">==</span><span class="st"> &#39;Placebo&#39;</span>) </a></code></pre></div>
 <pre><code>##       ID Age Memory_score    Task Saw_twice
 ## 1    ID1  21           54  Task A        No
 ## 2    ID2  27           23  Task A       Yes
@@ -887,17 +918,17 @@ data <span class="op">%&gt;%</span>
 ## 92 ID143  28           41 Placebo        No
 ## 93 ID144  32           65  Task A       Yes</code></pre>
 <p>Now, put it inside a new dataset, called <code>reduced</code>, you can also specify which variables you may want to keep.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">reduced_data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span>
-<span class="st">   </span><span class="kw">filter</span>(Task <span class="op">==</span><span class="st"> &#39;Task A&#39;</span> <span class="op">|</span><span class="st"> </span>Task<span class="op">==</span><span class="st"> &#39;Placebo&#39;</span>)  <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(ID, Age, Memory_score, Task, Saw_twice)</code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb469-1" data-line-number="1">reduced_data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb469-2" data-line-number="2"><span class="st">   </span><span class="kw">filter</span>(Task <span class="op">==</span><span class="st"> &#39;Task A&#39;</span> <span class="op">|</span><span class="st"> </span>Task<span class="op">==</span><span class="st"> &#39;Placebo&#39;</span>)  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb469-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(ID, Age, Memory_score, Task, Saw_twice)</a></code></pre></div>
 </div>
 <div id="sort-via-arrange" class="section level3">
 <h3><span class="header-section-number">9.7.8</span> Sort via arrange()</h3>
 <p>We can check the lowest and highest memory scores via sorting in each group:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Task A (lowest)</span>
-data <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(Task <span class="op">==</span><span class="st"> &quot;Task A&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(Memory_score) </code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb470-1" data-line-number="1"><span class="co"># Task A (lowest)</span></a>
+<a class="sourceLine" id="cb470-2" data-line-number="2">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb470-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(Task <span class="op">==</span><span class="st"> &quot;Task A&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb470-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(Memory_score) </a></code></pre></div>
 <pre><code>##       ID Age Memory_score   Task Saw_twice
 ## 1   ID41  42           13 Task A       Yes
 ## 2   ID56  51           19 Task A       Yes
@@ -944,10 +975,10 @@ data <span class="op">%&gt;%</span><span class="st"> </span>
 ## 43  ID96  33           81 Task A        No
 ## 44 ID114  46           82 Task A        No</code></pre>
 <p>What about the highest in Task B?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Task B (the highest)</span>
-data <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">filter</span>(Task <span class="op">==</span><span class="st"> &quot;Task B&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Memory_score)) </code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" data-line-number="1"><span class="co"># Task B (the highest)</span></a>
+<a class="sourceLine" id="cb472-2" data-line-number="2">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb472-3" data-line-number="3"><span class="st">    </span><span class="kw">filter</span>(Task <span class="op">==</span><span class="st"> &quot;Task B&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb472-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Memory_score)) </a></code></pre></div>
 <pre><code>##       ID Age Memory_score   Task Saw_twice
 ## 1   ID51  40           94 Task B        No
 ## 2   ID42  43           84 Task B        No
@@ -1006,8 +1037,8 @@ data <span class="op">%&gt;%</span>
 <ul>
 <li>First check how many people we have in each Task group:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>(Task)</code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb474-1" data-line-number="1">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb474-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(Task)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   Task        n
 ##   &lt;fct&gt;   &lt;int&gt;
@@ -1017,10 +1048,10 @@ data <span class="op">%&gt;%</span>
 <ul>
 <li>Can you show how many people above 40 years of age and saw the information on the task twice in each Task group?</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Age <span class="op">&gt;</span><span class="dv">40</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Saw_twice <span class="op">==</span><span class="st"> &#39;Yes&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>(Task)</code></pre></div>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb476-1" data-line-number="1">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb476-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Age <span class="op">&gt;</span><span class="dv">40</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb476-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(Saw_twice <span class="op">==</span><span class="st"> &#39;Yes&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb476-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(Task)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   Task        n
 ##   &lt;fct&gt;   &lt;int&gt;
@@ -1030,9 +1061,9 @@ data <span class="op">%&gt;%</span>
 <ul>
 <li>For the last one, show how people with the highest memory scores are split by task. Use a memory score threshold of 50 out of 100:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Memory_score <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>(Task)</code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb478-1" data-line-number="1">data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb478-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Memory_score <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb478-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(Task)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   Task        n
 ##   &lt;fct&gt;   &lt;int&gt;
@@ -1048,67 +1079,67 @@ data <span class="op">%&gt;%</span>
 <p>Work with the distribution we created in the tutorial for guessing on homework quizzes. We want to analyse how likely you are to get specific numbers of question right.</p>
 <div id="truefalse-questions" class="section level3">
 <h3><span class="header-section-number">9.8.1</span> TRUE/FALSE questions</h3>
-<p>Work with the TRUE/FALSE example we have seen in the tutorial. What if the multiple choice had only two choices for the answer (i.e. TRUE or FALSE questions)? The right answer will now have a probability of 0.5 if you were to guess at random. Create a tibble() to show this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homework_guess_true_false &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">right_guess =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, 
-       <span class="dt">size =</span> <span class="dv">10</span>, 
-       <span class="dt">prob =</span> <span class="fl">0.5</span>)) </code></pre></div>
+<p>Work with the TRUE/FALSE example we have seen in the tutorial.
+What if the multiple choice had only two choices for the answer (i.e. TRUE or FALSE questions)? The right answer will now have a probability of 0.5 if you were to guess at random. Create a tibble() to show this:</p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb480-1" data-line-number="1">homework_guess_true_false &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">right_guess =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, </a>
+<a class="sourceLine" id="cb480-2" data-line-number="2">       <span class="dt">size =</span> <span class="dv">10</span>, </a>
+<a class="sourceLine" id="cb480-3" data-line-number="3">       <span class="dt">prob =</span> <span class="fl">0.5</span>)) </a></code></pre></div>
 </div>
 <div id="count-the-occurencies" class="section level3">
 <h3><span class="header-section-number">9.8.2</span> Count the occurencies</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homework_guess_true_false <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>(right_guess)</code></pre></div>
-<pre><code>## # A tibble: 8 x 2
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb481-1" data-line-number="1">homework_guess_true_false <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb481-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(right_guess)</a></code></pre></div>
+<pre><code>## # A tibble: 7 x 2
 ##   right_guess     n
 ##         &lt;int&gt; &lt;int&gt;
-## 1           2     3
-## 2           3    12
-## 3           4    18
-## 4           5    26
-## 5           6    21
-## 6           7    13
-## 7           8     6
-## 8           9     1</code></pre>
+## 1           2     2
+## 2           3    10
+## 3           4    19
+## 4           5    36
+## 5           6    13
+## 6           7    12
+## 7           8     8</code></pre>
 </div>
 <div id="plot" class="section level3">
 <h3><span class="header-section-number">9.8.3</span> Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;count&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb483-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb483-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb483-3" data-line-number="3"><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb483-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;count&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb483-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-298-1.png" width="672" /></p>
 <p>Plot with y being a probability:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)), <span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Probability&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb484-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb484-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)), <span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb484-3" data-line-number="3"><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb484-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Probability&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb484-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-299-1.png" width="672" /></p>
 </div>
 <div id="use-dbinom-to-study-the-probability" class="section level3">
 <h3><span class="header-section-number">9.8.4</span> Use dbinom() to study the probability</h3>
 <p>Check what the probability is of getting only one question right when guessing at random:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">1</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>) </code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb485-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">1</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>) </a></code></pre></div>
 <pre><code>## [1] 0.009765625</code></pre>
 <p>Or for five correct answers:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">5</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>) </code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">5</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>) </a></code></pre></div>
 <pre><code>## [1] 0.2460938</code></pre>
 <p>Or eight:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">8</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>) </code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="kw">dbinom</span>(<span class="dv">8</span>, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>) </a></code></pre></div>
 <pre><code>## [1] 0.04394531</code></pre>
 <p>Or put it all together at once (make sure that the probability is 0.5):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">all_probs &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">dbinom</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>), <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="dv">10</span>),<span class="dv">2</span>) <span class="co"># Note that we use round to see the values to two decimal places </span>
-all_probs</code></pre></div>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb491-1" data-line-number="1">all_probs &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">dbinom</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>), <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="dv">10</span>),<span class="dv">2</span>) <span class="co"># Note that we use round to see the values to two decimal places </span></a>
+<a class="sourceLine" id="cb491-2" data-line-number="2">all_probs</a></code></pre></div>
 <pre><code>##  [1] 0.00 0.01 0.04 0.12 0.21 0.25 0.21 0.12 0.04 0.01 0.00</code></pre>
 </div>
 <div id="less-than-five-or-more-than-five" class="section level3">
 <h3><span class="header-section-number">9.8.5</span> Less than five or more than five?</h3>
 <p>We can also study what the chances are of getting less than five questions right versus more than five questions right in a TRUE/FALSE setting (check your notes online).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Five or less</span>
-<span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="dv">10</span>)</code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb493-1" data-line-number="1"><span class="co"># Five or less</span></a>
+<a class="sourceLine" id="cb493-2" data-line-number="2"><span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
 <pre><code>## [1] 0.6230469</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Five or more</span>
-<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="dv">10</span>)</code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb495-1" data-line-number="1"><span class="co"># Five or more</span></a>
+<a class="sourceLine" id="cb495-2" data-line-number="2"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
 <pre><code>## [1] 0.3769531</code></pre>
 <p>Better chances compared to when you are doing a quiz with four options! :)</p>
 
@@ -1133,11 +1164,13 @@ all_probs</code></pre></div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -1178,7 +1211,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))

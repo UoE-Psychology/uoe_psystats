@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Week 4 | Data Analysis for Psychology in R (dapR1) - Labs</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Week 4 | Data Analysis for Psychology in R (dapR1) - Labs" />
   <meta property="og:type" content="book" />
@@ -39,6 +39,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -55,41 +58,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -155,12 +183,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
 <li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
-<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.11</b> Including images or links</a><ul>
-<li class="chapter" data-level="2.11.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.11.1</b> Adding links</a></li>
-<li class="chapter" data-level="2.11.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.11.2</b> Adding figures &amp; pictures</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
 </ul></li>
-<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.12</b> Generating documents</a></li>
-<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.13</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
 <li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
@@ -314,8 +343,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Good visualisations can also be very powerful when it comes to telling a story with your data. Watch out next time you are reading a news article that uses data. Check how they present the data, what types of graphics they use and how easy it is to read the message. Some cool examples of visualisations made in R for the BBC can be found <a href="https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535">here</a>.</p>
 <p><img src="images/BBC_R.png" width="772" /></p>
 <p>Below we will show you quite a few examples of what you can do with R. This week we want to focus mainly on one-variable visualisations using ggplot(). We will leave some extra materials for you to work through in your own time on how to plot two or more variables. You will need those later in your courses so bookmark the page for the future. :)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load tidyverse</span>
-<span class="kw">library</span>(tidyverse)</code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="co"># Load tidyverse</span></a>
+<a class="sourceLine" id="cb131-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 </div>
 <div id="visualisations" class="section level2">
 <h2><span class="header-section-number">4.2</span> Visualisations</h2>
@@ -329,13 +358,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="numerical-data" class="section level2">
 <h2><span class="header-section-number">4.4</span> Numerical data</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get diamonds dataset</span>
-data &lt;-<span class="st"> </span>diamonds</code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="co"># Get diamonds dataset</span></a>
+<a class="sourceLine" id="cb132-2" data-line-number="2">data &lt;-<span class="st"> </span>diamonds</a></code></pre></div>
 <p>We can use help to find out more about this dataset. Try to run the code below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?diamonds</code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1">?diamonds</a></code></pre></div>
 <p>You will see some information in your right-hand pane. It is handy to use <code>? ...</code> for anything you may want clarification on.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Glimpse</span>
-<span class="kw">glimpse</span>(diamonds)</code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="co"># Glimpse</span></a>
+<a class="sourceLine" id="cb134-2" data-line-number="2"><span class="kw">glimpse</span>(diamonds)</a></code></pre></div>
 <pre><code>## Observations: 53,940
 ## Variables: 10
 ## $ carat   &lt;dbl&gt; 0.23, 0.21, 0.23, 0.29, 0.31, 0.24, 0.24, 0.26, 0.22, 0.…
@@ -355,8 +384,8 @@ data &lt;-<span class="st"> </span>diamonds</code></pre></div>
 <p>We can start by creating a space in R where we will map our data. Let’s start by specifying the dataset we want and the variable we are interested in plotting.</p>
 <div id="continuous-variable" class="section level3">
 <h3><span class="header-section-number">4.5.1</span> Continuous variable</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram plot for variable &#39;price&#39; - baseline</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) </code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="co"># Simple histogram plot for variable &#39;price&#39; - baseline</span></a>
+<a class="sourceLine" id="cb136-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
 <p>Note the key components of the specification above:</p>
 <ul>
@@ -380,19 +409,19 @@ data &lt;-<span class="st"> </span>diamonds</code></pre></div>
 <li><code>+ geom_point()</code> adds a point (scatter plot) geometry to the graph (use with two continuous variables).</li>
 <li><code>+ geom_boxplot()</code> adds a boxplot geometry to the graph (great for plotting a continuous variable which is grouped).</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram for variable &#39;price&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="co"># Simple histogram for variable &#39;price&#39;</span></a>
+<a class="sourceLine" id="cb137-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb137-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-79-1.png" width="672" /></p>
 <p>Check carefully what you are seeing. We have an x axis (price) and a y axis (count). We can see that we have more diamonds of the price below $10,000 and fewer very expensive ones.</p>
 <p>From the first look, I feel the plot could be nicer. Perhaps we could edit our axes, provide a title or change the background? Well, we can do all of these things!</p>
 <p>Let’s start with the axes and the title.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram for variable &#39;price&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span>
-       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span> ) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="co"># Simple histogram for variable &#39;price&#39;</span></a>
+<a class="sourceLine" id="cb139-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb139-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb139-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span></a>
+<a class="sourceLine" id="cb139-5" data-line-number="5">       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span> ) <span class="co"># Add title</span></a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
 <p>We can now modify what our histogram looks like. We will work within <code>geom_histogram()</code>. Note how we leave brackets empty when we are going with the default option. By adding specifications we can modify the look of our graph.</p>
@@ -400,59 +429,59 @@ data &lt;-<span class="st"> </span>diamonds</code></pre></div>
 <p>The key colours that are available are (there are more if you need!):</p>
 <p><img src="images/col.png" width="522" /></p>
 <p>Let’s pick some which are good for the reader. If you find that certain colours create certain associations with the data you are plotting that could be helpful or confusing - so please be careful about which ones you choose. We are going with classic:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram for variable &#39;price&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st">  </span><span class="co"># I would like to change the fill to white</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span>
-       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span>) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1"><span class="co"># Simple histogram for variable &#39;price&#39;</span></a>
+<a class="sourceLine" id="cb141-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb141-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st">  </span><span class="co"># I would like to change the fill to white</span></a>
+<a class="sourceLine" id="cb141-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span></a>
+<a class="sourceLine" id="cb141-5" data-line-number="5">       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span>) <span class="co"># Add title</span></a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
 <p>Try to vary the colours (you could make it quite bright):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram for variable &#39;price&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span>
-<span class="st">       </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st">  </span><span class="co"># I would like to change the fill to blue</span>
-<span class="st">       </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span>
-            <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span>) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" data-line-number="1"><span class="co"># Simple histogram for variable &#39;price&#39;</span></a>
+<a class="sourceLine" id="cb143-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb143-3" data-line-number="3"><span class="st">       </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st">  </span><span class="co"># I would like to change the fill to blue</span></a>
+<a class="sourceLine" id="cb143-4" data-line-number="4"><span class="st">       </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span></a>
+<a class="sourceLine" id="cb143-5" data-line-number="5">            <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span>) <span class="co"># Add title</span></a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-83-1.png" width="672" /></p>
 <p>Whilst we are here, we can also add density to our plot to better visualise the underlying distribution of our variable:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram for variable &#39;price&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;brown&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;grey&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="co"># Note that I have now added aes(y=..density..) </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span>
-       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span>) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="co"># Simple histogram for variable &#39;price&#39;</span></a>
+<a class="sourceLine" id="cb145-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb145-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;brown&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;grey&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb145-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="co"># Note that I have now added aes(y=..density..) </span></a>
+<a class="sourceLine" id="cb145-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span></a>
+<a class="sourceLine" id="cb145-6" data-line-number="6">       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span>) <span class="co"># Add title</span></a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
 <p>We can also adjust the line type around our bins in the histogram, note how we can add <code>linetype=</code> argument inside of geom_histogram().</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram for variable &#39;price&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;brown&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st">  </span>
-<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="co"># Note that I have now added aes(y = ..density..) </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span>
-       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span> ) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="co"># Simple histogram for variable &#39;price&#39;</span></a>
+<a class="sourceLine" id="cb147-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb147-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;brown&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb147-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="co"># Note that I have now added aes(y = ..density..) </span></a>
+<a class="sourceLine" id="cb147-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span></a>
+<a class="sourceLine" id="cb147-6" data-line-number="6">       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span> ) <span class="co"># Add title</span></a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
 <p>Lastly, to reflect on some new knowledge, we can also add a line to indicate where the mean of the variable is. We will use <code>geom_vline</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram for variable &#39;price&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;brown&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;grey&quot;</span>,  <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st">        </span>
-<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="co"># Note that I have now added aes(y = ..density..) and geom_density() </span>
-<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(price)), <span class="co"># Note how we provide x intercept using mean(x)</span>
-             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="op">+</span><span class="st">  </span><span class="co"># You can modify the line here as well (change size, colour)</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span>
-       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span>) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1"><span class="co"># Simple histogram for variable &#39;price&#39;</span></a>
+<a class="sourceLine" id="cb149-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;brown&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;grey&quot;</span>,  <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st">        </span></a>
+<a class="sourceLine" id="cb149-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="co"># Note that I have now added aes(y = ..density..) and geom_density() </span></a>
+<a class="sourceLine" id="cb149-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(price)), <span class="co"># Note how we provide x intercept using mean(x)</span></a>
+<a class="sourceLine" id="cb149-6" data-line-number="6">             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="op">+</span><span class="st">  </span><span class="co"># You can modify the line here as well (change size, colour)</span></a>
+<a class="sourceLine" id="cb149-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span></a>
+<a class="sourceLine" id="cb149-8" data-line-number="8">       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span>) <span class="co"># Add title</span></a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
 <p>I want to make the line a bit bigger and maybe red so it’s easier to see:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple histogram for variable &#39;price&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;brown&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st">         </span>
-<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="co"># Note that I have now added aes(y = ..density..) </span>
-<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(price)), <span class="co"># Note how we provide x intercept using mean(x)</span>
-             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="co"># You can modify the line here as well (change size, colour)</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span>
-       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span> ) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1"><span class="co"># Simple histogram for variable &#39;price&#39;</span></a>
+<a class="sourceLine" id="cb151-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> price)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb151-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;brown&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st">         </span></a>
+<a class="sourceLine" id="cb151-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="co"># Note that I have now added aes(y = ..density..) </span></a>
+<a class="sourceLine" id="cb151-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(price)), <span class="co"># Note how we provide x intercept using mean(x)</span></a>
+<a class="sourceLine" id="cb151-6" data-line-number="6">             <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="co"># You can modify the line here as well (change size, colour)</span></a>
+<a class="sourceLine" id="cb151-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,  <span class="co"># Add x axis label</span></a>
+<a class="sourceLine" id="cb151-8" data-line-number="8">       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond prices&#39;</span> ) <span class="co"># Add title</span></a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
 <p>Nice! Now let’s see how we can work with categorical data.</p>
@@ -461,8 +490,8 @@ data &lt;-<span class="st"> </span>diamonds</code></pre></div>
 <div id="categorical-variables" class="section level2">
 <h2><span class="header-section-number">4.6</span> Categorical variables</h2>
 <p>In the dataset we are working with we have one interesting categorical variable, the <code>cut</code> of the diamond. It has five levels (Fair, Good, Very Good, Premium, Ideal). Check what it looks like:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check &#39;cut&#39;</span>
-<span class="kw">select</span>(data, cut)</code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" data-line-number="1"><span class="co"># Check &#39;cut&#39;</span></a>
+<a class="sourceLine" id="cb153-2" data-line-number="2"><span class="kw">select</span>(data, cut)</a></code></pre></div>
 <pre><code>## # A tibble: 53,940 x 1
 ##    cut      
 ##    &lt;ord&gt;    
@@ -478,16 +507,16 @@ data &lt;-<span class="st"> </span>diamonds</code></pre></div>
 ## 10 Very Good
 ## # … with 53,930 more rows</code></pre>
 <p>One way to visualise the data would be to start with a simple bar plot. Note how I again specified the data, the x axis and the type of plot I am interested in.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple bar plot for variable &#39;cut&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1"><span class="co"># Simple bar plot for variable &#39;cut&#39;</span></a>
+<a class="sourceLine" id="cb155-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb155-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
 <p>Nice! Let’s do some edits as before. I will do them now in one go. Try to breakdown each modification that was added. I added something new here, namely <code>theme_minimal()</code> so take a note how it changes the plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple bar plot for variable &#39;cut&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">color =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;cornsilk&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span><span class="co">#use different theme</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, <span class="co"># Add x axis label</span>
-  <span class="dt">title =</span> <span class="st">&#39;Bar plot for the quality of diamonds cut&#39;</span>) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1"><span class="co"># Simple bar plot for variable &#39;cut&#39;</span></a>
+<a class="sourceLine" id="cb156-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">color =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;cornsilk&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb156-3" data-line-number="3"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span><span class="co">#use different theme</span></a>
+<a class="sourceLine" id="cb156-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, <span class="co"># Add x axis label</span></a>
+<a class="sourceLine" id="cb156-5" data-line-number="5">  <span class="dt">title =</span> <span class="st">&#39;Bar plot for the quality of diamonds cut&#39;</span>) <span class="co"># Add title</span></a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
 <p>There are a few others you can try as well (try them out):</p>
 <ul>
@@ -501,64 +530,65 @@ data &lt;-<span class="st"> </span>diamonds</code></pre></div>
 <p>Sometimes you may want to provide visualisation of continuous variables using groups. In our case, we could check how the price varies by the <strong>cut</strong> of the diamond. Note, now I will add <code>aes(x = cut, y = price)</code>. I have reversed the axis because I am now interested to show how <strong>price</strong> varies by <strong>cut</strong>.</p>
 <p><strong>Note:</strong> This is a sneak peak into what you will be working on in Semester 2 - you will have an actual test to compare these groups for statistical differences but for now, let’s carry on with our plots. ;)</p>
 <p>I will now build a simple boxplot for price only, note that price is now in the argument as <code>y</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple boxplot for variable price</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span> (<span class="dt">y =</span> price)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-91-1.png" width="672" /> Now let’s provide visualisations where we also include <strong>cut</strong>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple boxplot for variable price by cut</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> price)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1"><span class="co"># Simple boxplot for variable price</span></a>
+<a class="sourceLine" id="cb157-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span> (<span class="dt">y =</span> price)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb157-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-91-1.png" width="672" />
+Now let’s provide visualisations where we also include <strong>cut</strong>:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1"><span class="co"># Simple boxplot for variable price by cut</span></a>
+<a class="sourceLine" id="cb158-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> price)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb158-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
 <p>Quite cool, don’t you think? We can see that the average price is not that different and some diamonds are just very expensive regardless of the quality of the cut. This could be due to many reasons: carat, shape, clarity, etc.</p>
 <p>Let’s focus on editing the plot above. Here we can do even more editing - adjusting the colours to differentiate the type of diamond when visualising the price.</p>
 <p>Let’s first add fill to our <code>aes()</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple boxplot for variable price by cut</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> price, <span class="dt">fill =</span> cut)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>, <span class="co"># Add x and y axes labels</span>
-       <span class="dt">title =</span> <span class="st">&#39;Box plot of diamonds price by the cut&#39;</span> ) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="co"># Simple boxplot for variable price by cut</span></a>
+<a class="sourceLine" id="cb159-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> price, <span class="dt">fill =</span> cut)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb159-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb159-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>, <span class="co"># Add x and y axes labels</span></a>
+<a class="sourceLine" id="cb159-5" data-line-number="5">       <span class="dt">title =</span> <span class="st">&#39;Box plot of diamonds price by the cut&#39;</span> ) <span class="co"># Add title</span></a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
 <p>We can also play with the colours using a palette, some of the common ones are below:</p>
 <p><img src="images/brew.png" width="289" /></p>
 <p>You can now see that we can really edit the colours to our liking. Let’s try using the palette ‘Blues’:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple boxplot for variable price by cut</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> price, <span class="dt">fill =</span> cut)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Blues&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co">#note the palette</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>,
-       <span class="dt">y =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>, <span class="co"># Add x and y axes label</span>
-       <span class="dt">title =</span> <span class="st">&#39;Box plot of diamonds price by the cut&#39;</span> ) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="co"># Simple boxplot for variable price by cut</span></a>
+<a class="sourceLine" id="cb160-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> price, <span class="dt">fill =</span> cut)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb160-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb160-4" data-line-number="4"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Blues&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co">#note the palette</span></a>
+<a class="sourceLine" id="cb160-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>,</a>
+<a class="sourceLine" id="cb160-6" data-line-number="6">       <span class="dt">y =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>, <span class="co"># Add x and y axes label</span></a>
+<a class="sourceLine" id="cb160-7" data-line-number="7">       <span class="dt">title =</span> <span class="st">&#39;Box plot of diamonds price by the cut&#39;</span> ) <span class="co"># Add title</span></a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
 </div>
 <div id="even-more-advanced" class="section level2">
 <h2><span class="header-section-number">4.8</span> Even more advanced</h2>
 <p>We can also provide visualisations of <strong>price</strong> distribution by <strong>cut</strong> all in one go. Check this one out, you will need an extra package so make sure to run <code>install.packages('ggridges')</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the package after installation</span>
-<span class="kw">library</span>(ggridges)
-
-<span class="co"># Now create fancy plot</span>
-<span class="kw">ggplot</span>(data, <span class="kw">aes</span>(<span class="dt">x =</span> price, <span class="dt">y =</span> cut)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density_ridges</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> cut)) <span class="op">+</span><span class="st"> </span><span class="co"># Note how we add mutiple densities</span>
-<span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Blues&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># We can assign colours using pallette again</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,
-       <span class="dt">y =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, <span class="co"># Add x and y axes label</span>
-       <span class="dt">title =</span> <span class="st">&#39;Distributions of diamonds price by the cut&#39;</span>) <span class="co">#Add title</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="co"># Load the package after installation</span></a>
+<a class="sourceLine" id="cb161-2" data-line-number="2"><span class="kw">library</span>(ggridges)</a>
+<a class="sourceLine" id="cb161-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb161-4" data-line-number="4"><span class="co"># Now create fancy plot</span></a>
+<a class="sourceLine" id="cb161-5" data-line-number="5"><span class="kw">ggplot</span>(data, <span class="kw">aes</span>(<span class="dt">x =</span> price, <span class="dt">y =</span> cut)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb161-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_density_ridges</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> cut)) <span class="op">+</span><span class="st"> </span><span class="co"># Note how we add mutiple densities</span></a>
+<a class="sourceLine" id="cb161-7" data-line-number="7"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Blues&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># We can assign colours using pallette again</span></a>
+<a class="sourceLine" id="cb161-8" data-line-number="8"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Price of the diamond ($)&quot;</span>,</a>
+<a class="sourceLine" id="cb161-9" data-line-number="9">       <span class="dt">y =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, <span class="co"># Add x and y axes label</span></a>
+<a class="sourceLine" id="cb161-10" data-line-number="10">       <span class="dt">title =</span> <span class="st">&#39;Distributions of diamonds price by the cut&#39;</span>) <span class="co">#Add title</span></a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
 <p>Nice! Now you have seen some of the basics, we want you to try to build your own plots. Download the <strong>Week4_practice.Rmd</strong> file (download <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week4_practice.Rmd">here</a> or from Learn) and use the notes above to help you where needed.</p>
 </div>
 <div id="practice.rmd-solutions-1" class="section level2">
 <h2><span class="header-section-number">4.9</span> Practice.Rmd Solutions</h2>
 <p>Before the start, make sure that you have <code>tidyverse</code> loaded.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load tidyverse</span>
-<span class="kw">library</span>(tidyverse)</code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="co"># Load tidyverse</span></a>
+<a class="sourceLine" id="cb162-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 <div id="exercise-1-2" class="section level3">
 <h3><span class="header-section-number">4.9.1</span> Exercise 1</h3>
 <p>For your first practice we want you to build a plot based on the example you have seen in the tutorial. We will work with <code>diamonds</code> again.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get diamonds dataset</span>
-data &lt;-<span class="st"> </span>diamonds</code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="co"># Get diamonds dataset</span></a>
+<a class="sourceLine" id="cb163-2" data-line-number="2">data &lt;-<span class="st"> </span>diamonds</a></code></pre></div>
 <p>Can you check which variables we have?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Glimpse at your data</span>
-<span class="kw">glimpse</span>(data)</code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="co"># Glimpse at your data</span></a>
+<a class="sourceLine" id="cb164-2" data-line-number="2"><span class="kw">glimpse</span>(data)</a></code></pre></div>
 <pre><code>## Observations: 53,940
 ## Variables: 10
 ## $ carat   &lt;dbl&gt; 0.23, 0.21, 0.23, 0.29, 0.31, 0.24, 0.24, 0.26, 0.22, 0.…
@@ -572,8 +602,8 @@ data &lt;-<span class="st"> </span>diamonds</code></pre></div>
 ## $ y       &lt;dbl&gt; 3.98, 3.84, 4.07, 4.23, 4.35, 3.96, 3.98, 4.11, 3.78, 4.…
 ## $ z       &lt;dbl&gt; 2.43, 2.31, 2.31, 2.63, 2.75, 2.48, 2.47, 2.53, 2.49, 2.…</code></pre>
 <p>Select variable <strong>carat</strong>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check carat</span>
-<span class="kw">select</span>(data, carat)</code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="co"># Check carat</span></a>
+<a class="sourceLine" id="cb166-2" data-line-number="2"><span class="kw">select</span>(data, carat)</a></code></pre></div>
 <pre><code>## # A tibble: 53,940 x 1
 ##    carat
 ##    &lt;dbl&gt;
@@ -589,44 +619,46 @@ data &lt;-<span class="st"> </span>diamonds</code></pre></div>
 ## 10 0.23 
 ## # … with 53,930 more rows</code></pre>
 <p>Produce a simple histogram (finish the expression below).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ggplot of carat</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="co"># ggplot of carat</span></a>
+<a class="sourceLine" id="cb168-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
 <p>Once you are happy with what you see above, try to add labels and change colours.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Complete ggplot for carat</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span>..density..), <span class="dt">color =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;bisque&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st">   </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Weight of the diamond (carat)&quot;</span>, 
-       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond weight (carat)&#39;</span>) </code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1"><span class="co"># Complete ggplot for carat</span></a>
+<a class="sourceLine" id="cb170-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb170-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span>..density..), <span class="dt">color =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;bisque&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb170-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st">   </span></a>
+<a class="sourceLine" id="cb170-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Weight of the diamond (carat)&quot;</span>, </a>
+<a class="sourceLine" id="cb170-6" data-line-number="6">       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond weight (carat)&#39;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
 <p>If you want to put both plots side by side:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Assign your plots to specific objects</span>
-<span class="co"># plot1</span>
-plot1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>()
-
-<span class="co"># plot2</span>
-plot2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;bisque&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st">   </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Weight of the diamond (carat)&quot;</span>,  
-       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond weight (carat)&#39;</span>) </code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="co"># Assign your plots to specific objects</span></a>
+<a class="sourceLine" id="cb172-2" data-line-number="2"><span class="co"># plot1</span></a>
+<a class="sourceLine" id="cb172-3" data-line-number="3">plot1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb172-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_histogram</span>()</a>
+<a class="sourceLine" id="cb172-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb172-6" data-line-number="6"><span class="co"># plot2</span></a>
+<a class="sourceLine" id="cb172-7" data-line-number="7">plot2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> data,<span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb172-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;bisque&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb172-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st">   </span></a>
+<a class="sourceLine" id="cb172-10" data-line-number="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Weight of the diamond (carat)&quot;</span>,  </a>
+<a class="sourceLine" id="cb172-11" data-line-number="11">       <span class="dt">title =</span> <span class="st">&#39;Histogram of diamond weight (carat)&#39;</span>) </a></code></pre></div>
 <p>You can then <code>install.packages('cowplot')</code> and use the following code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load package</span>
-<span class="kw">library</span>(cowplot)</code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="co"># Load package</span></a>
+<a class="sourceLine" id="cb173-2" data-line-number="2"><span class="kw">library</span>(cowplot)</a></code></pre></div>
 <pre><code>## 
-## Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     ggsave</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set theme</span>
-<span class="kw">theme_set</span>(<span class="kw">theme_grey</span>())
-
-<span class="co"># Put plots side by side</span>
-<span class="kw">plot_grid</span>(plot1, plot2)</code></pre></div>
+## ********************************************************</code></pre>
+<pre><code>## Note: As of version 1.0.0, cowplot does not change the</code></pre>
+<pre><code>##   default ggplot2 theme anymore. To recover the previous</code></pre>
+<pre><code>##   behavior, execute:
+##   theme_set(theme_cowplot())</code></pre>
+<pre><code>## ********************************************************</code></pre>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1"><span class="co"># Set theme</span></a>
+<a class="sourceLine" id="cb179-2" data-line-number="2"><span class="kw">theme_set</span>(<span class="kw">theme_grey</span>())</a>
+<a class="sourceLine" id="cb179-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb179-4" data-line-number="4"><span class="co"># Put plots side by side</span></a>
+<a class="sourceLine" id="cb179-5" data-line-number="5"><span class="kw">plot_grid</span>(plot1, plot2)</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
@@ -635,61 +667,61 @@ plot2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="
 <h3><span class="header-section-number">4.9.2</span> Exercise 2</h3>
 <p>Now I am keen again to look at the categorical variable <strong>cut</strong> and ideally, I want to plot the differences in weight of the diamond by <strong>cut</strong>.</p>
 <p>Let’s first produce a plot for <strong>cut</strong>, you need to use <code>geom_bar</code> here:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ggplot for cut</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="co"># ggplot for cut</span></a>
+<a class="sourceLine" id="cb182-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb182-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
 <p>Try to make it a little nicer.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ggplot for cut (with labels, title, colours)</span>
-<span class="co"># Simple bar plot for variable &#39;cut&#39;</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">color =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, 
-       <span class="dt">title =</span> <span class="st">&#39;Bar plot for the quality of diamonds cut&#39;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="co"># ggplot for cut (with labels, title, colours)</span></a>
+<a class="sourceLine" id="cb183-2" data-line-number="2"><span class="co"># Simple bar plot for variable &#39;cut&#39;</span></a>
+<a class="sourceLine" id="cb183-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb183-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">color =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb183-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, </a>
+<a class="sourceLine" id="cb183-6" data-line-number="6">       <span class="dt">title =</span> <span class="st">&#39;Bar plot for the quality of diamonds cut&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb183-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
 <p>Finally, get the visualisation of <strong>carat</strong> by <strong>cut</strong>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ggplot for carat by cut (add labels, title, colours) - I started this one  for you:</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> carat, <span class="dt">fill =</span> cut)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Pastel2&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Weight of the diamond (carat)&quot;</span>,  
-       <span class="dt">title =</span> <span class="st">&#39;Box plot of diamond weight (carat) by the cut&#39;</span>) </code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="co"># ggplot for carat by cut (add labels, title, colours) - I started this one  for you:</span></a>
+<a class="sourceLine" id="cb184-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> carat, <span class="dt">fill =</span> cut)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb184-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb184-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb184-5" data-line-number="5"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Pastel2&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb184-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Quality of the diamond cut&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Weight of the diamond (carat)&quot;</span>,  </a>
+<a class="sourceLine" id="cb184-7" data-line-number="7">       <span class="dt">title =</span> <span class="st">&#39;Box plot of diamond weight (carat) by the cut&#39;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-107-1.png" width="672" /></p>
 </div>
 <div id="exercise-3---advanced" class="section level3">
 <h3><span class="header-section-number">4.9.3</span> Exercise 3 - Advanced</h3>
 <p>Here is the plot which is based on slighly different data. For this task you will need to get the data and explore it yourself. You will then want to work with key variables that are visible on the plot below. Your task is to recreate the plots.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data</span>
-data2 &lt;-<span class="st"> </span>iris</code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="co"># Load data</span></a>
+<a class="sourceLine" id="cb185-2" data-line-number="2">data2 &lt;-<span class="st"> </span>iris</a></code></pre></div>
 <p>Check what each variable means:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?iris</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Simple plot of sepal length</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data2, <span class="kw">aes</span>(<span class="dt">y =</span> Sepal.Length)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>()  </code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1">?iris</a></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="co"># Simple plot of sepal length</span></a>
+<a class="sourceLine" id="cb187-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data2, <span class="kw">aes</span>(<span class="dt">y =</span> Sepal.Length)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb187-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>()  </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Sepal length by species</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data2, <span class="kw">aes</span>(<span class="dt">x =</span> Species, <span class="dt">y =</span> Sepal.Length)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" data-line-number="1"><span class="co"># Sepal length by species</span></a>
+<a class="sourceLine" id="cb188-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data2, <span class="kw">aes</span>(<span class="dt">x =</span> Species, <span class="dt">y =</span> Sepal.Length)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb188-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
 <p>Note that here we also adjusted the position of the legend and the theme.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Advanced plot</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> data2, <span class="kw">aes</span>(<span class="dt">x =</span> Species, <span class="dt">y =</span> Sepal.Length)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> Species)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Sepal Length&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Iris Data Boxplot: Sepal Length by Species&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;YlGn&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_dark</span>()</code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1"><span class="co"># Advanced plot</span></a>
+<a class="sourceLine" id="cb189-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> data2, <span class="kw">aes</span>(<span class="dt">x =</span> Species, <span class="dt">y =</span> Sepal.Length)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb189-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> Species)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb189-4" data-line-number="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Sepal Length&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb189-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Iris Data Boxplot: Sepal Length by Species&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb189-6" data-line-number="6"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;YlGn&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb189-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_dark</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Even more advanced plot</span>
-<span class="kw">library</span>(ggridges)
-
-<span class="kw">ggplot</span>(data2, <span class="kw">aes</span>(<span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Species)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density_ridges</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> Species)) <span class="op">+</span><span class="st"> </span><span class="co"># Note how we add mutiple densities</span>
-<span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;YlGn&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># We can assign colours using pallette again</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Sepal Length&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Species&quot;</span>,
-       <span class="dt">title =</span> <span class="st">&#39;Distributions of sepal length  by  species&#39;</span>) <span class="co"># Add title</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb190-1" data-line-number="1"><span class="co"># Even more advanced plot</span></a>
+<a class="sourceLine" id="cb190-2" data-line-number="2"><span class="kw">library</span>(ggridges)</a>
+<a class="sourceLine" id="cb190-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb190-4" data-line-number="4"><span class="kw">ggplot</span>(data2, <span class="kw">aes</span>(<span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Species)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb190-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_density_ridges</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> Species)) <span class="op">+</span><span class="st"> </span><span class="co"># Note how we add mutiple densities</span></a>
+<a class="sourceLine" id="cb190-6" data-line-number="6"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;YlGn&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># We can assign colours using pallette again</span></a>
+<a class="sourceLine" id="cb190-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Sepal Length&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Species&quot;</span>,</a>
+<a class="sourceLine" id="cb190-8" data-line-number="8">       <span class="dt">title =</span> <span class="st">&#39;Distributions of sepal length  by  species&#39;</span>) <span class="co"># Add title</span></a></code></pre></div>
 <pre><code>## Picking joint bandwidth of 0.181</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
 
@@ -707,11 +739,13 @@ data2 &lt;-<span class="st"> </span>iris</code></pre></div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -752,7 +786,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
