@@ -12,11 +12,11 @@ In a browser, navigating to [https://uoe-psychology.github.io/uoe_psystats](http
 There is an index.html, but to update this you need to run the makeindex.py script on /docs.  It will ignore any directory named "book" (to ensure the index.html doesn't get overwritten).  
 
 ## Colours  
-- DAPR1: #6BCDED      
-- DAPR2: #e41a1c   
-- DAPR3: #4daf4a
-- USMR: #FCBB06  
-- MSMR: #a41ae4  
+- DAPR1: ![](https://placehold.it/15/6BCDED/000000?text=+) `#6BCDED`
+- DAPR2: ![](https://placehold.it/15/e41a1c/000000?text=+) `#e41a1c`
+- DAPR3: ![](https://placehold.it/15/4daf4a/000000?text=+) `#4daf4a`
+- USMR: ![](https://placehold.it/15/FCBB06/000000?text=+) `#FCBB06`
+- MSMR: ![](https://placehold.it/15/a41ae4/000000?text=+) `#a41ae4`
 
 ## DAPR1  
 ### Lectures  
