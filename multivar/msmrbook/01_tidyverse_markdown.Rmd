@@ -1,17 +1,19 @@
 ```{r, echo=FALSE}
-solution=FALSE
+HIDDEN_SOLS=FALSE
 ```
 
 # Week 1: Tidyverse & Markdown
 
 This week, we're going to introduce you to some really nice packages and tools which will help you to make your analysis and reporting more **efficient**, **aesthetically pleasing**, and (importantly) **reproducible**.  
 
-`r task()`If you haven't previously installed them, install the following packages:  
+`r msmbstyle::question_begin()`
+If you haven't previously installed them, install the following packages
 
 * tidyverse  
 * rmarkdown  
 * haven (*this one is just for reading in data from other software like SPSS or SAS*)  
-  
+`r msmbstyle::question_end()`
+
 ### Background & Reading {-}  
 
 R for Data Science: [https://r4ds.had.co.nz/index.html](https://r4ds.had.co.nz/index.html)  
@@ -37,13 +39,18 @@ For plotting, you may be familiar with the popular `ggplot2` package from some o
 
 To learn about some of the different functionalities of `ggplot`, we're first going to need some data...  
 
-`r task()`Load the `ggplot2` package, read in the data using `load()` and `url()` from [https://edin.ac/2Erg9ZW](https://edin.ac/2Erg9ZW) and extract some summary statistics.  
+`r msmbstyle::question_begin()`
+Load the ggplot2 package, read in the data using `load()` and `url()`, and extract some summary statistics.    
+The data can be found at [https://edin.ac/2Erg9ZW](https://edin.ac/2Erg9ZW).  
+`r msmbstyle::question_end()`
 
-```{r echo=solution, include=FALSE}
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 library(ggplot2)
 load(url("https://edin.ac/2Erg9ZW"))
 summary(speech_ses)
 ```
+`r msmbstyle::solution_end()`
 
 <div class="noteBox">
 #### Data overview {-}    
@@ -57,19 +64,31 @@ Kraus et al. (2019) *Evidence for the reproduction of social class in brief spee
     + Each participant completed this for a random subset of 27 speakers
 </div>
 
-`r task()`Make a summary plot showing mean accuracy for each category of judgment  
-**hint:** try `?stat_summary`
 
-```{r echo=solution}
+`r msmbstyle::question_begin()`
+Make a summary plot showing mean accuracy for each category of judgment  
+**hint:** try `?stat_summary`  
+`r msmbstyle::question_end()`  
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
+#one way of doing this:
+ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
+  stat_summary(fun=mean, geom="bar")
+```
+`r msmbstyle::solution_end()`
+```{r echo=FALSE}
 #one way of doing this:
 ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
   stat_summary(fun=mean, geom="bar")
 ```
 
+`r msmbstyle::question_begin()`
+Explore the different ways of showing variability. Construct a plot using each of the following geoms:
+`r msmbstyle::question_end()`
 
-`r task()`Explore the different ways of showing variability. Construct a plot using each of the following geoms:  
-
-```{r, echo=solution, eval=FALSE}
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r, eval=FALSE}
 # * Boxplot
 ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
   geom_boxplot()
@@ -87,8 +106,7 @@ ggplot(speech_ses, aes(x = Category, y = Accuracy, colour = Category)) +
   stat_summary(fun.data=mean_se, geom="pointrange")
 
 ```
-
-
+`r msmbstyle::solution_end()`
 
 ```{r echo=FALSE}
 # * Boxplot
@@ -118,18 +136,27 @@ p2 / (p1 | p3 ) / (p4 | p5)
 ```
 
 
-`r task()`Combine two of the geoms used above to create a visualization of the mean accuracy, a measure of variability, and all of the data points. 
+`r msmbstyle::question_begin()`
+Combine two of the geoms used above to create a visualization of the mean accuracy, a measure of variability, and all of the data points.
+`r msmbstyle::question_end()`
 
-```{r echo=solution, include=solution}
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 ggplot(speech_ses, aes(x = Category, y = Accuracy, colour = Category)) +
   geom_jitter(width=0.2, alpha=0.5) + 
   stat_summary(fun.data=mean_se, geom="errorbar", 
                colour="black", width=0.4, size=1.5)
 ```
+`r msmbstyle::solution_end()`
 
-`r task()`Refine the plot by, for example, removing unnecessary elements, adding useful annotations (e.g., chance performance = 50%), selecting a good color scheme, etc.  
-**tip:** This is where google becomes really helpful, <a href="https://lmgtfy.com/?q=remove+a+legend+in+ggplot2" target="_blank">for example</a>
-```{r echo=solution, include=solution}
+
+`r msmbstyle::question_begin()`
+Refine the plot by, for example, removing unnecessary elements, adding useful annotations (e.g., chance performance = 50%), selecting a good color scheme, etc.  
+**tip:** This is where google becomes really helpful, <a href="https://lmgtfy.com/?q=remove+a+legend+in+ggplot2" target="_blank">for example</a>  
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 ggplot(speech_ses, aes(x = Category, y = Accuracy, colour = Category)) +
   geom_jitter(width=0.2, alpha=0.5) + 
   stat_summary(fun.data=mean_se, geom="errorbar", 
@@ -139,17 +166,22 @@ ggplot(speech_ses, aes(x = Category, y = Accuracy, colour = Category)) +
   geom_hline(yintercept=50, linetype="dashed")
   
 ```
+`r msmbstyle::solution_end()`
+
 
 ### Recreating a plot   
 
-`r task()` Pick one of the graphs below, and recreate it using `ggplot` (if you like, try to make it better!). 
+`r msmbstyle::question_begin()`
+Pick one of the graphs below, and recreate it using `ggplot` (if you like, try to make it better!).
+`r msmbstyle::question_end()`
 
 #### Option A {-}    
 ![Women in computer science](images/plot1_npr.png)  
 
 The data (in .csv format) can be downloaded from [https://edin.ac/2qYA0wr](https://edin.ac/2qYA0wr). You can use `read.csv(url("https://edin.ac/2qYA0wr"))` to read it directly into R.  
 
-```{r echo=solution, include=solution, eval=FALSE}
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 women_cs<-read.csv(url("https://edin.ac/2qYA0wr"))
 ggplot(women_cs, aes(x=date, y=pct_women_majors, color=field))+
   labs(x=NULL,y=NULL, title="What happened to women in computer science?")+
@@ -160,6 +192,8 @@ ggplot(women_cs, aes(x=date, y=pct_women_majors, color=field))+
   theme(legend.title=element_blank())
 # If you want to get fancier, and add the labels at the end of the lines, check out the gghighlight package!
 ```
+`r msmbstyle::solution_end()`
+
 
 #### Option B {-}    
 
@@ -182,7 +216,9 @@ The default behaviour of `%>%` is to put the output of the LHS (left hand side) 
 * `100 %>% rnorm(10, ., 1)` is equal to `rnorm(10, 100, 1)`
 * The default behaviour: `100 %>% rnorm(0, 1)` is implicitly saying `100 %>% rnorm(., 0, 1)`, which is equal to `rnorm(100, 0, 1)`.
 
-`r task()`Translate the following statements between Base R and sequences of pipes. The first is shown for you.  
+`r msmbstyle::question_begin()`
+Translate the following statements between Base R and sequences of pipes. The first is shown for you.
+`r msmbstyle::question_end()`
   
 ##### 1 {-}  
 Base R: 
@@ -202,25 +238,28 @@ Base R:
 x<-10:100
 round(exp(diff(log(x))), 2)
 ```
-Pipes:  
-```{r echo=solution,eval=FALSE}
+Pipes:
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r eval=FALSE}
 10:100 %>% log() %>%
     diff() %>%
     exp() %>%
     round(2)
 ```
-   
+`r msmbstyle::solution_end()`
+
 ##### 3 {-}  
 Pipes: 
 ```{r echo=TRUE, eval=FALSE}
 6 %>% round(pi, digits=.)
 ```
   
-Base R:  
-```{r echo=solution, eval=FALSE}
+Base R: 
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r eval=FALSE}
 round(pi, digits=6)
 ```
-
+`r msmbstyle::solution_end()`
 
 ### Grouping, summarising, filtering, mutating and selecting   
 
@@ -252,7 +291,11 @@ speech_ses %>%
 ```
 
 
-`r task()`Load the tidyverse, and haven package, and read in the data using `read_sav()` (.sav is the type of file which comes out of another stats software, SPSS). You can download the data from [https://edin.ac/34n6AWA](https://edin.ac/34n6AWA) to your computer, and then read it in. 
+`r msmbstyle::question_begin()`
+Load the tidyverse, and haven package, and read in the data using `read_sav()` (.sav is the type of file which comes out of another stats software, SPSS).   
+You can download the data from [https://edin.ac/34n6AWA](https://edin.ac/34n6AWA) to your computer, and then read it in.  
+`r msmbstyle::question_end()`
+
 ```{r echo=TRUE, warning=FALSE,message=FALSE}
 library(tidyverse)
 exam <- haven::read_sav("data/exam.sav") 
@@ -260,30 +303,48 @@ exam <- haven::read_sav("data/exam.sav")
 
 Using the `exam.sav` data:
 
-`r task()`Calculate the mean score for each exam
-```{r echo=solution, include=solution}
+`r msmbstyle::question_begin()`
+Calculate the mean score for each exam
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 exam %>% group_by(exam) %>% 
   summarize(M = mean(scores))
 ```
+`r msmbstyle::solution_end()`
 
-`r task()`Calculate the mean score for each exam for female students only
-```{r echo=solution, include=solution}
+`r msmbstyle::question_begin()`
+Calculate the mean score for each exam for female students only
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 exam %>% 
   filter(gender=="f") %>%
   group_by(exam) %>% 
   summarize(M = mean(scores))
 ```
+`r msmbstyle::solution_end()`
 
-`r task()`Make a new dataframe containing only the exam scores for males for exam number 1, with a new variable indicating whether they passed or not (pass = a score of 40)  
-```{r echo=solution, include=solution}
+`r msmbstyle::question_begin()`
+Make a new dataframe containing only the exam scores for males for exam number 1, with a new variable indicating whether they passed or not (pass = a score of 40)
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 exam_m1 <- exam %>% 
   filter(exam == 1, gender == "m") %>%
   mutate(pass = ifelse(scores>40,"pass","fail"))
 ```
+`r msmbstyle::solution_end()`
 
+`r msmbstyle::question_begin()`
+Calculate the average score for each exam for male and female students")`
+`r msmbstyle::question_end()`
 
-`r task()`Calculate the average score for each exam for male and female students
-```{r echo=solution, include=solution}
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 exam %>% group_by(exam, gender) %>% 
   summarize(M = mean(scores))
 
@@ -292,6 +353,8 @@ exam %>% group_by(exam, gender) %>%
   summarize(M = mean(scores)) %>% 
   spread(gender, M)
 ```
+`r msmbstyle::solution_end()`
+
 
 ### Reshaping  
 
@@ -310,18 +373,30 @@ The `USArrests` data set (comes with R) contains violent crime arrests (per 100,
 You can see it by just typing `USArrests` in R.
 </div>
 
-`r task()`Convert the USArrests data set from a wide to a long format so that instead of separate variables for each crime type (Murder, Assault, Rape), there is one variable that identifies the crime type and one variable that contains the rates for each crime type for each state.
-```{r echo=solution, include=solution}
+`r msmbstyle::question_begin()`
+Convert the USArrests data set from a wide to a long format so that instead of separate variables for each crime type (Murder, Assault, Rape), there is one variable that identifies the crime type and one variable that contains the rates for each crime type for each state.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
 x <- gather(USArrests, key="CrimeType", value="Rate", 
             Murder, Assault, Rape)
 ```
+`r msmbstyle::solution_end()`
 
-`r task()`Make a scatterplot showing the relationship between each type of violent crime rate and percent of population living in urban areas. 
-```{r echo=solution, include=TRUE, fig.height=3}
+
+`r msmbstyle::question_begin()`
+Make a scatterplot showing the relationship between each type of violent crime rate and percent of population living in urban areas.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r fig.height=3}
 ggplot(x, aes(UrbanPop, Rate)) + 
   facet_wrap(~CrimeType, scales="free", nrow=1) + 
   geom_point() + stat_smooth(method="lm")
 ```
+`r msmbstyle::solution_end()`
+
 
 ### Less guidance {-}  
 <div class="noteBox">  
@@ -330,10 +405,13 @@ The `ability` data set in the `psych` package contains accuracy of 1525 subjects
 You can see the by typing `psych::ability` (those `::` are just a way of accessing something from inside a package without loading it). 
 </div>
 
-`r task()`Tidy the data and make a graph of average accuracy for each question type.  
+`r msmbstyle::question_begin()`
+Tidy the data and make a graph of average accuracy for each question type.  
 **Hint:** the `separate()` function may come in handy at some point.  
+`r msmbstyle::question_end()`
 
-```{r echo=solution,include=solution,fig.height=4, warning=FALSE}
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r fig.height=4, warning=FALSE}
 iq <- as_tibble(psych::ability) %>% 
   gather(key="Item", value="Correct", 1:16) %>%
   separate(Item, c("Domain", "Number"))
@@ -341,6 +419,7 @@ iq <- as_tibble(psych::ability) %>%
 ggplot(iq, aes(Domain, Correct)) + 
   stat_summary(fun = mean, geom="bar")
 ```
+`r msmbstyle::solution_end()`
 
 ## Reproducible research with RMarkdown  
 
@@ -352,13 +431,18 @@ Open your script from the exercises so far. Compile a HTML report from that scri
 
 <!-- ![Compile report](../figs/CompileReport.png) -->
 
-`r task()`Create a new `R Notebook` file, fill it in with the content of your script from the exercises so far.   
+`r msmbstyle::question_begin()`
+Create a new `R Notebook` file, fill it in with the content of your script from the exercises so far.")`   
 **Hint:** R code goes into R chunks, add some text in between chunks.
 
 *  Add formatting to make it look nicer: headers, bold, italics, etc ([see the cheat-sheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf))  
 *  Add chunk options to suppress extraneous messages and warnings, and to control the size of figures.  
 
-`r task()` Knit the notebook into a HTML file.  
+`r msmbstyle::question_end()`
+
+`r msmbstyle::question_begin()`
+Knit the notebook into a HTML file.
+`r msmbstyle::question_end()`
 
 
 
