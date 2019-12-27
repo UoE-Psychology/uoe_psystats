@@ -1,0 +1,186 @@
+---
+title: "Lab 02"
+author: "Dan Mirman"
+output: html_document
+---
+
+# Basic MLR
+
+## Exercise 1
+
+Analyze the county-level suicide rate data from PHE (`PHE_MentalHealth.Rdata`) for 2001-2016
+
+*  did the regions differ in their baseline (2001) suicide rates?
+*  did the regions differ in ther slopes of change of suidice rate?
+*  plot observed data and model fits
+
+## Exercise 1 Solution
+
+```{r}
+library(tidyverse)
+library(lme4)
+library(effects)
+
+load("../data/PHE_MentalHealth.Rdata") #load Public Health England data
+unique(mh_phe[, 1:2]) #check list of mental health indicators: suicide is 41001
+
+filter(mh_phe, IndicatorID == 41001) %>%
+  ggplot(aes(Year, Value, color = Region)) +
+  geom_smooth(method = "lm", se=FALSE)
+
+# select data and shift Year variable so baseline year (2001) is 0
+suicide_dat <- filter(mh_phe, IndicatorID == 41001) %>%
+  mutate(Time = Year - 2001)
+# base model: just change over time
+m <- lmer(Value ~ Time + (Time | County), 
+          data = suicide_dat, REML = F)
+# add baseline differences between regions
+m.0 <- lmer(Value ~ Time + Region + (Time | County), 
+            data = suicide_dat, REML = F)
+# add slope differences between regions
+m.1 <- lmer(Value ~ Time * Region + (Time | County), 
+            data = suicide_dat, REML = F)
+# compare models
+anova(m, m.0, m.1)
+# regions differ in baseline suicide rate and in slope of change
+
+# visualize effects
+ef <- as.data.frame(effect("Time:Region", m.1))
+ggplot(ef, aes(Time, fit, color=Region)) + 
+  geom_line() +
+  theme_bw() + scale_color_brewer(palette = "Set1")
+```
+
+## Exercise 2
+
+Analyze the weight maintenance data (`WeightMaintain3`), a made-up data set based on Lowe et al. (2014, Obesity, 22, 94-100). Overweight participants completed a 12-week weight loss program, then were randomly assigned to one of three weight maintenance conditions:
+
+* None (Control)
+* MR (meal replacements): use MR to replace one meal and snack per day
+* ED (energy density intervention): book and educational materials on purchasing and preparing foods lower in ED (reducing fat content and/or increasing water content of foods)
+
+Weight was assessed at baseline (start of maintenance), 12 months post, 24 months post, and 36 months post.
+
+(A) Overall, did the participants maintain their weight loss or gain weight?
+(B) Did the groups differ in baseline weight change and rate of weight gain (non-maintenance)?
+(C) Make a graph of the model fit
+(D) Examine the parameter estimates and interpret them
+
+## Exercise 2 Solution
+
+```{r}
+load("../data/WeightMaintain3.rda")
+summary(WeightMaintain3)
+```
+
+(A) Overall, did the participants maintain their weight loss or gain weight?
+
+```{r}
+m.null <- lmer(WeightChange ~ 1 + (Assessment | ID), data=WeightMaintain3, REML=F)
+m.base <- lmer(WeightChange ~ Assessment + (Assessment | ID), data=WeightMaintain3, REML=F)
+anova(m.null, m.base)
+```
+
+Yes: $\chi^2(1)=56.5, p << 0.0001$
+
+(B) Did the groups differ in baseline weight change and rate of weight gain (non-maintenance)?
+```{r}
+m.int <- lmer(WeightChange ~ Assessment + Condition + (Assessment | ID), data=WeightMaintain3, REML=F)
+m.full <- lmer(WeightChange ~ Assessment*Condition + (Assessment | ID), data=WeightMaintain3, REML=F)
+anova(m.null, m.base, m.int, m.full)
+```
+
+Yes: 
+
+*  Baseline: $\chi^2(2)=9.4, p < 0.01$
+*  Slope: $\chi^2(2)=40.4, p << 0.0001$
+
+Note: `m.int` is difficult to interpret in light of massive effect on slope
+
+```{r}
+coef(summary(m.full))
+```
+
+Compared to no intervention, weight (re)gain was 1.75 lbs/year slower for the ED intervention and 0.84 lbs/year slower for the MR intervention.
+
+Note that baseline weight difference parameters are not significantly different from 0.
+
+(C) Make a graph of the model fit
+```{r}
+ggplot(WeightMaintain3, aes(Assessment, WeightChange, color=Condition)) + 
+  stat_summary(fun.data=mean_se, geom="pointrange", size=1) + 
+  stat_summary(aes(y=fitted(m.full)), fun.y=mean, geom="line") + 
+  theme_bw(base_size=12) + scale_color_manual(values=c("black", "red", "blue"))
+
+ggplot(fortify(m.full), aes(Assessment, WeightChange, color=Condition)) + 
+  stat_summary(fun.data=mean_se, geom="pointrange", size=1) + 
+  stat_summary(aes(y=.fitted), fun.y=mean, geom="line") + 
+  theme_bw(base_size=12) + scale_color_manual(values=c("black", "red", "blue"))
+```
+
+(D) Examine the parameter estimates and interpret them
+
+```{r}
+round(coef(summary(m.full)), 3)
+```
+
+* `(Intercept)` ==> baseline weight change in None group
+* `Assessment`  ==> slope of weight change in None group
+* `ConditionED` ==> baseline weight change in ED group relative to None group
+* `ConditionMR` ==> baseline weight change in MR group relative to None group
+* `Assessment:ConditionED`  ==> slope of weight change in ED group relative to None group
+* `Assessment:ConditionMR`  ==> slope of weight change in MR groups relative to None group
+
+# Logistic MLR
+
+## Exercise 3
+In the `nwl` data set, the participants with aphasia are also separated into two groups based on the general location of their brain lesion: anterior vs. posterior. Compare these two groups:
+
+(A) Is the learning rate (training data) different between these two groups?
+(B) Does their test performance differ?
+(C) Does their retention from immediate to follow-up test differ?
+
+## Exercise 3 Solution
+```{r}
+load("../data/nwl.RData")
+ggplot(filter(nwl, !is.na(lesion_location)), aes(block, PropCorrect, 
+                                            color=lesion_location, 
+                                            shape=lesion_location)) +
+  stat_summary(fun.data=mean_se, geom="pointrange") + 
+  stat_summary(data=filter(nwl, !is.na(lesion_location), block <= 7), 
+                           fun.y=mean, geom="line") + 
+  geom_hline(yintercept=0.5, linetype="dashed") + 
+  geom_vline(xintercept=c(7.5, 8.5), linetype="dashed") + 
+  scale_x_continuous(breaks=1:9, labels=c(1:7, "Test", "Follow-Up")) + 
+  theme_bw(base_size=10) + 
+  labs(x="Block", y="Proportion Correct", shape="Lesion\nLocation", color="Lesion\nLocation")
+```
+
+(A) Is the learning rate (training data) different between these two groups?
+```{r}
+m.base <- glmer(cbind(NumCorrect, NumError) ~ block + 
+                  (block | ID), 
+                data = filter(nwl, block < 8, !is.na(lesion_location)),
+                family=binomial)
+m.loc0 <- glmer(cbind(NumCorrect, NumError) ~ block + lesion_location + 
+                  (block | ID), 
+                data=filter(nwl, block < 8, !is.na(lesion_location)),
+                family=binomial)
+m.loc1 <- glmer(cbind(NumCorrect, NumError) ~ block * lesion_location + 
+                  (block | ID), 
+                data=filter(nwl, block < 8, !is.na(lesion_location)),
+                family=binomial)
+#summary(m.loc1)
+anova(m.base, m.loc0, m.loc1)
+```
+
+(B) Does their test performance differ?
+(C) Does their retention from immediate to follow-up test differ?
+
+```{r}
+m.recall.loc <- glmer(cbind(NumCorrect, NumError) ~ Phase * lesion_location + 
+                        (Phase | ID), 
+                  data=filter(nwl, block > 7, !is.na(lesion_location)),
+                  family="binomial")
+summary(m.recall.loc)
+```
