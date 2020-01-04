@@ -1,0 +1,117 @@
+---
+title: "Lab 03"
+author: "Dan Mirman"
+output: html_document
+---
+
+# Growth Curve Analysis
+
+## Exercise 1
+
+`Az`: Use natural (not orthogonal) polynomials to analyze decline in performance of 30 individuals with probable Alzheimer's disease on three different kinds of tasks - Memory, complex ADL, and simple ADL. 
+
+* Plot the observed data
+* (Why are natural polynomials more useful for these data?)
+* Prep the data for GCA
+* Fit the GCA model(s)
+* Interpret the results: 
+    + Which terms show significant effects of experimental factors? 
+    + To what extent do model comparisons and the parameter-specific p-values yield the same results?
+* Plot observed and model fit data
+
+## Exercise 1 Solution
+
+```{r}
+library(tidyverse)
+library(lme4)
+library(effects)
+source('../lectures/get_pvalues.R')
+source("../lectures/code_poly.R")
+load("../data/Az.rda")
+summary(Az)
+```
+
+Plot the observed data
+
+```{r}
+ggplot(Az, aes(Time, Performance, color=Task, fill=Task)) + 
+  stat_summary(fun.data=mean_se, geom="ribbon", color=NA, alpha=0.5) +
+  stat_summary(fun.y=mean, geom="line")
+```
+
+Why are natural polynomials more useful for these data?
+
+* Because it's useful to know whether there are task differences at the starting baseline point
+
+Fit the models
+
+```{r}
+# prep for analysis
+Az <- code_poly(Az, predictor="Time", poly.order=2, orthogonal=F, draw.poly = F)
+# fit the full model
+# m.base <- lmer(Performance ~ (poly1 + poly2) + 
+#                  (poly1 + poly2 | Subject) + (poly1 + poly2 | Subject:Task), 
+#                data=Az, REML=F)
+# m.0 <- lmer(Performance ~ (poly1 + poly2) + Task + 
+#               (poly1 + poly2 | Subject) + (poly1 + poly2 | Subject:Task), 
+#             data=Az, REML=F)
+# m.1 <- lmer(Performance ~ poly1*Task + poly2 + 
+#               (poly1 + poly2 | Subject) + (poly1 + poly2 | Subject:Task), 
+#             data=Az, REML=F)
+m.Az.full <- lmer(Performance ~ (poly1 + poly2)*Task + 
+                  (poly1 + poly2 | Subject) + (poly1 + poly2 | Subject:Task), 
+                data=Az, REML=F)
+# anova(m.base, m.0, m.1, m.Az.full)
+```
+
+Get p-values
+```{r warning=FALSE, message=FALSE}
+get_pvalues(m.Az.full)
+```
+* Intercepts are not different: performance in all tasks starts out the same (thanks, natural polynomials)
+* Linear slopes are different: compared to complex ADL tasks, decline in simple ADL tasks is slower and decline in Memory is faster.
+* Quadratic term is different for Memory: decline in cADL and sADL tasks is approximately linear, decline in Memory has more curvature (reaching floor?)
+
+Plot model fit
+```{r fig.width=6, fig.height=4}
+ggplot(Az, aes(Time, Performance, color=Task)) + 
+  stat_summary(fun.data=mean_se, geom="pointrange") + 
+  stat_summary(fun.y=mean, geom="line", aes(y=fitted(m.Az.full)))
+```
+
+## Exercise 2: Logistic GCA
+
+Re-analyze `TargetFix` data using logistic MLR (logistic GCA)
+
+## Exercise 2: Solution
+```{r}
+load("../data/TargetFix.rda")
+#make 3rd-order orth poly
+TargetFix <- code_poly(TargetFix, predictor="timeBin", poly.order=3, draw.poly=F)
+# fit logisitc GCA model
+m.log <- glmer(cbind(sumFix, N-sumFix) ~ (poly1+poly2+poly3)*Condition +
+                 (poly1+poly2+poly3 | Subject) +
+                 (poly1+poly2 | Subject:Condition),
+               data=TargetFix, family=binomial)
+summary(m.log)
+```
+
+Simpler random effects: note that the correlations between Subject-level random effects are all +1.00 or -1.00, so can simplify the structure by removing them:
+```{r}
+m.log_zc <- glmer(cbind(sumFix, N-sumFix) ~ (poly1+poly2+poly3)*Condition +
+                 (poly1+poly2+poly3 || Subject) +
+                 (poly1+poly2 | Subject:Condition),
+               data=TargetFix, family=binomial)
+summary(m.log_zc)
+```
+
+Plot model fit
+
+```{r fig.height=4, fig.width=6}
+ggplot(TargetFix, aes(Time, meanFix, color=Condition)) +
+  stat_summary(fun.data=mean_se, geom="pointrange") +
+  stat_summary(aes(y=fitted(m.log)), fun.y=mean, geom="line") +
+  stat_summary(aes(y=fitted(m.log_zc)), fun.y=mean, geom="line", linetype="dashed") +
+  theme_bw() + expand_limits(y=c(0,1)) + 
+  labs(y="Fixation Proportion", x="Time since word onset (ms)")
+```
