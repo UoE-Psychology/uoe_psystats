@@ -2,7 +2,7 @@
 HIDDEN_SOLS=FALSE
 ```
 
-# Week 2: Basic Mixed Linear Regression  
+# Week 2: Basic MLR  
 
 `r msmbstyle::question_begin()`
 Load the `tidyverse`, `lme4` and `effects` packages (install them if you haven't already).    
@@ -17,27 +17,22 @@ library(effects)
 
 ### Analyzing county-level suicide rate data from Public Health England (PHE).  
 
-The data is available at []() and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.  
+The data is available at [https://edin.ac/36xdhas](https://edin.ac/36xdhas) and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.  
 
 `r msmbstyle::question_begin()`
   
 * Did the regions differ in their baseline (2001) suicide rates?  
 * Did the regions differ in ther slopes of change of suidice rate?  
-* Make plots of the observed data and of model fits  
+* Make a plot of the fitted values from the model  
   
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-#### Loading, cleaning {-}  
+#### Loading {-}  
 ```{r}
-load("../labs/PHE_MentalHealth.Rdata") #load Public Health England data
+load(url("https://edin.ac/36xdhas")) #load Public Health England data
 
 unique(mh_phe[, 1:2]) #check list of mental health indicators: suicide is 41001
-
-# plot observed data - regional rates
-filter(mh_phe, IndicatorID == 41001) %>%
-  ggplot(aes(Year, Value, color = Region)) +
-  geom_smooth(method = "lm", se=FALSE)
 
 # select data and shift Year variable so baseline year (2001) is 0
 suicide_dat <- filter(mh_phe, IndicatorID == 41001) %>%
@@ -68,7 +63,8 @@ It looks like regions differ in baseline suicide rate (addition of `Region` pred
 ef <- as.data.frame(effect("Time:Region", m.1))
 ggplot(ef, aes(Time, fit, color=Region)) + 
   geom_line() +
-  theme_bw() + scale_color_brewer(palette = "Set1")
+  theme_bw() + scale_color_brewer(palette = "Set1") +
+  labs(y="Fitted values")
 ```
 `r msmbstyle::solution_end()`
 
@@ -86,12 +82,12 @@ Overweight participants completed a 12-week weight loss program, then were rando
 Weight was assessed at baseline (start of maintenance), 12 months post, 24 months post, and 36 months post.  
 
 ```{r}
-load("../labs/WeightMaintain3.rda")
+load(url("https://edin.ac/2tFIedK"))
 summary(WeightMaintain3)
 ```
 
 `r msmbstyle::question_begin()`
-Overall, did the participants maintain their weight loss or gain weight?
+Overall, did the participants maintain their weight loss or did their weights change?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
@@ -99,7 +95,7 @@ m.null <- lmer(WeightChange ~ 1 + (Assessment | ID), data=WeightMaintain3, REML=
 m.base <- lmer(WeightChange ~ Assessment + (Assessment | ID), data=WeightMaintain3, REML=F)
 anova(m.null, m.base)
 ```
-Yes: $\chi^2(1)=56.5, p << 0.0001$
+Weights changed over course of assessment period: $\chi^2(1)=56.5, p << 0.0001$
 `r msmbstyle::solution_end()`
 
 `r msmbstyle::question_begin()`
@@ -136,7 +132,10 @@ ggplot(WeightMaintain3, aes(Assessment, WeightChange, color=Condition)) +
   stat_summary(fun.data=mean_se, geom="pointrange", size=1) + 
   stat_summary(aes(y=fitted(m.full)), fun=mean, geom="line") + 
   theme_bw(base_size=12) + scale_color_manual(values=c("black", "red", "blue"))
+```
 
+Alternatively, you can do the same using `fortify()`.
+```{r}
 ggplot(fortify(m.full), aes(Assessment, WeightChange, color=Condition)) + 
   stat_summary(fun.data=mean_se, geom="pointrange", size=1) + 
   stat_summary(aes(y=.fitted), fun=mean, geom="line") + 
@@ -164,16 +163,16 @@ round(coef(summary(m.full)), 3)
 
 ## Logistic MLR
 
-## Effect of brain lesion location on learning rates    
+## Effect of brain lesion location on learning and memory      
 ```{r}
-load("../labs/nwl.RData")
+load(url("https://edin.ac/2QwG7SG"))
 ```
 
 In the `nwl` data set, the participants with aphasia are also separated into two groups based on the general location of their brain lesion: anterior vs. posterior. Compare these two groups:
 
 `r msmbstyle::question_begin()`
 Is the learning rate (training data) different between these two groups?
-**Tip:** Remember that you can use `cbind(nr_successes/nr_failures)` as an outcome in a binomial regression.  
+**Tip:** Remember that you can use `cbind()` to specify the numbers of successes and failures as the outcome in a binomial regression.  
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
@@ -187,28 +186,22 @@ m.loc1 <- glmer(cbind(NumCorrect, NumError) ~ block * lesion_location + (block |
                 data=filter(nwl, block < 8, !is.na(lesion_location)),
                 family=binomial)
 #summary(m.loc1)
-anova(m.base, m.loc0, m.loc1)
+anova(m.base, m.loc0, m.loc1, test="Chisq")
 ```
+No significant difference in learning rate between groups: $\chi^2(2)=2.2, p = 0.138$
 `r msmbstyle::solution_end()`
 
 `r msmbstyle::question_begin()`
-Does their test performance differ?
-`r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-
-`r msmbstyle::solution_end()`
-
-`r msmbstyle::question_begin()`
-Does their retention from immediate to follow-up test differ?
+Does their immediate test performance differ, and does their retention from immediate to follow-up test differ?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
-m.recall.loc <- glmer(cbind(NumCorrect, NumError) ~ Phase * lesion_location + 
-                        (Phase | ID), 
+m.recall.loc <- glmer(cbind(NumCorrect, NumError) ~ Phase * lesion_location + (Phase | ID), 
                   data=filter(nwl, block > 7, !is.na(lesion_location)),
                   family="binomial")
 summary(m.recall.loc)
 ```
+
 `r msmbstyle::solution_end()`
 
 
@@ -221,6 +214,7 @@ summary(m.recall.loc)
 ggplot(filter(nwl, !is.na(lesion_location)), aes(block, PropCorrect, 
                                             color=lesion_location, 
                                             shape=lesion_location)) +
+  #geom_line(aes(group=ID),alpha=.2) + 
   stat_summary(fun.data=mean_se, geom="pointrange") + 
   stat_summary(data=filter(nwl, !is.na(lesion_location), block <= 7), 
                            fun=mean, geom="line") + 
