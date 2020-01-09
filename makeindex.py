@@ -69,7 +69,7 @@ INDEX_TEMPLATE = r"""
 """
 
 EXCLUDED = ['index.html']
-EXCLUDEDDIR = ['book']
+EXCLUDEDDIR = ['book','book_sols']
 
 import os
 import argparse
