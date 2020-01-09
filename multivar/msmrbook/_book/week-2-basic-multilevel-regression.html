@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Week 2: Basic Multilevel Regression | Multivariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Week 2: Basic Multilevel Regression | Multivariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Week 2: Basic Multilevel Regression | Multivariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="week-1-tidyverse-markdown.html"/>
+
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MSMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-stuff"><i class="fa fa-check"></i>R stuff</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html"><i class="fa fa-check"></i><b>1</b> Week 1: Tidyverse &amp; Markdown</a><ul>
+<li class="chapter" data-level="" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#background-reading"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="1.1" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#data-visualization-with-ggplot"><i class="fa fa-check"></i><b>1.1</b> Data Visualization with <code>ggplot</code></a><ul>
+<li class="chapter" data-level="1.1.1" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#geoms"><i class="fa fa-check"></i><b>1.1.1</b> Geoms</a></li>
+<li class="chapter" data-level="1.1.2" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#recreating-a-plot"><i class="fa fa-check"></i><b>1.1.2</b> Recreating a plot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#data-management-with-the-tidyverse"><i class="fa fa-check"></i><b>1.2</b> Data management with the Tidyverse</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#piping"><i class="fa fa-check"></i><b>1.2.1</b> Piping!</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#grouping-summarising-filtering-mutating-and-selecting"><i class="fa fa-check"></i><b>1.2.2</b> Grouping, summarising, filtering, mutating and selecting</a></li>
+<li class="chapter" data-level="1.2.3" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#reshaping"><i class="fa fa-check"></i><b>1.2.3</b> Reshaping</a></li>
+<li class="chapter" data-level="" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#less-guidance"><i class="fa fa-check"></i>Less guidance</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#reproducible-research-with-rmarkdown"><i class="fa fa-check"></i><b>1.3</b> Reproducible research with RMarkdown</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="week-1-tidyverse-markdown.html"><a href="week-1-tidyverse-markdown.html#convert-a-script-into-a-r-notebook"><i class="fa fa-check"></i><b>1.3.1</b> Convert a script into a R Notebook</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-2-basic-multilevel-regression.html"><a href="week-2-basic-multilevel-regression.html"><i class="fa fa-check"></i><b>2</b> Week 2: Basic Multilevel Regression</a><ul>
+<li class="chapter" data-level="2.0.1" data-path="week-2-basic-multilevel-regression.html"><a href="week-2-basic-multilevel-regression.html#exercise-1"><i class="fa fa-check"></i><b>2.0.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.0.2" data-path="week-2-basic-multilevel-regression.html"><a href="week-2-basic-multilevel-regression.html#exercise-2"><i class="fa fa-check"></i><b>2.0.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="2.1" data-path="week-2-basic-multilevel-regression.html"><a href="week-2-basic-multilevel-regression.html#logistic-mlr"><i class="fa fa-check"></i><b>2.1</b> Logistic MLR</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="week-2-basic-multilevel-regression.html"><a href="week-2-basic-multilevel-regression.html#exercise-3"><i class="fa fa-check"></i><b>2.1.1</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Multivariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="week-2-basic-multilevel-regression" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Week 2: Basic Multilevel Regression</h1>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Load the <code>tidyverse</code>, <code>lme4</code> and <code>effects</code> packages (install them if you haven’t already).</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-16" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-16&#39;, &#39;sol-start-16&#39;)"></span>
+</p>
+<div id="sol-body-16" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">library</span>(lme4)</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="kw">library</span>(effects)</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div id="exercise-1" class="section level3">
+<h3><span class="header-section-number">2.0.1</span> Exercise 1</h3>
+<p>County-level suicide rate data from Public Health England (PHE) is available at <a href="https://edin.ac/36xdhas">https://edin.ac/36xdhas</a> and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.</p>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<ul>
+<li>Did the regions differ in their baseline (2001) suicide rates?<br />
+</li>
+<li>Did the regions differ in ther slopes of change of suidice rate?<br />
+</li>
+<li>Make a plot of the fitted values from the model</li>
+</ul>
+<div class="noteBox">
+<p><strong>Things to think about</strong><br />
+First, get acquainted with the data. It contains various different indicators but we’re only interested in one (suicide rates), so you might want to <code>filter()</code> the data, using the skills you learnt last week.<br />
+You may also want to center your data on the year 2001, so that the intercept (e.g., at time 0) in your models is interpretable.</p>
+<p>Then think about what test you can do to answer the questions above.<br />
+<strong>Hint:</strong> Try comparing models with and without different baseline/slopes of suicide rates for each region. Think also about the grouping of the data points, and how this is represented in your random effect structure.</p>
+<p>Lastly, passing your model to the <code>effect()</code> function (from the <code>effects</code> package) can give you all the data you need to construct your plot.</p>
+</div>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-17" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-17&#39;, &#39;sol-start-17&#39;)"></span>
+</p>
+<div id="sol-body-17" class="solution-body" style="display: none;">
+<h4 id="loading" class="unnumbered">Loading</h4>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/36xdhas&quot;</span>)) <span class="co">#load Public Health England data</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw">unique</span>(mh_phe[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]) <span class="co">#check list of mental health indicators: suicide is 41001</span></a></code></pre></div>
+<pre><code>##      IndicatorID                                              IndicatorName
+## 1            848                 Depression: Recorded prevalence (aged 18+)
+## 760        41001                                               Suicide rate
+## 8056       90275 Percentage of physically active adults - historical method
+## 8664       90646            Depression: QOF incidence (18+) - new diagnosis</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># select data and shift Year variable so baseline year (2001) is 0</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">suicide_dat &lt;-<span class="st"> </span><span class="kw">filter</span>(mh_phe, IndicatorID <span class="op">==</span><span class="st"> </span><span class="dv">41001</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Time =</span> Year <span class="op">-</span><span class="st"> </span><span class="dv">2001</span>)</a></code></pre></div>
+<h4 id="modelling" class="unnumbered">Modelling</h4>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># base model: just change over time</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">          <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co"># add baseline differences between regions</span></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">m<span class="fl">.0</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">+</span><span class="st"> </span>Region <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">            <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="co"># add slope differences between regions</span></a>
+<a class="sourceLine" id="cb34-8" data-line-number="8">m<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">*</span><span class="st"> </span>Region <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
+<a class="sourceLine" id="cb34-9" data-line-number="9">            <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb34-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb34-11" data-line-number="11"><span class="co"># compare models</span></a>
+<a class="sourceLine" id="cb34-12" data-line-number="12"><span class="kw">anova</span>(m, m<span class="fl">.0</span>, m<span class="fl">.1</span>)</a></code></pre></div>
+<pre><code>## Data: suicide_dat
+## Models:
+## m: Value ~ Time + (Time | County)
+## m.0: Value ~ Time + Region + (Time | County)
+## m.1: Value ~ Time * Region + (Time | County)
+##     Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+## m    6 39961 40002 -19974    39949                             
+## m.0 14 39924 40019 -19948    39896 53.136      8  1.015e-08 ***
+## m.1 22 39918 40068 -19937    39874 21.277      8   0.006447 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>It looks like regions differ in baseline suicide rate (addition of <code>Region</code> predictor in <code>m.0</code>) and in slope of change (addition of interaction in <code>m.1</code>)</p>
+<h4 id="plotting" class="unnumbered">Plotting</h4>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># you can extract the fitted values using the effect() function from the effects package.</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">ef &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">effect</span>(<span class="st">&quot;Time:Region&quot;</span>, m<span class="fl">.1</span>))</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Time, fit, <span class="dt">color=</span>Region)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Fitted values&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="exercise-2" class="section level3">
+<h3><span class="header-section-number">2.0.2</span> Exercise 2</h3>
+<p>The weight maintenance data (<code>WeightMaintain3</code>), a made-up data set based on Lowe et al. (2014, Obesity, 22, 94-100), contains information on overweight participants who completed a 12-week weight loss program, and were then randomly assigned to one of three weight maintenance conditions:</p>
+<ul>
+<li>None (Control)<br />
+</li>
+<li>MR (meal replacements): use MR to replace one meal and snack per day<br />
+</li>
+<li>ED (energy density intervention): book and educational materials on purchasing and preparing foods lower in ED (reducing fat content and/or increasing water content of foods)</li>
+</ul>
+<p>Weight was assessed at baseline (start of maintenance), 12 months post, 24 months post, and 36 months post.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2tFIedK&quot;</span>))</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw">summary</span>(WeightMaintain3)</a></code></pre></div>
+<pre><code>##        ID      Condition    Assessment    WeightChange    
+##  101    :  4   None:240   Min.   :0.00   Min.   :-8.3781  
+##  102    :  4   ED  :240   1st Qu.:0.75   1st Qu.:-0.5024  
+##  103    :  4   MR  :240   Median :1.50   Median : 0.7050  
+##  104    :  4              Mean   :1.50   Mean   : 1.4438  
+##  105    :  4              3rd Qu.:2.25   3rd Qu.: 2.8806  
+##  106    :  4              Max.   :3.00   Max.   :14.9449  
+##  (Other):696</code></pre>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Overall, did the participants maintain their weight loss or did their weights change?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-18" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-18&#39;, &#39;sol-start-18&#39;)"></span>
+</p>
+<div id="sol-body-18" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">m.null &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F)</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">m.base &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F)</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="kw">anova</span>(m.null, m.base)</a></code></pre></div>
+<pre><code>## Data: WeightMaintain3
+## Models:
+## m.null: WeightChange ~ 1 + (Assessment | ID)
+## m.base: WeightChange ~ Assessment + (Assessment | ID)
+##        Df    AIC    BIC  logLik deviance Chisq Chi Df Pr(&gt;Chisq)    
+## m.null  5 2638.0 2660.9 -1314.0   2628.0                            
+## m.base  6 2579.4 2606.8 -1283.7   2567.4 60.66      1  6.782e-15 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Weights changed over course of assessment period: <span class="math inline">\(\chi^2(1)=56.5, p &lt;&lt; 0.0001\)</span></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Did the groups differ in baseline weight change and rate of weight gain (non-maintenance)?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-19" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-19&#39;, &#39;sol-start-19&#39;)"></span>
+</p>
+<div id="sol-body-19" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">m.int &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment <span class="op">+</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">              <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">m.full &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment<span class="op">*</span>Condition <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb41-4" data-line-number="4">               <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="kw">anova</span>(m.null, m.base, m.int, m.full)</a></code></pre></div>
+<pre><code>## Data: WeightMaintain3
+## Models:
+## m.null: WeightChange ~ 1 + (Assessment | ID)
+## m.base: WeightChange ~ Assessment + (Assessment | ID)
+## m.int: WeightChange ~ Assessment + Condition + (Assessment | ID)
+## m.full: WeightChange ~ Assessment * Condition + (Assessment | ID)
+##        Df    AIC    BIC  logLik deviance   Chisq Chi Df Pr(&gt;Chisq)    
+## m.null  5 2638.0 2660.9 -1314.0   2628.0                              
+## m.base  6 2579.4 2606.8 -1283.7   2567.4 60.6605      1  6.782e-15 ***
+## m.int   8 2573.9 2610.6 -1279.0   2557.9  9.4418      2   0.008907 ** 
+## m.full 10 2537.5 2583.3 -1258.8   2517.5 40.3814      2  1.703e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Yes:</p>
+<ul>
+<li>Baseline: <span class="math inline">\(\chi^2(2)=9.4, p &lt; 0.01\)</span></li>
+<li>Slope: <span class="math inline">\(\chi^2(2)=40.4, p &lt;&lt; 0.0001\)</span></li>
+</ul>
+<p>Note: <code>m.int</code> is difficult to interpret in light of the massive effect on slope</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">coef</span>(<span class="kw">summary</span>(m.full))</a></code></pre></div>
+<pre><code>##                           Estimate Std. Error    t value
+## (Intercept)             0.06038642 0.09807901  0.6156916
+## Assessment              1.84917936 0.18394628 10.0528229
+## ConditionED            -0.14303302 0.13870466 -1.0312056
+## ConditionMR            -0.14944649 0.13870466 -1.0774439
+## Assessment:ConditionED -1.74949968 0.26013932 -6.7252412
+## Assessment:ConditionMR -0.83624053 0.26013932 -3.2145872</code></pre>
+<p>Compared to no intervention, weight (re)gain was 1.75 lbs/year slower for the ED intervention and 0.84 lbs/year slower for the MR intervention.</p>
+<p>Note that baseline weight difference parameters are not significantly different from 0.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Make a graph of the model fit <em>and</em> the observed data</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-20" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-20&#39;, &#39;sol-start-20&#39;)"></span>
+</p>
+<div id="sol-body-20" class="solution-body" style="display: none;">
+<p>There are lots of ways you can do this.</p>
+<ol style="list-style-type: decimal">
+<li>Using the <code>effect()</code> function again (and then adding the means and SEs from the original data):</li>
+</ol>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">ef &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">effect</span>(<span class="st">&quot;Assessment:Condition&quot;</span>, m.full))</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Assessment, fit, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">data=</span>WeightMaintain3, <span class="kw">aes</span>(<span class="dt">y=</span>WeightChange), </a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">               <span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb45-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-37-1.png" width="672" />
+2) Using the <code>fitted()</code> function to extract and plot fitted values from the model:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">ggplot</span>(WeightMaintain3, <span class="kw">aes</span>(Assessment, WeightChange, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">fitted</span>(m.full)), <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Or, alternatively, using <code>fortify()</code>:</li>
+</ol>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">fortify</span>(m.full), <span class="kw">aes</span>(Assessment, WeightChange, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Examine the parameter estimates and interpret them (i.e., what does each parameter represent?)</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-21" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-21&#39;, &#39;sol-start-21&#39;)"></span>
+</p>
+<div id="sol-body-21" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">round</span>(<span class="kw">coef</span>(<span class="kw">summary</span>(m.full)), <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>##                        Estimate Std. Error t value
+## (Intercept)               0.060      0.098   0.616
+## Assessment                1.849      0.184  10.053
+## ConditionED              -0.143      0.139  -1.031
+## ConditionMR              -0.149      0.139  -1.077
+## Assessment:ConditionED   -1.749      0.260  -6.725
+## Assessment:ConditionMR   -0.836      0.260  -3.215</code></pre>
+<ul>
+<li><code>(Intercept)</code> ==&gt; baseline weight change in None group</li>
+<li><code>Assessment</code> ==&gt; slope of weight change in None group</li>
+<li><code>ConditionED</code> ==&gt; baseline weight change in ED group relative to None group</li>
+<li><code>ConditionMR</code> ==&gt; baseline weight change in MR group relative to None group</li>
+<li><code>Assessment:ConditionED</code> ==&gt; slope of weight change in ED group relative to None group</li>
+<li><code>Assessment:ConditionMR</code> ==&gt; slope of weight change in MR groups relative to None group</li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="logistic-mlr" class="section level2">
+<h2><span class="header-section-number">2.1</span> Logistic MLR</h2>
+<div id="exercise-3" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Exercise 3</h3>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2QwG7SG&quot;</span>))</a></code></pre></div>
+<p>In the <code>nwl</code> data set, participants with aphasia are separated into two groups based on the general location of their brain lesion: anterior vs. posterior. There is data on the numbers of correct and incorrect responses participants gave in each of a series of experimental blocks. There were 7 learning blocks, immediately followed by a test. Finally, participants also completed a follow-up test. Compare the two groups (anterior vs. posterior lesions):</p>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Is the learning rate (training data) different between these two groups?
+<strong>Tip:</strong> You can use <code>cbind()</code> to specify the numbers of successes and failures as the outcome in a binomial regression.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-22" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-22&#39;, &#39;sol-start-22&#39;)"></span>
+</p>
+<div id="sol-body-22" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">m.base &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">                <span class="dt">data =</span> <span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">                <span class="dt">family=</span>binomial)</a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">m.loc0 &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">                <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6">                <span class="dt">family=</span>binomial)</a>
+<a class="sourceLine" id="cb51-7" data-line-number="7">m.loc1 &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">*</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb51-8" data-line-number="8">                <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
+<a class="sourceLine" id="cb51-9" data-line-number="9">                <span class="dt">family=</span>binomial)</a>
+<a class="sourceLine" id="cb51-10" data-line-number="10"><span class="co">#summary(m.loc1)</span></a>
+<a class="sourceLine" id="cb51-11" data-line-number="11"><span class="kw">anova</span>(m.base, m.loc0, m.loc1, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>)</a></code></pre></div>
+<pre><code>## Data: filter(nwl, block &lt; 8, !is.na(lesion_location))
+## Models:
+## m.base: cbind(NumCorrect, NumError) ~ block + (block | ID)
+## m.loc0: cbind(NumCorrect, NumError) ~ block + lesion_location + (block | 
+## m.loc0:     ID)
+## m.loc1: cbind(NumCorrect, NumError) ~ block * lesion_location + (block | 
+## m.loc1:     ID)
+##        Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(&gt;Chisq)
+## m.base  5 454.12 466.27 -222.06   444.12                         
+## m.loc0  6 454.66 469.25 -221.33   442.66 1.4572      1     0.2274
+## m.loc1  7 454.47 471.48 -220.23   440.47 2.1974      1     0.1382</code></pre>
+<p>No significant difference in learning rate between groups: <span class="math inline">\(\chi^2(2)=2.2, p = 0.138\)</span></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Does their follow-up test performance differ, and does their retention from immediate to follow-up test differ?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-23" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-23&#39;, &#39;sol-start-23&#39;)"></span>
+</p>
+<div id="sol-body-23" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">m.recall.loc &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>Phase <span class="op">*</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(Phase <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">                  <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&gt;</span><span class="st"> </span><span class="dv">7</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3">                  <span class="dt">family=</span><span class="st">&quot;binomial&quot;</span>)</a>
+<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="kw">summary</span>(m.recall.loc)</a></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) [&#39;glmerMod&#39;]
+##  Family: binomial  ( logit )
+## Formula: cbind(NumCorrect, NumError) ~ Phase * lesion_location + (Phase |      ID)
+##    Data: filter(nwl, block &gt; 7, !is.na(lesion_location))
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    142.6    150.9    -64.3    128.6       17 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -1.31708 -0.45013  0.03288  0.46923  1.09355 
+## 
+## Random effects:
+##  Groups Name           Variance Std.Dev. Corr
+##  ID     (Intercept)    0.28200  0.5310       
+##         PhaseImmediate 0.02539  0.1593   1.00
+## Number of obs: 24, groups:  ID, 12
+## 
+## Fixed effects:
+##                                         Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept)                             -0.13826    0.28978  -0.477   0.6333  
+## PhaseImmediate                           0.02453    0.24634   0.100   0.9207  
+## lesion_locationposterior                 0.74483    0.38409   1.939   0.0525 .
+## PhaseImmediate:lesion_locationposterior  0.25437    0.33904   0.750   0.4531  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) PhsImm lsn_lc
+## PhaseImmedt -0.149              
+## lsn_lctnpst -0.755  0.113       
+## PhsImmdt:l_  0.109 -0.729 -0.164
+## convergence code: 0
+## boundary (singular) fit: see ?isSingular</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>Extra:</strong> Create a visualisation showing the differences between groups in the average proportion of correct responses at each point in time (i.e., each block, test, and follow-up)</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-24" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-24&#39;, &#39;sol-start-24&#39;)"></span>
+</p>
+<div id="sol-body-24" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(nwl, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)), <span class="kw">aes</span>(block, PropCorrect, </a>
+<a class="sourceLine" id="cb55-2" data-line-number="2">                                            <span class="dt">color=</span>lesion_location, </a>
+<a class="sourceLine" id="cb55-3" data-line-number="3">                                            <span class="dt">shape=</span>lesion_location)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-4" data-line-number="4"><span class="st">  </span><span class="co">#geom_line(aes(group=ID),alpha=.2) + </span></a>
+<a class="sourceLine" id="cb55-5" data-line-number="5"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-6" data-line-number="6"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">data=</span><span class="kw">filter</span>(nwl, <span class="op">!</span><span class="kw">is.na</span>(lesion_location), block <span class="op">&lt;=</span><span class="st"> </span><span class="dv">7</span>), </a>
+<a class="sourceLine" id="cb55-7" data-line-number="7">                           <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="fl">0.5</span>, <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="kw">c</span>(<span class="fl">7.5</span>, <span class="fl">8.5</span>), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>, <span class="st">&quot;Test&quot;</span>, <span class="st">&quot;Follow-Up&quot;</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-12" data-line-number="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Block&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Proportion Correct&quot;</span>, <span class="dt">shape=</span><span class="st">&quot;Lesion</span><span class="ch">\n</span><span class="st">Location&quot;</span>, <span class="dt">color=</span><span class="st">&quot;Lesion</span><span class="ch">\n</span><span class="st">Location&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="week-1-tidyverse-markdown.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

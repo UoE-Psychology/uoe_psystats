@@ -1,13 +1,13 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=FALSE
+HIDDEN_SOLS=TRUE
 ```
 
-# Week 2: Basic MLR  
+# Week 2: Basic Multilevel Regression 
 
 `r msmbstyle::question_begin()`
 Load the `tidyverse`, `lme4` and `effects` packages (install them if you haven't already).    
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+`r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r warning=FALSE,message=FALSE}
 library(tidyverse)
 library(lme4)
@@ -15,16 +15,25 @@ library(effects)
 ```
 `r msmbstyle::solution_end()`
 
-### Analyzing county-level suicide rate data from Public Health England (PHE).  
-
-The data is available at [https://edin.ac/36xdhas](https://edin.ac/36xdhas) and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.  
+### Exercise 1  
+County-level suicide rate data from Public Health England (PHE) is available at [https://edin.ac/36xdhas](https://edin.ac/36xdhas) and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.  
 
 `r msmbstyle::question_begin()`
   
 * Did the regions differ in their baseline (2001) suicide rates?  
 * Did the regions differ in ther slopes of change of suidice rate?  
 * Make a plot of the fitted values from the model  
+
+<div class="noteBox">  
+**Things to think about**  
+First, get acquainted with the data. It contains various different indicators but we're only interested in one (suicide rates), so you might want to `filter()` the data, using the skills you learnt last week.   
+You may also want to center your data on the year 2001, so that the intercept (e.g., at time 0) in your models is interpretable.   
   
+Then think about what test you can do to answer the questions above.   
+**Hint:** Try comparing models with and without different baseline/slopes of suicide rates for each region. Think also about the grouping of the data points, and how this is represented in your random effect structure.    
+  
+Lastly, passing your model to the `effect()` function (from the `effects` package) can give you all the data you need to construct your plot.
+</div>
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -43,13 +52,13 @@ suicide_dat <- filter(mh_phe, IndicatorID == 41001) %>%
 ```{r}
 # base model: just change over time
 m <- lmer(Value ~ Time + (Time | County), 
-          data = suicide_dat, REML = F)
+          data = suicide_dat, REML = F, control = lmerControl(optimizer = "bobyqa"))
 # add baseline differences between regions
 m.0 <- lmer(Value ~ Time + Region + (Time | County), 
-            data = suicide_dat, REML = F)
+            data = suicide_dat, REML = F, control = lmerControl(optimizer = "bobyqa"))
 # add slope differences between regions
 m.1 <- lmer(Value ~ Time * Region + (Time | County), 
-            data = suicide_dat, REML = F)
+            data = suicide_dat, REML = F, control = lmerControl(optimizer = "bobyqa"))
 
 # compare models
 anova(m, m.0, m.1)
@@ -71,9 +80,8 @@ ggplot(ef, aes(Time, fit, color=Region)) +
 
 
 
-### Analyze the weight maintenance data (`WeightMaintain3`), a made-up data set based on Lowe et al. (2014, Obesity, 22, 94-100).  
-
-Overweight participants completed a 12-week weight loss program, then were randomly assigned to one of three weight maintenance conditions:
+### Exercise 2  
+The weight maintenance data (`WeightMaintain3`), a made-up data set based on Lowe et al. (2014, Obesity, 22, 94-100), contains information on overweight participants who completed a 12-week weight loss program, and were then randomly assigned to one of three weight maintenance conditions:
 
 * None (Control)  
 * MR (meal replacements): use MR to replace one meal and snack per day  
@@ -103,8 +111,10 @@ Did the groups differ in baseline weight change and rate of weight gain (non-mai
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
-m.int <- lmer(WeightChange ~ Assessment + Condition + (Assessment | ID), data=WeightMaintain3, REML=F)
-m.full <- lmer(WeightChange ~ Assessment*Condition + (Assessment | ID), data=WeightMaintain3, REML=F)
+m.int <- lmer(WeightChange ~ Assessment + Condition + (Assessment | ID), 
+              data=WeightMaintain3, REML=F, control = lmerControl(optimizer = "bobyqa"))
+m.full <- lmer(WeightChange ~ Assessment*Condition + (Assessment | ID), 
+               data=WeightMaintain3, REML=F, control = lmerControl(optimizer = "bobyqa"))
 anova(m.null, m.base, m.int, m.full)
 ```
 Yes: 
@@ -124,9 +134,21 @@ Note that baseline weight difference parameters are not significantly different 
 `r msmbstyle::solution_end()`
 
 `r msmbstyle::question_begin()`
-Make a graph of the model fit
+Make a graph of the model fit *and* the observed data
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+There are lots of ways you can do this. 
+  
+1) Using the `effect()` function again (and then adding the means and SEs from the original data):  
+```{r}
+ef <- as.data.frame(effect("Assessment:Condition", m.full))
+ggplot(ef, aes(Assessment, fit, color=Condition)) + 
+  geom_line() +
+  stat_summary(data=WeightMaintain3, aes(y=WeightChange), 
+               fun.data=mean_se, geom="pointrange", size=1) +
+  theme_bw() + scale_color_brewer(palette = "Set1")
+```
+2) Using the `fitted()` function to extract and plot fitted values from the model:  
 ```{r}
 ggplot(WeightMaintain3, aes(Assessment, WeightChange, color=Condition)) + 
   stat_summary(fun.data=mean_se, geom="pointrange", size=1) + 
@@ -134,7 +156,7 @@ ggplot(WeightMaintain3, aes(Assessment, WeightChange, color=Condition)) +
   theme_bw(base_size=12) + scale_color_manual(values=c("black", "red", "blue"))
 ```
 
-Alternatively, you can do the same using `fortify()`.
+3) Or, alternatively, using `fortify()`:
 ```{r}
 ggplot(fortify(m.full), aes(Assessment, WeightChange, color=Condition)) + 
   stat_summary(fun.data=mean_se, geom="pointrange", size=1) + 
@@ -143,9 +165,8 @@ ggplot(fortify(m.full), aes(Assessment, WeightChange, color=Condition)) +
 ```
 `r msmbstyle::solution_end()`
 
-
 `r msmbstyle::question_begin()`
-Examine the parameter estimates and interpret them
+Examine the parameter estimates and interpret them (i.e., what does each parameter represent?)
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
@@ -163,16 +184,16 @@ round(coef(summary(m.full)), 3)
 
 ## Logistic MLR
 
-## Effect of brain lesion location on learning and memory      
+### Exercise 3  
+
 ```{r}
 load(url("https://edin.ac/2QwG7SG"))
 ```
-
-In the `nwl` data set, the participants with aphasia are also separated into two groups based on the general location of their brain lesion: anterior vs. posterior. Compare these two groups:
+In the `nwl` data set, participants with aphasia are separated into two groups based on the general location of their brain lesion: anterior vs. posterior. There is data on the numbers of correct and incorrect responses participants gave in each of a series of experimental blocks. There were 7 learning blocks, immediately followed by a test. Finally, participants also completed a follow-up test. Compare the two groups (anterior vs. posterior lesions):
 
 `r msmbstyle::question_begin()`
 Is the learning rate (training data) different between these two groups?
-**Tip:** Remember that you can use `cbind()` to specify the numbers of successes and failures as the outcome in a binomial regression.  
+**Tip:** You can use `cbind()` to specify the numbers of successes and failures as the outcome in a binomial regression.  
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
@@ -192,7 +213,7 @@ No significant difference in learning rate between groups: $\chi^2(2)=2.2, p = 0
 `r msmbstyle::solution_end()`
 
 `r msmbstyle::question_begin()`
-Does their immediate test performance differ, and does their retention from immediate to follow-up test differ?
+Does their follow-up test performance differ, and does their retention from immediate to follow-up test differ?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
@@ -201,10 +222,7 @@ m.recall.loc <- glmer(cbind(NumCorrect, NumError) ~ Phase * lesion_location + (P
                   family="binomial")
 summary(m.recall.loc)
 ```
-
 `r msmbstyle::solution_end()`
-
-
 
 `r msmbstyle::question_begin()`
 **Extra:** Create a visualisation showing the differences between groups in the average proportion of correct responses at each point in time (i.e., each block, test, and follow-up)
