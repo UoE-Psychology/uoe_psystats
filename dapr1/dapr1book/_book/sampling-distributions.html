@@ -341,9 +341,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#recap"><i class="fa fa-check"></i><b>11.1</b> Recap</a></li>
 <li class="chapter" data-level="11.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#population-sample"><i class="fa fa-check"></i><b>11.2</b> Population and samples</a></li>
 <li class="chapter" data-level="11.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#population-parameter-and-sample-statistic"><i class="fa fa-check"></i><b>11.3</b> Population parameter and sample statistic</a></li>
-<li class="chapter" data-level="11.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-statistics-as-estimates-of-population-parameters"><i class="fa fa-check"></i><b>11.4</b> Sample statistics as estimates of population parameters</a></li>
-<li class="chapter" data-level="11.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#task-1"><i class="fa fa-check"></i><b>11.5</b> task</a></li>
-<li class="chapter" data-level="11.6" data-path="sampling-distributions.html"><a href="sampling-distributions.html#questions-1"><i class="fa fa-check"></i><b>11.6</b> questions</a></li>
+<li class="chapter" data-level="11.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution"><i class="fa fa-check"></i><b>11.4</b> Sampling distribution</a></li>
+<li class="chapter" data-level="11.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#the-typical-error-of-a-statistic"><i class="fa fa-check"></i><b>11.5</b> The typical error of a statistic</a></li>
+<li class="chapter" data-level="11.6" data-path="sampling-distributions.html"><a href="sampling-distributions.html#the-effect-of-sample-size-on-the-sampling-distribution"><i class="fa fa-check"></i><b>11.6</b> The effect of sample size on the sampling distribution</a></li>
 <li class="chapter" data-level="11.7" data-path="sampling-distributions.html"><a href="sampling-distributions.html#summary"><i class="fa fa-check"></i><b>11.7</b> Summary</a></li>
 </ul></li>
 <li class="divider"></li>
@@ -411,10 +411,10 @@ Once collected, you (a) import/load the data into R;
 <p>Typically, it is either infeasible in terms of time or cost to perform an exhaustive data collection on the entire population of interest (also known as <strong>census</strong>).
 To save time and money, we typically record the variables of interest on a smaller subset of the entire population, also known as a <strong>sample</strong>.
 In order to make sure that any conclusions we draw from the sample are <strong>generalizable</strong> to the wider population, this sample needs to be taken at <strong>random</strong>.
-This avoids <strong>representation bias</strong>, where some units are less represented than others, leading to wrong conclusions for the entire population.</p>
+This avoids <strong>representation bias</strong>, where some units are less represented than others, which would lead to wrong conclusions for the entire population.</p>
 <div class="question">
 <p class="question-begin">
-► Question
+► Example
 </p>
 <div class="question-body">
 <p>Suppose you are interested in the average salary of people working in Sweden. Unfortunately, you neither have the time nor the money to go to Sweden and ask each single person his/her own salary.
@@ -433,9 +433,9 @@ Hence, you decide to ask some people at random.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-53" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-53&#39;, &#39;sol-start-53&#39;)"></span>
+► Solution
 </p>
-<div id="sol-body-53" class="solution-body" style="display: none;">
+<div class="solution-body">
 <p>All four criteria lead to samples that are not representative of the entire population. This is because some people will have higher chance of being included in the sample than others, leading to representation bias. Because of this, the statistic computed from the sample (sample mean) is not generalizable from the whole population.</p>
 <ol style="list-style-type: decimal">
 <li>People that do not have Facebook are not considered in the sample.</li>
@@ -448,18 +448,30 @@ Hence, you decide to ask some people at random.</p>
 </p>
 </div>
 </div>
-<p>In Semester 1, we discussed data collection, i.e. methods to obtain sample data from a bigger population of interest.
+<p>In Semester 1, we discussed how to obtain sample data from a bigger population of interest; this is known as data collection.
 We now take the opposite direction as we try to use the information from the sample data to draw conclusions about the entire population.
-Furthermore, we will spend some time assessing how accurate are our conclusions about the entire population.</p>
+Furthermore, we will spend some time assessing how accurate our conclusions about the entire population are.</p>
 <div class="def">
 <h4 id="statistical-inference" class="unnumbered">Statistical inference</h4>
-<p><strong>Statistical inference</strong> is the process of drawing conclusions about the entire population based on the information available in a sample.</p>
+<p><strong>Statistical inference</strong> is the process of using the sample data to draw conclusions about the entire population.</p>
 </div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-322"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
 <img src="images/statistical_inference.png" alt="Data collection vs statistical inference" width="75%" />
 <p class="caption">
 Figure 11.2: Data collection vs statistical inference
 </p>
+</div>
+<div class="question">
+<p class="question-begin">
+► Caution
+</p>
+<div class="question-body">
+<p>The inferential process is built on top of the assumption that the sample is randomly drawn from the population of interest.
+Any sample selection method that is biased, i.e. leading to samples which are not representative of the entire population, will mean that the results we obtain from the data in the sample can not be generalized to the entire population.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
 </div>
 </div>
 <div id="population-parameter-and-sample-statistic" class="section level2">
@@ -469,21 +481,22 @@ Figure 11.2: Data collection vs statistical inference
 <h4 id="parameter-vs-statistic" class="unnumbered">Parameter vs statistic</h4>
 <ul>
 <li>A <strong>parameter</strong> is a number describing some aspect of the population.</li>
-<li>A <strong>statistic</strong> is a number that is computed from the data in the sample.</li>
+<li>A <strong>statistic</strong> is a number that is computed from the data in a sample.</li>
 </ul>
 </div>
-<p>For example, suppose we want to gain more insight into the salaries of Acme Corporation.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> We are interested in multiple aspects of the population, in particular: what is the average salary and how variable are the values around the mean salary?</p>
+<p>For example, suppose we want to gain more insight into the salaries of Acme Corporation.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> We are interested in multiple aspects of the population, in particular: what is the average salary and how variable are the values around the mean salary?</p>
 <p>After selecting at random, say, 500 employees from the entire company, we record for each employee the corresponding salary.
 The population parameters are the mean salary and the standard deviation for the entire employees of Acme Corporation and are not known to us as we did not perform an exhaustive census.
 The statistics are the mean salary and standard deviation computed from the salaries of the 500 people in the sample.</p>
 <p>From this example, you can see that the population parameter and the sample statistic generally have the same name.
-However, these are often written with different symbols to convey with just one letter</p>
+However, these are often written with different symbols to convey with just one letter:</p>
 <ol style="list-style-type: decimal">
-<li>what <em>attribute</em> they represent</li>
-<li>if it is a <em>population</em> quantity or a quantity <em>computed on a sample</em></li>
+<li>what <em>feature</em> they represent;</li>
+<li>if it is a <em>population</em> quantity or a quantity <em>computed on a sample</em>.</li>
 </ol>
 <p>The following table summarizes standard notation for some population parameters, typically unknown, and the corresponding “best guesses” computed on a sample.</p>
 <table>
+<caption>Common parameters and statistics.</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -511,14 +524,13 @@ However, these are often written with different symbols to convey with just one 
 </table>
 <p>The greek letter <span class="math inline">\(\mu\)</span> (mu) is used as a parameter to denote the population mean/average, while <span class="math inline">\(\bar{x}\)</span> or <span class="math inline">\(\hat{\mu}\)</span> (mu-hat) as a statistic for the mean computed on a sample.
 The greek letter <span class="math inline">\(\sigma\)</span> (sigma) is used as a parameter to denote the population standard deviation, while <span class="math inline">\(s\)</span> or <span class="math inline">\(\hat{\sigma}\)</span> (sigma-hat) as a statistic for the standard deviation of the collected sample.
-The greek letter <span class="math inline">\(\mu\)</span> (mu) is used as a parameter to denote the population mean/average, while <span class="math inline">\(\bar{x}\)</span> or <span class="math inline">\(\hat{\mu}\)</span> (mu-hat) as a statistic for the mean computed on a sample.
 The letter <span class="math inline">\(p\)</span> is used as a parameter to denote the population proportion, while <span class="math inline">\(\hat{p}\)</span> (p-hat) as a statistic for the sample proportion.</p>
 <div class="question">
 <p class="question-begin">
-► Question
+► Example
 </p>
 <div class="question-body">
-<p><strong>Proportion of UK people aged between 25 and 34 with a Bachelor’s degree or higher</strong>.</p>
+<p><strong>Proportion of UK people aged between 25 and 34 with a Bachelor’s degree or higher</strong></p>
 <p>The last UK Census, done in 2011, reports that 40% of people aged 25 to 34 years had a degree-level or above qualification.
 Suppose that in a random sample of <span class="math inline">\(n = 200\)</span> UK residents who are between 25 and 34 years old, 58 of them have a Bachelor’s degree or higher.
 Using the appropriate notation, state what is the population parameter and what is the sample statistic.</p>
@@ -529,9 +541,9 @@ Using the appropriate notation, state what is the population parameter and what 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-54" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-54&#39;, &#39;sol-start-54&#39;)"></span>
+► Solution
 </p>
-<div id="sol-body-54" class="solution-body" style="display: none;">
+<div class="solution-body">
 <p>The population parameter is the proportion of <em>all</em> UK people aged between 25 to 34 years old with a Bachelor’s degree or higher: <span class="math inline">\(p = 0.4\)</span>.
 The sample statistic is the proportion with a Bachelor’s degree or higher <em>for those in the sample</em>: <span class="math inline">\(\hat{p} = 58/200 = 0.29\)</span>.</p>
 <p class="solution-end">
@@ -539,39 +551,31 @@ The sample statistic is the proportion with a Bachelor’s degree or higher <em>
 </p>
 </div>
 </div>
+<p>As discussed, it is generally infeasible to be able to know the value of the population parameter <em>exactly</em>. This would require collecting data for the entire population and then computing the required quantity.
+Instead, we typically select a random sample from the population, and then compute the quantity of interest for the sample data.
+We then use this sample statistic as a <em>(point) estimate</em> or <em>best guess</em> of the population parameter.</p>
 </div>
-<div id="sample-statistics-as-estimates-of-population-parameters" class="section level2">
-<h2><span class="header-section-number">11.4</span> Sample statistics as estimates of population parameters</h2>
-</div>
-<div id="task-1" class="section level2">
-<h2><span class="header-section-number">11.5</span> task</h2>
-<div class="noteBox">
-<p>..<br />
-.<br />
-do this by hand, or in groups, or whatever.<br />
-.<br />
-..</p>
-</div>
-</div>
-<div id="questions-1" class="section level2">
-<h2><span class="header-section-number">11.6</span> questions</h2>
+<div id="sampling-distribution" class="section level2">
+<h2><span class="header-section-number">11.4</span> Sampling distribution</h2>
+<p>A parameter is typically considered to be a fixed value, while a statistic varies from sample to sample, depending on which units are selected to enter the sample.
+The fact that a sample statistic, i.e. a quantity computed on a sample, varies from sample to sample can be seen as a downside to sampling.
+However, we must remember that a population parameter (while being fixed) is generally unknown. On the contrary, we can compute the statistic for a sample.</p>
+<p>A fundamental question that arises when we estimate an unknown population parameter by a sample statistic is: “how accurate do we believe our best guess to be?”.</p>
+<p>Rememebering that the parameter is fixed, while the statistics varies from sample to sample, we might proceed in answering this question by looking at how the computed statistic varies depending on the sample.</p>
 <div class="question">
 <p class="question-begin">
-► Question
+► Example
 </p>
 <div class="question-body">
-<p>make a new .Rmd file.</p>
-<p class="question-end">
-<span class="fa fa-square-o solution-icon"></span>
-</p>
-</div>
-</div>
-<div class="question">
-<p class="question-begin">
-► Question
-</p>
-<div class="question-body">
-<p>read in the data using <code>load(url("...."))</code></p>
+<p><strong>Average yearly salary of the American National Football League (NFL) players</strong></p>
+<p>We will now read a file containing the yearly salaries (in millions of dollars) for all players being paid, at the start of 2015, by a National Football League (NFL) team.
+This entire dataset represents the population of all National Football League players in 2015.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<p>We are interested in the following research question: what is the average salary of a NFL player in 2015?</p>
+<ol style="list-style-type: decimal">
+<li>Read in the data and state, with appropriate notation, what is the population parameter.</li>
+<li>Select a random sample of 50 players and compute the average yearly salary for the players in the sample. How does your statistic compare to the parameter?</li>
+<li>Take another sample of size <span class="math inline">\(n = 50\)</span> players and compute the average salary for this new sample. How does it compare with the mean for the previous sample?</li>
+</ol>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -579,16 +583,273 @@ do this by hand, or in groups, or whatever.<br />
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-55" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-55&#39;, &#39;sol-start-55&#39;)"></span>
+► Solution
 </p>
-<div id="sol-body-55" class="solution-body" style="display: none;">
-<p>the answer is to make a code chunk and use this:</p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb488-1" title="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https:/.....&quot;</span>))</a></code></pre></div>
+<div class="solution-body">
+<p><strong>Question 1.</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" title="2">nfl &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2TexAFA&#39;</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">head</span>(nfl)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 5
+##   Player             Position Team     TotalMoney YearlySalary
+##   &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+## 1 Aaron Rodgers      QB       Packers       110           22  
+## 2 Russell Wilson     QB       Seahawks       87.6         21.9
+## 3 Ben Roethlisberger QB       Steelers       87.4         21.8
+## 4 Philip Rivers      QB       Chargers       83.2         20.8
+## 5 Cam Newton         QB       Panthers      104.          20.8
+## 6 Matt Ryan          QB       Falcons       104.          20.8</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">dim</span>(nfl)</a></code></pre></div>
+<pre><code>## [1] 2099    5</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">nfl_avg &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb5-3" title="3">nfl_avg</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##     avg
+##   &lt;dbl&gt;
+## 1  2.24</code></pre>
+<p>The population parameter is the average yearly salary in 2015, which is <span class="math inline">\(\mu =\)</span> 2.24.</p>
+<p><strong>Question 2.</strong></p>
+<p>In order to randomly sample players, we will use a package called <code>moderndive</code>. If you do not have it installed, run the following command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;moderndive&quot;</span>)</a></code></pre></div>
+<p>We then load the package and create a sample of size <span class="math inline">\(n = 50\)</span> players:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">library</span>(moderndive)</a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3">nfl_sample_<span class="dv">1</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb8-5" title="5"></a>
+<a class="sourceLine" id="cb8-6" title="6">nfl_sample_<span class="dv">1</span></a></code></pre></div>
+<pre><code>## # A tibble: 50 x 6
+## # Groups:   replicate [1]
+##    replicate Player              Position Team     TotalMoney YearlySalary
+##        &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+##  1         1 Craig Dahl          S        Giants        0.87         0.87 
+##  2         1 Jarrett Bush        CB       Packers       5.25         1.75 
+##  3         1 Shayne Graham       K        Saints        0.98         0.98 
+##  4         1 Christian Covington 34DT     Texans        2.37         0.593
+##  5         1 Pat McAfee          P        Colts        14.5          2.9  
+##  6         1 Ron Parker          S        Chiefs       25            5    
+##  7         1 Bryan Walters       WR       Jaguars       1.44         0.723
+##  8         1 John Greco          RG       Browns        8.37         2.09 
+##  9         1 Trenton Robinson    S        Redskins      0.685        0.68 
+## 10         1 Paul Worrilow       ILB      Falcons       1.49         0.496
+## # ... with 40 more rows</code></pre>
+<p>The command <code>head</code> shows the first six rows. We can see the names of the players which were included in the sample. The extra column at the beginning is equal to 1 for all cases in the sample. This indicates that these 50 rows are all part of our first sample.</p>
+<p>Let’s now compute the average salary in this sample:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">nfl_sample_<span class="dv">1</span>_avg &lt;-<span class="st"> </span>nfl_sample_<span class="dv">1</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb10-3" title="3">nfl_sample_<span class="dv">1</span>_avg</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   replicate   avg
+##       &lt;int&gt; &lt;dbl&gt;
+## 1         1  2.10</code></pre>
+<p>We can see that the average salary in our sample is <span class="math inline">\(\bar{x} =\)</span> 2.1 million dollars.</p>
+<p>The sample mean, 2.1, is close to the population mean, 2.24, however not exactly the same. We are not surprised of this result: we do not expect the mean of every sample to be exactly equal to the population mean, but we do hope that they are somewhat close.</p>
+<p><strong>Question 3.</strong></p>
+<p>Let’s take another random sample of size 50 and compute the sample mean salaries.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">nfl_sample_<span class="dv">2</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb12-3" title="3">nfl_sample_<span class="dv">2</span></a></code></pre></div>
+<pre><code>## # A tibble: 50 x 6
+## # Groups:   replicate [1]
+##    replicate Player           Position Team      TotalMoney YearlySalary
+##        &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;        &lt;dbl&gt;
+##  1         1 Trevor Scott     43DE     Bears          0.73         0.73 
+##  2         1 Scott Crichton   43DE     Vikings        3.02         0.755
+##  3         1 NaVorro Bowman   ILB      49ers         45.2          9.05 
+##  4         1 Brian Dixon      CB       Saints         1.53         0.51 
+##  5         1 Kyle Williams    WR       Broncos        0.745        0.745
+##  6         1 Tony Jefferson   S        Cardinals      1.50         0.498
+##  7         1 Anthony Hitchens 43OLB    Cowboys        2.66         0.664
+##  8         1 Cedric Ogbuehi   RT       Bengals        9.33         2.33 
+##  9         1 Jordan Poyer     CB       Browns         2.22         0.555
+## 10         1 Brent Celek      TE       Eagles        29.2          4.88 
+## # ... with 40 more rows</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">nfl_sample_<span class="dv">2</span>_avg &lt;-<span class="st"> </span>nfl_sample_<span class="dv">2</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb14-3" title="3">nfl_sample_<span class="dv">2</span>_avg</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   replicate   avg
+##       &lt;int&gt; &lt;dbl&gt;
+## 1         1  2.05</code></pre>
+<p>The statistic computed on the second sample is <span class="math inline">\(\bar{x} =\)</span> 2.05. Again, this is similar to the population parameter, <span class="math inline">\(\mu =\)</span> 2.24.
+We also note that the mean computed on the second sample is different from the mean computed on the first sample.</p>
+<p>We could also have immediately obtained two samples, each of size <span class="math inline">\(n = 50\)</span> units. This means that we repeat/replicate the activity of sampling 50 units twice. This is done in the function <code>rep_sample_n(size = 50)</code> by including the extra argument <code>reps = 2</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">nfl_samples &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">reps =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb16-3" title="3">nfl_samples</a></code></pre></div>
+<pre><code>## # A tibble: 100 x 6
+## # Groups:   replicate [2]
+##    replicate Player             Position Team       TotalMoney YearlySalary
+##        &lt;int&gt; &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;        &lt;dbl&gt;
+##  1         1 Andrew Luck        QB       Colts          38.3          7.65 
+##  2         1 Antonio Brown      WR       Steelers       42.0          8.39 
+##  3         1 Patrick Chung      S        Patriots        7.2          2.4  
+##  4         1 Chris Williams     LG       Bills          13.2          3.29 
+##  5         1 Chris Lewis-Harris CB       Bengals         0.585        0.585
+##  6         1 Lance Louis        RG       Colts           2.02         1.01 
+##  7         1 Adam Humphries     WR       Buccaneers      1.58         0.525
+##  8         1 Wade Keliikipi     DT       Eagles          1.58         0.525
+##  9         1 Dustin Colquitt    P        Chiefs         18.8          3.75 
+## 10         1 Tyronne Green      G        Panthers        0.745        0.745
+## # ... with 90 more rows</code></pre>
+<p>If you explore this tibble, it has <span class="math inline">\(50 \times 2 = 100\)</span> rows. The colum replicate takes value 1 for the first 50 rows, and the value 2 for the next 50 rows.
+This indicates that the players in rows 1 to 50 are selected to be in the first sample, while the players in rows 51 to 100 are those selected to be in the second sample.</p>
+<p>We can now compute the mean yearly salary for each of the two samples:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">nfl_avgs &lt;-<span class="st"> </span>nfl_samples <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb18-4" title="4">nfl_avgs</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   replicate   avg
+##       &lt;int&gt; &lt;dbl&gt;
+## 1         1  2.57
+## 2         2  2.19</code></pre>
+<p>We see that both are close to the population parameter which, we remind, is equal to 2.24.</p>
+<!-- We now plot the two sample means as black dots, and superimpose a vertical red line at the true population parameter: -->
+<!-- ```{r} -->
+<!-- ggplot(nfl_avgs, aes(x = avg)) + -->
+<!--   geom_dotplot(dotsize = 0.5) + -->
+<!--   geom_vline(xintercept = pull(nfl_avg, avg), color = "red") -->
+<!-- ``` -->
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
 </div>
 </div>
+<p>Clearly, we can now extend this repeated sampling procedure to more than just two samples of size = 50. Let us try to obtain 1000 repeated samples all of size 50 from the sample population.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">nfl_samples &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">reps =</span> <span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb20-3" title="3">nfl_samples</a></code></pre></div>
+<pre><code>## # A tibble: 50,000 x 6
+## # Groups:   replicate [1,000]
+##    replicate Player           Position Team       TotalMoney YearlySalary
+##        &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;        &lt;dbl&gt;
+##  1         1 Matthew Masifilo 43DE     Buccaneers      1.11         0.555
+##  2         1 Kyle Juszczyk    FB       Ravens          2.46         0.615
+##  3         1 Gabe Jackson     LG       Raiders         2.86         0.714
+##  4         1 Akeem Ayers      43OLB    Rams            6            3    
+##  5         1 Andy Mulumba     LB       Packers         1.49         0.497
+##  6         1 Corey Linsley    C        Packers         2.40         0.601
+##  7         1 Billy Turner     T        Dolphins        3.15         0.787
+##  8         1 Bennett Jackson  CB       Giants          0.435        0.435
+##  9         1 Chase Daniel     QB       Chiefs         10            3.33 
+## 10         1 Scott Lutrus     LB       Colts           1.40         0.465
+## # ... with 49,990 more rows</code></pre>
+<p>This tibble has <span class="math inline">\(50 \times 2000 = 100,000\)</span> rows. The first 50 players are part of the 1st sample, the next 50 belong to the 2nd sample, and so on…</p>
+<p>We can now compute the mean of each of the 2000 samples, obtaining a tibble of 2000 sample means:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">nfl_avgs &lt;-<span class="st"> </span>nfl_samples <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb22-4" title="4">nfl_avgs</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 2
+##    replicate   avg
+##        &lt;int&gt; &lt;dbl&gt;
+##  1         1  2.74
+##  2         2  1.69
+##  3         3  2.44
+##  4         4  2.29
+##  5         5  2.37
+##  6         6  2.63
+##  7         7  2.46
+##  8         8  1.99
+##  9         9  2.29
+## 10        10  2.28
+## # ... with 990 more rows</code></pre>
+<p>Let us plot the distribution of the sample mean for 2000 random samples:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">ggplot</span>(nfl_avgs, <span class="kw">aes</span>(<span class="dt">x =</span> avg)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">pull</span>(nfl_avg, avg), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<div class="figure"><span id="fig:sampling-distribution"></span>
+<img src="bookdown-demo_files/figure-html/sampling-distribution-1.png" alt="Sampling distribution of the mean" width="672" />
+<p class="caption">
+Figure 11.3: Sampling distribution of the mean
+</p>
+</div>
+<p>Figure <a href="sampling-distributions.html#fig:sampling-distribution">11.3</a> shows the values of the sample mean computed from sample to sample. Hence, it shows the variability of the sample mean induced by sampling variation.
+This plot is fundamental in statistical inference, and it is called <strong>sampling distribution</strong>. Each of these dots is one of the values in the column <code>avg</code> of the tibble <code>nfl_avgs</code>.</p>
+<div class="def">
+<h4 id="sampling-distribution-1" class="unnumbered">Sampling distribution</h4>
+<p>The <strong>sampling distribution</strong> shows the distribution of the statistic for different samples of the same size from the same population.</p>
+</div>
+<p>Clearly, we can compute sampling distributions for other statistics: the proportion, the standard deviation, …</p>
+<p>All this requires are the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Obtaining multiple samples, all of the same size, from the same population</li>
+<li>For each sample, calculate the value of the statistic</li>
+<li>Plot the distribution of the computed statistics</li>
+</ol>
+</div>
+<div id="the-typical-error-of-a-statistic" class="section level2">
+<h2><span class="header-section-number">11.5</span> The typical error of a statistic</h2>
+<p>The variability, or spread, of the sampling distribution shows how much the sample statistics tend to vary from sample to sample.
+This is key in understanding how accurate our estimate (best guess) of the population parameter, based on just one sample, will be.</p>
+<p>You already know how to compute the variability, using the standard deviation.
+So, the variability of the statistic can be quantified by calculating the standard deviation of its sampling distribution.</p>
+<p>This is not different from an ordinary standard deviation in terms of code and formulas, but the importance of this quantity led to giving it its own name: <strong>the standard error of the statistic</strong>.</p>
+<p>In other words, we use:</p>
+<ul>
+<li>standard deviation to denote the variability among the values in a particular sample</li>
+<li>standard error to denote the variability of the statistics computed on many samples</li>
+</ul>
+<div class="def">
+<h4 id="standard-error" class="unnumbered">Standard error</h4>
+<p>The <strong>standard error</strong> of a statistic is the standard deviation of its sampling distribution.</p>
+<p>It is denoted <span class="math inline">\(SE\)</span> and measures the <em>typical error</em> when estimating the population parameter with the sample statistic.</p>
+</div>
+<p>You can think of the SE as a typical distance from the population parameter.</p>
+</div>
+<div id="the-effect-of-sample-size-on-the-sampling-distribution" class="section level2">
+<h2><span class="header-section-number">11.6</span> The effect of sample size on the sampling distribution</h2>
+<p>It is of interest to see how the sampling distribution of the mean salary, shown in Figure <a href="sampling-distributions.html#fig:sampling-distribution">11.3</a> for a sample size <span class="math inline">\(n = 50\)</span>, changes with the sample size.</p>
+<p>In the following code chunk we compute the sampling distribution of the mean for samples of size <span class="math inline">\(n = 50,\ n = 200,\ n = 1000\)</span>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">means_n_<span class="dv">50</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sample_mean =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb26-5" title="5"></a>
+<a class="sourceLine" id="cb26-6" title="6">means_n_<span class="dv">100</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-7" title="7"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-8" title="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-9" title="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sample_mean =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb26-10" title="10"></a>
+<a class="sourceLine" id="cb26-11" title="11">means_n_<span class="dv">500</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-12" title="12"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">500</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-13" title="13"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-14" title="14"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sample_mean =</span> <span class="kw">mean</span>(YearlySalary))</a></code></pre></div>
+<p>We now combine the datasets for different sample sizes into a unique tibble, adding a column with the sample size, and then plot the distributions for different sample sizes:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">means_vary_n &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(</a>
+<a class="sourceLine" id="cb27-2" title="2">  means_n_<span class="dv">50</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">50</span>),</a>
+<a class="sourceLine" id="cb27-3" title="3">  means_n_<span class="dv">100</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb27-4" title="4">  means_n_<span class="dv">500</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">500</span>)</a>
+<a class="sourceLine" id="cb27-5" title="5">)</a>
+<a class="sourceLine" id="cb27-6" title="6"></a>
+<a class="sourceLine" id="cb27-7" title="7"><span class="kw">ggplot</span>(means_vary_n, <span class="kw">aes</span>(<span class="dt">x =</span> sample_mean)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-8" title="8"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-9" title="9"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">pull</span>(nfl_avg, avg), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-10" title="10"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(n), <span class="dt">labeller =</span> label_both)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<div class="figure"><span id="fig:sampling-distribution-vary-n"></span>
+<img src="bookdown-demo_files/figure-html/sampling-distribution-vary-n-1.png" alt="The effect of sample size on the sampling distribution" width="672" />
+<p class="caption">
+Figure 11.4: The effect of sample size on the sampling distribution
+</p>
+</div>
+<p>Figure <a href="sampling-distributions.html#fig:sampling-distribution-vary-n">11.4</a> shows that as the sample size increases, the variability of the sampling distributions decreases, hence <strong>the standard error of the statistic decreases as the sample size increases</strong>.</p>
+<p>We can create a tibble that shows, for each sample size, the standard error of the sample mean:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">means_vary_n <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(n) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">SE =</span> <span class="kw">sd</span>(sample_mean))</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##       n    SE
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1    50 0.414
+## 2   100 0.298
+## 3   500 0.123</code></pre>
+<p>As the sample size (<span class="math inline">\(n\)</span>) increases, the standard error (<span class="math inline">\(SE\)</span>) decreases.</p>
+<p>The larger the sample size, the lower the typical error of our best guess, and for every sample we will obtain a calculated statistic that is more similar to the population parameter (lower distance between the sample statistic and the parameter).
+Recall that for the NFL example, the population mean was 2.24.</p>
 </div>
 <div id="summary" class="section level2">
 <h2><span class="header-section-number">11.7</span> Summary</h2>
@@ -603,11 +864,11 @@ do this by hand, or in groups, or whatever.<br />
 
 
 
-
 <div class="footnotes">
 <hr />
-<ol start="3">
-<li id="fn3"><p>You might remember it from the cartoon Wile E. Coyote and the Road Runner.<a href="sampling-distributions.html#fnref3" class="footnote-back">↩</a></p></li>
+<ol start="1">
+<li id="fn1"><p>You might remember it from the cartoon Wile E. Coyote and the Road Runner.<a href="sampling-distributions.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Of course a population might change over time, and so you might wonder why did we say that a population parameter is fixed. Because of the large number of units in the entire population, it is reasonable to assume that the addition of comparatively few units to the entirety leads to a negligible change in the population parameter.<a href="sampling-distributions.html#fnref2" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
