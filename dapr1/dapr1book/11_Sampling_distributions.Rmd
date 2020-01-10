@@ -25,7 +25,7 @@ This week's reading is [Chapter 7](https://moderndive.com/7-sampling.html) of th
 
 ## Recap
 
-```{r data-analysis-pipeline, echo=FALSE, fig.align='center', out.width='75%', fig.cap='The data analysis pipeline'}
+```{r data-analysis-pipeline, echo=FALSE, fig.align='center', out.width='75%', fig.cap='The data analysis pipeline.'}
 knitr::include_graphics('https://d33wubrfki0l68.cloudfront.net/86cc45e87bb755a3bcecce462a6524e68d13a466/67469/images/r4ds/data_science_pipeline.png')
 ```
 
@@ -517,7 +517,7 @@ hollywood
 
 What is the population proportion of comedy movies?
 What is an estimate of the proportion of comedy movies using a sample of size 20?
-Using the appropriate notation, report your result in one or two sentences.
+Using the appropriate notation, report your results in one or two sentences.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -559,7 +559,7 @@ Compute the sampling distribution of the proportion of comedy movies for sample 
 
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-```{r}
+```{r fig.cap="Sampling distribution of the proportion for $n = 20$ with population parameter $p$ marked by a red vertical line."}
 sample_props <- hollywood %>%
   rep_sample_n(size = 20, reps = 1000) %>% 
   group_by(replicate) %>%
@@ -607,7 +607,7 @@ Compute the sampling distribution for the proportion of comedy movies using samp
 
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-```{r, fig.height=8, fig.align='center'}
+```{r, fig.height=8, fig.align='center', fig.cap="Three sampling distributions of the proportion, with population parameter $p$ marked by a vertical red line."}
 sample_props_20 <- hollywood %>%
   rep_sample_n(size = 20, reps = 1000) %>% 
   group_by(replicate) %>%
