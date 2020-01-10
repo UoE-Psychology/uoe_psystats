@@ -359,11 +359,11 @@ nfl_sample_means
 ```
 
 Let us plot the distribution of the sample mean for 2000 random samples, and superimpose in red the true value of the population parameter $\mu$:
-```{r sampling-distribution, fig.cap="Sampling distribution of the mean. The red vertical line shows the true population mean."}
+```{r sampling-distribution, fig.cap="Sampling distribution of the mean for $n = 50$ with population mean $\\mu$ marked by a red vertical line."}
 ggplot(nfl_sample_means, aes(x = avg)) +
   geom_histogram(color = "white") +
   geom_vline(xintercept = pull(nfl_mean, avg), color = "red", size = 1) +
-  labs(x = "sample_mean")
+  labs(x = expression(bar(x)))
 ```
 
 Figure \@ref(fig:sampling-distribution) shows the values of the sample mean computed from sample to sample. Hence, it shows the variability of the sample mean induced by sampling variation.
@@ -443,13 +443,12 @@ nfl_sample_means_n_500 <- nfl %>%
   rep_sample_n(size = 500, reps = 2000) %>%
   group_by(replicate) %>%
   summarise(avg = mean(YearlySalary))
-
-
 ```
 
 
-We now combine the datasets for different sample sizes into a unique tibble, adding a column with the sample size, and then plot the distributions for different sample sizes:
-```{r sampling-distribution-vary-n, fig.cap="The effect of sample size on the sampling distribution"}
+We now combine the datasets for different sample sizes into a unique tibble, adding a column with the sample size, and then plot the distributions for different sample sizes.
+Remember that `mutate()` takes a tibble and adds or changes a column. The function `bind_rows()` takes multiple tibbles and stacks them under each other.
+```{r sampling-distribution-vary-n, fig.height=8, fig.align='center', fig.cap="Three sampling distributions of the mean, with population mean $\\mu$ marked by a red vertical line."}
 nfl_sample_means_vary_n <- bind_rows(
   nfl_sample_means_n_50 %>% mutate(n = 50),
   nfl_sample_means_n_100 %>% mutate(n = 100),
@@ -459,7 +458,8 @@ nfl_sample_means_vary_n <- bind_rows(
 ggplot(nfl_sample_means_vary_n, aes(x = avg)) +
   geom_histogram(color = "white") +
   geom_vline(xintercept = pull(nfl_mean, avg), color = "red", size = 1) +
-  facet_grid(cols = vars(n), labeller = label_both)
+  facet_grid(rows = vars(n), labeller = label_both) +
+  labs(x = expression(bar(x)), title = "Distribution of the sample mean for samples of size 50, 100, 500")
 ```
 
 Figure \@ref(fig:sampling-distribution-vary-n) shows that as the sample size increases, the variability of the sampling distributions decreases, hence **the standard error of the statistic decreases as the sample size increases**.
@@ -473,30 +473,35 @@ nfl_sample_means_vary_n %>%
 
 As we discussed, the tibble shows that as the sample size $n$ increases, the standard error $SE$ decreases.
 
-The larger the sample size, the lower the typical error of our estimate, and for every sample we will obtain a calculated statistic that is more similar to the population parameter.
+The larger the sample size, the lower the typical error of our estimate will be, and for every sample we will obtain a calculated statistic that is more similar to the population parameter.
 
 
-## Exploration: Hollywood movies
+
+## Lab: Hollywood movies
 
 The following code chunk reads in data from over 900 Hollywood movies produced between 2007 and 2013. Consider it as the entire population of movies produced in Hollywood in that time period.
+
 ```{r, message=FALSE}
 hollywood <- read_tsv('https://edin.ac/2N9yHms')
 hollywood
 ```
 
-Among the variables, three will be of interest
+Among the recorded variables, three will be of interest
 
 - Movie: the movie title;
 - Genre: which genre the movie belongs to;
 - Budget: budget to produce the movie.
 
-`r msmbstyle::question_begin()`
-**Subsetting the tibble**
 
-Subset the tibble by keeping only those 3 variables and keep the movies for which we have all information (no missing entries):
+
+`r msmbstyle::question_begin()`
+**Extracting relevant variables**
+
+Extract from the `hollywood` tibble the 3 variables of interest and keep the movies for which we have all information (no missing entries).
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+We can extract variables using the function `select()`, while to keep the rows for which we have all measurements we use `na.omit()`:
 ```{r}
 hollywood <- hollywood %>%
   select(Movie, Genre, Budget) %>%
@@ -505,29 +510,33 @@ hollywood
 ```
 `r msmbstyle::solution_end()`
 
+
+
 `r msmbstyle::question_begin()`
 **Proportion of comedy movies**
 
 What is the population proportion of comedy movies?
-What is an estimate using a sample of size 20?
+What is an estimate of the proportion of comedy movies using a sample of size 20?
+Using the appropriate notation, report your result in one or two sentences.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 prop_comedy <- hollywood %>%
-  summarise(prop = mean(Genre == "Comedy")) %>%
+  summarise(prop = mean(Genre == "Comedy")) %>% 
   pull(prop)
 prop_comedy
 
 sample_prop_comedy <- hollywood %>%
   rep_sample_n(size = 20) %>%
-  summarise(prop = mean(Genre == 'Comedy')) %>%
+  summarise(prop = mean(Genre == "Comedy")) %>%
   pull(prop)
 sample_prop_comedy
 ```
 
 The population proportion of comedy movies is $p =$ `r prop_comedy %>% round(2)`, while the proportion of comedy movies in the sample is $\hat{p} =$ `r sample_prop_comedy %>% round(2)`.
 `r msmbstyle::solution_end()`
+
 
 
 `r msmbstyle::question_begin()`
@@ -558,11 +567,13 @@ sample_props <- hollywood %>%
 
 ggplot(sample_props, aes(x = prop)) +
   geom_histogram(color = 'white') +
-  geom_vline(xintercept = prop_comedy, color = 'red', size = 1)
+  geom_vline(xintercept = prop_comedy, color = 'red', size = 1) +
+  labs(x = expression(hat(p)))
 ```
 
 Yes, the distribution is almost bell-shaped and centred at the population parameter.
 `r msmbstyle::solution_end()`
+
 
 
 `r msmbstyle::question_begin()`
@@ -586,17 +597,17 @@ The standard error of the sample proportion for sample size $n = 20$, based on 1
 `r msmbstyle::solution_end()`
 
 
+
 `r msmbstyle::question_begin()`
 **The effect of sample size on the standard error of the sample proportion**
 
 How does the sample size affect the standard error of the sample proportion?
-Compute the sampling distribution for the proportion of Comedy movies using samples of size $n = 20$, $n = 50$, $n = 100$ respectively and 1000 replicated samples.
+Compute the sampling distribution for the proportion of comedy movies using samples of size $n = 20$, $n = 50$, $n = 200$ respectively and 1000 replicated samples.
 `r msmbstyle::question_end()`
 
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-
-```{r}
+```{r, fig.height=8, fig.align='center'}
 sample_props_20 <- hollywood %>%
   rep_sample_n(size = 20, reps = 1000) %>% 
   group_by(replicate) %>%
@@ -621,33 +632,40 @@ sample_props_vary_n <- bind_rows(
 ggplot(sample_props_vary_n, aes(x = prop)) +
   geom_histogram(color = 'white') +
   geom_vline(xintercept = prop_comedy, color = 'red', size = 1) +
-  facet_grid(cols = vars(n))
+  facet_grid(rows = vars(n), labeller = label_both) +
+  labs(x = expression(hat(p)), title = "Sampling distribution of the proportion for samples of size 20, 50, 200")
 ```
+
+From this plot we can see that, as the sample size increases, the standard error of the sample proportion decreases. Increasing the sample size, the spread of the statistic values is reduced.
 `r msmbstyle::solution_end()`
+
 
 
 `r msmbstyle::question_begin()`
 **Comparing the budget for action and comedy movies**
 
-What is the average budget (in millions of dollars) allocated for making action vs comedy movies? And the standard deviation?
+What is the population average budget (in millions of dollars) allocated for making action vs comedy movies? And the standard deviation?
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
-hollywood %>%
+budgets <- hollywood %>%
   filter(Genre == 'Action' | Genre == 'Comedy') %>%
   group_by(Genre) %>%
   summarise(avg_budget = mean(Budget),
             sd_budget = sd(Budget))
+budgets
 ```
 
-From the above tibble we see that action movies have been allocated a higher budget than comedy movies. At the same time, action movies have a higher variability of budgets around the mean value.
+From the above tibble we see that action movies have been allocated a higher budget ($\mu_{Action} =$ `r budgets$avg_budget[1] %>% round(1)`) than comedy movies ($\mu_{Comedy} =$ `r budgets$avg_budget[2] %>% round(1)`). At the same time, action movies have a higher variability of budgets around the mean value ($\sigma_{Action} =$ `r budgets$sd_budget[1] %>% round(1)` vs $\sigma_{Comedy} =$ `r budgets$sd_budget[2] %>% round(1)`).
 `r msmbstyle::solution_end()`
 
-`r msmbstyle::question_begin()`
-**Average difference in budget for action and comedy movies**
 
-Estimate the average difference in budget for action vs comedy movies, using a sample of size 100.
+
+`r msmbstyle::question_begin()`
+**Estimate the average difference in budget for action and comedy movies**
+
+Estimate the average difference in budget for action vs comedy movies, using a sample of size 100. How does it compare to the population difference?
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -658,16 +676,23 @@ sample_mean_budget <- hollywood %>%
   group_by(Genre) %>%
   summarise(avg_budget = mean(Budget))
 sample_mean_budget
+
+est_diff <- pull(sample_mean_budget, avg_budget)[1] - pull(sample_mean_budget, avg_budget)[2]
+est_diff
 ```
 
 The estimated difference in mean budget is $\bar{x}_{Action} - \bar{x}_{Comedy} =$ `r sample_mean_budget$avg_budget[1] %>% round(1)` - `r sample_mean_budget$avg_budget[2] %>% round(1)` = `r (sample_mean_budget$avg_budget[1] - sample_mean_budget$avg_budget[2]) %>% round(1)`.
+The population difference in budget can be calculated from the previous question, and is equal to $\mu_{Action} - \mu_{Comedy} =$ `r budgets$avg_budget[1] %>% round(1)` - `r budgets$avg_budget[2] %>% round(1)` = `r (budgets$avg_budget[1] - budgets$avg_budget[2]) %>% round(1)`.
+The two values are not exactly equal, as we have estimated the parameter with a sample of size 100.
 `r msmbstyle::solution_end()`
 
 
 
 ## Summary
 
-In Section \@ref(population-sample) we have reviewed the difference between a population parameter and a statistic computed on a sample [**LO1**]. Because of the sample selection criteria, which happens at random, the units included in the sample vary when the sampling procedure is repeated. The distribution of the values that a sample statistics takes on the different samples is called sampling distribution, and has been defined in Section \@ref(sec-sampling-distributions) [**LO2**]. The spread of a statistic gives an idea of how close our estimate of the unknown population parameter is to the population value. Hence, lower variability means better guesses. We quantified the variability of a sampling distribution with the standard error, and in Section \@ref(sample-size-standard-error) we saw that as the sample size increases, the standard error decreases [**LO3**].
+In Section \@ref(parameter-statistic) we have reviewed the difference between a population parameter and a statistic computed on a sample [**LO1**]. 
+Because of the sampling criteria, which select units at random, those included in the sample vary when the sampling procedure is repeated. 
+The distribution of the values that a sample statistics takes on the different samples is called sampling distribution, and has been defined in Section \@ref(sec-sampling-distributions) [**LO2**]. The spread of a statistic gives an idea of how close our estimate of the unknown population parameter is to the population value. Hence, lower variability means a better guess. We quantified the variability of a statistic with its standard error, defined as the standard deviation of the statistic's sampling distribution, and in Section \@ref(sample-size-standard-error) we saw that as the sample size increases, the standard error decreases [**LO3**].
 
 
 
