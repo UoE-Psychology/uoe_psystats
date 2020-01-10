@@ -5,8 +5,7 @@ set.seed(1)
 
 
 
-# Sampling distributions
-
+# Sampling distributions {#chap-sampling-distributions}
 
 <div class = "lo">
 #### Learning outcomes {-}
@@ -24,12 +23,11 @@ This week's reading is [Chapter 7](https://moderndive.com/7-sampling.html).
 
 ## Recap
 
-
 ```{r data-analysis-pipeline, echo=FALSE, fig.align='center', out.width='75%', fig.cap='The data analysis pipeline'}
 knitr::include_graphics('https://d33wubrfki0l68.cloudfront.net/86cc45e87bb755a3bcecce462a6524e68d13a466/67469/images/r4ds/data_science_pipeline.png')
 ```
 
-In Semester 1 (Weeks 1-10), we started walking through the required steps of a statistical investigation, conveniently summarized in Figure \@ref(fig:data-analysis-pipeline).
+In Semester 1 (weeks 1-10), we started walking through the required steps of a statistical investigation, conveniently summarized in Figure \@ref(fig:data-analysis-pipeline).
 
 Suppose that you are interested in a research question that can be answered by collecting data on some statistical units. 
 Once collected, you (a) import/load the data into R; 
@@ -39,24 +37,25 @@ Once collected, you (a) import/load the data into R;
 (e) fit statistical models to the data; and 
 (f) communicate your results and conclusions to the wider community.
 
-*Note.* The inner cycle (c-d-e) might need to be re-iterated a few times.
+`r msmbstyle::question_begin(header = "&#x25BA; Note")`
+The inner cycle (c-d-e) might need to be re-iterated a few times.
+`r msmbstyle::question_end()`
 
-
-In the first semester we saw
+In the first semester we saw:
 
 (a) how to import data into R;
-(b) how to tidy datasets (for example by making sure some variables are factors);
-(c) how to transform variables (e.g. standardization via `scale()`, log-transforming data, ...).
+(b) how to tidy datasets (for example by making sure that some variables are factors);
+(c) how to transform variables (e.g. standardizing via `scale()`, log-transforming data, ...).
 (d) how to visualise the data using the `ggplot2` package.
 
-In this semester we will focus on 
+In this semester we will focus on
 
 (e) modelling, and 
 (f) communicating our findings to the wider community.
 
 
 
-## Population and samples {#population-sample}
+## Population vs sample {#population-sample}
 
 Typically, it is either infeasible in terms of time or cost to perform an exhaustive data collection on the entire population of interest (also known as **census**).
 To save time and money, we typically record the variables of interest on a smaller subset of the entire population, also known as a **sample**.
@@ -64,7 +63,9 @@ In order to make sure that any conclusions we draw from the sample are **general
 This avoids **representation bias**, where some units are less represented than others, which would lead to wrong conclusions for the entire population.
 
 `r msmbstyle::question_begin(header = "&#x25BA; Example")`
-Suppose you are interested in the average salary of people working in Sweden. Unfortunately, you neither have the time nor the money to go to Sweden and ask each single person his/her own salary.
+**Average montly salary in Sweden**
+
+Suppose you are interested in the average monthly salary of people working in Sweden. Unfortunately, you neither have the time nor the money to go to Sweden and ask each single person his/her own salary.
 Hence, you decide to ask some people at random.
 
 What are the problems of the following sample selection criteria?
@@ -76,12 +77,12 @@ What are the problems of the following sample selection criteria?
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=FALSE, toggle=FALSE)`
-All four criteria lead to samples that are not representative of the entire population. This is because some people will have higher chance of being included in the sample than others, leading to representation bias. Because of this, the statistic computed from the sample (sample mean) is not generalizable from the whole population.
+All four criteria lead to samples that are not representative of the entire population. This is because some people will have higher chance of being included in the sample than others, leading to representation bias. Because of this, any conclusion we might make from the sample is not generalizable from the whole population.
 
 1. People that do not have Facebook are not considered in the sample.
 2. People that do not use internet are not represented.
 3. People without a landline phone are not included.
-4. The people working around this area will very likely have higher salaries than the rest of the country. This sample does not represent people working in farming or other sectors.
+4. People working in this area will very likely have higher salaries than the rest of the country. This sample does not represent fairly people working in farming or other sectors.
 `r msmbstyle::solution_end()`
 
 
@@ -107,7 +108,7 @@ Any sample selection method that is biased, i.e. leading to samples which are no
 `r msmbstyle::question_end()`
 
 
-## Population parameter and sample statistic
+## Population parameter vs sample statistic {#parameter-statistic}
 
 To make it easier to understand whether we are referring to the entire population or a sample, we use the term *parameter* when referring to a numerical summary of the entire population, and the term *statistic* for a numerical summary of the sample.
 
@@ -118,11 +119,12 @@ To make it easier to understand whether we are referring to the entire populatio
 - A **statistic** is a number that is computed from the data in a sample.
 </div>
 
-For example, suppose we want to gain more insight into the salaries of Acme Corporation.^[You might remember it from the cartoon Wile E. Coyote and the Road Runner.] We are interested in multiple aspects of the population, in particular: what is the average salary and how variable are the values around the mean salary?
+For example, suppose we want to gain more insight into the age of the employees of Acme Corporation.^[You might remember it from the cartoon Wile E. Coyote and the Road Runner.] 
+We are interested in multiple aspects of the population, in particular: what is the mean age and how different are the ages of the employees?
 
-After selecting at random, say, 500 employees from the entire company, we record for each employee the corresponding salary.
-The population parameters are the mean salary and the standard deviation for the entire employees of Acme Corporation and are not known to us as we did not perform an exhaustive census.
-The statistics are the mean salary and standard deviation computed from the salaries of the 500 people in the sample.
+After selecting at random, say, 100 employees from the entire company, we record for each employee the corresponding age.
+The population parameters are the mean age and standard deviation for all employees, and these quantities are not known to us because we did not perform an exhaustive census.
+The statistics are the mean age and standard deviation computed from the ages of the 100 people in the sample.
 
 From this example, you can see that the population parameter and the sample statistic generally have the same name.
 However, these are often written with different symbols to convey with just one letter:
@@ -139,7 +141,7 @@ The following table summarizes standard notation for some population parameters,
 |Standard deviation | $\sigma$               | $s$ or $\hat{\sigma}$    |
 |Proportion         | $p$                    | $\hat{p}$                |
 
-Table: Common parameters and statistics.
+Table: Notation for common parameters and statistics.
 
 
 The greek letter $\mu$ (mu) is used as a parameter to denote the population mean/average, while $\bar{x}$ or $\hat{\mu}$ (mu-hat) as a statistic for the mean computed on a sample.
@@ -167,13 +169,13 @@ Instead, we typically select a random sample from the population, and then compu
 We then use this sample statistic as a *(point) estimate* or *best guess* of the population parameter.
 
 
-## Sampling distribution
+## Sampling distributions {#sec-sampling-distributions}
 
 A parameter is typically considered to be a fixed value, while a statistic varies from sample to sample, depending on which units are selected to enter the sample.
 The fact that a sample statistic, i.e. a quantity computed on a sample, varies from sample to sample can be seen as a downside to sampling. 
 However, we must remember that a population parameter (while being fixed) is generally unknown. On the contrary, we can compute the statistic for a sample.
 
-A fundamental question that arises when we estimate an unknown population parameter by a sample statistic is: "how accurate do we believe our best guess to be?".
+A fundamental question that arises when we estimate an unknown population parameter by a sample statistic is: how accurate do we believe our best guess to be?
 
 Rememebering that the parameter is fixed, while the statistics varies from sample to sample, we might proceed in answering this question by looking at how the computed statistic varies depending on the sample.
 
@@ -181,38 +183,44 @@ Rememebering that the parameter is fixed, while the statistics varies from sampl
 `r msmbstyle::question_begin(header = "&#x25BA; Example")`
 **Average yearly salary of the American National Football League (NFL) players**
 
-We will now read a file containing the yearly salaries (in millions of dollars) for all players being paid, at the start of 2015, by a National Football League (NFL) team.
-This entire dataset represents the population of all National Football League players in 2015.^[Of course a population might change over time, and so you might wonder why did we say that a population parameter is fixed. Because of the large number of units in the entire population, it is reasonable to assume that the addition of comparatively few units to the entirety leads to a negligible change in the population parameter.]
+We will read a file containing the yearly salaries (in millions of dollars) for all players being paid at the start of 2015 by a National Football League (NFL) team.
+This entire dataset represents the population of all National Football League players in 2015.^[Of course a population might change over time, as people can enter or leave at any time, so you might wonder why did we say that a population parameter is fixed. Because of the large number of units in the entire population, it is reasonable to assume that the addition of comparatively few units to the entirety leads to a negligible change in the population parameter.]
 
 We are interested in the following research question: what is the average salary of a NFL player in 2015?
 
 1. Read in the data and state, with appropriate notation, what is the population parameter.
-2. Select a random sample of 50 players and compute the average yearly salary for the players in the sample. How does your statistic compare to the parameter?
-3. Take another sample of size $n = 50$ players and compute the average salary for this new sample. How does it compare with the mean for the previous sample?
+2. Select a random sample of $n = 50$ players and compute the average yearly salary for the players in the sample. How does your statistic compare to the population parameter?
+3. Take another sample of size $n = 50$ players and compute the average salary for the new sample. How does it compare with the mean from the previous sample?
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=FALSE, toggle=FALSE)`
 **Question 1.**
 
+Let us start by loading the data and inspecting the initial rows of the tibble as well as the dimensions:
 ```{r, message=FALSE}
 library(tidyverse)
+
 nfl <- read_tsv('https://edin.ac/2TexAFA')
 head(nfl)
 dim(nfl)
 ```
 
+The data comprise 5 measurements on 2099 units. We have data on the player's name, position, the team name, the total money they received while playing on the NFL (cumulative over multiple years) and the yearly salary.
+
+We now calculate the mean for all players:
 ```{r}
-nfl_avg <- nfl %>%
+nfl_mean <- nfl %>%
   summarise(avg = mean(YearlySalary))
-nfl_avg
+
+nfl_mean
 ```
 
-The population parameter is the average yearly salary in 2015, which is $\mu =$ `r nfl_avg %>% pull(avg) %>% round(2)`.
+The population parameter is the average yearly salary in 2015, $\mu =$ `r nfl_mean %>% pull(avg) %>% round(2)`.
 
 
 **Question 2.**
 
-In order to randomly sample players, we will use a package called `moderndive`. If you do not have it installed, run the following command:
+In order to randomly sample players, we will use the package `moderndive`. If you do not have it installed, run the following command:
 
 ```{r, eval=FALSE}
 install.packages("moderndive")
@@ -228,44 +236,48 @@ nfl_sample_1 <- nfl %>%
 nfl_sample_1
 ```
 
-The command `head` shows the first six rows. We can see the names of the players which were included in the sample. The extra column at the beginning is equal to 1 for all cases in the sample. This indicates that these 50 rows are all part of our first sample.
+This returns a tibble of size $50 \times 6$. The second column shows the names of the players included in the sample. The additional first column is equal to 1 for all cases in the sample. This indicates that the 50 rows all belong to the first sample.
 
-Let's now compute the average salary in this sample:
-
+Let's now compute the average salary for the players in the sample:
 ```{r}
-nfl_sample_1_avg <- nfl_sample_1 %>%
+nfl_sample_1_mean <- nfl_sample_1 %>%
   summarise(avg = mean(YearlySalary))
-nfl_sample_1_avg
+
+nfl_sample_1_mean
 ```
 
-We can see that the average salary in our sample is $\bar{x} =$ `r nfl_sample_1_avg %>% pull(avg) %>% round(2)` million dollars.
+We can see that the average salary in our sample is $\bar{x} =$ `r nfl_sample_1_mean %>% pull(avg) %>% round(2)` million dollars.
 
-The sample mean, `r nfl_sample_1_avg %>% pull(avg) %>% round(2)`, is close to the population mean, `r nfl_avg %>% pull(avg) %>% round(2)`, however not exactly the same. We are not surprised of this result: we do not expect the mean of every sample to be exactly equal to the population mean, but we do hope that they are somewhat close.
+The sample mean, `r nfl_sample_1_mean %>% pull(avg) %>% round(2)`, is close to the population mean, `r nfl_mean %>% pull(avg) %>% round(2)`, even if not exactly the same. We are not surprised of this result: we do not expect the mean of every sample to be exactly equal to the population mean, but we do hope that they are somewhat close.
 
 
 **Question 3.**
 
-Let's take another random sample of size 50 and compute the sample mean salaries.
+Let's take another random sample of size 50 and compute the mean salary:
 ```{r}
 nfl_sample_2 <- nfl %>%
   rep_sample_n(size = 50)
+
 nfl_sample_2
 ```
 
 ```{r}
-nfl_sample_2_avg <- nfl_sample_2 %>%
+nfl_sample_2_mean <- nfl_sample_2 %>%
   summarise(avg = mean(YearlySalary))
-nfl_sample_2_avg
+
+nfl_sample_2_mean
 ```
 
-The statistic computed on the second sample is $\bar{x} =$ `r nfl_sample_2_avg %>% pull(avg) %>% round(2)`. Again, this is similar to the population parameter, $\mu =$ `r nfl_avg %>% pull(avg) %>% round(2)`.
+The statistic computed on the second sample is $\bar{x} =$ `r nfl_sample_2_mean %>% pull(avg) %>% round(2)`. Again, this is similar to the population parameter, $\mu =$ `r nfl_mean %>% pull(avg) %>% round(2)`.
 We also note that the mean computed on the second sample is different from the mean computed on the first sample.
 
-We could also have immediately obtained two samples, each of size $n = 50$ units. This means that we repeat/replicate the activity of sampling 50 units twice. This is done in the function `rep_sample_n(size = 50)` by including the extra argument `reps = 2`:
+We could have immediately obtained two samples, each of size $n = 50$ units. This requires that we repeat/replicate two times the activity of sampling 50 units. 
+This is done in the function `rep_sample_n(size = 50)` by including the extra argument `reps = 2`:
 
 ```{r}
 nfl_samples <- nfl %>%
   rep_sample_n(size = 50, reps = 2)
+
 nfl_samples
 ```
 
@@ -273,52 +285,49 @@ If you explore this tibble, it has $50 \times 2 = 100$ rows. The colum replicate
 This indicates that the players in rows 1 to 50 are selected to be in the first sample, while the players in rows 51 to 100 are those selected to be in the second sample.
 
 We can now compute the mean yearly salary for each of the two samples:
-
 ```{r}
-nfl_avgs <- nfl_samples %>%
+nfl_sample_means <- nfl_samples %>%
   group_by(replicate) %>%
   summarise(avg = mean(YearlySalary))
-nfl_avgs
+
+nfl_sample_means
 ```
 
-We see that both are close to the population parameter which, we remind, is equal to `r nfl_avg %>% pull(avg) %>% round(2)`.
-
-<!-- We now plot the two sample means as black dots, and superimpose a vertical red line at the true population parameter: -->
-<!-- ```{r} -->
-<!-- ggplot(nfl_avgs, aes(x = avg)) + -->
-<!--   geom_dotplot(dotsize = 0.5) + -->
-<!--   geom_vline(xintercept = pull(nfl_avg, avg), color = "red") -->
-<!-- ``` -->
+We see that both are close to the population parameter which, we remind, is equal to `r nfl_mean %>% pull(avg) %>% round(2)`.
 `r msmbstyle::solution_end()`
 
 
-Clearly, we can now extend this repeated sampling procedure to more than just two samples of size = 50. Let us try to obtain 1000 repeated samples all of size 50 from the sample population.
+
+Clearly, we can extend the repeated sampling procedure to more than just two samples of size = 50.
+Let us now obtain 2000 replicated samples, all of size 50, from the same NFL population.
 
 ```{r}
 nfl_samples <- nfl %>%
-  rep_sample_n(size = 50, reps = 1000)
+  rep_sample_n(size = 50, reps = 2000)
+
 nfl_samples
 ```
 
 This tibble has $50 \times 2000 = 100,000$ rows. The first 50 players are part of the 1st sample, the next 50 belong to the 2nd sample, and so on...
 
-We can now compute the mean of each of the 2000 samples, obtaining a tibble of 2000 sample means:
+We can now compute the mean of each of the 2000 samples of size 50, obtaining a tibble of 2000 sample means:
 ```{r}
-nfl_avgs <- nfl_samples %>%
+nfl_sample_means <- nfl_samples %>%
   group_by(replicate) %>%
   summarise(avg = mean(YearlySalary))
-nfl_avgs
+
+nfl_sample_means
 ```
 
 Let us plot the distribution of the sample mean for 2000 random samples:
 ```{r sampling-distribution, fig.cap="Sampling distribution of the mean"}
-ggplot(nfl_avgs, aes(x = avg)) +
+ggplot(nfl_sample_means, aes(x = avg)) +
   geom_histogram(color = "white") +
-  geom_vline(xintercept = pull(nfl_avg, avg), color = "red", size = 1)
+  geom_vline(xintercept = pull(nfl_mean, avg), color = "red", size = 1)
 ```
 
 Figure \@ref(fig:sampling-distribution) shows the values of the sample mean computed from sample to sample. Hence, it shows the variability of the sample mean induced by sampling variation.
-This plot is fundamental in statistical inference, and it is called **sampling distribution**. Each of these dots is one of the values in the column `avg` of the tibble `nfl_avgs`.
+Such a plot is fundamental in statistical inference, and it is called **sampling distribution**. Each of these dots is one of the sample means in the tibble `nfl_sample_means`.
 
 <div class = "def">
 #### Sampling distribution {-}
@@ -326,25 +335,25 @@ This plot is fundamental in statistical inference, and it is called **sampling d
 The **sampling distribution** shows the distribution of the statistic for different samples of the same size from the same population.
 </div>
 
-Clearly, we can compute sampling distributions for other statistics: the proportion, the standard deviation, ...
+Clearly, we can compute sampling distributions for other statistics too: the proportion, the standard deviation, ...
 
-All this requires are the following steps:
+This requires the following steps:
 
-1. Obtaining multiple samples, all of the same size, from the same population
-2. For each sample, calculate the value of the statistic
-3. Plot the distribution of the computed statistics
+1. Obtaining multiple samples, all of the same size, from the same population;
+2. For each sample, calculate the value of the statistic;
+3. Plot the distribution of the computed statistics.
 
 
 
-## The typical error of a statistic
+## The standard error of a statistic {#standard-error}
 
 The variability, or spread, of the sampling distribution shows how much the sample statistics tend to vary from sample to sample.
-This is key in understanding how accurate our estimate (best guess) of the population parameter, based on just one sample, will be.
+This is key in understanding how accurate our estimate of the population parameter, based on just one sample, will be.
 
-You already know how to compute the variability, using the standard deviation.
-So, the variability of the statistic can be quantified by calculating the standard deviation of its sampling distribution.
+In Semester 1 you saw how to summarize the variability of data using the standard deviation: `sd()`.
+So, the variability of a statistic can be quantified by calculating the standard deviation of its sampling distribution.
 
-This is not different from an ordinary standard deviation in terms of code and formulas, but the importance of this quantity led to giving it its own name: **the standard error of the statistic**.
+Technically, this is not different from an ordinary standard deviation as the code and formula is the same. However, the spread of a sample statistic is so fundamental to have its own name: **the standard error of the statistic**.
 
 In other words, we use:
 
@@ -355,16 +364,13 @@ In other words, we use:
 <div class = "def">
 #### Standard error {-}
 
-The **standard error** of a statistic is the standard deviation of its sampling distribution.
-
-It is denoted $SE$ and measures the *typical error* when estimating the population parameter with the sample statistic.
+The **standard error** of a statistic, denoted $SE$, is the standard deviation of its sampling distribution.
 </div>
 
-You can think of the SE as a typical distance from the population parameter.
+The standard error measures the *typical error* when estimating the population parameter with the sample statistic. You can think of the SE as a "typical distance" from the population parameter.
 
 
-## The effect of sample size on the sampling distribution
-
+## The effect of sample size on the sampling distribution {#sample-size-standard-error}
 
 It is of interest to see how the sampling distribution of the mean salary, shown in Figure \@ref(fig:sampling-distribution) for a sample size $n = 50$, changes with the sample size.
 
@@ -372,20 +378,20 @@ It is of interest to see how the sampling distribution of the mean salary, shown
 In the following code chunk we compute the sampling distribution of the mean for samples of size $n = 50,\ n = 200,\ n = 1000$.
 
 ```{r}
-means_n_50 <- nfl %>%
-  rep_sample_n(size = 50, reps = 1000) %>%
+nfl_sample_means_n_50 <- nfl %>%
+  rep_sample_n(size = 50, reps = 2000) %>%
   group_by(replicate) %>%
-  summarise(sample_mean = mean(YearlySalary))
+  summarise(avg = mean(YearlySalary))
 
-means_n_100 <- nfl %>%
-  rep_sample_n(size = 100, reps = 1000) %>%
+nfl_sample_means_n_100 <- nfl %>%
+  rep_sample_n(size = 100, reps = 2000) %>%
   group_by(replicate) %>%
-  summarise(sample_mean = mean(YearlySalary))
+  summarise(avg = mean(YearlySalary))
 
-means_n_500 <- nfl %>%
-  rep_sample_n(size = 500, reps = 1000) %>%
+nfl_sample_means_n_500 <- nfl %>%
+  rep_sample_n(size = 500, reps = 2000) %>%
   group_by(replicate) %>%
-  summarise(sample_mean = mean(YearlySalary))
+  summarise(avg = mean(YearlySalary))
 
 
 ```
@@ -393,15 +399,15 @@ means_n_500 <- nfl %>%
 
 We now combine the datasets for different sample sizes into a unique tibble, adding a column with the sample size, and then plot the distributions for different sample sizes:
 ```{r sampling-distribution-vary-n, fig.cap="The effect of sample size on the sampling distribution"}
-means_vary_n <- bind_rows(
-  means_n_50 %>% mutate(n = 50),
-  means_n_100 %>% mutate(n = 100),
-  means_n_500 %>% mutate(n = 500)
+nfl_sample_means_vary_n <- bind_rows(
+  nfl_sample_means_n_50 %>% mutate(n = 50),
+  nfl_sample_means_n_100 %>% mutate(n = 100),
+  nfl_sample_means_n_500 %>% mutate(n = 500)
 )
 
-ggplot(means_vary_n, aes(x = sample_mean)) +
+ggplot(nfl_sample_means_vary_n, aes(x = avg)) +
   geom_histogram(color = "white") +
-  geom_vline(xintercept = pull(nfl_avg, avg), color = "red", size = 1) +
+  geom_vline(xintercept = pull(nfl_mean, avg), color = "red", size = 1) +
   facet_grid(cols = vars(n), labeller = label_both)
 ```
 
@@ -409,17 +415,216 @@ Figure \@ref(fig:sampling-distribution-vary-n) shows that as the sample size inc
 
 We can create a tibble that shows, for each sample size, the standard error of the sample mean:
 ```{r}
-means_vary_n %>%
+nfl_sample_means_vary_n %>%
   group_by(n) %>%
-  summarise(SE = sd(sample_mean))
+  summarise(SE = sd(avg))
 ```
 
-As the sample size ($n$) increases, the standard error ($SE$) decreases.
+As we discussed, the tibble shows that as the sample size $n$ increases, the standard error $SE$ decreases.
 
-The larger the sample size, the lower the typical error of our best guess, and for every sample we will obtain a calculated statistic that is more similar to the population parameter (lower distance between the sample statistic and the parameter).
-Recall that for the NFL example, the population mean was `r nfl_avg %>% pull(avg) %>% round(2)`.
+The larger the sample size, the lower the typical error of our estimate, and for every sample we will obtain a calculated statistic that is more similar to the population parameter.
+
+
+## Practice: Hollywood movies
+
+The following code chunk reads in data from over 900 Hollywood movies produced between 2007 and 2013. Consider it as the entire population of movies produced in Hollywood in that time period.
+```{r, message=FALSE}
+hollywood <- read_tsv('https://edin.ac/2N9yHms')
+hollywood
+```
+
+Among the variables, three will be of interest
+
+- Movie: the movie title;
+- Genre: which genre the movie belongs to;
+- Budget: budget to produce the movie.
+
+`r msmbstyle::question_begin()`
+**Subsetting the tibble**
+
+Subset the tibble by keeping only those 3 variables and keep the movies for which we have all information (no missing entries):
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
+hollywood <- hollywood %>%
+  select(Movie, Genre, Budget) %>%
+  na.omit
+hollywood
+```
+`r msmbstyle::solution_end()`
+
+`r msmbstyle::question_begin()`
+**Proportion of comedy movies**
+
+What is the population proportion of comedy movies?
+What is an estimate using a sample of size 20?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
+prop_comedy <- hollywood %>%
+  summarise(prop = mean(Genre == "Comedy")) %>%
+  pull(prop)
+prop_comedy
+
+sample_prop_comedy <- hollywood %>%
+  rep_sample_n(size = 20) %>%
+  summarise(prop = mean(Genre == 'Comedy')) %>%
+  pull(prop)
+sample_prop_comedy
+```
+
+The population proportion of comedy movies is $p =$ `r prop_comedy %>% round(2)`, while the proportion of comedy movies in the sample is $\hat{p} =$ `r sample_prop_comedy %>% round(2)`.
+`r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin()`
+**Sampling distributions**
+
+What is a sampling distribution?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+The sampling distribution is the distribution of the values that a statistic takes on different samples of the same size and from the same population.
+`r msmbstyle::solution_end()`
+
+
+
+`r msmbstyle::question_begin()`
+**Sampling distribution of the proportion**
+
+Compute the sampling distribution of the proportion of comedy movies for sample size $n = 20$, using 1000 replicates. Is it centred at the population value?
+`r msmbstyle::question_end()`
+
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
+sample_props <- hollywood %>%
+  rep_sample_n(size = 20, reps = 1000) %>% 
+  group_by(replicate) %>%
+  summarise(prop = mean(Genre == 'Comedy'))
+
+ggplot(sample_props, aes(x = prop)) +
+  geom_histogram(color = 'white') +
+  geom_vline(xintercept = prop_comedy, color = 'red', size = 1)
+```
+
+Yes, the distribution is almost bell-shaped and centred at the population parameter.
+`r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin()`
+**Standard error**
+
+Using the replicated samples from the previous question, what is the standard error of the sample proportion of comedy movies?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+
+The standard error of the sample proportion is simply the standard deviation of the distribution of sample proportions for many samples. Since we have already obtained the proportions for 1000 samples in the previous question, we just have to compute their variability using the standard deviation:
+```{r}
+se_prop <- sample_props %>%
+  summarise(SE = sd(prop)) %>% 
+  pull(SE)
+
+se_prop
+```
+
+The standard error of the sample proportion for sample size $n = 20$, based on 1000 replicated samples, is $SE(\hat{p}) =$ `r se_prop %>% round(2)`.
+`r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin()`
+**The effect of sample size on the standard error of the sample proportion**
+
+How does the sample size affect the standard error of the sample proportion?
+Compute the sampling distribution for the proportion of Comedy movies using samples of size $n = 20$, $n = 50$, $n = 100$ respectively and 1000 replicated samples.
+`r msmbstyle::question_end()`
+
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+
+```{r}
+sample_props_20 <- hollywood %>%
+  rep_sample_n(size = 20, reps = 1000) %>% 
+  group_by(replicate) %>%
+  summarise(prop = mean(Genre == 'Comedy'))
+
+sample_props_50 <- hollywood %>%
+  rep_sample_n(size = 50, reps = 1000) %>% 
+  group_by(replicate) %>%
+  summarise(prop = mean(Genre == 'Comedy'))
+
+sample_props_200 <- hollywood %>%
+  rep_sample_n(size = 200, reps = 1000) %>% 
+  group_by(replicate) %>%
+  summarise(prop = mean(Genre == 'Comedy'))
+
+sample_props_vary_n <- bind_rows(
+  sample_props_20 %>% mutate(n = 20),
+  sample_props_50 %>% mutate(n = 50),
+  sample_props_200 %>% mutate(n = 200)
+)
+
+ggplot(sample_props_vary_n, aes(x = prop)) +
+  geom_histogram(color = 'white') +
+  geom_vline(xintercept = prop_comedy, color = 'red', size = 1) +
+  facet_grid(cols = vars(n))
+```
+`r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin()`
+**Comparing the budget for action and comedy movies**
+
+What is the average budget (in millions of dollars) allocated for making action vs comedy movies? And the standard deviation?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
+hollywood %>%
+  filter(Genre == 'Action' | Genre == 'Comedy') %>%
+  group_by(Genre) %>%
+  summarise(avg_budget = mean(Budget),
+            sd_budget = sd(Budget))
+```
+
+From the above tibble we see that action movies have been allocated a higher budget than comedy movies. At the same time, action movies have a higher variability of budgets around the mean value.
+`r msmbstyle::solution_end()`
+
+`r msmbstyle::question_begin()`
+**Average difference in budget for action and comedy movies**
+
+Estimate the average difference in budget for action vs comedy movies, using a sample of size 100.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r}
+sample_mean_budget <- hollywood %>%
+  filter(Genre == 'Action' | Genre == 'Comedy') %>%
+  rep_sample_n(size = 100) %>%
+  group_by(Genre) %>%
+  summarise(avg_budget = mean(Budget))
+sample_mean_budget
+```
+
+The estimated difference in mean budget is $\hat{x}_{Action} - \hat{x}_{Comedy} =$ `r sample_mean_budget$avg_budget[1] %>% round(2)` - `r sample_mean_budget$avg_budget[2] %>% round(2)` = `r (sample_mean_budget$avg_budget[1] - sample_mean_budget$avg_budget[2]) %>% round(2)`.
+`r msmbstyle::solution_end()`
+
 
 
 ## Summary
 
-We revised [LO1](#w11-lo1) in Section \@ref(population-sample)
+In Section \@ref(population-sample) we have reviewed the difference between a population parameter and a statistic computed on a sample [**LO1**]. Because of the sample selection criteria, which happens at random, the units included in the sample vary when the sampling procedure is repeated. The distribution of the values that a sample statistics takes on the different samples is called sampling distribution, and has been defined in Section \@ref(sec-sampling-distributions) [**LO2**]. The spread of a statistic gives an idea of how close our estimate of the unknown population parameter is to the population value. Hence, lower variability means better guesses. We quantified the variability of a sampling distribution with the standard error, and in Section \@ref(sample-size-standard-error) we saw that as the sample size increases, the standard error decreases [**LO3**].
+
+
+
+## Glossary
+
+- *Statistical inference.* The process of drawing conclusions about the population from the data collected in a sample.
+- *Parameter.* A fixed but typically unknown quantity describing the population.
+- *Statistic.* A quantity computed on a sample.
+- *Sampling distribution.* The distribution of the values that a statistic takes on different samples of the same size and from the same population.
+- *Standard error.* The standard error of a statistic is the standard deviation of the sampling distribution of the statistic.
+

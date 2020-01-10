@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 Sampling distributions | Data Analysis for Psychology in R (dapR1) - Labs</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 Sampling distributions | Data Analysis for Psychology in R (dapR1) - Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Sampling distributions | Data Analysis for Psychology in R (dapR1) - Labs" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="week-10.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">DAPR1</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>1</b> Week 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="week-1.html"><a href="week-1.html#introduction-to-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="week-1.html"><a href="week-1.html#install-the-recent-version-of-r-and-r-studio"><i class="fa fa-check"></i><b>1.2</b> Install the recent version of R and R Studio</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1.html"><a href="week-1.html#first-step"><i class="fa fa-check"></i><b>1.2.1</b> First Step</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1.html"><a href="week-1.html#second-step"><i class="fa fa-check"></i><b>1.2.2</b> Second Step</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1.html"><a href="week-1.html#getting-started-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Getting Started in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="week-1.html"><a href="week-1.html#r-as-an-interactive-environment"><i class="fa fa-check"></i><b>1.4</b> R as an interactive environment</a></li>
+<li class="chapter" data-level="1.5" data-path="week-1.html"><a href="week-1.html#check-your-settings"><i class="fa fa-check"></i><b>1.5</b> Check your settings</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="week-1.html"><a href="week-1.html#disable-automatic-saving-of-your-workspace"><i class="fa fa-check"></i><b>1.5.1</b> Disable automatic saving of your workspace</a></li>
+<li class="chapter" data-level="1.5.2" data-path="week-1.html"><a href="week-1.html#adjust-fontscolours-if-you-like"><i class="fa fa-check"></i><b>1.5.2</b> Adjust fonts/colours if you like</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="week-1.html"><a href="week-1.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.6</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="1.7" data-path="week-1.html"><a href="week-1.html#the-console"><i class="fa fa-check"></i><b>1.7</b> The Console</a></li>
+<li class="chapter" data-level="1.8" data-path="week-1.html"><a href="week-1.html#spacing"><i class="fa fa-check"></i><b>1.8</b> Spacing</a></li>
+<li class="chapter" data-level="1.9" data-path="week-1.html"><a href="week-1.html#typos"><i class="fa fa-check"></i><b>1.9</b> Typos</a></li>
+<li class="chapter" data-level="1.10" data-path="week-1.html"><a href="week-1.html#unfinishe.-d"><i class="fa fa-check"></i><b>1.10</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="1.11" data-path="week-1.html"><a href="week-1.html#basic-arithmetic"><i class="fa fa-check"></i><b>1.11</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="1.12" data-path="week-1.html"><a href="week-1.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>1.12</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="1.13" data-path="week-1.html"><a href="week-1.html#r-scripts"><i class="fa fa-check"></i><b>1.13</b> R Scripts</a></li>
+<li class="chapter" data-level="1.14" data-path="week-1.html"><a href="week-1.html#short-example"><i class="fa fa-check"></i><b>1.14</b> Short Example</a></li>
+<li class="chapter" data-level="1.15" data-path="week-1.html"><a href="week-1.html#naming-variables"><i class="fa fa-check"></i><b>1.15</b> Naming variables</a></li>
+<li class="chapter" data-level="1.16" data-path="week-1.html"><a href="week-1.html#now-over-to-you"><i class="fa fa-check"></i><b>1.16</b> Now over to you</a><ul>
+<li class="chapter" data-level="1.16.1" data-path="week-1.html"><a href="week-1.html#exercise-1"><i class="fa fa-check"></i><b>1.16.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="1.16.2" data-path="week-1.html"><a href="week-1.html#exercise-2"><i class="fa fa-check"></i><b>1.16.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="1.17" data-path="week-1.html"><a href="week-1.html#solutions"><i class="fa fa-check"></i><b>1.17</b> Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2</b> Week 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="week-2.html"><a href="week-2.html#introduction-to-rmarkdown"><i class="fa fa-check"></i><b>2.1</b> Introduction to RMarkdown</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html#what-is-r-markdown"><i class="fa fa-check"></i><b>2.2</b> What is R Markdown?</a></li>
+<li class="chapter" data-level="2.3" data-path="week-2.html"><a href="week-2.html#getting-things-ready"><i class="fa fa-check"></i><b>2.3</b> Getting things ready</a></li>
+<li class="chapter" data-level="2.4" data-path="week-2.html"><a href="week-2.html#r-markdown-basics"><i class="fa fa-check"></i><b>2.4</b> R Markdown basics</a></li>
+<li class="chapter" data-level="2.5" data-path="week-2.html"><a href="week-2.html#headings"><i class="fa fa-check"></i><b>2.5</b> Headings</a></li>
+<li class="chapter" data-level="2.6" data-path="week-2.html"><a href="week-2.html#text"><i class="fa fa-check"></i><b>2.6</b> Text</a></li>
+<li class="chapter" data-level="2.7" data-path="week-2.html"><a href="week-2.html#tables"><i class="fa fa-check"></i><b>2.7</b> Tables</a></li>
+<li class="chapter" data-level="2.8" data-path="week-2.html"><a href="week-2.html#lists"><i class="fa fa-check"></i><b>2.8</b> Lists</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="week-2.html"><a href="week-2.html#unordered"><i class="fa fa-check"></i><b>2.8.1</b> Unordered</a></li>
+<li class="chapter" data-level="2.8.2" data-path="week-2.html"><a href="week-2.html#ordered"><i class="fa fa-check"></i><b>2.8.2</b> Ordered</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
+<li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
+<li class="chapter" data-level="3.2" data-path="week-3.html"><a href="week-3.html#get-the-package-first"><i class="fa fa-check"></i><b>3.2</b> Get the package first</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3.html"><a href="week-3.html#numeric-data"><i class="fa fa-check"></i><b>3.3</b> Numeric Data</a></li>
+<li class="chapter" data-level="3.4" data-path="week-3.html"><a href="week-3.html#textcharacter-data"><i class="fa fa-check"></i><b>3.4</b> Text/Character Data</a></li>
+<li class="chapter" data-level="3.5" data-path="week-3.html"><a href="week-3.html#logical-data"><i class="fa fa-check"></i><b>3.5</b> Logical Data</a></li>
+<li class="chapter" data-level="3.6" data-path="week-3.html"><a href="week-3.html#variable-classes"><i class="fa fa-check"></i><b>3.6</b> Variable Classes</a></li>
+<li class="chapter" data-level="3.7" data-path="week-3.html"><a href="week-3.html#factors"><i class="fa fa-check"></i><b>3.7</b> Factors</a></li>
+<li class="chapter" data-level="3.8" data-path="week-3.html"><a href="week-3.html#lists-1"><i class="fa fa-check"></i><b>3.8</b> Lists</a></li>
+<li class="chapter" data-level="3.9" data-path="week-3.html"><a href="week-3.html#practice.rmd-solutions"><i class="fa fa-check"></i><b>3.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="week-3.html"><a href="week-3.html#exercise-1-1"><i class="fa fa-check"></i><b>3.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.9.2" data-path="week-3.html"><a href="week-3.html#exercise-2-1"><i class="fa fa-check"></i><b>3.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.9.3" data-path="week-3.html"><a href="week-3.html#exercise-3"><i class="fa fa-check"></i><b>3.9.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>4</b> Week 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="week-4.html"><a href="week-4.html#introduction-to-plots-geoms-ggplot"><i class="fa fa-check"></i><b>4.1</b> Introduction to plots &amp; geoms (ggplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="week-4.html"><a href="week-4.html#visualisations"><i class="fa fa-check"></i><b>4.2</b> Visualisations</a></li>
+<li class="chapter" data-level="4.3" data-path="week-4.html"><a href="week-4.html#get-our-data-sorted"><i class="fa fa-check"></i><b>4.3</b> Get our data sorted</a></li>
+<li class="chapter" data-level="4.4" data-path="week-4.html"><a href="week-4.html#numerical-data"><i class="fa fa-check"></i><b>4.4</b> Numerical data</a></li>
+<li class="chapter" data-level="4.5" data-path="week-4.html"><a href="week-4.html#simple-one-variable-plot-using-ggplot"><i class="fa fa-check"></i><b>4.5</b> Simple one-variable plot using ggplot()</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="week-4.html"><a href="week-4.html#continuous-variable"><i class="fa fa-check"></i><b>4.5.1</b> Continuous variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="week-4.html"><a href="week-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.6</b> Categorical variables</a></li>
+<li class="chapter" data-level="4.7" data-path="week-4.html"><a href="week-4.html#continuous-variables-grouped-by-a-categorical-one"><i class="fa fa-check"></i><b>4.7</b> Continuous variables grouped by a categorical one</a></li>
+<li class="chapter" data-level="4.8" data-path="week-4.html"><a href="week-4.html#even-more-advanced"><i class="fa fa-check"></i><b>4.8</b> Even more advanced</a></li>
+<li class="chapter" data-level="4.9" data-path="week-4.html"><a href="week-4.html#practice.rmd-solutions-1"><i class="fa fa-check"></i><b>4.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="week-4.html"><a href="week-4.html#exercise-1-2"><i class="fa fa-check"></i><b>4.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="4.9.2" data-path="week-4.html"><a href="week-4.html#exercise-2-2"><i class="fa fa-check"></i><b>4.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.9.3" data-path="week-4.html"><a href="week-4.html#exercise-3---advanced"><i class="fa fa-check"></i><b>4.9.3</b> Exercise 3 - Advanced</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>5</b> Week 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="week-5.html"><a href="week-5.html#central-tendency-and-variability"><i class="fa fa-check"></i><b>5.1</b> Central Tendency and Variability</a></li>
+<li class="chapter" data-level="5.2" data-path="week-5.html"><a href="week-5.html#load-all-the-necessary-packages"><i class="fa fa-check"></i><b>5.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="5.3" data-path="week-5.html"><a href="week-5.html#descriptive-statistics"><i class="fa fa-check"></i><b>5.3</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="5.4" data-path="week-5.html"><a href="week-5.html#central-tendency-variability"><i class="fa fa-check"></i><b>5.4</b> Central tendency &amp; variability</a></li>
+<li class="chapter" data-level="5.5" data-path="week-5.html"><a href="week-5.html#mean-and-median"><i class="fa fa-check"></i><b>5.5</b> Mean and median</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="week-5.html"><a href="week-5.html#reading-data-in"><i class="fa fa-check"></i><b>5.5.1</b> Reading data in</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="week-5.html"><a href="week-5.html#using-piping-operator-for-descriptive-statistics"><i class="fa fa-check"></i><b>5.6</b> Using piping operator for descriptive statistics</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="week-5.html"><a href="week-5.html#mean"><i class="fa fa-check"></i><b>5.6.1</b> Mean</a></li>
+<li class="chapter" data-level="5.6.2" data-path="week-5.html"><a href="week-5.html#median"><i class="fa fa-check"></i><b>5.6.2</b> Median</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="week-5.html"><a href="week-5.html#standard-deviation"><i class="fa fa-check"></i><b>5.7</b> Standard deviation</a></li>
+<li class="chapter" data-level="5.8" data-path="week-5.html"><a href="week-5.html#visualise-your-data"><i class="fa fa-check"></i><b>5.8</b> Visualise your data</a></li>
+<li class="chapter" data-level="5.9" data-path="week-5.html"><a href="week-5.html#practice.rmd-solutions-2"><i class="fa fa-check"></i><b>5.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="week-5.html"><a href="week-5.html#income-distribution-example"><i class="fa fa-check"></i><b>5.9.1</b> Income Distribution Example</a></li>
+<li class="chapter" data-level="5.9.2" data-path="week-5.html"><a href="week-5.html#visualisations-1"><i class="fa fa-check"></i><b>5.9.2</b> Visualisations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>6</b> Week 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="week-6.html"><a href="week-6.html#plotting-functions-and-simple-data-transformation"><i class="fa fa-check"></i><b>6.1</b> Plotting Functions and Simple Data Transformation</a></li>
+<li class="chapter" data-level="6.2" data-path="week-6.html"><a href="week-6.html#load-all-the-necessary-packages-1"><i class="fa fa-check"></i><b>6.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="6.3" data-path="week-6.html"><a href="week-6.html#part-1-hand-plotting-functions"><i class="fa fa-check"></i><b>6.3</b> Part 1: Hand plotting functions</a></li>
+<li class="chapter" data-level="6.4" data-path="week-6.html"><a href="week-6.html#basics"><i class="fa fa-check"></i><b>6.4</b> Basics</a></li>
+<li class="chapter" data-level="6.5" data-path="week-6.html"><a href="week-6.html#linear-functions"><i class="fa fa-check"></i><b>6.5</b> Linear functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="week-6.html"><a href="week-6.html#tree-height-example"><i class="fa fa-check"></i><b>6.5.1</b> Tree height example</a></li>
+<li class="chapter" data-level="6.5.2" data-path="week-6.html"><a href="week-6.html#non-linear-functions-first-order-polynomials"><i class="fa fa-check"></i><b>6.5.2</b> Non-linear functions (first order polynomials)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="week-6.html"><a href="week-6.html#practice-plotting"><i class="fa fa-check"></i><b>6.6</b> Practice plotting</a></li>
+<li class="chapter" data-level="6.7" data-path="week-6.html"><a href="week-6.html#part-2-introduction-to-data-transformation"><i class="fa fa-check"></i><b>6.7</b> Part 2: Introduction to Data Transformation</a></li>
+<li class="chapter" data-level="6.8" data-path="week-6.html"><a href="week-6.html#renaming"><i class="fa fa-check"></i><b>6.8</b> Renaming</a></li>
+<li class="chapter" data-level="6.9" data-path="week-6.html"><a href="week-6.html#adding-new-variables"><i class="fa fa-check"></i><b>6.9</b> Adding new variables</a></li>
+<li class="chapter" data-level="6.10" data-path="week-6.html"><a href="week-6.html#transformation-and-skewness"><i class="fa fa-check"></i><b>6.10</b> Transformation and skewness</a></li>
+<li class="chapter" data-level="6.11" data-path="week-6.html"><a href="week-6.html#mean-centering"><i class="fa fa-check"></i><b>6.11</b> Mean Centering</a></li>
+<li class="chapter" data-level="6.12" data-path="week-6.html"><a href="week-6.html#standardisation"><i class="fa fa-check"></i><b>6.12</b> Standardisation</a></li>
+<li class="chapter" data-level="6.13" data-path="week-6.html"><a href="week-6.html#practice.rmd-solutions-3"><i class="fa fa-check"></i><b>6.13</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>7</b> Week 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="week-7.html"><a href="week-7.html#reading-in-data-merge-and-more-r-practice"><i class="fa fa-check"></i><b>7.1</b> Reading in Data, Merge and More R Practice</a></li>
+<li class="chapter" data-level="7.2" data-path="week-7.html"><a href="week-7.html#dataset-1-.csv"><i class="fa fa-check"></i><b>7.2</b> Dataset 1 (.csv)</a></li>
+<li class="chapter" data-level="7.3" data-path="week-7.html"><a href="week-7.html#dataset-2-.txt"><i class="fa fa-check"></i><b>7.3</b> Dataset 2 (.txt)</a></li>
+<li class="chapter" data-level="7.4" data-path="week-7.html"><a href="week-7.html#dataset-3-.sav-and-.dta"><i class="fa fa-check"></i><b>7.4</b> Dataset 3 (.sav and .dta)</a></li>
+<li class="chapter" data-level="7.5" data-path="week-7.html"><a href="week-7.html#merging-datasets-together"><i class="fa fa-check"></i><b>7.5</b> Merging datasets together</a></li>
+<li class="chapter" data-level="7.6" data-path="week-7.html"><a href="week-7.html#sorting-and-arrange"><i class="fa fa-check"></i><b>7.6</b> Sorting and arrange()</a></li>
+<li class="chapter" data-level="7.7" data-path="week-7.html"><a href="week-7.html#data-description"><i class="fa fa-check"></i><b>7.7</b> Data description</a></li>
+<li class="chapter" data-level="7.8" data-path="week-7.html"><a href="week-7.html#using-filter"><i class="fa fa-check"></i><b>7.8</b> Using filter()</a></li>
+<li class="chapter" data-level="7.9" data-path="week-7.html"><a href="week-7.html#visualisations-2"><i class="fa fa-check"></i><b>7.9</b> Visualisations</a></li>
+<li class="chapter" data-level="7.10" data-path="week-7.html"><a href="week-7.html#save-the-file-in-your-folder"><i class="fa fa-check"></i><b>7.10</b> Save the file in your folder</a></li>
+<li class="chapter" data-level="7.11" data-path="week-7.html"><a href="week-7.html#practice.rmd-solutions-4"><i class="fa fa-check"></i><b>7.11</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="week-8.html"><a href="week-8.html"><i class="fa fa-check"></i><b>8</b> Week 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="week-8.html"><a href="week-8.html#introduction-to-probability"><i class="fa fa-check"></i><b>8.1</b> Introduction to Probability</a></li>
+<li class="chapter" data-level="8.2" data-path="week-8.html"><a href="week-8.html#example-1-hot-hand"><i class="fa fa-check"></i><b>8.2</b> Example 1 (hot hand)</a></li>
+<li class="chapter" data-level="8.3" data-path="week-8.html"><a href="week-8.html#example-2-coin-toss"><i class="fa fa-check"></i><b>8.3</b> Example 2 (coin toss)</a></li>
+<li class="chapter" data-level="8.4" data-path="week-8.html"><a href="week-8.html#example-3-independent-shooter"><i class="fa fa-check"></i><b>8.4</b> Example 3 (Independent shooter)</a></li>
+<li class="chapter" data-level="8.5" data-path="week-8.html"><a href="week-8.html#practice-rmd.-solutions"><i class="fa fa-check"></i><b>8.5</b> Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.jones-and-mr.smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
+<li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
+<li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
+<li class="chapter" data-level="8.6.5" data-path="week-8.html"><a href="week-8.html#answers-1"><i class="fa fa-check"></i><b>8.6.5</b> Answers</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="week-9.html"><a href="week-9.html"><i class="fa fa-check"></i><b>9</b> Week 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="week-9.html"><a href="week-9.html#introduction-to-probability-distributions-and-revision"><i class="fa fa-check"></i><b>9.1</b> Introduction to Probability Distributions and Revision</a></li>
+<li class="chapter" data-level="9.2" data-path="week-9.html"><a href="week-9.html#discrete-example-guessing-homework-answers"><i class="fa fa-check"></i><b>9.2</b> Discrete example (guessing homework answers)</a></li>
+<li class="chapter" data-level="9.3" data-path="week-9.html"><a href="week-9.html#generate-a-homework-attempt"><i class="fa fa-check"></i><b>9.3</b> Generate a homework attempt</a></li>
+<li class="chapter" data-level="9.4" data-path="week-9.html"><a href="week-9.html#changing-the-probability-truefalse"><i class="fa fa-check"></i><b>9.4</b> Changing the probability (TRUE/FALSE)</a></li>
+<li class="chapter" data-level="9.5" data-path="week-9.html"><a href="week-9.html#studying-the-distribution"><i class="fa fa-check"></i><b>9.5</b> Studying the distribution</a></li>
+<li class="chapter" data-level="9.6" data-path="week-9.html"><a href="week-9.html#cumulative-probability-advanced"><i class="fa fa-check"></i><b>9.6</b> Cumulative Probability (Advanced)</a></li>
+<li class="chapter" data-level="9.7" data-path="week-9.html"><a href="week-9.html#revision-practice-rmd.-solutions"><i class="fa fa-check"></i><b>9.7</b> Revision Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="week-9.html"><a href="week-9.html#provide-descriptive-statistics-for-age-and-memory-score-variables"><i class="fa fa-check"></i><b>9.7.1</b> Provide descriptive statistics for age and memory score variables</a></li>
+<li class="chapter" data-level="9.7.2" data-path="week-9.html"><a href="week-9.html#descriptives-by-groups"><i class="fa fa-check"></i><b>9.7.2</b> Descriptives by groups</a></li>
+<li class="chapter" data-level="9.7.3" data-path="week-9.html"><a href="week-9.html#visualise"><i class="fa fa-check"></i><b>9.7.3</b> Visualise</a></li>
+<li class="chapter" data-level="9.7.4" data-path="week-9.html"><a href="week-9.html#visualise-a-subset"><i class="fa fa-check"></i><b>9.7.4</b> Visualise a subset</a></li>
+<li class="chapter" data-level="9.7.5" data-path="week-9.html"><a href="week-9.html#variable-by-a-group"><i class="fa fa-check"></i><b>9.7.5</b> Variable by a group</a></li>
+<li class="chapter" data-level="9.7.6" data-path="week-9.html"><a href="week-9.html#create-a-new-variable-using-mutate"><i class="fa fa-check"></i><b>9.7.6</b> Create a new variable using mutate()</a></li>
+<li class="chapter" data-level="9.7.7" data-path="week-9.html"><a href="week-9.html#subset-observations-using-filter"><i class="fa fa-check"></i><b>9.7.7</b> Subset observations using filter()</a></li>
+<li class="chapter" data-level="9.7.8" data-path="week-9.html"><a href="week-9.html#sort-via-arrange"><i class="fa fa-check"></i><b>9.7.8</b> Sort via arrange()</a></li>
+<li class="chapter" data-level="9.7.9" data-path="week-9.html"><a href="week-9.html#lets-do-some-specific-count-using-filter"><i class="fa fa-check"></i><b>9.7.9</b> Let’s do some specific count() using filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="week-9.html"><a href="week-9.html#extra-probability-practice"><i class="fa fa-check"></i><b>9.8</b> Extra Probability Practice</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="week-9.html"><a href="week-9.html#truefalse-questions"><i class="fa fa-check"></i><b>9.8.1</b> TRUE/FALSE questions</a></li>
+<li class="chapter" data-level="9.8.2" data-path="week-9.html"><a href="week-9.html#count-the-occurencies"><i class="fa fa-check"></i><b>9.8.2</b> Count the occurencies</a></li>
+<li class="chapter" data-level="9.8.3" data-path="week-9.html"><a href="week-9.html#plot"><i class="fa fa-check"></i><b>9.8.3</b> Plot</a></li>
+<li class="chapter" data-level="9.8.4" data-path="week-9.html"><a href="week-9.html#use-dbinom-to-study-the-probability"><i class="fa fa-check"></i><b>9.8.4</b> Use dbinom() to study the probability</a></li>
+<li class="chapter" data-level="9.8.5" data-path="week-9.html"><a href="week-9.html#less-than-five-or-more-than-five"><i class="fa fa-check"></i><b>9.8.5</b> Less than five or more than five?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-10.html"><a href="week-10.html"><i class="fa fa-check"></i><b>10</b> Week 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="week-10.html"><a href="week-10.html#goals"><i class="fa fa-check"></i><b>10.1</b> Goals</a></li>
+<li class="chapter" data-level="10.2" data-path="week-10.html"><a href="week-10.html#reading"><i class="fa fa-check"></i><b>10.2</b> Reading</a></li>
+<li class="chapter" data-level="10.3" data-path="week-10.html"><a href="week-10.html#walkthrough"><i class="fa fa-check"></i><b>10.3</b> walkthrough</a></li>
+<li class="chapter" data-level="10.4" data-path="week-10.html"><a href="week-10.html#task"><i class="fa fa-check"></i><b>10.4</b> task</a></li>
+<li class="chapter" data-level="10.5" data-path="week-10.html"><a href="week-10.html#questions"><i class="fa fa-check"></i><b>10.5</b> questions</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html"><i class="fa fa-check"></i><b>11</b> Sampling distributions</a><ul>
+<li class="chapter" data-level="11.1" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#recap"><i class="fa fa-check"></i><b>11.1</b> Recap</a></li>
+<li class="chapter" data-level="11.2" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#population-sample"><i class="fa fa-check"></i><b>11.2</b> Population vs sample</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#parameter-statistic"><i class="fa fa-check"></i><b>11.3</b> Population parameter vs sample statistic</a></li>
+<li class="chapter" data-level="11.4" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sec-sampling-distributions"><i class="fa fa-check"></i><b>11.4</b> Sampling distributions</a></li>
+<li class="chapter" data-level="11.5" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#standard-error"><i class="fa fa-check"></i><b>11.5</b> The standard error of a statistic</a></li>
+<li class="chapter" data-level="11.6" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sample-size-standard-error"><i class="fa fa-check"></i><b>11.6</b> The effect of sample size on the sampling distribution</a></li>
+<li class="chapter" data-level="11.7" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#practice-hollywood-movies"><i class="fa fa-check"></i><b>11.7</b> Practice: Hollywood movies</a></li>
+<li class="chapter" data-level="11.8" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#summary"><i class="fa fa-check"></i><b>11.8</b> Summary</a></li>
+<li class="chapter" data-level="11.9" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#glossary"><i class="fa fa-check"></i><b>11.9</b> Glossary</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology in R (dapR1) - Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chap-sampling-distributions" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> Sampling distributions</h1>
+<div class="lo">
+<h4 id="learning-outcomes" class="unnumbered">Learning outcomes</h4>
+<p><strong>LO1.</strong> Understand the difference between a population parameter and a sample statistic.</p>
+<p><strong>LO2.</strong> Understand that a sampling distribution shows how sample statistics vary from sample to sample.</p>
+<p><strong>LO3.</strong> Understand the effect of sample size on the sampling distribution, and how to quantify the variability of a statistic.</p>
+<h4 id="reading-1" class="unnumbered">Reading</h4>
+<p>This week’s reading is <a href="https://moderndive.com/7-sampling.html">Chapter 7</a>.</p>
+</div>
+<div id="recap" class="section level2">
+<h2><span class="header-section-number">11.1</span> Recap</h2>
+<div class="figure" style="text-align: center"><span id="fig:data-analysis-pipeline"></span>
+<img src="https://d33wubrfki0l68.cloudfront.net/86cc45e87bb755a3bcecce462a6524e68d13a466/67469/images/r4ds/data_science_pipeline.png" alt="The data analysis pipeline" width="75%" />
+<p class="caption">
+Figure 11.1: The data analysis pipeline
+</p>
+</div>
+<p>In Semester 1 (weeks 1-10), we started walking through the required steps of a statistical investigation, conveniently summarized in Figure <a href="chap-sampling-distributions.html#fig:data-analysis-pipeline">11.1</a>.</p>
+<p>Suppose that you are interested in a research question that can be answered by collecting data on some statistical units.
+Once collected, you (a) import/load the data into R;
+(b) tidy them so that each column corresponds to a single variable of interest;
+(c) transform variables if needed;
+(d) visualise your data and inspect for unusual values;
+(e) fit statistical models to the data; and
+(f) communicate your results and conclusions to the wider community.</p>
+<div class="question">
+<p class="question-begin">
+► Note
+</p>
+<div class="question-body">
+<p>The inner cycle (c-d-e) might need to be re-iterated a few times.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>In the first semester we saw:</p>
+<ol style="list-style-type: lower-alpha">
+<li>how to import data into R;</li>
+<li>how to tidy datasets (for example by making sure that some variables are factors);</li>
+<li>how to transform variables (e.g. standardizing via <code>scale()</code>, log-transforming data, …).</li>
+<li>how to visualise the data using the <code>ggplot2</code> package.</li>
+</ol>
+<p>In this semester we will focus on</p>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>modelling, and</li>
+<li>communicating our findings to the wider community.</li>
+</ol>
+</div>
+<div id="population-sample" class="section level2">
+<h2><span class="header-section-number">11.2</span> Population vs sample</h2>
+<p>Typically, it is either infeasible in terms of time or cost to perform an exhaustive data collection on the entire population of interest (also known as <strong>census</strong>).
+To save time and money, we typically record the variables of interest on a smaller subset of the entire population, also known as a <strong>sample</strong>.
+In order to make sure that any conclusions we draw from the sample are <strong>generalizable</strong> to the wider population, this sample needs to be taken at <strong>random</strong>.
+This avoids <strong>representation bias</strong>, where some units are less represented than others, which would lead to wrong conclusions for the entire population.</p>
+<div class="question">
+<p class="question-begin">
+► Example
+</p>
+<div class="question-body">
+<p><strong>Average montly salary in Sweden</strong></p>
+<p>Suppose you are interested in the average monthly salary of people working in Sweden. Unfortunately, you neither have the time nor the money to go to Sweden and ask each single person his/her own salary.
+Hence, you decide to ask some people at random.</p>
+<p>What are the problems of the following sample selection criteria?</p>
+<ol style="list-style-type: decimal">
+<li>Asking 500 random people from Facebook that live in Sweden.</li>
+<li>Asking 1000 random people from the web that live in Sweden.</li>
+<li>Calling 200 phone numbers from the telephone directory.</li>
+<li>Asking 500 people working near the central bank of Sweden.</li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution
+</p>
+<div class="solution-body">
+<p>All four criteria lead to samples that are not representative of the entire population. This is because some people will have higher chance of being included in the sample than others, leading to representation bias. Because of this, any conclusion we might make from the sample is not generalizable from the whole population.</p>
+<ol style="list-style-type: decimal">
+<li>People that do not have Facebook are not considered in the sample.</li>
+<li>People that do not use internet are not represented.</li>
+<li>People without a landline phone are not included.</li>
+<li>People working in this area will very likely have higher salaries than the rest of the country. This sample does not represent fairly people working in farming or other sectors.</li>
+</ol>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>In Semester 1, we discussed how to obtain sample data from a bigger population of interest; this is known as data collection.
+We now take the opposite direction as we try to use the information from the sample data to draw conclusions about the entire population.
+Furthermore, we will spend some time assessing how accurate our conclusions about the entire population are.</p>
+<div class="def">
+<h4 id="statistical-inference" class="unnumbered">Statistical inference</h4>
+<p><strong>Statistical inference</strong> is the process of using the sample data to draw conclusions about the entire population.</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
+<img src="images/statistical_inference.PNG" alt="Data collection vs statistical inference" width="75%" />
+<p class="caption">
+Figure 11.2: Data collection vs statistical inference
+</p>
+</div>
+<div class="question">
+<p class="question-begin">
+► Caution
+</p>
+<div class="question-body">
+<p>The inferential process is built on top of the assumption that the sample is randomly drawn from the population of interest.
+Any sample selection method that is biased, i.e. leading to samples which are not representative of the entire population, will mean that the results we obtain from the data in the sample can not be generalized to the entire population.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="parameter-statistic" class="section level2">
+<h2><span class="header-section-number">11.3</span> Population parameter vs sample statistic</h2>
+<p>To make it easier to understand whether we are referring to the entire population or a sample, we use the term <em>parameter</em> when referring to a numerical summary of the entire population, and the term <em>statistic</em> for a numerical summary of the sample.</p>
+<div class="def">
+<h4 id="parameter-vs-statistic" class="unnumbered">Parameter vs statistic</h4>
+<ul>
+<li>A <strong>parameter</strong> is a number describing some aspect of the population.</li>
+<li>A <strong>statistic</strong> is a number that is computed from the data in a sample.</li>
+</ul>
+</div>
+<p>For example, suppose we want to gain more insight into the age of the employees of Acme Corporation.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
+We are interested in multiple aspects of the population, in particular: what is the mean age and how different are the ages of the employees?</p>
+<p>After selecting at random, say, 100 employees from the entire company, we record for each employee the corresponding age.
+The population parameters are the mean age and standard deviation for all employees, and these quantities are not known to us because we did not perform an exhaustive census.
+The statistics are the mean age and standard deviation computed from the ages of the 100 people in the sample.</p>
+<p>From this example, you can see that the population parameter and the sample statistic generally have the same name.
+However, these are often written with different symbols to convey with just one letter:</p>
+<ol style="list-style-type: decimal">
+<li>what <em>feature</em> they represent;</li>
+<li>if it is a <em>population</em> quantity or a quantity <em>computed on a sample</em>.</li>
+</ol>
+<p>The following table summarizes standard notation for some population parameters, typically unknown, and the corresponding “best guesses” computed on a sample.</p>
+<table>
+<caption>Notation for common parameters and statistics.</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Population parameter</th>
+<th align="center">Sample statistic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mean</td>
+<td align="center"><span class="math inline">\(\mu\)</span></td>
+<td align="center"><span class="math inline">\(\bar{x}\)</span> or <span class="math inline">\(\hat{\mu}\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Standard deviation</td>
+<td align="center"><span class="math inline">\(\sigma\)</span></td>
+<td align="center"><span class="math inline">\(s\)</span> or <span class="math inline">\(\hat{\sigma}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Proportion</td>
+<td align="center"><span class="math inline">\(p\)</span></td>
+<td align="center"><span class="math inline">\(\hat{p}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The greek letter <span class="math inline">\(\mu\)</span> (mu) is used as a parameter to denote the population mean/average, while <span class="math inline">\(\bar{x}\)</span> or <span class="math inline">\(\hat{\mu}\)</span> (mu-hat) as a statistic for the mean computed on a sample.
+The greek letter <span class="math inline">\(\sigma\)</span> (sigma) is used as a parameter to denote the population standard deviation, while <span class="math inline">\(s\)</span> or <span class="math inline">\(\hat{\sigma}\)</span> (sigma-hat) as a statistic for the standard deviation of the collected sample.
+The letter <span class="math inline">\(p\)</span> is used as a parameter to denote the population proportion, while <span class="math inline">\(\hat{p}\)</span> (p-hat) as a statistic for the sample proportion.</p>
+<div class="question">
+<p class="question-begin">
+► Example
+</p>
+<div class="question-body">
+<p><strong>Proportion of UK people aged between 25 and 34 with a Bachelor’s degree or higher</strong></p>
+<p>The last UK Census, done in 2011, reports that 40% of people aged 25 to 34 years had a degree-level or above qualification.
+Suppose that in a random sample of <span class="math inline">\(n = 200\)</span> UK residents who are between 25 and 34 years old, 58 of them have a Bachelor’s degree or higher.
+Using the appropriate notation, state what is the population parameter and what is the sample statistic.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution
+</p>
+<div class="solution-body">
+<p>The population parameter is the proportion of <em>all</em> UK people aged between 25 to 34 years old with a Bachelor’s degree or higher: <span class="math inline">\(p = 0.4\)</span>.
+The sample statistic is the proportion with a Bachelor’s degree or higher <em>for those in the sample</em>: <span class="math inline">\(\hat{p} = 58/200 = 0.29\)</span>.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>As discussed, it is generally infeasible to be able to know the value of the population parameter <em>exactly</em>. This would require collecting data for the entire population and then computing the required quantity.
+Instead, we typically select a random sample from the population, and then compute the quantity of interest for the sample data.
+We then use this sample statistic as a <em>(point) estimate</em> or <em>best guess</em> of the population parameter.</p>
+</div>
+<div id="sec-sampling-distributions" class="section level2">
+<h2><span class="header-section-number">11.4</span> Sampling distributions</h2>
+<p>A parameter is typically considered to be a fixed value, while a statistic varies from sample to sample, depending on which units are selected to enter the sample.
+The fact that a sample statistic, i.e. a quantity computed on a sample, varies from sample to sample can be seen as a downside to sampling.
+However, we must remember that a population parameter (while being fixed) is generally unknown. On the contrary, we can compute the statistic for a sample.</p>
+<p>A fundamental question that arises when we estimate an unknown population parameter by a sample statistic is: how accurate do we believe our best guess to be?</p>
+<p>Rememebering that the parameter is fixed, while the statistics varies from sample to sample, we might proceed in answering this question by looking at how the computed statistic varies depending on the sample.</p>
+<div class="question">
+<p class="question-begin">
+► Example
+</p>
+<div class="question-body">
+<p><strong>Average yearly salary of the American National Football League (NFL) players</strong></p>
+<p>We will read a file containing the yearly salaries (in millions of dollars) for all players being paid at the start of 2015 by a National Football League (NFL) team.
+This entire dataset represents the population of all National Football League players in 2015.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<p>We are interested in the following research question: what is the average salary of a NFL player in 2015?</p>
+<ol style="list-style-type: decimal">
+<li>Read in the data and state, with appropriate notation, what is the population parameter.</li>
+<li>Select a random sample of <span class="math inline">\(n = 50\)</span> players and compute the average yearly salary for the players in the sample. How does your statistic compare to the population parameter?</li>
+<li>Take another sample of size <span class="math inline">\(n = 50\)</span> players and compute the average salary for the new sample. How does it compare with the mean from the previous sample?</li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution
+</p>
+<div class="solution-body">
+<p><strong>Question 1.</strong></p>
+<p>Let us start by loading the data and inspecting the initial rows of the tibble as well as the dimensions:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">nfl &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2TexAFA&#39;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">head</span>(nfl)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 5
+##   Player             Position Team     TotalMoney YearlySalary
+##   &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+## 1 Aaron Rodgers      QB       Packers       110           22  
+## 2 Russell Wilson     QB       Seahawks       87.6         21.9
+## 3 Ben Roethlisberger QB       Steelers       87.4         21.8
+## 4 Philip Rivers      QB       Chargers       83.2         20.8
+## 5 Cam Newton         QB       Panthers      104.          20.8
+## 6 Matt Ryan          QB       Falcons       104.          20.8</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">dim</span>(nfl)</a></code></pre></div>
+<pre><code>## [1] 2099    5</code></pre>
+<p>The data comprise 5 measurements on 2099 units. We have data on the player’s name, position, the team name, the total money they received while playing on the NFL (cumulative over multiple years) and the yearly salary.</p>
+<p>We now calculate the mean for all players:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">nfl_mean &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">nfl_mean</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##     avg
+##   &lt;dbl&gt;
+## 1  2.24</code></pre>
+<p>The population parameter is the average yearly salary in 2015, <span class="math inline">\(\mu =\)</span> 2.24.</p>
+<p><strong>Question 2.</strong></p>
+<p>In order to randomly sample players, we will use the package <code>moderndive</code>. If you do not have it installed, run the following command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;moderndive&quot;</span>)</a></code></pre></div>
+<p>We then load the package and create a sample of size <span class="math inline">\(n = 50\)</span> players:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(moderndive)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">nfl_sample_<span class="dv">1</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">nfl_sample_<span class="dv">1</span></a></code></pre></div>
+<pre><code>## # A tibble: 50 x 6
+## # Groups:   replicate [1]
+##    replicate Player              Position Team     TotalMoney YearlySalary
+##        &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+##  1         1 Craig Dahl          S        Giants        0.87         0.87 
+##  2         1 Jarrett Bush        CB       Packers       5.25         1.75 
+##  3         1 Shayne Graham       K        Saints        0.98         0.98 
+##  4         1 Christian Covington 34DT     Texans        2.37         0.593
+##  5         1 Pat McAfee          P        Colts        14.5          2.9  
+##  6         1 Ron Parker          S        Chiefs       25            5    
+##  7         1 Bryan Walters       WR       Jaguars       1.44         0.723
+##  8         1 John Greco          RG       Browns        8.37         2.09 
+##  9         1 Trenton Robinson    S        Redskins      0.685        0.68 
+## 10         1 Paul Worrilow       ILB      Falcons       1.49         0.496
+## # … with 40 more rows</code></pre>
+<p>This returns a tibble of size <span class="math inline">\(50 \times 6\)</span>. The second column shows the names of the players included in the sample. The additional first column is equal to 1 for all cases in the sample. This indicates that the 50 rows all belong to the first sample.</p>
+<p>Let’s now compute the average salary for the players in the sample:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">nfl_sample_<span class="dv">1</span>_mean &lt;-<span class="st"> </span>nfl_sample_<span class="dv">1</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">nfl_sample_<span class="dv">1</span>_mean</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   replicate   avg
+##       &lt;int&gt; &lt;dbl&gt;
+## 1         1  2.10</code></pre>
+<p>We can see that the average salary in our sample is <span class="math inline">\(\bar{x} =\)</span> 2.1 million dollars.</p>
+<p>The sample mean, 2.1, is close to the population mean, 2.24, even if not exactly the same. We are not surprised of this result: we do not expect the mean of every sample to be exactly equal to the population mean, but we do hope that they are somewhat close.</p>
+<p><strong>Question 3.</strong></p>
+<p>Let’s take another random sample of size 50 and compute the mean salary:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">nfl_sample_<span class="dv">2</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">nfl_sample_<span class="dv">2</span></a></code></pre></div>
+<pre><code>## # A tibble: 50 x 6
+## # Groups:   replicate [1]
+##    replicate Player           Position Team      TotalMoney YearlySalary
+##        &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;        &lt;dbl&gt;
+##  1         1 Trevor Scott     43DE     Bears          0.73         0.73 
+##  2         1 Scott Crichton   43DE     Vikings        3.02         0.755
+##  3         1 NaVorro Bowman   ILB      49ers         45.2          9.05 
+##  4         1 Brian Dixon      CB       Saints         1.53         0.51 
+##  5         1 Kyle Williams    WR       Broncos        0.745        0.745
+##  6         1 Tony Jefferson   S        Cardinals      1.50         0.498
+##  7         1 Anthony Hitchens 43OLB    Cowboys        2.66         0.664
+##  8         1 Cedric Ogbuehi   RT       Bengals        9.33         2.33 
+##  9         1 Jordan Poyer     CB       Browns         2.22         0.555
+## 10         1 Brent Celek      TE       Eagles        29.2          4.88 
+## # … with 40 more rows</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">nfl_sample_<span class="dv">2</span>_mean &lt;-<span class="st"> </span>nfl_sample_<span class="dv">2</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">nfl_sample_<span class="dv">2</span>_mean</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   replicate   avg
+##       &lt;int&gt; &lt;dbl&gt;
+## 1         1  2.05</code></pre>
+<p>The statistic computed on the second sample is <span class="math inline">\(\bar{x} =\)</span> 2.05. Again, this is similar to the population parameter, <span class="math inline">\(\mu =\)</span> 2.24.
+We also note that the mean computed on the second sample is different from the mean computed on the first sample.</p>
+<p>We could have immediately obtained two samples, each of size <span class="math inline">\(n = 50\)</span> units. This requires that we repeat/replicate two times the activity of sampling 50 units.
+This is done in the function <code>rep_sample_n(size = 50)</code> by including the extra argument <code>reps = 2</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">nfl_samples &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">reps =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">nfl_samples</a></code></pre></div>
+<pre><code>## # A tibble: 100 x 6
+## # Groups:   replicate [2]
+##    replicate Player             Position Team       TotalMoney YearlySalary
+##        &lt;int&gt; &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;        &lt;dbl&gt;
+##  1         1 Andrew Luck        QB       Colts          38.3          7.65 
+##  2         1 Antonio Brown      WR       Steelers       42.0          8.39 
+##  3         1 Patrick Chung      S        Patriots        7.2          2.4  
+##  4         1 Chris Williams     LG       Bills          13.2          3.29 
+##  5         1 Chris Lewis-Harris CB       Bengals         0.585        0.585
+##  6         1 Lance Louis        RG       Colts           2.02         1.01 
+##  7         1 Adam Humphries     WR       Buccaneers      1.58         0.525
+##  8         1 Wade Keliikipi     DT       Eagles          1.58         0.525
+##  9         1 Dustin Colquitt    P        Chiefs         18.8          3.75 
+## 10         1 Tyronne Green      G        Panthers        0.745        0.745
+## # … with 90 more rows</code></pre>
+<p>If you explore this tibble, it has <span class="math inline">\(50 \times 2 = 100\)</span> rows. The colum replicate takes value 1 for the first 50 rows, and the value 2 for the next 50 rows.
+This indicates that the players in rows 1 to 50 are selected to be in the first sample, while the players in rows 51 to 100 are those selected to be in the second sample.</p>
+<p>We can now compute the mean yearly salary for each of the two samples:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">nfl_sample_means &lt;-<span class="st"> </span>nfl_samples <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">nfl_sample_means</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   replicate   avg
+##       &lt;int&gt; &lt;dbl&gt;
+## 1         1  2.57
+## 2         2  2.19</code></pre>
+<p>We see that both are close to the population parameter which, we remind, is equal to 2.24.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>Clearly, we can extend the repeated sampling procedure to more than just two samples of size = 50.
+Let us now obtain 2000 replicated samples, all of size 50, from the same NFL population.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">nfl_samples &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">reps =</span> <span class="dv">2000</span>)</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">nfl_samples</a></code></pre></div>
+<pre><code>## # A tibble: 100,000 x 6
+## # Groups:   replicate [2,000]
+##    replicate Player           Position Team       TotalMoney YearlySalary
+##        &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;        &lt;dbl&gt;
+##  1         1 Matthew Masifilo 43DE     Buccaneers      1.11         0.555
+##  2         1 Kyle Juszczyk    FB       Ravens          2.46         0.615
+##  3         1 Gabe Jackson     LG       Raiders         2.86         0.714
+##  4         1 Akeem Ayers      43OLB    Rams            6            3    
+##  5         1 Andy Mulumba     LB       Packers         1.49         0.497
+##  6         1 Corey Linsley    C        Packers         2.40         0.601
+##  7         1 Billy Turner     T        Dolphins        3.15         0.787
+##  8         1 Bennett Jackson  CB       Giants          0.435        0.435
+##  9         1 Chase Daniel     QB       Chiefs         10            3.33 
+## 10         1 Scott Lutrus     LB       Colts           1.40         0.465
+## # … with 99,990 more rows</code></pre>
+<p>This tibble has <span class="math inline">\(50 \times 2000 = 100,000\)</span> rows. The first 50 players are part of the 1st sample, the next 50 belong to the 2nd sample, and so on…</p>
+<p>We can now compute the mean of each of the 2000 samples of size 50, obtaining a tibble of 2000 sample means:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">nfl_sample_means &lt;-<span class="st"> </span>nfl_samples <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5">nfl_sample_means</a></code></pre></div>
+<pre><code>## # A tibble: 2,000 x 2
+##    replicate   avg
+##        &lt;int&gt; &lt;dbl&gt;
+##  1         1  2.74
+##  2         2  1.69
+##  3         3  2.44
+##  4         4  2.29
+##  5         5  2.37
+##  6         6  2.63
+##  7         7  2.46
+##  8         8  1.99
+##  9         9  2.29
+## 10        10  2.28
+## # … with 1,990 more rows</code></pre>
+<p>Let us plot the distribution of the sample mean for 2000 random samples:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">ggplot</span>(nfl_sample_means, <span class="kw">aes</span>(<span class="dt">x =</span> avg)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">pull</span>(nfl_mean, avg), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<div class="figure"><span id="fig:sampling-distribution"></span>
+<img src="bookdown-demo_files/figure-html/sampling-distribution-1.png" alt="Sampling distribution of the mean" width="672" />
+<p class="caption">
+Figure 11.3: Sampling distribution of the mean
+</p>
+</div>
+<p>Figure <a href="chap-sampling-distributions.html#fig:sampling-distribution">11.3</a> shows the values of the sample mean computed from sample to sample. Hence, it shows the variability of the sample mean induced by sampling variation.
+Such a plot is fundamental in statistical inference, and it is called <strong>sampling distribution</strong>. Each of these dots is one of the sample means in the tibble <code>nfl_sample_means</code>.</p>
+<div class="def">
+<h4 id="sampling-distribution" class="unnumbered">Sampling distribution</h4>
+<p>The <strong>sampling distribution</strong> shows the distribution of the statistic for different samples of the same size from the same population.</p>
+</div>
+<p>Clearly, we can compute sampling distributions for other statistics too: the proportion, the standard deviation, …</p>
+<p>This requires the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Obtaining multiple samples, all of the same size, from the same population;</li>
+<li>For each sample, calculate the value of the statistic;</li>
+<li>Plot the distribution of the computed statistics.</li>
+</ol>
+</div>
+<div id="standard-error" class="section level2">
+<h2><span class="header-section-number">11.5</span> The standard error of a statistic</h2>
+<p>The variability, or spread, of the sampling distribution shows how much the sample statistics tend to vary from sample to sample.
+This is key in understanding how accurate our estimate of the population parameter, based on just one sample, will be.</p>
+<p>In Semester 1 you saw how to summarize the variability of data using the standard deviation: <code>sd()</code>.
+So, the variability of a statistic can be quantified by calculating the standard deviation of its sampling distribution.</p>
+<p>Technically, this is not different from an ordinary standard deviation as the code and formula is the same. However, the spread of a sample statistic is so fundamental to have its own name: <strong>the standard error of the statistic</strong>.</p>
+<p>In other words, we use:</p>
+<ul>
+<li>standard deviation to denote the variability among the values in a particular sample</li>
+<li>standard error to denote the variability of the statistics computed on many samples</li>
+</ul>
+<div class="def">
+<h4 id="standard-error-1" class="unnumbered">Standard error</h4>
+<p>The <strong>standard error</strong> of a statistic, denoted <span class="math inline">\(SE\)</span>, is the standard deviation of its sampling distribution.</p>
+</div>
+<p>The standard error measures the <em>typical error</em> when estimating the population parameter with the sample statistic. You can think of the SE as a “typical distance” from the population parameter.</p>
+</div>
+<div id="sample-size-standard-error" class="section level2">
+<h2><span class="header-section-number">11.6</span> The effect of sample size on the sampling distribution</h2>
+<p>It is of interest to see how the sampling distribution of the mean salary, shown in Figure <a href="chap-sampling-distributions.html#fig:sampling-distribution">11.3</a> for a sample size <span class="math inline">\(n = 50\)</span>, changes with the sample size.</p>
+<p>In the following code chunk we compute the sampling distribution of the mean for samples of size <span class="math inline">\(n = 50,\ n = 200,\ n = 1000\)</span>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">nfl_sample_means_n_<span class="dv">50</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">reps =</span> <span class="dv">2000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb26-6" data-line-number="6">nfl_sample_means_n_<span class="dv">100</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">reps =</span> <span class="dv">2000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb26-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb26-11" data-line-number="11">nfl_sample_means_n_<span class="dv">500</span> &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-12" data-line-number="12"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">500</span>, <span class="dt">reps =</span> <span class="dv">2000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-13" data-line-number="13"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb26-14" data-line-number="14"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a></code></pre></div>
+<p>We now combine the datasets for different sample sizes into a unique tibble, adding a column with the sample size, and then plot the distributions for different sample sizes:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">nfl_sample_means_vary_n &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">  nfl_sample_means_n_<span class="dv">50</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">50</span>),</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">  nfl_sample_means_n_<span class="dv">100</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">  nfl_sample_means_n_<span class="dv">500</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">500</span>)</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="kw">ggplot</span>(nfl_sample_means_vary_n, <span class="kw">aes</span>(<span class="dt">x =</span> avg)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">pull</span>(nfl_mean, avg), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-10" data-line-number="10"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(n), <span class="dt">labeller =</span> label_both)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<div class="figure"><span id="fig:sampling-distribution-vary-n"></span>
+<img src="bookdown-demo_files/figure-html/sampling-distribution-vary-n-1.png" alt="The effect of sample size on the sampling distribution" width="672" />
+<p class="caption">
+Figure 11.4: The effect of sample size on the sampling distribution
+</p>
+</div>
+<p>Figure <a href="chap-sampling-distributions.html#fig:sampling-distribution-vary-n">11.4</a> shows that as the sample size increases, the variability of the sampling distributions decreases, hence <strong>the standard error of the statistic decreases as the sample size increases</strong>.</p>
+<p>We can create a tibble that shows, for each sample size, the standard error of the sample mean:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">nfl_sample_means_vary_n <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(n) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">SE =</span> <span class="kw">sd</span>(avg))</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##       n    SE
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1    50 0.421
+## 2   100 0.299
+## 3   500 0.121</code></pre>
+<p>As we discussed, the tibble shows that as the sample size <span class="math inline">\(n\)</span> increases, the standard error <span class="math inline">\(SE\)</span> decreases.</p>
+<p>The larger the sample size, the lower the typical error of our estimate, and for every sample we will obtain a calculated statistic that is more similar to the population parameter.</p>
+</div>
+<div id="practice-hollywood-movies" class="section level2">
+<h2><span class="header-section-number">11.7</span> Practice: Hollywood movies</h2>
+<p>The following code chunk reads in data from over 900 Hollywood movies produced between 2007 and 2013. Consider it as the entire population of movies produced in Hollywood in that time period.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">hollywood &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2N9yHms&#39;</span>)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">hollywood</a></code></pre></div>
+<pre><code>## # A tibble: 970 x 16
+##    Movie LeadStudio RottenTomatoes AudienceScore Story Genre TheatersOpenWeek OpeningWeekend
+##    &lt;chr&gt; &lt;chr&gt;               &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;            &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Spid… Sony                   61            54 Meta… Acti…             4252          151. 
+##  2 Shre… Paramount              42            57 Quest Anim…             4122          122. 
+##  3 Tran… Paramount              57            89 Mons… Acti…             4011           70.5
+##  4 Pira… Disney                 45            74 Resc… Acti…             4362          115. 
+##  5 Harr… Warner Br…             78            82 Quest Adve…             4285           77.1
+##  6 I Am… Warner Br…             69            69 Quest Thri…             3606           77.2
+##  7 The … Universal              93            91 Purs… Thri…             3660           69.3
+##  8 Nati… Disney                 31            72 The … Thri…             3832           44.8
+##  9 Alvi… Fox                    26            73 Come… Anim…             3475           44.3
+## 10 300   Warner Br…             60            90 Sacr… Acti…             3103           70.9
+## # … with 960 more rows, and 8 more variables: BOAvgOpenWeekend &lt;dbl&gt;, DomesticGross &lt;dbl&gt;,
+## #   ForeignGross &lt;dbl&gt;, WorldGross &lt;dbl&gt;, Budget &lt;dbl&gt;, Profitability &lt;dbl&gt;, OpenProfit &lt;dbl&gt;, Year &lt;dbl&gt;</code></pre>
+<p>Among the variables, three will be of interest</p>
+<ul>
+<li>Movie: the movie title;</li>
+<li>Genre: which genre the movie belongs to;</li>
+<li>Budget: budget to produce the movie.</li>
+</ul>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>Subsetting the tibble</strong></p>
+<p>Subset the tibble by keeping only those 3 variables and keep the movies for which we have all information (no missing entries):</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-455" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-455&#39;, &#39;sol-start-455&#39;)"></span>
+</p>
+<div id="sol-body-455" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">hollywood &lt;-<span class="st"> </span>hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(Movie, Genre, Budget) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">  </span>na.omit</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">hollywood</a></code></pre></div>
+<pre><code>## # A tibble: 665 x 3
+##    Movie                                     Genre     Budget
+##    &lt;chr&gt;                                     &lt;chr&gt;      &lt;dbl&gt;
+##  1 Spider-Man 3                              Action       258
+##  2 Shrek the Third                           Animation    160
+##  3 Transformers                              Action       150
+##  4 Pirates of the Caribbean: At World&#39;s End  Action       300
+##  5 Harry Potter and the Order of the Phoenix Adventure    150
+##  6 I Am Legend                               Thriller     150
+##  7 The Bourne Ultimatum                      Thriller     110
+##  8 National Treasure: Book of Secrets        Thriller     130
+##  9 Alvin and the Chipmunks                   Animation     70
+## 10 300                                       Action        65
+## # … with 655 more rows</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>Proportion of comedy movies</strong></p>
+<p>What is the population proportion of comedy movies?
+What is an estimate using a sample of size 20?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-456" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-456&#39;, &#39;sol-start-456&#39;)"></span>
+</p>
+<div id="sol-body-456" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">prop_comedy &lt;-<span class="st"> </span>hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">mean</span>(Genre <span class="op">==</span><span class="st"> &quot;Comedy&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(prop)</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">prop_comedy</a></code></pre></div>
+<pre><code>## [1] 0.2541353</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">sample_prop_comedy &lt;-<span class="st"> </span>hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">20</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">mean</span>(Genre <span class="op">==</span><span class="st"> &#39;Comedy&#39;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(prop)</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5">sample_prop_comedy</a></code></pre></div>
+<pre><code>## [1] 0.2</code></pre>
+<p>The population proportion of comedy movies is <span class="math inline">\(p =\)</span> 0.25, while the proportion of comedy movies in the sample is <span class="math inline">\(\hat{p} =\)</span> 0.2.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>Sampling distributions</strong></p>
+<p>What is a sampling distribution?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-457" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-457&#39;, &#39;sol-start-457&#39;)"></span>
+</p>
+<div id="sol-body-457" class="solution-body" style="display: none;">
+<p>The sampling distribution is the distribution of the values that a statistic takes on different samples of the same size and from the same population.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>Sampling distribution of the proportion</strong></p>
+<p>Compute the sampling distribution of the proportion of comedy movies for sample size <span class="math inline">\(n = 20\)</span>, using 1000 replicates. Is it centred at the population value?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-458" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-458&#39;, &#39;sol-start-458&#39;)"></span>
+</p>
+<div id="sol-body-458" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">sample_props &lt;-<span class="st"> </span>hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">mean</span>(Genre <span class="op">==</span><span class="st"> &#39;Comedy&#39;</span>))</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"><span class="kw">ggplot</span>(sample_props, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> prop_comedy, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>Yes, the distribution is almost bell-shaped and centred at the population parameter.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>Standard error</strong></p>
+<p>Using the replicated samples from the previous question, what is the standard error of the sample proportion of comedy movies?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-459" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-459&#39;, &#39;sol-start-459&#39;)"></span>
+</p>
+<div id="sol-body-459" class="solution-body" style="display: none;">
+<p>The standard error of the sample proportion is simply the standard deviation of the distribution of sample proportions for many samples. Since we have already obtained the proportions for 1000 samples in the previous question, we just have to compute their variability using the standard deviation:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">se_prop &lt;-<span class="st"> </span>sample_props <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">SE =</span> <span class="kw">sd</span>(prop)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(SE)</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb41-5" data-line-number="5">se_prop</a></code></pre></div>
+<pre><code>## [1] 0.09566467</code></pre>
+<p>The standard error of the sample proportion for sample size <span class="math inline">\(n = 20\)</span>, based on 1000 replicated samples, is <span class="math inline">\(SE(\hat{p}) =\)</span> 0.1.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>The effect of sample size on the standard error of the sample proportion</strong></p>
+<p>How does the sample size affect the standard error of the sample proportion?
+Compute the sampling distribution for the proportion of Comedy movies using samples of size <span class="math inline">\(n = 20\)</span>, <span class="math inline">\(n = 50\)</span>, <span class="math inline">\(n = 100\)</span> respectively and 1000 replicated samples.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-460" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-460&#39;, &#39;sol-start-460&#39;)"></span>
+</p>
+<div id="sol-body-460" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">sample_props_<span class="dv">20</span> &lt;-<span class="st"> </span>hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">mean</span>(Genre <span class="op">==</span><span class="st"> &#39;Comedy&#39;</span>))</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb43-6" data-line-number="6">sample_props_<span class="dv">50</span> &lt;-<span class="st"> </span>hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb43-7" data-line-number="7"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb43-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">mean</span>(Genre <span class="op">==</span><span class="st"> &#39;Comedy&#39;</span>))</a>
+<a class="sourceLine" id="cb43-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb43-11" data-line-number="11">sample_props_<span class="dv">200</span> &lt;-<span class="st"> </span>hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb43-12" data-line-number="12"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">200</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-13" data-line-number="13"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb43-14" data-line-number="14"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">mean</span>(Genre <span class="op">==</span><span class="st"> &#39;Comedy&#39;</span>))</a>
+<a class="sourceLine" id="cb43-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb43-16" data-line-number="16">sample_props_vary_n &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(</a>
+<a class="sourceLine" id="cb43-17" data-line-number="17">  sample_props_<span class="dv">20</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">20</span>),</a>
+<a class="sourceLine" id="cb43-18" data-line-number="18">  sample_props_<span class="dv">50</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">50</span>),</a>
+<a class="sourceLine" id="cb43-19" data-line-number="19">  sample_props_<span class="dv">200</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="dv">200</span>)</a>
+<a class="sourceLine" id="cb43-20" data-line-number="20">)</a>
+<a class="sourceLine" id="cb43-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb43-22" data-line-number="22"><span class="kw">ggplot</span>(sample_props_vary_n, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb43-23" data-line-number="23"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb43-24" data-line-number="24"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> prop_comedy, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb43-25" data-line-number="25"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(n))</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>Comparing the budget for action and comedy movies</strong></p>
+<p>What is the average budget (in millions of dollars) allocated for making action vs comedy movies? And the standard deviation?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-461" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-461&#39;, &#39;sol-start-461&#39;)"></span>
+</p>
+<div id="sol-body-461" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Genre <span class="op">==</span><span class="st"> &#39;Action&#39;</span> <span class="op">|</span><span class="st"> </span>Genre <span class="op">==</span><span class="st"> &#39;Comedy&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(Genre) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_budget =</span> <span class="kw">mean</span>(Budget),</a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">            <span class="dt">sd_budget =</span> <span class="kw">sd</span>(Budget))</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   Genre  avg_budget sd_budget
+##   &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Action       85.9      64.0
+## 2 Comedy       36.9      26.7</code></pre>
+<p>From the above tibble we see that action movies have been allocated a higher budget than comedy movies. At the same time, action movies have a higher variability of budgets around the mean value.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p><strong>Average difference in budget for action and comedy movies</strong></p>
+<p>Estimate the average difference in budget for action vs comedy movies, using a sample of size 100.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-462" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-462&#39;, &#39;sol-start-462&#39;)"></span>
+</p>
+<div id="sol-body-462" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">sample_mean_budget &lt;-<span class="st"> </span>hollywood <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Genre <span class="op">==</span><span class="st"> &#39;Action&#39;</span> <span class="op">|</span><span class="st"> </span>Genre <span class="op">==</span><span class="st"> &#39;Comedy&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">100</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(Genre) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_budget =</span> <span class="kw">mean</span>(Budget))</a>
+<a class="sourceLine" id="cb47-6" data-line-number="6">sample_mean_budget</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   Genre  avg_budget
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 Action       86.8
+## 2 Comedy       40.9</code></pre>
+<p>The estimated difference in mean budget is <span class="math inline">\(\hat{x}_{Action} - \hat{x}_{Comedy} =\)</span> 86.79 - 40.88 = 45.91.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2><span class="header-section-number">11.8</span> Summary</h2>
+<p>In Section <a href="chap-sampling-distributions.html#population-sample">11.2</a> we have reviewed the difference between a population parameter and a statistic computed on a sample [<strong>LO1</strong>]. Because of the sample selection criteria, which happens at random, the units included in the sample vary when the sampling procedure is repeated. The distribution of the values that a sample statistics takes on the different samples is called sampling distribution, and has been defined in Section <a href="chap-sampling-distributions.html#sec-sampling-distributions">11.4</a> [<strong>LO2</strong>]. The spread of a statistic gives an idea of how close our estimate of the unknown population parameter is to the population value. Hence, lower variability means better guesses. We quantified the variability of a sampling distribution with the standard error, and in Section <a href="chap-sampling-distributions.html#sample-size-standard-error">11.6</a> we saw that as the sample size increases, the standard error decreases [<strong>LO3</strong>].</p>
+</div>
+<div id="glossary" class="section level2">
+<h2><span class="header-section-number">11.9</span> Glossary</h2>
+<ul>
+<li><em>Statistical inference.</em> The process of drawing conclusions about the population from the data collected in a sample.</li>
+<li><em>Parameter.</em> A fixed but typically unknown quantity describing the population.</li>
+<li><em>Statistic.</em> A quantity computed on a sample.</li>
+<li><em>Sampling distribution.</em> The distribution of the values that a statistic takes on different samples of the same size and from the same population.</li>
+<li><em>Standard error.</em> The standard error of a statistic is the standard deviation of the sampling distribution of the statistic.</li>
+</ul>
+
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>You might remember it from the cartoon Wile E. Coyote and the Road Runner.<a href="chap-sampling-distributions.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Of course a population might change over time, as people can enter or leave at any time, so you might wonder why did we say that a population parameter is fixed. Because of the large number of units in the entire population, it is reasonable to assume that the addition of comparatively few units to the entirety leads to a negligible change in the population parameter.<a href="chap-sampling-distributions.html#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="week-10.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
