@@ -381,7 +381,7 @@ This week we will combine learning R with doing some basic probability calculati
 </ul>
 <p>The key functions we will need for today wil be <code>sample()</code>, <code>tibble()</code>, <code>count()</code>, <code>table()</code> and <code>select()</code>.</p>
 <p>Make sure to load <code>tidyverse</code> before your start.</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 </div>
 <div id="example-1-hot-hand" class="section level2">
 <h2><span class="header-section-number">8.2</span> Example 1 (hot hand)</h2>
@@ -389,8 +389,8 @@ This week we will combine learning R with doing some basic probability calculati
 <p><img src="https://fivethirtyeight.com/wp-content/uploads/2015/11/gettyimages-104445268.jpg?w=575" /><!-- --></p>
 <p>This example is based on the data of every shot taken by a basketball player, Kobe Bryant, pictured above. His performance against the Orlando Magic in the 2009 NBA Finals earned him quite a reputation - this lead to him being associated with a phenomenon know as ‘hot hand’. If we are keen to study this in more detail one approach would be to construct a simple distribution of his shots and study the data - we then can check that indeed Kobe does have a ‘hot hand’ meaning that he is more likely to score after a successful shot already occured.</p>
 <p>The data comes from the textbook website and we can easily load it by using the link below:</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;http://www.openintro.org/stat/data/kobe.RData&quot;</span>))</a>
-<a class="sourceLine" id="cb351-2" data-line-number="2"><span class="kw">head</span>(kobe)</a></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;http://www.openintro.org/stat/data/kobe.RData&quot;</span>))</a>
+<a class="sourceLine" id="cb361-2" data-line-number="2"><span class="kw">head</span>(kobe)</a></code></pre></div>
 <pre><code>##    vs game quarter time                                             description basket
 ## 1 ORL    1       1 9:47                 Kobe Bryant makes 4-foot two point shot      H
 ## 2 ORL    1       1 9:07                               Kobe Bryant misses jumper      M
@@ -399,9 +399,9 @@ This week we will combine learning R with doing some basic probability calculati
 ## 5 ORL    1       1 7:03                         Kobe Bryant makes driving layup      H
 ## 6 ORL    1       1 6:01                               Kobe Bryant misses jumper      M</code></pre>
 <p>There are <strong>133 observations</strong> of Kobe Bryant’s hits and misses. We will focus on the variable <code>basket</code> - it has values <code>H</code> for hit and <code>M</code> for miss.</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" data-line-number="1"><span class="co">#Count hits/misses</span></a>
-<a class="sourceLine" id="cb353-2" data-line-number="2">kobe <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb353-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(basket)</a></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1"><span class="co">#Count hits/misses</span></a>
+<a class="sourceLine" id="cb363-2" data-line-number="2">kobe <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb363-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(basket)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   basket     n
 ##   &lt;chr&gt;  &lt;int&gt;
@@ -410,11 +410,11 @@ This week we will combine learning R with doing some basic probability calculati
 <p>The first sequence looks like this:</p>
 <p><span class="math display">\[H M | M | H H M | M | M | M\]</span>
 The streak length is the number of consecutive HITs until a MISS e.g. <span class="math inline">\(|H M |\)</span> represents a streak of length 1 whilst <span class="math inline">\(|H H M |\)</span> represents a streak of length 2. A miss on its own will represent a streak of length 0.</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" data-line-number="1"><span class="co">#Calculate streaks using the function that came with the data (calc=streak)</span></a>
-<a class="sourceLine" id="cb355-2" data-line-number="2">kobe_streak&lt;-<span class="kw">tibble</span>(<span class="dt">streak=</span><span class="kw">calc_streak</span>(<span class="kw">pull</span>(kobe,basket))) <span class="co">#note that we use pull() here to select data, variable </span></a>
-<a class="sourceLine" id="cb355-3" data-line-number="3"><span class="co">#Count streaks</span></a>
-<a class="sourceLine" id="cb355-4" data-line-number="4">kobe_streak <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb355-5" data-line-number="5"><span class="st">  </span><span class="kw">count</span>(streak)</a></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1"><span class="co">#Calculate streaks using the function that came with the data (calc=streak)</span></a>
+<a class="sourceLine" id="cb365-2" data-line-number="2">kobe_streak&lt;-<span class="kw">tibble</span>(<span class="dt">streak=</span><span class="kw">calc_streak</span>(<span class="kw">pull</span>(kobe,basket))) <span class="co">#note that we use pull() here to select data, variable </span></a>
+<a class="sourceLine" id="cb365-3" data-line-number="3"><span class="co">#Count streaks</span></a>
+<a class="sourceLine" id="cb365-4" data-line-number="4">kobe_streak <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb365-5" data-line-number="5"><span class="st">  </span><span class="kw">count</span>(streak)</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   streak     n
 ##    &lt;dbl&gt; &lt;int&gt;
@@ -423,8 +423,8 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span clas
 ## 3      2     6
 ## 4      3     6
 ## 5      4     1</code></pre>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" data-line-number="1"><span class="co">#Barplot</span></a>
-<a class="sourceLine" id="cb357-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data=</span>kobe_streak,<span class="kw">aes</span>(<span class="dt">x=</span>streak))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&#39;Distribution of streaks by Kobe Bryant&#39;</span>) <span class="op">+</span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1"><span class="co">#Barplot</span></a>
+<a class="sourceLine" id="cb367-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data=</span>kobe_streak,<span class="kw">aes</span>(<span class="dt">x=</span>streak))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&#39;Distribution of streaks by Kobe Bryant&#39;</span>) <span class="op">+</span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-243-1.png" width="672" /></p>
 <p>Now we can see easily what has been happening. How many hits and misses are in a streak of one? What about a streak length of 0? A streak of 0 is actually the most common. Then we have streak of length 1 - a hit (H) followed by a miss (M), almost as common as having |M M|. We have few occurences of streaks of l.</p>
 <p>Imagine that we actually had the probability assigned. If Kobe had 58 hits out of 133 then:</p>
@@ -439,131 +439,131 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span clas
 <div id="example-2-coin-toss" class="section level2">
 <h2><span class="header-section-number">8.3</span> Example 2 (coin toss)</h2>
 <p>We can easily generate a toin coss in R. Why coins? Traditionally, we use coin tossing in statistics because the flip of a coin describes events with an equal chance of happening, they are random, and random processes are a great playground for probability learning.</p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" data-line-number="1"><span class="co">#Lets assign some outcome variable</span></a>
-<a class="sourceLine" id="cb358-2" data-line-number="2">outcomes&lt;-<span class="kw">c</span>(<span class="st">&quot;heads&quot;</span>, <span class="st">&quot;tails&quot;</span>)</a>
-<a class="sourceLine" id="cb358-3" data-line-number="3"><span class="co">#We then will sample the outcomes 100 time with replacement (note: events are independent)</span></a>
-<a class="sourceLine" id="cb358-4" data-line-number="4"><span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code>##   [1] &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot;
-##  [12] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot;
-##  [23] &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot;
-##  [34] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot;
-##  [45] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot;
-##  [56] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot;
-##  [67] &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot;
-##  [78] &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot;
-##  [89] &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot;
-## [100] &quot;heads&quot;</code></pre>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" data-line-number="1"><span class="co">#We can also assign the simulation to an object and use count() to see the resulting distribution and the proportion</span></a>
-<a class="sourceLine" id="cb360-2" data-line-number="2">outcomes&lt;-<span class="kw">c</span>(<span class="st">&quot;heads&quot;</span>, <span class="st">&quot;tails&quot;</span>)</a>
-<a class="sourceLine" id="cb360-3" data-line-number="3">simulation_coin&lt;-<span class="kw">tibble</span>(<span class="dt">coin_side =</span> <span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb360-4" data-line-number="4">simulation_coin <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb360-5" data-line-number="5"><span class="st">  </span><span class="kw">count</span>(coin_side)</a></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1"><span class="co">#Lets assign some outcome variable</span></a>
+<a class="sourceLine" id="cb368-2" data-line-number="2">outcomes&lt;-<span class="kw">c</span>(<span class="st">&quot;heads&quot;</span>, <span class="st">&quot;tails&quot;</span>)</a>
+<a class="sourceLine" id="cb368-3" data-line-number="3"><span class="co">#We then will sample the outcomes 100 time with replacement (note: events are independent)</span></a>
+<a class="sourceLine" id="cb368-4" data-line-number="4"><span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>##   [1] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot;
+##  [12] &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot;
+##  [23] &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot;
+##  [34] &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot;
+##  [45] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot;
+##  [56] &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot;
+##  [67] &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot;
+##  [78] &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot;
+##  [89] &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot;
+## [100] &quot;tails&quot;</code></pre>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="co">#We can also assign the simulation to an object and use count() to see the resulting distribution and the proportion</span></a>
+<a class="sourceLine" id="cb370-2" data-line-number="2">outcomes&lt;-<span class="kw">c</span>(<span class="st">&quot;heads&quot;</span>, <span class="st">&quot;tails&quot;</span>)</a>
+<a class="sourceLine" id="cb370-3" data-line-number="3">simulation_coin&lt;-<span class="kw">tibble</span>(<span class="dt">coin_side =</span> <span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb370-4" data-line-number="4">simulation_coin <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb370-5" data-line-number="5"><span class="st">  </span><span class="kw">count</span>(coin_side)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   coin_side     n
 ##   &lt;chr&gt;     &lt;int&gt;
-## 1 heads        53
-## 2 tails        47</code></pre>
+## 1 heads        49
+## 2 tails        51</code></pre>
 <p>You can also do the same via table() and use the results to construct a propotions table:</p>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" data-line-number="1"> simulation_coin <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb362-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(coin_side) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#select the variable to provide counts</span></a>
-<a class="sourceLine" id="cb362-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()  <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#table how many values are in each category</span></a>
-<a class="sourceLine" id="cb362-4" data-line-number="4"><span class="st">  </span><span class="kw">print</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#output the results</span></a>
-<a class="sourceLine" id="cb362-5" data-line-number="5"><span class="st">  </span><span class="kw">prop.table</span>() <span class="co"># use the output to calculation the proportion</span></a></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1"> simulation_coin <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb372-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(coin_side) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#select the variable to provide counts</span></a>
+<a class="sourceLine" id="cb372-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()  <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#table how many values are in each category</span></a>
+<a class="sourceLine" id="cb372-4" data-line-number="4"><span class="st">  </span><span class="kw">print</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#output the results</span></a>
+<a class="sourceLine" id="cb372-5" data-line-number="5"><span class="st">  </span><span class="kw">prop.table</span>() <span class="co"># use the output to calculation the proportion</span></a></code></pre></div>
 <pre><code>## .
 ## heads tails 
-##    53    47</code></pre>
+##    49    51</code></pre>
 <pre><code>## .
 ## heads tails 
-##  0.53  0.47</code></pre>
+##  0.49  0.51</code></pre>
 <p>Try to vary the size and see how table changes. You’ll note that as your sample size (N) approaches infinity (<span class="math inline">\(N -&gt; +∞\)</span>) you get closer to the true probability of the event.</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1"><span class="co"># Try with the small simulation first</span></a>
-<a class="sourceLine" id="cb365-2" data-line-number="2">simulation_coin &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">coin_side =</span> <span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb365-3" data-line-number="3">simulation_coin <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb365-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(coin_side)</a></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" data-line-number="1"><span class="co"># Try with the small simulation first</span></a>
+<a class="sourceLine" id="cb375-2" data-line-number="2">simulation_coin &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">coin_side =</span> <span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb375-3" data-line-number="3">simulation_coin <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb375-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(coin_side)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   coin_side     n
 ##   &lt;chr&gt;     &lt;int&gt;
-## 1 heads         4
-## 2 tails         6</code></pre>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1"><span class="co"># Or increase to a 1000</span></a>
-<a class="sourceLine" id="cb367-2" data-line-number="2">simulation_coin&lt;-<span class="kw">tibble</span>(<span class="dt">coin_side=</span><span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb367-3" data-line-number="3">simulation_coin <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb367-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(coin_side)</a></code></pre></div>
+## 1 heads         3
+## 2 tails         7</code></pre>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" data-line-number="1"><span class="co"># Or increase to a 1000</span></a>
+<a class="sourceLine" id="cb377-2" data-line-number="2">simulation_coin&lt;-<span class="kw">tibble</span>(<span class="dt">coin_side=</span><span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb377-3" data-line-number="3">simulation_coin <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb377-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(coin_side)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   coin_side     n
 ##   &lt;chr&gt;     &lt;int&gt;
-## 1 heads       504
-## 2 tails       496</code></pre>
+## 1 heads       517
+## 2 tails       483</code></pre>
 <p>What if you have <strong>an unfair coin</strong>? By default the previous simulation assumes that we have 50/50 chance to observe ‘heads’ or ‘tails’.</p>
 <p>You can assign different probability via simulations:</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" data-line-number="1"><span class="co"># Simulate an unfair coin</span></a>
-<a class="sourceLine" id="cb369-2" data-line-number="2">simulation_coin_unfair &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">coin_side =</span> <span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>))) <span class="co"># Note that the first outcome has probability 0.2 and the second 0.8</span></a>
-<a class="sourceLine" id="cb369-3" data-line-number="3">simulation_coin_unfair <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb369-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(coin_side)</a></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" data-line-number="1"><span class="co"># Simulate an unfair coin</span></a>
+<a class="sourceLine" id="cb379-2" data-line-number="2">simulation_coin_unfair &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">coin_side =</span> <span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>))) <span class="co"># Note that the first outcome has probability 0.2 and the second 0.8</span></a>
+<a class="sourceLine" id="cb379-3" data-line-number="3">simulation_coin_unfair <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb379-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(coin_side)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   coin_side     n
 ##   &lt;chr&gt;     &lt;int&gt;
-## 1 heads        26
-## 2 tails        74</code></pre>
+## 1 heads        22
+## 2 tails        78</code></pre>
 <p>Lastly, plot them both to compare:</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1"><span class="co"># Barplot (fair coin)</span></a>
-<a class="sourceLine" id="cb371-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_coin, <span class="kw">aes</span>(<span class="dt">x =</span> coin_side)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb371-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb371-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Coin Side&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Distribution of head/tails (fair coin&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb371-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1"><span class="co"># Barplot (fair coin)</span></a>
+<a class="sourceLine" id="cb381-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_coin, <span class="kw">aes</span>(<span class="dt">x =</span> coin_side)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb381-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb381-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Coin Side&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Distribution of head/tails (fair coin&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb381-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-250-1.png" width="672" /></p>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1"><span class="co"># Barplot</span></a>
-<a class="sourceLine" id="cb372-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_coin_unfair, <span class="kw">aes</span>(<span class="dt">x =</span> coin_side)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb372-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb372-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Coin Side&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Distribution of head/tails (unfair coin)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb372-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" data-line-number="1"><span class="co"># Barplot</span></a>
+<a class="sourceLine" id="cb382-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_coin_unfair, <span class="kw">aes</span>(<span class="dt">x =</span> coin_side)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb382-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb382-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Coin Side&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Distribution of head/tails (unfair coin)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb382-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-251-1.png" width="672" /></p>
 </div>
 <div id="example-3-independent-shooter" class="section level2">
 <h2><span class="header-section-number">8.4</span> Example 3 (Independent shooter)</h2>
 <p>We can now easily simulate a very similar draw for hits and misses we worked with earlier. We can create an independent shooter draw and compare it with the Kobe example.</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" data-line-number="1"><span class="co"># Assign some outcome variable</span></a>
-<a class="sourceLine" id="cb373-2" data-line-number="2">outcomes_h_m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;M&quot;</span>)</a>
-<a class="sourceLine" id="cb373-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb373-4" data-line-number="4"><span class="co"># We then will sample the outcomes 100 times with replacement</span></a>
-<a class="sourceLine" id="cb373-5" data-line-number="5"><span class="kw">sample</span>(outcomes_h_m, <span class="dt">size =</span> <span class="dv">133</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.45</span>, <span class="fl">0.55</span>))  </a></code></pre></div>
-<pre><code>##   [1] &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot;
-##  [24] &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot;
-##  [47] &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot;
-##  [70] &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot;
-##  [93] &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot;
-## [116] &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot;</code></pre>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" data-line-number="1"><span class="co">#Lets save to a tibble</span></a>
-<a class="sourceLine" id="cb375-2" data-line-number="2"><span class="co">#Or increase to a 1000</span></a>
-<a class="sourceLine" id="cb375-3" data-line-number="3">simulation_h_m&lt;-<span class="kw">tibble</span>(<span class="dt">h_m=</span><span class="kw">sample</span>(outcomes_h_m, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb375-4" data-line-number="4">simulation_h_m <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb375-5" data-line-number="5"><span class="kw">count</span>(h_m)</a></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" data-line-number="1"><span class="co"># Assign some outcome variable</span></a>
+<a class="sourceLine" id="cb383-2" data-line-number="2">outcomes_h_m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;M&quot;</span>)</a>
+<a class="sourceLine" id="cb383-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb383-4" data-line-number="4"><span class="co"># We then will sample the outcomes 100 times with replacement</span></a>
+<a class="sourceLine" id="cb383-5" data-line-number="5"><span class="kw">sample</span>(outcomes_h_m, <span class="dt">size =</span> <span class="dv">133</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.45</span>, <span class="fl">0.55</span>))  </a></code></pre></div>
+<pre><code>##   [1] &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot;
+##  [24] &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot;
+##  [47] &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot;
+##  [70] &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot;
+##  [93] &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot;
+## [116] &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot;</code></pre>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1"><span class="co">#Lets save to a tibble</span></a>
+<a class="sourceLine" id="cb385-2" data-line-number="2"><span class="co">#Or increase to a 1000</span></a>
+<a class="sourceLine" id="cb385-3" data-line-number="3">simulation_h_m&lt;-<span class="kw">tibble</span>(<span class="dt">h_m=</span><span class="kw">sample</span>(outcomes_h_m, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb385-4" data-line-number="4">simulation_h_m <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb385-5" data-line-number="5"><span class="kw">count</span>(h_m)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   h_m       n
 ##   &lt;chr&gt; &lt;int&gt;
-## 1 H       491
-## 2 M       509</code></pre>
+## 1 H       518
+## 2 M       482</code></pre>
 <p>Also, a proportion:</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" data-line-number="1">simulation_h_m <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb377-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(h_m) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb377-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()  <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb377-4" data-line-number="4"><span class="st">  </span><span class="kw">print</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb377-5" data-line-number="5"><span class="st">  </span><span class="kw">prop.table</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1">simulation_h_m <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(h_m) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-4" data-line-number="4"><span class="st">  </span><span class="kw">print</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-5" data-line-number="5"><span class="st">  </span><span class="kw">prop.table</span>()</a></code></pre></div>
 <pre><code>## .
 ##   H   M 
-## 491 509</code></pre>
+## 518 482</code></pre>
 <pre><code>## .
 ##     H     M 
-## 0.491 0.509</code></pre>
+## 0.518 0.482</code></pre>
 <p>To provide a comparison, let’s plot the distribution of streaks:</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1"><span class="co"># Calculate streaks using the function that came with the data (calc = streak)</span></a>
-<a class="sourceLine" id="cb380-2" data-line-number="2">indep_streak&lt;-<span class="kw">tibble</span>(<span class="dt">h_m_ind=</span><span class="kw">calc_streak</span>(<span class="kw">pull</span>(simulation_h_m,h_m)))</a>
-<a class="sourceLine" id="cb380-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb380-4" data-line-number="4"><span class="co"># Barplot</span></a>
-<a class="sourceLine" id="cb380-5" data-line-number="5"><span class="kw">ggplot</span>(<span class="dt">data =</span> indep_streak, <span class="kw">aes</span>(<span class="dt">x =</span> h_m_ind)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb380-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb380-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Distribution of streaks by an Independent Shooter&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb380-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1"><span class="co"># Calculate streaks using the function that came with the data (calc = streak)</span></a>
+<a class="sourceLine" id="cb390-2" data-line-number="2">indep_streak&lt;-<span class="kw">tibble</span>(<span class="dt">h_m_ind=</span><span class="kw">calc_streak</span>(<span class="kw">pull</span>(simulation_h_m,h_m)))</a>
+<a class="sourceLine" id="cb390-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb390-4" data-line-number="4"><span class="co"># Barplot</span></a>
+<a class="sourceLine" id="cb390-5" data-line-number="5"><span class="kw">ggplot</span>(<span class="dt">data =</span> indep_streak, <span class="kw">aes</span>(<span class="dt">x =</span> h_m_ind)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb390-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Distribution of streaks by an Independent Shooter&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb390-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-255-1.png" width="672" /></p>
 </div>
 <div id="practice-rmd.-solutions" class="section level2">
@@ -579,49 +579,49 @@ To convert from odds to probability, divide the odds by one plus the odds. So to
 <span class="math display">\[ {\frac{105.4}{100}}/({\frac{105.4}{100} +{\frac{100}{100}}}) = 0.51\]</span></p>
 <p>From the information we were given we can then conclude that there might be a pretty random chance for baby male and baby female being registered and there is no evidence for sex selection at birth.</p>
 <p>Can you generate a sample of 100 babies that follow this distribution and then provide us with the plot?</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1"><span class="co"># Assign some outcome variable</span></a>
-<a class="sourceLine" id="cb381-2" data-line-number="2">outcomes_babies &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>)</a>
-<a class="sourceLine" id="cb381-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb381-4" data-line-number="4"><span class="co"># We then will sample the outcomes 100 times with replacement</span></a>
-<a class="sourceLine" id="cb381-5" data-line-number="5"><span class="kw">sample</span>(outcomes_babies, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.51</span>, <span class="fl">0.49</span>))  </a></code></pre></div>
-<pre><code>##   [1] &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot;
-##  [24] &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot;
-##  [47] &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot;
-##  [70] &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot;
-##  [93] &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot;</code></pre>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" data-line-number="1"><span class="co"># Or increase to 1000 and put into a tibble</span></a>
-<a class="sourceLine" id="cb383-2" data-line-number="2">simulation_babies&lt;-<span class="kw">tibble</span>(<span class="dt">baby=</span><span class="kw">sample</span>(outcomes_babies, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.51</span>,<span class="fl">0.49</span>)))</a>
-<a class="sourceLine" id="cb383-3" data-line-number="3">simulation_babies<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb383-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(baby)</a></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" data-line-number="1"><span class="co"># Assign some outcome variable</span></a>
+<a class="sourceLine" id="cb391-2" data-line-number="2">outcomes_babies &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>)</a>
+<a class="sourceLine" id="cb391-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb391-4" data-line-number="4"><span class="co"># We then will sample the outcomes 100 times with replacement</span></a>
+<a class="sourceLine" id="cb391-5" data-line-number="5"><span class="kw">sample</span>(outcomes_babies, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.51</span>, <span class="fl">0.49</span>))  </a></code></pre></div>
+<pre><code>##   [1] &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot;
+##  [24] &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot;
+##  [47] &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot;
+##  [70] &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot;
+##  [93] &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot;</code></pre>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" data-line-number="1"><span class="co"># Or increase to 1000 and put into a tibble</span></a>
+<a class="sourceLine" id="cb393-2" data-line-number="2">simulation_babies&lt;-<span class="kw">tibble</span>(<span class="dt">baby=</span><span class="kw">sample</span>(outcomes_babies, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.51</span>,<span class="fl">0.49</span>)))</a>
+<a class="sourceLine" id="cb393-3" data-line-number="3">simulation_babies<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb393-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(baby)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   baby      n
 ##   &lt;chr&gt; &lt;int&gt;
-## 1 F       481
-## 2 M       519</code></pre>
+## 1 F       489
+## 2 M       511</code></pre>
 <p>To provide a comparison, let’s plot as well:</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1"><span class="co"># Barplot</span></a>
-<a class="sourceLine" id="cb385-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_babies, <span class="kw">aes</span>(<span class="dt">x =</span> baby)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb385-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb385-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Distribution of sex at birth based on the UK estimates&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb385-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1"><span class="co"># Barplot</span></a>
+<a class="sourceLine" id="cb395-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_babies, <span class="kw">aes</span>(<span class="dt">x =</span> baby)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb395-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb395-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Distribution of sex at birth based on the UK estimates&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb395-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-259-1.png" width="672" /></p>
 <p>What if there were differences? Assign the probabilities as 0.3 and 0.7 and see what happens:</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1"><span class="co"># Change the probabilities as if not random</span></a>
-<a class="sourceLine" id="cb386-2" data-line-number="2">simulation_babies &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">baby =</span> <span class="kw">sample</span>(outcomes_babies, <span class="dt">size =</span> <span class="dv">300</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.30</span>, <span class="fl">0.70</span>)))</a>
-<a class="sourceLine" id="cb386-3" data-line-number="3">simulation_babies<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb386-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(baby) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb386-5" data-line-number="5"><span class="st">  </span><span class="kw">count</span>(baby)</a></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" data-line-number="1"><span class="co"># Change the probabilities as if not random</span></a>
+<a class="sourceLine" id="cb396-2" data-line-number="2">simulation_babies &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">baby =</span> <span class="kw">sample</span>(outcomes_babies, <span class="dt">size =</span> <span class="dv">300</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.30</span>, <span class="fl">0.70</span>)))</a>
+<a class="sourceLine" id="cb396-3" data-line-number="3">simulation_babies<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb396-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(baby) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb396-5" data-line-number="5"><span class="st">  </span><span class="kw">count</span>(baby)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   baby      n
 ##   &lt;chr&gt; &lt;int&gt;
-## 1 F       221
-## 2 M        79</code></pre>
+## 1 F       222
+## 2 M        78</code></pre>
 <p>To provide a comparison, let’s plot as well:</p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1"><span class="co"># Barplot</span></a>
-<a class="sourceLine" id="cb388-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_babies, <span class="kw">aes</span>(<span class="dt">x =</span> baby)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb388-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb388-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Distribution sex at birth based on the UK estimates (if not random)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb388-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" data-line-number="1"><span class="co"># Barplot</span></a>
+<a class="sourceLine" id="cb398-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_babies, <span class="kw">aes</span>(<span class="dt">x =</span> baby)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb398-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb398-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Distribution sex at birth based on the UK estimates (if not random)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb398-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-261-1.png" width="672" /></p>
 <p>Try to play with it by resimulating your data and plot again. You will note that there is likely to be a switch between the two bars when we have a random event but a stronger tendency towards differences when the probability was pre-determined.</p>
 </div>
