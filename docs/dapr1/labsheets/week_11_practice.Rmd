@@ -1,0 +1,205 @@
+---
+title: "Week 11: Sampling distributions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# A. Worked examples
+
+
+## A.1. Average montly salary in Sweden
+
+Suppose you are interested in the average monthly salary of people working in Sweden. Unfortunately, you neither have the time nor the money to go to Sweden and ask each single person his/her own salary.
+Hence, you decide to ask some people at random.
+
+What are the problems of the following sample selection criteria?
+
+1. Asking 500 random people from Facebook that live in Sweden.
+2. Asking 1000 random people from the web that live in Sweden.
+3. Calling 200 phone numbers from the telephone directory.
+4. Asking 500 people working near the central bank of Sweden.
+
+**Solution**
+
+1. 
+2. 
+3. 
+4. 
+
+
+
+## A.2. Average price of goods sold by ACME Corporation
+
+Suppose you work for a company that is interested in buying ACME Corporation^[You might remember it from the cartoon Wile E. Coyote and the Road Runner.] and your boss wants to know within the next hour what is the average price of goods sold by that company and how different the prices are.
+
+Since ACME Corportation has such a big mail ordering catalogue, see Figure 1, we will assume that the company sells many products. Furthermore, we only have the catalogue in paper-form and no website or online list of prices is available.
+
+```{r acme, out.width='50%', fig.align='center', echo=FALSE, fig.cap="Figure 1. Product catalogue of ACME corporation"}
+knitr::include_graphics('https://i.pinimg.com/474x/e5/bc/52/e5bc52b78be204a8d6d1f4932492ea3d--bugs-bunny-coyote.jpg')
+```
+
+1. Identify the population of interest and the population parameters.
+2. Can we compute the parameters within the next hour?
+3. How would you proceed in estimating the population parameters if you just had time to read through 100 item descriptions? Would you pick the first 100 items or would you pick 100 random page numbers?
+4. State which statistics you would use to estimate the population parameters.
+
+
+**Solution**
+
+1. 
+2. 
+3. 
+4. 
+
+
+
+
+## A.3. Proportion of UK people aged between 25 and 34 with a Bachelor's degree or higher
+
+The last UK Census, done in 2011, reports that 40% of people aged 25 to 34 years had a degree-level or above qualification.
+Suppose that in a random sample of $n = 200$ UK residents who are between 25 and 34 years old, 58 of them have a Bachelor's degree or higher. 
+Using the appropriate notation, state what is the population parameter and what is the sample statistic.
+
+**Solution**
+
+- The population parameter is ...
+- The sample statistic is ...
+
+
+
+## A.4. Average yearly salary of American National Football League (NFL) players
+
+We will read a file containing the yearly salaries (in millions of dollars) for all players being paid at the start of 2015 by a National Football League (NFL) team.
+This entire dataset represents the population of all National Football League players in 2015.^[Of course a population might change over time, as people can enter or leave at any time, so you might wonder why did we say that a population parameter is fixed. Because of the large number of units in the entire population, it is reasonable to assume that the addition of comparatively few units to the entirety leads to a negligible change in the population parameter.]
+
+We are interested in the following question: what is the average yearly salary of a NFL player in 2015?
+
+In this particular example, we actually **do** know the population parameter, because we have data on the whole population. We resort to sampling, however, to show how the value of a statistic varies when computed on different samples.
+
+1. Read in the data and state, with appropriate notation, what is the population parameter.
+2. Select a random sample of $n = 50$ players and compute the average yearly salary for the players in the sample. How does your statistic compare to the population parameter?
+3. Take another sample of size $n = 50$ players and compute the average salary for the new sample. How does it compare with the mean from the previous sample?
+
+
+**Solution**
+
+Do not worry if some of these functions are new to you, try to follow along and understand what each does.
+
+- Question 1:
+```{r, message=FALSE}
+library(tidyverse)
+
+nfl <- read_tsv('https://edin.ac/2TexAFA')
+head(nfl)
+```
+
+
+
+- Question 2:
+```{r}
+
+```
+
+
+- Question 3:
+```{r}
+
+```
+
+
+
+## A.5. Take-home message
+
+What would the sampling distribution look like if we could afford to take samples as big as the entire population, i.e. of size $n = N$?
+
+**Solution**
+
+- ...
+
+
+---
+
+# B. Lab: Hollywood movies
+
+```{r, message=FALSE}
+hollywood <- read_tsv('https://edin.ac/2N9yHms')
+hollywood
+```
+
+
+## B.1. Extracting relevant variables
+
+Extract from the `hollywood` tibble the 3 variables of interest (Movie, Genre, Budget) and keep the movies for which we have all information (no missing entries).
+
+```{r}
+
+```
+
+
+
+## B.2. Proportion of comedy movies
+
+What is the population proportion of comedy movies?
+What is an estimate of the proportion of comedy movies using a sample of size 20?
+Using the appropriate notation, report your results in one or two sentences.
+
+```{r}
+
+```
+
+
+## B.3. Sampling distributions
+
+What is a sampling distribution?
+
+- ...
+
+
+## B.4. Sampling distribution of the proportion
+
+Compute the sampling distribution of the proportion of comedy movies for sample size $n = 20$, using 1000 replicates. Is it centred at the population value?
+
+```{r}
+
+```
+
+
+## B.5. Standard error
+
+Using the replicated samples from the previous question, what is the standard error of the sample proportion of comedy movies?
+
+```{r}
+
+```
+
+
+## B.6. The effect of sample size on the standard error of the sample proportion
+
+How does the sample size affect the standard error of the sample proportion?
+Compute the sampling distribution for the proportion of comedy movies using samples of size $n = 20$, $n = 50$, $n = 200$ respectively and 1000 replicated samples.
+
+```{r}
+
+```
+
+
+## B.7. Comparing the budget for action and comedy movies
+
+What is the population average budget (in millions of dollars) allocated for making action vs comedy movies? And the standard deviation?
+
+```{r}
+
+```
+
+
+## B.8. Estimate the average difference in budget for action and comedy movies
+
+Estimate the average difference in budget for action vs comedy movies, using a sample of size 100. How does it compare to the population difference?
+
+```{r}
+
+```
+
