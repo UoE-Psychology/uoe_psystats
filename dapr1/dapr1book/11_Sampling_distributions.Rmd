@@ -712,26 +712,33 @@ From the above tibble we see that action movies have been allocated a higher bud
 
 
 
-`r msmbstyle::question_begin()`
-**Estimate the average difference in budget for action and comedy movies**
+`r msmbstyle::question_begin(header = "&#x25BA; Question (Optional)")`
+**Estimate the average difference in budget for action vs comedy movies**
 
-Estimate the average difference in budget for action vs comedy movies, using a sample of size 100. How does it compare to the population difference?
+Estimate the average difference in budget for action vs comedy movies, using two samples of size 100. How does it compare to the population difference?
+
+_**Hint:** Filter the `hollywood` tibble to keep only action movies. Then, obtain a sample of 100 action movies and estimate the average budget. Repeat the same steps for comedy movies._
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS, toggle=TOGGLE)`
 ```{r}
-sample_mean_budget <- hollywood %>%
-  filter(Genre == 'Action' | Genre == 'Comedy') %>%
+sample_budget_action <- hollywood %>%
+  filter(Genre == 'Action') %>%
   rep_sample_n(size = 100) %>%
-  group_by(Genre) %>%
   summarise(avg_budget = mean(Budget))
-sample_mean_budget
+sample_budget_action
 
-est_diff <- pull(sample_mean_budget, avg_budget)[1] - pull(sample_mean_budget, avg_budget)[2]
+sample_budget_comedy <- hollywood %>%
+  filter(Genre == 'Comedy') %>%
+  rep_sample_n(size = 100) %>%
+  summarise(avg_budget = mean(Budget))
+sample_budget_comedy
+
+est_diff <- pull(sample_budget_action, avg_budget) - pull(sample_budget_comedy, avg_budget)
 est_diff
 ```
 
-The estimated difference in mean budget is $\bar{x}_{Action} - \bar{x}_{Comedy} =$ `r sample_mean_budget$avg_budget[1] %>% round(1)` - `r sample_mean_budget$avg_budget[2] %>% round(1)` = `r (sample_mean_budget$avg_budget[1] - sample_mean_budget$avg_budget[2]) %>% round(1)`.
+The estimated difference in mean budget is $\bar{x}_{Action} - \bar{x}_{Comedy} =$ `r sample_budget_action$avg_budget %>% round(1)` - `r sample_budget_comedy$avg_budget %>% round(1)` = `r (sample_budget_action$avg_budget - sample_budget_comedy$avg_budget) %>% round(1)`.
 The population difference in budget can be calculated from the previous question, and is equal to $\mu_{Action} - \mu_{Comedy} =$ `r budgets$avg_budget[1] %>% round(1)` - `r budgets$avg_budget[2] %>% round(1)` = `r (budgets$avg_budget[1] - budgets$avg_budget[2]) %>% round(1)`.
 The two values are not exactly equal, as we have estimated the parameter with a sample of size 100.
 `r msmbstyle::solution_end()`
