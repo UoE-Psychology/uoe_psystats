@@ -425,9 +425,9 @@ To do this, we:</p>
 <p>What do we mean by <strong>with replacement</strong>, and why is it necessary?</p>
 <div class="solution">
 <p class="solution-begin">
-► Answer<span id="sol-start-76" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-76&#39;, &#39;sol-start-76&#39;)"></span>
+► Answer<span id="sol-start-93" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-93&#39;, &#39;sol-start-93&#39;)"></span>
 </p>
-<div id="sol-body-76" class="solution-body" style="display: none;">
+<div id="sol-body-93" class="solution-body" style="display: none;">
 <p><strong>With replacement</strong> simply means that as we take our sample, we replace the first item before we choose the second.. and so on.<br />
 If we resampled our 50 player sample <em>without</em> replacement, we would simply end up with the same 50 players, and therefore the same mean!</p>
 <p class="solution-end">
@@ -597,9 +597,9 @@ Figure 12.1: Bootstrap resampling distribution based on 2000 resamples
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-78" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-78&#39;, &#39;sol-start-78&#39;)"></span>
+► Solution<span id="sol-start-95" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-95&#39;, &#39;sol-start-95&#39;)"></span>
 </p>
-<div id="sol-body-78" class="solution-body" style="display: none;">
+<div id="sol-body-95" class="solution-body" style="display: none;">
 <p>The distribution of means of resamples will be centred around the <strong>mean of our original sample, 2.11</strong></p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">nfl_resample_means <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_of_means =</span> <span class="kw">mean</span>(avg_salary))</a></code></pre></div>
@@ -627,9 +627,9 @@ We have seen how the boostrap distribution is an approximation of the sampling d
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-79" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-79&#39;, &#39;sol-start-79&#39;)"></span>
+► Solution<span id="sol-start-96" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-96&#39;, &#39;sol-start-96&#39;)"></span>
 </p>
-<div id="sol-body-79" class="solution-body" style="display: none;">
+<div id="sol-body-96" class="solution-body" style="display: none;">
 <p>TRUE!</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -676,9 +676,9 @@ We have seen how the boostrap distribution is an approximation of the sampling d
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-80" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-80&#39;, &#39;sol-start-80&#39;)"></span>
+► Solution<span id="sol-start-97" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-97&#39;, &#39;sol-start-97&#39;)"></span>
 </p>
-<div id="sol-body-80" class="solution-body" style="display: none;">
+<div id="sol-body-97" class="solution-body" style="display: none;">
 <p>“Most” is very vague. Just eyeballing, most of the distribution lies between 1.5 and 2.7.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">ggplot</span>(nfl_resample_means, <span class="kw">aes</span>(<span class="dt">x =</span> avg_salary)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
@@ -803,6 +803,316 @@ We can use this to construct ranges of plausible values of the parameter we are 
 </div>
 <div id="lab" class="section level2">
 <h2><span class="header-section-number">12.7</span> Lab</h2>
+<p>The following code chunk reads in a sample of the Hollywood movies data we saw last week.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">hollywood_sample &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2N9yHms&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(Movie, Genre, RottenTomatoes) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="st">  </span>na.omit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dt">size=</span><span class="dv">25</span>)</a></code></pre></div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>This week, we’re interested in the average Rotten Tomatoes rating for all Hollywood movies between 2007 and 2013.<br />
+What is our best estimate of this with the data we just read in?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-98" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-98&#39;, &#39;sol-start-98&#39;)"></span>
+</p>
+<div id="sol-body-98" class="solution-body" style="display: none;">
+<p><span class="math inline">\(\bar{x}\)</span>: The mean Rotten Tomatoes rating for our sample.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Calculate the sample statistic</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-99" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-99&#39;, &#39;sol-start-99&#39;)"></span>
+</p>
+<div id="sol-body-99" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">hollywood_sample <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_rating =</span> <span class="kw">mean</span>(RottenTomatoes))</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   avg_rating
+##        &lt;dbl&gt;
+## 1       52.2</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Generate 1000 bootstrap resamples to create the bootstrap distribution.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-100" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-100&#39;, &#39;sol-start-100&#39;)"></span>
+</p>
+<div id="sol-body-100" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">bootstrap_distribution &lt;-<span class="st"> </span>hollywood_sample <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dv">25</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_rating =</span> <span class="kw">mean</span>(RottenTomatoes))</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Estimate the standard error of the sample statistic from your bootstrap distribution.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-101" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-101&#39;, &#39;sol-start-101&#39;)"></span>
+</p>
+<div id="sol-body-101" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">bootstrap_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">estimated_SE =</span> <span class="kw">sd</span>(avg_rating))</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   estimated_SE
+##          &lt;dbl&gt;
+## 1         6.35</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Compute the 95% confidence intervals around our estimate of the average Rotten Tomatoes rating, and plot the bootstrap distribution and the confidence interval.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-102" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-102&#39;, &#39;sol-start-102&#39;)"></span>
+</p>
+<div id="sol-body-102" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">samplemean &lt;-<span class="st"> </span>hollywood_sample <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_rating =</span> <span class="kw">mean</span>(RottenTomatoes)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(avg_rating)</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">se &lt;-<span class="st"> </span>bootstrap_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">estimated_SE =</span> <span class="kw">sd</span>(avg_rating)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="st">  </span><span class="kw">pull</span>(estimated_SE)</a>
+<a class="sourceLine" id="cb35-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">ci_lower &lt;-<span class="st"> </span>samplemean <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se</a>
+<a class="sourceLine" id="cb35-10" data-line-number="10">ci_upper &lt;-<span class="st"> </span>samplemean <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se</a>
+<a class="sourceLine" id="cb35-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb35-12" data-line-number="12"><span class="kw">ggplot</span>(bootstrap_distribution, <span class="kw">aes</span>(<span class="dt">x=</span>avg_rating)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-14" data-line-number="14"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">c</span>(ci_lower, ci_upper)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-15" data-line-number="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;bootstrap avg rating&quot;</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Go back to the top where we read in the data, and change the sample you are collecting from 25 to 50. Run the previous tasks again - how has the confidence interval changed?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-103" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-103&#39;, &#39;sol-start-103&#39;)"></span>
+</p>
+<div id="sol-body-103" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">hollywood_sample &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2N9yHms&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(Movie, Genre, RottenTomatoes) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="st">  </span>na.omit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dt">size=</span><span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">bootstrap_distribution &lt;-<span class="st"> </span>hollywood_sample <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_rating =</span> <span class="kw">mean</span>(RottenTomatoes))</a>
+<a class="sourceLine" id="cb37-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb37-11" data-line-number="11">samplemean &lt;-<span class="st"> </span>hollywood_sample <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-12" data-line-number="12"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_rating =</span> <span class="kw">mean</span>(RottenTomatoes)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-13" data-line-number="13"><span class="st">  </span><span class="kw">pull</span>(avg_rating)</a>
+<a class="sourceLine" id="cb37-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb37-15" data-line-number="15">se &lt;-<span class="st"> </span>bootstrap_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-16" data-line-number="16"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">estimated_SE =</span> <span class="kw">sd</span>(avg_rating)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-17" data-line-number="17"><span class="st">  </span><span class="kw">pull</span>(estimated_SE)</a>
+<a class="sourceLine" id="cb37-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb37-19" data-line-number="19">ci_lower &lt;-<span class="st"> </span>samplemean <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se</a>
+<a class="sourceLine" id="cb37-20" data-line-number="20">ci_upper &lt;-<span class="st"> </span>samplemean <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se</a>
+<a class="sourceLine" id="cb37-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb37-22" data-line-number="22"><span class="kw">ggplot</span>(bootstrap_distribution, <span class="kw">aes</span>(<span class="dt">x=</span>avg_rating)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-23" data-line-number="23"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-24" data-line-number="24"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">c</span>(ci_lower, ci_upper)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-25" data-line-number="25"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;bootstrap avg rating&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Look back to last week. What was the <strong>population</strong> mean yearly salary for all NFL players at the beginning of 2015?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-104" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-104&#39;, &#39;sol-start-104&#39;)"></span>
+</p>
+<div id="sol-body-104" class="solution-body" style="display: none;">
+<p>2.238 (million dollers!)</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► A bigger Question
+</p>
+<div class="question-body">
+<p>A researcher lives in Boston. They want to estimate salaries of NFL players, and in 2015 they go around and ask 50 players about their yearly salaries.<br />
+The code below reads in the sample they collected.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">nflboston &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/35QVPwp&quot;</span>)</a></code></pre></div>
+<p>Compute the sample mean, and calculate 99% confidence intervals via bootstrap standard error</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-105" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-105&#39;, &#39;sol-start-105&#39;)"></span>
+</p>
+<div id="sol-body-105" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">samplemean &lt;-<span class="st"> </span>nflboston <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">bootstrap_distribution &lt;-<span class="st"> </span>nflboston <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_salary =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">samplemean &lt;-<span class="st"> </span>nflboston <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb39-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_salary =</span> <span class="kw">mean</span>(YearlySalary)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-10" data-line-number="10"><span class="st">  </span><span class="kw">pull</span>(avg_salary)</a>
+<a class="sourceLine" id="cb39-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb39-12" data-line-number="12">se &lt;-<span class="st"> </span>bootstrap_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-13" data-line-number="13"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">estimated_SE =</span> <span class="kw">sd</span>(avg_salary)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-14" data-line-number="14"><span class="st">  </span><span class="kw">pull</span>(estimated_SE)</a>
+<a class="sourceLine" id="cb39-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb39-16" data-line-number="16">ci_lower &lt;-<span class="st"> </span>samplemean <span class="op">-</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>se</a>
+<a class="sourceLine" id="cb39-17" data-line-number="17">ci_upper &lt;-<span class="st"> </span>samplemean <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>se</a>
+<a class="sourceLine" id="cb39-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb39-19" data-line-number="19"><span class="kw">ggplot</span>(bootstrap_distribution, <span class="kw">aes</span>(<span class="dt">x=</span>avg_salary)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-20" data-line-number="20"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-21" data-line-number="21"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">c</span>(ci_lower, ci_upper)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-22" data-line-number="22"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;bootstrap avg salary&quot;</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>This confidence does not include the population mean. Why not?</p>
+<p><em>hint:</em> Look at your data, and think about what you know about how it was collected - why might this not be a good sample?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-106" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-106&#39;, &#39;sol-start-106&#39;)"></span>
+</p>
+<div id="sol-body-106" class="solution-body" style="display: none;">
+<p>The researcher, living in Boston, seems to have sampled a lot of players from the New England Patriots (a local team).</p>
+<p>The key thing here is that the statistical inference we are making (that the sample mean is an estimate of the population mean) <strong>assumes</strong> that the sample is an unbiased representation. In this case it is not a truly random sample!</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">samplemean &lt;-<span class="st"> </span>nflboston <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">bootstrap_distribution &lt;-<span class="st"> </span>nflboston <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_salary =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb41-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb41-8" data-line-number="8">samplemean &lt;-<span class="st"> </span>nflboston <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb41-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_salary =</span> <span class="kw">mean</span>(YearlySalary)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-10" data-line-number="10"><span class="st">  </span><span class="kw">pull</span>(avg_salary)</a>
+<a class="sourceLine" id="cb41-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb41-12" data-line-number="12">se &lt;-<span class="st"> </span>bootstrap_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-13" data-line-number="13"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">estimated_SE =</span> <span class="kw">sd</span>(avg_salary)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-14" data-line-number="14"><span class="st">  </span><span class="kw">pull</span>(estimated_SE)</a>
+<a class="sourceLine" id="cb41-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb41-16" data-line-number="16">ci_lower &lt;-<span class="st"> </span>samplemean <span class="op">-</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>se</a>
+<a class="sourceLine" id="cb41-17" data-line-number="17">ci_upper &lt;-<span class="st"> </span>samplemean <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>se</a>
+<a class="sourceLine" id="cb41-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb41-19" data-line-number="19"><span class="kw">ggplot</span>(bootstrap_distribution, <span class="kw">aes</span>(<span class="dt">x=</span>avg_salary)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb41-20" data-line-number="20"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb41-21" data-line-number="21"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">c</span>(ci_lower, ci_upper)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb41-22" data-line-number="22"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;bootstrap avg salary&quot;</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 </div>
 <div id="glossary-1" class="section level2">
 <h2><span class="header-section-number">12.8</span> Glossary</h2>
