@@ -1,5 +1,5 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=TRUE
+HIDDEN_SOLS=FALSE
 ```
 
 # Growth Curve Analysis
@@ -21,28 +21,21 @@ source("https://uoe-psychology.github.io/uoe_psystats/multivar/functions/code_po
 
 ## Exercise 1
 <div class="red">
-`Az`: Use natural (not orthogonal) polynomials to analyze decline in performance of 30 individuals with probable Alzheimer's disease on three different kinds of tasks - Memory, complex ADL, and simple ADL. 
+#### The task {-}  
+
+Use natural (not orthogonal) polynomials to analyze decline in performance of 30 individuals with probable Alzheimer's disease on three different kinds of tasks - Memory, complex ADL, and simple ADL. 
 </div>
 
 `r msmbstyle::question_begin()`
 Read the data in to R from the following url: [https://edin.ac/35Njwpl](https://edin.ac/35Njwpl)
 . The data is in .rda format. 
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
-load("https://edin.ac/35Njwpl")
+load(url("https://edin.ac/35Njwpl"))
 summary(Az)
 ```
 `r msmbstyle::solution_end()`
-
-* Plot the observed data
-* (Why are natural polynomials more useful for these data?)
-* Prep the data for GCA
-* Fit the GCA model(s)
-* Interpret the results: 
-    + Which terms show significant effects of experimental factors? 
-    + To what extent do model comparisons and the parameter-specific p-values yield the same results?
-* Plot observed and model fit data
 
 `r msmbstyle::question_begin()`
 Plot the observed data
@@ -124,8 +117,42 @@ ggplot(Az, aes(Time, Performance, color=Task)) +
 
 ## Exercise 2: Logistic GCA
 <div class="red">
-Re-analyze `TargetFix` data using logistic GCA
+Re-analyze `TargetFix` data using logistic GCA. 
+
+The data (.rda format) is available at [https://edin.ac/2TieJK0](https://edin.ac/2TieJK0)
 </div>
 
+## Exercise 2: Solution
+```{r}
+load(url("https://edin.ac/2TieJK0"))
+#make 3rd-order orth poly
+TargetFix <- code_poly(TargetFix, predictor="timeBin", poly.order=3, draw.poly=F)
+# fit logisitc GCA model
+m.log <- glmer(cbind(sumFix, N-sumFix) ~ (poly1+poly2+poly3)*Condition +
+                 (poly1+poly2+poly3 | Subject) +
+                 (poly1+poly2 | Subject:Condition),
+               data=TargetFix, family=binomial)
+summary(m.log)
+```
+
+Simpler random effects: note that the correlations between Subject-level random effects are all +1.00 or -1.00, so can simplify the structure by removing them:
+```{r}
+m.log_zc <- glmer(cbind(sumFix, N-sumFix) ~ (poly1+poly2+poly3)*Condition +
+                 (poly1+poly2+poly3 || Subject) +
+                 (poly1+poly2 | Subject:Condition),
+               data=TargetFix, family=binomial)
+summary(m.log_zc)
+```
+
+Plot model fit
+
+```{r fig.height=4, fig.width=6}
+ggplot(TargetFix, aes(Time, meanFix, color=Condition)) +
+  stat_summary(fun.data=mean_se, geom="pointrange") +
+  stat_summary(aes(y=fitted(m.log)), fun.y=mean, geom="line") +
+  stat_summary(aes(y=fitted(m.log_zc)), fun.y=mean, geom="line", linetype="dashed") +
+  theme_bw() + expand_limits(y=c(0,1)) + 
+  labs(y="Fixation Proportion", x="Time since word onset (ms)")
+```
 
 
