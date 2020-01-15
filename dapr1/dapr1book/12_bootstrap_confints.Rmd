@@ -1,11 +1,19 @@
 ```{r, echo=FALSE}
 HIDDEN_SOLS=FALSE
 set.seed(987)
+
+ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 ```
 
 # Bootstrapping and Confidence Intervals  
 
 <div class="lo">
+#### Instructions {-}
+
+- In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.
+- The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_12_practice.Rmd).
+
+
 #### Learning outcomes {-}
 
 **LO1.** Understand how bootstrap resampling with replacement can be used to approximate a sampling distribution.
@@ -335,16 +343,16 @@ We can use this to construct ranges of plausible values of the parameter we are 
 
 __This teaches us a standardised way of reporting uncertainty in our estimates.__
 
-
-
 ## Lab 
 
-The following code chunk reads in a sample of the Hollywood movies data we saw last week. 
+### Exercise 1: Hollywood Movies {-}
+
+The following code chunk reads in **a sample** of the Hollywood movies data we saw last week. 
 ```{r, message=FALSE}
-hollywood_sample <- read_tsv('https://edin.ac/2N9yHms') %>% 
-  select(Movie, Genre, RottenTomatoes) %>%
-  na.omit %>%
-  sample_n(size=25)
+hollywood_sample <- read_tsv('https://edin.ac/2N9yHms') %>% # read the data
+  select(Movie, Genre, RottenTomatoes) %>% # selects relevant variables
+  na.omit %>% # removes all the NAs
+  sample_n(size=25) # takes our sample
 ```
 
 `r msmbstyle::question_begin()`
@@ -370,10 +378,12 @@ Generate 1000 bootstrap resamples to create the bootstrap distribution.
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
-bootstrap_distribution <- hollywood_sample %>%
+hwood_bs_distribution <- hollywood_sample %>%
   rep_sample_n(25, replace = TRUE, reps = 1000) %>%
   group_by(replicate) %>%
   summarise(avg_rating = mean(RottenTomatoes))
+
+hwood_bs_distribution
 ```
 `r msmbstyle::solution_end()`
 
@@ -382,7 +392,7 @@ Estimate the standard error of the sample statistic from your bootstrap distribu
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
-bootstrap_distribution %>%
+hwood_bs_distribution %>%
   summarise(estimated_SE = sd(avg_rating))
 ```
 `r msmbstyle::solution_end()`
@@ -392,20 +402,20 @@ Compute the 95% confidence intervals around our estimate of the average Rotten T
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
-samplemean <- hollywood_sample %>% 
+hwood_samplemean <- hollywood_sample %>% 
   summarise(avg_rating = mean(RottenTomatoes)) %>%
   pull(avg_rating)
 
-se <- bootstrap_distribution %>%
+hwood_se <- hwood_bs_distribution %>%
   summarise(estimated_SE = sd(avg_rating)) %>%
   pull(estimated_SE)
 
-ci_lower <- samplemean - 1.96 * se
-ci_upper <- samplemean + 1.96 * se
+hwood_ci_lower <- hwood_samplemean - 1.96 * hwood_se
+hwood_ci_upper <- hwood_samplemean + 1.96 * hwood_se
 
-ggplot(bootstrap_distribution, aes(x=avg_rating)) +
+ggplot(hwood_bs_distribution, aes(x=avg_rating)) +
   geom_histogram() +
-  geom_vline(xintercept = c(ci_lower, ci_upper)) +
+  geom_vline(xintercept = c(hwood_ci_lower, hwood_ci_upper)) +
   labs(x = "bootstrap avg rating")
 ```
 `r msmbstyle::solution_end()`
@@ -420,28 +430,30 @@ hollywood_sample <- read_tsv('https://edin.ac/2N9yHms') %>%
   na.omit %>%
   sample_n(size=50)
 
-bootstrap_distribution <- hollywood_sample %>%
+hwood_bs_distribution <- hollywood_sample %>%
   rep_sample_n(50, replace = TRUE, reps = 1000) %>%
   group_by(replicate) %>%
   summarise(avg_rating = mean(RottenTomatoes))
 
-samplemean <- hollywood_sample %>% 
+hwood_samplemean <- hollywood_sample %>% 
   summarise(avg_rating = mean(RottenTomatoes)) %>%
   pull(avg_rating)
 
-se <- bootstrap_distribution %>%
+hwood_se <- hwood_bs_distribution %>%
   summarise(estimated_SE = sd(avg_rating)) %>%
   pull(estimated_SE)
 
-ci_lower <- samplemean - 1.96 * se
-ci_upper <- samplemean + 1.96 * se
+hwood_ci_lower <- hwood_samplemean - 1.96 * hwood_se
+hwood_ci_upper <- hwood_samplemean + 1.96 * hwood_se
 
-ggplot(bootstrap_distribution, aes(x=avg_rating)) +
+ggplot(hwood_bs_distribution, aes(x=avg_rating)) +
   geom_histogram() +
-  geom_vline(xintercept = c(ci_lower, ci_upper)) +
+  geom_vline(xintercept = c(hwood_ci_lower, hwood_ci_upper)) +
   labs(x = "bootstrap avg rating")
 ```
 `r msmbstyle::solution_end()`
+
+### Exercise 2: NFL Players {-}
 
 `r msmbstyle::question_begin()`
 Look back to last week. What was the **population** mean yearly salary for all NFL players at the beginning of 2015? 
@@ -460,27 +472,25 @@ Compute the sample mean, and calculate 99% confidence intervals via bootstrap st
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
-samplemean <- nflboston %>% summarise(avg = mean(YearlySalary))
+nflb_samplemean <- nflboston %>% 
+  summarise(avg_salary = mean(YearlySalary)) %>%
+  pull(avg_salary)
 
-bootstrap_distribution <- nflboston %>%
+nflb_bs_distribution <- nflboston %>%
   rep_sample_n(50, replace = TRUE, reps = 1000) %>%
   group_by(replicate) %>%
   summarise(avg_salary = mean(YearlySalary))
 
-samplemean <- nflboston %>% 
-  summarise(avg_salary = mean(YearlySalary)) %>%
-  pull(avg_salary)
-
-se <- bootstrap_distribution %>%
+nflb_se <- nflb_bs_distribution %>%
   summarise(estimated_SE = sd(avg_salary)) %>%
   pull(estimated_SE)
 
-ci_lower <- samplemean - 3 * se
-ci_upper <- samplemean + 3 * se
+nflb_ci_lower <- nflb_samplemean - 3 * nflb_se
+nflb_ci_upper <- nflb_samplemean + 3 * nflb_se
 
-ggplot(bootstrap_distribution, aes(x=avg_salary)) +
+ggplot(nflb_bs_distribution, aes(x=avg_salary)) +
   geom_histogram() +
-  geom_vline(xintercept = c(ci_lower, ci_upper)) +
+  geom_vline(xintercept = c(nflb_ci_lower, nflb_ci_upper)) +
   labs(x = "bootstrap avg salary")
 ```
 `r msmbstyle::solution_end()`
@@ -495,30 +505,7 @@ The researcher, living in Boston, seems to have sampled a lot of players from th
 
 The key thing here is that the statistical inference we are making (that the sample mean is an estimate of the population mean) **assumes** that the sample is an unbiased representation. In this case it is not a truly random sample!
 `r msmbstyle::solution_end()`
-```{r}
-samplemean <- nflboston %>% summarise(avg = mean(YearlySalary))
 
-bootstrap_distribution <- nflboston %>%
-  rep_sample_n(50, replace = TRUE, reps = 1000) %>%
-  group_by(replicate) %>%
-  summarise(avg_salary = mean(YearlySalary))
-
-samplemean <- nflboston %>% 
-  summarise(avg_salary = mean(YearlySalary)) %>%
-  pull(avg_salary)
-
-se <- bootstrap_distribution %>%
-  summarise(estimated_SE = sd(avg_salary)) %>%
-  pull(estimated_SE)
-
-ci_lower <- samplemean - 3 * se
-ci_upper <- samplemean + 3 * se
-
-ggplot(bootstrap_distribution, aes(x=avg_salary)) +
-  geom_histogram() +
-  geom_vline(xintercept = c(ci_lower, ci_upper)) +
-  labs(x = "bootstrap avg salary")
-```
 
 ## Glossary
 

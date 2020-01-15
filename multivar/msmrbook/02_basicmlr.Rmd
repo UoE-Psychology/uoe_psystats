@@ -1,8 +1,57 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=TRUE
+HIDDEN_SOLS=FALSE
 ```
 
 # Basic Multilevel Regression 
+
+We're going to start using multilevel modelling. There are a whole lot of different names people use for this sort of methodology (hierarchical linear models, linear mixed-effect models, mixed models, nested data models, random coefficient, random-effects models, random parameter models... and so on).   
+What the idea boils down to is that **model parameters vary at more than one level.**  
+
+### Packages {-}  
+
++ lme4  
+
+### Lecture Slides {-}  
+
++ Coming soon  
+
+### Background & Reading {-}  
+  
++ [Winter, 2013](https://arxiv.org/abs/1308.5499)  
++ [Brauer & Curtin, 2018](http://dx.doi.org/10.1037/met0000159),  [(pdf)](https://dionysus.psych.wisc.edu/LabPubs/BrauerM2018a.pdf)  
++ [Luke, 2017](https://doi.org/10.3758/s13428-016-0809-y)  
+
+  
+## LME4  
+
+We're going to use the `lme4` package, and specifically the functions `lmer()` and `glmer()`. 
+"(g)lmer" here stands for "(generalised) linear mixed effects regression". 
+<br>
+You will have seen some use of these functions in the lectures. The broad syntax is:  
+<br>
+<center>lmer(*formula*, REML = *logical*, data = *dataframe*)</center>    
+<br>
+The *formula* bit is similar to what we did with a standard linear model (`lm()`) in that it has the **outcome ~ explanatory variables** structure. However, we now have the addition of the random effect terms, specified in parenthesis with the `|` operator separating parameters on the LHS and a grouping factor on the RHS. Below are a selection of different formulas for specifying different random effect structures.   
+<br>  
+<br>
+  
+|  Formula|  Alternative|  Meaning|
+|--------:|------------:|--------:|
+|  $\text{(1 | g)}$|  $\text{1 + (1 | g)}$|  Random intercept with fixed mean|
+|  $\text{0 + offset(o) + (1 | g)}$|  $\text{-1 + offset(o) + (1 | g)}$|  Random intercept with *a priori* means|
+|  $\text{(1 | g1/g2)}$|  $\text{(1 | g1) + (1 | g1:g2)}$|  Intercept varying among $g1$ and $g2$ within $g1$|
+|  $\text{(1 | g1) + (1 | g2)}$|  $\text{1 + (1 | g1) + (1 | g2)}$|  Intercept varying among $g1$ and $g2$|
+|  $\text{x + (x | g)}$|  $\text{1 + x + (1 + x | g)}$|  Correlated random intercept and slope|
+|  $\text{x + (x || g)}$|  $\text{1 + x + (x | g) + (0 + x | g)}$|  Uncorrelated random intercept and slope|
+**Table 1:** Examples of the right-hand-sides of mixed effects model formulas. $g$, $g1$, $g2$ are grouping factors, covariats and *a priori* known offsets are $x$ and $o$.
+
+<div class="red">
+##### Errors and warnings? {-}  
+For large datasets and/or complex models (lots of random-effects terms), it is quite common to get a *convergence warning*.  There are lots of different ways to [deal with these](https://rstudio-pubs-static.s3.amazonaws.com/33653_57fc7b8e5d484c909b615d8633c01d51.html) (to try to rule out hypotheses about what is causing them).  
+  
+For now, if `lmer()` gives you convergence errors, you could try changing the optimizer. Bobyqa is a good one: add `control = lmerControl(optimizer = "bobyqa")` when you run your model.
+</div>
+
 
 `r msmbstyle::question_begin()`
 Load the `tidyverse`, `lme4` and `effects` packages (install them if you haven't already).    
@@ -19,21 +68,21 @@ library(effects)
 County-level suicide rate data from Public Health England (PHE) is available at [https://edin.ac/36xdhas](https://edin.ac/36xdhas) and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.  
 
 `r msmbstyle::question_begin()`
+Using multilevel regression, study the following:  
   
 * Did the regions differ in their baseline (2001) suicide rates?  
 * Did the regions differ in ther slopes of change of suidice rate?  
 * Make a plot of the fitted values from the model  
 
-<div class="noteBox">  
-**Things to think about**  
-First, get acquainted with the data. It contains various different indicators but we're only interested in one (suicide rates), so you might want to `filter()` the data, using the skills you learnt last week.   
-You may also want to center your data on the year 2001, so that the intercept (e.g., at time 0) in your models is interpretable.   
-  
-Then think about what test you can do to answer the questions above.   
+Steps:  
+
+1. First, get acquainted with the data. It contains various different indicators but we're only interested in one (suicide rates), so you might want to `filter()` the data, using the skills you learnt last week.   
+1. You may also want to center your data on the year 2001, so that the intercept (e.g., at time 0) in your models is interpretable.   
+1. Then think about what test you can do to answer the questions above.        
+1. Lastly, passing your model to the `effect()` function (from the `effects` package) can give you all the data you need to construct your plot.
+
 **Hint:** Try comparing models with and without different baseline/slopes of suicide rates for each region. Think also about the grouping of the data points, and how this is represented in your random effect structure.    
   
-Lastly, passing your model to the `effect()` function (from the `effects` package) can give you all the data you need to construct your plot.
-</div>
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -76,9 +125,6 @@ ggplot(ef, aes(Time, fit, color=Region)) +
   labs(y="Fitted values")
 ```
 `r msmbstyle::solution_end()`
-
-
-
 
 ### Exercise 2  
 The weight maintenance data (`WeightMaintain3`), a made-up data set based on Lowe et al. (2014, Obesity, 22, 94-100), contains information on overweight participants who completed a 12-week weight loss program, and were then randomly assigned to one of three weight maintenance conditions:
@@ -189,11 +235,13 @@ round(coef(summary(m.full)), 3)
 ```{r}
 load(url("https://edin.ac/2QwG7SG"))
 ```
-In the `nwl` data set, participants with aphasia are separated into two groups based on the general location of their brain lesion: anterior vs. posterior. There is data on the numbers of correct and incorrect responses participants gave in each of a series of experimental blocks. There were 7 learning blocks, immediately followed by a test. Finally, participants also completed a follow-up test. Compare the two groups (anterior vs. posterior lesions):
+In the `nwl` data set (accessed using the code above), participants with aphasia are separated into two groups based on the general location of their brain lesion: anterior vs. posterior. There is data on the numbers of correct and incorrect responses participants gave in each of a series of experimental blocks. There were 7 learning blocks, immediately followed by a test. Finally, participants also completed a follow-up test. 
+
+Compare the two groups (those with anterior vs. posterior lesions) with respect to their responses. 
+**Tip:** Remember that you can use `cbind()` to specify the numbers of successes and failures as the outcome in a *binomial* regression (and remember to specify the *family* argument in `glmer()`).  
 
 `r msmbstyle::question_begin()`
 Is the learning rate (training data) different between these two groups?
-**Tip:** You can use `cbind()` to specify the numbers of successes and failures as the outcome in a binomial regression.  
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
