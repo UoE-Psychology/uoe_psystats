@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Week 7 | Data Analysis for Psychology in R (dapR1) - Labs</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Week 7 | Data Analysis for Psychology in R (dapR1) - Labs" />
   <meta property="og:type" content="book" />
@@ -39,6 +39,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -53,43 +56,83 @@
   });
 </script>
 
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -155,12 +198,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
 <li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
-<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.11</b> Including images or links</a><ul>
-<li class="chapter" data-level="2.11.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.11.1</b> Adding links</a></li>
-<li class="chapter" data-level="2.11.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.11.2</b> Adding figures &amp; pictures</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
 </ul></li>
-<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.12</b> Generating documents</a></li>
-<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.13</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
 <li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
@@ -253,7 +297,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
 </ul></li>
 <li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
-<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.jones-and-mr.smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.-jones-and-mr.-smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
 <li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
 <li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
 <li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
@@ -285,6 +329,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.8.4" data-path="week-9.html"><a href="week-9.html#use-dbinom-to-study-the-probability"><i class="fa fa-check"></i><b>9.8.4</b> Use dbinom() to study the probability</a></li>
 <li class="chapter" data-level="9.8.5" data-path="week-9.html"><a href="week-9.html#less-than-five-or-more-than-five"><i class="fa fa-check"></i><b>9.8.5</b> Less than five or more than five?</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-10-lab-test.html"><a href="week-10-lab-test.html"><i class="fa fa-check"></i><b>10</b> Week 10: Lab test</a></li>
+<li class="chapter" data-level="11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html"><i class="fa fa-check"></i><b>11</b> Sampling distributions</a><ul>
+<li class="chapter" data-level="11.1" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#recap"><i class="fa fa-check"></i><b>11.1</b> Recap</a></li>
+<li class="chapter" data-level="11.2" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#population-sample"><i class="fa fa-check"></i><b>11.2</b> Population vs sample</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#parameter-statistic"><i class="fa fa-check"></i><b>11.3</b> Population parameter vs sample statistic</a></li>
+<li class="chapter" data-level="11.4" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sec-sampling-distributions"><i class="fa fa-check"></i><b>11.4</b> Sampling distributions</a></li>
+<li class="chapter" data-level="11.5" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#standard-error"><i class="fa fa-check"></i><b>11.5</b> The standard error of a statistic</a></li>
+<li class="chapter" data-level="11.6" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sample-size-standard-error"><i class="fa fa-check"></i><b>11.6</b> The effect of sample size on the sampling distribution</a></li>
+<li class="chapter" data-level="11.7" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#take-home-message"><i class="fa fa-check"></i><b>11.7</b> Take-home message</a></li>
+<li class="chapter" data-level="11.8" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#lab-hollywood-movies"><i class="fa fa-check"></i><b>11.8</b> Lab: Hollywood movies</a></li>
+<li class="chapter" data-level="11.9" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#summary"><i class="fa fa-check"></i><b>11.9</b> Summary</a></li>
+<li class="chapter" data-level="11.10" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#glossary"><i class="fa fa-check"></i><b>11.10</b> Glossary</a></li>
+<li class="chapter" data-level="11.11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#references"><i class="fa fa-check"></i><b>11.11</b> References</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -322,7 +380,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><a href="https://b-rodrigues.github.io/modern_R/descriptive-statistics-and-data-manipulation.html">Chapter on Descriptive Statistics and Data Manipuliation - Modern R with the Tidyverse by Bruno Rodrigues</a></p>
 <p>Reading in and merging data of different formats can be tricky if you don’t have R to help you. We will walk you through a fairly simple example today to build your intutition. When you get to Years 3 and 4 you will get to work with your own dissertation data - we hope you’ll find the notes here useful for then.</p>
 <p>First things first, let’s load <code>tidyverse</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" title="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 <p>This week we will work with the datasets that have information on students’ grades for different programmes. We have got three separate datasets which we want to put together for the analysis. The first one has data on programmes for 15 students. The second dataset provides grades for the same students. We then have a separate dataset that has information on another 15 students and their respective programmes and grades.</p>
 <p>On top of that, each dataset comes in a different format. We have .csv, .txt, .sav (SPSS) and also .dta (STATA) format. Confusing right?</p>
 <p>Our task for today will be to find an efficient way to create a single dataset that has information for these 30 students that you will then work with in your practice.</p>
@@ -335,7 +393,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>grades (1-100)</li>
 </ul>
 <p>The dataset comes in the format familiar to us, csv, so we know how to read that one in, please note that this week we introduce a tidyverse read_csv() function which can be useful for us when it comes to joining the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_students_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data_students_1.csv&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" title="1">data_students_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data_students_1.csv&#39;</span>)</a></code></pre></div>
 </div>
 <div id="dataset-2-.txt" class="section level2">
 <h2><span class="header-section-number">7.3</span> Dataset 2 (.txt)</h2>
@@ -345,7 +403,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>programme (‘psych’, ‘lang’, and ‘phil’)</li>
 </ul>
 <p>Here, we have got a .txt format. Not a problem for R:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_students_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data_students_2.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>) <span class="co"># Note that we add the header TRUE which will read the first line in the file as the column names.</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" title="1">data_students_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data_students_2.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>) <span class="co"># Note that we add the header TRUE which will read the first line in the file as the column names.</span></a></code></pre></div>
 </div>
 <div id="dataset-3-.sav-and-.dta" class="section level2">
 <h2><span class="header-section-number">7.4</span> Dataset 3 (.sav and .dta)</h2>
@@ -356,17 +414,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>programme (‘psych’, ‘lang’, and ‘phil’)</li>
 </ul>
 <p>We have .dta format here which may look foreign to you as it looks like the data was saved by a different software. To deal with those in R, we can install package <code>foreign</code> and then read directly from the format:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(foreign) 
-data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&#39;data_students_3.dta&#39;</span>)</code></pre></div>
-<p>You may also note that we have <code>data_students_3.sav</code>. This format comes from very popular software that psychology researchers often use, SPSS.</p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" title="1"><span class="kw">library</span>(foreign) </a>
+<a class="sourceLine" id="cb297-2" title="2">data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&#39;data_students_3.dta&#39;</span>)</a></code></pre></div>
+<p>You may also note that we have <code>data_students_3.sav</code>.
+This format comes from very popular software that psychology researchers often use, SPSS.</p>
 <p>We can open it vis <code>foreign</code> as well:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read.spss</span>(<span class="st">&quot;data_students_3.sav&quot;</span>, <span class="dt">to.data.frame=</span><span class="ot">TRUE</span>) <span class="co"># note the argument for data.frame - if you don&#39;t specify, the data will be loaded as the list</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" title="1">data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read.spss</span>(<span class="st">&quot;data_students_3.sav&quot;</span>, <span class="dt">to.data.frame=</span><span class="ot">TRUE</span>) <span class="co"># note the argument for data.frame - if you don&#39;t specify, the data will be loaded as the list</span></a></code></pre></div>
 </div>
 <div id="merging-datasets-together" class="section level2">
 <h2><span class="header-section-number">7.5</span> Merging datasets together</h2>
 <p>Once the data is visible in the environment, we can start attempting to bring them together. There are number of ways to do this. Let us start with the most intuitive one. We can merge datasets 1 and 2 using the ID column. We are lucky to have a unique identifier which can allow us to bring datasets together so we can have our grades and programme all in one dataset.</p>
 <p>Exploring data first can help:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(data_students_<span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" title="1"><span class="kw">head</span>(data_students_<span class="dv">1</span>)</a></code></pre></div>
 <pre><code>##   X   ID grades
 ## 1 1 ID_1     20
 ## 2 2 ID_2     35
@@ -374,7 +433,7 @@ data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span clas
 ## 4 4 ID_4     85
 ## 5 5 ID_5     70
 ## 6 6 ID_6     72</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(data_students_<span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" title="1"><span class="kw">head</span>(data_students_<span class="dv">2</span>)</a></code></pre></div>
 <pre><code>##     ID programme
 ## 1 ID_1     psych
 ## 2 ID_2      lang
@@ -383,10 +442,10 @@ data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span clas
 ## 5 ID_5      lang
 ## 6 ID_6      phil</code></pre>
 <p>We can merge data by ID now and we will use <code>full_join()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Full join</span>
-students_grades_prog &lt;-<span class="st"> </span><span class="kw">full_join</span>(data_students_<span class="dv">1</span>, data_students_<span class="dv">2</span>, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>)) <span class="co"># We can specify the unqiue variable we use to match the datasets via the &#39;by =&#39; argument.</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" title="1"><span class="co"># Full join</span></a>
+<a class="sourceLine" id="cb303-2" title="2">students_grades_prog &lt;-<span class="st"> </span><span class="kw">full_join</span>(data_students_<span class="dv">1</span>, data_students_<span class="dv">2</span>, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>)) <span class="co"># We can specify the unqiue variable we use to match the datasets via the &#39;by =&#39; argument.</span></a></code></pre></div>
 <p>Quickly check that you got what you wanted:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(students_grades_prog)</code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" title="1"><span class="kw">head</span>(students_grades_prog)</a></code></pre></div>
 <pre><code>##   X   ID grades programme
 ## 1 1 ID_1     20     psych
 ## 2 2 ID_2     35      lang
@@ -399,9 +458,9 @@ students_grades_prog &lt;-<span class="st"> </span><span class="kw">full_join</s
 <div id="sorting-and-arrange" class="section level2">
 <h2><span class="header-section-number">7.6</span> Sorting and arrange()</h2>
 <p>To check how the data looks when sorted we can use <code>arrange()</code>::</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Sort in ascending order (default option)</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(grades) </code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" title="1"><span class="co"># Sort in ascending order (default option)</span></a>
+<a class="sourceLine" id="cb306-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb306-3" title="3"><span class="st">  </span><span class="kw">arrange</span>(grades) </a></code></pre></div>
 <pre><code>##     X    ID grades programme
 ## 1   1  ID_1     20     psych
 ## 2   2  ID_2     35      lang
@@ -418,9 +477,9 @@ students_grades_prog <span class="op">%&gt;%</span>
 ## 13 13 ID_13     70     psych
 ## 14  6  ID_6     72      phil
 ## 15  4  ID_4     85     psych</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Sort in descending order (add &#39;desc&#39;)</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb308-1" title="1"><span class="co"># Sort in descending order (add &#39;desc&#39;)</span></a>
+<a class="sourceLine" id="cb308-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb308-3" title="3"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(grades))</a></code></pre></div>
 <pre><code>##     X    ID grades programme
 ## 1   4  ID_4     85     psych
 ## 2   6  ID_6     72      phil
@@ -438,9 +497,9 @@ students_grades_prog <span class="op">%&gt;%</span>
 ## 14  2  ID_2     35      lang
 ## 15  1  ID_1     20     psych</code></pre>
 <p>We can also sort by other variables:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Sort in ascending order by programme (just remove desc())</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(programme) </code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb310-1" title="1"><span class="co"># Sort in ascending order by programme (just remove desc())</span></a>
+<a class="sourceLine" id="cb310-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb310-3" title="3"><span class="st">  </span><span class="kw">arrange</span>(programme) </a></code></pre></div>
 <pre><code>##     X    ID grades programme
 ## 1   2  ID_2     35      lang
 ## 2   5  ID_5     70      lang
@@ -461,19 +520,19 @@ students_grades_prog <span class="op">%&gt;%</span>
 <div id="data-description" class="section level2">
 <h2><span class="header-section-number">7.7</span> Data description</h2>
 <p>Now, we have a full dataset we can try to do some simple analysis on the data and study the variation in grades across the cohort and by programme.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># All grades </span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(grades),
-            <span class="dt">median =</span> <span class="kw">median</span>(grades),
-            <span class="dt">sd =</span> <span class="kw">sd</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" title="1"><span class="co"># All grades </span></a>
+<a class="sourceLine" id="cb312-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb312-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(grades),</a>
+<a class="sourceLine" id="cb312-4" title="4">            <span class="dt">median =</span> <span class="kw">median</span>(grades),</a>
+<a class="sourceLine" id="cb312-5" title="5">            <span class="dt">sd =</span> <span class="kw">sd</span>(grades))</a></code></pre></div>
 <pre><code>##   mean median       sd
 ## 1 56.8     60 17.00084</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Group grades by programme</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(programme) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(grades),
-            <span class="dt">median =</span> <span class="kw">median</span>(grades),
-            <span class="dt">sd =</span> <span class="kw">sd</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb314-1" title="1"><span class="co"># Group grades by programme</span></a>
+<a class="sourceLine" id="cb314-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb314-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(programme) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb314-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(grades),</a>
+<a class="sourceLine" id="cb314-5" title="5">            <span class="dt">median =</span> <span class="kw">median</span>(grades),</a>
+<a class="sourceLine" id="cb314-6" title="6">            <span class="dt">sd =</span> <span class="kw">sd</span>(grades))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   programme  mean median    sd
 ##   &lt;fct&gt;     &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;
@@ -484,54 +543,54 @@ students_grades_prog <span class="op">%&gt;%</span>
 <div id="using-filter" class="section level2">
 <h2><span class="header-section-number">7.8</span> Using filter()</h2>
 <p>We can use a handy option <code>filter()</code> to do descriptives only for certain observations in the data. Let’s group descriptives by programme but only look at ‘psych’.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check programme &#39;psych&#39;</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;psych&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_psych =</span> <span class="kw">mean</span>(grades),
-            <span class="dt">median_psych =</span> <span class="kw">median</span>(grades),
-            <span class="dt">sd_psych =</span> <span class="kw">sd</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb316-1" title="1"><span class="co"># Check programme &#39;psych&#39;</span></a>
+<a class="sourceLine" id="cb316-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb316-3" title="3"><span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;psych&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb316-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_psych =</span> <span class="kw">mean</span>(grades),</a>
+<a class="sourceLine" id="cb316-5" title="5">            <span class="dt">median_psych =</span> <span class="kw">median</span>(grades),</a>
+<a class="sourceLine" id="cb316-6" title="6">            <span class="dt">sd_psych =</span> <span class="kw">sd</span>(grades))</a></code></pre></div>
 <pre><code>##   mean_psych median_psych sd_psych
 ## 1       59.2           65 24.30432</code></pre>
 <p>Try with ‘lang’ and ‘phil’ too.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check programme &#39;lang&#39;</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;lang&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_lang =</span> <span class="kw">mean</span>(grades),
-            <span class="dt">median_lang =</span> <span class="kw">median</span>(grades),
-            <span class="dt">sd_lang =</span> <span class="kw">sd</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" title="1"><span class="co"># Check programme &#39;lang&#39;</span></a>
+<a class="sourceLine" id="cb318-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb318-3" title="3"><span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;lang&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb318-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_lang =</span> <span class="kw">mean</span>(grades),</a>
+<a class="sourceLine" id="cb318-5" title="5">            <span class="dt">median_lang =</span> <span class="kw">median</span>(grades),</a>
+<a class="sourceLine" id="cb318-6" title="6">            <span class="dt">sd_lang =</span> <span class="kw">sd</span>(grades))</a></code></pre></div>
 <pre><code>##   mean_lang median_lang  sd_lang
 ## 1      54.6          60 14.58767</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check programme &#39;phil&#39;</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;phil&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_phil =</span> <span class="kw">mean</span>(grades),
-            <span class="dt">median_phil =</span> <span class="kw">median</span>(grades),
-            <span class="dt">sd_phil =</span> <span class="kw">sd</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" title="1"><span class="co"># Check programme &#39;phil&#39;</span></a>
+<a class="sourceLine" id="cb320-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb320-3" title="3"><span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;phil&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb320-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_phil =</span> <span class="kw">mean</span>(grades),</a>
+<a class="sourceLine" id="cb320-5" title="5">            <span class="dt">median_phil =</span> <span class="kw">median</span>(grades),</a>
+<a class="sourceLine" id="cb320-6" title="6">            <span class="dt">sd_phil =</span> <span class="kw">sd</span>(grades))</a></code></pre></div>
 <pre><code>##   mean_phil median_phil  sd_phil
 ## 1      56.6          58 13.95708</code></pre>
 <p>Where necessary, we can also focus on studying only specific values in our data. For instance, imagine you just wanted to study students who have received grades of 50 and above in ‘psych’.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check programme &#39;psych&#39;, grades &gt; 50</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;phil&#39;</span>, grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_phil =</span> <span class="kw">mean</span>(grades),
-            <span class="dt">median_phil =</span> <span class="kw">median</span>(grades),
-            <span class="dt">sd_phil =</span> <span class="kw">sd</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb322-1" title="1"><span class="co"># Check programme &#39;psych&#39;, grades &gt; 50</span></a>
+<a class="sourceLine" id="cb322-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb322-3" title="3"><span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;phil&#39;</span>, grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb322-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_phil =</span> <span class="kw">mean</span>(grades),</a>
+<a class="sourceLine" id="cb322-5" title="5">            <span class="dt">median_phil =</span> <span class="kw">median</span>(grades),</a>
+<a class="sourceLine" id="cb322-6" title="6">            <span class="dt">sd_phil =</span> <span class="kw">sd</span>(grades))</a></code></pre></div>
 <pre><code>##   mean_phil median_phil  sd_phil
 ## 1        66          68 7.211103</code></pre>
 <p>You will get much higher means now as you removed the grades which were lower.</p>
 <p>We can also use <code>filter()</code> to check just the for occurence of specific values. For example, what if we focused on only very high grades or very low grades in psych?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check programme &#39;psych&#39; grades above 70 or below 40</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;psych&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">70</span> <span class="op">|</span><span class="st"> </span>grades <span class="op">&lt;</span><span class="st"> </span><span class="dv">40</span>) <span class="co"># Take a note of how we use &#39;|&#39; to specify OR.</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb324-1" title="1"><span class="co"># Check programme &#39;psych&#39; grades above 70 or below 40</span></a>
+<a class="sourceLine" id="cb324-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb324-3" title="3"><span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;psych&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb324-4" title="4"><span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">70</span> <span class="op">|</span><span class="st"> </span>grades <span class="op">&lt;</span><span class="st"> </span><span class="dv">40</span>) <span class="co"># Take a note of how we use &#39;|&#39; to specify OR.</span></a></code></pre></div>
 <pre><code>##   X   ID grades programme
 ## 1 1 ID_1     20     psych
 ## 2 4 ID_4     85     psych</code></pre>
 <p>There are two extreme values in our data for our specification but let’s look at all the programmes together as well.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Group programmes and check for extreme values</span>
-students_grades_prog <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(programme) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span> <span class="op">|</span><span class="st"> </span>grades <span class="op">&lt;</span><span class="st"> </span><span class="dv">40</span>) </code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb326-1" title="1"><span class="co"># Group programmes and check for extreme values</span></a>
+<a class="sourceLine" id="cb326-2" title="2">students_grades_prog <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb326-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(programme) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb326-4" title="4"><span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span> <span class="op">|</span><span class="st"> </span>grades <span class="op">&lt;</span><span class="st"> </span><span class="dv">40</span>) </a></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ## # Groups:   programme [2]
 ##       X ID    grades programme
@@ -543,39 +602,39 @@ students_grades_prog <span class="op">%&gt;%</span>
 <div id="visualisations-2" class="section level2">
 <h2><span class="header-section-number">7.9</span> Visualisations</h2>
 <p>Lastly, as usual, always visualise your data to gauge what the distribution looks like.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> students_grades_prog, <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">15</span>, <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-208-1.png" width="672" /></p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb328-1" title="1"><span class="co"># Visualise</span></a>
+<a class="sourceLine" id="cb328-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> students_grades_prog, <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb328-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">15</span>, <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb328-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb328-5" title="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-229-1.png" width="672" /></p>
 <p>What about by programme? Try plotting with subsets. Bear in mind we don’t have that many observations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Example for psych only</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(students_grades_prog, programme <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;psych&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>, <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades (Psych)&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-209-1.png" width="672" /></p>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" title="1"><span class="co"># Example for psych only</span></a>
+<a class="sourceLine" id="cb329-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(students_grades_prog, programme <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;psych&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb329-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>, <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb329-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades (Psych)&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb329-5" title="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-230-1.png" width="672" /></p>
 </div>
 <div id="save-the-file-in-your-folder" class="section level2">
 <h2><span class="header-section-number">7.10</span> Save the file in your folder</h2>
 <p>Before finishing off, we can also write the merged dataset into our folder so it can be saved for the future. Check your folder after you run below.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(students_grades_prog, <span class="st">&#39;student_grades_prog.csv&#39;</span>) <span class="co"># Note how we first specify the object we want to save and then the name of the file including the extension &#39;.csv&#39;.</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" title="1"><span class="kw">write.csv</span>(students_grades_prog, <span class="st">&#39;student_grades_prog.csv&#39;</span>) <span class="co"># Note how we first specify the object we want to save and then the name of the file including the extension &#39;.csv&#39;.</span></a></code></pre></div>
 </div>
 <div id="practice.rmd-solutions-4" class="section level2">
 <h2><span class="header-section-number">7.11</span> Practice.Rmd Solutions</h2>
 <p>First, make sure that all the necessary packages are loaded:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-<span class="kw">library</span>(foreign)</code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb331-2" title="2"><span class="kw">library</span>(foreign)</a></code></pre></div>
 <p>For your practice work with the same data as in the tutorial. You will need to use <code>filter</code> and <code>arrange</code> and also <code>mutate</code> to answer the questions below.</p>
 <p>You are also required to provide some simple visualisations for your data to show what is happening in student grades by programme.</p>
 <p>Here is the breakdown of the tasks we want you to do and the solutions:</p>
 <ul>
 <li>Read all three datasets in (data_students_1, data_students_2, data_students_3). Since they come in different formats make sure to check your notes from the tutorial. Note that you have data_students_3 in different formats so you can choose which one you want to read in. After you’ve read them in, check what’s inside of each dataset.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Dataset 1</span>
-data_students_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data_students_1.csv&#39;</span>)
-<span class="kw">head</span>(data_students_<span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" title="1"><span class="co"># Dataset 1</span></a>
+<a class="sourceLine" id="cb332-2" title="2">data_students_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data_students_1.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb332-3" title="3"><span class="kw">head</span>(data_students_<span class="dv">1</span>)</a></code></pre></div>
 <pre><code>##   X   ID grades
 ## 1 1 ID_1     20
 ## 2 2 ID_2     35
@@ -583,9 +642,9 @@ data_students_<span class="dv">1</span> &lt;-<span class="st"> </span><span clas
 ## 4 4 ID_4     85
 ## 5 5 ID_5     70
 ## 6 6 ID_6     72</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Dataset 2</span>
-data_students_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data_students_2.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>) 
-<span class="kw">head</span>(data_students_<span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb334-1" title="1"><span class="co"># Dataset 2</span></a>
+<a class="sourceLine" id="cb334-2" title="2">data_students_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data_students_2.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>) </a>
+<a class="sourceLine" id="cb334-3" title="3"><span class="kw">head</span>(data_students_<span class="dv">2</span>)</a></code></pre></div>
 <pre><code>##     ID programme
 ## 1 ID_1     psych
 ## 2 ID_2      lang
@@ -593,9 +652,9 @@ data_students_<span class="dv">2</span> &lt;-<span class="st"> </span><span clas
 ## 4 ID_4     psych
 ## 5 ID_5      lang
 ## 6 ID_6      phil</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Dataset 3</span>
-data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&#39;data_students_3.dta&#39;</span>)
-<span class="kw">head</span>(data_students_<span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" title="1"><span class="co"># Dataset 3</span></a>
+<a class="sourceLine" id="cb336-2" title="2">data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&#39;data_students_3.dta&#39;</span>)</a>
+<a class="sourceLine" id="cb336-3" title="3"><span class="kw">head</span>(data_students_<span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##      ID grades programme
 ## 1 ID_16     40     psych
 ## 2 ID_17     38      lang
@@ -603,9 +662,9 @@ data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span clas
 ## 4 ID_19     80     psych
 ## 5 ID_20     69      lang
 ## 6 ID_21     70      phil</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Or</span>
-data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data_students_3.csv&#39;</span>)
-<span class="kw">head</span>(data_students_<span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb338-1" title="1"><span class="co"># Or</span></a>
+<a class="sourceLine" id="cb338-2" title="2">data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;data_students_3.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb338-3" title="3"><span class="kw">head</span>(data_students_<span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##   X    ID grades programme
 ## 1 1 ID_16     40     psych
 ## 2 2 ID_17     38      lang
@@ -617,11 +676,11 @@ data_students_<span class="dv">3</span> &lt;-<span class="st"> </span><span clas
 <ul>
 <li>Merge datasets together. First merge data_students_1 and data_students_2, then merge the resulting data with data_students_3. Hint: you will need to use full_join().</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Dataset 1 + Dataset 2</span>
-students_grades_prog &lt;-<span class="st"> </span><span class="kw">full_join</span>(data_students_<span class="dv">1</span>, data_students_<span class="dv">2</span>, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>)) <span class="co"># We can specify the unqiue variable we use to match the datasets via the &#39;by =&#39; argument.</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># + Dataset 3</span>
-students_grades_prog_all &lt;-<span class="st"> </span><span class="kw">full_join</span>(students_grades_prog, data_students_<span class="dv">3</span>) <span class="co"># Please note that we do not need to specify a unique identifier here as we just want to match data by columns and R is clever enough to know what to do.</span>
-<span class="kw">head</span>(students_grades_prog_all)</code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" title="1"><span class="co"># Dataset 1 + Dataset 2</span></a>
+<a class="sourceLine" id="cb340-2" title="2">students_grades_prog &lt;-<span class="st"> </span><span class="kw">full_join</span>(data_students_<span class="dv">1</span>, data_students_<span class="dv">2</span>, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&#39;ID&#39;</span>)) <span class="co"># We can specify the unqiue variable we use to match the datasets via the &#39;by =&#39; argument.</span></a></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" title="1"><span class="co"># + Dataset 3</span></a>
+<a class="sourceLine" id="cb341-2" title="2">students_grades_prog_all &lt;-<span class="st"> </span><span class="kw">full_join</span>(students_grades_prog, data_students_<span class="dv">3</span>) <span class="co"># Please note that we do not need to specify a unique identifier here as we just want to match data by columns and R is clever enough to know what to do.</span></a>
+<a class="sourceLine" id="cb341-3" title="3"><span class="kw">head</span>(students_grades_prog_all)</a></code></pre></div>
 <pre><code>##   X   ID grades programme
 ## 1 1 ID_1     20     psych
 ## 2 2 ID_2     35      lang
@@ -633,11 +692,11 @@ students_grades_prog_all &lt;-<span class="st"> </span><span class="kw">full_joi
 <li><p>Work with the final dataset that has information on all students (30 observations).</p></li>
 <li><p>Provide means, medians and standard deviations for grades in each programme.</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">students_grades_prog_all <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(programme) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(grades),
-            <span class="dt">median =</span> <span class="kw">median</span>(grades),
-            <span class="dt">sd =</span> <span class="kw">sd</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" title="1">students_grades_prog_all <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb343-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(programme) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb343-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(grades),</a>
+<a class="sourceLine" id="cb343-4" title="4">            <span class="dt">median =</span> <span class="kw">median</span>(grades),</a>
+<a class="sourceLine" id="cb343-5" title="5">            <span class="dt">sd =</span> <span class="kw">sd</span>(grades))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   programme  mean median    sd
 ##   &lt;fct&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
@@ -647,31 +706,31 @@ students_grades_prog_all &lt;-<span class="st"> </span><span class="kw">full_joi
 <ul>
 <li>Provide a simple visualisaiton for each programme.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Psych</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(students_grades_prog_all, programme <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;psych&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>, <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades (Psych)&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-218-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Lang</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(students_grades_prog_all, programme <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;lang&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>,<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades (Lang)&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-219-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Phil</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(students_grades_prog_all, programme <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;phil&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>, <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;coral&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades (Phil)&#39;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-220-1.png" width="672" /></p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" title="1"><span class="co"># Psych</span></a>
+<a class="sourceLine" id="cb345-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(students_grades_prog_all, programme <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;psych&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb345-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>, <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb345-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades (Psych)&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb345-5" title="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-244-1.png" width="672" /></p>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" title="1"><span class="co"># Lang</span></a>
+<a class="sourceLine" id="cb346-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(students_grades_prog_all, programme <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;lang&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb346-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>,<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb346-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades (Lang)&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb346-5" title="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-245-1.png" width="672" /></p>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" title="1"><span class="co"># Phil</span></a>
+<a class="sourceLine" id="cb347-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(students_grades_prog_all, programme <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;phil&#39;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> grades)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb347-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>, <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;coral&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb347-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Grades&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram of Student Grades (Phil)&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb347-5" title="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-246-1.png" width="672" /></p>
 <p>Now, try to answer the following questions:</p>
 <ul>
 <li>How many students in the dataset received the grades above 70?</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter for grades above 70</span>
-students_grades_prog_all <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">70</span>)</code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" title="1"><span class="co"># Filter for grades above 70</span></a>
+<a class="sourceLine" id="cb348-2" title="2">students_grades_prog_all <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb348-3" title="3"><span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">70</span>)</a></code></pre></div>
 <pre><code>##   X    ID grades programme
 ## 1 4  ID_4     85     psych
 ## 2 6  ID_6     72      phil
@@ -680,21 +739,21 @@ students_grades_prog_all <span class="op">%&gt;%</span>
 <ul>
 <li>What is the mean and the median grade for those who got more than 65?</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mean and median for grades above 70</span>
-students_grades_prog_all <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">65</span>)  <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_above_65 =</span> <span class="kw">mean</span>(grades),
-            <span class="dt">median_above_65 =</span> <span class="kw">median</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" title="1"><span class="co"># Mean and median for grades above 70</span></a>
+<a class="sourceLine" id="cb350-2" title="2">students_grades_prog_all <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb350-3" title="3"><span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">65</span>)  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb350-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_above_65 =</span> <span class="kw">mean</span>(grades),</a>
+<a class="sourceLine" id="cb350-5" title="5">            <span class="dt">median_above_65 =</span> <span class="kw">median</span>(grades))</a></code></pre></div>
 <pre><code>##   mean_above_65 median_above_65
 ## 1            72              70</code></pre>
 <p>The answer is 72 and 70.</p>
 <ul>
 <li>How many students received grades that were between 40 and 50 in philosophy programme?</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Phil grades between 40 and 50</span>
-students_grades_prog_all <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;phil&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">40</span> <span class="op">&amp;</span><span class="st"> </span>grades <span class="op">&lt;</span><span class="st"> </span><span class="dv">50</span>) <span class="co"># Note that we use &#39;&amp;&#39; to specify that we want grades both less than 50 and more than 40.</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" title="1"><span class="co"># Phil grades between 40 and 50</span></a>
+<a class="sourceLine" id="cb352-2" title="2">students_grades_prog_all <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb352-3" title="3"><span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;phil&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb352-4" title="4"><span class="st">  </span><span class="kw">filter</span>(grades <span class="op">&gt;</span><span class="st"> </span><span class="dv">40</span> <span class="op">&amp;</span><span class="st"> </span>grades <span class="op">&lt;</span><span class="st"> </span><span class="dv">50</span>) <span class="co"># Note that we use &#39;&amp;&#39; to specify that we want grades both less than 50 and more than 40.</span></a></code></pre></div>
 <pre><code>##    X    ID grades programme
 ## 1  3  ID_3     45      phil
 ## 2 15 ID_30     42      phil</code></pre>
@@ -702,10 +761,10 @@ students_grades_prog_all <span class="op">%&gt;%</span>
 <ul>
 <li>Considering only philosophy programme, what were the top three grades in the cohort?</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Only phil arranged</span>
-students_grades_prog_all <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;phil&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(grades))</code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" title="1"><span class="co"># Only phil arranged</span></a>
+<a class="sourceLine" id="cb354-2" title="2">students_grades_prog_all <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb354-3" title="3"><span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;phil&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb354-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(grades))</a></code></pre></div>
 <pre><code>##     X    ID grades programme
 ## 1   6  ID_6     72      phil
 ## 2   6 ID_21     70      phil
@@ -721,10 +780,10 @@ students_grades_prog_all <span class="op">%&gt;%</span>
 <ul>
 <li>Now, for language, what were the three lowest grades in the cohort?</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Only lang arranged </span>
-students_grades_prog_all <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;lang&#39;</span>)  <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(grades)</code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" title="1"><span class="co"># Only lang arranged </span></a>
+<a class="sourceLine" id="cb356-2" title="2">students_grades_prog_all <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb356-3" title="3"><span class="st">  </span><span class="kw">filter</span>(programme <span class="op">==</span><span class="st"> &#39;lang&#39;</span>)  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb356-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(grades)</a></code></pre></div>
 <pre><code>##     X    ID grades programme
 ## 1   2  ID_2     35      lang
 ## 2   2 ID_17     38      lang
@@ -752,11 +811,13 @@ students_grades_prog_all <span class="op">%&gt;%</span>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -764,12 +825,11 @@ gitbook.start({
 "github": false,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -781,6 +841,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
@@ -797,7 +861,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
