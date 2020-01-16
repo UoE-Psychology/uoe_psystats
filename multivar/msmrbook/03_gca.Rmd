@@ -2,7 +2,7 @@
 HIDDEN_SOLS=FALSE
 ```
 
-# Growth Curve Analysis
+# MLR for longitudinal data (growth curve analysis)
 
 ### Packages {-}  
 
@@ -50,7 +50,9 @@ load(url("https://edin.ac/35Njwpl"))
 summary(Az)
 ```
 `r msmbstyle::solution_end()`
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Plot the observed data (the performance over time for each type of task).
 `r msmbstyle::question_end()` 
@@ -61,15 +63,18 @@ ggplot(Az, aes(Time, Performance, color=Task, fill=Task)) +
   stat_summary(fun=mean, geom="line")
 ```
 `r msmbstyle::solution_end()`
-
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Why are natural polynomials more useful for these data?
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 Because it's useful to know whether there are task differences at the starting baseline point
 `r msmbstyle::solution_end()`
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Fit the GCA model(s).
 
@@ -109,7 +114,8 @@ get_pvalues(m.Az.full)
 ```
 `r msmbstyle::solution_end()`
 
-#### Interpret the results of your full model
+### Interpret the results of your full model {-}
+
 `r msmbstyle::question_begin()`
 Look at the `summary()` of your full model, and try using the `get_pvalues()` function on it.  
   
@@ -120,18 +126,24 @@ Which terms show significant effects of experimental factors?
 + Linear slopes are different: compared to complex ADL tasks, decline in simple ADL tasks is slower and decline in Memory is faster.
 + Quadratic term is different for Memory: decline in cADL and sADL tasks is approximately linear, decline in Memory has more curvature (reaching floor?)
 `r msmbstyle::solution_end()`
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 To what extent do model comparisons and the parameter-specific p-values yield the same results?
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-Model comparisons suggest:
-+ Linear slopes are different: $\chi^2(2)=30.56, p << 0.0001$ (comparison `m.0` and `m.1` above).
-+ Quadratic terms is different: $\chi^2(2)=172.36, p << 0.0001$ (comparison `m.1` and `m.Az.full` above).
+Model comparisons suggest:  
+
++ Linear slopes are different: $\chi^2(2)=30.56, p << 0.0001$ (comparison `m.0` and `m.1` above).  
++ Quadratic terms is different: $\chi^2(2)=172.36, p << 0.0001$ (comparison `m.1` and `m.Az.full` above).  
 
 
 *Note:* We can't investigate the intercept difference via the model comparisons above. Comparison between `m.base` and `m.0` indicates difference holding polynomial terms constant (not the conditional effect where poly1 and poly2 are 0).
 `r msmbstyle::solution_end()`
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Plot model fit
 `r msmbstyle::question_end()` 
@@ -143,8 +155,8 @@ ggplot(Az, aes(Time, Performance, color=Task)) +
 ```
 `r msmbstyle::solution_end()`
 
-
 ## Exercise 2: Logistic GCA
+
 <div class="red">
 Re-analyze `TargetFix` data using logistic GCA. 
 

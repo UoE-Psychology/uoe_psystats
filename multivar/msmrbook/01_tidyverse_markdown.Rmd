@@ -88,7 +88,9 @@ ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
 ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
   stat_summary(fun=mean, geom="bar")
 ```
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Explore the different ways of showing variability. Construct a plot using each of the following geoms:
 `r msmbstyle::question_end()`
@@ -140,12 +142,12 @@ library(patchwork)
 p2 / (p1 | p3 ) / (p4 | p5)
 
 ```
-
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Combine two of the geoms used above to create a visualization of the mean accuracy, a measure of variability, and all of the data points.
 `r msmbstyle::question_end()`
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 ggplot(speech_ses, aes(x = Category, y = Accuracy, colour = Category)) +
@@ -154,13 +156,13 @@ ggplot(speech_ses, aes(x = Category, y = Accuracy, colour = Category)) +
                colour="black", width=0.4, size=1.5)
 ```
 `r msmbstyle::solution_end()`
-
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Refine the plot by, for example, removing unnecessary elements, adding useful annotations (e.g., chance performance = 50%), selecting a good color scheme, etc.  
 **tip:** This is where google becomes really helpful, <a href="https://lmgtfy.com/?q=remove+a+legend+in+ggplot2" target="_blank">for example</a>  
 `r msmbstyle::question_end()`
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 ggplot(speech_ses, aes(x = Category, y = Accuracy, colour = Category)) +
@@ -174,7 +176,6 @@ ggplot(speech_ses, aes(x = Category, y = Accuracy, colour = Category)) +
 ```
 `r msmbstyle::solution_end()`
 
-
 ### Recreating a plot   
 
 `r msmbstyle::question_begin()`
@@ -184,7 +185,6 @@ Recreate the graph below using `ggplot` (if you like, try to make it better!).
 ![Women in computer science](images/plot1_npr.png)  
 
 The data (in .csv format) can be downloaded from [https://edin.ac/2qYA0wr](https://edin.ac/2qYA0wr). You can use `read.csv(url("https://edin.ac/2qYA0wr"))` to read it directly into R.  
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 women_cs<-read.csv(url("https://edin.ac/2qYA0wr"))
@@ -288,7 +288,6 @@ speech_ses %>%
   )
 ```
 
-
 `r msmbstyle::question_begin()`
 Load the tidyverse, and haven package, and read in the data using `read_sav()` (.sav is the type of file which comes out of another stats software, SPSS).   
 You can download the data from [https://edin.ac/34n6AWA](https://edin.ac/34n6AWA) to your computer, and then read it in.  
@@ -304,18 +303,18 @@ Using the `exam.sav` data:
 `r msmbstyle::question_begin()`
 Calculate the mean score for each exam
 `r msmbstyle::question_end()`
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 exam %>% group_by(exam) %>% 
   summarize(M = mean(scores))
 ```
 `r msmbstyle::solution_end()`
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Calculate the mean score for each exam for female students only
 `r msmbstyle::question_end()`
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 exam %>% 
@@ -324,11 +323,12 @@ exam %>%
   summarize(M = mean(scores))
 ```
 `r msmbstyle::solution_end()`
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Make a new dataframe containing only the exam scores for males for exam number 1, with a new variable indicating whether they passed or not (pass = a score of 40)
 `r msmbstyle::question_end()`
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 exam_m1 <- exam %>% 
@@ -336,11 +336,12 @@ exam_m1 <- exam %>%
   mutate(pass = ifelse(scores>40,"pass","fail"))
 ```
 `r msmbstyle::solution_end()`
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Calculate the average score for each exam for male and female students")`
 `r msmbstyle::question_end()`
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 exam %>% group_by(exam, gender) %>% 
@@ -352,7 +353,6 @@ exam %>% group_by(exam, gender) %>%
   spread(gender, M)
 ```
 `r msmbstyle::solution_end()`
-
 
 ### Reshaping  
 
@@ -375,19 +375,18 @@ You can see it by just typing `USArrests` in R.
 `r msmbstyle::question_begin()`
 Convert the USArrests data set from a wide to a long format so that instead of separate variables for each crime type (Murder, Assault, Rape), there is one variable that identifies the crime type and one variable that contains the rates for each crime type for each state.
 `r msmbstyle::question_end()`
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 x <- gather(USArrests, key="CrimeType", value="Rate", 
             Murder, Assault, Rape)
 ```
 `r msmbstyle::solution_end()`
-
-
+<br>
+<hr />
+<br><br>
 `r msmbstyle::question_begin()`
 Make a scatterplot showing the relationship between each type of violent crime rate and percent of population living in urban areas.
 `r msmbstyle::question_end()`
-
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r fig.height=3}
 ggplot(x, aes(UrbanPop, Rate)) + 
@@ -395,7 +394,6 @@ ggplot(x, aes(UrbanPop, Rate)) +
   geom_point() + stat_smooth(method="lm")
 ```
 `r msmbstyle::solution_end()`
-
 
 ### Less guidance {-}  
 <div class="lo">  
