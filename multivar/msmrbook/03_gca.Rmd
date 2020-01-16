@@ -4,6 +4,20 @@ HIDDEN_SOLS=FALSE
 
 # Growth Curve Analysis
 
+### Packages {-}  
+
++ lme4  
+
+### Lecture Slides {-}  
+
++ Coming soon  
+
+### Background & Reading {-}  
+  
++ Coming soon  
+  
+## Introduction    
+
 `r msmbstyle::question_begin()`
 Load the `tidyverse`, `lme4` and `effects` packages, and some useful functions from Dan for getting p-values and coding polynomials.   
   
@@ -38,13 +52,13 @@ summary(Az)
 `r msmbstyle::solution_end()`
 
 `r msmbstyle::question_begin()`
-Plot the observed data
+Plot the observed data (the performance over time for each type of task).
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 ggplot(Az, aes(Time, Performance, color=Task, fill=Task)) + 
   stat_summary(fun.data=mean_se, geom="ribbon", color=NA, alpha=0.5) +
-  stat_summary(fun.y=mean, geom="line")
+  stat_summary(fun=mean, geom="line")
 ```
 `r msmbstyle::solution_end()`
 
@@ -57,7 +71,17 @@ Because it's useful to know whether there are task differences at the starting b
 `r msmbstyle::solution_end()`
 
 `r msmbstyle::question_begin()`
-Fit the GCA models
+Fit the GCA model(s).
+
+Steps required:  
+
+1. Add 1st and 2nd order natural polynomials to the data using the `code_poly()` function. 
+1. Create a baseline model, in which performance varies over time, but no differences in Task are estimated. Think about random effect structure - what are the observations grouped by? Are observations nested?
+1. Create a new model with a fixed effect of Task
+1. Create a new model in which performance varies linearly over time between Task type.
+1. Create a new model in which linear and quadratic performance over time varies between Task type.
+1. Run model comparisons.
+
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
@@ -79,15 +103,16 @@ m.Az.full <- lmer(Performance ~ (poly1 + poly2)*Task +
                 data=Az, REML=F)
 anova(m.base, m.0, m.1, m.Az.full)
 ```
-Get p-values:
+Get p-values for your full model:
 ```{r warning=FALSE, message=FALSE}
 get_pvalues(m.Az.full)
 ```
 `r msmbstyle::solution_end()`
 
+#### Interpret the results of your full model
 `r msmbstyle::question_begin()`
-Interpret the results: 
-`r msmbstyle::question_begin()`
+Look at the `summary()` of your full model, and try using the `get_pvalues()` function on it.  
+  
 Which terms show significant effects of experimental factors? 
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -99,9 +124,13 @@ Which terms show significant effects of experimental factors?
 To what extent do model comparisons and the parameter-specific p-values yield the same results?
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-jk insert
+Model comparisons suggest:
++ Linear slopes are different: $\chi^2(2)=30.56, p << 0.0001$ (comparison `m.0` and `m.1` above).
++ Quadratic terms is different: $\chi^2(2)=172.36, p << 0.0001$ (comparison `m.1` and `m.Az.full` above).
+
+
+*Note:* We can't investigate the intercept difference via the model comparisons above. Comparison between `m.base` and `m.0` indicates difference holding polynomial terms constant (not the conditional effect where poly1 and poly2 are 0).
 `r msmbstyle::solution_end()`
-`r msmbstyle::question_end()` 
 
 `r msmbstyle::question_begin()`
 Plot model fit
@@ -110,7 +139,7 @@ Plot model fit
 ```{r fig.width=6, fig.height=4}
 ggplot(Az, aes(Time, Performance, color=Task)) + 
   stat_summary(fun.data=mean_se, geom="pointrange") + 
-  stat_summary(fun.y=mean, geom="line", aes(y=fitted(m.Az.full)))
+  stat_summary(fun=mean, geom="line", aes(y=fitted(m.Az.full)))
 ```
 `r msmbstyle::solution_end()`
 
@@ -131,7 +160,7 @@ TargetFix <- code_poly(TargetFix, predictor="timeBin", poly.order=3, draw.poly=F
 m.log <- glmer(cbind(sumFix, N-sumFix) ~ (poly1+poly2+poly3)*Condition +
                  (poly1+poly2+poly3 | Subject) +
                  (poly1+poly2 | Subject:Condition),
-               data=TargetFix, family=binomial)
+               data=TargetFix, family=binomial, control = glmerControl(optimizer = "bobyqa"))
 summary(m.log)
 ```
 
@@ -140,7 +169,7 @@ Simpler random effects: note that the correlations between Subject-level random 
 m.log_zc <- glmer(cbind(sumFix, N-sumFix) ~ (poly1+poly2+poly3)*Condition +
                  (poly1+poly2+poly3 || Subject) +
                  (poly1+poly2 | Subject:Condition),
-               data=TargetFix, family=binomial)
+               data=TargetFix, family=binomial, control = glmerControl(optimizer = "bobyqa"))
 summary(m.log_zc)
 ```
 
@@ -149,8 +178,8 @@ Plot model fit
 ```{r fig.height=4, fig.width=6}
 ggplot(TargetFix, aes(Time, meanFix, color=Condition)) +
   stat_summary(fun.data=mean_se, geom="pointrange") +
-  stat_summary(aes(y=fitted(m.log)), fun.y=mean, geom="line") +
-  stat_summary(aes(y=fitted(m.log_zc)), fun.y=mean, geom="line", linetype="dashed") +
+  stat_summary(aes(y=fitted(m.log)), fun=mean, geom="line") +
+  stat_summary(aes(y=fitted(m.log_zc)), fun=mean, geom="line", linetype="dashed") +
   theme_bw() + expand_limits(y=c(0,1)) + 
   labs(y="Fixation Proportion", x="Time since word onset (ms)")
 ```
