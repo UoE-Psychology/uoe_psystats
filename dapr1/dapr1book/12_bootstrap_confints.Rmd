@@ -141,7 +141,7 @@ nfl_resample_means <- nfl_2000resamples %>%
 ```
 
 and we can plot them:
-```{r fig.cap="Bootstrap resampling distribution based on 2000 resamples"}
+```{r message=FALSE}
 ggplot(nfl_resample_means, aes(x = avg_salary)) + 
   geom_histogram(color = "white") + 
   labs(x = "resample mean")
@@ -198,8 +198,8 @@ Spend 10 minutes changing things such as the sample size. If you have any questi
 ## Confidence Intervals
 
 `r msmbstyle::question_begin()`
-Look at the bootstrap distribution below. Roughly, between what two values do most of the resample means lie?
-```{r echo=FALSE}
+Take a look again at the bootstrap distribution we constructed (Figure \@ref(fig:bootstrap_dist), below). Roughly, between what two values do most of the resample means lie?
+```{r bootstrap_dist, echo=FALSE, fig.cap="Bootstrap resampling distribution based on 2000 resamples", message=FALSE}
 ggplot(nfl_resample_means, aes(x = avg_salary)) + 
   geom_histogram(color = "white") + 
   labs(x = "resample mean")
@@ -207,7 +207,7 @@ ggplot(nfl_resample_means, aes(x = avg_salary)) +
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 "Most" is very vague. Just eyeballing, most of the distribution lies between 1.5 and 2.7. 
-```{r fig.cap="Bootstrap resampling distribution based on 2000 resamples"}
+```{r message=FALSE}
 ggplot(nfl_resample_means, aes(x = avg_salary)) + 
   geom_histogram(color = "white") + 
   labs(x = "resample mean") +
@@ -324,10 +324,14 @@ and we used the standard deviation of our bootstrap resample means...
 bootstrap_distribution %>%
   summarise(sd_of_means = sd(avg))
 ```
-to calculate some 95% confidence intervals using the formula:  
-$\bar{x} \pm 1.96 \times SE$  
+to calculate some 95% confidence intervals using the formula:
+<br>
+<center>$\bar{x} \pm 1.96 \times SE$</center>
+<br>
 which became:  
-$2.11 \pm 1.96 \times 0.3$  
+<br>
+<center>$2.11 \pm 1.96 \times 0.3$</center>
+<br>
 giving us a confidence interval of $[1.52, 2.70]$.  
 
 <div class="red">
