@@ -77,16 +77,24 @@ Make a summary plot showing mean accuracy for each category of judgment
 `r msmbstyle::question_end()`  
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+We need to use `stat_summary` because we want to summarise the y values on our plot into summary value(s) (in the case the mean). 
+We could also calculate the mean accuracy for each category first, and *then* plot them using geom_bar directly, but `stat_summary` can be pretty useful  
 ```{r}
 #one way of doing this:
 ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
-  stat_summary(fun=mean, geom="bar")
+  stat_summary(fun.y=mean, geom="bar")
+```
+
+We should also note that `stat_summary(fun.y=mean, geom="bar")` and `geom_bar(stat="summary",fun.y=mean)` are exactly the same! You could get the same plot using: 
+```{r, eval=FALSE, echo=TRUE}
+ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
+  geom_bar(stat="summary",fun.y=mean)
 ```
 `r msmbstyle::solution_end()`
 ```{r echo=FALSE}
 #one way of doing this:
 ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
-  stat_summary(fun=mean, geom="bar")
+  stat_summary(fun.y=mean, geom="bar")
 ```
 <br>
 <hr />
@@ -94,7 +102,7 @@ ggplot(speech_ses, aes(x = Category, y = Accuracy, fill = Category)) +
 `r msmbstyle::question_begin()`
 Explore the different ways of showing variability. Construct a plot using each of the following geoms:
 `r msmbstyle::question_end()`
-
+The top three plots (jitter, boxplots and violins) all show *all* of the data, so we don't need to use `stat_summary` for these. However, the bottom two (errorbars and pointranges) require us to summarise the data into means and standard errors, so we need to use `stat_summary(fun.data=mean_se)`.   
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r, eval=FALSE}
 # * Boxplot
@@ -360,11 +368,12 @@ The same data can be represented in many different ways. We often discern betwee
 Consider, the below example, showing the same data in *long* format on the left, and in *wide* on the right. 
 ![Long to wide, from 'R for datascience'](images/tidy-9.png)
 
-There are some useful functions which we can use to move between these formats: `gather()` and `spread()`. Check out the explanation of them [in the reading, section 12.3](https://r4ds.had.co.nz/tidy-data.html#spreading-and-gathering)[^1]
-
-[^1]: A newer version of these are `pivot_longer()` and `pivot_wider()`, but `gather()` and `spread()` will continue to be available.  
-
-
+There are some useful functions which we can use to move between these formats: `gather()` and `spread()`. Check out the explanation of them [in the reading, section 12.3](https://r4ds.had.co.nz/tidy-data.html#spreading-and-gathering)  
+<br>
+<div class="red">
+A newer version of these are `pivot_longer()` and `pivot_wider()`, but `gather()` and `spread()` will continue to be available if you want them.  
+</div>
+<br>
 <div class="lo">
 **Data overview**  
 
@@ -379,6 +388,10 @@ Convert the USArrests data set from a wide to a long format so that instead of s
 ```{r}
 x <- gather(USArrests, key="CrimeType", value="Rate", 
             Murder, Assault, Rape)
+
+# or
+
+x <- pivot_longer(USArrests, cols = c(Murder, Assault, Rape), names_to = "CrimeType", values_to = "Rate")
 ```
 `r msmbstyle::solution_end()`
 <br>
@@ -405,17 +418,19 @@ You can see the by typing `psych::ability` (those `::` are just a way of accessi
 
 `r msmbstyle::question_begin()`
 Tidy the data and make a graph of average accuracy for each question type.  
+You might have to use `as_tibble(ability)` or `as.data.frame(ability)` because it is initially stored as a matrix.  
 **Hint:** the `separate()` function may come in handy at some point.  
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r fig.height=4, warning=FALSE}
 iq <- as_tibble(psych::ability) %>% 
-  gather(key="Item", value="Correct", 1:16) %>%
+  pivot_longer(., cols=1:16, names_to = "Item", values_to = "Correct") %>%
+  # gather(key="Item", value="Correct", 1:16) %>%         # The gather() alternative... 
   separate(Item, c("Domain", "Number"))
 
 ggplot(iq, aes(Domain, Correct)) + 
-  stat_summary(fun = mean, geom="bar")
+  stat_summary(fun.y = mean, geom="bar")
 ```
 `r msmbstyle::solution_end()`
 
