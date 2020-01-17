@@ -1,0 +1,204 @@
+---
+title: "Week 12: Bootstrapping and confidence intervals"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# A. Worked example: NFL Salaries
+
+## A.1. Sampling to Resampling
+
+Think back to last week. We saw a dataset of all the National Football League players at the beginning of 2015, along with their yearly salaries. This was our population.
+
+In real life we often don't have data on the entire population, so let's imagine we only collect one sample of 50 players.  
+We can approximate the sampling distribution of $\bar{x}$ (the mean salary of our sample) by bootstrapping. 
+
+1. Collect a sample of 50 players.
+2. Compute the mean salary of the sample.
+3. Take a random sample with replacement of 50 players from our original sample (this is known as a resample), and compute the mean of the resample. 
+4. Re-do point 3 many times. 
+
+**Solution**  
+
+- Question 1: 
+```{r message=FALSE}
+library(tidyverse)
+library(moderndive)
+
+nfl_sample <- read_csv("https://edin.ac/2NATDCQ")
+
+nfl_sample
+```
+
+- Question 2:
+```{r}
+nfl_sample %>%
+  summarise(avg_salary = mean(YearlySalary))
+```
+
+- Question 3:
+```{r}
+nfl_resample1 <- nfl_sample %>%
+  rep_sample_n(size = 50, replace = TRUE)
+
+nfl_resample1
+
+nfl_resample1 %>% 
+  summarise(avg_salary = mean(YearlySalary))
+```
+
+- Question 4: 
+```{r}
+nfl_resample2 <- nfl_sample %>%
+  rep_sample_n(size = 50, replace = TRUE)
+
+nfl_resample2
+
+nfl_resample2 %>% 
+  summarise(avg_salary = mean(YearlySalary))
+```
+
+
+## Getting to the Bootstrap Distribution  
+
+We can speed up this process by getting R to take many resamples for us, in the same way that last week we asked it to take many samples from a population.  
+
+The below line of code takes 2000 sample of size 50, by sampling with replacement from our original sample of size 50. 
+```{r}
+nfl_2000resamples <- nfl_sample %>% 
+  rep_sample_n(size = 50, replace = TRUE, reps = 2000)
+
+nfl_2000resamples
+```
+
+We can compute the mean of each of the 2000 *resamples* drawn from the original sample (just like last week when we computed the mean of each of 2000 samples drawn from the population).
+```{r}
+nfl_resample_means <- nfl_2000resamples %>%
+  group_by(replicate) %>%
+  summarise(avg_salary = mean(YearlySalary))
+```
+
+and we can plot them:
+
+```{r}
+ggplot(nfl_resample_means, aes(x = avg_salary)) + 
+  geom_histogram(color = "white") + 
+  labs(x = "resample mean")
+```
+
+## Calculating confidence intervals using a bootstrap standard error  
+
+```{r}
+#recall that our original sample mean was 2.11496
+original_sample_mean <- nfl_sample %>% 
+  summarise(avg = mean(YearlySalary)) %>%
+  pull(avg)
+
+original_sample_mean
+
+nfl_resample_means %>%
+  summarise(
+    sd_of_means = sd(avg_salary), 
+    ci_lower = original_sample_mean - (1.96 * sd_of_means),
+    ci_upper = original_sample_mean + (1.96 * sd_of_means)
+  )
+```
+
+
+## Take-home message
+
+Using just one sample, it is possible to quantify estimation error by taking repeated resamples with replacement from our original sample. 
+We can use this to construct ranges of plausible values of the parameter we are estimating. 
+
+
+
+----
+
+
+# B: Lab 
+
+The following code chunk reads in **a sample** of the Hollywood movies data we saw last week. 
+```{r, message=FALSE}
+hollywood_sample <- read_tsv('https://edin.ac/2N9yHms') %>% # read the data
+  select(Movie, Genre, RottenTomatoes) %>% # selects relevant variables
+  na.omit %>% # removes all the NAs
+  sample_n(size=25) # takes our sample
+```
+
+## B.1  
+This week, we're interested in the average Rotten Tomatoes rating for all Hollywood movies between 2007 and 2013.   
+What is our best estimate of this with the data we just read in?
+
+...
+
+## B.2  
+Calculate the sample statistic
+
+```{r}
+
+```
+
+## B.3  
+Generate 1000 bootstrap resamples to create the bootstrap distribution. 
+
+```{r}
+
+```
+
+## B.4 
+Estimate the standard error of the sample statistic from your bootstrap distribution.
+
+```{r}
+
+```
+
+
+## B.5  
+Compute the 95% confidence intervals around our estimate of the average Rotten Tomatoes rating, and plot the bootstrap distribution and the confidence interval.
+
+```{r}
+
+```
+
+## B.6
+
+Go back to where we read in the data, and change the sample you are collecting from 25 to 50. 
+Run the previous tasks again.
+How has the confidence interval changed?
+
+
+
+---
+
+
+## B.7
+Look back to last week. What was the population mean yearly salary for all NFL players at the beginning of 2015? 
+  
+$\mu$ = ??  
+  
+
+## B.8
+A researcher lives in Boston. They want to estimate salaries of NFL players, and in 2015 they go around and ask 50 players about their yearly salaries.  
+The code below reads in the sample they collected.
+
+```{r message=FALSE}
+nflboston <- read_csv("https://edin.ac/35QVPwp")
+```
+
+Compute the sample mean, and calculate 99% confidence intervals via bootstrap standard error
+
+```{r}
+
+
+
+```
+
+
+## B.9 
+This confidence does not include the population mean. Why not?  
+*hint:* Look at your data, and think about what you know about how it was collected - why might this not be a good sample?
+
+
