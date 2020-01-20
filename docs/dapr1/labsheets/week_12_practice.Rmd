@@ -101,10 +101,10 @@ original_sample_mean
 
 nfl_resample_means %>%
   summarise(
-    sd_of_means = sd(avg_salary), 
-    ci_lower = original_sample_mean - (1.96 * sd_of_means),
-    ci_upper = original_sample_mean + (1.96 * sd_of_means)
-  )
+    est_SE = sd(avg_salary), 
+    ci_lower = original_sample_mean - (1.96 * est_SE),
+    ci_upper = original_sample_mean + (1.96 * est_SE)
+  ) %>% select(ci_lower, ci_upper)
 ```
 
 
@@ -124,7 +124,7 @@ The following code chunk reads in **a sample** of the Hollywood movies data we s
 ```{r, message=FALSE}
 hollywood_sample <- read_tsv('https://edin.ac/2N9yHms') %>% # read the data
   select(Movie, Genre, RottenTomatoes) %>% # selects relevant variables
-  na.omit %>% # removes all the NAs
+  drop_na %>% # removes all the NAs
   sample_n(size=25) # takes our sample
 ```
 

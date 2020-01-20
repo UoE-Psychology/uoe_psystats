@@ -68,7 +68,7 @@ To do this, we:
 What do we mean by *"with replacement"*, and why is it necessary?
 `r msmbstyle::solution_begin(header = "&#x25BA; Answer", hidden=FALSE)`
 *"With replacement"* simply means that as we take our sample, we replace the first item before we choose the second.. and so on.  
-If we resampled our 50 player sample *without* replacement, we would simply end up with the same 50 players, and therefore the same mean!
+**If we resampled our 50 player sample *without* replacement, we would simply end up with the same 50 players, and therefore the same mean!**
 `r msmbstyle::solution_end()`
 </div>
 
@@ -113,6 +113,13 @@ nfl_resample2 %>%
   summarise(avg_salary = mean(YearlySalary))
 ```
 and so on...  
+
+```{r echo=FALSE}
+data.frame(
+  sample = c("Original Sample","Resample 1","Resample 2"),
+  statistic = c(mean(nfl_sample$YearlySalary),mean(nfl_resample1$YearlySalary),mean(nfl_resample2$YearlySalary))
+) %>% knitr::kable()
+```
 `r msmbstyle::solution_end()`
 
 ## Getting to the bootstrap distribution  
@@ -180,7 +187,7 @@ Now let's think more generally about what we did there...
 
 1. We were interested in estimating some unknown parameter of a population.
 1. We had a sample of size $n$ drawn at random from the population.
-1. We took 1000 *resamples* (of size $n$) from our original sample, and calculated a statistic for each one. 
+1. We took lots of *resamples* (of size $n$) from our original sample, and calculated a statistic for each one. 
 1. We then visualised the distribution of those statistics. 
 
 The tool below will help to conceptualise these steps:
@@ -191,19 +198,20 @@ The tool below will help to conceptualise these steps:
 + **The green resample button**: Samples with replacement from the original sample (the yellow one), and calculates the mean (which is then dropped into the bottom panel).
 + **The bottom panel**: The distribution of resample means - the bootstrap distribution!
 
-Spend 10 minutes changing things such as the sample size. If you have any questions about what is happening, then ask one of the tutors. 
+Spend 10 minutes changing things such as the sample size. If you have any questions about what is happening, then please ask either now or during the lab.  
 `r knitr::include_url("https://web.archive.org/web/20160807193104/http://wise1.cgu.edu/vis/bootstrap/", height="650px")`
 **source: [https://web.archive.org/web/20160807193104/http://wise1.cgu.edu/vis/bootstrap/](https://web.archive.org/web/20160807193104/http://wise1.cgu.edu/vis/bootstrap/)**
 
 ## Confidence Intervals
 
-`r msmbstyle::question_begin()`
-Take a look again at the bootstrap distribution we constructed (Figure \@ref(fig:bootstrap_dist), below). Roughly, between what two values do most of the resample means lie?
-```{r bootstrap_dist, echo=FALSE, fig.cap="Bootstrap resampling distribution based on 2000 resamples", message=FALSE}
+Take a look again at the bootstrap distribution we constructed (Figure \@ref(fig:bootstrap-dist), below). 
+```{r bootstrap-dist, echo=FALSE, fig.cap="Bootstrap resampling distribution based on 2000 resamples", message=FALSE}
 ggplot(nfl_resample_means, aes(x = avg_salary)) + 
   geom_histogram(color = "white") + 
   labs(x = "resample mean")
 ```
+`r msmbstyle::question_begin()`
+Roughly, between what two values do *most* of the resample means lie?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 "Most" is very vague. Just eyeballing, most of the distribution lies between 1.5 and 2.7. 
@@ -227,7 +235,7 @@ For instance, we might ask between which values the middle 95% (or 90%, or 80%, 
 In other words, the confidence level is the "success rate": the proportion of all samples whose intervals contain the true parameter.
 
 <div class="def">
-#### How exactly do we interpret a confidence interval?
+#### How exactly do we interpret a confidence interval? {-}
 
 If we were to do this whole process over and over again: 
 
@@ -273,6 +281,9 @@ We also use the following rules of thumb:
 + 68% of values will lie within 1 standard deviation of the mean.
 + 95% of values will lie within 1.96 standard deviations of the mean.
 + 99.7% of values will lie within 3 standard deviations of the mean.
+```{r echo=FALSE}
+knitr::include_graphics('images/normal.png')
+```
 </div>
 
 We have our sample mean, and we can calculate the standard deviation of our bootstrap distribution (to approximate the standard error of the sample mean).
@@ -294,10 +305,10 @@ original_sample_mean
 
 nfl_resample_means %>%
   summarise(
-    sd_of_means = sd(avg_salary), 
-    ci_lower = original_sample_mean - (1.96 * sd_of_means),
-    ci_upper = original_sample_mean + (1.96 * sd_of_means)
-  )
+    est_SE = sd(avg_salary), 
+    ci_lower = original_sample_mean - (1.96 * est_SE),
+    ci_upper = original_sample_mean + (1.96 * est_SE)
+  ) %>% select(ci_lower, ci_upper)
 ```
 
 
@@ -314,7 +325,7 @@ We constructed our bootstrap distribution using code like below:
 ```{r}
 bootstrap_distribution <- 
   nfl_sample %>%
-  rep_sample_n(50, replace = TRUE, reps = 2000) %>%
+  rep_sample_n(size = 50, replace = TRUE, reps = 2000) %>%
   group_by(replicate) %>%
   summarise(avg = mean(YearlySalary))
 ```
@@ -322,7 +333,7 @@ bootstrap_distribution <-
 and we used the standard deviation of our bootstrap resample means... 
 ```{r}
 bootstrap_distribution %>%
-  summarise(sd_of_means = sd(avg))
+  summarise(est_SE = sd(avg))
 ```
 to calculate some 95% confidence intervals using the formula:
 <br>
@@ -330,9 +341,9 @@ to calculate some 95% confidence intervals using the formula:
 <br>
 which became:  
 <br>
-<center>$2.11 \pm 1.96 \times 0.3$</center>
+<center>$2.11 \pm 1.96 \times 0.29$</center>
 <br>
-giving us a confidence interval of $[1.52, 2.70]$.  
+giving us a confidence interval of $[1.54, 2.68]$.  
 
 <div class="red">
 ##### Stop and think {-}
@@ -360,7 +371,7 @@ The following code chunk reads in a **sample** of the Hollywood movies data we s
 ```{r, message=FALSE}
 hollywood_sample <- read_tsv('https://edin.ac/2N9yHms') %>% # read the data
   select(Movie, Genre, RottenTomatoes) %>% # selects relevant variables
-  na.omit %>% # removes all the NAs
+  drop_na %>% # removes all the NAs
   sample_n(size=25) # takes our sample
 ```
 
@@ -429,38 +440,9 @@ ggplot(hwood_bs_distribution, aes(x=avg_rating)) +
 ```
 `r msmbstyle::solution_end()`
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Extra")`
 Go back to the top where we read in the data, and change the sample you are collecting from 25 to 50. Run the previous tasks again - how has the confidence interval changed?
 `r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-```{r message=FALSE}
-hollywood_sample <- read_tsv('https://edin.ac/2N9yHms') %>% 
-  select(Movie, Genre, RottenTomatoes) %>%
-  na.omit %>%
-  sample_n(size=50)
-
-hwood_bs_distribution <- hollywood_sample %>%
-  rep_sample_n(50, replace = TRUE, reps = 1000) %>%
-  group_by(replicate) %>%
-  summarise(avg_rating = mean(RottenTomatoes))
-
-hwood_samplemean <- hollywood_sample %>% 
-  summarise(avg_rating = mean(RottenTomatoes)) %>%
-  pull(avg_rating)
-
-hwood_se <- hwood_bs_distribution %>%
-  summarise(estimated_SE = sd(avg_rating)) %>%
-  pull(estimated_SE)
-
-hwood_ci_lower <- hwood_samplemean - 1.96 * hwood_se
-hwood_ci_upper <- hwood_samplemean + 1.96 * hwood_se
-
-ggplot(hwood_bs_distribution, aes(x=avg_rating)) +
-  geom_histogram() +
-  geom_vline(xintercept = c(hwood_ci_lower, hwood_ci_upper)) +
-  labs(x = "bootstrap avg rating")
-```
-`r msmbstyle::solution_end()`
 
 ### Exercise 2: NFL Players {-}
 
@@ -533,4 +515,4 @@ The key thing here is that the statistical inference we are making (that the sam
 
 ## References
 
-- Chester Ismay and Albert Y. Kim. *Statistical Inference via Data Science: A ModernDive into R and the Tidyverse*. Chapman and Hall/CRC, 2019. Freely available online at: https://moderndive.com/
+- Ismay, C., & Kim, A. Y. (2019). *Statistical Inference via Data Science: A ModernDive into R and the Tidyverse*. CRC Press. Freely available online at: https://moderndive.com/

@@ -528,7 +528,7 @@ Let’s see what it looks like numerically:</p>
 <a class="sourceLine" id="cb199-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb199-5" data-line-number="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Delay time (min)&quot;</span>) <span class="op">+</span><span class="st">  </span></a>
 <a class="sourceLine" id="cb199-6" data-line-number="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Distribution of Delays&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-223-1.png" width="672" /></p>
 <p>We have quite a variation. We also know that there were differences in the means and the standard deviations when we checked the variable by day. Let’s now visulise each day separately.</p>
 <p>We can do these with a mini <code>%in%</code> in ggplot(). Pretty cool, right?</p>
 <div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (average day)</span></a>
@@ -538,7 +538,7 @@ Let’s see what it looks like numerically:</p>
 <a class="sourceLine" id="cb200-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb200-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>)</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-224-1.png" width="672" /></p>
 <div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (average day)</span></a>
 <a class="sourceLine" id="cb202-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb202-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span><span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span><span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span></a>
@@ -547,7 +547,7 @@ Let’s see what it looks like numerically:</p>
 <a class="sourceLine" id="cb202-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb202-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-225-1.png" width="672" /></p>
 <div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (Christmas Eve)</span></a>
 <a class="sourceLine" id="cb204-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb204-3" data-line-number="3"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
@@ -556,7 +556,7 @@ Let’s see what it looks like numerically:</p>
 <a class="sourceLine" id="cb204-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb204-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-131-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-226-1.png" width="672" /></p>
 <p>Conclusions?</p>
 <p>Of course, when describing the average delay for the news article it is best to focus on an average day rather than Christmas Eve. From the example above, if we take an average autumn weekday our data matches what the article suggests pretty well. Nevertheless, it tell us little about what to expect during the weekend or a busy public holiday. To gauge the range of delays and the variation around the mean value, we would need statistics for the mean, median and standard deviation to get a better picture about the situation. Graphics will help us even more!</p>
 <p>As a final one, let’s also add a box plot or ggridges():</p>
@@ -565,7 +565,7 @@ Let’s see what it looks like numerically:</p>
 <a class="sourceLine" id="cb206-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb206-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Delay time (min) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Delays at the Edinburgh Airport &quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb206-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-227-1.png" width="672" /></p>
 <div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="co"># ggridges</span></a>
 <a class="sourceLine" id="cb207-2" data-line-number="2"><span class="kw">library</span>(ggridges)</a>
 <a class="sourceLine" id="cb207-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">y =</span> day, <span class="dt">x =</span> delay_time, <span class="dt">fill =</span> day)) <span class="op">+</span><span class="st"> </span></a>
@@ -573,7 +573,7 @@ Let’s see what it looks like numerically:</p>
 <a class="sourceLine" id="cb207-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Delays at the Edinburgh Airport&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb207-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## Picking joint bandwidth of 8.38</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-228-1.png" width="672" /></p>
 <p><strong>Note:</strong> before jumping to any conclusions, remember that we only have records for 40 flights for each of the days. Edinburgh Airport can see as many as <strong>313 flights a day</strong>. Since we picked our data at <strong>random</strong> we can consider our samples representative (note: a rule of thumb is &gt; 25 but this can vary depending on the phenomena you are trying to describe).</p>
 <p>Let’s try to explore something else now. Load your practice file for today and work with the income data in a similar fashion to what we just did.</p>
 </div>
@@ -661,7 +661,7 @@ You can read more about income calculations in the <a href="https://www.ons.gov.
 <a class="sourceLine" id="cb221-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb221-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income&quot;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-143-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-238-1.png" width="672" /></p>
 </div>
 <div id="visualise-the-distribution-of-income-by-region" class="section level4">
 <h4><span class="header-section-number">5.9.2.2</span> Visualise the distribution of income by region</h4>
@@ -674,7 +674,7 @@ You can read more about income calculations in the <a href="https://www.ons.gov.
 <a class="sourceLine" id="cb223-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb223-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income (South)&quot;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-144-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-239-1.png" width="672" /></p>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by region (North)</span></a>
 <a class="sourceLine" id="cb225-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(income_london, region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;north&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb225-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
@@ -683,18 +683,18 @@ You can read more about income calculations in the <a href="https://www.ons.gov.
 <a class="sourceLine" id="cb225-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb225-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income (North)&quot;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-145-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-240-1.png" width="672" /></p>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="co"># Boxplot to visualise a comparison</span></a>
 <a class="sourceLine" id="cb227-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">y =</span> income, <span class="dt">x =</span> region, <span class="dt">fill =</span> region)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb227-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb227-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Region&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Income (£) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income by Region&quot;</span>) </a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-241-1.png" width="672" /></p>
 <p>What can you conclude about regional differences from studying your data? We observed that there are slight differences in the central tendency measures between North and South London, however we cannot say anything more at this point. Next semester, we will show you an appropriate statistical test that you can use to provide a confident answer to such questions.</p>
 <p>Compare the results you have observed to the graphic we have from ONS. Are there any differences? Can we use the London data to describe the whole population?</p>
 <p>Finally, praise yourself for all the work so far :)</p>
 <div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="kw">library</span>(praise)</a>
 <a class="sourceLine" id="cb228-2" data-line-number="2"><span class="kw">praise</span>()</a></code></pre></div>
-<pre><code>## [1] &quot;You are shining!&quot;</code></pre>
+<pre><code>## [1] &quot;You are best!&quot;</code></pre>
 
 </div>
 </div>
