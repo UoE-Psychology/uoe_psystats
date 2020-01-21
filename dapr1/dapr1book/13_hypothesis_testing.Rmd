@@ -1,0 +1,246 @@
+```{r, echo=FALSE}
+HIDDEN_SOLS=FALSE
+set.seed(987)
+
+ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
+```
+
+
+
+# Testing hypotheses {#chap-hyp-test}
+
+
+<div class="lo">
+#### Instructions {-}
+  
+- In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.
+- The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_13_practice.Rmd).
+
+
+#### Learning outcomes {-}
+
+**LO1.** 
+
+**LO2.** 
+
+#### Reading {-}
+
+</div>
+
+
+
+## Recap
+
+
+
+
+
+## Walkthrough
+
+### Extrasensory perception (ESP)
+
+According to [Wikipedia](https://en.wikipedia.org/wiki/Extrasensory_perception), "__Extrasensory perception__ or __ESP__, also called sixth sense, includes claimed reception of information not gained through the recognized physical senses, but sensed with the mind."
+
+
+<div class='red'>
+#### Question of the day: {-}
+Is there such a thing as extrasensory perception (ESP), also known as the "sixth sense"?
+</div>
+
+
+A famous test for ESP involves a set of cards known as Zener cards:
+```{r zener, echo = FALSE, out.width = '80%', fig.align = 'center', fig.cap="Zener cards (Source: https://en.wikipedia.org/wiki/Extrasensory_perception)"}
+knitr::include_graphics('images/zener.png')
+```
+
+There are five cards, one for each of the different symbols:
+
+1. circle
+2. cross
+3. wavy lines
+4. square
+5. star
+
+Subjects randomly draw a card from these five, and telepathically communicate the chosen card to another subject who then tries to guess the symbol. No visual or auditory clues are allowed.
+
+
+
+### In-class activity
+
+- Everyone in the class randomly picks one of the five symbols 
+- Draw the symbol in a bit of paper __without showing it to anyone__
+- Pair up with someone
+- Telepathically communicate your symbol to your partner, who has to guess it without any visual or auditory clues
+- Switch roles
+- Did your partner guess your card correctly?
+
+
+
+### The by-chance-only model
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
+If there was no such thing as ESP, what proportion of guesses should be correct?
+`r msmbstyle::question_end()`
+
+
+`r msmbstyle::solution_begin()`
+If there is no ESP, since there are five cards, each person has a chance of $1/5 = 0.2$ to correctly guess the symbol.
+`r msmbstyle::solution_end()`
+
+
+We call this probability the **null hypothesis**, which represents what we would expect to happen by random chance alone.
+We denote the null hypothesis by:
+$$
+H_0 : \  p = \frac{1}{5}
+$$
+
+
+### The alternative explanation
+
+Our question of interest, i.e. if ESP exists, is captured by the alternative hypothesis and contradicts the null one.
+We always put the claim of interest for our research in the alternative explanation, rather than the null hypothesis.
+
+$$
+H_1 : p > \frac{1}{5}
+$$
+
+### Statistical test
+
+As we saw in [Week 11](#chap-sampling-distributions), sample statistics vary from sample to sample.
+
+The probability of 1/5 represents the _population proportion_, i.e. the proportion of correct guesses in the long-run of the experiment (infinite number of plays).
+
+However, not every sample proportion will be equal to 1/5.
+
+For example, it could be that in 20 plays the proportion is 8/20 = 0.4. The question then becomes: how do we decide in a principled way if a sample proportion is far enough above 1/5 to suggest presence of ESP?
+
+The set of principles allowing us to make an informed decision under uncertainty is called **statistical hypothesis testing**.
+
+<div class="def">
+#### Statistical test {-}
+
+A ___statistical test___ is a method that uses the data collected on a sample to assess a claim about the population.
+</div>
+
+
+### Statistical evidence
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
+If $\hat{p}$ denotes the proportion of correctly guessed symbols in an experiment, which of the following sample proportions provide the strongest evidence for ESP?
+
+a. $\hat{p} = 0$
+b. $\hat{p} = 1/5$
+c. $\hat{p} = 1/2$
+d. $\hat{p} = 3/4$
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+The correct answer is (d) as $\hat{p} = 3/4 = 0.75$ is the highest proportion of correctly guessed symbols.
+`r msmbstyle::solution_end()`
+
+
+### Statistical hypotheses
+
+We perform statistical tests on two competing hypotheses about population parameters:
+
+- ___Null hypothesis ($H_0$)___: typically a claim about no effect or difference between groups;
+- ___Alternative hypothesis ($H_1$)___: the claim we seek evidence for.
+
+The null hypothesis is typically a very specific claim about the population parameter, while the alternative hypothesis is a broader statement.
+
+To visually help you identify the null vs the alternative, typically:
+
+- $H_0$ includes an = sign
+- $H_1$ includes >, < or =
+
+
+Putting this together, in the ESP investigation we have two competing hypotheses:
+
+$$
+H_0 : \  p = \frac{1}{5} \\
+H_1 : \  p > \frac{1}{5}
+$$
+
+### Statistical significance
+
+Now that we have defined a framework to assess two competing hypotheses about population parameters, how do we quantify the evidence that the sample data brings in favour of the alternative hypothesis?
+
+<div class="def">
+#### Statistical significance {-}
+
+We say that the sample results are ___statistically significant___ if it is unlikely that by random chance alone we obtain a statistic that is as extreme as the observed sample statistic or more extreme (in the direction specified by the alternative hypothesis).
+</div>
+
+We wish to quantify how unusual it is to obtain a statistic as extreme or more extreme than the observed statistic, if the null hypothesis is true.
+
+
+
+### Scenario 1: statistically significant results
+
+Recall that:
+
+- $p$ = proportion of correct guesses of the symbol
+- $H_0 : \ p = 1/5 \qquad \mathrm{vs} \qquad H_1 : \  p > 1/5$
+
+If results are statistically significant:
+
+- The sample proportion $\hat{p}$ of correct guesses is higher than what we expect by random chance alone. Recall that by random chance we mean if ESP does not exist and $p = 1/5$.
+- The sample data provide evidence that the population proportion of correct guesses is higher than 1/5, meaning that we have evidence of ESP.
+
+
+### Scenario 2: not statistically significant results
+
+
+Recall that:
+
+- $p$ = proportion of correct guesses of the symbol
+- $H_0 : \ p = 1/5 \qquad \mathrm{vs} \qquad H_1 : \  p > 1/5$
+
+If results are __not__ statistically significant:
+
+- The sample proportion $\hat{p}$ of correct guesses could easily happen by random chance alone. Recall that by random chance we mean if ESP does not exist and $p = 1/5$.
+- The sample data do not provide enough evidence to conclude that p > 1/5 or that ESP exists.
+
+
+### Randomization distribution
+
+In order to measure how unusual a sample statistic is, we need to generate many statistics under the null hypothesis and see what's the proportion of the generated statistics that are as extreme as, or more extreme than, the observed statistic.
+
+For the ESP experiment we can obtain the null distribution as follows:
+```{r}
+
+library(tidyverse)
+library(moderndive)
+
+tbl = rerun(1000, sample(c("Yes", "No"), size = 98, replace = TRUE, prob = c(1/5, 4/5)))
+tbl = enframe(tbl, name = 'sample') %>% unnest(value)
+tbl
+
+
+
+```
+
+
+
+---
+
+
+
+
+## Lab
+
+### Required packages
+
+Before attempting to answer any question, make sure to run the following code chunk, which assumes that you have already installed the packages `tidyverse` and `moderndive`.
+If you have not installed them yet, type `install.packages("tidyverse")` and `install.packages("moderndive")` in the R console.
+
+This chunk loads the tidyverse and moderndive packages:
+```{r}
+library(tidyverse)
+library(moderndive)
+```
+
+
+###
+
+
