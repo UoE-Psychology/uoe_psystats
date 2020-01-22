@@ -1,5 +1,5 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=FALSE
+HIDDEN_SOLS=TRUE
 ```
 
 # Basic Multilevel Regression 
@@ -55,7 +55,7 @@ The *formula* bit is similar to what we did with a standard linear model (`lm()`
 |  $\text{(1 | g1) + (1 | g2)}$|  $\text{1 + (1 | g1) + (1 | g2)}$|  Intercept varying among $g1$ and $g2$|
 |  $\text{x + (x | g)}$|  $\text{1 + x + (1 + x | g)}$|  Correlated random intercept and slope|
 |  $\text{x + (x || g)}$|  $\text{1 + x + (x | g) + (0 + x | g)}$|  Uncorrelated random intercept and slope|
-**Table 1:** Examples of the right-hand-sides of mixed effects model formulas. $g$, $g1$, $g2$ are grouping factors, covariats and *a priori* known offsets are $x$ and $o$.
+**Table 1:** Examples of the right-hand-sides of mixed effects model formulas. $g$, $g1$, $g2$ are grouping factors, covariates and *a priori* known offsets are $x$ and $o$.
 
 <div class="red">
 ##### Errors and warnings? {-}  
@@ -243,7 +243,24 @@ round(coef(summary(m.full)), 3)
 ```{r}
 load(url("https://edin.ac/2QwG7SG"))
 ```
-In the `nwl` data set (accessed using the code above), participants with aphasia are separated into two groups based on the general location of their brain lesion: anterior vs. posterior. There is data on the numbers of correct and incorrect responses participants gave in each of a series of experimental blocks. There were 7 learning blocks, immediately followed by a test. Finally, participants also completed a follow-up test. 
+In the `nwl` data set (accessed using the code above), participants with aphasia are separated into two groups based on the general location of their brain lesion: anterior vs. posterior. There is data on the numbers of correct and incorrect responses participants gave in each of a series of experimental blocks. There were 7 learning blocks, immediately followed by a test. Finally, participants also completed a follow-up test.  
+<br>
+Figure \@ref(fig:nwl-fig) shows the differences between groups in the average proportion of correct responses at each point in time (i.e., each block, test, and follow-up)
+
+```{r nwl-fig, echo=FALSE, fig.cap="Differences between groups in the average proportion of correct responses at each block"}
+ggplot(filter(nwl, !is.na(lesion_location)), aes(block, PropCorrect, 
+                                            color=lesion_location, 
+                                            shape=lesion_location)) +
+  #geom_line(aes(group=ID),alpha=.2) + 
+  stat_summary(fun.data=mean_se, geom="pointrange") + 
+  stat_summary(data=filter(nwl, !is.na(lesion_location), block <= 7), 
+                           fun=mean, geom="line") + 
+  geom_hline(yintercept=0.5, linetype="dashed") + 
+  geom_vline(xintercept=c(7.5, 8.5), linetype="dashed") + 
+  scale_x_continuous(breaks=1:9, labels=c(1:7, "Test", "Follow-Up")) + 
+  theme_bw(base_size=10) + 
+  labs(x="Block", y="Proportion Correct", shape="Lesion\nLocation", color="Lesion\nLocation")
+```
 
 Compare the two groups (those with anterior vs. posterior lesions) with respect to their responses. 
 **Tip:** Remember that you can use `cbind()` to specify the numbers of successes and failures as the outcome in a *binomial* regression (and remember to specify the *family* argument in `glmer()`).  
@@ -271,7 +288,7 @@ No significant difference in learning rate between groups: $\chi^2(2)=2.2, p = 0
 <hr />
 <br><br>
 `r msmbstyle::question_begin()`
-Does their follow-up test performance differ, and does their retention from immediate to follow-up test differ?
+Does follow-up test performance differ between lesion location groups, and does their retention from immediate to follow-up test differ?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
@@ -285,7 +302,7 @@ summary(m.recall.loc)
 <hr />
 <br><br>
 `r msmbstyle::question_begin()`
-**Extra:** Create a visualisation showing the differences between groups in the average proportion of correct responses at each point in time (i.e., each block, test, and follow-up)
+**Extra:** Recreate the visualisation in Figure \@ref(fig:nwl-fig).
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
