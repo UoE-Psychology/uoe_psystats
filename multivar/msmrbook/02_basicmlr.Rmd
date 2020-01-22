@@ -1,5 +1,5 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=TRUE
+HIDDEN_SOLS=FALSE
 ```
 
 # Basic Multilevel Regression 
@@ -10,6 +10,16 @@ What the idea boils down to is that **model parameters vary at more than one lev
 ### Packages {-}  
 
 + lme4  
++ tidyverse  
++ effects  
+
+Load the `tidyverse`, `lme4` and `effects` packages (install them if you haven't already).    
+```{r warning=FALSE,message=FALSE}
+library(tidyverse)
+library(lme4)
+library(effects)
+```
+
 
 ### Lecture Slides {-}  
 
@@ -54,17 +64,7 @@ For large datasets and/or complex models (lots of random-effects terms), it is q
 For now, if `lmer()` gives you convergence errors, you could try changing the optimizer. Bobyqa is a good one: add `control = lmerControl(optimizer = "bobyqa")` when you run your model.
 </div>
 
-
-`r msmbstyle::question_begin()`
-Load the `tidyverse`, `lme4` and `effects` packages (install them if you haven't already).    
-`r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=FALSE)`
-```{r warning=FALSE,message=FALSE}
-library(tidyverse)
-library(lme4)
-library(effects)
-```
-`r msmbstyle::solution_end()`
+## Introduction to MLR  
 
 ### Exercise 1  
 County-level suicide rate data from Public Health England (PHE) is available at [https://edin.ac/36xdhas](https://edin.ac/36xdhas) and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.  

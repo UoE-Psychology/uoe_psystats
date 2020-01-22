@@ -180,12 +180,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#packages-1"><i class="fa fa-check"></i>Packages</a></li>
 <li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lecture-slides-1"><i class="fa fa-check"></i>Lecture Slides</a></li>
 <li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#background-reading-1"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
-<li class="chapter" data-level="2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lme4"><i class="fa fa-check"></i><b>2.1</b> LME4</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-1"><i class="fa fa-check"></i><b>2.1.1</b> Exercise 1</a></li>
-<li class="chapter" data-level="2.1.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-2"><i class="fa fa-check"></i><b>2.1.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lme4"><i class="fa fa-check"></i><b>2.1</b> LME4</a></li>
+<li class="chapter" data-level="2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#introduction-to-mlr"><i class="fa fa-check"></i><b>2.2</b> Introduction to MLR</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-1"><i class="fa fa-check"></i><b>2.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-2"><i class="fa fa-check"></i><b>2.2.2</b> Exercise 2</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#logistic-mlr"><i class="fa fa-check"></i><b>2.2</b> Logistic MLR</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-3"><i class="fa fa-check"></i><b>2.2.1</b> Exercise 3</a></li>
+<li class="chapter" data-level="2.3" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#logistic-mlr"><i class="fa fa-check"></i><b>2.3</b> Logistic MLR</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercise 3</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html"><i class="fa fa-check"></i><b>3</b> MLR for longitudinal data (growth curve analysis)</a><ul>
@@ -243,14 +244,21 @@ What the idea boils down to is that <strong>model parameters vary at more than o
 <div id="packages-1" class="section level3 unnumbered">
 <h3>Packages</h3>
 <ul>
-<li>lme4</li>
+<li>lme4<br />
+</li>
+<li>tidyverse<br />
+</li>
+<li>effects</li>
 </ul>
+<p>Load the <code>tidyverse</code>, <code>lme4</code> and <code>effects</code> packages (install them if you haven’t already).</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw">library</span>(lme4)</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw">library</span>(effects)</a></code></pre></div>
 </div>
 <div id="lecture-slides-1" class="section level3 unnumbered">
 <h3>Lecture Slides</h3>
-<ul>
-<li>Coming soon</li>
-</ul>
+<p>The lecture slides can be accessed <a href="https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/Lecture02_BasicMLR.html">here</a>.
+The data for the lecture can be found at <a href="https://edin.ac/36bD1s0">https://edin.ac/36bD1s0</a> (Visual search data) and <a href="https://edin.ac/2QwG7SG">https://edin.ac/2QwG7SG</a> (Novel world learning data).</p>
 </div>
 <div id="background-reading-1" class="section level3 unnumbered">
 <h3>Background &amp; Reading</h3>
@@ -328,32 +336,11 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 <p>For large datasets and/or complex models (lots of random-effects terms), it is quite common to get a <em>convergence warning</em>. There are lots of different ways to <a href="https://rstudio-pubs-static.s3.amazonaws.com/33653_57fc7b8e5d484c909b615d8633c01d51.html">deal with these</a> (to try to rule out hypotheses about what is causing them).</p>
 <p>For now, if <code>lmer()</code> gives you convergence errors, you could try changing the optimizer. Bobyqa is a good one: add <code>control = lmerControl(optimizer = &quot;bobyqa&quot;)</code> when you run your model.</p>
 </div>
-<div class="question">
-<p class="question-begin">
-► Question
-</p>
-<div class="question-body">
-<p>Load the <code>tidyverse</code>, <code>lme4</code> and <code>effects</code> packages (install them if you haven’t already).</p>
-<p class="question-end">
-<span class="fa fa-square-o solution-icon"></span>
-</p>
 </div>
-</div>
-<div class="solution">
-<p class="solution-begin">
-► Solution<span id="sol-start-426" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-426&#39;, &#39;sol-start-426&#39;)"></span>
-</p>
-<div id="sol-body-426" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">library</span>(lme4)</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="kw">library</span>(effects)</a></code></pre></div>
-<p class="solution-end">
-<span class="fa fa-square-o solution-icon"></span>
-</p>
-</div>
-</div>
+<div id="introduction-to-mlr" class="section level2">
+<h2><span class="header-section-number">2.2</span> Introduction to MLR</h2>
 <div id="exercise-1" class="section level3">
-<h3><span class="header-section-number">2.1.1</span> Exercise 1</h3>
+<h3><span class="header-section-number">2.2.1</span> Exercise 1</h3>
 <p>County-level suicide rate data from Public Health England (PHE) is available at <a href="https://edin.ac/36xdhas">https://edin.ac/36xdhas</a> and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.</p>
 <div class="question">
 <p class="question-begin">
@@ -386,34 +373,34 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-427" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-427&#39;, &#39;sol-start-427&#39;)"></span>
+► Solution<span id="sol-start-181" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-181&#39;, &#39;sol-start-181&#39;)"></span>
 </p>
-<div id="sol-body-427" class="solution-body" style="display: none;">
+<div id="sol-body-181" class="solution-body" style="display: none;">
 <h4 id="loading" class="unnumbered">Loading</h4>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/36xdhas&quot;</span>)) <span class="co">#load Public Health England data</span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw">unique</span>(mh_phe[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]) <span class="co">#check list of mental health indicators: suicide is 41001</span></a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/36xdhas&quot;</span>)) <span class="co">#load Public Health England data</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="kw">unique</span>(mh_phe[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]) <span class="co">#check list of mental health indicators: suicide is 41001</span></a></code></pre></div>
 <pre><code>##      IndicatorID                                              IndicatorName
 ## 1            848                 Depression: Recorded prevalence (aged 18+)
 ## 760        41001                                               Suicide rate
 ## 8056       90275 Percentage of physically active adults - historical method
 ## 8664       90646            Depression: QOF incidence (18+) - new diagnosis</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># select data and shift Year variable so baseline year (2001) is 0</span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">suicide_dat &lt;-<span class="st"> </span><span class="kw">filter</span>(mh_phe, IndicatorID <span class="op">==</span><span class="st"> </span><span class="dv">41001</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Time =</span> Year <span class="op">-</span><span class="st"> </span><span class="dv">2001</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># select data and shift Year variable so baseline year (2001) is 0</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">suicide_dat &lt;-<span class="st"> </span><span class="kw">filter</span>(mh_phe, IndicatorID <span class="op">==</span><span class="st"> </span><span class="dv">41001</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Time =</span> Year <span class="op">-</span><span class="st"> </span><span class="dv">2001</span>)</a></code></pre></div>
 <h4 id="modelling" class="unnumbered">Modelling</h4>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># base model: just change over time</span></a>
-<a class="sourceLine" id="cb34-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
-<a class="sourceLine" id="cb34-3" data-line-number="3">          <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
-<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co"># add baseline differences between regions</span></a>
-<a class="sourceLine" id="cb34-5" data-line-number="5">m<span class="fl">.0</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">+</span><span class="st"> </span>Region <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
-<a class="sourceLine" id="cb34-6" data-line-number="6">            <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
-<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="co"># add slope differences between regions</span></a>
-<a class="sourceLine" id="cb34-8" data-line-number="8">m<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">*</span><span class="st"> </span>Region <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
-<a class="sourceLine" id="cb34-9" data-line-number="9">            <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
-<a class="sourceLine" id="cb34-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb34-11" data-line-number="11"><span class="co"># compare models</span></a>
-<a class="sourceLine" id="cb34-12" data-line-number="12"><span class="kw">anova</span>(m, m<span class="fl">.0</span>, m<span class="fl">.1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># base model: just change over time</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">          <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co"># add baseline differences between regions</span></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">m<span class="fl">.0</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">+</span><span class="st"> </span>Region <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">            <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="co"># add slope differences between regions</span></a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">m<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Value <span class="op">~</span><span class="st"> </span>Time <span class="op">*</span><span class="st"> </span>Region <span class="op">+</span><span class="st"> </span>(Time <span class="op">|</span><span class="st"> </span>County), </a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">            <span class="dt">data =</span> suicide_dat, <span class="dt">REML =</span> F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb35-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb35-11" data-line-number="11"><span class="co"># compare models</span></a>
+<a class="sourceLine" id="cb35-12" data-line-number="12"><span class="kw">anova</span>(m, m<span class="fl">.0</span>, m<span class="fl">.1</span>)</a></code></pre></div>
 <pre><code>## Data: suicide_dat
 ## Models:
 ## m: Value ~ Time + (Time | County)
@@ -427,13 +414,13 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>It looks like regions differ in baseline suicide rate (addition of <code>Region</code> predictor in <code>m.0</code>) and in slope of change (addition of interaction in <code>m.1</code>)</p>
 <h4 id="plotting" class="unnumbered">Plotting</h4>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># you can extract the fitted values using the effect() function from the effects package.</span></a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">ef &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">effect</span>(<span class="st">&quot;Time:Region&quot;</span>, m<span class="fl">.1</span>))</a>
-<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Time, fit, <span class="dt">color=</span>Region)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Fitted values&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="co"># you can extract the fitted values using the effect() function from the effects package.</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">ef &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">effect</span>(<span class="st">&quot;Time:Region&quot;</span>, m<span class="fl">.1</span>))</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Time, fit, <span class="dt">color=</span>Region)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Fitted values&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -441,7 +428,7 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 </div>
 <div id="exercise-2" class="section level3">
-<h3><span class="header-section-number">2.1.2</span> Exercise 2</h3>
+<h3><span class="header-section-number">2.2.2</span> Exercise 2</h3>
 <p>The weight maintenance data (<code>WeightMaintain3</code>), a made-up data set based on Lowe et al. (2014, Obesity, 22, 94-100), contains information on overweight participants who completed a 12-week weight loss program, and were then randomly assigned to one of three weight maintenance conditions:</p>
 <ul>
 <li>None (Control)<br />
@@ -451,8 +438,8 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 <li>ED (energy density intervention): book and educational materials on purchasing and preparing foods lower in ED (reducing fat content and/or increasing water content of foods)</li>
 </ul>
 <p>Weight was assessed at baseline (start of maintenance), 12 months post, 24 months post, and 36 months post.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2tFIedK&quot;</span>))</a>
-<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw">summary</span>(WeightMaintain3)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2tFIedK&quot;</span>))</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw">summary</span>(WeightMaintain3)</a></code></pre></div>
 <pre><code>##        ID      Condition    Assessment    WeightChange    
 ##  101    :  4   None:240   Min.   :0.00   Min.   :-8.3781  
 ##  102    :  4   ED  :240   1st Qu.:0.75   1st Qu.:-0.5024  
@@ -474,12 +461,12 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-428" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-428&#39;, &#39;sol-start-428&#39;)"></span>
+► Solution<span id="sol-start-182" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-182&#39;, &#39;sol-start-182&#39;)"></span>
 </p>
-<div id="sol-body-428" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">m.null &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F)</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2">m.base &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F)</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="kw">anova</span>(m.null, m.base)</a></code></pre></div>
+<div id="sol-body-182" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">m.null &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F)</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">m.base &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F)</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">anova</span>(m.null, m.base)</a></code></pre></div>
 <pre><code>## Data: WeightMaintain3
 ## Models:
 ## m.null: WeightChange ~ 1 + (Assessment | ID)
@@ -511,14 +498,14 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-429" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-429&#39;, &#39;sol-start-429&#39;)"></span>
+► Solution<span id="sol-start-183" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-183&#39;, &#39;sol-start-183&#39;)"></span>
 </p>
-<div id="sol-body-429" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">m.int &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment <span class="op">+</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), </a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">              <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
-<a class="sourceLine" id="cb41-3" data-line-number="3">m.full &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment<span class="op">*</span>Condition <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), </a>
-<a class="sourceLine" id="cb41-4" data-line-number="4">               <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
-<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="kw">anova</span>(m.null, m.base, m.int, m.full)</a></code></pre></div>
+<div id="sol-body-183" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">m.int &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment <span class="op">+</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">              <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">m.full &lt;-<span class="st"> </span><span class="kw">lmer</span>(WeightChange <span class="op">~</span><span class="st"> </span>Assessment<span class="op">*</span>Condition <span class="op">+</span><span class="st"> </span>(Assessment <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb42-4" data-line-number="4">               <span class="dt">data=</span>WeightMaintain3, <span class="dt">REML=</span>F, <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="kw">anova</span>(m.null, m.base, m.int, m.full)</a></code></pre></div>
 <pre><code>## Data: WeightMaintain3
 ## Models:
 ## m.null: WeightChange ~ 1 + (Assessment | ID)
@@ -538,7 +525,7 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 <li>Slope: <span class="math inline">\(\chi^2(2)=40.4, p &lt;&lt; 0.0001\)</span></li>
 </ul>
 <p>Note: <code>m.int</code> is difficult to interpret in light of the massive effect on slope</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">coef</span>(<span class="kw">summary</span>(m.full))</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">coef</span>(<span class="kw">summary</span>(m.full))</a></code></pre></div>
 <pre><code>##                           Estimate Std. Error    t value
 ## (Intercept)             0.06038642 0.09807901  0.6156916
 ## Assessment              1.84917936 0.18394628 10.0528229
@@ -569,34 +556,34 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-430" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-430&#39;, &#39;sol-start-430&#39;)"></span>
+► Solution<span id="sol-start-184" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-184&#39;, &#39;sol-start-184&#39;)"></span>
 </p>
-<div id="sol-body-430" class="solution-body" style="display: none;">
+<div id="sol-body-184" class="solution-body" style="display: none;">
 <p>There are lots of ways you can do this.</p>
 <ol style="list-style-type: decimal">
 <li>Using the <code>effect()</code> function again (and then adding the means and SEs from the original data):</li>
 </ol>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">ef &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">effect</span>(<span class="st">&quot;Assessment:Condition&quot;</span>, m.full))</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Assessment, fit, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">data=</span>WeightMaintain3, <span class="kw">aes</span>(<span class="dt">y=</span>WeightChange), </a>
-<a class="sourceLine" id="cb45-5" data-line-number="5">               <span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-37-1.png" width="672" />
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">ef &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">effect</span>(<span class="st">&quot;Assessment:Condition&quot;</span>, m.full))</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Assessment, fit, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">data=</span>WeightMaintain3, <span class="kw">aes</span>(<span class="dt">y=</span>WeightChange), </a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">               <span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" />
 2) Using the <code>fitted()</code> function to extract and plot fitted values from the model:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">ggplot</span>(WeightMaintain3, <span class="kw">aes</span>(Assessment, WeightChange, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">fitted</span>(m.full)), <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">ggplot</span>(WeightMaintain3, <span class="kw">aes</span>(Assessment, WeightChange, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">fitted</span>(m.full)), <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Or, alternatively, using <code>fortify()</code>:</li>
 </ol>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">fortify</span>(m.full), <span class="kw">aes</span>(Assessment, WeightChange, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">fortify</span>(m.full), <span class="kw">aes</span>(Assessment, WeightChange, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -618,10 +605,10 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-431" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-431&#39;, &#39;sol-start-431&#39;)"></span>
+► Solution<span id="sol-start-185" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-185&#39;, &#39;sol-start-185&#39;)"></span>
 </p>
-<div id="sol-body-431" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">round</span>(<span class="kw">coef</span>(<span class="kw">summary</span>(m.full)), <span class="dv">3</span>)</a></code></pre></div>
+<div id="sol-body-185" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">round</span>(<span class="kw">coef</span>(<span class="kw">summary</span>(m.full)), <span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##                        Estimate Std. Error t value
 ## (Intercept)               0.060      0.098   0.616
 ## Assessment                1.849      0.184  10.053
@@ -645,10 +632,10 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 </div>
 <div id="logistic-mlr" class="section level2">
-<h2><span class="header-section-number">2.2</span> Logistic MLR</h2>
+<h2><span class="header-section-number">2.3</span> Logistic MLR</h2>
 <div id="exercise-3" class="section level3">
-<h3><span class="header-section-number">2.2.1</span> Exercise 3</h3>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2QwG7SG&quot;</span>))</a></code></pre></div>
+<h3><span class="header-section-number">2.3.1</span> Exercise 3</h3>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2QwG7SG&quot;</span>))</a></code></pre></div>
 <p>In the <code>nwl</code> data set (accessed using the code above), participants with aphasia are separated into two groups based on the general location of their brain lesion: anterior vs. posterior. There is data on the numbers of correct and incorrect responses participants gave in each of a series of experimental blocks. There were 7 learning blocks, immediately followed by a test. Finally, participants also completed a follow-up test.</p>
 <p>Compare the two groups (those with anterior vs. posterior lesions) with respect to their responses.
 <strong>Tip:</strong> Remember that you can use <code>cbind()</code> to specify the numbers of successes and failures as the outcome in a <em>binomial</em> regression (and remember to specify the <em>family</em> argument in <code>glmer()</code>).</p>
@@ -665,20 +652,20 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-432" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-432&#39;, &#39;sol-start-432&#39;)"></span>
+► Solution<span id="sol-start-186" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-186&#39;, &#39;sol-start-186&#39;)"></span>
 </p>
-<div id="sol-body-432" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">m.base &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">                <span class="dt">data =</span> <span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">                <span class="dt">family=</span>binomial)</a>
-<a class="sourceLine" id="cb51-4" data-line-number="4">m.loc0 &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
-<a class="sourceLine" id="cb51-5" data-line-number="5">                <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
-<a class="sourceLine" id="cb51-6" data-line-number="6">                <span class="dt">family=</span>binomial)</a>
-<a class="sourceLine" id="cb51-7" data-line-number="7">m.loc1 &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">*</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
-<a class="sourceLine" id="cb51-8" data-line-number="8">                <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
-<a class="sourceLine" id="cb51-9" data-line-number="9">                <span class="dt">family=</span>binomial)</a>
-<a class="sourceLine" id="cb51-10" data-line-number="10"><span class="co">#summary(m.loc1)</span></a>
-<a class="sourceLine" id="cb51-11" data-line-number="11"><span class="kw">anova</span>(m.base, m.loc0, m.loc1, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>)</a></code></pre></div>
+<div id="sol-body-186" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">m.base &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">                <span class="dt">data =</span> <span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3">                <span class="dt">family=</span>binomial)</a>
+<a class="sourceLine" id="cb52-4" data-line-number="4">m.loc0 &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb52-5" data-line-number="5">                <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
+<a class="sourceLine" id="cb52-6" data-line-number="6">                <span class="dt">family=</span>binomial)</a>
+<a class="sourceLine" id="cb52-7" data-line-number="7">m.loc1 &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>block <span class="op">*</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(block <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb52-8" data-line-number="8">                <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&lt;</span><span class="st"> </span><span class="dv">8</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
+<a class="sourceLine" id="cb52-9" data-line-number="9">                <span class="dt">family=</span>binomial)</a>
+<a class="sourceLine" id="cb52-10" data-line-number="10"><span class="co">#summary(m.loc1)</span></a>
+<a class="sourceLine" id="cb52-11" data-line-number="11"><span class="kw">anova</span>(m.base, m.loc0, m.loc1, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>)</a></code></pre></div>
 <pre><code>## Data: filter(nwl, block &lt; 8, !is.na(lesion_location))
 ## Models:
 ## m.base: cbind(NumCorrect, NumError) ~ block + (block | ID)
@@ -712,13 +699,13 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-433" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-433&#39;, &#39;sol-start-433&#39;)"></span>
+► Solution<span id="sol-start-187" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-187&#39;, &#39;sol-start-187&#39;)"></span>
 </p>
-<div id="sol-body-433" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">m.recall.loc &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>Phase <span class="op">*</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(Phase <span class="op">|</span><span class="st"> </span>ID), </a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">                  <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&gt;</span><span class="st"> </span><span class="dv">7</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
-<a class="sourceLine" id="cb53-3" data-line-number="3">                  <span class="dt">family=</span><span class="st">&quot;binomial&quot;</span>)</a>
-<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="kw">summary</span>(m.recall.loc)</a></code></pre></div>
+<div id="sol-body-187" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">m.recall.loc &lt;-<span class="st"> </span><span class="kw">glmer</span>(<span class="kw">cbind</span>(NumCorrect, NumError) <span class="op">~</span><span class="st"> </span>Phase <span class="op">*</span><span class="st"> </span>lesion_location <span class="op">+</span><span class="st"> </span>(Phase <span class="op">|</span><span class="st"> </span>ID), </a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">                  <span class="dt">data=</span><span class="kw">filter</span>(nwl, block <span class="op">&gt;</span><span class="st"> </span><span class="dv">7</span>, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)),</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3">                  <span class="dt">family=</span><span class="st">&quot;binomial&quot;</span>)</a>
+<a class="sourceLine" id="cb54-4" data-line-number="4"><span class="kw">summary</span>(m.recall.loc)</a></code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) [&#39;glmerMod&#39;]
 ##  Family: binomial  ( logit )
 ## Formula: cbind(NumCorrect, NumError) ~ Phase * lesion_location + (Phase |      ID)
@@ -774,22 +761,22 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-434" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-434&#39;, &#39;sol-start-434&#39;)"></span>
+► Solution<span id="sol-start-188" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-188&#39;, &#39;sol-start-188&#39;)"></span>
 </p>
-<div id="sol-body-434" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(nwl, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)), <span class="kw">aes</span>(block, PropCorrect, </a>
-<a class="sourceLine" id="cb55-2" data-line-number="2">                                            <span class="dt">color=</span>lesion_location, </a>
-<a class="sourceLine" id="cb55-3" data-line-number="3">                                            <span class="dt">shape=</span>lesion_location)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb55-4" data-line-number="4"><span class="st">  </span><span class="co">#geom_line(aes(group=ID),alpha=.2) + </span></a>
-<a class="sourceLine" id="cb55-5" data-line-number="5"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb55-6" data-line-number="6"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">data=</span><span class="kw">filter</span>(nwl, <span class="op">!</span><span class="kw">is.na</span>(lesion_location), block <span class="op">&lt;=</span><span class="st"> </span><span class="dv">7</span>), </a>
-<a class="sourceLine" id="cb55-7" data-line-number="7">                           <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb55-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="fl">0.5</span>, <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb55-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="kw">c</span>(<span class="fl">7.5</span>, <span class="fl">8.5</span>), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb55-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>, <span class="st">&quot;Test&quot;</span>, <span class="st">&quot;Follow-Up&quot;</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb55-12" data-line-number="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Block&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Proportion Correct&quot;</span>, <span class="dt">shape=</span><span class="st">&quot;Lesion</span><span class="ch">\n</span><span class="st">Location&quot;</span>, <span class="dt">color=</span><span class="st">&quot;Lesion</span><span class="ch">\n</span><span class="st">Location&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<div id="sol-body-188" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(nwl, <span class="op">!</span><span class="kw">is.na</span>(lesion_location)), <span class="kw">aes</span>(block, PropCorrect, </a>
+<a class="sourceLine" id="cb56-2" data-line-number="2">                                            <span class="dt">color=</span>lesion_location, </a>
+<a class="sourceLine" id="cb56-3" data-line-number="3">                                            <span class="dt">shape=</span>lesion_location)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb56-4" data-line-number="4"><span class="st">  </span><span class="co">#geom_line(aes(group=ID),alpha=.2) + </span></a>
+<a class="sourceLine" id="cb56-5" data-line-number="5"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-6" data-line-number="6"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">data=</span><span class="kw">filter</span>(nwl, <span class="op">!</span><span class="kw">is.na</span>(lesion_location), block <span class="op">&lt;=</span><span class="st"> </span><span class="dv">7</span>), </a>
+<a class="sourceLine" id="cb56-7" data-line-number="7">                           <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="fl">0.5</span>, <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="kw">c</span>(<span class="fl">7.5</span>, <span class="fl">8.5</span>), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>, <span class="st">&quot;Test&quot;</span>, <span class="st">&quot;Follow-Up&quot;</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-12" data-line-number="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Block&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Proportion Correct&quot;</span>, <span class="dt">shape=</span><span class="st">&quot;Lesion</span><span class="ch">\n</span><span class="st">Location&quot;</span>, <span class="dt">color=</span><span class="st">&quot;Lesion</span><span class="ch">\n</span><span class="st">Location&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
