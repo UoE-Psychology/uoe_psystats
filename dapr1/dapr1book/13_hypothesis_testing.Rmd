@@ -1,6 +1,6 @@
 ```{r, echo=FALSE}
 HIDDEN_SOLS=FALSE
-set.seed(987)
+set.seed(1)
 
 ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 ```
@@ -43,7 +43,7 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/Extrasensory_perception),
 
 
 <div class='red'>
-#### Question of the day: {-}
+#### Question of the day {-}
 Is there such a thing as extrasensory perception (ESP), also known as the "sixth sense"?
 </div>
 
@@ -64,29 +64,31 @@ There are five cards, one for each of the different symbols:
 Subjects randomly draw a card from these five, and telepathically communicate the chosen card to another subject who then tries to guess the symbol. No visual or auditory clues are allowed.
 
 
-<div class="def">
-#### Experimental results {-}
+### Example 1: ESP experimental results {-#example-esp-results}
 In an experiment conducted on a class of $n = 98$ students, 25 of them correcly guessed their partner's card. 
 
 This is equivalent to saying that the observed sample proportion of correct guesses is $\hat{p} = 25/98 = 0.26$.
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question")`
-Is the sample proportion high enough to provide evidence of ESP?
+Is the sample proportion of correct guesses high enough to provide evidence of ESP?
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
 We are not sure yet.
 
-We still have to introduce the statistical methods allowing us to determine when an observed sample statistic is highly unlikely to have happened by chance alone.
+We still have to introduce the statistical framework that allows us to determine either:
+
+- if the observed sample statistic is highly unlikely to happen by chance alone
+- if it would be very likely to see such a value by chance alone.
+
+As we will see, this framework is called __hypothesis testing__ and involves using a __statistical test__.
 `r msmbstyle::solution_end()`
-</div>
 
 
 
+### Example 2: In-class activity {-#example-in-class}
 
-### In-class activity
-
-- Everyone in the class randomly picks one of the five symbols 
+- Everyone in the class randomly picks one of the five symbols in Figure \@ref(fig:zener)
 - Draw the symbol in a bit of paper __without showing it to anyone!__
 - Pair up with someone
 - Telepathically communicate your symbol to your partner, who has to guess it without any visual or auditory clues
@@ -94,49 +96,63 @@ We still have to introduce the statistical methods allowing us to determine when
 - Did your partner guess your card correctly?
 
 
+Keep track of the sample size $n$ of the in-class experiment, and the sample statistic $\hat{p}$.
+We will use these two values later on to see if we have evidence of ESP in this class.
 
-### The chance model
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
-If there was no such thing as ESP, what proportion of guesses should be correct?
+
+### The random chance model
+
+`r msmbstyle::question_begin()`
+If there was no such thing as ESP, what proportion of guesses do you expect to be correct?
 `r msmbstyle::question_end()`
 
 
 `r msmbstyle::solution_begin()`
-If there is no ESP, since there are five cards, each person has a chance of $1/5 = 0.2$ to correctly guess the symbol.
+If there is no ESP, because there are five cards, each person has a chance of $1/5 = 0.2$ to correctly guess the symbol.
 
-This is similar to asking what's the chance of observing a given face of a die? If we had to randomly guess, since there are 6 faces, we have a probability of 1/6. Now, instead of six faces, we only have five, hence the 1/5 chance.
+This is similar to asking: what's the chance of observing a given face of a die? If we had to randomly guess, since there are 6 faces, we have a probability of 1/6. Now, instead of six faces, we only have five, hence the 1/5 chance.
 `r msmbstyle::solution_end()`
 
-The random-chance-alone model helps us decide whether the observed results could be due to simply guessing or whether the underlying process is something else, such as having extrasensory perception.
+The random-chance-alone model helps us decide whether the observed proportion could easily happen by randomly guessing the symbol or whether the underlying process is something else, such as having extrasensory perception.
 
-We call this probability the **null hypothesis**, which represents what we would expect to happen by random chance alone.
+We call this probability the **null hypothesis**, and it represents what we would expect if there was no ESP. In this case, the null hypothesis reflects what would happen by random chance alone: __no effect__ of ESP.
+
 We denote the null hypothesis by:
 $$
 H_0 : \  p = \frac{1}{5}
 $$
 
 
+
 ### The alternative explanation
 
-The research question of interest, i.e. if ESP exists, is captured by the alternative hypothesis and contradicts the null one.
+The research question of interest, if ESP exists, is captured by the __alternative hypothesis__ which contradicts the null one.
 We always put the claim of interest for our research in the alternative hypothesis, rather than the null hypothesis.
+
+The null and the alternative hypotheses are competing claims about the population parameter and we can not have the same value of the parameter included in both the null and the alternative. 
+
+In the ESP example, we would have ESP if the chance of guessing the correct symbol was greater than random guessing:
 
 $$
 H_1 : p > \frac{1}{5}
 $$
 
+
+
+
 ### Statistical test
 
 As we saw in [Week 11](#chap-sampling-distributions), sample statistics vary from sample to sample.
 
-The probability of 1/5 represents the _population proportion_, i.e. the proportion of correct guesses in the long-run of the experiment (infinite number of plays).
+The probability of 1/5 represents the population proportion. Even if the population proportion was really equal to 1/5, not every random sample would have a sample proportion exactly equal to 1/5.
 
-However, not every sample proportion will be equal to 1/5.
+The key question is then: __how do we decide in a principled way if a sample proportion is sufficiently above 1/5 to suggest presence of ESP?__
 
-For example, it could be that in 20 plays the proportion is 8/20 = 0.4. The question then becomes: how do we decide in a principled way if a sample proportion is far enough above 1/5 to suggest presence of ESP?
+In [Example 1](#example-esp-results) we obtained a sample proportion of 25/98 = 0.26. Is this sufficiently higher than 1/5 = 0.20 to suggest presence of ESP?
 
-The set of principles allowing us to make an informed decision under uncertainty is called **statistical hypothesis testing**.
+
+The set of principles that allows us to make an informed claim about the population, under uncertainty, is called **statistical hypothesis testing**.
 
 <div class="def">
 #### Statistical test {-}
@@ -145,10 +161,11 @@ A ___statistical test___ is a method that uses the data collected on a sample to
 </div>
 
 
-### Statistical evidence
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
-If $\hat{p}$ denotes the proportion of correctly guessed symbols in an experiment, which of the following sample proportions provide the strongest evidence for ESP?
+### Understanding statistical evidence
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question")`
+If $\hat{p}$ denotes the proportion of correctly guessed symbols in an ESP experiment, which of the following sample proportions provide the strongest evidence for ESP?
 
 a. $\hat{p} = 0$
 b. $\hat{p} = 1/5$
@@ -160,13 +177,16 @@ d. $\hat{p} = 3/4$
 The correct answer is (d) as $\hat{p} = 3/4 = 0.75$ is the highest proportion of correctly guessed symbols.
 `r msmbstyle::solution_end()`
 
+This example shows us that we assess a claim about a population parameter by quantifying the statistical evidence that the observed statistic gives against the null hypothesis and in favour of the alternative hypothesis.
+
+
 
 ### Statistical hypotheses
 
-We perform statistical tests on two competing hypotheses about population parameters:
+We perform statistical tests on two competing hypotheses about a population parameter:
 
-- ___Null hypothesis ($H_0$)___: typically a claim about no effect or difference between groups;
-- ___Alternative hypothesis ($H_1$)___: the claim we seek evidence for.
+- __Null hypothesis__ $H_0$: typically a claim about no effect or difference between groups;
+- __Alternative hypothesis__ $H_1$: the claim we seek evidence for.
 
 The null hypothesis is typically a very specific claim about the population parameter, while the alternative hypothesis is a broader statement.
 
@@ -183,9 +203,12 @@ H_0 : \  p = \frac{1}{5} \\
 H_1 : \  p > \frac{1}{5}
 $$
 
+
 ### Statistical significance
 
-Now that we have defined a framework to assess two competing hypotheses about population parameters, how do we quantify the evidence that the sample data brings in favour of the alternative hypothesis?
+Now that we have defined a framework to assess two competing hypotheses about population parameters, how do we quantify the evidence that the sample data bring in favour of the alternative hypothesis?
+
+We do this by quantifying how unusual it is to obtain a statistic as extreme or more extreme than the observed statistic, if the null hypothesis is true.
 
 <div class="def">
 #### Statistical significance {-}
@@ -193,56 +216,115 @@ Now that we have defined a framework to assess two competing hypotheses about po
 We say that the sample results are ___statistically significant___ if it is unlikely that by random chance alone we obtain a statistic that is as extreme as the observed sample statistic or more extreme (in the direction specified by the alternative hypothesis).
 </div>
 
-We wish to quantify how unusual it is to obtain a statistic as extreme or more extreme than the observed statistic, if the null hypothesis is true.
-
-
-
-### Scenario 1: statistically significant results
 
 Recall that:
 
 - $p$ = proportion of correct guesses of the symbol
-- $H_0 : \ p = 1/5 \qquad \mathrm{vs} \qquad H_1 : \  p > 1/5$
+- $H_0 : \ p = 1/5$ vs $H_1 : \  p > 1/5$
 
-If results are statistically significant:
 
-- The sample proportion $\hat{p}$ of correct guesses is higher than what we expect by random chance alone. Recall that by random chance we mean if ESP does not exist and $p = 1/5$.
+
+#### Scenario 1: statistically significant results {-}
+
+If results are __statistically significant__:
+
+- The sample proportion $\hat{p}$ of correct guesses is unlikely to occur by random chance alone. Recall that by random chance we mean if ESP does not exist and thus $p = 1/5$.
 - The sample data provide evidence that the population proportion of correct guesses is higher than 1/5, meaning that we have evidence of ESP.
 
 
-### Scenario 2: not statistically significant results
+#### Scenario 2: not statistically significant results {-}
 
+If results are __not statistically significant__:
 
-Recall that:
-
-- $p$ = proportion of correct guesses of the symbol
-- $H_0 : \ p = 1/5 \qquad \mathrm{vs} \qquad H_1 : \  p > 1/5$
-
-If results are __not__ statistically significant:
-
-- The sample proportion $\hat{p}$ of correct guesses could easily happen by random chance alone. Recall that by random chance we mean if ESP does not exist and $p = 1/5$.
-- The sample data do not provide enough evidence to conclude that p > 1/5 or that ESP exists.
+- The sample proportion $\hat{p}$ of correct guesses could easily happen by random chance alone. 
+Recall that by random chance we mean if ESP does not exist and thus $p = 1/5$.
+- The sample data do not provide enough evidence to conclude that $p > 1/5$ or that ESP exists.
 
 
 ### Randomization distribution
 
 In order to measure how unusual a sample statistic is, we need to generate many statistics under the null hypothesis and see what's the proportion of the generated statistics that are as extreme as, or more extreme than, the observed statistic.
 
-For the ESP experiment we can obtain the null distribution as follows:
-```{r}
+For the ESP experiment we can obtain the null distribution following this steps.
 
+Load the required packages:
+```{r, message=FALSE}
 library(tidyverse)
 library(moderndive)
+```
 
-tbl = rerun(1000, sample(c("Yes", "No"), size = 98, replace = TRUE, prob = c(1/5, 4/5)))
-tbl = enframe(tbl, name = 'sample') %>% unnest(value)
-tbl
+Create a tibble with the possible outcome of one play. Either:
 
+- your partner correctly guesses your card (S = success), or 
+- your partner dot not correctly guess your card (F = failure)
 
+_**Note:** Make sure the column name in the tibble is `vals` and that it is a factor._
+```{r, message=FALSE}
+outcomes <- tibble(vals = factor(c('S', 'F')))
+outcomes
+```
 
+Assign the probabilities of each possible outcome, remembering that the sum of the probabilities must sum to one.
+
+- Probability of success (S) = probability of correctly guessing the symbol: $p = 1/5$ 
+- Probability of failure (F) is the complement to one: $1 - p = 1 - 1/5 = 4/5$.
+
+```{r}
+prob <- c(1/5, 4/5)
+```
+
+Generate 1000 samples of size $n = 98$ from the distribution specified by the null hypothesis (__null distribution__):
+```{r, message=FALSE, warning=FALSE}
+size <- 98
+replace <- TRUE
+reps <- 1000
+
+samples <- rep_sample_n(outcomes, size = size, replace = replace, reps = reps, prob = prob)
+samples
+```
+
+Note again, we have $98 \times 1000 = 98,000$ rows.
+
+We can now compute, for each sample (a sequence of S's and F's) the proportion of successes:
+
+```{r}
+sample_props <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'S') / n())
+
+sample_props
+```
+
+Let us now plot the 1000 sample proportions under the null hypothesis. This plot shows the null distribution, and each dot represents one of the 1000 proportions in the above tibble:
+```{r, fig.height=6}
+ggplot(sample_props, aes(x = prop)) +
+  geom_dotplot(binwidth = 0.002, dotsize = 1, fill = 'white') +
+  labs(x = expression(hat(p)))
+```
+
+Where does the sample statistic from [Example 1](#example-esp-results) lie in the null distribution? Let's add a vertical line showing the value of the observed $\hat{p} = 0.26$:
+
+```{r, fig.height=6}
+ggplot(sample_props, aes(x = prop)) +
+  geom_dotplot(binwidth = 0.002, dotsize = 1, fill = 'white') +
+  geom_vline(xintercept = 0.26, color = 'red', size = 1) +
+  labs(x = expression(hat(p)))
+```
+
+---
+
+```{r, fig.height=6}
+ggplot(sample_props, aes(x = prop)) +
+  geom_histogram(color = 'white', binwidth = 0.02) +
+  labs(x = expression(hat(p)))
 ```
 
 
+```{r, fig.height=6}
+ggplot(sample_props, aes(x = prop, fill = prop >= 0.26)) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.25) +
+  labs(x = expression(hat(p)), fill = expression(hat(p) > 0.26))
+```
 
 ---
 
