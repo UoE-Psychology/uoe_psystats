@@ -78,8 +78,8 @@ We are not sure yet.
 
 We still have to introduce the statistical framework that allows us to determine either:
 
-- if the observed sample statistic is highly unlikely to happen by chance alone
-- if it would be very likely to see such a value by chance alone.
+- if the observed sample statistic is highly unlikely to happen by chance only
+- if it would be very likely to see such a value by chance only
 
 As we will see, this framework is called __hypothesis testing__ and involves using a __statistical test__.
 `r msmbstyle::solution_end()`
@@ -193,8 +193,9 @@ The null hypothesis is typically a very specific claim about the population para
 To visually help you identify the null vs the alternative, typically:
 
 - $H_0$ includes an = sign
-- $H_1$ includes >, < or =
+- $H_1$ includes >, < or $\neq$
 
+If $H_1$ contains either > or < the alternative hypothesis is **one-sided**. If $H_1$ contains $\neq$, it is said to be a **two-sided** alternative hypothesis.
 
 Putting this together, in the ESP investigation we have two competing hypotheses:
 
@@ -210,11 +211,20 @@ Now that we have defined a framework to assess two competing hypotheses about po
 
 We do this by quantifying how unusual it is to obtain a statistic as extreme or more extreme than the observed statistic, if the null hypothesis is true.
 
-<div class="def">
-#### Statistical significance {-}
+If it is very unusual, we have significant evidence against the null hypothesis.
 
-We say that the sample results are ___statistically significant___ if it is unlikely that by random chance alone we obtain a statistic that is as extreme as the observed sample statistic or more extreme (in the direction specified by the alternative hypothesis).
+<div class="def">
+#### Statistical significance {-#def-statistical-significance}
+
+Assuming the null hypothesis to be true, we say that the sample results are ___statistically significant___ if it is unlikely that by random chance alone we obtain a statistic that is as extreme as the observed sample statistic, or more extreme (in the direction specified by the alternative hypothesis).
 </div>
+
+
+Hypothesis testing basically boils down to quantifying how likely or unlikely it is to observe the sample statistic if the null hypothesis is true.
+
+If the sample data are statistically significant, we have enough evidence against $H_0$ and in favour of $H_1$.
+
+If the sample data are not statistically significant, we do not have sufficient evidence against $H_0$, so the test is inconclusive. Either the null or the alternative hypothesis could be true.
 
 
 Recall that:
@@ -241,11 +251,23 @@ Recall that by random chance we mean if ESP does not exist and thus $p = 1/5$.
 - The sample data do not provide enough evidence to conclude that $p > 1/5$ or that ESP exists.
 
 
-### Randomization distribution
+### Null distribution
 
-In order to measure how unusual a sample statistic is, we need to generate many statistics under the null hypothesis and see what's the proportion of the generated statistics that are as extreme as, or more extreme than, the observed statistic.
+In the previous section, we said that if the observed statistic is very unusual, we have significant evidence against the null hypothesis. But __how do we quantify if a value is unusual?__
 
-For the ESP experiment we can obtain the null distribution following this steps.
+The key idea is to look at the distribution of the statistics we would obtain if $H_0$ were true. We do this by generating many sample statistics assuming the null hypothesis to be true.
+
+In order to quantify if a sample statistic provides evidence against $H_0$, we need to look at what kind of statistics we expect to observe if $H_0$ were true. The distributions of these statistics is called the **null distribution**.
+
+<div class="def">
+#### Null distribution {-}
+
+The ___null distribution___ shows how the statistics vary from sample to sample, assuming the null hypothesis to be true.
+
+**Centre**: The null distribution is centred at the value of the population parameter specified in the null hypothesis.
+</div>
+
+For the ESP experiment we can obtain the null distribution following these steps.
 
 Load the required packages:
 ```{r, message=FALSE}
@@ -302,7 +324,7 @@ ggplot(sample_props, aes(x = prop)) +
   labs(x = expression(hat(p)))
 ```
 
-Where does the sample statistic from [Example 1](#example-esp-results) lie in the null distribution? Let's add a vertical line showing the value of the observed $\hat{p} = 0.26$:
+Where does the sample statistic from [Example 1](#example-esp-results) lie in the null distribution? Let's add a vertical line showing the value of the observed statistic, $\hat{p} = 0.26$:
 
 ```{r, fig.height=6}
 ggplot(sample_props, aes(x = prop)) +
@@ -311,40 +333,388 @@ ggplot(sample_props, aes(x = prop)) +
   labs(x = expression(hat(p)))
 ```
 
----
 
-```{r, fig.height=6}
-ggplot(sample_props, aes(x = prop)) +
-  geom_histogram(color = 'white', binwidth = 0.02) +
-  labs(x = expression(hat(p)))
-```
+Do we have a high chance of observing the statistic $\hat{p} = 0.26$ under the null hypothesis of random guessing?
+
+Different researchers might reach different conclusions by looking at this plot. Rather than visually inspecting the plot for every situation, we want to find a generically applicable tool that would make different researchers all reach to the same conclusion.
 
 
-```{r, fig.height=6}
+
+
+### P-value
+
+Recall now the definition of [statistical significance](#def-statistical-significance). We have evidence against the null hypothesis if it would be unusual to obtain statistics as extreme or more extreme than the observed statistic in the null distribution.
+
+To summarise: in order to measure how unusual the observed statistic is under the null hypothesis, we need to generate many statistics under the null hypothesis (null distribution) and see what's the proportion of the generated statistics that are as extreme as, or more extreme than, the observed statistic.
+
+The proportion of statistics from the null distribution as extreme or more extreme than the observed statistic is known as the **p-value**.
+The smaller the p-value, the higher the statistical evidence against the null hypothesis.
+
+
+<div class="def">
+#### P-value {-}
+
+The __p-value__ represents the chance of observing a statistic as extreme or more extreme than the observed one, if the null hypothesis were true.
+</div>
+
+
+In the ESP [Example 1](#example-esp-results), we can identify the statistics in the null distribution that are as extreme or more extreme than the observed one (0.26) by color-coding them:
+
+```{r, fig.height=6.3}
 ggplot(sample_props, aes(x = prop, fill = prop >= 0.26)) +
-  geom_dotplot(binwidth = 0.01, dotsize = 0.25) +
-  labs(x = expression(hat(p)), fill = expression(hat(p) > 0.26))
+  geom_dotplot(binwidth = 0.002, dotsize = 1) +
+  labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26)) +
+  theme(legend.position="top")
 ```
 
----
+
+We now calculate the proportion of statistics which are greater than or equal 0.26. You can either do that by eye, counting the green dots and dividing them by the total number of dots (1000) or, more quickly:
+
+```{r}
+pvalue <- sample_props %>%
+  summarise(pvalue = sum(prop > 0.26) / n())
+
+pvalue
+```
 
 
+_**Interpretation of the p-value:** If we were to randomly guess the card symbol in [Example 1](#example-esp-results), the chance of getting a proportion as high as 0.26 is 0.07._
+
+
+The p-value needs to be calculated in the direction specified by the alternative hypothesis:
+
+- The p-value of a one-sided hypothesis is the proportion in tail specified by $H_1$.
+- The p-value of a two-sided hypothesis is twice the proportion in the lower tail.
+
+
+You can calculate a p-value via randomization for any statistic:
+
+1. Simulate many samples assuming $H_0$ true
+2. Compute the statitic on each of the simulated samples
+3. Compute the proportion of simulated statistics as extreme or more extreme than the observed statistic
+
+
+
+### Making a formal decision
+
+The smaller the p-value, the greater the evidence that the data provide against the null hypothesis $H_0$.
+
+`r msmbstyle::question_begin()`
+Which of the following p-values gives the strongest evidence against $H_0$?
+
+a. 0.005
+b. 0.1
+c. 0.35
+d. 0.92
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+The correct answer is (a) as it is the smallest p-value.
+`r msmbstyle::solution_end()`
+
+
+So, the outcome of a statistical test is either:
+
+1. the p-value is small
+    + we reject the null hypothesis
+    + the observed sample statistic would be extreme in the null distribution
+    + the results are statistically significant
+    + the test concludes that we have enough evidence in favour of $H_1$
+2. the p-value is not small
+    + we do not reject the null hypothesis
+    + the observed sample statistic would not be extreme in the null distribution 
+    + the results are not statistically significant
+    + the test is inconclusive, either $H_0$ or $H_1$ could b true
+
+
+__How small should the p-value be?__
+
+This is set by the researcher.
+We decide if a p-value is small or not by specifying a threshold below which a p-value is deemed to be small.
+
+<div class="def">
+#### Significance level {-}
+
+The __significance level__ $\alpha$ is the threshold below which we deem a p-value small enough to reject the null hypothesis.
+</div>
+
+For a given significance level $\alpha$, specified before collecting any data:
+
+- if the p-value $< \alpha$ then reject $H_0$
+- if the p-value $\geq \alpha$ then do not reject $H_0$
+
+Typically, a "default" choice for $alpha$ is $0.05$.
+
+
+
+_**Caution:** Never accept $H_0$. "Do not reject $H_0$" is not the same as "accept $H_0$". Not having sufficient evidence against $H_0$ does not mean having evidence for $H_0$._
+
+
+The following table summarizes in words the strength of evidence for different p-values:
+
+|          p-value             | strength of evidence                                     |
+|:----------------------------:|:---------------------------------------------------------|
+|      0.1 $<$ pvalue          | not much evidence against null hypothesis                |
+|  0.05 $<$ p-value $\leq$ 0.1 | moderate evidence against the null hypothesis            |
+| 0.01 $<$ p-value $\leq$ 0.05 | strong evidence against the null hypothesis              |
+|     p-value $\leq$ 0.01      | very strong evidence against the null hypothesis Here is |
+
+
+
+So, to conclude [Example 1](#example-esp-results) on ESP, at a significance level of 0.05, we do not reject the null hypothesis as the p-value (0.07) is greater than 0.05.
+
+
+
+### Presumption of innocence
+
+Statistical hypothesis testing works similarly to what is known in legal terms as the **presumption of innocence
+**.
+This means that a person is always considered innocent until proven guilty.
+Evidence must be provided and it should be beyond a reasonable doubt.
+
+Formally:
+
+- $H_0$: the person is not guilty
+- $H_1$: the person is guilty
 
 
 ## Lab
 
+In today's lab we will investigate the average body temperature for healthy humans.
+You might probably be thinking that the average is about 37 °C, and this is what most people would answer as this has been considered as granted for many years.
+
+However, could it be possible that the average body temperature for healthy humans has changed over time? Perhaps this could be due to the climate change?
+
+We will use data^[Shoemaker, A. L. (1996). _What’s Normal: Temperature, Gender and Heartrate. Journal of Statistics Education, 4_(2), 4.] comprising measurements on body temperature, gender, and pulse rate for a sample of $n = 50$ healthy subjects (25 males and 25 females).
+
+Using the concepts learned today, try to answer the following question.
+
+<div class="red">
+#### Question of the lab {-#w13-question-lab}
+
+Do the sample data provide significant evidence (at a 5% level) that the average body temperature is really different from the standard 37 °C?
+</div>
+
+
 ### Required packages
 
-Before attempting to answer any question, make sure to run the following code chunk, which assumes that you have already installed the packages `tidyverse` and `moderndive`.
+Before attempting to answer the following questions, make sure to run the following code chunk, which assumes that you have already installed the packages `tidyverse` and `moderndive`.
 If you have not installed them yet, type `install.packages("tidyverse")` and `install.packages("moderndive")` in the R console.
 
-This chunk loads the tidyverse and moderndive packages:
-```{r}
+Loads the `tidyverse` and `moderndive` packages:
+```{r message = FALSE}
 library(tidyverse)
 library(moderndive)
 ```
 
 
-###
+### Importing the data
+
+Let's start by loading the data, which are in a tab separated file. We use the function `read_tsv` to read tab separated values:
+```{r message=FALSE}
+bodytemp <- read_tsv('data/BodyTemp.txt')
+bodytemp
+```
+
+
+### Data inspection
+
+`r msmbstyle::question_begin()`
+1. What are the names of the variables in the dataset?
+2. What are the dimensions of the tibble?
+3. Are there any missing values? _**Hint:** Use the function `anyNA()` to check if there are any Not Available (NA) entries._
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+1. The variable names are `BodyTemp`, `Pulse` and `Gender`:
+```{r}
+names(bodytemp)
+```
+
+2. The tibble has 50 rows and 3 columns:
+```{r}
+dim(bodytemp)
+```
+
+3. The tibble does not appear to have missing values:
+```{r}
+anyNA(bodytemp)
+```
+`r msmbstyle::solution_end()`
+
+
+
+### Sample average and standard deviation
+
+`r msmbstyle::question_begin()`
+What is the average temperature in the sample and the standard deviation?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+```{r}
+sample_stats <- bodytemp %>%
+  summarise(avg_temp = mean(BodyTemp), 
+            sd_temp = sd(BodyTemp))
+
+sample_stats
+```
+
+The average body temperature in the sample is $\bar{x} =$ `r bodytemp %>% summarise(avg_temp = mean(BodyTemp)) %>% pull(avg_temp) %>% round(2)` °C and the standard deviation is $s = $ `r bodytemp %>% summarise(sd_temp = sd(BodyTemp)) %>% pull(sd_temp) %>% round(2)` °C.
+
+`r msmbstyle::solution_end()`
+
+
+### Null and alternative hypothesis
+
+`r msmbstyle::question_begin()`
+State the null and alternative hypothesis for the research question of this lab.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+$$
+H_0: \ \bar{x} = 37\ {}^\circ\mathrm{C} \\
+H_1: \ \bar{x} \neq 37\ {}^\circ\mathrm{C}
+$$
+`r msmbstyle::solution_end()`
+
+
+
+### Bootstrap distribution and Null distribution
+
+We need to obtain the sampling distribution of the mean. However, we only have one sample, so we must approximate it with a boostrap distribution showing how the sample means vary from bootstrap sample to bootstrap sample.
+
+Let us use 10,000 repeated samples:
+```{r}
+bootstrap_distribution <- bodytemp %>%
+  rep_sample_n(size = 50, replace = TRUE, reps = 10000) %>%
+  group_by(replicate) %>%
+  summarise(avg_temp = mean(BodyTemp))
+
+bootstrap_distribution
+```
+
+Let's plot the bootstrap distribution as a histogram, rather than a dotplot, and superimpose a red line showing the sample mean $\bar{x} =$ `r bodytemp %>% summarise(avg_temp = mean(BodyTemp)) %>% pull(avg_temp) %>% round(2)` °C:
+```{r}
+ggplot(bootstrap_distribution, aes(x = avg_temp)) +
+  geom_histogram(color = 'white') +
+  geom_vline(xintercept = pull(sample_stats, avg_temp), color = 'red', size = 1) +
+  labs(x = expression(bar(x)))
+```
+
+The bootstrap distribution is centred around the sample mean:
+```{r}
+bootstrap_distribution %>% 
+  summarise(avg = mean(avg_temp))
+```
+
+The null distribution, however, needs to be centred at the value of the parameter specified by the null hypothesis!
+
+Recall that:
+$$
+H_0: \ \bar{x} = 37\ {}^\circ\mathrm{C} \\
+H_1: \ \bar{x} \neq 37\ {}^\circ\mathrm{C}
+$$
+
+We could shift the distribution to have mean 37 °C by adding 37 - (`r bodytemp %>% summarise(avg_temp = mean(BodyTemp)) %>% pull(avg_temp) %>% round(2)`) °C = `r 37 - bodytemp %>% summarise(avg_temp = mean(BodyTemp)) %>% pull(avg_temp) %>% round(2)` °C to the data values.
+
+Let us calculate the shift:
+```{r}
+null_hypothesis <- 37
+
+avg_bootstrap_distribution <- bootstrap_distribution %>%
+  summarise(avg = mean(avg_temp)) %>% 
+  pull(avg)
+avg_bootstrap_distribution
+
+shift <- null_hypothesis - (avg_bootstrap_distribution)
+shift
+```
+
+Shift the original sample data values:
+```{r}
+bodytemp <- bodytemp %>%
+  mutate(BodyTemp = BodyTemp + shift)
+
+null_distribution <- bodytemp %>%
+  rep_sample_n(size = 50, replace = TRUE, reps = 10000) %>%
+  group_by(replicate) %>%
+  summarise(avg_temp = mean(BodyTemp))
+null_distribution
+```
+
+Which is centred at the parameter value specified in the null:
+```{r}
+null_distribution %>%
+  summarise(avg = mean(avg_temp))
+```
+
+
+### Visualise the null distribution
+
+`r msmbstyle::question_begin()`
+Show a histogram of the null distribution, with a vertical red line displaying the parameter value specified in the null hypothesis.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+```{r}
+ggplot(null_distribution, aes(x = avg_temp)) +
+  geom_histogram(color = 'white') +
+  geom_vline(xintercept = null_hypothesis, color = 'red', size = 1) +
+  labs(x = expression(bar(x)))
+```
+`r msmbstyle::solution_end()`
+
+
+### P-value
+
+`r msmbstyle::question_begin()`
+Calculate the proportion of bootstrap means as extreme as the observed statistic, in the direction specified by the alternative hypothesis.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+This is a two-sided alternative, hence we must calculate two times the proportion in the smaller tail.
+
+Let's first plot it
+```{r}
+ggplot(null_distribution, aes(x = avg_temp, fill = avg_temp < pull(sample_stats, avg_temp))) +
+  geom_histogram(color = 'white', binwidth = 0.01) +
+  labs(x = expression(bar(x)), fill = expression(bar(x) < 36.81))
+```
+
+
+```{r}
+null_distribution %>%
+  summarise(count_smaller = sum(avg_temp < pull(sample_stats, avg_temp)))
+```
+Out of the `r nrow(null_distribution)` means in the null distribution, `r null_distribution %>%
+  summarise(sum(avg_temp < pull(sample_stats, avg_temp)))` of them are as extreme as, or more extreme (lower) than the observed sample statistic (36.81).
+  
+The proportion of means as low as the observed mean (36.81) in the null distribution is then:
+```{r}
+null_distribution %>%
+  summarise(prop_smaller = sum(avg_temp < pull(sample_stats, avg_temp)) / n())
+```
+
+Since this test has a double-sided alternative, we must double this proportion in order to obtain the final p-value:
+```{r}
+pvalue <- null_distribution %>%
+  summarise(pvalue = 2 * sum(avg_temp < pull(sample_stats, avg_temp)) / n())
+
+pvalue
+```
+
+The p-value is equal to `r pvalue$pvalue`.
+`r msmbstyle::solution_end()`
+
+
+### Interpreting the p-value
+
+`r msmbstyle::question_begin()`
+Using the p-value found in the previous question, how would you answer the [research question](#w13-question-lab) of the lab?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+At a significance level of 5%, the very small p-value we have found, `r pvalue$pvalue` < 0.05, gives strong evidence against the null hypothesis that the average body temperature is 37 °C.
+`r msmbstyle::solution_end()`
 
 
