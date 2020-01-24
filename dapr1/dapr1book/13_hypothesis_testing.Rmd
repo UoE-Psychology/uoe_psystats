@@ -19,46 +19,47 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=15))
 
 #### Learning outcomes {-}
 
-**LO1.** Understand the null and alternative hypotheses and how to specify them for a given research question.
+**LO1.** Understand null and alternative hypotheses, and how to specify them for a given research question.
 
-**LO2.** Understand statistical significance and how to calculate p-values from null distributions.
+**LO2.** Understand statistical significance and how to calculate p-values from null distributions via simulation.
 
-**LO3.** Understand how to shift a bootstrap distribution to obtain a null distribution centred at the parameter specified in the null hypothesis.
+**LO3.** Understand how to obtain a null distribution from a bootstrap distribution.
 
 </div>
 
 
 
 ## Recap
-In [Week 11](#chap-sampling-distributions) we saw that a population is described by parameters and samples by statistics. We typically can not measure the entire population, so parameters need to be estimated by sample statistics. We quantified the uncertainty in our estimate by standard error (SE) of the sample statistic. This is defined as the standard deviation of the sampling distribution, showing the sample statistic computed on many samples from the population.
-In practice, however, we are not able to quantify the SE by taking repeated samples from the population, and we have only one sample of size $n$. In [Week 12](#bootstrapping-and-confidence-intervals) we learned to approximate the sampling distribution by bootstrapping.
+In [Week 11](#chap-sampling-distributions) we saw that a population is described by parameters, and samples are described by statistics. We typically can not measure the entire population, so a population parameter needs to be estimated by a sample statistic. We quantified the uncertainty in our estimate by the standard error (SE) of the sample statistic. This is defined as the standard deviation of the sampling distribution. The latter shows the values of the sample statistic when computed on many samples of the same size from the same population.
+
+In practice, however, we are not able to quantify the SE by taking repeated samples from the population, as due to money or time constraints we only have one sample of size $n$. In [Week 12](#bootstrapping-and-confidence-intervals) we learned to approximate the sampling distribution by bootstrapping.
 This approach repeatedly samples with replacement from the observed sample, using the sample sample size.
 The standard deviation of the bootstrap distribution is an estimate of the SE of the statistic.
-Using the centre of the bootstrap distribution, and the estimated SE, we learned how to give a range of plausible values for the population parameter.
-This week we will learn how to use the sample data to answer a wide range of questions about a population.
+Using the statistic from the observed sample, and the estimated SE from the bootstrap distribution, we learned how to give a range of plausible values for the population parameter.
 
+This week we will learn how to use the sample data to answer a wide range of questions about a population.
 
 
 
 ## Walkthrough
 
-### Extrasensory perception (ESP)
-
-According to [Wikipedia](https://en.wikipedia.org/wiki/Extrasensory_perception), "__Extrasensory perception__ or __ESP__, also called sixth sense, includes claimed reception of information not gained through the recognized physical senses, but sensed with the mind."
-
 
 <div class='red'>
-#### Question of the day {-}
+#### Research question of the walkthrough {-}
 Is there such a thing as extrasensory perception (ESP), also known as the "sixth sense"?
 </div>
 
+
+### Extrasensory perception (ESP) {-}
+
+According to [Wikipedia](https://en.wikipedia.org/wiki/Extrasensory_perception), "__Extrasensory perception__ or __ESP__, also called sixth sense, includes claimed reception of information not gained through the recognized physical senses, but sensed with the mind."
 
 A famous test for ESP involves a set of cards, shown in Figure \@ref(fig:zener), known as Zener cards:
 ```{r zener, echo = FALSE, out.width = '80%', fig.align = 'center', fig.cap="Zener cards (Source: https://en.wikipedia.org/wiki/Extrasensory_perception)"}
 knitr::include_graphics('images/zener.png')
 ```
 
-There are five cards, one for each of the different symbols:
+There are five different cards, one for each of the following symbols:
 
 1. circle
 2. cross
@@ -83,8 +84,8 @@ We are not sure yet.
 
 We still have to introduce the statistical framework that allows us to determine either:
 
-- if the observed sample statistic is highly unlikely to happen by chance only
-- if it would be very likely to see such a value by chance only
+- if the observed sample statistic is highly unlikely to happen due to sampling variability
+- if it would be very likely to see such a value by sampling variation
 
 As we will see, this framework is called __hypothesis testing__ and involves using a __statistical test__.
 `r msmbstyle::solution_end()`
@@ -106,7 +107,7 @@ We will use these two values later on to see if we have evidence of ESP in this 
 
 
 
-### The random chance model
+### The random chance model {-}
 
 `r msmbstyle::question_begin()`
 If there was no such thing as ESP, what proportion of guesses do you expect to be correct?
@@ -114,14 +115,21 @@ If there was no such thing as ESP, what proportion of guesses do you expect to b
 
 
 `r msmbstyle::solution_begin()`
-If there is no ESP, because there are five cards, each person has a chance of $1/5 = 0.2$ to correctly guess the symbol.
+If there is no ESP, because there are five cards, each person has a chance of correctly guessing the symbol equal to $1/5 = 0.2$.
 
-This is similar to asking: what's the chance of observing a given face of a die? If we had to randomly guess, since there are 6 faces, we have a probability of 1/6. Now, instead of six faces, we only have five, hence the 1/5 chance.
+This is similar to asking: what's the chance of correctly guessing the face of a die? If we had to randomly guess, since there are 6 faces, we have a probability of $1/6$. 
+The only difference is that instead of six faces, here we only have five, hence the $1/5$ chance.
 `r msmbstyle::solution_end()`
 
-The random-chance-alone model helps us decide whether the observed proportion could easily happen by randomly guessing the symbol or whether the underlying process is something else, such as having extrasensory perception.
 
-We call this probability the **null hypothesis**, and it represents what we would expect if there was no ESP. In this case, the null hypothesis reflects what would happen by random chance alone: __no effect__ of ESP.
+We use the chance-alone model to help us decide whether:
+
+- the observed proportion could easily happen by sampling variation if we are randomly guessing the symbol, or
+- the underlying process is something else, such as having extrasensory perception.
+
+The chance model for the ESP example is specified by the probability of correctly guessing the symbol if we were to guess at random: $p = 1/5$.
+
+We call this probability the **null hypothesis**, and it represents what we would expect if there was no ESP ("no effect").
 
 We denote the null hypothesis by:
 $$
@@ -130,14 +138,14 @@ $$
 
 
 
-### The alternative explanation
+### The alternative explanation {-}
 
-The research question of interest, if ESP exists, is captured by the __alternative hypothesis__ which contradicts the null one.
-We always put the claim of interest for our research in the alternative hypothesis, rather than the null hypothesis.
+The research question of interest (i.e. if ESP exists) is captured by the __alternative hypothesis__, which contradicts the null hypothesis.
+We always put the research claim of interest in the alternative hypothesis, rather than the null one.
 
 The null and the alternative hypotheses are competing claims about the population parameter and we can not have the same value of the parameter included in both the null and the alternative. 
 
-In the ESP example, we would have ESP if the chance of guessing the correct symbol was greater than random guessing:
+In the ESP example, we would have evidence of ESP if the chance of correctly guessing the symbol were greater than when randomly guessing it:
 
 $$
 H_1 : p > \frac{1}{5}
@@ -146,7 +154,7 @@ $$
 
 
 
-### Statistical test
+### Statistical test {-}
 
 As we saw in [Week 11](#chap-sampling-distributions), sample statistics vary from sample to sample.
 
@@ -154,10 +162,11 @@ The probability of 1/5 represents the population proportion. Even if the populat
 
 The key question is then: __how do we decide in a principled way if a sample proportion is sufficiently above 1/5 to suggest presence of ESP?__
 
-In [Example 1](#example-esp-results) we obtained a sample proportion of 25/98 = 0.26. Is this sufficiently higher than 1/5 = 0.20 to suggest presence of ESP?
+In [Example 1](#example-esp-results) we obtained a sample proportion of 25/98 = 0.26. 
+Is 0.26 sufficiently higher than 0.20 to suggest presence of ESP?
 
 
-The set of principles that allows us to make an informed claim about the population, under uncertainty, is called **statistical hypothesis testing**.
+The set of principles that allows us to make an informed claim under uncertainty about the population is called **statistical hypothesis testing**.
 
 <div class="def">
 #### Statistical test {-}
@@ -167,10 +176,10 @@ A ___statistical test___ is a method that uses the data collected on a sample to
 
 
 
-### Understanding statistical evidence
+### Understanding statistical evidence {-}
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question")`
-If $\hat{p}$ denotes the proportion of correctly guessed symbols in an ESP experiment, which of the following sample proportions provide the strongest evidence for ESP?
+If $\hat{p}$ denotes the proportion of correctly guessed symbols in an ESP experiment, which of the following sample proportions provide the strongest evidence in favour of ESP?
 
 a. $\hat{p} = 0$
 b. $\hat{p} = 1/5$
@@ -186,11 +195,11 @@ This example shows us that we assess a claim about a population parameter by qua
 
 
 
-### Statistical hypotheses
+### Statistical hypotheses {-}
 
 We perform statistical tests on two competing hypotheses about a population parameter:
 
-- __Null hypothesis__ $H_0$: typically a claim about no effect or difference between groups;
+- __Null hypothesis__ $H_0$: typically a claim about "no effect" or "no difference between groups";
 - __Alternative hypothesis__ $H_1$: the claim we seek evidence for.
 
 The null hypothesis is typically a very specific claim about the population parameter, while the alternative hypothesis is a broader statement.
@@ -200,7 +209,9 @@ To visually help you identify the null vs the alternative, typically:
 - $H_0$ includes an = sign
 - $H_1$ includes >, < or $\neq$
 
-If $H_1$ contains either > or < the alternative hypothesis is **one-sided**. If $H_1$ contains $\neq$, it is said to be a **two-sided** alternative hypothesis.
+If $H_1$ contains either > or <, the alternative hypothesis is said to be **one-sided**.
+
+If $H_1$ contains $\neq$, the alternative hypothesis is said to be **two-sided**.
 
 Putting this together, in the ESP investigation we have two competing hypotheses:
 
@@ -210,12 +221,11 @@ H_1 : \  p > \frac{1}{5}
 $$
 
 
-### Statistical significance
+### Statistical significance {-}
 
-Now that we have defined a framework to assess two competing hypotheses about population parameters, how do we quantify the evidence that the sample data bring in favour of the alternative hypothesis?
+Now that we have defined a framework to assess two competing hypotheses about a population parameter, how do we quantify the evidence that the sample data bring in favour of the alternative hypothesis?
 
 We do this by quantifying how unusual it is to obtain a statistic as extreme or more extreme than the observed statistic, if the null hypothesis is true.
-
 If it is very unusual, we have significant evidence against the null hypothesis.
 
 <div class="def">
@@ -225,11 +235,16 @@ Assuming the null hypothesis to be true, we say that the sample results are ___s
 </div>
 
 
-Hypothesis testing basically boils down to quantifying how likely or unlikely it is to observe the sample statistic if the null hypothesis is true.
+Hypothesis testing basically boils down to quantifying how likely or unlikely it is to observe the sample statistic if the null hypothesis is true. Two decisions are possible:
 
-If the sample data are statistically significant, we have enough evidence against $H_0$ and in favour of $H_1$.
+- If the sample data are statistically significant, we __reject__ $H_0$ as we have enough evidence against $H_0$ and in favour of $H_1$.
+- If the sample data are not statistically significant, we __do not reject__ $H_0$ as we do not have convincing evidence against $H_0$.
 
-If the sample data are not statistically significant, we do not have sufficient evidence against $H_0$, so the test is inconclusive. Either the null or the alternative hypothesis could be true.
+This has an analogy in law. One of the fundamental legal principles is the **presumption of innocence**, which says that a person is considered innocent until proven guilty, and that the evidence must be beyond reasonable doubt.
+
+The null hypothesis ($H_0$), corresponding to no effect, is that the defendant is innocent. The alternative hypothesis ($H_1$) is that the defendant is guilty. 
+
+The court presumes $H_0$ to be true (the defendant is innocent) unless the prosecutor can provide strong evidence that the defendant is guilty beyond a reasonable doubt. The burden of proof is on the prosecutor (in our case, the data) to convince the court that the defendant is guilty.
 
 
 Recall that:
@@ -256,13 +271,11 @@ Recall that by random chance we mean if ESP does not exist and thus $p = 1/5$.
 - The sample data do not provide enough evidence to conclude that $p > 1/5$ or that ESP exists.
 
 
-### Null distribution
+### Null distribution {-}
 
 In the previous section, we said that if the observed statistic is very unusual, we have significant evidence against the null hypothesis. But __how do we quantify if a value is unusual?__
 
-The key idea is to look at the distribution of the statistics we would obtain if $H_0$ were true. We do this by generating many sample statistics assuming the null hypothesis to be true.
-
-In order to quantify if a sample statistic provides evidence against $H_0$, we need to look at what kind of statistics we expect to observe if $H_0$ were true. The distributions of these statistics is called the **null distribution**.
+The key idea is to look at the distribution of the statistics we would obtain if $H_0$ were true. We do this by generating many sample statistics assuming the null hypothesis to be true. The distribution of these statistics is called the **null distribution**.
 
 <div class="def">
 #### Null distribution {-}
@@ -272,7 +285,7 @@ The ___null distribution___ shows how the statistics vary from sample to sample,
 **Centre**: The null distribution is centred at the value of the population parameter specified in the null hypothesis.
 </div>
 
-For the ESP experiment we can obtain the null distribution following these steps.
+For the ESP experiment we can obtain the null distribution with the following steps.
 
 Load the required packages:
 ```{r, message=FALSE}
@@ -283,7 +296,7 @@ library(moderndive)
 Create a tibble with the possible outcome of one play. Either:
 
 - your partner correctly guesses your card (S = success), or 
-- your partner dot not correctly guess your card (F = failure)
+- your partner does not correctly guess your card (F = failure)
 
 _**Note:** Make sure the column name in the tibble is `vals` and that it is a factor._
 ```{r, message=FALSE}
@@ -291,7 +304,7 @@ outcomes <- tibble(vals = factor(c('S', 'F')))
 outcomes
 ```
 
-Assign the probabilities of each possible outcome, remembering that the sum of the probabilities must sum to one.
+Assign the probabilities of each possible outcome, remembering that the probabilities must sum to one:
 
 - Probability of success (S) = probability of correctly guessing the symbol: $p = 1/5$ 
 - Probability of failure (F) is the complement to one: $1 - p = 1 - 1/5 = 4/5$.
@@ -302,17 +315,13 @@ prob <- c(1/5, 4/5)
 
 Generate 1000 samples of size $n = 98$ from the distribution specified by the null hypothesis (__null distribution__):
 ```{r, message=FALSE, warning=FALSE}
-size <- 98
-replace <- TRUE
-reps <- 1000
-
-samples <- rep_sample_n(outcomes, size = size, replace = replace, reps = reps, prob = prob)
+samples <- rep_sample_n(outcomes, size = 98, replace = TRUE, reps = 1000, prob = prob)
 samples
 ```
 
-Note again, we have $98 \times 1000 = 98,000$ rows.
+Note that the tibble has $98,000$ rows. Each sample of size $n = 98$ represents a sequence of 98 plays where each play can either be S (your partner correctly guessed your card) or F (your partner didn't guess correctly). Hence, each sample is a sequence of S's and F's. Because we have 1000 of such samples, the total number of rows will be $98 \times 1000 = 98,000$.
 
-We can now compute, for each sample (a sequence of S's and F's) the proportion of successes:
+We can now compute the proportion of successes in each sample:
 
 ```{r}
 sample_props <- samples %>% 
@@ -322,7 +331,7 @@ sample_props <- samples %>%
 sample_props
 ```
 
-Let us now plot the 1000 sample proportions under the null hypothesis. This plot shows the null distribution, and each dot represents one of the 1000 proportions in the above tibble:
+Let us now plot the 1000 sample proportions obtained assuming the null hypothesis to be true. This plot shows the null distribution, and each dot represents one of the 1000 proportions from the above tibble:
 ```{r, fig.height=7.3, fig.align='center', out.width='70%'}
 ggplot(sample_props, aes(x = prop)) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
@@ -341,12 +350,12 @@ ggplot(sample_props, aes(x = prop)) +
 
 Do we have a high chance of observing the statistic $\hat{p} = 0.26$ under the null hypothesis of random guessing?
 
-Different researchers might reach different conclusions by looking at this plot. Rather than visually inspecting the plot for every situation, we want to find a generically applicable tool that would make different researchers all reach to the same conclusion.
+Different researchers might reach different conclusions by looking at this plot. 
+Rather than taking a decision by visually inspecting the plot, we want to find a generically applicable tool that would make different researchers all reach to the same conclusion.
 
 
 
-
-### P-value
+### P-value {-}
 
 Recall now the definition of [statistical significance](#def-statistical-significance). We have evidence against the null hypothesis if it would be unusual to obtain statistics as extreme or more extreme than the observed statistic in the null distribution.
 
@@ -359,21 +368,21 @@ The smaller the p-value, the higher the statistical evidence against the null hy
 <div class="def">
 #### P-value {-}
 
-The __p-value__ represents the chance of observing a statistic as extreme or more extreme than the observed one, if the null hypothesis were true.
+The ___p-value___ represents the chance of observing a statistic as extreme or more extreme than the observed one, if the null hypothesis were true.
 </div>
 
 
-In the ESP [Example 1](#example-esp-results), we can identify the statistics in the null distribution that are as extreme or more extreme than the observed one (0.26) by color-coding them:
+In [Example 1](#example-esp-results) on ESP, we can identify the statistics in the null distribution that are as extreme or more extreme than the observed one ($\hat{p} = 0.26$) by color-coding them:
 
 ```{r, fig.height=7.3, fig.align='center', out.width='70%'}
-ggplot(sample_props, aes(x = prop, fill = prop >= 0.26)) +
+ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
   labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26)) +
   theme(legend.position="top")
 ```
 
 
-We now calculate the proportion of statistics which are greater than or equal 0.26. You can either do that by eye, counting the green dots and dividing them by the total number of dots (1000) or, more quickly:
+We now calculate the proportion of statistics in the null distribution which are greater than or equal 0.26. You can either do that by eye, counting the green dots and dividing them by the total number of dots (1000) or, more quickly:
 
 ```{r}
 pvalue <- sample_props %>%
@@ -389,18 +398,37 @@ _**Interpretation of the p-value:** If we were to randomly guess the card symbol
 The p-value needs to be calculated in the direction specified by the alternative hypothesis:
 
 - The p-value of a one-sided hypothesis is the proportion in tail specified by $H_1$.
-- The p-value of a two-sided hypothesis is twice the proportion in the lower tail.
+- The p-value of a two-sided hypothesis is twice the proportion in the smallest tail, i.e. the tail with the smallest count.
+
+In the example below, the smallest tail (the tail with the lowest count) is the right tail. So if we were to perform a two-sided test for the hypothesis $p \neq 1/5$, we would compute it as twice the proportion of statistics greater than or equal to the observed statistic:
+```{r echo=FALSE, fig.align='center', out.width='100%'}
+library(patchwork)
+
+plt1 <- ggplot(sample_props, aes(x = prop, fill = (prop <= 0.26))) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5, stroke = 0.15) +
+  labs(x = expression(hat(p)), fill = expression(hat(p) <= 0.26), title = 'Left tail') +
+  theme_gray(base_size = 10) +
+  theme(legend.position="top")
+
+plt2 <- ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5, stroke = 0.15) +
+  labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26), title = 'Right tail') +
+  theme_gray(base_size = 10) +
+  theme(legend.position="top")
+
+plt1 | plt2
+```
 
 
 You can calculate a p-value via randomization for any statistic:
 
 1. Simulate many samples assuming $H_0$ true
 2. Compute the statitic on each of the simulated samples
-3. Compute the proportion of simulated statistics as extreme or more extreme than the observed statistic
+3. Compute the proportion of simulated statistics as extreme or more extreme than the observed statistic, in the direction specified by the alternative hypothesis.
 
 
 
-### Making a formal decision
+### Making a formal decision {-}
 
 The smaller the p-value, the greater the evidence that the data provide against the null hypothesis $H_0$.
 
@@ -418,7 +446,7 @@ The correct answer is (a) as it is the smallest p-value.
 `r msmbstyle::solution_end()`
 
 
-So, the outcome of a statistical test is either:
+To summarise, the outcome of a statistical test is either:
 
 1. the p-value is small
     + we reject the null hypothesis
@@ -429,61 +457,116 @@ So, the outcome of a statistical test is either:
     + we do not reject the null hypothesis
     + the observed sample statistic would not be extreme in the null distribution 
     + the results are not statistically significant
-    + the test is inconclusive, either $H_0$ or $H_1$ could b true
+    + we do not have sufficient evidence to reject $H_0$.
 
 
 __How small should the p-value be?__
 
-This is set by the researcher.
+This is set by the researcher before seeing any data.
 We decide if a p-value is small or not by specifying a threshold below which a p-value is deemed to be small.
 
 <div class="def">
 #### Significance level {-}
 
-The __significance level__ $\alpha$ is the threshold below which we deem a p-value small enough to reject the null hypothesis.
+The ___significance level___ $\alpha$ is the threshold below which we deem a p-value small enough to reject the null hypothesis.
 </div>
 
 For a given significance level $\alpha$, specified before collecting any data:
 
-- if the p-value $< \alpha$ then reject $H_0$
-- if the p-value $\geq \alpha$ then do not reject $H_0$
+- if the p-value $< \alpha$ we reject $H_0$
+- if the p-value $\geq \alpha$ we do not reject $H_0$
 
-Typically, a "default" choice for $alpha$ is $0.05$.
+Typically, a "default" choice for $\alpha$ is $0.05$.
 
 
 
 _**Caution:** Never accept $H_0$. "Do not reject $H_0$" is not the same as "accept $H_0$". Not having sufficient evidence against $H_0$ does not mean having evidence for $H_0$._
 
 
-The following table summarizes in words the strength of evidence for different p-values:
+The following table summarizes in words the strength of evidence that the sample results bring in favour of the alternative hypothesis for different p-values:
 
 |          p-value             | strength of evidence                                     |
 |:----------------------------:|:---------------------------------------------------------|
-|      0.1 $<$ pvalue          | not much evidence against null hypothesis                |
+|      0.1 $<$ p-value         | not much evidence against null hypothesis                |
 |  0.05 $<$ p-value $\leq$ 0.1 | moderate evidence against the null hypothesis            |
 | 0.01 $<$ p-value $\leq$ 0.05 | strong evidence against the null hypothesis              |
 |     p-value $\leq$ 0.01      | very strong evidence against the null hypothesis Here is |
 
 
 
-So, to conclude [Example 1](#example-esp-results) on ESP, at a significance level of 0.05, we do not reject the null hypothesis as the p-value (0.07) is greater than 0.05.
+We can now wrap up [Example 1](#example-esp-results) on ESP, and conclude that at a significance level of 0.05, we do not reject the null hypothesis as the p-value 0.07 is greater than $\alpha = 0.05$. Hence, the sample data do not show significant evidence for ESP.
 
 
+An alternative to the p-value as a measure of the strength of evidence is given by the standardized statistic. This measures how many standard deviations away from the mean of the null distribution the observed statistic is. A standardized statistic is typically denoted by $z$, and can be calculated as:
 
-### Presumption of innocence
+<center>
+$$
+\textrm{standardized statistic} = z = \frac{\textrm{sample statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}
+$$
+</center>
 
-Statistical hypothesis testing works similarly to what is known in legal terms as the **presumption of innocence
-**.
-This means that a person is always considered innocent until proven guilty.
-Evidence must be provided and it should be beyond a reasonable doubt.
+To compute this for [Example 1](#example-esp-results) on ESP, we first need to find the standard deviation of the null distribution:
+```{r}
+sample_props %>%
+  summarise(sd = sd(prop))
+```
 
-Formally:
+The standardized statistic is then:
+<center>
+$$
+\textrm{standardized statistic} = z = \frac{0.26 - 0.20}{0.04} = 1.5
+$$
+</center>
 
-- $H_0$: the person is not guilty
-- $H_1$: the person is guilty
+
+We interpret a standardized statistic according to the following table:
+
+| standardized statistic | strength of evidence |
+|:----------------------:|:----------------------|
+|Between −1.5 and 1.5     | little or no evidence against the null hypothesis|
+|Below −1.5 or above 1.5  | moderate evidence against the null hypothesis|
+|Below −2 or above 2      | strong evidence against the null hypothesis|
+|Below −3 or above 3      | very strong evidence against the null hypothesis|
+
+
+This idealized version of a histogram, shows how far from the mean of the null distribution each standardized statistic value is:
+```{r standardized-statistic, fig.height=3, echo=FALSE, fig.align='center'}
+xg = seq(-4, 4, by = 0.001)
+yg = dnorm(xg)
+dfg = tibble(xg, yg)
+
+ggplot(dfg, aes(x = xg, y = yg, ymin = 0, ymax = yg)) +
+  geom_line() +
+  geom_ribbon(fill = 'lightyellow') + 
+  geom_ribbon(data=subset(dfg, xg<0.01 & xg>-0.01), aes(ymax=yg), ymin=0, fill="darkblue") +
+  geom_ribbon(data=subset(dfg, xg<3.01 & xg>2.99), aes(ymax=yg), ymin=0, fill="darkblue") +
+  geom_ribbon(data=subset(dfg, xg > -3.01 & xg < -2.99), aes(ymax=yg), ymin=0, fill="darkblue") +
+  geom_ribbon(data=subset(dfg, xg<2.01 & xg>1.99), aes(ymax=yg), ymin=0, fill="darkblue") +
+  geom_ribbon(data=subset(dfg, xg > -2.01 & xg < -1.99), aes(ymax=yg), ymin=0, fill="darkblue") +
+  geom_ribbon(data=subset(dfg, xg<1.51 & xg>1.49), aes(ymax=yg), ymin=0, fill="darkblue") +
+  geom_ribbon(data=subset(dfg, xg > -1.51 & xg < -1.49), aes(ymax=yg), ymin=0, fill="darkblue") +
+  theme_minimal(base_size = 15) +
+  scale_x_continuous(breaks = c(-3, -2, -1.5, 0, 1.5, 2, 3)) +
+  scale_y_continuous(breaks = NULL) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  labs(x = NULL, y = NULL)
+```
+
+
+If we interpreted the standardized statistic, rather than the p-value, for [Example 1](#example-esp-results) on ESP, we would have reached to the sample conclusion. As the observed statistic (0.26) is only 1.5 standard deviations above the mean of the null distribution (0.20), the sample data bring little or no evidence against the null hypothesis, thus we do not reject $H_0$.
+
+
+_**Note:** The p-value is a probability, so it's always between 0 and 1. A standardized statistic instead can be positive or negative._
+
 
 
 ## Lab
+
+<div class="red">
+#### Research question of the lab {-#w13-question-lab}
+
+Has the average body temperature changed from the long-thought 37 °C?
+</div>
 
 In today's lab we will investigate the average body temperature for healthy humans.
 You might probably be thinking that the average is about 37 °C, and this is what most people would answer as this has been considered as granted for many years.
@@ -492,16 +575,12 @@ However, could it be possible that the average body temperature for healthy huma
 
 We will use data^[Shoemaker, A. L. (1996). _What’s Normal: Temperature, Gender and Heartrate. Journal of Statistics Education, 4_(2), 4.] comprising measurements on body temperature, gender, and pulse rate for a sample of $n = 50$ healthy subjects (25 males and 25 females).
 
-Using the concepts learned today, try to answer the following question.
-
-<div class="red">
-#### Question of the lab {-#w13-question-lab}
-
-Do the sample data provide significant evidence (at a 5% level) that the average body temperature is really different from the standard 37 °C?
-</div>
+Using the concepts learned today, the question boils down to:
+Do the sample data provide significant evidence (at a 5% level) that the average body temperature is really different from the long-thought 37 °C?
 
 
-### Required packages
+
+### Required packages {-}
 
 Before attempting to answer the following questions, make sure to run the following code chunk, which assumes that you have already installed the packages `tidyverse` and `moderndive`.
 If you have not installed them yet, type `install.packages("tidyverse")` and `install.packages("moderndive")` in the R console.
@@ -513,16 +592,16 @@ library(moderndive)
 ```
 
 
-### Importing the data
+### Importing the data {-}
 
 Let's start by loading the data, which are in a tab separated file. We use the function `read_tsv` to read tab separated values:
 ```{r message=FALSE}
-bodytemp <- read_tsv('data/BodyTemp.txt')
+bodytemp <- read_tsv('https://edin.ac/2vkjSaw')
 bodytemp
 ```
 
 
-### Data inspection
+### Data inspection {-}
 
 `r msmbstyle::question_begin()`
 1. What are the names of the variables in the dataset?
@@ -549,7 +628,7 @@ anyNA(bodytemp)
 
 
 
-### Sample average and standard deviation
+### Sample average and standard deviation {-}
 
 `r msmbstyle::question_begin()`
 What is the average temperature in the sample and the standard deviation?
@@ -569,7 +648,7 @@ The average body temperature in the sample is $\bar{x} =$ `r bodytemp %>% summar
 `r msmbstyle::solution_end()`
 
 
-### Null and alternative hypothesis
+### Null and alternative hypothesis {-}
 
 `r msmbstyle::question_begin()`
 State the null and alternative hypothesis for the research question of this lab.
@@ -584,7 +663,7 @@ $$
 
 
 
-### Bootstrap distribution and Null distribution
+### Bootstrap distribution and Null distribution {-}
 
 We need to obtain the sampling distribution of the mean. However, we only have one sample, so we must approximate it with a boostrap distribution showing how the sample means vary from bootstrap sample to bootstrap sample.
 
@@ -654,7 +733,7 @@ null_distribution %>%
 ```
 
 
-### Visualise the null distribution
+### Visualise the null distribution {-}
 
 `r msmbstyle::question_begin()`
 Show a histogram of the null distribution, with a vertical red line displaying the parameter value specified in the null hypothesis.
@@ -670,7 +749,7 @@ ggplot(null_distribution, aes(x = avg_temp)) +
 `r msmbstyle::solution_end()`
 
 
-### P-value
+### P-value {-}
 
 `r msmbstyle::question_begin()`
 Calculate the proportion of bootstrap means as extreme as the observed statistic, in the direction specified by the alternative hypothesis.
@@ -712,7 +791,7 @@ The p-value is equal to `r pvalue$pvalue`.
 `r msmbstyle::solution_end()`
 
 
-### Interpreting the p-value
+### Interpreting the p-value {-}
 
 `r msmbstyle::question_begin()`
 Using the p-value found in the previous question, how would you answer the [research question](#w13-question-lab) of the lab?
@@ -729,7 +808,7 @@ At a significance level of 5%, the very small p-value we have found, `r pvalue$p
 - *Hypothesis test.* A set of principles for measuring the strength of evidence against a null hypothesis about the parameter of interest.
 - *Null hypothesis.* A claim about the population parameter typically involving "no effect" or "no difference between groups".
 - *P-value.* The probability of obtaining a value of the statistic at least as extreme as the observed statistic when the null hypothesis is true.
-- *Significance level.* A threshold used as a criterion for deciding when a p-value is small enough to provide convincing evidence against the null hypothesis.
+- *Significance level.* A threshold used as a criterion for deciding when a p-value is small enough to provide convincing evidence against the null hypothesis. It is typically denoted by $\alpha$ and common values are: $0.001$, $0.01$, $0.05$, or $0.1$.
 - *Statistically significant.* Unlikely to occur just by random chance.
 
 
