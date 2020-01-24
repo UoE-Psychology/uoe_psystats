@@ -2,7 +2,7 @@
 HIDDEN_SOLS=FALSE
 set.seed(1)
 
-ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
+ggplot2::theme_set(ggplot2::theme_gray(base_size=15))
 ```
 
 
@@ -19,18 +19,23 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 
 #### Learning outcomes {-}
 
-**LO1.** 
+**LO1.** Understand the null and alternative hypotheses and how to specify them for a given research question.
 
-**LO2.** 
+**LO2.** Understand statistical significance and how to calculate p-values from null distributions.
 
-#### Reading {-}
+**LO3.** Understand how to shift a bootstrap distribution to obtain a null distribution centred at the parameter specified in the null hypothesis.
 
 </div>
 
 
 
 ## Recap
-
+In [Week 11](#chap-sampling-distributions) we saw that a population is described by parameters and samples by statistics. We typically can not measure the entire population, so parameters need to be estimated by sample statistics. We quantified the uncertainty in our estimate by standard error (SE) of the sample statistic. This is defined as the standard deviation of the sampling distribution, showing the sample statistic computed on many samples from the population.
+In practice, however, we are not able to quantify the SE by taking repeated samples from the population, and we have only one sample of size $n$. In [Week 12](#bootstrapping-and-confidence-intervals) we learned to approximate the sampling distribution by bootstrapping.
+This approach repeatedly samples with replacement from the observed sample, using the sample sample size.
+The standard deviation of the bootstrap distribution is an estimate of the SE of the statistic.
+Using the centre of the bootstrap distribution, and the estimated SE, we learned how to give a range of plausible values for the population parameter.
+This week we will learn how to use the sample data to answer a wide range of questions about a population.
 
 
 
@@ -318,17 +323,17 @@ sample_props
 ```
 
 Let us now plot the 1000 sample proportions under the null hypothesis. This plot shows the null distribution, and each dot represents one of the 1000 proportions in the above tibble:
-```{r, fig.height=6}
+```{r, fig.height=7.3, fig.align='center', out.width='70%'}
 ggplot(sample_props, aes(x = prop)) +
-  geom_dotplot(binwidth = 0.002, dotsize = 1, fill = 'white') +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
   labs(x = expression(hat(p)))
 ```
 
 Where does the sample statistic from [Example 1](#example-esp-results) lie in the null distribution? Let's add a vertical line showing the value of the observed statistic, $\hat{p} = 0.26$:
 
-```{r, fig.height=6}
+```{r, fig.height=7.3, fig.align='center', out.width='70%'}
 ggplot(sample_props, aes(x = prop)) +
-  geom_dotplot(binwidth = 0.002, dotsize = 1, fill = 'white') +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
   geom_vline(xintercept = 0.26, color = 'red', size = 1) +
   labs(x = expression(hat(p)))
 ```
@@ -360,9 +365,9 @@ The __p-value__ represents the chance of observing a statistic as extreme or mor
 
 In the ESP [Example 1](#example-esp-results), we can identify the statistics in the null distribution that are as extreme or more extreme than the observed one (0.26) by color-coding them:
 
-```{r, fig.height=6.3}
+```{r, fig.height=7.3, fig.align='center', out.width='70%'}
 ggplot(sample_props, aes(x = prop, fill = prop >= 0.26)) +
-  geom_dotplot(binwidth = 0.002, dotsize = 1) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
   labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26)) +
   theme(legend.position="top")
 ```
@@ -718,3 +723,17 @@ At a significance level of 5%, the very small p-value we have found, `r pvalue$p
 `r msmbstyle::solution_end()`
 
 
+## Glossary
+
+- *Alternative hypothesis.* A claim about the population parameter for which we seek evidence for. It contradicts the null hypothesis.
+- *Hypothesis test.* A set of principles for measuring the strength of evidence against a null hypothesis about the parameter of interest.
+- *Null hypothesis.* A claim about the population parameter typically involving "no effect" or "no difference between groups".
+- *P-value.* The probability of obtaining a value of the statistic at least as extreme as the observed statistic when the null hypothesis is true.
+- *Significance level.* A threshold used as a criterion for deciding when a p-value is small enough to provide convincing evidence against the null hypothesis.
+- *Statistically significant.* Unlikely to occur just by random chance.
+
+
+## References
+
+- Lock, R. H., Lock, P. F., Morgan, K. L., Lock, E. F., & Lock, D. F. (2013). *Statistics: Unlocking the power of data.* John Wiley & Sons.
+- Tintle, N., Chance, B. L., Cobb, G. W., Rossman, A. J., Roy, S., Swanson, T., & VanderStoep, J. (2015). *Introduction to statistical investigations.* New York: Wiley.
