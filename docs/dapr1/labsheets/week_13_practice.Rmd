@@ -37,7 +37,6 @@ ggplot(sample_props, aes(x = prop)) +
     labs(x = expression(hat(p)))
 ```
 
-
 ```{r}
 ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
     geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
@@ -47,7 +46,7 @@ ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
 
 ```{r}
 pvalue <- sample_props %>%
-    summarise(pvalue = sum(prop > 0.26) / n())
+    summarise(pvalue = sum(prop >= 0.26) / n())
 
 pvalue
 ```
@@ -56,6 +55,7 @@ pvalue
 sample_props %>%
     summarise(sd = sd(prop))
 ```
+
 
 
 # B: Lab
@@ -75,6 +75,7 @@ bodytemp <- read_tsv('https://edin.ac/2vkjSaw')
 bodytemp
 ```
 
+
 ## Question 1
 
 1. What are the names of the variables in the dataset?
@@ -86,6 +87,7 @@ bodytemp
 1. ...
 2. ...
 3. ...
+
 
 ## Question 2
 
@@ -103,6 +105,7 @@ What is the average temperature in the sample and the standard deviation?
 State the null and alternative hypothesis for the research question of this lab.
 
 **Solution:**
+...
 
 
 ## Question 4

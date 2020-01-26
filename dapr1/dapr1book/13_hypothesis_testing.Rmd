@@ -21,9 +21,9 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=15))
 
 **LO1.** Understand null and alternative hypotheses, and how to specify them for a given research question.
 
-**LO2.** Understand statistical significance and how to calculate p-values from null distributions via simulation.
+**LO2.** Understand how to obtain a null distribution via simulation.
 
-**LO3.** Understand how to obtain a null distribution from a bootstrap distribution.
+**LO3.** Understand statistical significance and how to calculate p-values from null distributions.
 
 </div>
 
@@ -33,7 +33,7 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=15))
 In [Week 11](#chap-sampling-distributions) we saw that a population is described by parameters, and samples are described by statistics. We typically can not measure the entire population, so a population parameter needs to be estimated by a sample statistic. We quantified the uncertainty in our estimate by the standard error (SE) of the sample statistic. This is defined as the standard deviation of the sampling distribution. The latter shows the values of the sample statistic when computed on many samples of the same size from the same population.
 
 In practice, however, we are not able to quantify the SE by taking repeated samples from the population, as due to money or time constraints we only have one sample of size $n$. In [Week 12](#bootstrapping-and-confidence-intervals) we learned to approximate the sampling distribution by bootstrapping.
-This approach repeatedly samples with replacement from the observed sample, using the sample sample size.
+This approach repeatedly samples with replacement from the observed sample, using the same sample size.
 The standard deviation of the bootstrap distribution is an estimate of the SE of the statistic.
 Using the statistic from the observed sample, and the estimated SE from the bootstrap distribution, we learned how to give a range of plausible values for the population parameter.
 
@@ -82,7 +82,7 @@ Is the sample proportion of correct guesses high enough to provide evidence of E
 `r msmbstyle::solution_begin()`
 We are not sure yet.
 
-We still have to introduce the statistical framework that allows us to determine either:
+We still have to introduce the statistical framework that, assuming no ESP, allows us to determine either:
 
 - if the observed sample statistic is highly unlikely to happen due to sampling variability
 - if it would be very likely to see such a value by sampling variation
@@ -95,7 +95,7 @@ As we will see, this framework is called __hypothesis testing__ and involves usi
 ### Example 2: In-class activity {-#example-in-class}
 
 - Everyone in the class randomly picks one of the five symbols in Figure \@ref(fig:zener)
-- Draw the symbol in a bit of paper __without showing it to anyone!__
+- Draw the symbol on a bit of paper __without showing it to anyone!__
 - Pair up with someone
 - Telepathically communicate your symbol to your partner, who has to guess it without any visual or auditory clues
 - Switch roles
@@ -147,7 +147,7 @@ We always put the research claim of interest in the alternative hypothesis, rath
 
 The null and the alternative hypotheses are competing claims about the population parameter and we can not have the same value of the parameter included in both the null and the alternative. 
 
-In the ESP example, we would have evidence of ESP if the chance of correctly guessing the symbol were greater than when randomly guessing it:
+In the ESP example, we would have evidence of ESP if the chance of correctly guessing the symbol was greater than when randomly guessing it:
 
 <center>
 $$
@@ -161,8 +161,7 @@ $$
 ### Statistical test {-}
 
 As we saw in [Week 11](#chap-sampling-distributions), sample statistics vary from sample to sample.
-
-The probability of 1/5 represents the population proportion. Even if the population proportion was really equal to 1/5, not every random sample would have a sample proportion exactly equal to 1/5.
+Even if the population proportion was really equal to 1/5, not every random sample would have a sample proportion exactly equal to 1/5.
 
 The key question is then: __how do we decide in a principled way if a sample proportion is sufficiently above 1/5 to suggest presence of ESP?__
 
@@ -183,7 +182,7 @@ A ___statistical test___ is a method that uses the data collected on a sample to
 ### Understanding statistical evidence {-}
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question")`
-If $\hat{p}$ denotes the proportion of correctly guessed symbols in an ESP experiment, which of the following sample proportions provide the strongest evidence in favour of ESP?
+If $\hat{p}$ denotes the proportion of correctly guessed symbols in an ESP experiment, which of the following sample proportions provide the strongest evidence **in favour** of ESP?
 
 a. $\hat{p} = 0$
 b. $\hat{p} = 1/5$
@@ -210,12 +209,11 @@ The null hypothesis is typically a very specific claim about the population para
 
 To visually help you identify the null vs the alternative, typically:
 
-- $H_0$ includes an = sign
-- $H_1$ includes >, < or $\neq$
+- $H_0$ includes an $=$ sign
+- $H_1$ includes $>$, $<$ or $\neq$
 
-If $H_1$ contains either > or <, the alternative hypothesis is said to be **one-sided**.
-
-If $H_1$ contains $\neq$, the alternative hypothesis is said to be **two-sided**.
+If $H_1$ contains either $>$ or $<$, we say that the alternative hypothesis is **one-sided**.
+If $H_1$ contains $\neq$, we say that the alternative hypothesis is **two-sided**.
 
 Putting this together, in the ESP investigation we have two competing hypotheses:
 
@@ -248,15 +246,16 @@ Hypothesis testing basically boils down to quantifying how likely or unlikely it
 
 This has an analogy in law. One of the fundamental legal principles is the **presumption of innocence**, which says that a person is considered innocent until proven guilty, and that the evidence must be beyond reasonable doubt.
 
-The null hypothesis ($H_0$), corresponding to no effect, is that the defendant is innocent. The alternative hypothesis ($H_1$) is that the defendant is guilty. 
+The null hypothesis ($H_0$), corresponding to no effect, is that the defendant is innocent. The alternative hypothesis ($H_1$) is that the defendant is guilty.
 
 The court presumes $H_0$ to be true (the defendant is innocent) unless the prosecutor can provide strong evidence that the defendant is guilty beyond a reasonable doubt. The burden of proof is on the prosecutor (in our case, the data) to convince the court that the defendant is guilty.
 
+Similarly, we retain $H_0$ unless there is strong evidence to reject $H_0$.
 
 Recall that:
 
 - $p$ = proportion of correct guesses of the symbol
-- $H_0 : \ p = 1/5$ vs $H_1 : \  p > 1/5$
+- $H_0 : \  p = 1/5$ vs $H_1 : \  p > 1/5$
 
 
 
@@ -281,17 +280,21 @@ Recall that by random chance we mean if ESP does not exist and thus $p = 1/5$.
 
 In the previous section, we said that if the observed statistic is very unusual, we have significant evidence against the null hypothesis. But __how do we quantify if a value is unusual?__
 
-The key idea is to look at the distribution of the statistics we would obtain if $H_0$ were true. We do this by generating many sample statistics assuming the null hypothesis to be true. The distribution of these statistics is called the **null distribution**.
+The key idea is to look at the sampling distribution of the statistic if $H_0$ were true. We do this by generating many samples, assuming the null hypothesis to be true, and computing the statistic on each of the generated samples. The distribution of these statistics is called the **null distribution**.
 
 <div class="def">
 #### Null distribution {-}
 
-The ___null distribution___ shows how the statistics vary from sample to sample, assuming the null hypothesis to be true.
+The ___null distribution___ shows the values of the statistic that we expect to obtain by sampling variation, if the null hypothesis is true.
 
 **Centre**: The null distribution is centred at the value of the population parameter specified in the null hypothesis.
 </div>
 
-For the ESP experiment we can obtain the null distribution with the following steps.
+We will now compute the null distribution for [Example 1](#example-esp-results) on ESP. One experiment is a sequence of $n = 98$ guesses (i.e. a sequence of S's and F's) and represents one sample. The required steps are:
+
+1. Obtain many random samples of size $n = 98$, assuming a probability of success equal to 1/5
+2. Compute the proportion of successes for each sample
+3. Plot the distribution of proportions
 
 Load the required packages:
 ```{r, message=FALSE}
@@ -429,7 +432,7 @@ plt1 | plt2
 You can calculate a p-value via randomization for any statistic:
 
 1. Simulate many samples assuming $H_0$ true
-2. Compute the statitic on each of the simulated samples
+2. Compute the statistic on each of the simulated samples
 3. Compute the proportion of simulated statistics as extreme or more extreme than the observed statistic, in the direction specified by the alternative hypothesis.
 
 
@@ -491,12 +494,12 @@ _**Caution:** Never accept $H_0$. "Do not reject $H_0$" is not the same as "acce
 
 The following table summarizes in words the strength of evidence that the sample results bring in favour of the alternative hypothesis for different p-values:
 
-|          p-value             | strength of evidence                                     |
-|:----------------------------:|:---------------------------------------------------------|
-|      0.1 $<$ p-value         | not much evidence against null hypothesis                |
-|  0.05 $<$ p-value $\leq$ 0.1 | moderate evidence against the null hypothesis            |
-| 0.01 $<$ p-value $\leq$ 0.05 | strong evidence against the null hypothesis              |
-|     p-value $\leq$ 0.01      | very strong evidence against the null hypothesis Here is |
+|          p-value             | strength of evidence                             |
+|:----------------------------:|:-------------------------------------------------|
+|      0.1 $<$ p-value         | not much evidence against null hypothesis        |
+|  0.05 $<$ p-value $\leq$ 0.1 | moderate evidence against the null hypothesis    |
+| 0.01 $<$ p-value $\leq$ 0.05 | strong evidence against the null hypothesis      |
+|     p-value $\leq$ 0.01      | very strong evidence against the null hypothesis |
 
 
 
@@ -526,12 +529,12 @@ $$
 
 We interpret a standardized statistic according to the following table:
 
-| standardized statistic | strength of evidence |
-|:----------------------:|:----------------------|
-|Between −1.5 and 1.5     | little or no evidence against the null hypothesis|
-|Below −1.5 or above 1.5  | moderate evidence against the null hypothesis|
-|Below −2 or above 2      | strong evidence against the null hypothesis|
-|Below −3 or above 3      | very strong evidence against the null hypothesis|
+| standardized statistic  | strength of evidence                              |
+|:-----------------------:|:--------------------------------------------------|
+|Between −1.5 and 1.5     | little or no evidence against the null hypothesis |
+|Below −1.5 or above 1.5  | moderate evidence against the null hypothesis     |
+|Below −2 or above 2      | strong evidence against the null hypothesis       |
+|Below −3 or above 3      | very strong evidence against the null hypothesis  |
 
 
 This idealized version of a histogram shows how far from the mean of the null distribution each standardized statistic value is:
