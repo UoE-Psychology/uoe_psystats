@@ -34,19 +34,24 @@ The data for the lecture can be found at [https://edin.ac/2TieJK0](https://edin.
   
 ## Introduction    
 
+This week we are going to look at how we might use MLR to study longitudinal data. That is, data in which repeated measurements are taken over a continuous domain, with the potential for observations to be unevenly spaced, or missing at certain points, and which are likely to display **non-linear patterns**. The lab will focus on including higher-order polynomials in MLR to capture non-linearity. 
+<br>
 
-## Exercise 1
 <div class="red">
-#### The task {-}  
-
-Use natural (not orthogonal) polynomials to analyze decline in performance of 30 individuals with probable Alzheimer's disease on three different kinds of tasks - Memory, complex ADL, and simple ADL. 
+##### Solutions are available {-}  
+Solutions are already available for the first half of today's lab.  
+We encourage you to try working through the questions yourself before looking at the solutions. 
 </div>
 
-`r msmbstyle::question_begin()`
+## Exercise 1
+
+**Use natural (not orthogonal) polynomials to analyze decline in performance of 30 individuals with probable Alzheimer's disease on three different kinds of tasks - Memory, complex activities of daily living (ADL), and simple activities of daily living.** 
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
 Read the data in to R from the following url: [https://edin.ac/35Njwpl](https://edin.ac/35Njwpl)
 . The data is in .rda format. 
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+`r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r}
 load(url("https://edin.ac/35Njwpl"))
 summary(Az)
@@ -55,10 +60,10 @@ summary(Az)
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
 Plot the observed data (the performance over time for each type of task).
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+`r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r}
 ggplot(Az, aes(Time, Performance, color=Task, fill=Task)) + 
   stat_summary(fun.data=mean_se, geom="ribbon", color=NA, alpha=0.5) +
@@ -68,16 +73,16 @@ ggplot(Az, aes(Time, Performance, color=Task, fill=Task)) +
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 3")`
 Why are natural polynomials more useful for these data?
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+`r msmbstyle::solution_begin(hidden=FALSE)`
 Because it's useful to know whether there are task differences at the starting baseline point
 `r msmbstyle::solution_end()`
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 4")`
 Fit the GCA model(s).
 
 Steps required:  
@@ -90,7 +95,7 @@ Steps required:
 1. Run model comparisons.
 
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+`r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r}
 # prep for analysis
 Az <- code_poly(Az, predictor="Time", poly.order=2, orthogonal=F, draw.poly = F)
@@ -110,20 +115,21 @@ m.Az.full <- lmer(Performance ~ (poly1 + poly2)*Task +
                 data=Az, REML=F)
 anova(m.base, m.0, m.1, m.Az.full)
 ```
-Get p-values for your full model:
-```{r warning=FALSE, message=FALSE}
-get_pvalues(m.Az.full)
-```
 `r msmbstyle::solution_end()`
 
 ### Interpret the results of your full model {-}
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
 Look at the `summary()` of your full model, and try using the `get_pvalues()` function on it.  
   
 Which terms show significant effects of experimental factors? 
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+Get p-values for your full model:
+```{r warning=FALSE, message=FALSE}
+get_pvalues(m.Az.full)
+```
+
 + Intercepts are not different: performance in all tasks starts out the same (thanks, natural polynomials)
 + Linear slopes are different: compared to complex ADL tasks, decline in simple ADL tasks is slower and decline in Memory is faster.
 + Quadratic term is different for Memory: decline in cADL and sADL tasks is approximately linear, decline in Memory has more curvature (reaching floor?)
@@ -131,25 +137,33 @@ Which terms show significant effects of experimental factors?
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
 To what extent do model comparisons and the parameter-specific p-values yield the same results?
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+`r msmbstyle::solution_begin(hidden=FALSE)`
 Model comparisons suggest:  
 
 + Linear slopes are different: $\chi^2(2)=30.56, p << 0.0001$ (comparison `m.0` and `m.1` above).  
-+ Quadratic terms is different: $\chi^2(2)=172.36, p << 0.0001$ (comparison `m.1` and `m.Az.full` above).  
++ Quadratic term is different: $\chi^2(2)=172.36, p << 0.0001$ (comparison `m.1` and `m.Az.full` above).  
 
 
-*Note:* We can't investigate the intercept difference via the model comparisons above. Comparison between `m.base` and `m.0` indicates difference holding polynomial terms constant (not the conditional effect where poly1 and poly2 are 0).
+*Note:* We can't investigate the intercept difference via the model comparisons above. Comparison between `m.base` and `m.0` indicates difference holding polynomial terms constant (not the conditional effect where poly1 and poly2 are 0).**
+
+<div class="red">
+<br>
+**Please note:** There was an error in last week's lab about assessing 'baseline' differences between groups.
+Model comparison between `y~time` and `y~time+g` does *not* assess the difference in `y` between groups in `g` where `time==0`, but instead assesses the difference in `y` between groups in `g` holding time constant. 
+<br>
+Last week's lab has been amended. Apologies for any confusion!
+</div>
 `r msmbstyle::solution_end()`
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 7")`
 Plot model fit
 `r msmbstyle::question_end()` 
-`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+`r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r fig.width=6, fig.height=4}
 ggplot(Az, aes(Time, Performance, color=Task)) + 
   stat_summary(fun.data=mean_se, geom="pointrange") + 
@@ -159,13 +173,18 @@ ggplot(Az, aes(Time, Performance, color=Task)) +
 
 ## Exercise 2: Logistic GCA
 
-<div class="red">
-Re-analyze `TargetFix` data using logistic GCA. 
+We saw in the [lecture](https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/Lecture03_MLRforLDA.html#(4)) a walk-through of using GCA to model the eye-tracking data from a spoken word-to-picture matching task.  
+<br>
+We analysed the proportion of fixations to the target picture in a given 50~ms time bin (the `meanFix` variable). We can express this differently, in terms of the number of samples in each 50~ms bin in which there were fixations to the target, and the total number of samples. This can lend itself to being modelled as a binomial (where success is fixation on the target). 
+<br>
+In the data, the `sumFix` variable contains the number of samples in which the target was fixated upon, and the `N` variable contains the total number of samples in that bin. Like we saw last week, we can model a binomial using `cbind(num_successes, num_failures)`, so here we can use `cbind(sumFix, N-sumFix)~ ...`
+<br>
+`r msmbstyle::question_begin(header = "&#x25BA; Question 8")`
+**Re-analyze `TargetFix` data using logistic GCA.** 
 
-The data (.rda format) is available at [https://edin.ac/2TieJK0](https://edin.ac/2TieJK0)
-</div>
-
-## Exercise 2: Solution
+The data (.rda format) is available at [https://edin.ac/2TieJK0](https://edin.ac/2TieJK0)  
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 load(url("https://edin.ac/2TieJK0"))
 #make 3rd-order orth poly
@@ -188,7 +207,6 @@ summary(m.log_zc)
 ```
 
 Plot model fit
-
 ```{r fig.height=4, fig.width=6}
 ggplot(TargetFix, aes(Time, meanFix, color=Condition)) +
   stat_summary(fun.data=mean_se, geom="pointrange") +
@@ -197,5 +215,5 @@ ggplot(TargetFix, aes(Time, meanFix, color=Condition)) +
   theme_bw() + expand_limits(y=c(0,1)) + 
   labs(y="Fixation Proportion", x="Time since word onset (ms)")
 ```
-
+`r msmbstyle::solution_end()`
 
