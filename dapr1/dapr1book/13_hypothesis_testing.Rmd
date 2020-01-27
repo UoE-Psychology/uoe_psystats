@@ -52,7 +52,7 @@ Is there such a thing as extrasensory perception (ESP), also known as the "sixth
 
 ### Extrasensory perception (ESP) {-}
 
-According to [Wikipedia](https://en.wikipedia.org/wiki/Extrasensory_perception), "__Extrasensory perception__ or __ESP__, also called sixth sense, includes claimed reception of information not gained through the recognized physical senses, but sensed with the mind."
+According to [Wikipedia](https://en.wikipedia.org/wiki/Extrasensory_perception), "__Extrasensory perception__ or __ESP__, also called the sixth sense, includes claimed reception of information not gained through the recognized physical senses, but sensed with the mind."
 
 A famous test for ESP involves a set of cards, shown in Figure \@ref(fig:zener), known as Zener cards:
 ```{r zener, echo = FALSE, out.width = '80%', fig.align = 'center', fig.cap="Zener cards (Source: https://en.wikipedia.org/wiki/Extrasensory_perception)"}
@@ -71,7 +71,7 @@ Subjects randomly draw a card from these five, and telepathically communicate th
 
 
 ### Example 1: ESP experimental results {-#example-esp-results}
-In an experiment conducted on a class of $n = 98$ students, 25 of them correcly guessed their partner's card. 
+In an experiment conducted on a class of $n = 98$ students, 25 of them correctly guessed their partner's card. 
 
 This is equivalent to saying that the observed sample proportion of correct guesses is $\hat{p} = 25/98 = 0.26$.
 
@@ -84,8 +84,8 @@ We are not sure yet.
 
 We still have to introduce the statistical framework that, assuming no ESP, allows us to determine either:
 
-- if the observed sample statistic is highly unlikely to happen due to sampling variability
-- if it would be very likely to see such a value by sampling variation
+- if the observed sample statistic is highly unlikely to happen due to sampling variability,
+- or if it would be very likely to see such a value by sampling variation.
 
 As we will see, this framework is called __hypothesis testing__ and involves using a __statistical test__.
 `r msmbstyle::solution_end()`
@@ -94,11 +94,11 @@ As we will see, this framework is called __hypothesis testing__ and involves usi
 
 ### Example 2: In-class activity {-#example-in-class}
 
-- Everyone in the class randomly picks one of the five symbols in Figure \@ref(fig:zener)
+- Everyone in the class randomly picks one of the five symbols in Figure \@ref(fig:zener).
 - Draw the symbol on a bit of paper __without showing it to anyone!__
-- Pair up with someone
-- Telepathically communicate your symbol to your partner, who has to guess it without any visual or auditory clues
-- Switch roles
+- Pair up with someone.
+- Telepathically communicate your symbol to your partner, who has to guess it without any visual or auditory clues.
+- Switch roles.
 - Did your partner guess your card correctly?
 
 
@@ -290,7 +290,7 @@ The ___null distribution___ shows the values of the statistic that we expect to 
 **Centre**: The null distribution is centred at the value of the population parameter specified in the null hypothesis.
 </div>
 
-We will now compute the null distribution for [Example 1](#example-esp-results) on ESP. One experiment is a sequence of $n = 98$ guesses (resulting in a sequence of S's and F's) and this represents **one sample**. The required steps are:
+We will now compute the null distribution for [Example 1](#example-esp-results) on ESP. One experiment is a sequence of $n = 98$ guesses (resulting in a sequence of S's and F's, where S = success and F = failure) and this represents **one sample**. The required steps are:
 
 1. Obtain many random samples of size $n = 98$, assuming a probability of success equal to 1/5
 2. Compute the proportion of successes for each sample
@@ -305,7 +305,7 @@ library(moderndive)
 Create a tibble with the possible outcome of one play. Either:
 
 - your partner correctly guesses your card (S = success), or 
-- your partner does not correctly guess your card (F = failure)
+- your partner does not correctly guess your card (F = failure).
 
 _**Note:** Make sure the column name in the tibble is `vals` and that it is a factor._
 ```{r, message=FALSE}
@@ -322,38 +322,38 @@ Assign the probabilities of each possible outcome, remembering that the probabil
 prob <- c(1/5, 4/5)
 ```
 
-Generate 1000 samples of size $n = 98$ with the probabilities specified by the null hypothesis:
+Generate 1,000 samples of size $n = 98$ with the probabilities specified by the null hypothesis:
 ```{r, message=FALSE, warning=FALSE}
 samples <- rep_sample_n(outcomes, size = 98, replace = TRUE, reps = 1000, prob = prob)
 samples
 ```
 
-Note that the tibble has $98,000$ rows. Each sample of size $n = 98$ represents a sequence of 98 plays where each play can either be S (your partner correctly guessed your card) or F (your partner didn't guess correctly). Hence, each sample is a sequence of S's and F's. Because we have 1000 of such samples, the total number of rows will be $98 \times 1000 = 98,000$.
+Note that the tibble has $98,000$ rows. Each sample of size $n = 98$ represents a sequence of 98 plays where each play can either be S (your partner correctly guessed your card) or F (your partner didn't guess correctly). Hence, each sample is a sequence of S's and F's. Because we have 1,000 of such samples, the total number of rows will be $98 \times 1,000 = 98,000$.
 
 We can now compute the proportion of successes in each sample:
 
 ```{r}
-sample_props <- samples %>% 
+null_distribution <- samples %>% 
   group_by(replicate) %>%
   summarise(prop = sum(vals == 'S') / n())
 
-sample_props
+null_distribution
 ```
 
-Let us now plot the 1000 sample proportions obtained assuming the null hypothesis to be true. This plot shows the **null distribution**, and each dot represents one of the 1000 proportions from the above tibble:
+Let us now plot the 1,000 sample proportions obtained assuming the null hypothesis to be true. This plot shows the **null distribution**, and each dot represents one of the 1000 proportions from the above tibble:
 ```{r, fig.height=7.3, fig.align='center', out.width='70%'}
-ggplot(sample_props, aes(x = prop)) +
+ggplot(null_distribution, aes(x = prop)) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
-  labs(x = expression(hat(p)))
+  labs(x = expr(hat(p)))
 ```
 
 Where does the sample statistic from [Example 1](#example-esp-results) lie in the null distribution? Let's add a red vertical line showing the value of the observed statistic, $\hat{p} = 0.26$:
 
 ```{r, fig.height=7.3, fig.align='center', out.width='70%'}
-ggplot(sample_props, aes(x = prop)) +
+ggplot(null_distribution, aes(x = prop)) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
   geom_vline(xintercept = 0.26, color = 'tomato1', size = 1) +
-  labs(x = expression(hat(p)))
+  labs(x = expr(hat(p)))
 ```
 
 
@@ -382,21 +382,21 @@ The ___p-value___ represents the chance of obtaining a statistic as extreme or m
 </div>
 
 
-In [Example 1](#example-esp-results) on ESP, we can identify the statistics in the null distribution that are as extreme or more extreme than the observed one ($\hat{p} = 0.26$) by color-coding them:
+In [Example 1](#example-esp-results) on ESP, we can identify the statistics in the null distribution that are as extreme or more extreme than the observed one ($\hat{p} = 0.26$) by colour-coding them:
 
 ```{r, fig.height=7.3, fig.align='center', out.width='70%'}
-ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
+ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.26))) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
   scale_fill_manual(values = c('white', 'tomato1')) +
-  labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26)) +
+  labs(x = expr(hat(p)), fill = expr(hat(p) >= 0.26)) +
   theme(legend.position="top")
 ```
 
 
-We now calculate the proportion of statistics in the null distribution which are greater than or equal 0.26. You can either do that by eye, counting the red dots and dividing them by the total number of dots (1000) or, more quickly:
+We now calculate the proportion of statistics in the null distribution which are greater than or equal 0.26. You can either do that by eye, counting the red dots and dividing them by the total number of dots (1,000) or, more quickly:
 
 ```{r}
-pvalue <- sample_props %>%
+pvalue <- null_distribution %>%
   summarise(pvalue = sum(prop >= 0.26) / n())
 
 pvalue
@@ -411,32 +411,33 @@ The p-value needs to be calculated in the direction specified by the alternative
 - The p-value of a one-sided hypothesis is the proportion in tail specified by $H_1$.
 - The p-value of a two-sided hypothesis is twice the proportion in the smallest tail, i.e. the tail with the smallest count.
 
-In the example below, the smallest tail (the tail with the lowest count) is the right tail. So if we were to perform a two-sided test for the hypothesis $p \neq 1/5$, we would compute it as twice the proportion of statistics greater than or equal to the observed statistic:
+In the example below, the smallest tail (the tail with the lowest count) is the right tail. So if we were to perform an hypothesis test for the two-sided alternative $p \neq 1/5$, we would compute it as twice the proportion of statistics greater than or equal to the observed statistic (twice the proportion in the right tail):
 ```{r echo=FALSE, fig.height=4.5, fig.align='center', out.width='100%', message=FALSE, warning=FALSE}
 library(patchwork)
 
-plt1 <- ggplot(sample_props, aes(x = prop, fill = (prop <= 0.26))) +
+plt1 <- ggplot(null_distribution, aes(x = prop, fill = (prop <= 0.26))) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5, stroke = 0.2) +
   scale_fill_manual(values = c('white', 'tomato1')) +
-  labs(x = expression(hat(p)), fill = expression(hat(p) <= 0.26), title = 'Left tail') +
+  labs(x = expr(hat(p)), fill = expr(hat(p) <= 0.26), title = 'Left tail') +
   theme_gray(base_size = 10) +
-  theme(legend.position="top", plot.title = element_text(hjust = 0.5))
+  theme(legend.position="top", plot.title = element_text(hjust = 0.5, face = 'bold'))
 
-plt2 <- ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
+plt2 <- ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.26))) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5, stroke = 0.2) +
   scale_fill_manual(values = c('white', 'tomato1')) +
-  labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26), title = 'Right tail') +
+  labs(x = expr(hat(p)), fill = expr(hat(p) >= 0.26), title = 'Right tail') +
   theme_gray(base_size = 10) +
-  theme(legend.position="top", plot.title = element_text(hjust = 0.5))
+  theme(legend.position="top", plot.title = element_text(hjust = 0.5, face = 'bold'))
 
 plt1 | plt2
 ```
 
+_**Note:** If you were to calculate the p-value as twice the proportion in the bigger tail, you would obtain a p-value greater than 1. But remember, a probability must always be between 0 and 1!_
 
 You can calculate a p-value via randomization for any statistic:
 
-1. Simulate many samples assuming $H_0$ true
-2. Compute the statistic on each of the simulated samples
+1. Simulate many samples assuming $H_0$ to be true.
+2. Compute the statistic on each of the simulated samples.
 3. Compute the proportion of simulated statistics as extreme or more extreme than the observed statistic, in the direction specified by the alternative hypothesis.
 
 
@@ -461,15 +462,15 @@ The correct answer is (a) as it is the smallest p-value.
 
 To summarise, the outcome of a statistical test is either:
 
-1. the p-value is small
-    + we reject the null hypothesis
-    + the observed sample statistic would be extreme in the null distribution
-    + the results are statistically significant
-    + the test concludes that we have enough evidence in favour of $H_1$
-2. the p-value is not small
-    + we do not reject the null hypothesis
-    + the observed sample statistic would not be extreme in the null distribution 
-    + the results are not statistically significant
+1. The p-value is small:
+    + we reject the null hypothesis;
+    + the observed sample statistic would be extreme in the null distribution;
+    + the results are statistically significant;
+    + the test concludes that we have enough evidence in favour of $H_1$.
+2. The p-value is not small:
+    + we do not reject the null hypothesis;
+    + the observed sample statistic would not be extreme in the null distribution;
+    + the results are not statistically significant;
     + we do not have sufficient evidence to reject $H_0$.
 
 
@@ -486,10 +487,10 @@ The ___significance level___ $\alpha$ is the threshold below which we deem a p-v
 
 For a given significance level $\alpha$, specified before collecting any data:
 
-- if the p-value $< \alpha$ we reject $H_0$
-- if the p-value $\geq \alpha$ we do not reject $H_0$
+- if the p-value $\leq \alpha$ we reject $H_0$,
+- if the p-value $> \alpha$ we do not reject $H_0$.
 
-Typically, a "default" choice for $\alpha$ is $0.05$.
+Typically, "default" choices for $\alpha$ are $0.05$ or $0.01$.
 
 
 
@@ -510,16 +511,26 @@ The following table summarizes in words the strength of evidence that the sample
 We can now wrap up [Example 1](#example-esp-results) on ESP, and conclude that at a significance level of 0.05, we do not reject the null hypothesis as the p-value 0.07 is greater than $\alpha = 0.05$. Hence, the sample data do not show significant evidence for ESP.
 
 
-An alternative to the p-value as a measure of the strength of evidence is given by the standardized statistic. This measures how many standard deviations away from the mean of the null distribution the observed statistic is. A standardized statistic is typically denoted by $z$, and can be calculated as:
+An alternative to the p-value as a measure of the strength of evidence is given by the **standardized statistic**. This measures how many standard deviations away from the mean of the null distribution the observed statistic is. A standardized statistic is typically denoted by $z$, and can be calculated as:
 
 $$
-\textrm{standardized statistic} = z = \frac{\textrm{sample statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}
+\textrm{standardized statistic} = z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}
 $$
 
 
-To compute this for [Example 1](#example-esp-results) on ESP, we first need to find the standard deviation of the null distribution:
+We interpret a standardized statistic according to the following table:
+
+| standardized statistic  | strength of evidence                              |
+|:-----------------------:|:--------------------------------------------------|
+|between −1.5 and 1.5     | little or no evidence against the null hypothesis |
+|below −1.5 or above 1.5  | moderate evidence against the null hypothesis     |
+|below −2 or above 2      | strong evidence against the null hypothesis       |
+|below −3 or above 3      | very strong evidence against the null hypothesis  |
+
+
+To compute the standardized statistic for [Example 1](#example-esp-results) on ESP, we first need to find the standard deviation of the null distribution:
 ```{r}
-sample_props %>%
+null_distribution %>%
   summarise(sd = sd(prop))
 ```
 
@@ -531,14 +542,7 @@ $$
 </center>
 
 
-We interpret a standardized statistic according to the following table:
-
-| standardized statistic  | strength of evidence                              |
-|:-----------------------:|:--------------------------------------------------|
-|Between −1.5 and 1.5     | little or no evidence against the null hypothesis |
-|Below −1.5 or above 1.5  | moderate evidence against the null hypothesis     |
-|Below −2 or above 2      | strong evidence against the null hypothesis       |
-|Below −3 or above 3      | very strong evidence against the null hypothesis  |
+If we interpreted the standardized statistic, rather than the p-value, for [Example 1](#example-esp-results) on ESP, we would have reached the same conclusion. As the observed statistic (0.26) is only 1.5 standard deviations above the mean of the null distribution (0.20), the sample data bring little or no evidence against the null hypothesis, thus we do not reject $H_0$.
 
 
 This idealized version of a histogram shows how far from the mean of the null distribution each standardized statistic value is:
@@ -564,11 +568,61 @@ ggplot(dfg, aes(x = xg, y = yg, ymin = 0, ymax = yg)) +
   labs(x = NULL, y = NULL)
 ```
 
+Recall from [Week 12](#calculating-confidence-intervals-using-a-bootstrap-standard-error) that within 2 standard deviations around the mean lie approximately 95% of all values.
+Similarly, within 3 standard deviations around the mean lie 99.7% of all values.
 
-If we interpreted the standardized statistic, rather than the p-value, for [Example 1](#example-esp-results) on ESP, we would have reached to the sample conclusion. As the observed statistic (0.26) is only 1.5 standard deviations above the mean of the null distribution (0.20), the sample data bring little or no evidence against the null hypothesis, thus we do not reject $H_0$.
+
+_**Note:** The p-value is a probability, so it's always between 0 and 1. A standardized statistic, instead, can be positive or negative._
 
 
-_**Note:** The p-value is a probability, so it's always between 0 and 1. A standardized statistic instead can be positive or negative._
+## Summary
+
+Today we have learned to assess how much evidence the sample data bring against the null hypothesis and in favour of the alternative hypothesis.
+
+The null hypothesis, denoted $H_0$, is a claim about a population parameter that is initially assumed to be true. It typically represents "no effect" or "no difference between groups".
+
+The alternative hypothesis, denoted $H_1$, is the claim we seek evidence for.
+
+We assessed the strength of evidence against $H_0$ following these steps:
+
+1. Generate many samples assuming the null hypothesis to be true;
+2. Obtain the null distribution by computing the statistic on each of the generated samples;
+3. Compute the p-value as the proportion of statistics in the null distribution as extreme or more extreme than the observed statistic, in the direction specified by the alternative hypothesis.
+
+The sample size and the observed statistic in the ESP experiment are:
+```{r, eval=FALSE}
+size <- 98
+observed_prop <- 0.26
+```
+
+We obtained the null distribution with the following code:
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+outcomes <- tibble(vals = factor(c('S', 'F')))
+prob <- c(1/5, 4/5)
+reps <- 1000
+
+null_distribution <- outcomes %>%
+  rep_sample_n(size = size, replace = TRUE, reps = reps, prob = prob) %>%
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'S') / n())
+```
+
+The following code chunk plots the null distribution and shows in red the statistics that are as extreme or more extreme than the observed statistic:
+```{r, eval=FALSE, fig.height=7.3, fig.align='center', out.width='70%'}
+ggplot(null_distribution, aes(x = prop, fill = (prop >= observed_prop))) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
+  labs(x = expr(hat(p)), fill = expr(hat(p) >= !!observed_prop)) +
+  theme(legend.position="top")
+```
+
+We compute the p-value as the proportion of statistics in the null distribution which are as extreme or more extreme than the observed statistic:
+```{r, eval=FALSE}
+pvalue <- null_distribution %>%
+  summarise(pvalue = sum(prop >= observed_prop) / n())
+
+pvalue
+```
 
 
 
@@ -577,11 +631,11 @@ _**Note:** The p-value is a probability, so it's always between 0 and 1. A stand
 <div class="red">
 #### Research question of the lab {-#w13-question-lab}
 
-Has the average body temperature changed from the long-thought 37 °C?
+Has the average body temperature for healthy humans changed from the long-thought 37 °C?
 </div>
 
 In today's lab we will investigate the average body temperature for healthy humans.
-You might probably be thinking that the average is about 37 °C, and this is what most people would answer as this has been considered as granted for many years.
+You might probably be thinking that the average is about 37 °C, and this is what most people would answer as this has been taken as granted for many years.
 
 However, could it be possible that the average body temperature for healthy humans has changed over time? Perhaps this could be due to the climate change?
 
@@ -631,7 +685,7 @@ names(bodytemp)
 ```{r}
 dim(bodytemp)
 ```
-2. The tibble has 50 rows and 2 columns.
+2. The tibble has 50 rows and two columns.
 
 ```{r}
 anyNA(bodytemp)
@@ -679,16 +733,18 @@ $$
 
 
 
-### Bootstrap distribution and Null distribution {-}
+### Bootstrap distribution and null distribution {-}
 
-In order to calculate a p-value we need to obtain the sampling distribution of the mean assuming that the null hypothesis is true (__null distribution__).
-However, we only have one sample, so we must approximate it with a boostrap distribution showing how the sample mean varies from bootstrap sample to bootstrap sample.
+In order to calculate a p-value, we need to obtain the sampling distribution of the mean assuming that the null hypothesis is true (__null distribution__).
+
+However, we only have one sample, so we must approximate the sampling distribution with a bootstrap distribution showing how the sample mean varies from bootstrap sample to bootstrap sample.
 
 The required steps are:
 
-1. obtain a bootstrap distribution (this is centred at the sample mean $\bar{x} =$ `r sample_stats %>% pull(avg_temp) %>% round(2)`)
-2. shift it to be centred at the parameter value specified in the null hypothesis ($\mu =$ 37)
+1. Obtain a bootstrap distribution (this is centred at the sample mean $\bar{x} =$ `r sample_stats %>% pull(avg_temp) %>% round(2)`)
+2. Shift the bootstrap distribution to be centred at the parameter value specified in the null hypothesis ($\mu =$ 37). This is the null distribution.
 
+_**Note:** Why did we shift the bootstrap distribution to obtain the null distribution? Because the null distribution must be centred at the value of the population parameter specified in the null hypothesis._
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 4")`
 Compute the bootstrap distribution of the mean using 10,000 repeated samples.
@@ -708,10 +764,10 @@ bootstrap_distribution
 ```
 
 Let's plot the bootstrap distribution as a histogram, rather than a dotplot:
-```{r}
+```{r, message=FALSE}
 ggplot(bootstrap_distribution, aes(x = avg_temp)) +
-  geom_histogram(color = 'white') +
-  labs(x = expression(bar(x)))
+  geom_histogram(binwidth = 0.01, color = 'white') +
+  labs(x = expr(bar(x)))
 ```
 
 The bootstrap distribution is centred around the sample mean:
@@ -751,6 +807,7 @@ null_hypothesis <- 37
 observed_mean <- bodytemp %>%
   summarise(avg_temp = mean(BodyTemp)) %>%
   pull(avg_temp)
+observed_mean
 
 shift <- null_hypothesis - observed_mean
 shift
@@ -758,10 +815,10 @@ shift
 
 Shift the original sample data values:
 ```{r}
-bodytemp_null <- bodytemp %>%
+bodytemp_shifted <- bodytemp %>%
   mutate(BodyTemp = BodyTemp + shift)
 
-null_distribution <- bodytemp_null %>%
+null_distribution <- bodytemp_shifted %>%
   rep_sample_n(size = 50, replace = TRUE, reps = 10000) %>%
   group_by(replicate) %>%
   summarise(avg_temp = mean(BodyTemp))
@@ -775,10 +832,10 @@ null_distribution %>%
 ```
 
 We can visualise the null distribution using a histogram:
-```{r}
+```{r, message=FALSE}
 ggplot(null_distribution, aes(x = avg_temp)) +
-  geom_histogram(color = 'white') +
-  labs(x = expression(bar(x)))
+  geom_histogram(binwidth = 0.01, color = 'white') +
+  labs(x = expr(bar(x)))
 ```
 
 `r msmbstyle::solution_end()`
@@ -791,11 +848,11 @@ Show a histogram of the null distribution, superimposing a vertical red line dis
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
-```{r}
+```{r, message=FALSE}
 ggplot(null_distribution, aes(x = avg_temp)) +
-  geom_histogram(color = 'white') +
-  geom_vline(xintercept = observed_mean, color = 'red', size = 1) +
-  labs(x = expression(bar(x)))
+  geom_histogram(binwidth = 0.01, color = 'white') +
+  geom_vline(xintercept = observed_mean, color = 'tomato1', size = 1) +
+  labs(x = expr(bar(x)))
 ```
 `r msmbstyle::solution_end()`
 
@@ -812,30 +869,31 @@ _**Hint:** As this is a double-sided alternative hypothesis, remember to use 2 *
 This is a two-sided alternative, hence the p-value is two times the proportion in the smallest tail.
 
 Let's plot the smallest tail:
-```{r}
+```{r, message=FALSE}
 ggplot(null_distribution, aes(x = avg_temp, fill = avg_temp < observed_mean)) +
-  geom_histogram(color = 'white', binwidth = 0.01) +
-  labs(x = expression(bar(x)), fill = expression(bar(x) < 36.81))
+  geom_histogram(color = 'black', binwidth = 0.01, size = 0.1) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
+  labs(x = expr(bar(x)), fill = expr(bar(x) < !!round(observed_mean,2)))
 ```
 
 
 ```{r}
 null_distribution %>%
-  summarise(count_smaller = sum(avg_temp < observed_mean))
+  summarise(count_smaller = sum(avg_temp <= observed_mean))
 ```
 Out of the 10,000 means in the null distribution, `r null_distribution %>%
-  summarise(sum(avg_temp < pull(sample_stats, avg_temp)))` of them are lower than the observed sample statistic (36.81).
+  summarise(sum(avg_temp < pull(sample_stats, avg_temp)))` of them are lower than the observed sample statistic (`r sample_stats$avg_temp %>% round(2)`).
   
-The proportion of means as low as the observed mean (36.81) in the null distribution is then:
+The proportion of means as low as the observed mean (`r sample_stats$avg_temp %>% round(2)`) in the null distribution is then:
 ```{r}
 null_distribution %>%
-  summarise(prop_smaller = sum(avg_temp < observed_mean) / n())
+  summarise(prop_smaller = sum(avg_temp <= observed_mean) / n())
 ```
 
 Since this test has a double-sided alternative, we must double this proportion in order to obtain the p-value. This represents the proportion of means in the null distribution as extreme as the observed one:
 ```{r}
 pvalue <- null_distribution %>%
-  summarise(pvalue = 2 * sum(avg_temp < observed_mean) / n())
+  summarise(pvalue = 2 * sum(avg_temp <= observed_mean) / n())
 
 pvalue
 ```
@@ -851,17 +909,23 @@ Using the p-value found in the previous question, how would you answer the [rese
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
-At a significance level of 5%, the very small p-value we have found, `r pvalue$pvalue` < 0.05, gives strong evidence against the null hypothesis that the average body temperature for healthy humans is 37 °C.
+At a significance level of 5%, the very small p-value we have found, `r pvalue$pvalue` < 0.05, gives very strong evidence against the null hypothesis that the average body temperature for healthy humans is 37 °C.
+
+However, it is worth noting the difference between _statistical significance_ and _practical significance_. 
+Even if the sample results lead to convincingly rejecting the null hypothesis, assuming the average body temperature for healthy humans to be closer to 36.8 °C rather than 37 °C has a very minimal impact in practice.
+More generally, with large sample sizes a small difference might turn out to be statistically significant. 
+However, this does not mean that the difference will be of practical importance to decision-makers.
 `r msmbstyle::solution_end()`
 
 
 ## Glossary
 
 - *Alternative hypothesis.* A claim about the population parameter for which we seek evidence for. It contradicts the null hypothesis.
-- *Hypothesis test.* A set of principles for measuring the strength of evidence against a null hypothesis about the parameter of interest.
+- *Statistical test.* A set of principles for measuring the strength of evidence against a null hypothesis about the parameter of interest.
 - *Null hypothesis.* A claim about the population parameter typically involving "no effect" or "no difference between groups".
+- *Null distribution.* The values of the statistic that we expect to obtain by sampling variation if the null hypothesis is true. In other words, the sampling distribution of the statistic assuming the null hypothesis to be true.
 - *P-value.* The probability of obtaining a value of the statistic at least as extreme as the observed statistic when the null hypothesis is true.
-- *Significance level.* A threshold used as a criterion for deciding when a p-value is small enough to provide convincing evidence against the null hypothesis. It is typically denoted by $\alpha$ and common values are 0.001, 0.01, 0.05, or 0.1.
+- *Significance level.* A threshold used as a criterion for deciding when a p-value is small enough to provide convincing evidence against the null hypothesis. It is typically denoted by $\alpha$ and common values are 0.01 or 0.05.
 - *Statistically significant.* Unlikely to occur just by random chance.
 
 

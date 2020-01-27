@@ -17,43 +17,95 @@ samples
 ```
 
 ```{r}
-sample_props <- samples %>% 
-    group_by(replicate) %>%
-    summarise(prop = sum(vals == 'S') / n())
+null_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'S') / n())
 
-sample_props
+null_distribution
 ```
 
 ```{r}
-ggplot(sample_props, aes(x = prop)) +
-    geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
-    labs(x = expression(hat(p)))
+ggplot(null_distribution, aes(x = prop)) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
+  labs(x = expr(hat(p)))
 ```
 
 ```{r}
-ggplot(sample_props, aes(x = prop)) +
-    geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
-    geom_vline(xintercept = 0.26, color = 'red', size = 1) +
-    labs(x = expression(hat(p)))
+ggplot(null_distribution, aes(x = prop)) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
+  geom_vline(xintercept = 0.26, color = 'tomato1', size = 1) +
+  labs(x = expr(hat(p)))
 ```
 
 ```{r}
-ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
-    geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
-    labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26)) +
-    theme(legend.position="top")
+ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.26))) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
+  labs(x = expr(hat(p)), fill = expr(hat(p) >= 0.26)) +
+  theme(legend.position="top")
 ```
 
 ```{r}
-pvalue <- sample_props %>%
-    summarise(pvalue = sum(prop >= 0.26) / n())
+pvalue <- null_distribution %>%
+  summarise(pvalue = sum(prop >= 0.26) / n())
 
 pvalue
 ```
 
 ```{r}
-sample_props %>%
-    summarise(sd = sd(prop))
+null_distribution %>%
+  summarise(sd = sd(prop))
+```
+
+
+
+## Summary
+
+Today we have learned to assess how much evidence the sample data bring against the null hypothesis and in favour of the alternative hypothesis.
+
+The null hypothesis, denoted $H_0$, is a claim about a population parameter that is initially assumed to be true. It typically represents "no effect" or "no difference between groups".
+
+The alternative hypothesis, denoted $H_1$, is the claim we seek evidence for.
+
+We assessed the strength of evidence against $H_0$ following these steps:
+
+1. Generate many samples assuming the null hypothesis to be true;
+2. Obtain the null distribution by computing the statistic on each of the generated samples;
+3. Compute the p-value as the proportion of statistics in the null distribution as extreme or more extreme than the observed statistic, in the direction specified by the alternative hypothesis.
+
+The sample size and the observed statistic in the ESP experiment are:
+```{r}
+size <- 98
+observed_prop <- 0.26
+```
+
+We obtained the null distribution with the following code:
+```{r}
+outcomes <- tibble(vals = factor(c('S', 'F')))
+prob <- c(1/5, 4/5)
+reps <- 1000
+
+null_distribution <- outcomes %>%
+  rep_sample_n(size = size, replace = TRUE, reps = reps, prob = prob) %>%
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'S') / n())
+```
+
+The following code chunk plots the null distribution and shows in red the statistics that are as extreme or more extreme than the observed statistic:
+```{r}
+ggplot(null_distribution, aes(x = prop, fill = (prop >= observed_prop))) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
+  labs(x = expr(hat(p)), fill = expr(hat(p) >= !!observed_prop)) +
+  theme(legend.position="top")
+```
+
+We compute the p-value as the proportion of statistics in the null distribution which are as extreme or more extreme than the observed statistic:
+```{r}
+pvalue <- null_distribution %>%
+  summarise(pvalue = sum(prop >= observed_prop) / n())
+
+pvalue
 ```
 
 
