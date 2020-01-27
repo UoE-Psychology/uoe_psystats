@@ -421,14 +421,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <h4 id="learning-outcomes-2" class="unnumbered">Learning outcomes</h4>
 <p><strong>LO1.</strong> Understand null and alternative hypotheses, and how to specify them for a given research question.</p>
-<p><strong>LO2.</strong> Understand statistical significance and how to calculate p-values from null distributions via simulation.</p>
-<p><strong>LO3.</strong> Understand how to obtain a null distribution from a bootstrap distribution.</p>
+<p><strong>LO2.</strong> Understand how to obtain a null distribution via simulation.</p>
+<p><strong>LO3.</strong> Understand statistical significance and how to calculate p-values from null distributions.</p>
 </div>
 <div id="recap-2" class="section level2">
 <h2><span class="header-section-number">13.1</span> Recap</h2>
 <p>In <a href="chap-sampling-distributions.html#chap-sampling-distributions">Week 11</a> we saw that a population is described by parameters, and samples are described by statistics. We typically can not measure the entire population, so a population parameter needs to be estimated by a sample statistic. We quantified the uncertainty in our estimate by the standard error (SE) of the sample statistic. This is defined as the standard deviation of the sampling distribution. The latter shows the values of the sample statistic when computed on many samples of the same size from the same population.</p>
 <p>In practice, however, we are not able to quantify the SE by taking repeated samples from the population, as due to money or time constraints we only have one sample of size <span class="math inline">\(n\)</span>. In <a href="bootstrapping-and-confidence-intervals.html#bootstrapping-and-confidence-intervals">Week 12</a> we learned to approximate the sampling distribution by bootstrapping.
-This approach repeatedly samples with replacement from the observed sample, using the sample sample size.
+This approach repeatedly samples with replacement from the observed sample, using the same sample size.
 The standard deviation of the bootstrap distribution is an estimate of the SE of the statistic.
 Using the statistic from the observed sample, and the estimated SE from the bootstrap distribution, we learned how to give a range of plausible values for the population parameter.</p>
 <p>This week we will learn how to use the sample data to answer a wide range of questions about a population.</p>
@@ -476,11 +476,11 @@ Figure 13.1: Zener cards (Source: <a href="https://en.wikipedia.org/wiki/Extrase
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-65" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-65&#39;, &#39;sol-start-65&#39;)"></span>
+► Solution<span id="sol-start-27" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-27&#39;, &#39;sol-start-27&#39;)"></span>
 </p>
-<div id="sol-body-65" class="solution-body" style="display: none;">
+<div id="sol-body-27" class="solution-body" style="display: none;">
 <p>We are not sure yet.</p>
-<p>We still have to introduce the statistical framework that allows us to determine either:</p>
+<p>We still have to introduce the statistical framework that, assuming no ESP, allows us to determine either:</p>
 <ul>
 <li>if the observed sample statistic is highly unlikely to happen due to sampling variability</li>
 <li>if it would be very likely to see such a value by sampling variation</li>
@@ -496,7 +496,7 @@ Figure 13.1: Zener cards (Source: <a href="https://en.wikipedia.org/wiki/Extrase
 <h3>Example 2: In-class activity</h3>
 <ul>
 <li>Everyone in the class randomly picks one of the five symbols in Figure <a href="chap-hyp-test.html#fig:zener">13.1</a></li>
-<li>Draw the symbol in a bit of paper <strong>without showing it to anyone!</strong></li>
+<li>Draw the symbol on a bit of paper <strong>without showing it to anyone!</strong></li>
 <li>Pair up with someone</li>
 <li>Telepathically communicate your symbol to your partner, who has to guess it without any visual or auditory clues</li>
 <li>Switch roles</li>
@@ -520,9 +520,9 @@ We will use these two values later on to see if we have evidence of ESP in this 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-66" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-66&#39;, &#39;sol-start-66&#39;)"></span>
+► Solution<span id="sol-start-28" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-28&#39;, &#39;sol-start-28&#39;)"></span>
 </p>
-<div id="sol-body-66" class="solution-body" style="display: none;">
+<div id="sol-body-28" class="solution-body" style="display: none;">
 <p>If there is no ESP, because there are five cards, each person has a chance of correctly guessing the symbol equal to <span class="math inline">\(1/5 = 0.2\)</span>.</p>
 <p>This is similar to asking: what’s the chance of correctly guessing the face of a die? If we had to randomly guess, since there are 6 faces, we have a probability of <span class="math inline">\(1/6\)</span>.
 The only difference is that instead of six faces, here we only have five, hence the <span class="math inline">\(1/5\)</span> chance.</p>
@@ -550,7 +550,7 @@ H_0 : \  p = \frac{1}{5}
 <p>The research question of interest (i.e. if ESP exists) is captured by the <strong>alternative hypothesis</strong>, which contradicts the null hypothesis.
 We always put the research claim of interest in the alternative hypothesis, rather than the null one.</p>
 <p>The null and the alternative hypotheses are competing claims about the population parameter and we can not have the same value of the parameter included in both the null and the alternative.</p>
-<p>In the ESP example, we would have evidence of ESP if the chance of correctly guessing the symbol were greater than when randomly guessing it:</p>
+<p>In the ESP example, we would have evidence of ESP if the chance of correctly guessing the symbol was greater than when randomly guessing it:</p>
 <center>
 <span class="math display">\[
 H_1 : p &gt; \frac{1}{5}
@@ -559,8 +559,8 @@ H_1 : p &gt; \frac{1}{5}
 </div>
 <div id="statistical-test" class="section level3 unnumbered">
 <h3>Statistical test</h3>
-<p>As we saw in <a href="chap-sampling-distributions.html#chap-sampling-distributions">Week 11</a>, sample statistics vary from sample to sample.</p>
-<p>The probability of 1/5 represents the population proportion. Even if the population proportion was really equal to 1/5, not every random sample would have a sample proportion exactly equal to 1/5.</p>
+<p>As we saw in <a href="chap-sampling-distributions.html#chap-sampling-distributions">Week 11</a>, sample statistics vary from sample to sample.
+Even if the population proportion was really equal to 1/5, not every random sample would have a sample proportion exactly equal to 1/5.</p>
 <p>The key question is then: <strong>how do we decide in a principled way if a sample proportion is sufficiently above 1/5 to suggest presence of ESP?</strong></p>
 <p>In <a href="chap-hyp-test.html#example-esp-results">Example 1</a> we obtained a sample proportion of 25/98 = 0.26.
 Is 0.26 sufficiently higher than 0.20 to suggest presence of ESP?</p>
@@ -577,7 +577,7 @@ Is 0.26 sufficiently higher than 0.20 to suggest presence of ESP?</p>
 ► Question
 </p>
 <div class="question-body">
-<p>If <span class="math inline">\(\hat{p}\)</span> denotes the proportion of correctly guessed symbols in an ESP experiment, which of the following sample proportions provide the strongest evidence in favour of ESP?</p>
+<p>If <span class="math inline">\(\hat{p}\)</span> denotes the proportion of correctly guessed symbols in an ESP experiment, which of the following sample proportions provide the strongest evidence <strong>in favour</strong> of ESP?</p>
 <ol style="list-style-type: lower-alpha">
 <li><span class="math inline">\(\hat{p} = 0\)</span></li>
 <li><span class="math inline">\(\hat{p} = 1/5\)</span></li>
@@ -591,9 +591,9 @@ Is 0.26 sufficiently higher than 0.20 to suggest presence of ESP?</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-67" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-67&#39;, &#39;sol-start-67&#39;)"></span>
+► Solution<span id="sol-start-29" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-29&#39;, &#39;sol-start-29&#39;)"></span>
 </p>
-<div id="sol-body-67" class="solution-body" style="display: none;">
+<div id="sol-body-29" class="solution-body" style="display: none;">
 <p>The correct answer is (d) as <span class="math inline">\(\hat{p} = 3/4 = 0.75\)</span> is the highest proportion of correctly guessed symbols.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -612,11 +612,11 @@ Is 0.26 sufficiently higher than 0.20 to suggest presence of ESP?</p>
 <p>The null hypothesis is typically a very specific claim about the population parameter, while the alternative hypothesis is a broader statement.</p>
 <p>To visually help you identify the null vs the alternative, typically:</p>
 <ul>
-<li><span class="math inline">\(H_0\)</span> includes an = sign</li>
-<li><span class="math inline">\(H_1\)</span> includes &gt;, &lt; or <span class="math inline">\(\neq\)</span></li>
+<li><span class="math inline">\(H_0\)</span> includes an <span class="math inline">\(=\)</span> sign</li>
+<li><span class="math inline">\(H_1\)</span> includes <span class="math inline">\(&gt;\)</span>, <span class="math inline">\(&lt;\)</span> or <span class="math inline">\(\neq\)</span></li>
 </ul>
-<p>If <span class="math inline">\(H_1\)</span> contains either &gt; or &lt;, the alternative hypothesis is said to be <strong>one-sided</strong>.</p>
-<p>If <span class="math inline">\(H_1\)</span> contains <span class="math inline">\(\neq\)</span>, the alternative hypothesis is said to be <strong>two-sided</strong>.</p>
+<p>If <span class="math inline">\(H_1\)</span> contains either <span class="math inline">\(&gt;\)</span> or <span class="math inline">\(&lt;\)</span>, we say that the alternative hypothesis is <strong>one-sided</strong>.
+If <span class="math inline">\(H_1\)</span> contains <span class="math inline">\(\neq\)</span>, we say that the alternative hypothesis is <strong>two-sided</strong>.</p>
 <p>Putting this together, in the ESP investigation we have two competing hypotheses:</p>
 <center>
 <span class="math display">\[
@@ -642,10 +642,11 @@ If it is very unusual, we have significant evidence against the null hypothesis.
 <p>This has an analogy in law. One of the fundamental legal principles is the <strong>presumption of innocence</strong>, which says that a person is considered innocent until proven guilty, and that the evidence must be beyond reasonable doubt.</p>
 <p>The null hypothesis (<span class="math inline">\(H_0\)</span>), corresponding to no effect, is that the defendant is innocent. The alternative hypothesis (<span class="math inline">\(H_1\)</span>) is that the defendant is guilty.</p>
 <p>The court presumes <span class="math inline">\(H_0\)</span> to be true (the defendant is innocent) unless the prosecutor can provide strong evidence that the defendant is guilty beyond a reasonable doubt. The burden of proof is on the prosecutor (in our case, the data) to convince the court that the defendant is guilty.</p>
+<p>Similarly, we retain <span class="math inline">\(H_0\)</span> unless there is strong evidence to reject <span class="math inline">\(H_0\)</span>.</p>
 <p>Recall that:</p>
 <ul>
 <li><span class="math inline">\(p\)</span> = proportion of correct guesses of the symbol</li>
-<li><span class="math inline">\(H_0 : \ p = 1/5\)</span> vs <span class="math inline">\(H_1 : \  p &gt; 1/5\)</span></li>
+<li><span class="math inline">\(H_0 : \  p = 1/5\)</span> vs <span class="math inline">\(H_1 : \  p &gt; 1/5\)</span></li>
 </ul>
 <div id="scenario-1-statistically-significant-results" class="section level4 unnumbered">
 <h4>Scenario 1: statistically significant results</h4>
@@ -668,24 +669,29 @@ Recall that by random chance we mean if ESP does not exist and thus <span class=
 <div id="null-distribution" class="section level3 unnumbered">
 <h3>Null distribution</h3>
 <p>In the previous section, we said that if the observed statistic is very unusual, we have significant evidence against the null hypothesis. But <strong>how do we quantify if a value is unusual?</strong></p>
-<p>The key idea is to look at the distribution of the statistics we would obtain if <span class="math inline">\(H_0\)</span> were true. We do this by generating many sample statistics assuming the null hypothesis to be true. The distribution of these statistics is called the <strong>null distribution</strong>.</p>
+<p>The key idea is to look at the sampling distribution of the statistic if <span class="math inline">\(H_0\)</span> were true. We do this by generating many samples, assuming the null hypothesis to be true, and computing the statistic on each of the generated samples. The distribution of these statistics is called the <strong>null distribution</strong>.</p>
 <div class="def">
 <h4 id="null-distribution-1" class="unnumbered">Null distribution</h4>
-<p>The <strong><em>null distribution</em></strong> shows how the statistics vary from sample to sample, assuming the null hypothesis to be true.</p>
+<p>The <strong><em>null distribution</em></strong> shows the values of the statistic that we expect to obtain by sampling variation, if the null hypothesis is true.</p>
 <p><strong>Centre</strong>: The null distribution is centred at the value of the population parameter specified in the null hypothesis.</p>
 </div>
-<p>For the ESP experiment we can obtain the null distribution with the following steps.</p>
+<p>We will now compute the null distribution for <a href="chap-hyp-test.html#example-esp-results">Example 1</a> on ESP. One experiment is a sequence of <span class="math inline">\(n = 98\)</span> guesses (resulting in a sequence of S’s and F’s) and this represents <strong>one sample</strong>. The required steps are:</p>
+<ol style="list-style-type: decimal">
+<li>Obtain many random samples of size <span class="math inline">\(n = 98\)</span>, assuming a probability of success equal to 1/5</li>
+<li>Compute the proportion of successes for each sample</li>
+<li>Plot the distribution of proportions</li>
+</ol>
 <p>Load the required packages:</p>
-<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb577-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb577-2" data-line-number="2"><span class="kw">library</span>(moderndive)</a></code></pre></div>
+<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb589-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb589-2" data-line-number="2"><span class="kw">library</span>(moderndive)</a></code></pre></div>
 <p>Create a tibble with the possible outcome of one play. Either:</p>
 <ul>
 <li>your partner correctly guesses your card (S = success), or</li>
 <li>your partner does not correctly guess your card (F = failure)</li>
 </ul>
 <p><em><strong>Note:</strong> Make sure the column name in the tibble is <code>vals</code> and that it is a factor.</em></p>
-<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb578-1" data-line-number="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;S&#39;</span>, <span class="st">&#39;F&#39;</span>)))</a>
-<a class="sourceLine" id="cb578-2" data-line-number="2">outcomes</a></code></pre></div>
+<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb590-1" data-line-number="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;S&#39;</span>, <span class="st">&#39;F&#39;</span>)))</a>
+<a class="sourceLine" id="cb590-2" data-line-number="2">outcomes</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 1
 ##   vals 
 ##   &lt;fct&gt;
@@ -696,10 +702,10 @@ Recall that by random chance we mean if ESP does not exist and thus <span class=
 <li>Probability of success (S) = probability of correctly guessing the symbol: <span class="math inline">\(p = 1/5\)</span></li>
 <li>Probability of failure (F) is the complement to one: <span class="math inline">\(1 - p = 1 - 1/5 = 4/5\)</span>.</li>
 </ul>
-<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb580-1" data-line-number="1">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">5</span>, <span class="dv">4</span><span class="op">/</span><span class="dv">5</span>)</a></code></pre></div>
-<p>Generate 1000 samples of size <span class="math inline">\(n = 98\)</span> from the distribution specified by the null hypothesis (<strong>null distribution</strong>):</p>
-<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb581-1" data-line-number="1">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">98</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb581-2" data-line-number="2">samples</a></code></pre></div>
+<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb592-1" data-line-number="1">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">5</span>, <span class="dv">4</span><span class="op">/</span><span class="dv">5</span>)</a></code></pre></div>
+<p>Generate 1000 samples of size <span class="math inline">\(n = 98\)</span> with the probabilities specified by the null hypothesis:</p>
+<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb593-1" data-line-number="1">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">98</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb593-2" data-line-number="2">samples</a></code></pre></div>
 <pre><code>## # A tibble: 98,000 x 2
 ## # Groups:   replicate [1,000]
 ##    replicate vals 
@@ -717,11 +723,11 @@ Recall that by random chance we mean if ESP does not exist and thus <span class=
 ## # … with 97,990 more rows</code></pre>
 <p>Note that the tibble has <span class="math inline">\(98,000\)</span> rows. Each sample of size <span class="math inline">\(n = 98\)</span> represents a sequence of 98 plays where each play can either be S (your partner correctly guessed your card) or F (your partner didn’t guess correctly). Hence, each sample is a sequence of S’s and F’s. Because we have 1000 of such samples, the total number of rows will be <span class="math inline">\(98 \times 1000 = 98,000\)</span>.</p>
 <p>We can now compute the proportion of successes in each sample:</p>
-<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb583-1" data-line-number="1">sample_props &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb583-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb583-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;S&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb583-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb583-5" data-line-number="5">sample_props</a></code></pre></div>
+<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb595-1" data-line-number="1">sample_props &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb595-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb595-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;S&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb595-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb595-5" data-line-number="5">sample_props</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 2
 ##    replicate  prop
 ##        &lt;int&gt; &lt;dbl&gt;
@@ -736,16 +742,16 @@ Recall that by random chance we mean if ESP does not exist and thus <span class=
 ##  9         9 0.224
 ## 10        10 0.224
 ## # … with 990 more rows</code></pre>
-<p>Let us now plot the 1000 sample proportions obtained assuming the null hypothesis to be true. This plot shows the null distribution, and each dot represents one of the 1000 proportions from the above tibble:</p>
-<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb585-1" data-line-number="1"><span class="kw">ggplot</span>(sample_props, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb585-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb585-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
+<p>Let us now plot the 1000 sample proportions obtained assuming the null hypothesis to be true. This plot shows the <strong>null distribution</strong>, and each dot represents one of the 1000 proportions from the above tibble:</p>
+<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb597-1" data-line-number="1"><span class="kw">ggplot</span>(sample_props, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb597-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb597-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-371-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<p>Where does the sample statistic from <a href="chap-hyp-test.html#example-esp-results">Example 1</a> lie in the null distribution? Let’s add a vertical line showing the value of the observed statistic, <span class="math inline">\(\hat{p} = 0.26\)</span>:</p>
-<div class="sourceCode" id="cb586"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb586-1" data-line-number="1"><span class="kw">ggplot</span>(sample_props, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb586-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb586-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.26</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb586-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
+<p>Where does the sample statistic from <a href="chap-hyp-test.html#example-esp-results">Example 1</a> lie in the null distribution? Let’s add a red vertical line showing the value of the observed statistic, <span class="math inline">\(\hat{p} = 0.26\)</span>:</p>
+<div class="sourceCode" id="cb598"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb598-1" data-line-number="1"><span class="kw">ggplot</span>(sample_props, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb598-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb598-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.26</span>, <span class="dt">color =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb598-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-372-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Do we have a high chance of observing the statistic <span class="math inline">\(\hat{p} = 0.26\)</span> under the null hypothesis of random guessing?</p>
 <p>Different researchers might reach different conclusions by looking at this plot.
@@ -753,25 +759,26 @@ Rather than taking a decision by visually inspecting the plot, we want to find a
 </div>
 <div id="p-value" class="section level3 unnumbered">
 <h3>P-value</h3>
-<p>Recall now the definition of <a href="chap-hyp-test.html#def-statistical-significance">statistical significance</a>. We have evidence against the null hypothesis if it would be unusual to obtain statistics as extreme or more extreme than the observed statistic in the null distribution.</p>
+<p>Recall now the definition of <a href="chap-hyp-test.html#def-statistical-significance">statistical significance</a>. We have evidence against the null hypothesis if it would be very unusual to obtain statistics as extreme or more extreme than the observed statistic in the null distribution.</p>
 <p>To summarise: in order to measure how unusual the observed statistic is under the null hypothesis, we need to generate many statistics under the null hypothesis (null distribution) and see what’s the proportion of the generated statistics that are as extreme as, or more extreme than, the observed statistic.</p>
-<p>The proportion of statistics from the null distribution as extreme or more extreme than the observed statistic is known as the <strong>p-value</strong>.
-The smaller the p-value, the higher the statistical evidence against the null hypothesis.</p>
+<p>The proportion of statistics in the null distribution as extreme or more extreme than the observed statistic is known as the <strong>p-value</strong>.</p>
+<p><strong>The smaller the p-value, the higher the statistical evidence against the null hypothesis.</strong></p>
 <div class="def">
 <h4 id="p-value-1" class="unnumbered">P-value</h4>
-<p>The <strong><em>p-value</em></strong> represents the chance of observing a statistic as extreme or more extreme than the observed one, if the null hypothesis were true.</p>
+<p>The <strong><em>p-value</em></strong> represents the chance of obtaining a statistic as extreme or more extreme than the observed one, if the null hypothesis were true.</p>
 </div>
 <p>In <a href="chap-hyp-test.html#example-esp-results">Example 1</a> on ESP, we can identify the statistics in the null distribution that are as extreme or more extreme than the observed one (<span class="math inline">\(\hat{p} = 0.26\)</span>) by color-coding them:</p>
-<div class="sourceCode" id="cb587"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb587-1" data-line-number="1"><span class="kw">ggplot</span>(sample_props, <span class="kw">aes</span>(<span class="dt">x =</span> prop, <span class="dt">fill =</span> (prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.26</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb587-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb587-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(p)), <span class="dt">fill =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(p) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.26</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb587-4" data-line-number="4"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;top&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb599-1" data-line-number="1"><span class="kw">ggplot</span>(sample_props, <span class="kw">aes</span>(<span class="dt">x =</span> prop, <span class="dt">fill =</span> (prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.26</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb599-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb599-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;white&#39;</span>, <span class="st">&#39;tomato1&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb599-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(p)), <span class="dt">fill =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(p) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.26</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb599-5" data-line-number="5"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;top&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-373-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<p>We now calculate the proportion of statistics in the null distribution which are greater than or equal 0.26. You can either do that by eye, counting the green dots and dividing them by the total number of dots (1000) or, more quickly:</p>
-<div class="sourceCode" id="cb588"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb588-1" data-line-number="1">pvalue &lt;-<span class="st"> </span>sample_props <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb588-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">pvalue =</span> <span class="kw">sum</span>(prop <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.26</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb588-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb588-4" data-line-number="4">pvalue</a></code></pre></div>
+<p>We now calculate the proportion of statistics in the null distribution which are greater than or equal 0.26. You can either do that by eye, counting the red dots and dividing them by the total number of dots (1000) or, more quickly:</p>
+<div class="sourceCode" id="cb600"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb600-1" data-line-number="1">pvalue &lt;-<span class="st"> </span>sample_props <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb600-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">pvalue =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.26</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb600-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb600-4" data-line-number="4">pvalue</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   pvalue
 ##    &lt;dbl&gt;
@@ -787,7 +794,7 @@ The smaller the p-value, the higher the statistical evidence against the null hy
 <p>You can calculate a p-value via randomization for any statistic:</p>
 <ol style="list-style-type: decimal">
 <li>Simulate many samples assuming <span class="math inline">\(H_0\)</span> true</li>
-<li>Compute the statitic on each of the simulated samples</li>
+<li>Compute the statistic on each of the simulated samples</li>
 <li>Compute the proportion of simulated statistics as extreme or more extreme than the observed statistic, in the direction specified by the alternative hypothesis.</li>
 </ol>
 </div>
@@ -813,9 +820,9 @@ The smaller the p-value, the higher the statistical evidence against the null hy
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-68" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-68&#39;, &#39;sol-start-68&#39;)"></span>
+► Solution<span id="sol-start-30" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-30&#39;, &#39;sol-start-30&#39;)"></span>
 </p>
-<div id="sol-body-68" class="solution-body" style="display: none;">
+<div id="sol-body-30" class="solution-body" style="display: none;">
 <p>The correct answer is (a) as it is the smallest p-value.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -855,10 +862,6 @@ We decide if a p-value is small or not by specifying a threshold below which a p
 <p><em><strong>Caution:</strong> Never accept <span class="math inline">\(H_0\)</span>. “Do not reject <span class="math inline">\(H_0\)</span>” is not the same as “accept <span class="math inline">\(H_0\)</span>”. Not having sufficient evidence against <span class="math inline">\(H_0\)</span> does not mean having evidence for <span class="math inline">\(H_0\)</span>.</em></p>
 <p>The following table summarizes in words the strength of evidence that the sample results bring in favour of the alternative hypothesis for different p-values:</p>
 <table>
-<colgroup>
-<col width="34%" />
-<col width="65%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th align="center">p-value</th>
@@ -880,7 +883,7 @@ We decide if a p-value is small or not by specifying a threshold below which a p
 </tr>
 <tr class="even">
 <td align="center">p-value <span class="math inline">\(\leq\)</span> 0.01</td>
-<td align="left">very strong evidence against the null hypothesis Here is</td>
+<td align="left">very strong evidence against the null hypothesis</td>
 </tr>
 </tbody>
 </table>
@@ -890,8 +893,8 @@ We decide if a p-value is small or not by specifying a threshold below which a p
 \textrm{standardized statistic} = z = \frac{\textrm{sample statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}
 \]</span></p>
 <p>To compute this for <a href="chap-hyp-test.html#example-esp-results">Example 1</a> on ESP, we first need to find the standard deviation of the null distribution:</p>
-<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb590-1" data-line-number="1">sample_props <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb590-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sd =</span> <span class="kw">sd</span>(prop))</a></code></pre></div>
+<div class="sourceCode" id="cb602"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb602-1" data-line-number="1">sample_props <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb602-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sd =</span> <span class="kw">sd</span>(prop))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##       sd
 ##    &lt;dbl&gt;
@@ -952,14 +955,14 @@ You might probably be thinking that the average is about 37 °C, and this is wha
 <p>Before attempting to answer the following questions, make sure to run the following code chunk, which assumes that you have already installed the packages <code>tidyverse</code> and <code>moderndive</code>.
 If you have not installed them yet, type <code>install.packages(&quot;tidyverse&quot;)</code> and <code>install.packages(&quot;moderndive&quot;)</code> in the R console.</p>
 <p>Load the <code>tidyverse</code> and <code>moderndive</code> packages:</p>
-<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb592-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb592-2" data-line-number="2"><span class="kw">library</span>(moderndive)</a></code></pre></div>
+<div class="sourceCode" id="cb604"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb604-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb604-2" data-line-number="2"><span class="kw">library</span>(moderndive)</a></code></pre></div>
 </div>
 <div id="importing-the-data" class="section level3 unnumbered">
 <h3>Importing the data</h3>
 <p>Let’s start by loading the data using the function <code>read_tsv</code> to read tab separated values:</p>
-<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb593-1" data-line-number="1">bodytemp &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2vkjSaw&#39;</span>)</a>
-<a class="sourceLine" id="cb593-2" data-line-number="2">bodytemp</a></code></pre></div>
+<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb605-1" data-line-number="1">bodytemp &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2vkjSaw&#39;</span>)</a>
+<a class="sourceLine" id="cb605-2" data-line-number="2">bodytemp</a></code></pre></div>
 <pre><code>## # A tibble: 50 x 2
 ##    BodyTemp Pulse
 ##       &lt;dbl&gt; &lt;dbl&gt;
@@ -994,20 +997,20 @@ If you have not installed them yet, type <code>install.packages(&quot;tidyverse&
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-69" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-69&#39;, &#39;sol-start-69&#39;)"></span>
+► Solution<span id="sol-start-31" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-31&#39;, &#39;sol-start-31&#39;)"></span>
 </p>
-<div id="sol-body-69" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb595-1" data-line-number="1"><span class="kw">names</span>(bodytemp)</a></code></pre></div>
+<div id="sol-body-31" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb607"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb607-1" data-line-number="1"><span class="kw">names</span>(bodytemp)</a></code></pre></div>
 <pre><code>## [1] &quot;BodyTemp&quot; &quot;Pulse&quot;</code></pre>
 <ol style="list-style-type: decimal">
 <li>The variable names are <code>BodyTemp</code> and <code>Pulse</code>.</li>
 </ol>
-<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb597-1" data-line-number="1"><span class="kw">dim</span>(bodytemp)</a></code></pre></div>
+<div class="sourceCode" id="cb609"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb609-1" data-line-number="1"><span class="kw">dim</span>(bodytemp)</a></code></pre></div>
 <pre><code>## [1] 50  2</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>The tibble has 50 rows and 2 columns.</li>
 </ol>
-<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb599-1" data-line-number="1"><span class="kw">anyNA</span>(bodytemp)</a></code></pre></div>
+<div class="sourceCode" id="cb611"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb611-1" data-line-number="1"><span class="kw">anyNA</span>(bodytemp)</a></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>The tibble does not appear to have missing values.</li>
@@ -1033,14 +1036,14 @@ If you have not installed them yet, type <code>install.packages(&quot;tidyverse&
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-70" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-70&#39;, &#39;sol-start-70&#39;)"></span>
+► Solution<span id="sol-start-32" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-32&#39;, &#39;sol-start-32&#39;)"></span>
 </p>
-<div id="sol-body-70" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb601-1" data-line-number="1">sample_stats &lt;-<span class="st"> </span>bodytemp <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb601-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_temp =</span> <span class="kw">mean</span>(BodyTemp), </a>
-<a class="sourceLine" id="cb601-3" data-line-number="3">            <span class="dt">sd_temp =</span> <span class="kw">sd</span>(BodyTemp))</a>
-<a class="sourceLine" id="cb601-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb601-5" data-line-number="5">sample_stats</a></code></pre></div>
+<div id="sol-body-32" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb613"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb613-1" data-line-number="1">sample_stats &lt;-<span class="st"> </span>bodytemp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb613-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_temp =</span> <span class="kw">mean</span>(BodyTemp), </a>
+<a class="sourceLine" id="cb613-3" data-line-number="3">            <span class="dt">sd_temp =</span> <span class="kw">sd</span>(BodyTemp))</a>
+<a class="sourceLine" id="cb613-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb613-5" data-line-number="5">sample_stats</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   avg_temp sd_temp
 ##      &lt;dbl&gt;   &lt;dbl&gt;
@@ -1067,9 +1070,9 @@ If you have not installed them yet, type <code>install.packages(&quot;tidyverse&
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-71" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-71&#39;, &#39;sol-start-71&#39;)"></span>
+► Solution<span id="sol-start-33" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-33&#39;, &#39;sol-start-33&#39;)"></span>
 </p>
-<div id="sol-body-71" class="solution-body" style="display: none;">
+<div id="sol-body-33" class="solution-body" style="display: none;">
 <center>
 <span class="math display">\[
 H_0: \ \mu = 37\ {}^\circ\mathrm{C} \\
@@ -1105,16 +1108,16 @@ However, we only have one sample, so we must approximate it with a boostrap dist
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-72" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-72&#39;, &#39;sol-start-72&#39;)"></span>
+► Solution<span id="sol-start-34" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-34&#39;, &#39;sol-start-34&#39;)"></span>
 </p>
-<div id="sol-body-72" class="solution-body" style="display: none;">
+<div id="sol-body-34" class="solution-body" style="display: none;">
 <p>The following code chunk computes the bootstrap distribution using 10,000 repeated samples:</p>
-<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb603-1" data-line-number="1">bootstrap_distribution &lt;-<span class="st"> </span>bodytemp <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb603-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">10000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb603-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb603-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_temp =</span> <span class="kw">mean</span>(BodyTemp))</a>
-<a class="sourceLine" id="cb603-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb603-6" data-line-number="6">bootstrap_distribution</a></code></pre></div>
+<div class="sourceCode" id="cb615"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb615-1" data-line-number="1">bootstrap_distribution &lt;-<span class="st"> </span>bodytemp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb615-2" data-line-number="2"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">10000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb615-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb615-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_temp =</span> <span class="kw">mean</span>(BodyTemp))</a>
+<a class="sourceLine" id="cb615-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb615-6" data-line-number="6">bootstrap_distribution</a></code></pre></div>
 <pre><code>## # A tibble: 10,000 x 2
 ##    replicate avg_temp
 ##        &lt;int&gt;    &lt;dbl&gt;
@@ -1130,14 +1133,14 @@ However, we only have one sample, so we must approximate it with a boostrap dist
 ## 10        10     36.8
 ## # … with 9,990 more rows</code></pre>
 <p>Let’s plot the bootstrap distribution as a histogram, rather than a dotplot:</p>
-<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb605-1" data-line-number="1"><span class="kw">ggplot</span>(bootstrap_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb605-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb605-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
+<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb617-1" data-line-number="1"><span class="kw">ggplot</span>(bootstrap_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb617-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb617-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-384-1.png" width="672" /></p>
 <p>The bootstrap distribution is centred around the sample mean:</p>
-<div class="sourceCode" id="cb607"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb607-1" data-line-number="1">bootstrap_distribution <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb607-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(avg_temp))</a></code></pre></div>
+<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb619-1" data-line-number="1">bootstrap_distribution <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb619-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(avg_temp))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##     avg
 ##   &lt;dbl&gt;
@@ -1162,9 +1165,9 @@ However, we only have one sample, so we must approximate it with a boostrap dist
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-73" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-73&#39;, &#39;sol-start-73&#39;)"></span>
+► Solution<span id="sol-start-35" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-35&#39;, &#39;sol-start-35&#39;)"></span>
 </p>
-<div id="sol-body-73" class="solution-body" style="display: none;">
+<div id="sol-body-35" class="solution-body" style="display: none;">
 <p>The null distribution needs to be centred at the value of the parameter specified by the null hypothesis.
 The bootstrap distribution we computed earlier is centred at the sample mean.</p>
 Recall that:
@@ -1176,24 +1179,24 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 </center>
 <p>We could shift the bootstrap distribution to have mean 37 °C by adding 37 - 36.81 °C = 0.19 °C to each body temperature in the sample.</p>
 <p>Let us calculate the shift:</p>
-<div class="sourceCode" id="cb609"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb609-1" data-line-number="1">null_hypothesis &lt;-<span class="st"> </span><span class="dv">37</span></a>
-<a class="sourceLine" id="cb609-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb609-3" data-line-number="3">observed_mean &lt;-<span class="st"> </span>bodytemp <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb609-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_temp =</span> <span class="kw">mean</span>(BodyTemp)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb609-5" data-line-number="5"><span class="st">  </span><span class="kw">pull</span>(avg_temp)</a>
-<a class="sourceLine" id="cb609-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb609-7" data-line-number="7">shift &lt;-<span class="st"> </span>null_hypothesis <span class="op">-</span><span class="st"> </span>observed_mean</a>
-<a class="sourceLine" id="cb609-8" data-line-number="8">shift</a></code></pre></div>
+<div class="sourceCode" id="cb621"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb621-1" data-line-number="1">null_hypothesis &lt;-<span class="st"> </span><span class="dv">37</span></a>
+<a class="sourceLine" id="cb621-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb621-3" data-line-number="3">observed_mean &lt;-<span class="st"> </span>bodytemp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb621-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_temp =</span> <span class="kw">mean</span>(BodyTemp)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb621-5" data-line-number="5"><span class="st">  </span><span class="kw">pull</span>(avg_temp)</a>
+<a class="sourceLine" id="cb621-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb621-7" data-line-number="7">shift &lt;-<span class="st"> </span>null_hypothesis <span class="op">-</span><span class="st"> </span>observed_mean</a>
+<a class="sourceLine" id="cb621-8" data-line-number="8">shift</a></code></pre></div>
 <pre><code>## [1] 0.1888889</code></pre>
 <p>Shift the original sample data values:</p>
-<div class="sourceCode" id="cb611"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb611-1" data-line-number="1">bodytemp_null &lt;-<span class="st"> </span>bodytemp <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb611-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">BodyTemp =</span> BodyTemp <span class="op">+</span><span class="st"> </span>shift)</a>
-<a class="sourceLine" id="cb611-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb611-4" data-line-number="4">null_distribution &lt;-<span class="st"> </span>bodytemp_null <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb611-5" data-line-number="5"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">10000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb611-6" data-line-number="6"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb611-7" data-line-number="7"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_temp =</span> <span class="kw">mean</span>(BodyTemp))</a>
-<a class="sourceLine" id="cb611-8" data-line-number="8">null_distribution</a></code></pre></div>
+<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb623-1" data-line-number="1">bodytemp_null &lt;-<span class="st"> </span>bodytemp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb623-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">BodyTemp =</span> BodyTemp <span class="op">+</span><span class="st"> </span>shift)</a>
+<a class="sourceLine" id="cb623-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb623-4" data-line-number="4">null_distribution &lt;-<span class="st"> </span>bodytemp_null <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb623-5" data-line-number="5"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">10000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb623-6" data-line-number="6"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb623-7" data-line-number="7"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg_temp =</span> <span class="kw">mean</span>(BodyTemp))</a>
+<a class="sourceLine" id="cb623-8" data-line-number="8">null_distribution</a></code></pre></div>
 <pre><code>## # A tibble: 10,000 x 2
 ##    replicate avg_temp
 ##        &lt;int&gt;    &lt;dbl&gt;
@@ -1209,16 +1212,16 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 ## 10        10     37.1
 ## # … with 9,990 more rows</code></pre>
 <p>The null distribution is centred at the parameter value specified in the null:</p>
-<div class="sourceCode" id="cb613"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb613-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb613-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(avg_temp))</a></code></pre></div>
+<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb625-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb625-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(avg_temp))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##     avg
 ##   &lt;dbl&gt;
 ## 1  37.0</code></pre>
 <p>We can visualise the null distribution using a histogram:</p>
-<div class="sourceCode" id="cb615"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb615-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb615-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb615-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb627-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb627-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb627-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-389-1.png" width="672" /></p>
 <p class="solution-end">
@@ -1242,13 +1245,13 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-74" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-74&#39;, &#39;sol-start-74&#39;)"></span>
+► Solution<span id="sol-start-36" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-36&#39;, &#39;sol-start-36&#39;)"></span>
 </p>
-<div id="sol-body-74" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb617-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb617-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb617-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> observed_mean, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb617-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
+<div id="sol-body-36" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb629-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb629-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb629-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> observed_mean, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb629-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-390-1.png" width="672" /></p>
 <p class="solution-end">
@@ -1273,34 +1276,34 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-75" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-75&#39;, &#39;sol-start-75&#39;)"></span>
+► Solution<span id="sol-start-37" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-37&#39;, &#39;sol-start-37&#39;)"></span>
 </p>
-<div id="sol-body-75" class="solution-body" style="display: none;">
+<div id="sol-body-37" class="solution-body" style="display: none;">
 <p>This is a two-sided alternative, hence the p-value is two times the proportion in the smallest tail.</p>
 <p>Let’s plot the smallest tail:</p>
-<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb619-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp, <span class="dt">fill =</span> avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb619-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">binwidth =</span> <span class="fl">0.01</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb619-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x)), <span class="dt">fill =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x) <span class="op">&lt;</span><span class="st"> </span><span class="fl">36.81</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb631-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp, <span class="dt">fill =</span> avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb631-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">binwidth =</span> <span class="fl">0.01</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb631-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x)), <span class="dt">fill =</span> <span class="kw">expression</span>(<span class="kw">bar</span>(x) <span class="op">&lt;</span><span class="st"> </span><span class="fl">36.81</span>))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-391-1.png" width="672" /></p>
-<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb620-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb620-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count_smaller =</span> <span class="kw">sum</span>(avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean))</a></code></pre></div>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb632-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count_smaller =</span> <span class="kw">sum</span>(avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   count_smaller
 ##           &lt;int&gt;
 ## 1             7</code></pre>
 <p>Out of the 10,000 means in the null distribution, 7 of them are lower than the observed sample statistic (36.81).</p>
 <p>The proportion of means as low as the observed mean (36.81) in the null distribution is then:</p>
-<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb622-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb622-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop_smaller =</span> <span class="kw">sum</span>(avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb634-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb634-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop_smaller =</span> <span class="kw">sum</span>(avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   prop_smaller
 ##          &lt;dbl&gt;
 ## 1       0.0007</code></pre>
 <p>Since this test has a double-sided alternative, we must double this proportion in order to obtain the p-value. This represents the proportion of means in the null distribution as extreme as the observed one:</p>
-<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb624-1" data-line-number="1">pvalue &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb624-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">pvalue =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb624-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb624-4" data-line-number="4">pvalue</a></code></pre></div>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb636-1" data-line-number="1">pvalue &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb636-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">pvalue =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb636-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb636-4" data-line-number="4">pvalue</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   pvalue
 ##    &lt;dbl&gt;
@@ -1327,9 +1330,9 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-76" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-76&#39;, &#39;sol-start-76&#39;)"></span>
+► Solution<span id="sol-start-38" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-38&#39;, &#39;sol-start-38&#39;)"></span>
 </p>
-<div id="sol-body-76" class="solution-body" style="display: none;">
+<div id="sol-body-38" class="solution-body" style="display: none;">
 <p>At a significance level of 5%, the very small p-value we have found, 0.0014 &lt; 0.05, gives strong evidence against the null hypothesis that the average body temperature for healthy humans is 37 °C.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>

@@ -290,7 +290,7 @@ The ___null distribution___ shows the values of the statistic that we expect to 
 **Centre**: The null distribution is centred at the value of the population parameter specified in the null hypothesis.
 </div>
 
-We will now compute the null distribution for [Example 1](#example-esp-results) on ESP. One experiment is a sequence of $n = 98$ guesses (i.e. a sequence of S's and F's) and represents one sample. The required steps are:
+We will now compute the null distribution for [Example 1](#example-esp-results) on ESP. One experiment is a sequence of $n = 98$ guesses (resulting in a sequence of S's and F's) and this represents **one sample**. The required steps are:
 
 1. Obtain many random samples of size $n = 98$, assuming a probability of success equal to 1/5
 2. Compute the proportion of successes for each sample
@@ -322,7 +322,7 @@ Assign the probabilities of each possible outcome, remembering that the probabil
 prob <- c(1/5, 4/5)
 ```
 
-Generate 1000 samples of size $n = 98$ from the distribution specified by the null hypothesis (__null distribution__):
+Generate 1000 samples of size $n = 98$ with the probabilities specified by the null hypothesis:
 ```{r, message=FALSE, warning=FALSE}
 samples <- rep_sample_n(outcomes, size = 98, replace = TRUE, reps = 1000, prob = prob)
 samples
@@ -340,19 +340,19 @@ sample_props <- samples %>%
 sample_props
 ```
 
-Let us now plot the 1000 sample proportions obtained assuming the null hypothesis to be true. This plot shows the null distribution, and each dot represents one of the 1000 proportions from the above tibble:
+Let us now plot the 1000 sample proportions obtained assuming the null hypothesis to be true. This plot shows the **null distribution**, and each dot represents one of the 1000 proportions from the above tibble:
 ```{r, fig.height=7.3, fig.align='center', out.width='70%'}
 ggplot(sample_props, aes(x = prop)) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
   labs(x = expression(hat(p)))
 ```
 
-Where does the sample statistic from [Example 1](#example-esp-results) lie in the null distribution? Let's add a vertical line showing the value of the observed statistic, $\hat{p} = 0.26$:
+Where does the sample statistic from [Example 1](#example-esp-results) lie in the null distribution? Let's add a red vertical line showing the value of the observed statistic, $\hat{p} = 0.26$:
 
 ```{r, fig.height=7.3, fig.align='center', out.width='70%'}
 ggplot(sample_props, aes(x = prop)) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
-  geom_vline(xintercept = 0.26, color = 'red', size = 1) +
+  geom_vline(xintercept = 0.26, color = 'tomato1', size = 1) +
   labs(x = expression(hat(p)))
 ```
 
@@ -366,18 +366,19 @@ Rather than taking a decision by visually inspecting the plot, we want to find a
 
 ### P-value {-}
 
-Recall now the definition of [statistical significance](#def-statistical-significance). We have evidence against the null hypothesis if it would be unusual to obtain statistics as extreme or more extreme than the observed statistic in the null distribution.
+Recall now the definition of [statistical significance](#def-statistical-significance). We have evidence against the null hypothesis if it would be very unusual to obtain statistics as extreme or more extreme than the observed statistic in the null distribution.
 
 To summarise: in order to measure how unusual the observed statistic is under the null hypothesis, we need to generate many statistics under the null hypothesis (null distribution) and see what's the proportion of the generated statistics that are as extreme as, or more extreme than, the observed statistic.
 
-The proportion of statistics from the null distribution as extreme or more extreme than the observed statistic is known as the **p-value**.
-The smaller the p-value, the higher the statistical evidence against the null hypothesis.
+The proportion of statistics in the null distribution as extreme or more extreme than the observed statistic is known as the **p-value**.
+
+**The smaller the p-value, the higher the statistical evidence against the null hypothesis.**
 
 
 <div class="def">
 #### P-value {-}
 
-The ___p-value___ represents the chance of observing a statistic as extreme or more extreme than the observed one, if the null hypothesis were true.
+The ___p-value___ represents the chance of obtaining a statistic as extreme or more extreme than the observed one, if the null hypothesis were true.
 </div>
 
 
@@ -386,22 +387,23 @@ In [Example 1](#example-esp-results) on ESP, we can identify the statistics in t
 ```{r, fig.height=7.3, fig.align='center', out.width='70%'}
 ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
   labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26)) +
   theme(legend.position="top")
 ```
 
 
-We now calculate the proportion of statistics in the null distribution which are greater than or equal 0.26. You can either do that by eye, counting the green dots and dividing them by the total number of dots (1000) or, more quickly:
+We now calculate the proportion of statistics in the null distribution which are greater than or equal 0.26. You can either do that by eye, counting the red dots and dividing them by the total number of dots (1000) or, more quickly:
 
 ```{r}
 pvalue <- sample_props %>%
-  summarise(pvalue = sum(prop > 0.26) / n())
+  summarise(pvalue = sum(prop >= 0.26) / n())
 
 pvalue
 ```
 
 
-_**Interpretation of the p-value:** If we were to randomly guess the card symbol in [Example 1](#example-esp-results), the chance of getting a proportion as high as 0.26 is 0.07._
+_**Interpretation of the p-value:** If we were to randomly guess the card symbol in [Example 1](#example-esp-results), the chance of getting a proportion as high as 0.26 is `r pvalue$pvalue %>% round(2)`._
 
 
 The p-value needs to be calculated in the direction specified by the alternative hypothesis:
@@ -410,20 +412,22 @@ The p-value needs to be calculated in the direction specified by the alternative
 - The p-value of a two-sided hypothesis is twice the proportion in the smallest tail, i.e. the tail with the smallest count.
 
 In the example below, the smallest tail (the tail with the lowest count) is the right tail. So if we were to perform a two-sided test for the hypothesis $p \neq 1/5$, we would compute it as twice the proportion of statistics greater than or equal to the observed statistic:
-```{r echo=FALSE, fig.align='center', out.width='100%', message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.height=4.5, fig.align='center', out.width='100%', message=FALSE, warning=FALSE}
 library(patchwork)
 
 plt1 <- ggplot(sample_props, aes(x = prop, fill = (prop <= 0.26))) +
-  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5, stroke = 0.15) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5, stroke = 0.2) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
   labs(x = expression(hat(p)), fill = expression(hat(p) <= 0.26), title = 'Left tail') +
   theme_gray(base_size = 10) +
-  theme(legend.position="top")
+  theme(legend.position="top", plot.title = element_text(hjust = 0.5))
 
 plt2 <- ggplot(sample_props, aes(x = prop, fill = (prop >= 0.26))) +
-  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5, stroke = 0.15) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5, stroke = 0.2) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
   labs(x = expression(hat(p)), fill = expression(hat(p) >= 0.26), title = 'Right tail') +
   theme_gray(base_size = 10) +
-  theme(legend.position="top")
+  theme(legend.position="top", plot.title = element_text(hjust = 0.5))
 
 plt1 | plt2
 ```
