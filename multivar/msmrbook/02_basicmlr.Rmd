@@ -69,10 +69,10 @@ For now, if `lmer()` gives you convergence errors, you could try changing the op
 ### Exercise 1  
 County-level suicide rate data from Public Health England (PHE) is available at [https://edin.ac/36xdhas](https://edin.ac/36xdhas) and covers the period from 2001 to 2016. It contains information for a number of different indicators over this period for a selection of counties in England.  
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
 Using multilevel regression, study the following:  
   
-* Did the regions differ in their baseline (2001) suicide rates?  
+* Did the regions differ in their suicide rates?  
 * Did the regions differ in ther slopes of change of suidice rate?  
 * Make a plot of the fitted values from the model  
 
@@ -83,7 +83,7 @@ Steps:
 1. Then think about what test you can do to answer the questions above.        
 1. Lastly, passing your model to the `effect()` function (from the `effects` package) can give you all the data you need to construct your plot.
 
-**Hint:** Try comparing models with and without different baseline/slopes of suicide rates for each region. Think also about the grouping of the data points, and how this is represented in your random effect structure.    
+**Hint:** Try comparing models with and without different differences in/slopes of suicide rates for each region. Think also about the grouping of the data points, and how this is represented in your random effect structure.    
   
 `r msmbstyle::question_end()`
 
@@ -104,7 +104,7 @@ suicide_dat <- filter(mh_phe, IndicatorID == 41001) %>%
 # base model: just change over time
 m <- lmer(Value ~ Time + (Time | County), 
           data = suicide_dat, REML = F, control = lmerControl(optimizer = "bobyqa"))
-# add baseline differences between regions
+# add differences between regions
 m.0 <- lmer(Value ~ Time + Region + (Time | County), 
             data = suicide_dat, REML = F, control = lmerControl(optimizer = "bobyqa"))
 # add slope differences between regions
@@ -115,7 +115,7 @@ m.1 <- lmer(Value ~ Time * Region + (Time | County),
 anova(m, m.0, m.1)
 ```
   
-It looks like regions differ in baseline suicide rate (addition of `Region` predictor in `m.0`) and in slope of change (addition of interaction in `m.1`)  
+It looks like regions differ overall in their suicide rates (addition of `Region` predictor in `m.0`) and in slope of change (addition of interaction in `m.1`)  
 
 #### Plotting {-}  
 ```{r}
@@ -142,7 +142,7 @@ load(url("https://edin.ac/2tFIedK"))
 summary(WeightMaintain3)
 ```
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
 Overall, did the participants maintain their weight loss or did their weights change?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -156,8 +156,8 @@ Weights changed over course of assessment period: $\chi^2(1)=56.5, p << 0.0001$
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
-Did the groups differ in baseline weight change and rate of weight gain (non-maintenance)?
+`r msmbstyle::question_begin(header = "&#x25BA; Question 3")`
+Did the groups differ in overall weight change and rate of weight gain (non-maintenance)?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
@@ -169,8 +169,8 @@ anova(m.null, m.base, m.int, m.full)
 ```
 Yes: 
 
-*  Baseline: $\chi^2(2)=9.4, p < 0.01$
-*  Slope: $\chi^2(2)=40.4, p << 0.0001$
+*  Group difference: $\chi^2(2)=9.4, p < 0.01$
+*  Group slope difference: $\chi^2(2)=40.4, p << 0.0001$
 
 Note: `m.int` is difficult to interpret in light of the massive effect on slope
 
@@ -185,7 +185,7 @@ Note that baseline weight difference parameters are not significantly different 
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 4")`
 Make a graph of the model fit *and* the observed data
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -219,7 +219,7 @@ ggplot(fortify(m.full), aes(Assessment, WeightChange, color=Condition)) +
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
 Examine the parameter estimates and interpret them (i.e., what does each parameter represent?)
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -265,7 +265,7 @@ ggplot(filter(nwl, !is.na(lesion_location)), aes(block, PropCorrect,
 Compare the two groups (those with anterior vs. posterior lesions) with respect to their responses. 
 **Tip:** Remember that you can use `cbind()` to specify the numbers of successes and failures as the outcome in a *binomial* regression (and remember to specify the *family* argument in `glmer()`).  
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
 Is the learning rate (training data) different between these two groups?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
@@ -287,21 +287,29 @@ No significant difference in learning rate between groups: $\chi^2(2)=2.2, p = 0
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
-Does follow-up test performance differ between lesion location groups, and does their retention from immediate to follow-up test differ?
+`r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
+Does immediate test performance differ between lesion location groups, and does their retention from immediate to follow-up test differ?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
+nwl_test <- filter(nwl, block > 7, !is.na(lesion_location)) %>%
+  mutate(
+    Phase = fct_relevel(factor(Phase),"Immediate")
+  )
+
 m.recall.loc <- glmer(cbind(NumCorrect, NumError) ~ Phase * lesion_location + (Phase | ID), 
-                  data=filter(nwl, block > 7, !is.na(lesion_location)),
-                  family="binomial")
+                  nwl_test,family="binomial")
 summary(m.recall.loc)
 ```
-`r msmbstyle::solution_end()`
+* `(Intercept)` ==> Anterior lesion group performance in immediate test
+* `PhaseFollow-up`  ==> Change in performance (anterior lesion group) from immediate to follow-up test
+* `lesion_locationposterior` ==> Posterior lesion group performance in immediate test relative to anterior lesion group performance in immediate test
+* `PhaseFollow-up:lesion_locationposterior` ==> Change in performance from immediate to follow-up test, posterior lesion group relative to anterior lesion group
+  `r msmbstyle::solution_end()`
 <br>
 <hr />
 <br><br>
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
 **Extra:** Recreate the visualisation in Figure \@ref(fig:nwl-fig).
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
