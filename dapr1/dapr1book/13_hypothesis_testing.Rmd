@@ -766,7 +766,7 @@ bootstrap_distribution
 Let's plot the bootstrap distribution as a histogram, rather than a dotplot:
 ```{r, message=FALSE}
 ggplot(bootstrap_distribution, aes(x = avg_temp)) +
-  geom_histogram(binwidth = 0.01, color = 'white') +
+  geom_histogram(color = 'white') +
   labs(x = expr(bar(x)))
 ```
 
@@ -834,7 +834,7 @@ null_distribution %>%
 We can visualise the null distribution using a histogram:
 ```{r, message=FALSE}
 ggplot(null_distribution, aes(x = avg_temp)) +
-  geom_histogram(binwidth = 0.01, color = 'white') +
+  geom_histogram(color = 'white') +
   labs(x = expr(bar(x)))
 ```
 
@@ -850,7 +850,7 @@ Show a histogram of the null distribution, superimposing a vertical red line dis
 `r msmbstyle::solution_begin()`
 ```{r, message=FALSE}
 ggplot(null_distribution, aes(x = avg_temp)) +
-  geom_histogram(binwidth = 0.01, color = 'white') +
+  geom_histogram(color = 'white') +
   geom_vline(xintercept = observed_mean, color = 'tomato1', size = 1) +
   labs(x = expr(bar(x)))
 ```
@@ -870,10 +870,10 @@ This is a two-sided alternative, hence the p-value is two times the proportion i
 
 Let's plot the smallest tail:
 ```{r, message=FALSE}
-ggplot(null_distribution, aes(x = avg_temp, fill = avg_temp < observed_mean)) +
+ggplot(null_distribution, aes(x = avg_temp, fill = (avg_temp <= observed_mean))) +
   geom_histogram(color = 'black', binwidth = 0.01, size = 0.1) +
   scale_fill_manual(values = c('white', 'tomato1')) +
-  labs(x = expr(bar(x)), fill = expr(bar(x) < !!round(observed_mean,2)))
+  labs(x = expr(bar(x)), fill = expr(bar(x) <= !!round(observed_mean, 2)))
 ```
 
 
