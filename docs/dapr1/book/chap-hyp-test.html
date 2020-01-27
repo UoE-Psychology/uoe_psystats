@@ -1174,7 +1174,7 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 ## # … with 9,990 more rows</code></pre>
 <p>Let’s plot the bootstrap distribution as a histogram, rather than a dotplot:</p>
 <div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb619-1" data-line-number="1"><span class="kw">ggplot</span>(bootstrap_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb619-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb619-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb619-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-388-1.png" width="672" /></p>
 <p>The bootstrap distribution is centred around the sample mean:</p>
@@ -1260,7 +1260,7 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 ## 1  37.0</code></pre>
 <p>We can visualise the null distribution using a histogram:</p>
 <div class="sourceCode" id="cb630"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb630-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb630-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb630-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb630-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-393-1.png" width="672" /></p>
 <p class="solution-end">
@@ -1288,7 +1288,7 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 </p>
 <div id="sol-body-36" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb631-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb631-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb631-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb631-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> observed_mean, <span class="dt">color =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb631-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-394-1.png" width="672" /></p>
@@ -1319,10 +1319,10 @@ H_1: \ \mu \neq 37\ {}^\circ\mathrm{C}
 <div id="sol-body-37" class="solution-body" style="display: none;">
 <p>This is a two-sided alternative, hence the p-value is two times the proportion in the smallest tail.</p>
 <p>Let’s plot the smallest tail:</p>
-<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp, <span class="dt">fill =</span> avg_temp <span class="op">&lt;</span><span class="st"> </span>observed_mean)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> avg_temp, <span class="dt">fill =</span> (avg_temp <span class="op">&lt;=</span><span class="st"> </span>observed_mean))) <span class="op">+</span></a>
 <a class="sourceLine" id="cb632-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;black&#39;</span>, <span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">size =</span> <span class="fl">0.1</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb632-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;white&#39;</span>, <span class="st">&#39;tomato1&#39;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb632-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)), <span class="dt">fill =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x) <span class="op">&lt;</span><span class="st"> </span><span class="op">!!</span><span class="kw">round</span>(observed_mean,<span class="dv">2</span>)))</a></code></pre></div>
+<a class="sourceLine" id="cb632-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)), <span class="dt">fill =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x) <span class="op">&lt;=</span><span class="st"> </span><span class="op">!!</span><span class="kw">round</span>(observed_mean, <span class="dv">2</span>)))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-395-1.png" width="672" /></p>
 <div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb633-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb633-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count_smaller =</span> <span class="kw">sum</span>(avg_temp <span class="op">&lt;=</span><span class="st"> </span>observed_mean))</a></code></pre></div>
