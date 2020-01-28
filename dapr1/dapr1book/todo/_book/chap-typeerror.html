@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Type I and Type II Errors, Power! | Data Analysis for Psychology in R (dapR1) - Labs</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Type I and Type II Errors, Power! | Data Analysis for Psychology in R (dapR1) - Labs" />
   <meta property="og:type" content="book" />
@@ -89,7 +89,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -159,14 +159,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="chap-typeerror.html"><a href="chap-typeerror.html"><i class="fa fa-check"></i><b>1</b> Type I and Type II Errors, Power!</a><ul>
 <li class="chapter" data-level="1.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#recap"><i class="fa fa-check"></i><b>1.1</b> Recap</a></li>
 <li class="chapter" data-level="1.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#walkthrough"><i class="fa fa-check"></i><b>1.2</b> Walkthrough</a><ul>
-<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-1-coin-toss"><i class="fa fa-check"></i>Example 1: Coin toss</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-1-coin-flip"><i class="fa fa-check"></i>Example 1: Coin flip</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#an-analogy"><i class="fa fa-check"></i>An analogy</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#two-different-types-of-errors"><i class="fa fa-check"></i>Two different types of errors</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-i-errors"><i class="fa fa-check"></i>Type I errors</a></li>
-<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors"><i class="fa fa-check"></i>Type II errors</a></li>
-<li class="chapter" data-level="1.2.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exploration"><i class="fa fa-check"></i><b>1.2.1</b> Exploration</a></li>
-<li class="chapter" data-level="1.2.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#in-class-activity"><i class="fa fa-check"></i><b>1.2.2</b> In-class activity</a></li>
-<li class="chapter" data-level="1.2.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2"><i class="fa fa-check"></i><b>1.2.3</b> Example 2: ??</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors-and-power"><i class="fa fa-check"></i>Type II errors and Power</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2-a-biased-coin"><i class="fa fa-check"></i>Example 2: A biased coin</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overlapping-distributions"><i class="fa fa-check"></i>Overlapping distributions</a></li>
+<li class="chapter" data-level="1.2.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#in-class-activity"><i class="fa fa-check"></i><b>1.2.1</b> In-class activity</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#lab"><i class="fa fa-check"></i><b>1.3</b> Lab</a></li>
 </ul></li>
@@ -231,8 +232,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="walkthrough" class="section level2">
 <h2><span class="header-section-number">1.2</span> Walkthrough</h2>
-<div id="example-1-coin-toss" class="section level3 unnumbered">
-<h3>Example 1: Coin toss</h3>
+<div id="example-1-coin-flip" class="section level3 unnumbered">
+<h3>Example 1: Coin flip</h3>
 <div style="background-image: url(&#39;flipping.jpg&#39;)">
 <h4 id="research-question-hypotheses" class="unnumbered">Research Question &amp; Hypotheses</h4>
 <p>Is our coin biased?
@@ -242,7 +243,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <em>Alternative hypothesis</em>: We’re more likely to see either heads or tails when we flip the coin.
 <span class="math display">\[H_1: p_{heads} \neq 0.5\]</span></p>
 <h4 id="data-collection" class="unnumbered">Data collection</h4>
-<p>We toss the coin 90 times, and it lands on heads 54 times.</p>
+<p>We flip the coin 90 times, and it lands on heads 54 times.</p>
 </div>
 <div id="analysis" class="section level4 unnumbered">
 <h4>Analysis</h4>
@@ -261,38 +262,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Calculate our statistic, <span class="math inline">\(\hat{p}\)</span></li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">p_hat &lt;-<span class="st"> </span><span class="dv">55</span><span class="op">/</span><span class="dv">90</span></a>
-<a class="sourceLine" id="cb1-2" title="2">p_hat</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">p_hat &lt;-<span class="st"> </span><span class="dv">55</span><span class="op">/</span><span class="dv">90</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">p_hat</a></code></pre></div>
 <pre><code>## [1] 0.6111111</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Generate the null distribution</li>
 </ol>
-<p>Is our 54 of 90 coin tosses that surprising?<br>
+<p>Is our 54 of 90 coin flips that surprising?<br>
 Let’s compare it against the null distribution.<br>
 Remember that the null distribution is what we would expect if the null hypothesis were true - it is how much the statistics computed from samples of size <span class="math inline">\(n\)</span> would vary if the null is true. In our case, this quantifies how much our statistic (the proportion of heads) in a sample of size 90 would vary if the true probability of the coin landing on heads were 1/2.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
-<a class="sourceLine" id="cb3-2" title="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb3-3" title="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb3-4" title="4"></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="co"># generate samples under the null</span></a>
-<a class="sourceLine" id="cb3-6" title="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">90</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb3-7" title="7"></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co"># calculate the statistics for each sample to create the null distribution</span></a>
-<a class="sourceLine" id="cb3-9" title="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb3-12" title="12"></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co"># plot the null distribution  </span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># generate samples under the null</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">90</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># calculate the statistics for each sample to create the null distribution</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co"># plot the null distribution  </span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>And plot the observed statistic on top, like we did last week.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop, <span class="dt">fill =</span> (prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;white&#39;</span>, <span class="st">&#39;tomato1&#39;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.61</span>, <span class="dt">color =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)), <span class="dt">fill =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop, <span class="dt">fill =</span> (prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;white&#39;</span>, <span class="st">&#39;tomato1&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.61</span>, <span class="dt">color =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)), <span class="dt">fill =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Calculate our p-value</li>
@@ -316,22 +317,22 @@ Remember that the null distribution is what we would expect if the null hypothes
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-25" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-25&#39;, &#39;sol-start-25&#39;)"></span>
+► Solution<span id="sol-start-11" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-11&#39;, &#39;sol-start-11&#39;)"></span>
 </p>
-<div id="sol-body-25" class="solution-body" style="display: none;">
+<div id="sol-body-11" class="solution-body" style="display: none;">
 <p>if we perform an hypothesis test for the two-sided alternative <span class="math inline">\(p \neq ...\)</span>, we compute it as twice the proportion in the smallest tail, i.e. the tail with the smallest count.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">pvalue &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb5-3" title="3">    <span class="dt">pvalue_lefttail =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.39</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>(),</a>
-<a class="sourceLine" id="cb5-4" title="4">    <span class="dt">pvalue_righttail =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb5-5" title="5">  )</a>
-<a class="sourceLine" id="cb5-6" title="6"></a>
-<a class="sourceLine" id="cb5-7" title="7">pvalue</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">pvalue &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="dt">pvalue_lefttail =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.39</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="dt">pvalue_righttail =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  )</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">pvalue</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   pvalue_lefttail pvalue_righttail
 ##             &lt;dbl&gt;            &lt;dbl&gt;
 ## 1           0.018            0.022</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="fl">0.018</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fl">0.018</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span></a></code></pre></div>
 <pre><code>## [1] 0.036</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -355,9 +356,9 @@ Remember that the null distribution is what we would expect if the null hypothes
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-26" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-26&#39;, &#39;sol-start-26&#39;)"></span>
+► Solution<span id="sol-start-12" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-12&#39;, &#39;sol-start-12&#39;)"></span>
 </p>
-<div id="sol-body-26" class="solution-body" style="display: none;">
+<div id="sol-body-12" class="solution-body" style="display: none;">
 <p>According to our p-value, we have reason to reject the null hypothesis that our coin will land on heads and tails equally often.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -370,7 +371,7 @@ Remember that the null distribution is what we would expect if the null hypothes
 <h3>An analogy</h3>
 <p>Have we made an mistake here?
 <br>
-Is 55 out of 90 coin tosses <em>that</em> surprising?</p>
+Is 55 out of 90 coin flips <em>surprising enough</em>?</p>
 <p>Last week we discussed an analogy in law, in which a person on trial is presumed innocent until proven guilty. Similarly, we presume <span class="math inline">\(H_0\)</span> to be true until there is strong evidence to reject it.
 <br>
 How strong must the evidence be? Have we just wrongly convicted an innocent person? (i.e., wrongly rejected an hypothesis which is actually true?)</p>
@@ -447,9 +448,9 @@ So the probability of making this error is equal to the <span class="math inline
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-27" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-27&#39;, &#39;sol-start-27&#39;)"></span>
+► Solution<span id="sol-start-13" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-13&#39;, &#39;sol-start-13&#39;)"></span>
 </p>
-<div id="sol-body-27" class="solution-body" style="display: none;">
+<div id="sol-body-13" class="solution-body" style="display: none;">
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -457,39 +458,179 @@ So the probability of making this error is equal to the <span class="math inline
 </div>
 </div>
 </div>
-<div id="type-ii-errors" class="section level3 unnumbered">
-<h3>Type II errors</h3>
-<p>Q what are our ideal values for alpha and beta?
-A 0 and 0.
-BUT, this isn’t possible when we sample</p>
+<div id="type-ii-errors-and-power" class="section level3 unnumbered">
+<h3>Type II errors and Power</h3>
+<p>A type II error is denoted by <span class="math inline">\(\beta\)</span>. <br>
+This happens when <span class="math inline">\(H_0\)</span> is false, but we do not have enough evidence to reject it.</p>
+<!-- this can happen when.. -->
+<p>In our table, the columns specify the possible states of the world (<span class="math inline">\(H_0\)</span> is either True or False).
+<br>
+In each of the possible states of the world, there are two potential outcomes of conducting a statistical test (Reject <span class="math inline">\(H-0\)</span> or Don’t reject <span class="math inline">\(H_0\)</span>).
+<br>
+We have seen that <em>if <span class="math inline">\(H_0\)</span> is true</em>, then the probability of incorrectly rejecting <span class="math inline">\(H_0\)</span> is <span class="math inline">\(\alpha\)</span>.
+We have seen that <em>if <span class="math inline">\(H_0\)</span> is false</em>, then the probability of incorrectly failing to reject <span class="math inline">\(H_0\)</span> is <span class="math inline">\(\beta\)</span>. Conversely, the probability of <em>correctly rejecting <span class="math inline">\(H_0\)</span></em> is <span class="math inline">\(1-\beta\)</span>.
+This is also known as the <strong>statistical power</strong> of our test.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center"><span class="math inline">\(H_0\)</span> is True</th>
+<th align="center"><span class="math inline">\(H_0\)</span> is False</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Test doesn’t reject <span class="math inline">\(H_0\)</span></td>
+<td align="center">Correct<br><strong>1-<span class="math inline">\(\alpha\)</span></strong></td>
+<td align="center">Type II Error<br>(<span class="math inline">\(\beta\)</span>)</td>
+</tr>
+<tr class="even">
+<td align="left">Test rejects <span class="math inline">\(H_0\)</span></td>
+<td align="center">Type I Error<br>(<span class="math inline">\(\alpha\)</span>)</td>
+<td align="center">Correct<br><strong>1-<span class="math inline">\(\beta\)</span></strong><br><strong>Power</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="def">
+<h4 id="statistical-power" class="unnumbered">Statistical power</h4>
+<p>Statistical power is the probability of a hypothesis test of finding an effect if there is an effect to be found.</p>
 </div>
-<div id="exploration" class="section level3">
-<h3><span class="header-section-number">1.2.1</span> Exploration</h3>
+</div>
+<div id="example-2-a-biased-coin" class="section level3 unnumbered">
+<h3>Example 2: A biased coin</h3>
+<p>I have a trick coin which is weighted so that it lands on heads 60% of the time (rather than the usual 50% for everyday fair coins).
+<br>
+Oh no! Umberto has noticed that whenever we flip a coin I call heads, and I often seem to win. He accuses me of cheating by using a trick coin!
+I make him an offer: he can flip the coin 50 times in order to decide whether or not it really is a trick coin.</p>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>In Umberto’s 50 coin flips, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-14" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-14&#39;, &#39;sol-start-14&#39;)"></span>
+</p>
+<div id="sol-body-14" class="solution-body" style="display: none;">
+<p>If Umberto flips the coin 50 times, under the null hypothesis, he would need to get a sample statistic (<span class="math inline">\(\hat{p}\)</span>) of .64 or greater</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># generate samples under the null</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co"># calculate the statistics for each sample to create the null distribution</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">null_distribution &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="st">  </span><span class="kw">arrange</span>(prop) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">idx =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co"># plot the null distribution</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop, <span class="dt">fill =</span> (idx <span class="op">&gt;=</span><span class="st"> </span><span class="dv">950</span>))) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;white&#39;</span>, <span class="st">&#39;tomato1&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(idx <span class="op">==</span><span class="st"> </span><span class="dv">950</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   replicate  prop   idx
+##       &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+## 1        92  0.62   950</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>Things we know so far:</p>
+<ul>
+<li>The coin is rigged to land on heads on 60% of flips - the true probability of heads is 0.6.</li>
+<li>If 62% or more of Umberto’s 50 coin flips come up heads, then he will reject his null hypothesis (that the coin is fair)</li>
+</ul>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>What’s the probability that Umberto’s 50 flips will come up with 64% or more heads?
+<br>
+In other words, what is the power of his test?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-15" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-15&#39;, &#39;sol-start-15&#39;)"></span>
+</p>
+<div id="sol-body-15" class="solution-body" style="display: none;">
+<p>We can actually generate the true sampling distribution because we know the true parameter (i.e., we know that the coin lands on heads 60% of the time).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co"># calculate the statistics for each sample to create the null distribution</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">alternative_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">alternative_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.62</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   prob_crit
+##       &lt;dbl&gt;
+## 1     0.463</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="generalising-it" class="section level3 unnumbered">
+<h3>Generalising it</h3>
+<ol style="list-style-type: decimal">
+<li>When we conduct NHST, we set <span class="math inline">\(\alpha\)</span>.<br />
+</li>
+<li>In setting <span class="math inline">\(\alpha\)</span>, we define a <strong>critical region</strong> under the null distribution. The <strong>critical value</strong> is the value of the statistic which defines the start of this region. Any statistic more extreme than this will result in rejecting the null hypothesis.</li>
+<li>If the null hypothesis is false, the probability that we reject the null hypothesis depends on a) how far away from the null hypothesis the true state of the world is, and b) our sample size.</li>
+<li>For a given <strong>effect size</strong> (i.e., difference from the null hypothesis), we can compute the power of a test based on a given sample size. This corresponds to the probability of getting a statistic more extreme than the critical value, given a theorised effect size (i.e., a theorised alternative distribution)</li>
+</ol>
+</div>
+<div id="overlapping-distributions" class="section level3 unnumbered">
+<h3>Overlapping distributions</h3>
 <p>Talk through applet</p>
-<p><a href="https://istats.shinyapps.io/power/" class="uri">https://istats.shinyapps.io/power/</a></p>
+<p><a href="https://istats.shinyapps.io/power/" class="uri">https://istats.shinyapps.io/power/</a>
+<a href="https://rpsychologist.com/d3/NHST/" class="uri">https://rpsychologist.com/d3/NHST/</a></p>
 </div>
 <div id="in-class-activity" class="section level3">
-<h3><span class="header-section-number">1.2.2</span> In-class activity</h3>
-<p>option… decrease alpha!
-div think - what are we doing here? we making the probability of convicting an innocent person much less likely
-casually - we’ve got to get some <em>really strong evidence</em> that they’re guilty.</p>
-</div>
-<div id="example-2" class="section level3">
-<h3><span class="header-section-number">1.2.3</span> Example 2: ??</h3>
-<p>on the other hand…
-research Q: is global temperature rising?
-H_o, temperature in y1 == temperature y2
-H_a temperature in y1 != temperature y2
-do a test,
-get a p-value &lt;.01
-with our new alpha of .001, we don’t reject H_o.
-But maybe we’re being to strict!
-Now we are letting a guilty person walk free!</p>
+<h3><span class="header-section-number">1.2.1</span> In-class activity</h3>
 <hr />
 </div>
 </div>
 <div id="lab" class="section level2">
 <h2><span class="header-section-number">1.3</span> Lab</h2>
+<p>Q1 - if my trick coin was actually weighted so that it landed on heads 75% of the time, what would the power of Umberto’s test be?</p>
+<div class="red">
+<p>For a given <strong>effect size</strong> (i.e., difference from the null hypothesis), we can compute the power of a test based on a given sample size.
+However….
+we can also decide on what we want the power of a test to be, and ask what the minimum sample size is that is needed to detect a given effect size.</p>
+</div>
+<p>Q2.- how many coin flips should Umberto do in order to increase his power to 80%?
+A haven’t thought about this yet :)</p>
 
 </div>
 </div>

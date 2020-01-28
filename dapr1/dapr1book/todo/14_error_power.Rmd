@@ -47,7 +47,7 @@ library(moderndive)
 
 ## Walkthrough
 
-### Example 1: Coin toss {-}    
+### Example 1: Coin flip {-}    
 
 <div style="background-image: url('flipping.jpg')">
 #### Research Question & Hypotheses {-}
@@ -61,7 +61,7 @@ $$H_1: p_{heads} \neq 0.5$$
 
 #### Data collection {-} 
 
-We toss the coin 90 times, and it lands on heads 54 times. 
+We flip the coin 90 times, and it lands on heads 54 times. 
 </div>
 
 #### Analysis {-}  
@@ -86,7 +86,7 @@ p_hat
 
 2. Generate the null distribution  
 
-Is our 54 of 90 coin tosses that surprising?<br>
+Is our 54 of 90 coin flips that surprising?<br>
 Let's compare it against the null distribution.<br>
 Remember that the null distribution is what we would expect if the null hypothesis were true - it is how much the statistics computed from samples of size $n$ would vary if the null is true. In our case, this quantifies how much our statistic (the proportion of heads) in a sample of size 90 would vary if the true probability of the coin landing on heads were 1/2.
 
@@ -160,7 +160,7 @@ According to our p-value, we have reason to reject the null hypothesis that our 
 
 Have we made an mistake here?
 <br>
-Is 55 out of 90 coin tosses *that* surprising? 
+Is 55 out of 90 coin flips *surprising enough*? 
 
 Last week we discussed an analogy in law, in which a person on trial is presumed innocent until proven guilty. Similarly, we presume $H_0$ to be true until there is strong evidence to reject it. 
 <br>
@@ -201,45 +201,136 @@ How many of the researchers' tests would we expect to result in a type I error?
 `r msmbstyle::solution_end()`
 </div>
 
-### Type II errors {-}
+### Type II errors and Power {-}
+
+A type II error is denoted by $\beta$. <br>
+This happens when $H_0$ is false, but we do not have enough evidence to reject it.  
+
+<!-- this can happen when.. -->
+
+In our table, the columns specify the possible states of the world ($H_0$ is either True or False).
+<br>
+In each of the possible states of the world, there are two potential outcomes of conducting a statistical test (Reject $H-0$ or Don't reject $H_0$). 
+<br>
+We have seen that *if $H_0$ is true*, then the probability of incorrectly rejecting $H_0$ is $\alpha$. 
+We have seen that *if $H_0$ is false*, then the probability of incorrectly failing to reject $H_0$ is $\beta$. Conversely, the probability of *correctly rejecting $H_0$* is $1-\beta$. 
+This is also known as the **statistical power** of our test. 
+
+|                          | $H_0$ is True          | $H_0$ is False             |
+|:-------------------------|:----------------------:|:--------------------------:|
+|Test doesn't reject $H_0$ | Correct<br>**1-$\alpha$**  | Type II Error<br>($\beta$) |
+|Test rejects $H_0$        | Type I Error<br>($\alpha$)| Correct<br>**1-$\beta$**<br>**Power**|
+
+<div class="def">
+#### Statistical power {-}
+
+Statistical power is the probability of a hypothesis test of finding an effect if there is an effect to be found.
+</div> 
+
+### Example 2: A biased coin {-}
+
+I have a trick coin which is weighted so that it lands on heads 60% of the time (rather than the usual 50% for everyday fair coins). 
+<br>
+Oh no! Umberto has noticed that whenever we flip a coin I call heads, and I often seem to win. He accuses me of cheating by using a trick coin!
+I make him an offer: he can flip the coin 50 times in order to decide whether or not it really is a trick coin. 
+
+`r msmbstyle::question_begin()`
+In Umberto's 50 coin flips, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+If Umberto flips the coin 50 times, under the null hypothesis, he would need to get a sample statistic ($\hat{p}$) of .64 or greater 
+```{r message=FALSE,warning=FALSE}
+# Specify our possible outcomes and their probabilities under the null
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(1/2, 1/2)
+
+# generate samples under the null
+samples <- rep_sample_n(outcomes, size = 50, replace = TRUE, reps = 1000, prob = prob)
+
+# calculate the statistics for each sample to create the null distribution
+null_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+
+null_distribution <- null_distribution %>%
+  arrange(prop) %>%
+  mutate(idx = 1:n())
+
+# plot the null distribution
+ggplot(null_distribution, aes(x = prop, fill = (idx >= 950))) + 
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
+  labs(x = expr(hat(p)))
+
+null_distribution %>%
+  filter(idx == 950)
+```
+`r msmbstyle::solution_end()`
+
+Things we know so far:  
+
++ The coin is rigged to land on heads on 60% of flips - the true probability of heads is 0.6. 
++ If 62% or more of Umberto's 50 coin flips come up heads, then he will reject his null hypothesis (that the coin is fair)
 
 
-Q what are our ideal values for alpha and beta? 
-A 0 and 0. 
-BUT, this isn't possible when we sample
+`r msmbstyle::question_begin()`
+What's the probability that Umberto's 50 flips will come up with 64% or more heads?
+<br>
+In other words, what is the power of his test?
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+We can actually generate the true sampling distribution because we know the true parameter (i.e., we know that the coin lands on heads 60% of the time).
+```{r message=FALSE, warning=FALSE}
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(0.6, 0.4)
 
+samples <- rep_sample_n(outcomes, size = 50, replace = TRUE, reps = 1000, prob = prob)
 
+# calculate the statistics for each sample to create the null distribution
+alternative_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
 
-### Exploration
+alternative_distribution %>%
+  summarise(
+    prob_crit = sum(prop >= 0.62) / n()
+  )
+
+```
+`r msmbstyle::solution_end()`
+
+### Generalising it {-} 
+
+1. When we conduct NHST, we set $\alpha$.  
+1. In setting $\alpha$, we define a **critical region** under the null distribution. The **critical value** is the value of the statistic which defines the start of this region. Any statistic more extreme than this will result in rejecting the null hypothesis.
+1. If the null hypothesis is false, the probability that we reject the null hypothesis depends on a) how far away from the null hypothesis the true state of the world is, and b) our sample size. 
+1. For a given **effect size** (i.e., difference from the null hypothesis), we can compute the power of a test based on a given sample size. This corresponds to the probability of getting a statistic more extreme than the critical value, given a theorised effect size (i.e., a theorised alternative distribution)
+
+### Overlapping distributions {-}
 
 Talk through applet
 
 https://istats.shinyapps.io/power/
-
+https://rpsychologist.com/d3/NHST/ 
 
 ### In-class activity
 
-
-option... decrease alpha!
-div think - what are we doing here? we making the probability of convicting an innocent person much less likely 
-casually - we've got to get some *really strong evidence* that they're guilty. 
-
-### Example 2: ??
-
-on the other hand...
-research Q: is global temperature rising? 
-H_o, temperature in y1 == temperature y2
-H_a temperature in y1 != temperature y2
-do a test, 
-get a p-value <.01
-with our new alpha of .001, we don't reject H_o. 
-But maybe we're being to strict! 
-Now we are letting a guilty person walk free!
 
 
 ---
 
 ## Lab
 
+Q1 - if my trick coin was actually weighted so that it landed on heads 75% of the time, what would the power of Umberto's test be? 
+
+
+<div class="red">
+For a given **effect size** (i.e., difference from the null hypothesis), we can compute the power of a test based on a given sample size.
+However....
+we can also decide on what we want the power of a test to be, and ask what the minimum sample size is that is needed to detect a given effect size.
+</div>
+
+Q2.- how many coin flips should Umberto do in order to increase his power to 80%?
+A haven't thought about this yet :)
 
 
