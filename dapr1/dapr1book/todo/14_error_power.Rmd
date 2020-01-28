@@ -1,4 +1,4 @@
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 HIDDEN_SOLS=FALSE
 set.seed(15732)
 ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
@@ -24,6 +24,7 @@ library(moderndive)
 **LO2.** Understand the different types of errors 
 
 **LO3.** Introduce statistical power  
+
 
 #### Reading {-}
 
@@ -72,13 +73,13 @@ We toss the coin 90 times, and it lands on heads 54 times.
 
 1. Calculate our statistic  
 1. Generate the null distribution  
-1. Calcualte the probability of seeing our statistic (or one which is more extremely different the null)if the null were true (the p-value)  
+1. Calculate the probability of seeing our statistic (or one which is more extremely different the null) if the null were true (the p-value)  
 
 </div>  
 
 1. Calculate our statistic, $\hat{p}$  
 ```{r}
-p_hat = 55/90
+p_hat <- 55/90
 p_hat
 ```
 
@@ -115,8 +116,7 @@ ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61))) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
   scale_fill_manual(values = c('white', 'tomato1')) +
   geom_vline(xintercept = 0.61, color = 'tomato1', size = 1) +
-  labs(x = expr(hat(p)), fill = expr(hat(p) >= 0.61)) +
-  theme(legend.position="top")
+  labs(x = expr(hat(p)), fill = expr(hat(p) >= 0.61))
 
 ```
 
@@ -193,7 +193,7 @@ Now we are letting a guilty person walk free!
 |                      | Person is innocent     | Person is guilty         |
 |:---------------------|:----------------------:|:------------------------:|
 |Verdict = Innocent | Correct                   | Let's criminal walk      |
-|Verdit =  Guilty   | Wrongful conviction       | Correct                  |
+|Verdict =  Guilty   | Wrongful conviction       | Correct                  |
 
 
 
@@ -204,7 +204,7 @@ Now we are letting a guilty person walk free!
 
 #### Type I error.  
 
-*if* the null hypthosis is true, then the sampling variability of our statistic is our null distribution (plotted above), and we will reject (incorrectly) any sample statistic which results in a p-value which is $\leq$ our $\alpha$ level (e.g., the 0.05 we set earlier). 
+*if* the null hypothesis is true, then the sampling variability of our statistic is the null distribution (plotted above), and we will reject (incorrectly) any sample statistic which results in a p-value which is $\leq$ our $\alpha$ level (e.g., the 0.05 we set earlier). 
 
 So the probability of making this error is equal the $alpha$ level we set. 
 
@@ -226,13 +226,18 @@ how many of the researchers' tests would we expect to result in a type I error?
 </div>
 
 
-Q what are our ideal values for alpha nad beta? 
+Q what are our ideal values for alpha and beta? 
 A 0 and 0. 
 BUT, this isn't possible when we sample
 
 
 
-## 
+### Exploration
+
+Talk through applet
+
+https://istats.shinyapps.io/power/
+
 
 ### In-class activity
 
