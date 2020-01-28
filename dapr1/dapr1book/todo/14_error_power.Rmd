@@ -109,7 +109,7 @@ ggplot(null_distribution, aes(x = prop)) +
   labs(x = expr(hat(p)))
 ```
 
-add the plot observed
+And plot the observed statistic on top, like we did last week. 
 
 ```{r}
 ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61))) +
@@ -117,7 +117,6 @@ ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61))) +
   scale_fill_manual(values = c('white', 'tomato1')) +
   geom_vline(xintercept = 0.61, color = 'tomato1', size = 1) +
   labs(x = expr(hat(p)), fill = expr(hat(p) >= 0.61))
-
 ```
 
 3. Calculate our p-value
@@ -147,7 +146,7 @@ pvalue
 
 
 `r msmbstyle::question_begin()`
-What is our formal decision about our coin? 
+What is our formal decision about our hypotheses? 
 
 1. Not enough evidence to reject $H_0$ ($H_0:$ We're just as likely to get heads as tails when we flip the coin.)
 1. Evidence in favour of $H_1$ ($H_1:$ We're more likely to see either heads or tails when we flip the coin.)
@@ -157,73 +156,52 @@ What is our formal decision about our coin?
 According to our p-value, we have reason to reject the null hypothesis that our coin will land on heads and tails equally often. 
 `r msmbstyle::solution_end()`
 
+### An analogy {-}
 
-BUT have we made an mistake here? 
+Have we made an mistake here?
+<br>
+Is 55 out of 90 coin tosses *that* surprising? 
 
-is 55 out of 90 coin tosses *that* surprising? 
-
-convicting an innocent person
-
-option... decrease alpha!
-div think - what are we doing here? we making the probability of convicting an innocent person much less likely 
-casually - we've got to get some *really strong evidence* that they're guilty. 
-
-### Example 2: ??
-
-on the other hand...
-research Q: is global temperature rising? 
-H_o, temperature in y1 == temperature y2
-H_a temperature in y1 != temperature y2
-do a test, 
-get a p-value <.01
-with our new alpha of .001, we don't reject H_o. 
-But maybe we're being to strict! 
-Now we are letting a guilty person walk free!
+Last week we discussed an analogy in law, in which a person on trial is presumed innocent until proven guilty. Similarly, we presume $H_0$ to be true until there is strong evidence to reject it. 
+<br>
+How strong must the evidence be? Have we just wrongly convicted an innocent person? (i.e., wrongly rejected an hypothesis which is actually true?)
 
 
-### Two different types of errors
-
-|                          | $H_0$ is True          | $H_0$ is False           |
-|:-------------------------|:----------------------:|:------------------------:|
-|Test doesn't reject $H_0$ | Correct                | Type II Error            |
-|Test rejects $H_0$        | Type I Error           | Correct                  |
-
-
+### Two different types of errors {-}
 
 |                      | Person is innocent     | Person is guilty         |
 |:---------------------|:----------------------:|:------------------------:|
-|Verdict = Innocent | Correct                   | Let's criminal walk      |
-|Verdict =  Guilty   | Wrongful conviction       | Correct                  |
-
-
+|Verdict = Innocent    | Correct decision       | Criminal goes free       |
+|Verdict =  Guilty     | Wrongful conviction    | Correct decision         |
 
 |                          | $H_0$ is True          | $H_0$ is False             |
 |:-------------------------|:----------------------:|:--------------------------:|
 |Test doesn't reject $H_0$ | Correct                | Type II Error<br>($\beta$) |
 |Test rejects $H_0$        | Type I Error<br>($\alpha$)| Correct                 |
 
-#### Type I error.  
+### Type I errors {-}  
 
-*if* the null hypothesis is true, then the sampling variability of our statistic is the null distribution (plotted above), and we will reject (incorrectly) any sample statistic which results in a p-value which is $\leq$ our $\alpha$ level (e.g., the 0.05 we set earlier). 
+*if* the null hypothesis is true, then the sampling distribution of our statistic is the null distribution (plotted above), and we will reject (incorrectly) any sample statistic which results in a p-value which is less than or equal to our $\alpha$ level (e.g., the 0.05 we set earlier). 
+<br>
+So the probability of making this error is equal to the $alpha$ level which we set. 
 
-So the probability of making this error is equal the $alpha$ level we set. 
+<div class="noteBox"> 
+#### A thought experiment {-} 
 
++ there are 20 researchers. 
++ each researcher has a perfectly balanced/fair coin.  
++ each researcher conducts a statistical test at $\alpha = 0.05$ to evaluate whether their coin is fair (lands on heads equally as often as it lands on tails).
 
-<div class="red"> 
-multiple tests!
+`r msmbstyle::question_begin()`
+How many of the researchers' tests would we expect to result in a type I error?  
+<small>**Remember:** The probability of making a Type I error is the probability of getting an unlikely sample statistic simply due to chance sampling variation (i.e., we just happen to get a random sample with an unlikely statistic).</small>
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
 
-the probability of making a type I error is the probability of getting an extreme sample statistic simply due to chance sampling variation. (i.e., we just happened to get a random sample with an extreme statistic).
-
-*thought experiment*
-there are 20 researchers. 
-each has a perfectly balanced/fair coin.  
-each one conducts a statistical test at $\alpha = 0.05$ to evaluate whether their coin is fair.
-how many of the researchers' tests would we expect to result in a type I error?
-
-
-
-
+`r msmbstyle::solution_end()`
 </div>
+
+### Type II errors {-}
 
 
 Q what are our ideal values for alpha and beta? 
@@ -242,7 +220,21 @@ https://istats.shinyapps.io/power/
 ### In-class activity
 
 
+option... decrease alpha!
+div think - what are we doing here? we making the probability of convicting an innocent person much less likely 
+casually - we've got to get some *really strong evidence* that they're guilty. 
 
+### Example 2: ??
+
+on the other hand...
+research Q: is global temperature rising? 
+H_o, temperature in y1 == temperature y2
+H_a temperature in y1 != temperature y2
+do a test, 
+get a p-value <.01
+with our new alpha of .001, we don't reject H_o. 
+But maybe we're being to strict! 
+Now we are letting a guilty person walk free!
 
 
 ---
