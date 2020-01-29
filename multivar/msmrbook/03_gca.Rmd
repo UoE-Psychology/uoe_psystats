@@ -205,22 +205,22 @@ We saw in the [lecture](https://uoe-psychology.github.io/uoe_psystats/multivar/l
 `r msmbstyle::question_begin(header = "&#x25BA; Question 8")`
 The model we saw in the lecture had the following structure and results:
 ```
-> m.full <- lmer(meanFix ~ (ot1+ot2+ot3)*Condition + 
-                 (ot1+ot2+ot3 | Subject) + 
-                 (ot1+ot2 | Subject:Condition), 
+> m.full <- lmer(meanFix ~ (poly1+poly2+poly3)*Condition + 
+                 (poly1+poly2+poly3 | Subject) + 
+                 (poly1+poly2 | Subject:Condition), 
                control = lmerControl(optimizer="bobyqa"),
                data=TargetFix, REML=F)
 
 > coef(summary(m.full))
                       Estimate Std. Error      t value
 (Intercept)       0.4773227513 0.01385240 34.457775306
-ot1               0.6385603705 0.05993519 10.654181583
-ot2              -0.1095979256 0.03848819 -2.847573180
-ot3              -0.0932611870 0.02041640 -4.567955536
+poly1               0.6385603705 0.05993519 10.654181583
+poly2              -0.1095979256 0.03848819 -2.847573180
+poly3              -0.0932611870 0.02041640 -4.567955536
 ConditionLow     -0.0581122429 0.01901291 -3.056462582
-ot1:ConditionLow  0.0003188189 0.06330556  0.005036191
-ot2:ConditionLow  0.1635455113 0.05426498  3.013831365
-ot3:ConditionLow -0.0020869051 0.02014728 -0.103582452
+poly1:ConditionLow  0.0003188189 0.06330556  0.005036191
+poly2:ConditionLow  0.1635455113 0.05426498  3.013831365
+poly3:ConditionLow -0.0020869051 0.02014728 -0.103582452
 ```
 <br>
 Write up the results of the model
