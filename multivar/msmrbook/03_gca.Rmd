@@ -115,6 +115,33 @@ m.Az.full <- lmer(Performance ~ (poly1 + poly2)*Task +
                 data=Az, REML=F)
 anova(m.base, m.0, m.1, m.Az.full)
 ```
+
+<div class="red">
+In these solutions we are using Dan's `code_poly()` function. All that this does is add polynomial terms to your dataframe (it can also give you a plot if you want one by setting `draw.poly = TRUE`). 
+<br>
+As always with R, you can do the same thing in lots of different ways.  
+We could, for example, pass the `poly()` function directly to our model (without making storing them as variables in our dataframe), for instance:
+```{r eval=FALSE}
+m.base <- lmer(Performance ~ poly(Time, degree = 2, raw = TRUE) +
+                 (poly(Time, degree = 2, raw = TRUE) | Subject) + 
+                 (poly(Time, degree = 2, raw = TRUE) | Subject:Task),
+               data=Az, REML=F)
+```
+<br>
+If you're struggling with the idea of polynomials, try looking at the output of the following commands:
+```{r eval=FALSE}
+# note, the "raw" here is the same as "natural".
+poly(1:10, 3, raw = TRUE)
+poly(1:10, 3, raw = FALSE)
+
+# let's plot them quickly using matplot() 
+matplot(poly(1:10, 3, raw = TRUE), type = 'l')
+matplot(poly(1:10, 3, raw = FALSE), type = 'l')
+
+```
+</div>
+
+
 `r msmbstyle::solution_end()`
 
 ### Interpret the results of your full model {-}
@@ -179,7 +206,7 @@ We analysed the proportion of fixations to the target picture in a given 50~ms t
 <br>
 In the data, the `sumFix` variable contains the number of samples in which the target was fixated upon, and the `N` variable contains the total number of samples in that bin. Like we saw last week, we can model a binomial using `cbind(num_successes, num_failures)`, so here we can use `cbind(sumFix, N-sumFix)~ ...`
 <br>
-`r msmbstyle::question_begin(header = "&#x25BA; Question 8")`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
 **Re-analyze `TargetFix` data using logistic GCA.** 
 
 The data (.rda format) is available at [https://edin.ac/2TieJK0](https://edin.ac/2TieJK0)  
@@ -216,4 +243,44 @@ ggplot(TargetFix, aes(Time, meanFix, color=Condition)) +
   labs(y="Fixation Proportion", x="Time since word onset (ms)")
 ```
 `r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
+The model we saw in the lab had the following structure and results:
+```
+> m.full <- lmer(meanFix ~ (ot1+ot2+ot3)*Condition + 
+                 (ot1+ot2+ot3 | Subject) + 
+                 (ot1+ot2 | Subject:Condition), 
+               control = lmerControl(optimizer="bobyqa"),
+               data=TargetFix, REML=F)
+
+> coef(summary(m.full))
+                      Estimate Std. Error      t value
+(Intercept)       0.4773227513 0.01385240 34.457775306
+ot1               0.6385603705 0.05993519 10.654181583
+ot2              -0.1095979256 0.03848819 -2.847573180
+ot3              -0.0932611870 0.02041640 -4.567955536
+ConditionLow     -0.0581122429 0.01901291 -3.056462582
+ot1:ConditionLow  0.0003188189 0.06330556  0.005036191
+ot2:ConditionLow  0.1635455113 0.05426498  3.013831365
+ot3:ConditionLow -0.0020869051 0.02014728 -0.103582452
+```
+<br>
+Write up the results of the model
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+
+There are two rules of thumb for reporting growth curve analysis results:
+
++ **Clearly describe each of the three key components of the model**: the functional form (third-order orthogonal polynomial), the fixed effects (effect of Condition on all time terms), and the random effects (effect of Subject on each of the time terms and nested effects of Subject-by-Condition on each of the time terms except the cubic). Depending on the circumstances and complexity of the model, you may want to include additional information about the factors and why they were included or not. It's also a good idea to report which method was used for computing p-values.  
++ **For key findings, report parameter estimates and standard errors along with significance tests**. In some cases the model comparison is going to be enough, but for key findings, the readers should want to see the parameter estimates. The parameter estimate standard errors are critical for interpreting the estimates, so those should be reported as well. The t-values are not critical to report (they are just Estimate divided by the Std Error, so they can always be computed from the reported estimates and standard errors). If there are many estimated parameters, it may be a good idea to focus the main text discussion on the most important ones and report the full set in a table or appendix.  
+<br>
+<br>
+Here is how we might report the results from the example above:
+<br>
+</div class="noteBox">
+Growth curve analysis (Mirman, 2014) was used to analyze the target gaze data from 300ms to 1000ms after word onset. The overall time course of target fixations was modeled with a third-order (cubic) orthogonal polynomial and fixed effects of Condition (Low vs. High frequency; within-participants) on all time terms. The model also included participant random effects on all time terms and participant-by-condition random effects on all time terms except the cubic (estimating random effects is “expensive” in terms of the number of observation required, so this cubic term was excluded because it tends to capture less-relevant effects in the tails). There was a significant effect of Condition on the intercept term, indicating lower overall target fixation proportions for the Low condition relative to the High condition (Estimate = -0.058, SE = 0.019, p < 0.01). There was also a significant effect on the quadratic term, indicating shallower curvature - slower word recognition - in the Low condition relative to the High condition (Estimate = 0.16, SE = 0.054, p < 0.01). All other effects of Condition were not significant (see Table 1 for full results).
+</div>
+`r msmbstyle::solution_end()`
+
 
