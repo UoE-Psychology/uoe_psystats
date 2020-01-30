@@ -544,25 +544,60 @@ Among the recorded variables, three will be of interest:
 
 
 
-`r msmbstyle::question_begin()`
-**Extracting relevant variables**
+`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
+**Selecting variables and dropping NA (Not Available) values**
 
-Extract from the `hollywood` tibble the three variables of interest (Movie, Genre, Budget) and keep the movies for which we have all information (no missing entries).
+- Extract from the `hollywood` tibble the three variables of interest (Movie, Genre, Budget).
+- Keep only the movies for which we have all information, i.e. no entries which are NA.
+
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS, toggle=TOGGLE)`
-We can extract variables using the function `select()`, while to keep the rows for which we have all measurements we use `na.omit()`:
+To keep only some of the variables in a tibble, we use the function `select()`. The following code keeps only the variables Movie, Genre and Budget:
 ```{r}
 hollywood <- hollywood %>%
-  select(Movie, Genre, Budget) %>%
-  na.omit
-hollywood
+  select(Movie, Genre, Budget)
 ```
+
+If you look through the `hollywood` tibble by running the command `View(hollywood)` in the R Console, you will see that data on the Genre or Budget is **Not Available (NA)** for some movies.
+In order to only keep the movies for which we have full information, i.e. no NA values, we can either use the function `drop_na()` or `na.omit()`. You only need to use one of the two, pick your favourite!
+
+**Option 1: Using `drop_na`.**
+```{r}
+# Option 1: Using drop_na instead of na.omit
+hollywood <- hollywood %>%
+  drop_na()
+```
+
+Now you have a tibble without missing values.
+
+Look at the help of the function for more information:
+```{r}
+?drop_na
+```
+
+**Option 2: Using `na.omit`.**
+
+You would have also reached the same conclusion by replacing `drop_na()` with `na.omit()`:
+```{r eval=FALSE}
+# Option 2: Using na.omit instead of drop_na
+hollywood <- hollywood %>%
+  na.omit()
+```
+
+Now you have a tibble without missing values.
+
+Look at the help of the function for more information:
+```{r}
+?na.omit
+```
+
+Note that you only have to run one of `drop_na` or `na.omit`, no need to run both.
 `r msmbstyle::solution_end()`
 
 
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
 **Proportion of comedy movies**
 
 What is the population proportion of comedy movies?
@@ -571,12 +606,25 @@ Using the appropriate notation, report your results in one or two sentences.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS, toggle=TOGGLE)`
+Remember that a proportion is calculated as a count divided by the total. The count of Comedy movies is found by finding first which movies have `Genre == "Comedy"`. Note the double equal `==` which **tests for equality**. Then we count the total number of Comedy movies by summing the values which are TRUE, `sum(Genre == "Comedy")` and dividing by the total `n()`. Note that `n()` is a function of tidyverse here. However, since the mean is also the sum divided by n, we can just use the function `mean`:
+
+```{r}
+prop_comedy <- hollywood %>%
+  summarise(prop = sum(Genre == "Comedy")/n()) %>% 
+  pull(prop)
+prop_comedy
+```
+
+or
+
 ```{r}
 prop_comedy <- hollywood %>%
   summarise(prop = mean(Genre == "Comedy")) %>% 
   pull(prop)
 prop_comedy
+```
 
+```{r}
 sample_prop_comedy <- hollywood %>%
   rep_sample_n(size = 20) %>%
   summarise(prop = mean(Genre == "Comedy")) %>%
@@ -589,7 +637,7 @@ The population proportion of comedy movies is $p =$ `r prop_comedy %>% round(2)`
 
 
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 3")`
 **Sampling distributions**
 
 What is a sampling distribution?
@@ -601,7 +649,7 @@ The sampling distribution is the distribution of the values that a statistic tak
 
 
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 4")`
 **Sampling distribution of the proportion**
 
 Compute the sampling distribution of the proportion of comedy movies for sample size $n = 20$, using 1000 replicates. Is it centred at the population value?
@@ -626,7 +674,7 @@ Yes, Figure \@ref(fig:w11-lab-sampling-dist) shows that the distribution is almo
 
 
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
 **Standard error**
 
 Using the replicated samples from the previous question, what is the standard error of the sample proportion of comedy movies?
@@ -648,7 +696,7 @@ The standard error of the sample proportion for sample size $n = 20$, based on 1
 
 
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
 **The effect of sample size on the standard error of the sample proportion**
 
 How does the sample size affect the standard error of the sample proportion?
@@ -691,7 +739,7 @@ From Figure \@ref(fig:w11-lab-vary-n) we can see that, as the sample size increa
 
 
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 7")`
 **Comparing the budget for action and comedy movies**
 
 What is the population average budget (in millions of dollars) allocated for making action vs comedy movies? And the standard deviation?
@@ -712,7 +760,7 @@ From the above tibble we see that action movies have been allocated a higher bud
 
 
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question (Optional)")`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 8 (Optional)")`
 **Estimate the average difference in budget for action vs comedy movies**
 
 Estimate the average difference in budget for action vs comedy movies, using two samples of size 100. How does it compare to the population difference?
@@ -756,14 +804,23 @@ The distribution of the values that a sample statistics takes on the different s
 ## Glossary
 
 - *Statistical inference.* The process of drawing conclusions about the population from the data collected in a sample.
+
 - *Population.* The entire collection of units of interest.
+
 - *Sample.* A subset of the entire population.
+
 - *Random sample.* A subset of the entire population, picked at random, so that any conclusion made from the sample data can be generalised to the entire population.
+
 - *Representation bias.* Happens when some units of the population are systematically underrepresented in samples.
+
 - *Generalisability.* When information from the sample can be used to draw conclusions about the entire population. This is only possible if the sampling procedure leads to samples that are representative of the entire population (such as those drawn at random).
+
 - *Parameter.* A fixed but typically unknown quantity describing the population.
+
 - *Statistic.* A quantity computed on a sample.
+
 - *Sampling distribution.* The distribution of the values that a statistic takes on different samples of the same size and from the same population.
+
 - *Standard error.* The standard error of a statistic is the standard deviation of the sampling distribution of the statistic.
 
 
