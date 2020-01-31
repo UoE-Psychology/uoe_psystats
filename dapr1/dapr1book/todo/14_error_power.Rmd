@@ -313,6 +313,8 @@ I have a trick coin which is weighted so that it lands on heads 60% of the time 
 Oh no! Tom has noticed that whenever we flip a coin, I always call heads, and I often seem. He accuses me of cheating by using a trick coin which is biased to land on!
 I make him an offer: he can flip the coin 50 times in order to decide whether or not it really is a trick coin. 
 
+#### Calculating Tom's critical regions {-}
+
 `r msmbstyle::question_begin()`
 In Tom's 50 coin flips, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?
 `r msmbstyle::question_end()`
@@ -356,7 +358,7 @@ null_distribution %>%
 If Tom flips the coin 50 times, under the null hypothesis, he would need to get a sample statistic ($\hat{p}$) of greater than or equal to 0.62.
 `r msmbstyle::solution_end()`
 
-
+#### Calculating Tom's power {-}
 
 `r msmbstyle::question_begin()`
 Things we know so far:  
@@ -442,3 +444,115 @@ Q2 - Assuming the coin to be biased towards landing on heads 75% of the time, ho
 `r msmbstyle::solution_begin(hidden=FALSE)`
 `r msmbstyle::solution_end()`
 
+
+
+
+## Lab
+
+## Exercise 1: Calculating power for a different coin.
+
+`r msmbstyle::question_begin()`
+If my trick coin was actually weighted so that it landed on heads 65% of the time, what would the power of Tom's test (50 flips) be? 
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+We already know the critical value at which Tom will reject the null hypothesis based on his 50 flips. 
+We need to:
+<br>
+Generate the theoretical distribution of $\hat(p) = 0.65$. 
+```{r}
+#remember that Tom's critical value is:
+crit_val
+
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(0.65, 0.35)
+
+samples <- rep_sample_n(outcomes, size = 50, replace = TRUE, reps = 1000, prob = prob)
+
+theoretical_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+```
+<br>Calculate what proportion of this distribution is greater than his critical value. This will be the power.
+```{r}
+theoretical_distribution %>%
+  summarise(
+    prob_crit = sum(prop >= crit_val) / n()
+  )
+```
+`r msmbstyle::solution_end()`
+
+
+### Exercise 2: Calculating sample size (number of flips) for a desired level of power
+
+<div class="red">
+<br>
+For a given **effect size** (i.e., assumed difference from the null hypothesis), we can compute the power of a test based on a given sample size.<br>
+So, in testing a biased coin, we can calculate the power of a test for different possible biases of coin (e.g., assuming the coin to be biased towards heads 55%, 60%, 75% of the time).  
+<br>
+Importantly, we can also decide on what we want the power of a test to be, and ask what the minimum sample size is that is needed to detect a given effect size.
+</div>
+
+`r msmbstyle::question_begin()`
+Assuming the coin to be biased towards landing on heads 60% of the time, calculate the power of Tom's statistical test for when he flips the coin 75 times, 100 times, and 200 times. Which sample size should Tom use if he wants at least 80% power?
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+We can run this chunk changing the `nr_flips` value each time, to calculate power at different sample sizes.  
+```{r}
+nr_flips <- 50
+
+
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(0.5, 0.5)
+
+
+# GEMERATE THE NULL
+samples <- rep_sample_n(outcomes, size =nr_flips, replace = TRUE, reps = 1000, prob = prob)
+
+null_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+
+
+
+# FIND CRITICAL VALUE
+
+null_distribution <- null_distribution %>%
+  arrange(prop) %>%
+  mutate(idx = 1:n())
+
+crit_val <- null_distribution %>%
+  filter(idx == 950) %>%
+  pull(prop)
+
+
+
+# GENERATE THEORISED ALTERNATIVE
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(0.6, 0.4)
+
+samples <- rep_sample_n(outcomes, size = nr_flips, replace = TRUE, reps = 1000, prob = prob)
+
+
+# CALCULATE POWER
+true_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+
+true_distribution %>%
+  summarise(
+    prob_crit = sum(prop >= crit_val) / n()
+  )
+```
+`r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin()`
+List the three things which affect the power of a statistical test. 
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+  
++ Alpha level
++ Sample size
++ Effect size
+
+`r msmbstyle::solution_end()`
