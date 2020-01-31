@@ -298,25 +298,28 @@ We have seen that:
 |                          | $H_0$ is True          | $H_0$ is False             |
 |:-------------------------|:----------------------:|:--------------------------:|
 |**Test doesn't reject $H_0$** | Correct<br>**$1 - \alpha$**  | Type II Error = $\beta$ |
-|**Test rejects $H_0$**        | Type I Error = $\alpha$ | Correct<br>**$1 - \beta$** = **power**|
+|**Test rejects $H_0$**        | Type I Error = $\alpha$ | Correct<br>**power** = **$1 - \beta$**|
 
 <div class="def">
 #### Power of a statistical test {-}
 
-The power is the probability of an hypothesis test of finding an effect if there is an effect to be found.
+The power of a statistical test ($1-\beta$) is the probability of rejecting the null hypothesis when the alternative hypothesis is true.
+
+In other words, the power of a test is the probability that the test finds an effect if there is an effect to be found.
 </div> 
 
 ### Example 2: A biased coin {-}
 
 I have a trick coin which is weighted so that it lands on heads 60% of the time (rather than the usual 50% for a normal fair coin). 
 <br>
-Oh no! Tom has noticed that whenever we flip a coin, I always call heads, and I often seem. He accuses me of cheating by using a trick coin which is biased to land on!
+Oh no! Tom has noticed that whenever we flip a coin, I always call heads, and I often seem to win. He accuses me of cheating by using a trick coin which is biased to land on heads!
 I make him an offer: he can flip the coin 50 times in order to decide whether or not it really is a trick coin. 
+
 
 #### Calculating Tom's critical regions {-}
 
 `r msmbstyle::question_begin()`
-In Tom's 50 coin flips, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?
+In Tom's 50 coin flips, at a significance level of 0.05, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 
@@ -337,7 +340,7 @@ null_distribution <- samples %>%
 Now that we have generated the null distribution which Tom will use to test his observed statistic, we need to work out at what values he will reject the null.<br>
 In other words, we need to work out where the top 5% of the null distribution is?<br>
 <br>
-Note that we are only looking at the top 5% because Tom thinks the coin is biased *towards heads*. So his alternative hypothesis ($H_A$) is $p > 0.5$, and he will reject $H_0$ if his observed statistic falls in the top end of the distribution.
+Note that we are only looking at the top 5% because Tom thinks the coin is biased *towards heads*. So his alternative hypothesis ($H_1$) is $p > 0.5$, and he will reject $H_0$ if his observed statistic falls in the top end of the distribution.
 
 <!-- this needs explanation. i order the data by prop, and look at the 25th and 950th row.  -->
 <!-- we could introduce indexing???? null_distribution[c(25,975),]?? -->
@@ -461,7 +464,7 @@ We need to:
 Generate the theoretical distribution of $\hat(p) = 0.65$. 
 ```{r}
 #remember that Tom's critical value is:
-crit_val
+crit_val <- 0.62
 
 outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
 prob <- c(0.65, 0.35)
