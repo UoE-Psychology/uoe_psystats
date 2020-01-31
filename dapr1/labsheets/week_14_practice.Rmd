@@ -1,0 +1,223 @@
+---
+title: "Week 11: Sampling distributions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE}
+library(tidyverse)
+library(moderndive)
+```
+
+
+
+# A. Worked examples
+
+We flip the coin 90 times, and it lands on heads 55 times. 
+
+## A.1. Calculate our statistic  
+```{r}
+p_hat <- 55/90
+p_hat
+```
+
+## A.2 Generate the null distribution 
+
+```{r warning=FALSE, message=FALSE}
+set.seed(15732)
+# Specify our possible outcomes and their probabilities under the null
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(1/2, 1/2)
+
+# generate samples under the null
+samples <- rep_sample_n(outcomes, size = 90, replace = TRUE, reps = 1000, prob = prob)
+
+# calculate the statistics for each sample to create the null distribution
+null_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+```
+
+and we can now plot our null distribution: 
+
+```{r}
+ggplot(null_distribution, aes(x = prop)) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, fill = 'white', stackratio = 0.5) +
+  labs(x = expr(hat(p)))
+```
+
+And plot the observed statistic on top, like we did last week. 
+
+```{r}
+ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61))) +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
+  scale_fill_manual(values = c('white', 'tomato1')) +
+  geom_vline(xintercept = 0.61, color = 'tomato1', size = 1) +
+  labs(x = expr(hat(p)), fill = expr(hat(p) >= 0.61))
+```
+
+## A.3 Calculate our p-value
+
+```{r}
+pvalue <- null_distribution %>%
+  summarise(
+    pvalue_bothtails = sum(prop <= 0.39 | prop>=0.61) / n(),
+    pvalue_2righttail = 2 * sum(prop>=0.61) / n(),
+  )
+
+pvalue
+```
+
+## A.4 Formal decision
+
+According to our p-value, we have reason to reject the null hypothesis that our coin will land on heads and tails equally often. 
+
+---
+
+
+## A.5 A Trick coin
+
+I have a trick coin which is weighted so that it lands on heads 60% of the time (rather than the usual 50% for a normal fair coin). 
+
+In Tom's 50 coin flips, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?
+
+## A.6 Generate Tom's null distribution 
+```{r message=FALSE,warning=FALSE}
+# Specify the possible outcomes and their probabilities under the null
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(0.5, 0.5)
+
+# generate samples under the null
+samples <- rep_sample_n(outcomes, size = 50, replace = TRUE, reps = 1000, prob = prob)
+
+# calculate the statistics for each sample to create the null distribution
+null_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+```
+
+## A.7 Find Tom's critical values  
+
+```{r warning=FALSE,message=FALSE}
+null_distribution <- null_distribution %>%
+  arrange(prop) %>%
+  mutate(idx = 1:n())
+
+crit_val <- null_distribution %>%
+  filter(idx == 950) %>%
+  pull(prop)
+
+crit_val
+```
+
+
+
+## A.8 Calculate Tom's Power
+
+We can do this by generating the sampling distribution for when the coin is biased towards heads 60% of the time (which we know is actually true).  
+```{r message=FALSE, warning=FALSE}
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(0.6, 0.4)
+
+samples <- rep_sample_n(outcomes, size = 50, replace = TRUE, reps = 1000, prob = prob)
+
+# calculate the statistics for each sample to create the true distribution
+true_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+```
+
+And find out what proportion of this distribution is greater than his critical value!
+```{r}
+true_distribution %>%
+  summarise(
+    prob_crit = sum(prop >= crit_val) / n()
+  )
+
+```
+
+
+
+---
+
+
+
+# B. Lab
+
+## B.1: Calculating power for a different coin.
+
+If my trick coin was actually weighted so that it landed on heads 65% of the time, what would the power of Tom's test (50 flips) be? 
+
+We already know the critical value at which Tom will reject the null hypothesis based on his 50 flips. 
+We need to:
+
+### B.1.1: Generate the theoretical distribution of $\hat(p) = 0.65$. 
+
+```{r}
+
+
+
+```
+
+
+### B.1.2: Calculate what proportion of this distribution is greater than his critical value. This will be the power.
+
+
+
+
+
+
+
+## B.2: Sample size (number of flips) and power  
+
+Assuming the coin to be biased towards landing on heads 60% of the time, calculate the power of Tom's statistical test for when he flips the coin 75 times, 100 times, and 200 times. Which sample size should Tom use if he wants at least 80% power?
+
+```{r}
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(0.5, 0.5)
+
+
+# GEMERATE THE NULL
+samples <- rep_sample_n(outcomes, size =50, replace = TRUE, reps = 1000, prob = prob)
+
+null_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+
+
+
+# FIND CRITICAL VALUE
+
+null_distribution <- null_distribution %>%
+  arrange(prop) %>%
+  mutate(idx = 1:n())
+
+crit_val <- null_distribution %>%
+  filter(idx == 950) %>%
+  pull(prop)
+
+
+
+# GENERATE THEORISED ALTERNATIVE
+outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
+prob <- c(0.6, 0.4)
+
+samples <- rep_sample_n(outcomes, size = 50, replace = TRUE, reps = 1000, prob = prob)
+
+
+# CALCULATE POWER
+true_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Heads') / n())
+
+true_distribution %>%
+  summarise(
+    prob_crit = sum(prop >= crit_val) / n()
+  )
+```
+
+
+## B.3: List the three things which affect the power of a statistical test. 
