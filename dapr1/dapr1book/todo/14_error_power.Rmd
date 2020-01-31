@@ -7,23 +7,23 @@ library(tidyverse)
 library(moderndive)
 ```
 
-# Type I and Type II Errors, Power! {#chap-typeerror}
+# Type I, Type II errors and Power! {#chap-typeerror}
 
 
 <div class="lo">
 #### Instructions {-}
-  
+
 - In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.
 - The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_14_practice.Rmd).
 
 
 #### Learning outcomes {-}
 
-**LO1.** Recap hypothesis testing 
+**LO1.** Revision of hypothesis testing 
 
-**LO2.** Understand the different types of errors 
+**LO2.** Understand Type I and Type II errors
 
-**LO3.** Introduce statistical power  
+**LO3.** Understand the power of a test
 
 
 #### Reading {-}
@@ -37,7 +37,7 @@ library(moderndive)
 
 Last week we learned to frame a research question in terms of **null** and **alternative** hypotheses about parameters.  
 
-+ We likened the **null hypothesis** ($H_0$) to a 'random chance model' - i.e., if differences or effects that we observe are actually just due to sampling variation. 
++ We related the **null hypothesis** ($H_0$) to a 'random chance model' - i.e., if differences or effects that we observe are actually just due to sampling variation. 
 
 + We generated a distribution for the null hypothesis (the **null distribution**) which reflected how much sample statistics would vary due to chance if the null hypothesis is true (e.g., if there really is no difference/effect). We did this by simulating lots of samples and computing the statistic on each of the samples.  
 
@@ -56,7 +56,7 @@ This week, we will recap this process of hypothesis testing, before thinking abo
 
 Is our coin biased? 
 <br><br>
-*Null hypothesis*: We're just as likely to get heads as tails when we flip the coin.
+*Null hypothesis*: We're just as likely to get heads as tails when we flip the coin. We will denote by $p$ the probability of 'heads'.
 $$H_0: p = 0.5$$
 *Alternative hypothesis*: We're more likely to see either heads or tails when we flip the coin.
 $$H_1: p \neq 0.5$$
@@ -73,13 +73,13 @@ We flip the coin 90 times, and it lands on heads 55 times.
 **Steps**
 <br> 
 
-1. Calculate our statistic  
+1. Calculate the sample statistic  
 1. Generate the null distribution  
 1. Calculate the probability of seeing our statistic (or one which is farther away from the null) if the null were true (this is the p-value)  
 
 </div>  
 
-**1. Calculate our statistic, $\hat{p}$**  
+**1. Calculate the sample statistic, $\hat{p}$**  
 ```{r}
 p_hat <- 55/90
 p_hat
@@ -139,7 +139,7 @@ ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61))) +
   labs(x = expr(hat(p)), fill = expr(hat(p) >= 0.61))
 ```
 
-```{r echo=FALSE}
+```{r eval=FALSE, echo=FALSE}
 ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61))) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
   scale_fill_manual(values = c('white', 'tomato1')) +
@@ -156,25 +156,25 @@ ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61))) +
 
 **3. Calculate our p-value**  
 <br>
-How surprising is 55 of 90 coin flips? We can compare it against the null distribution.
+How surprising is 55 heads in 90 coin flips? We can compare it against the null distribution.
 
 `r msmbstyle::question_begin()`
 What is our p-value?   
 
-1. The proportion of the null distribution which is $\geq0.61$
-1. The proportion of the null distribution which is $\geq0.61$ or $\leq0.39$  
-1. 2 times the proportion of the null distribution which is $\geq0.61$
+a. The proportion of statistics in the null distribution which are $\geq0.61$
+a. The proportion of statistics in the null distribution which are $\geq0.61$ or $\leq0.39$  
+a. Two times the proportion of statistics in the null distribution which are $\geq0.61$
 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 If we perform an hypothesis test for the two-sided alternative $p \neq 0.5$, we compute it as twice the proportion in the smallest tail.
 
-```{r echo=FALSE}
+```{r eval=FALSE, echo=FALSE}
 ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61 | prop <=0.39))) +
   geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.5) +
   scale_fill_manual(values = c('white', 'tomato1')) +
   geom_vline(xintercept = 0.61, color = 'tomato1', size = 1) +
-  labs(x = expr(hat(p)), fill = expr(hat(p)-0.5 >= 0.11))+
+  labs(x = expr(hat(p)), fill = expr(abs(hat(p)-0.5) >= 0.11))+
   geom_label(aes(x = 0.53, y = 0.75, label = "These dots are at least as extreme\nas our observed statistic"),
              hjust = 0, vjust = 0.5, lineheight = 0.8, colour = "tomato1", fill="white",
              label.size = NA, size = 3) +
@@ -189,27 +189,44 @@ ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61 | prop <=0.39))) +
              arrow = arrow(length = unit(0.03, "npc")))
 ```
 
+The proportion of the statistics in the null distribution which are $\geq0.61$ or $\leq0.39$: 
 ```{r}
 pvalue <- null_distribution %>%
   summarise(
     pvalue_lefttail = sum(prop <= 0.39 | prop>=0.61) / n(),
   )
+
+pvalue
 ```
+
+Two times the proportion of statistics in the null distribution which are $\geq0.61$:
+```{r}
+pvalue <- null_distribution %>%
+  summarise(
+    pvalue_lefttail = 2 * sum(prop >= 0.61) / n(),
+  )
+
+pvalue
+```
+
+Both answers (b) and (c) are correct. As you can see, both methods return very similar estimate of the p-values, with the estimates getting closer and closer as the number of simulated samples increases.
+
 `r msmbstyle::solution_end()`
 
 
 `r msmbstyle::question_begin()`
-What is our formal decision about our hypotheses? 
+At a significance level level of $\alpha = 0.05$, what is our formal decision about the hypotheses? 
 
 1. Not enough evidence to reject $H_0$<br>($H_0:$ We're just as likely to get heads as tails when we flip the coin.)
 1. Evidence in favour of $H_1$<br>($H_1:$ We're more likely to see either heads or tails when we flip the coin.)
 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
-According to our p-value, we have reason to reject the null hypothesis that our coin will land on heads and tails equally often. 
+According to the p-value previously found,  0.04 $\leq$ 0.05, we have reason to reject the null hypothesis that our coin will land on heads and tails equally often. 
 `r msmbstyle::solution_end()`
 
-### An analogy {-}
+
+### An analogy in law {-}
 
 Might we have made a mistake here? Is 55 out of 90 coin flips *surprising enough* for us to reject the hypothesis that the coin is fair?  
 <br>
@@ -218,22 +235,23 @@ Last week we discussed an analogy in law, in which a person on trial is presumed
 
 ### Two different types of errors {-}
 
-|                      | Person is innocent     | Person is guilty         |
-|:---------------------|:----------------------:|:------------------------:|
-|Verdict = Innocent    | Correct decision       | Criminal goes free       |
-|Verdict =  Guilty     | Wrongful conviction    | Correct decision         |
+|                          | Person is innocent<br>$H_0$ is True | Person is guilty<br>$H_0$ is False        |
+|:-------------------------|:------------------------------------:|:------------------------:|
+|**Verdict = Innocent** <br> **Test doesn't reject $H_0$**  | Correct decision       | Criminal goes free <br> Type II Error = $\beta$      |
+|**Verdict =  Guilty** <br> **Test rejects $H_0$**          | Wrongful conviction <br> Type I Error = $\alpha$   | Correct decision         |
   
   
-|                          | $H_0$ is True          | $H_0$ is False             |
-|:-------------------------|:----------------------:|:--------------------------:|
-|Test doesn't reject $H_0$ | Correct decision       | Type II Error<br>($\beta$) |
-|Test rejects $H_0$        | Type I Error<br>($\alpha$)| Correct decision        |
+<!-- |                          | $H_0$ is True              | $H_0$ is False             | -->
+<!-- |:-------------------------|:--------------------------:|:--------------------------:| -->
+<!-- |Test doesn't reject $H_0$ | Correct decision           | Type II Error<br>($\beta$) | -->
+<!-- |Test rejects $H_0$        | Type I Error<br>($\alpha$) | Correct decision           | -->
+
 
 ### Type I errors {-}  
 
 If the null hypothesis is true, then the **sampling distribution** of our statistic follows the null distribution which we constructed above, and we will reject (incorrectly) any sample statistic which results in a p-value which is less than or equal to our $\alpha$ level (e.g., the 0.05 we set earlier). 
 <br>
-So the probability of making this error is equal to the $alpha$ level which we set.  
+So the probability of making this error is equal to the $\alpha$ level which we set.  
 <br>
 In other words, when the null hypothesis is true, 0.05 (or 5%) of the random samples we could take would result in us rejecting it.   
 
@@ -257,34 +275,35 @@ This is similar to asking "What is the probability of observing at least one sig
 
 + If there are 20 researchers, the probability of them *all* getting *non-significant* results when their null hypotheses are all true is $0.95^{20} = 0.358$  
 
-+ This means that the robability of the opposite - *at least one* of them gets a significant result even though all their nulls are true - is $1 - 0.358 = 0.642$  
++ This means that the probability of the opposite - *at least one* of them gets a significant result even though all their nulls are true - is $1 - 0.358 = 0.642$  
 
 `r msmbstyle::solution_end()`
 </div>
 
 ### Type II errors and Power {-}
 
-The other kind of error we might make is a type II error, and is denoted by $\beta$.<br>
+The other kind of error we might make is a **type II error**, and is denoted by $\beta$.<br>
 This happens when $H_0$ is false, but we do not have enough evidence to reject it.  
   
 
 In our table, the columns specify the possible states of the world ($H_0$ is either True or False).   
 <br>
-In each of the possible states of the world, there are two potential outcomes of conducting a statistical test (Reject $H-0$ or Don't reject $H_0$).  
+In each of the possible states of the world, there are two potential outcomes of conducting a statistical test (Reject $H_0$ or Don't reject $H_0$).  
 <br>
 We have seen that: 
+
 + *if $H_0$ is true*, then the probability of incorrectly rejecting $H_0$ is $\alpha$ (often set at 0.05), and the probability of correctly retaining (not rejecting) $H_0$ is 0.95.  
 + *if $H_0$ is false*, then the probability of incorrectly failing to reject $H_0$ is $\beta$, and the probability of correctly rejecting $H_0$ is $1-\beta$. This is known as the **statistical power** of our test.  
 
 |                          | $H_0$ is True          | $H_0$ is False             |
 |:-------------------------|:----------------------:|:--------------------------:|
-|Test doesn't reject $H_0$ | Correct<br>**1-$\alpha$**  | Type II Error<br>($\beta$) |
-|Test rejects $H_0$        | Type I Error<br>($\alpha$)| Correct<br>**1-$\beta$**<br>**Power**|
+|**Test doesn't reject $H_0$** | Correct<br>**$1 - \alpha$**  | Type II Error = $\beta$ |
+|**Test rejects $H_0$**        | Type I Error = $\alpha$ | Correct<br>**$1 - \beta$** = **power**|
 
 <div class="def">
-#### Statistical power {-}
+#### Power of a statistical test {-}
 
-Statistical power is the probability of a hypothesis test of finding an effect if there is an effect to be found.
+The power is the probability of an hypothesis test of finding an effect if there is an effect to be found.
 </div> 
 
 ### Example 2: A biased coin {-}
