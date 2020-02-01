@@ -65,7 +65,7 @@ ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.61))) +
 pvalue <- null_distribution %>%
   summarise(
     pvalue_bothtails = sum(prop <= 0.39 | prop>=0.61) / n(),
-    pvalue_2righttail = 2 * sum(prop>=0.61) / n(),
+    pvalue_2righttail = 2 * sum(prop>=0.61) / n()
   )
 
 pvalue
@@ -102,12 +102,11 @@ null_distribution <- samples %>%
 ## A.7 Find Tom's critical values  
 
 ```{r warning=FALSE,message=FALSE}
-null_distribution <- null_distribution %>%
-  arrange(prop) %>%
-  mutate(idx = 1:n())
-
-crit_val <- null_distribution %>%
-  filter(idx == 950) %>%
+crit_val <- 
+  null_distribution %>%
+  arrange(prop) %>% 
+  mutate(idx = 1:n()/n()) %>%
+  filter(idx == 0.95) %>%
   pull(prop)
 
 crit_val
@@ -165,9 +164,12 @@ We need to:
 
 ### B.1.2: Calculate what proportion of this distribution is greater than his critical value. This will be the power.
 
+```{r}
 
 
 
+
+```
 
 
 
@@ -176,47 +178,11 @@ We need to:
 Assuming the coin to be biased towards landing on heads 60% of the time, calculate the power of Tom's statistical test for when he flips the coin 75 times, 100 times, and 200 times. Which sample size should Tom use if he wants at least 80% power?
 
 ```{r}
-outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
-prob <- c(0.5, 0.5)
-
-
-# GEMERATE THE NULL
-samples <- rep_sample_n(outcomes, size =50, replace = TRUE, reps = 1000, prob = prob)
-
-null_distribution <- samples %>% 
-  group_by(replicate) %>%
-  summarise(prop = sum(vals == 'Heads') / n())
 
 
 
-# FIND CRITICAL VALUE
-
-null_distribution <- null_distribution %>%
-  arrange(prop) %>%
-  mutate(idx = 1:n())
-
-crit_val <- null_distribution %>%
-  filter(idx == 950) %>%
-  pull(prop)
 
 
-
-# GENERATE THEORISED ALTERNATIVE
-outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
-prob <- c(0.6, 0.4)
-
-samples <- rep_sample_n(outcomes, size = 50, replace = TRUE, reps = 1000, prob = prob)
-
-
-# CALCULATE POWER
-true_distribution <- samples %>% 
-  group_by(replicate) %>%
-  summarise(prop = sum(vals == 'Heads') / n())
-
-true_distribution %>%
-  summarise(
-    prob_crit = sum(prop >= crit_val) / n()
-  )
 ```
 
 

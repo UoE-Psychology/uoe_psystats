@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 Type I, Type II errors and Power | Data Analysis for Psychology in R (dapR1) - Labs</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 Type I, Type II errors and Power | Data Analysis for Psychology in R (dapR1) - Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 Type I, Type II errors and Power | Data Analysis for Psychology in R (dapR1) - Labs" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chap-hyp-test.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">DAPR1</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>1</b> Week 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="week-1.html"><a href="week-1.html#introduction-to-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="week-1.html"><a href="week-1.html#install-the-recent-version-of-r-and-r-studio"><i class="fa fa-check"></i><b>1.2</b> Install the recent version of R and R Studio</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1.html"><a href="week-1.html#first-step"><i class="fa fa-check"></i><b>1.2.1</b> First Step</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1.html"><a href="week-1.html#second-step"><i class="fa fa-check"></i><b>1.2.2</b> Second Step</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1.html"><a href="week-1.html#getting-started-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Getting Started in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="week-1.html"><a href="week-1.html#r-as-an-interactive-environment"><i class="fa fa-check"></i><b>1.4</b> R as an interactive environment</a></li>
+<li class="chapter" data-level="1.5" data-path="week-1.html"><a href="week-1.html#check-your-settings"><i class="fa fa-check"></i><b>1.5</b> Check your settings</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="week-1.html"><a href="week-1.html#disable-automatic-saving-of-your-workspace"><i class="fa fa-check"></i><b>1.5.1</b> Disable automatic saving of your workspace</a></li>
+<li class="chapter" data-level="1.5.2" data-path="week-1.html"><a href="week-1.html#adjust-fontscolours-if-you-like"><i class="fa fa-check"></i><b>1.5.2</b> Adjust fonts/colours if you like</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="week-1.html"><a href="week-1.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.6</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="1.7" data-path="week-1.html"><a href="week-1.html#the-console"><i class="fa fa-check"></i><b>1.7</b> The Console</a></li>
+<li class="chapter" data-level="1.8" data-path="week-1.html"><a href="week-1.html#spacing"><i class="fa fa-check"></i><b>1.8</b> Spacing</a></li>
+<li class="chapter" data-level="1.9" data-path="week-1.html"><a href="week-1.html#typos"><i class="fa fa-check"></i><b>1.9</b> Typos</a></li>
+<li class="chapter" data-level="1.10" data-path="week-1.html"><a href="week-1.html#unfinishe.-d"><i class="fa fa-check"></i><b>1.10</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="1.11" data-path="week-1.html"><a href="week-1.html#basic-arithmetic"><i class="fa fa-check"></i><b>1.11</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="1.12" data-path="week-1.html"><a href="week-1.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>1.12</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="1.13" data-path="week-1.html"><a href="week-1.html#r-scripts"><i class="fa fa-check"></i><b>1.13</b> R Scripts</a></li>
+<li class="chapter" data-level="1.14" data-path="week-1.html"><a href="week-1.html#short-example"><i class="fa fa-check"></i><b>1.14</b> Short Example</a></li>
+<li class="chapter" data-level="1.15" data-path="week-1.html"><a href="week-1.html#naming-variables"><i class="fa fa-check"></i><b>1.15</b> Naming variables</a></li>
+<li class="chapter" data-level="1.16" data-path="week-1.html"><a href="week-1.html#now-over-to-you"><i class="fa fa-check"></i><b>1.16</b> Now over to you</a><ul>
+<li class="chapter" data-level="1.16.1" data-path="week-1.html"><a href="week-1.html#exercise-1"><i class="fa fa-check"></i><b>1.16.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="1.16.2" data-path="week-1.html"><a href="week-1.html#exercise-2"><i class="fa fa-check"></i><b>1.16.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="1.17" data-path="week-1.html"><a href="week-1.html#solutions"><i class="fa fa-check"></i><b>1.17</b> Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2</b> Week 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="week-2.html"><a href="week-2.html#introduction-to-rmarkdown"><i class="fa fa-check"></i><b>2.1</b> Introduction to RMarkdown</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html#what-is-r-markdown"><i class="fa fa-check"></i><b>2.2</b> What is R Markdown?</a></li>
+<li class="chapter" data-level="2.3" data-path="week-2.html"><a href="week-2.html#getting-things-ready"><i class="fa fa-check"></i><b>2.3</b> Getting things ready</a></li>
+<li class="chapter" data-level="2.4" data-path="week-2.html"><a href="week-2.html#r-markdown-basics"><i class="fa fa-check"></i><b>2.4</b> R Markdown basics</a></li>
+<li class="chapter" data-level="2.5" data-path="week-2.html"><a href="week-2.html#headings"><i class="fa fa-check"></i><b>2.5</b> Headings</a></li>
+<li class="chapter" data-level="2.6" data-path="week-2.html"><a href="week-2.html#text"><i class="fa fa-check"></i><b>2.6</b> Text</a></li>
+<li class="chapter" data-level="2.7" data-path="week-2.html"><a href="week-2.html#tables"><i class="fa fa-check"></i><b>2.7</b> Tables</a></li>
+<li class="chapter" data-level="2.8" data-path="week-2.html"><a href="week-2.html#lists"><i class="fa fa-check"></i><b>2.8</b> Lists</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="week-2.html"><a href="week-2.html#unordered"><i class="fa fa-check"></i><b>2.8.1</b> Unordered</a></li>
+<li class="chapter" data-level="2.8.2" data-path="week-2.html"><a href="week-2.html#ordered"><i class="fa fa-check"></i><b>2.8.2</b> Ordered</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
+<li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
+<li class="chapter" data-level="3.2" data-path="week-3.html"><a href="week-3.html#get-the-package-first"><i class="fa fa-check"></i><b>3.2</b> Get the package first</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3.html"><a href="week-3.html#numeric-data"><i class="fa fa-check"></i><b>3.3</b> Numeric Data</a></li>
+<li class="chapter" data-level="3.4" data-path="week-3.html"><a href="week-3.html#textcharacter-data"><i class="fa fa-check"></i><b>3.4</b> Text/Character Data</a></li>
+<li class="chapter" data-level="3.5" data-path="week-3.html"><a href="week-3.html#logical-data"><i class="fa fa-check"></i><b>3.5</b> Logical Data</a></li>
+<li class="chapter" data-level="3.6" data-path="week-3.html"><a href="week-3.html#variable-classes"><i class="fa fa-check"></i><b>3.6</b> Variable Classes</a></li>
+<li class="chapter" data-level="3.7" data-path="week-3.html"><a href="week-3.html#factors"><i class="fa fa-check"></i><b>3.7</b> Factors</a></li>
+<li class="chapter" data-level="3.8" data-path="week-3.html"><a href="week-3.html#lists-1"><i class="fa fa-check"></i><b>3.8</b> Lists</a></li>
+<li class="chapter" data-level="3.9" data-path="week-3.html"><a href="week-3.html#practice.rmd-solutions"><i class="fa fa-check"></i><b>3.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="week-3.html"><a href="week-3.html#exercise-1-1"><i class="fa fa-check"></i><b>3.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.9.2" data-path="week-3.html"><a href="week-3.html#exercise-2-1"><i class="fa fa-check"></i><b>3.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.9.3" data-path="week-3.html"><a href="week-3.html#exercise-3"><i class="fa fa-check"></i><b>3.9.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>4</b> Week 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="week-4.html"><a href="week-4.html#introduction-to-plots-geoms-ggplot"><i class="fa fa-check"></i><b>4.1</b> Introduction to plots &amp; geoms (ggplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="week-4.html"><a href="week-4.html#visualisations"><i class="fa fa-check"></i><b>4.2</b> Visualisations</a></li>
+<li class="chapter" data-level="4.3" data-path="week-4.html"><a href="week-4.html#get-our-data-sorted"><i class="fa fa-check"></i><b>4.3</b> Get our data sorted</a></li>
+<li class="chapter" data-level="4.4" data-path="week-4.html"><a href="week-4.html#numerical-data"><i class="fa fa-check"></i><b>4.4</b> Numerical data</a></li>
+<li class="chapter" data-level="4.5" data-path="week-4.html"><a href="week-4.html#simple-one-variable-plot-using-ggplot"><i class="fa fa-check"></i><b>4.5</b> Simple one-variable plot using ggplot()</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="week-4.html"><a href="week-4.html#continuous-variable"><i class="fa fa-check"></i><b>4.5.1</b> Continuous variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="week-4.html"><a href="week-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.6</b> Categorical variables</a></li>
+<li class="chapter" data-level="4.7" data-path="week-4.html"><a href="week-4.html#continuous-variables-grouped-by-a-categorical-one"><i class="fa fa-check"></i><b>4.7</b> Continuous variables grouped by a categorical one</a></li>
+<li class="chapter" data-level="4.8" data-path="week-4.html"><a href="week-4.html#even-more-advanced"><i class="fa fa-check"></i><b>4.8</b> Even more advanced</a></li>
+<li class="chapter" data-level="4.9" data-path="week-4.html"><a href="week-4.html#practice.rmd-solutions-1"><i class="fa fa-check"></i><b>4.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="week-4.html"><a href="week-4.html#exercise-1-2"><i class="fa fa-check"></i><b>4.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="4.9.2" data-path="week-4.html"><a href="week-4.html#exercise-2-2"><i class="fa fa-check"></i><b>4.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.9.3" data-path="week-4.html"><a href="week-4.html#exercise-3---advanced"><i class="fa fa-check"></i><b>4.9.3</b> Exercise 3 - Advanced</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>5</b> Week 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="week-5.html"><a href="week-5.html#central-tendency-and-variability"><i class="fa fa-check"></i><b>5.1</b> Central Tendency and Variability</a></li>
+<li class="chapter" data-level="5.2" data-path="week-5.html"><a href="week-5.html#load-all-the-necessary-packages"><i class="fa fa-check"></i><b>5.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="5.3" data-path="week-5.html"><a href="week-5.html#descriptive-statistics"><i class="fa fa-check"></i><b>5.3</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="5.4" data-path="week-5.html"><a href="week-5.html#central-tendency-variability"><i class="fa fa-check"></i><b>5.4</b> Central tendency &amp; variability</a></li>
+<li class="chapter" data-level="5.5" data-path="week-5.html"><a href="week-5.html#mean-and-median"><i class="fa fa-check"></i><b>5.5</b> Mean and median</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="week-5.html"><a href="week-5.html#reading-data-in"><i class="fa fa-check"></i><b>5.5.1</b> Reading data in</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="week-5.html"><a href="week-5.html#using-piping-operator-for-descriptive-statistics"><i class="fa fa-check"></i><b>5.6</b> Using piping operator for descriptive statistics</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="week-5.html"><a href="week-5.html#mean"><i class="fa fa-check"></i><b>5.6.1</b> Mean</a></li>
+<li class="chapter" data-level="5.6.2" data-path="week-5.html"><a href="week-5.html#median"><i class="fa fa-check"></i><b>5.6.2</b> Median</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="week-5.html"><a href="week-5.html#standard-deviation"><i class="fa fa-check"></i><b>5.7</b> Standard deviation</a></li>
+<li class="chapter" data-level="5.8" data-path="week-5.html"><a href="week-5.html#visualise-your-data"><i class="fa fa-check"></i><b>5.8</b> Visualise your data</a></li>
+<li class="chapter" data-level="5.9" data-path="week-5.html"><a href="week-5.html#practice.rmd-solutions-2"><i class="fa fa-check"></i><b>5.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="week-5.html"><a href="week-5.html#income-distribution-example"><i class="fa fa-check"></i><b>5.9.1</b> Income Distribution Example</a></li>
+<li class="chapter" data-level="5.9.2" data-path="week-5.html"><a href="week-5.html#visualisations-1"><i class="fa fa-check"></i><b>5.9.2</b> Visualisations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>6</b> Week 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="week-6.html"><a href="week-6.html#plotting-functions-and-simple-data-transformation"><i class="fa fa-check"></i><b>6.1</b> Plotting Functions and Simple Data Transformation</a></li>
+<li class="chapter" data-level="6.2" data-path="week-6.html"><a href="week-6.html#load-all-the-necessary-packages-1"><i class="fa fa-check"></i><b>6.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="6.3" data-path="week-6.html"><a href="week-6.html#part-1-hand-plotting-functions"><i class="fa fa-check"></i><b>6.3</b> Part 1: Hand plotting functions</a></li>
+<li class="chapter" data-level="6.4" data-path="week-6.html"><a href="week-6.html#basics"><i class="fa fa-check"></i><b>6.4</b> Basics</a></li>
+<li class="chapter" data-level="6.5" data-path="week-6.html"><a href="week-6.html#linear-functions"><i class="fa fa-check"></i><b>6.5</b> Linear functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="week-6.html"><a href="week-6.html#tree-height-example"><i class="fa fa-check"></i><b>6.5.1</b> Tree height example</a></li>
+<li class="chapter" data-level="6.5.2" data-path="week-6.html"><a href="week-6.html#non-linear-functions-first-order-polynomials"><i class="fa fa-check"></i><b>6.5.2</b> Non-linear functions (first order polynomials)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="week-6.html"><a href="week-6.html#practice-plotting"><i class="fa fa-check"></i><b>6.6</b> Practice plotting</a></li>
+<li class="chapter" data-level="6.7" data-path="week-6.html"><a href="week-6.html#part-2-introduction-to-data-transformation"><i class="fa fa-check"></i><b>6.7</b> Part 2: Introduction to Data Transformation</a></li>
+<li class="chapter" data-level="6.8" data-path="week-6.html"><a href="week-6.html#renaming"><i class="fa fa-check"></i><b>6.8</b> Renaming</a></li>
+<li class="chapter" data-level="6.9" data-path="week-6.html"><a href="week-6.html#adding-new-variables"><i class="fa fa-check"></i><b>6.9</b> Adding new variables</a></li>
+<li class="chapter" data-level="6.10" data-path="week-6.html"><a href="week-6.html#transformation-and-skewness"><i class="fa fa-check"></i><b>6.10</b> Transformation and skewness</a></li>
+<li class="chapter" data-level="6.11" data-path="week-6.html"><a href="week-6.html#mean-centering"><i class="fa fa-check"></i><b>6.11</b> Mean Centering</a></li>
+<li class="chapter" data-level="6.12" data-path="week-6.html"><a href="week-6.html#standardisation"><i class="fa fa-check"></i><b>6.12</b> Standardisation</a></li>
+<li class="chapter" data-level="6.13" data-path="week-6.html"><a href="week-6.html#practice.rmd-solutions-3"><i class="fa fa-check"></i><b>6.13</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>7</b> Week 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="week-7.html"><a href="week-7.html#reading-in-data-merge-and-more-r-practice"><i class="fa fa-check"></i><b>7.1</b> Reading in Data, Merge and More R Practice</a></li>
+<li class="chapter" data-level="7.2" data-path="week-7.html"><a href="week-7.html#dataset-1-.csv"><i class="fa fa-check"></i><b>7.2</b> Dataset 1 (.csv)</a></li>
+<li class="chapter" data-level="7.3" data-path="week-7.html"><a href="week-7.html#dataset-2-.txt"><i class="fa fa-check"></i><b>7.3</b> Dataset 2 (.txt)</a></li>
+<li class="chapter" data-level="7.4" data-path="week-7.html"><a href="week-7.html#dataset-3-.sav-and-.dta"><i class="fa fa-check"></i><b>7.4</b> Dataset 3 (.sav and .dta)</a></li>
+<li class="chapter" data-level="7.5" data-path="week-7.html"><a href="week-7.html#merging-datasets-together"><i class="fa fa-check"></i><b>7.5</b> Merging datasets together</a></li>
+<li class="chapter" data-level="7.6" data-path="week-7.html"><a href="week-7.html#sorting-and-arrange"><i class="fa fa-check"></i><b>7.6</b> Sorting and arrange()</a></li>
+<li class="chapter" data-level="7.7" data-path="week-7.html"><a href="week-7.html#data-description"><i class="fa fa-check"></i><b>7.7</b> Data description</a></li>
+<li class="chapter" data-level="7.8" data-path="week-7.html"><a href="week-7.html#using-filter"><i class="fa fa-check"></i><b>7.8</b> Using filter()</a></li>
+<li class="chapter" data-level="7.9" data-path="week-7.html"><a href="week-7.html#visualisations-2"><i class="fa fa-check"></i><b>7.9</b> Visualisations</a></li>
+<li class="chapter" data-level="7.10" data-path="week-7.html"><a href="week-7.html#save-the-file-in-your-folder"><i class="fa fa-check"></i><b>7.10</b> Save the file in your folder</a></li>
+<li class="chapter" data-level="7.11" data-path="week-7.html"><a href="week-7.html#practice.rmd-solutions-4"><i class="fa fa-check"></i><b>7.11</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="week-8.html"><a href="week-8.html"><i class="fa fa-check"></i><b>8</b> Week 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="week-8.html"><a href="week-8.html#introduction-to-probability"><i class="fa fa-check"></i><b>8.1</b> Introduction to Probability</a></li>
+<li class="chapter" data-level="8.2" data-path="week-8.html"><a href="week-8.html#example-1-hot-hand"><i class="fa fa-check"></i><b>8.2</b> Example 1 (hot hand)</a></li>
+<li class="chapter" data-level="8.3" data-path="week-8.html"><a href="week-8.html#example-2-coin-toss"><i class="fa fa-check"></i><b>8.3</b> Example 2 (coin toss)</a></li>
+<li class="chapter" data-level="8.4" data-path="week-8.html"><a href="week-8.html#example-3-independent-shooter"><i class="fa fa-check"></i><b>8.4</b> Example 3 (Independent shooter)</a></li>
+<li class="chapter" data-level="8.5" data-path="week-8.html"><a href="week-8.html#practice-rmd.-solutions"><i class="fa fa-check"></i><b>8.5</b> Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.jones-and-mr.smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
+<li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
+<li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
+<li class="chapter" data-level="8.6.5" data-path="week-8.html"><a href="week-8.html#answers-1"><i class="fa fa-check"></i><b>8.6.5</b> Answers</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="week-9.html"><a href="week-9.html"><i class="fa fa-check"></i><b>9</b> Week 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="week-9.html"><a href="week-9.html#introduction-to-probability-distributions-and-revision"><i class="fa fa-check"></i><b>9.1</b> Introduction to Probability Distributions and Revision</a></li>
+<li class="chapter" data-level="9.2" data-path="week-9.html"><a href="week-9.html#discrete-example-guessing-homework-answers"><i class="fa fa-check"></i><b>9.2</b> Discrete example (guessing homework answers)</a></li>
+<li class="chapter" data-level="9.3" data-path="week-9.html"><a href="week-9.html#generate-a-homework-attempt"><i class="fa fa-check"></i><b>9.3</b> Generate a homework attempt</a></li>
+<li class="chapter" data-level="9.4" data-path="week-9.html"><a href="week-9.html#changing-the-probability-truefalse"><i class="fa fa-check"></i><b>9.4</b> Changing the probability (TRUE/FALSE)</a></li>
+<li class="chapter" data-level="9.5" data-path="week-9.html"><a href="week-9.html#studying-the-distribution"><i class="fa fa-check"></i><b>9.5</b> Studying the distribution</a></li>
+<li class="chapter" data-level="9.6" data-path="week-9.html"><a href="week-9.html#cumulative-probability-advanced"><i class="fa fa-check"></i><b>9.6</b> Cumulative Probability (Advanced)</a></li>
+<li class="chapter" data-level="9.7" data-path="week-9.html"><a href="week-9.html#revision-practice-rmd.-solutions"><i class="fa fa-check"></i><b>9.7</b> Revision Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="week-9.html"><a href="week-9.html#provide-descriptive-statistics-for-age-and-memory-score-variables"><i class="fa fa-check"></i><b>9.7.1</b> Provide descriptive statistics for age and memory score variables</a></li>
+<li class="chapter" data-level="9.7.2" data-path="week-9.html"><a href="week-9.html#descriptives-by-groups"><i class="fa fa-check"></i><b>9.7.2</b> Descriptives by groups</a></li>
+<li class="chapter" data-level="9.7.3" data-path="week-9.html"><a href="week-9.html#visualise"><i class="fa fa-check"></i><b>9.7.3</b> Visualise</a></li>
+<li class="chapter" data-level="9.7.4" data-path="week-9.html"><a href="week-9.html#visualise-a-subset"><i class="fa fa-check"></i><b>9.7.4</b> Visualise a subset</a></li>
+<li class="chapter" data-level="9.7.5" data-path="week-9.html"><a href="week-9.html#variable-by-a-group"><i class="fa fa-check"></i><b>9.7.5</b> Variable by a group</a></li>
+<li class="chapter" data-level="9.7.6" data-path="week-9.html"><a href="week-9.html#create-a-new-variable-using-mutate"><i class="fa fa-check"></i><b>9.7.6</b> Create a new variable using mutate()</a></li>
+<li class="chapter" data-level="9.7.7" data-path="week-9.html"><a href="week-9.html#subset-observations-using-filter"><i class="fa fa-check"></i><b>9.7.7</b> Subset observations using filter()</a></li>
+<li class="chapter" data-level="9.7.8" data-path="week-9.html"><a href="week-9.html#sort-via-arrange"><i class="fa fa-check"></i><b>9.7.8</b> Sort via arrange()</a></li>
+<li class="chapter" data-level="9.7.9" data-path="week-9.html"><a href="week-9.html#lets-do-some-specific-count-using-filter"><i class="fa fa-check"></i><b>9.7.9</b> Let’s do some specific count() using filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="week-9.html"><a href="week-9.html#extra-probability-practice"><i class="fa fa-check"></i><b>9.8</b> Extra Probability Practice</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="week-9.html"><a href="week-9.html#truefalse-questions"><i class="fa fa-check"></i><b>9.8.1</b> TRUE/FALSE questions</a></li>
+<li class="chapter" data-level="9.8.2" data-path="week-9.html"><a href="week-9.html#count-the-occurencies"><i class="fa fa-check"></i><b>9.8.2</b> Count the occurencies</a></li>
+<li class="chapter" data-level="9.8.3" data-path="week-9.html"><a href="week-9.html#plot"><i class="fa fa-check"></i><b>9.8.3</b> Plot</a></li>
+<li class="chapter" data-level="9.8.4" data-path="week-9.html"><a href="week-9.html#use-dbinom-to-study-the-probability"><i class="fa fa-check"></i><b>9.8.4</b> Use dbinom() to study the probability</a></li>
+<li class="chapter" data-level="9.8.5" data-path="week-9.html"><a href="week-9.html#less-than-five-or-more-than-five"><i class="fa fa-check"></i><b>9.8.5</b> Less than five or more than five?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-10-lab-test.html"><a href="week-10-lab-test.html"><i class="fa fa-check"></i><b>10</b> Week 10: Lab test</a></li>
+<li class="chapter" data-level="11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html"><i class="fa fa-check"></i><b>11</b> Sampling distributions</a><ul>
+<li class="chapter" data-level="11.1" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#recap"><i class="fa fa-check"></i><b>11.1</b> Recap</a></li>
+<li class="chapter" data-level="11.2" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#population-sample"><i class="fa fa-check"></i><b>11.2</b> Population vs sample</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#parameter-statistic"><i class="fa fa-check"></i><b>11.3</b> Population parameter vs sample statistic</a></li>
+<li class="chapter" data-level="11.4" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sec-sampling-distributions"><i class="fa fa-check"></i><b>11.4</b> Sampling distributions</a></li>
+<li class="chapter" data-level="11.5" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#standard-error"><i class="fa fa-check"></i><b>11.5</b> The standard error of a statistic</a></li>
+<li class="chapter" data-level="11.6" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sample-size-standard-error"><i class="fa fa-check"></i><b>11.6</b> The effect of sample size on the sampling distribution</a></li>
+<li class="chapter" data-level="11.7" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#take-home-message"><i class="fa fa-check"></i><b>11.7</b> Take-home message</a></li>
+<li class="chapter" data-level="11.8" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#lab-hollywood-movies"><i class="fa fa-check"></i><b>11.8</b> Lab: Hollywood movies</a></li>
+<li class="chapter" data-level="11.9" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#summary"><i class="fa fa-check"></i><b>11.9</b> Summary</a></li>
+<li class="chapter" data-level="11.10" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#glossary"><i class="fa fa-check"></i><b>11.10</b> Glossary</a></li>
+<li class="chapter" data-level="11.11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#references"><i class="fa fa-check"></i><b>11.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html"><i class="fa fa-check"></i><b>12</b> Bootstrapping and Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#recap-1"><i class="fa fa-check"></i><b>12.1</b> Recap</a></li>
+<li class="chapter" data-level="12.2" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#from-sampling-to-resampling"><i class="fa fa-check"></i><b>12.2</b> From Sampling to Resampling</a></li>
+<li class="chapter" data-level="12.3" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#getting-to-the-bootstrap-distribution"><i class="fa fa-check"></i><b>12.3</b> Getting to the bootstrap distribution</a></li>
+<li class="chapter" data-level="12.4" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#more-generally"><i class="fa fa-check"></i><b>12.4</b> More generally…</a></li>
+<li class="chapter" data-level="12.5" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#confidence-intervals"><i class="fa fa-check"></i><b>12.5</b> Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#calculating-confidence-intervals-using-a-bootstrap-standard-error"><i class="fa fa-check"></i><b>12.5.1</b> Calculating confidence intervals using a bootstrap standard error</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#summary-1"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+<li class="chapter" data-level="12.7" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#take-home-message-1"><i class="fa fa-check"></i><b>12.7</b> Take-home message</a></li>
+<li class="chapter" data-level="12.8" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#lab"><i class="fa fa-check"></i><b>12.8</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-1-hollywood-movies"><i class="fa fa-check"></i>Exercise 1: Hollywood Movies</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-2-nfl-players"><i class="fa fa-check"></i>Exercise 2: NFL Players</a></li>
+</ul></li>
+<li class="chapter" data-level="12.9" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#glossary-1"><i class="fa fa-check"></i><b>12.9</b> Glossary</a></li>
+<li class="chapter" data-level="12.10" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#references-1"><i class="fa fa-check"></i><b>12.10</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html"><i class="fa fa-check"></i><b>13</b> Testing hypotheses</a><ul>
+<li class="chapter" data-level="13.1" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#recap-2"><i class="fa fa-check"></i><b>13.1</b> Recap</a></li>
+<li class="chapter" data-level="13.2" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#walkthrough"><i class="fa fa-check"></i><b>13.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#extrasensory-perception-esp"><i class="fa fa-check"></i>Extrasensory perception (ESP)</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-esp-results"><i class="fa fa-check"></i>Example 1: ESP experimental results</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-in-class"><i class="fa fa-check"></i>Example 2: In-class activity</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-random-chance-model"><i class="fa fa-check"></i>The random chance model</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-alternative-explanation"><i class="fa fa-check"></i>The alternative explanation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-test"><i class="fa fa-check"></i>Statistical test</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#understanding-statistical-evidence"><i class="fa fa-check"></i>Understanding statistical evidence</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-hypotheses"><i class="fa fa-check"></i>Statistical hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-significance"><i class="fa fa-check"></i>Statistical significance</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-distribution"><i class="fa fa-check"></i>Null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#making-a-formal-decision"><i class="fa fa-check"></i>Making a formal decision</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#summary-2"><i class="fa fa-check"></i><b>13.3</b> Summary</a></li>
+<li class="chapter" data-level="13.4" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#lab-1"><i class="fa fa-check"></i><b>13.4</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#required-packages"><i class="fa fa-check"></i>Required packages</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#importing-the-data"><i class="fa fa-check"></i>Importing the data</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#data-inspection"><i class="fa fa-check"></i>Data inspection</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#sample-average-and-standard-deviation"><i class="fa fa-check"></i>Sample average and standard deviation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-and-alternative-hypothesis"><i class="fa fa-check"></i>Null and alternative hypothesis</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#bootstrap-distribution-and-null-distribution"><i class="fa fa-check"></i>Bootstrap distribution and null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#visualise-the-observed-statistic-on-the-null-distribution"><i class="fa fa-check"></i>Visualise the observed statistic on the null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value-2"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#interpreting-the-p-value"><i class="fa fa-check"></i>Interpreting the p-value</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#glossary-2"><i class="fa fa-check"></i><b>13.5</b> Glossary</a></li>
+<li class="chapter" data-level="13.6" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#references-2"><i class="fa fa-check"></i><b>13.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="chap-typeerror.html"><a href="chap-typeerror.html"><i class="fa fa-check"></i><b>14</b> Type I, Type II errors and Power</a><ul>
+<li class="chapter" data-level="14.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overview-of-last-week"><i class="fa fa-check"></i><b>14.1</b> Overview of last week</a></li>
+<li class="chapter" data-level="14.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#walkthrough-1"><i class="fa fa-check"></i><b>14.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-1-coin-flip"><i class="fa fa-check"></i>Example 1: Coin flip</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#an-analogy-in-law"><i class="fa fa-check"></i>An analogy in law</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#two-different-types-of-errors"><i class="fa fa-check"></i>Two different types of errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-i-errors"><i class="fa fa-check"></i>Type I errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors-and-power"><i class="fa fa-check"></i>Type II errors and Power</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2-a-biased-coin"><i class="fa fa-check"></i>Example 2: A biased coin</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overlapping-distributions"><i class="fa fa-check"></i>Overlapping distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#summary-3"><i class="fa fa-check"></i><b>14.3</b> Summary</a></li>
+<li class="chapter" data-level="14.4" data-path="chap-typeerror.html"><a href="chap-typeerror.html#lab-2"><i class="fa fa-check"></i><b>14.4</b> Lab</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Calculating power for a different coin.</a></li>
+<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Sample size (number of flips) and power</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology in R (dapR1) - Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chap-typeerror" class="section level1">
+<h1><span class="header-section-number">Chapter 14</span> Type I, Type II errors and Power</h1>
+<div class="lo">
+<h4 id="instructions-3" class="unnumbered">Instructions</h4>
+<ul>
+<li>In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.</li>
+<li>The Rmarkdown file for this week is <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_14_practice.Rmd">here</a>. It contains the code for the worked examples should you wish to follow along, and blank spaces for your answers to the questions in the second hour.</li>
+</ul>
+<h4 id="learning-outcomes-3" class="unnumbered">Learning outcomes</h4>
+<p><strong>LO1.</strong> Revision of hypothesis testing</p>
+<p><strong>LO2.</strong> Understand Type I and Type II errors</p>
+<p><strong>LO3.</strong> Introduce statistical power</p>
+</div>
+<div id="overview-of-last-week" class="section level2">
+<h2><span class="header-section-number">14.1</span> Overview of last week</h2>
+<p>Last week we learned to frame a research question in terms of <strong>null</strong> and <strong>alternative</strong> hypotheses about parameters.</p>
+<ul>
+<li><p>We related the <strong>null hypothesis</strong> (<span class="math inline">\(H_0\)</span>) to a ‘random chance model’ - i.e., if differences or effects that we observe are actually just due to sampling variation.</p></li>
+<li><p>We generated a distribution for the null hypothesis (the <strong>null distribution</strong>) which reflected how much sample statistics would vary due to chance if the null hypothesis is true (e.g., if there really is no difference/effect). We did this by simulating lots of samples and computing the statistic on each of the samples.</p></li>
+<li><p>We then compared the observed statistic to the null distribution we had generated. This is equivalent to asking how likely it would be to get our observed statistic if the null hypothesis was actually true. We learned that the <strong>p-value</strong> is the proportion of simulated sample statistics in our null distribution which were as or more extreme than our observed statistic.</p></li>
+<li><p>Finally, we thought about how we might make a formal decision about <em>whether or not to reject the null hypothesis</em> based on our p-value. This was based on a pre-specified level (known as <span class="math inline">\(\alpha\)</span>), below which we would consider p-values to be <strong>statistically significant.</strong></p></li>
+</ul>
+<p>This week, we will recap this process of hypothesis testing, before thinking about the ways in which this method might lead to error.</p>
+</div>
+<div id="walkthrough-1" class="section level2">
+<h2><span class="header-section-number">14.2</span> Walkthrough</h2>
+<div id="example-1-coin-flip" class="section level3 unnumbered">
+<h3>Example 1: Coin flip</h3>
+<div style="background-image: url(&#39;flipping.jpg&#39;)">
+<h4 id="research-question-hypotheses" class="unnumbered">Research Question &amp; Hypotheses</h4>
+<p>Is our coin biased?
+<br><br>
+<em>Null hypothesis</em>: We’re just as likely to get heads as tails when we flip the coin. We will denote by <span class="math inline">\(p\)</span> the probability of ‘heads’.
+<span class="math display">\[H_0: p = 0.5\]</span>
+<em>Alternative hypothesis</em>: We’re more likely to see either heads or tails when we flip the coin.
+<span class="math display">\[H_1: p \neq 0.5\]</span></p>
+<h4 id="data-collection" class="unnumbered">Data collection</h4>
+<p>We flip the coin 90 times, and it lands on heads 55 times.</p>
+</div>
+<div id="analysis" class="section level4 unnumbered">
+<h4>Analysis</h4>
+<div class="red">
+<p><br>
+<strong>Steps</strong>
+<br></p>
+<ol style="list-style-type: decimal">
+<li>Calculate the sample statistic<br />
+</li>
+<li>Generate the null distribution<br />
+</li>
+<li>Calculate the probability of seeing our statistic (or one which is farther away from the null) if the null were true (this is the p-value)<br />
+</li>
+<li>Compare p-value to our pre-specified <span class="math inline">\(\alpha\)</span>-level (for this example we will use the conventional 0.05)</li>
+</ol>
+</div>
+<p><strong>1. Calculate the sample statistic, <span class="math inline">\(\hat{p}\)</span></strong></p>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb629-1" data-line-number="1">p_hat &lt;-<span class="st"> </span><span class="dv">55</span><span class="op">/</span><span class="dv">90</span></a>
+<a class="sourceLine" id="cb629-2" data-line-number="2">p_hat</a></code></pre></div>
+<pre><code>## [1] 0.6111111</code></pre>
+<p><strong>2. Generate the null distribution</strong></p>
+<div class="noteBox">
+<p>Remember that the null distribution is what we would expect if the null hypothesis were true - it is how much the statistics computed from samples of size <span class="math inline">\(n\)</span> would vary if the null is true.<br />
+In our case, this quantifies how much our statistic (the proportion of heads) in a sample of size 90 would vary if the true probability of the coin landing on heads were 1/2.</p>
+</div>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb631-1" data-line-number="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
+<a class="sourceLine" id="cb631-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb631-3" data-line-number="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb631-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb631-5" data-line-number="5"><span class="co"># generate samples under the null</span></a>
+<a class="sourceLine" id="cb631-6" data-line-number="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">90</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb631-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb631-8" data-line-number="8"><span class="co"># calculate the statistics for each sample to create the null distribution</span></a>
+<a class="sourceLine" id="cb631-9" data-line-number="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb631-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb631-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<p>and we can now plot our null distribution:</p>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb632-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb632-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-403-1.png" width="672" /></p>
+<p>And plot the observed statistic on top, like we did last week.</p>
+<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb633-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop, <span class="dt">fill =</span> (prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb633-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb633-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;white&#39;</span>, <span class="st">&#39;tomato1&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb633-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.61</span>, <span class="dt">color =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb633-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)), <span class="dt">fill =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-405-1.png" width="672" /></p>
+<p><strong>3. Calculate our p-value</strong><br />
+<br>
+How surprising is 55 heads in 90 coin flips? We can compare it against the null distribution.</p>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>What is our p-value?</p>
+<ol style="list-style-type: lower-alpha">
+<li>The proportion of statistics in the null distribution which are <span class="math inline">\(\geq0.61\)</span></li>
+<li>The proportion of statistics in the null distribution which are <span class="math inline">\(\geq0.61\)</span> or <span class="math inline">\(\leq0.39\)</span><br />
+</li>
+<li>Two times the proportion of statistics in the null distribution which are <span class="math inline">\(\geq0.61\)</span></li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-133" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-133&#39;, &#39;sol-start-133&#39;)"></span>
+</p>
+<div id="sol-body-133" class="solution-body" style="display: none;">
+<p>If we perform an hypothesis test for the two-sided alternative <span class="math inline">\(p \neq 0.5\)</span>, this is the proportion of statistics <em>at least as extreme in either direction</em>, so we’re looking at both tails of the distribution (i.e., answer B above).
+<br>
+However, we can assume the distribution to be symmetric, so we can simply multiply the proportion of the null distribution in one tail by 2 (i.e., answer C above).</p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-406-1.png" width="672" /></p>
+<p>Both answers (b) and (c) are correct. As you can see, both methods return very similar estimate of the p-values, with the estimates getting closer and closer as the number of simulated samples increases.</p>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb634-1" data-line-number="1">pvalue &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb634-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb634-3" data-line-number="3">    <span class="dt">pvalue_bothtails =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.39</span> <span class="op">|</span><span class="st"> </span>prop<span class="op">&gt;=</span><span class="fl">0.61</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb634-4" data-line-number="4">    <span class="dt">pvalue_2righttail =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(prop<span class="op">&gt;=</span><span class="fl">0.61</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb634-5" data-line-number="5">  )</a>
+<a class="sourceLine" id="cb634-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb634-7" data-line-number="7">pvalue</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   pvalue_bothtails pvalue_2righttail
+##              &lt;dbl&gt;             &lt;dbl&gt;
+## 1             0.04             0.044</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>At a significance level level of <span class="math inline">\(\alpha = 0.05\)</span>, what is our formal decision about the hypotheses?</p>
+<ol style="list-style-type: decimal">
+<li>Not enough evidence to reject <span class="math inline">\(H_0\)</span><br>(<span class="math inline">\(H_0:\)</span> We’re just as likely to get heads as tails when we flip the coin.)</li>
+<li>Evidence in favour of <span class="math inline">\(H_1\)</span><br>(<span class="math inline">\(H_1:\)</span> We’re more likely to see either heads or tails when we flip the coin.)</li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-134" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-134&#39;, &#39;sol-start-134&#39;)"></span>
+</p>
+<div id="sol-body-134" class="solution-body" style="display: none;">
+<p>According to the p-value previously found, 0.04 <span class="math inline">\(\leq\)</span> 0.05, we have reason to reject the null hypothesis that our coin will land on heads and tails equally often.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="an-analogy-in-law" class="section level3 unnumbered">
+<h3>An analogy in law</h3>
+<p>Might we have made a mistake here? Is 55 out of 90 coin flips <em>surprising enough</em> for us to reject the hypothesis that the coin is fair?<br />
+<br>
+Last week we discussed an analogy in law, in which a person on trial is presumed innocent until proven guilty. Similarly, we presume <span class="math inline">\(H_0\)</span> to be true until there is strong evidence to reject it. How strong must the evidence be? How do we avoid wrongly convicting an innocent person? (i.e., wrongly rejecting an hypothesis which is actually true?)</p>
+</div>
+<div id="two-different-types-of-errors" class="section level3 unnumbered">
+<h3>Two different types of errors</h3>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Person is innocent<br><span class="math inline">\(H_0\)</span> is True</th>
+<th align="center">Person is guilty<br><span class="math inline">\(H_0\)</span> is False</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Verdict = Innocent</strong> <br> <strong>Test fails to reject <span class="math inline">\(H_0\)</span></strong></td>
+<td align="center">Correct decision</td>
+<td align="center">Criminal goes free <br> Type II Error = <span class="math inline">\(\beta\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Verdict = Guilty</strong> <br> <strong>Test rejects <span class="math inline">\(H_0\)</span></strong></td>
+<td align="center">Wrongful conviction <br> Type I Error = <span class="math inline">\(\alpha\)</span></td>
+<td align="center">Correct decision</td>
+</tr>
+</tbody>
+</table>
+<!-- |                          | $H_0$ is True              | $H_0$ is False             | -->
+<!-- |:-------------------------|:--------------------------:|:--------------------------:| -->
+<!-- |Test doesn't reject $H_0$ | Correct decision           | Type II Error<br>($\beta$) | -->
+<!-- |Test rejects $H_0$        | Type I Error<br>($\alpha$) | Correct decision           | -->
+</div>
+<div id="type-i-errors" class="section level3 unnumbered">
+<h3>Type I errors</h3>
+<p>If the null hypothesis is true, then the <strong>sampling distribution</strong> of our statistic follows the null distribution which we constructed above, and we will reject (incorrectly) any observed statistic which has a corresponding p-value of less than or equal to our <span class="math inline">\(\alpha\)</span> level (e.g., the 0.05 we set earlier).
+<br>
+So the probability of making this error is equal to the <span class="math inline">\(\alpha\)</span> level which we set.<br />
+<br>
+In other words, when the null hypothesis is true, 0.05 (or 5%) of the random samples we could take would result in us rejecting it.</p>
+<div class="noteBox">
+<h4 id="a-thought-experiment" class="unnumbered">A thought experiment</h4>
+<ul>
+<li>there are 20 researchers.</li>
+<li>each researcher has a perfectly balanced/fair coin.<br />
+</li>
+<li>each researcher conducts a statistical test at <span class="math inline">\(\alpha = 0.05\)</span> to evaluate whether their coin is fair (lands on heads equally as often as it lands on tails).</li>
+</ul>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>How many of the researchers’ tests would we expect to result in a type I error?<br />
+<small><strong>Remember:</strong> The probability of making a Type I error is the probability of getting an unlikely sample statistic simply due to chance sampling variation (i.e., we just happen to get a random sample with an unlikely statistic).</small></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-135" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-135&#39;, &#39;sol-start-135&#39;)"></span>
+</p>
+<div id="sol-body-135" class="solution-body" style="display: none;">
+<p>This is similar to asking “What is the probability of observing at least one significant result due to chance sampling variation alone?”. We can work this out..
+<br></p>
+<ul>
+<li><p>For one researcher, if their null hypothesis is true, the probability that they get a significant result is 0.05, and the probability that they get a non-significant result (p-value <span class="math inline">\(&gt; 0.05\)</span>) is 0.95.</p></li>
+<li><p>If there are 20 researchers, the probability of them <em>all</em> getting <em>non-significant</em> results when their null hypotheses are all true is <span class="math inline">\(0.95^{20} = 0.358\)</span></p></li>
+<li><p>This means that the probability of the opposite - <em>at least one</em> of them gets a significant result even though all their nulls are true - is <span class="math inline">\(1 - 0.358 = 0.642\)</span></p></li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="type-ii-errors-and-power" class="section level3 unnumbered">
+<h3>Type II errors and Power</h3>
+<p>The other kind of error we might make is a <strong>type II error</strong>, and is denoted by <span class="math inline">\(\beta\)</span>.<br>
+This happens when <span class="math inline">\(H_0\)</span> is false, but we do not have enough evidence to reject it.</p>
+<p>In our table, the columns specify the possible states of the world (<span class="math inline">\(H_0\)</span> is either True or False).<br />
+<br>
+In each of the possible states of the world, there are two potential outcomes of conducting a statistical test (Reject <span class="math inline">\(H_0\)</span> or Don’t reject <span class="math inline">\(H_0\)</span>).<br />
+<br>
+We have seen that:</p>
+<ul>
+<li><em>if <span class="math inline">\(H_0\)</span> is true</em>, then the probability of incorrectly rejecting <span class="math inline">\(H_0\)</span> is <span class="math inline">\(\alpha\)</span> (often set at 0.05), and the probability of correctly retaining (not rejecting) <span class="math inline">\(H_0\)</span> is 0.95.<br />
+</li>
+<li><em>if <span class="math inline">\(H_0\)</span> is false</em>, then the probability of incorrectly failing to reject <span class="math inline">\(H_0\)</span> is <span class="math inline">\(\beta\)</span>, and the probability of correctly rejecting <span class="math inline">\(H_0\)</span> is <span class="math inline">\(1-\beta\)</span>. This is known as the <strong>statistical power</strong> of our test.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center"><span class="math inline">\(H_0\)</span> is True</th>
+<th align="center"><span class="math inline">\(H_0\)</span> is False</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Test doesn’t reject <span class="math inline">\(H_0\)</span></strong></td>
+<td align="center">Correct<br><strong><span class="math inline">\(1 - \alpha\)</span></strong></td>
+<td align="center">Type II Error = <span class="math inline">\(\beta\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Test rejects <span class="math inline">\(H_0\)</span></strong></td>
+<td align="center">Type I Error = <span class="math inline">\(\alpha\)</span></td>
+<td align="center">Correct<br><strong>power</strong> = <strong><span class="math inline">\(1 - \beta\)</span></strong></td>
+</tr>
+</tbody>
+</table>
+<div class="def">
+<h4 id="power-of-a-statistical-test" class="unnumbered">Power of a statistical test</h4>
+<p>The power of a statistical test (<span class="math inline">\(1-\beta\)</span>) is the probability of rejecting the null hypothesis when the alternative hypothesis is true.</p>
+<p>In other words, the power of a test is the probability that the test finds an effect if there is an effect to be found.</p>
+</div>
+</div>
+<div id="example-2-a-biased-coin" class="section level3 unnumbered">
+<h3>Example 2: A biased coin</h3>
+<p>I have a trick coin which is weighted so that it lands on heads 60% of the time (rather than the usual 50% for a normal fair coin).
+<br>
+Oh no! Tom has noticed that whenever we flip a coin, I always call heads, and I often seem to win. He accuses me of cheating by using a trick coin which is biased to land on heads!<br />
+I make him an offer: he can flip the coin 50 times in order to decide whether or not it really is a trick coin.</p>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Tom’s null hypothesis is that he is just as likely to get heads as tails when he flips the coin.
+<span class="math display">\[H_0: p = 0.5\]</span><br />
+Where <span class="math inline">\(p\)</span> is the probability of ‘heads’, what is his alternative hypothesis?</p>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(H_1: p \neq 0.5\)</span></li>
+<li><span class="math inline">\(H_1: p &gt; 0.5\)</span></li>
+<li><span class="math inline">\(H_1: p &lt; 0.5\)</span></li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-136" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-136&#39;, &#39;sol-start-136&#39;)"></span>
+</p>
+<div id="sol-body-136" class="solution-body" style="display: none;">
+<p>Given that Tom thinks the coin is biased towards landing on heads, we will use (b) as his alternative hypothesis: <span class="math inline">\(H_1: p &gt; 0.5\)</span></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="red">
+<p><br>
+<strong>We’re going to work out calculate the power of Tom’s 50 flips to detect </strong>
+<br></p>
+<ol style="list-style-type: decimal">
+<li>Generate the null distribution for Tom’s test<br />
+</li>
+<li>Calculate the critical value (the minimum number of heads needed for Tom to reject his null hypothesis)<br />
+</li>
+<li>Calculate the actual probability of seeing a statistic larger than the critical value, given that we know the true bias of the coin.</li>
+</ol>
+</div>
+<p><br></p>
+<div id="calculating-toms-critical-regions" class="section level4 unnumbered">
+<h4>Calculating Tom’s critical regions</h4>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>In Tom’s 50 coin flips, at a significance level of 0.05, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-137" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-137&#39;, &#39;sol-start-137&#39;)"></span>
+</p>
+<div id="sol-body-137" class="solution-body" style="display: none;">
+<p>Generate Tom’s null distribution</p>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb636-1" data-line-number="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
+<a class="sourceLine" id="cb636-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb636-3" data-line-number="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb636-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb636-5" data-line-number="5"><span class="co"># generate samples under the null</span></a>
+<a class="sourceLine" id="cb636-6" data-line-number="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb636-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb636-8" data-line-number="8"><span class="co"># calculate the statistics for each sample to create the null distribution</span></a>
+<a class="sourceLine" id="cb636-9" data-line-number="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb636-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb636-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<p>Now that we have generated the null distribution which Tom will use to test his observed statistic, we need to work out at what values he will reject the null.<br>
+In other words, we need to work out where the top 5% of the null distribution is<br>
+<br>
+Note that we are only looking at the top 5% because Tom thinks the coin is biased <em>towards heads</em>. So his alternative hypothesis (<span class="math inline">\(H_1\)</span>) is <span class="math inline">\(p &gt; 0.5\)</span>, and he will reject <span class="math inline">\(H_0\)</span> if his observed statistic falls in the top end of the distribution.
+<br>
+To do this, we’re going to order the simulated sample proportions (the null distribution) from smallest to largest, and find the value at which 95% of them are smaller.</p>
+<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb637-1" data-line-number="1">null_distribution &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb637-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(prop) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb637-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">idx =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()<span class="op">/</span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb637-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb637-5" data-line-number="5">null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb637-6" data-line-number="6"><span class="st">  </span><span class="kw">filter</span>(idx <span class="op">==</span><span class="st"> </span><span class="fl">0.95</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   replicate  prop   idx
+##       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1        92  0.62  0.95</code></pre>
+<p>If Tom flips the coin 50 times, under the null hypothesis, he would need to get a sample statistic (<span class="math inline">\(\hat{p}\)</span>) of greater than or equal to 0.62.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="calculating-toms-power" class="section level4 unnumbered">
+<h4>Calculating Tom’s power</h4>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Things we know so far:</p>
+<ul>
+<li>The coin is rigged to land on heads on 60% of flips - the true probability of heads is 0.6.</li>
+<li>If 62% or more of Tom’s 50 coin flips come up heads, then he will reject his null hypothesis (that the coin is fair)</li>
+</ul>
+<p>What’s the probability that Tom’s 50 flips will come up with 62% or more heads?
+<br>
+In other words, what is the <em>power</em> of his test?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-138" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-138&#39;, &#39;sol-start-138&#39;)"></span>
+</p>
+<div id="sol-body-138" class="solution-body" style="display: none;">
+<p>We can do this by generating the sampling distribution for when the coin is biased towards heads 60% of the time (which we know is actually true).</p>
+<div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb639-1" data-line-number="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb639-2" data-line-number="2">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb639-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb639-4" data-line-number="4">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb639-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb639-6" data-line-number="6"><span class="co"># calculate the statistics for each sample to create the true distribution</span></a>
+<a class="sourceLine" id="cb639-7" data-line-number="7">true_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb639-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb639-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb639-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb639-11" data-line-number="11">true_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb639-12" data-line-number="12"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb639-13" data-line-number="13">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.62</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb639-14" data-line-number="14">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   prob_crit
+##       &lt;dbl&gt;
+## 1     0.463</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="generalising-it" class="section level3 unnumbered">
+<h3>Generalising it</h3>
+<ol style="list-style-type: decimal">
+<li>When we conduct NHST, we set <span class="math inline">\(\alpha\)</span>.<br />
+</li>
+<li>In setting <span class="math inline">\(\alpha\)</span>, we define a <strong>critical region</strong> under the null distribution. The <strong>critical value</strong> is the value of the statistic which defines the start of this region. Any statistic more extreme than this will result in rejecting the null hypothesis.</li>
+<li>If the null hypothesis is false, the probability that we reject the null hypothesis depends on a) how far away from the null hypothesis the true state of the world is, and b) our sample size.
+<br></li>
+</ol>
+<div id="why-is-this-useful" class="section level4 unnumbered">
+<h4>Why is this useful??</h4>
+<p>In our example, we <em>knew</em> the true bias of the coin. But Tom didn’t!<br />
+<br>
+What Tom <em>could</em> do, is calculate the power of his test <em>assuming</em> a given value for <span class="math inline">\(p\)</span>. He might have thought to himself:<br>
+“Hmm, that coin seems to land on heads about 3/4 of the time. If that is true, I want to know the probability of me being able to correctly reject the null hypothesis is when I flip the coin 50 times”.</p>
+<p><small>Had Tom used the R code above he might have called his distribution <code>theoretical_distribution</code> rather than <code>true_distribution</code>!</small><br />
+<br></p>
+<div class="red">
+<p>The important thing is that, given an assumed <strong>effect size</strong> (i.e., difference from the null hypothesis) - or <em>set of</em> effect sizes - we can compute the power of a test for a given sample size.<br />
+We can reframe this and find out what the minimum sample size is that would be required to detect a given effect size.</p>
+</div>
+</div>
+</div>
+<div id="overlapping-distributions" class="section level3 unnumbered">
+<h3>Overlapping distributions</h3>
+<p>It will hopefully help to think of the statistical power of a testin terms of two distributions and their overlap:
+<br>
+<a href="https://rpsychologist.com/d3/NHST/" class="uri">https://rpsychologist.com/d3/NHST/</a></p>
+</div>
+</div>
+<div id="summary-3" class="section level2">
+<h2><span class="header-section-number">14.3</span> Summary</h2>
+<p>Today, we have recapped what we learned last week about hypothesis testing, and introduced some key ideas.
+<br>
+We learned that when we reject a <em>true</em> null hypothesis because we happen (by random chance) to have a sample statistic which is unlikely under the null, we commit a Type I Error. We saw how the probability of this happening is equal to our <span class="math inline">\(\alpha\)</span> level.<br />
+<br>
+We also learned that failing to reject the null hypothesis when it is actually false, is known as a Type II Error, and the probability of this depends on how far away from the null hypothesis the true parameter is, as well as how big our sample is.<br />
+<br>
+We simulated different distributions under different hypotheses, using the code below:</p>
+<div class="sourceCode" id="cb641"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb641-1" data-line-number="1"><span class="co"># our possible outcomes</span></a>
+<a class="sourceLine" id="cb641-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>))) </a>
+<a class="sourceLine" id="cb641-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb641-4" data-line-number="4"><span class="co"># our probabilities (reflecting the hypothesis)</span></a>
+<a class="sourceLine" id="cb641-5" data-line-number="5">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb641-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb641-7" data-line-number="7"><span class="co"># our simulated samples of size 50</span></a>
+<a class="sourceLine" id="cb641-8" data-line-number="8">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb641-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb641-10" data-line-number="10"><span class="co"># our distribution</span></a>
+<a class="sourceLine" id="cb641-11" data-line-number="11">distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb641-12" data-line-number="12"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb641-13" data-line-number="13"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<p>We calculated the critical value (for a one-sided test) for a null distribution by arranging the sample statistics and finding where 95% of them are below:</p>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" data-line-number="1">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb642-2" data-line-number="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb642-3" data-line-number="3"><span class="st">  </span><span class="kw">arrange</span>(prop) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb642-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">idx =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()<span class="op">/</span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb642-5" data-line-number="5"><span class="st">  </span><span class="kw">filter</span>(idx <span class="op">==</span><span class="st"> </span><span class="fl">0.95</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb642-6" data-line-number="6"><span class="st">  </span><span class="kw">pull</span>(prop)</a></code></pre></div>
+<p>We could then find the proportion of a different theorised distribution which fell above that critical value, giving our power:</p>
+<div class="sourceCode" id="cb643"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb643-1" data-line-number="1">another_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb643-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb643-3" data-line-number="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb643-4" data-line-number="4">  )</a></code></pre></div>
+<hr />
+</div>
+<div id="lab-2" class="section level2">
+<h2><span class="header-section-number">14.4</span> Lab</h2>
+<div id="exercise-1-calculating-power-for-a-different-coin." class="section level3">
+<h3><span class="header-section-number">14.4.1</span> Exercise 1: Calculating power for a different coin.</h3>
+<div class="question">
+<p class="question-begin">
+► Question 1
+</p>
+<div class="question-body">
+<p>If my trick coin was actually weighted so that it landed on heads 65% of the time, what would the power of Tom’s test (50 flips) be?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-139" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-139&#39;, &#39;sol-start-139&#39;)"></span>
+</p>
+<div id="sol-body-139" class="solution-body" style="display: none;">
+<p>We already know the critical value at which Tom will reject the null hypothesis based on his 50 flips.
+We need to:
+<br>
+Generate the theoretical distribution of <span class="math inline">\(\hat(p) = 0.65\)</span>.</p>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" data-line-number="1"><span class="co">#remember that Tom&#39;s critical value is:</span></a>
+<a class="sourceLine" id="cb644-2" data-line-number="2">crit_val &lt;-<span class="st"> </span><span class="fl">0.62</span></a>
+<a class="sourceLine" id="cb644-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb644-4" data-line-number="4">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb644-5" data-line-number="5">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.65</span>, <span class="fl">0.35</span>)</a>
+<a class="sourceLine" id="cb644-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb644-7" data-line-number="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb644-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb644-9" data-line-number="9">theoretical_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb644-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb644-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<p>Calculate what proportion of this distribution is greater than his critical value. This will be the power.</p>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" data-line-number="1">theoretical_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb645-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb645-3" data-line-number="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb645-4" data-line-number="4">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   prob_crit
+##       &lt;dbl&gt;
+## 1     0.732</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="exercise-2-sample-size-number-of-flips-and-power" class="section level3">
+<h3><span class="header-section-number">14.4.2</span> Exercise 2: Sample size (number of flips) and power</h3>
+<div class="question">
+<p class="question-begin">
+► Question 2
+</p>
+<div class="question-body">
+<p>Assuming the coin to be biased towards landing on heads 60% of the time, calculate the power of Tom’s statistical test for when he flips the coin 75 times, 100 times, and 200 times. Which sample size should Tom use if he wants at least 80% power?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-140" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-140&#39;, &#39;sol-start-140&#39;)"></span>
+</p>
+<div id="sol-body-140" class="solution-body" style="display: none;">
+<p>We can run this chunk changing the <code>nr_flips</code> value each time, to calculate power at different sample sizes.</p>
+<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb647-1" data-line-number="1">nr_flips &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb647-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb647-3" data-line-number="3">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb647-4" data-line-number="4">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb647-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb647-6" data-line-number="6"><span class="co"># GENERATE THE NULL</span></a>
+<a class="sourceLine" id="cb647-7" data-line-number="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span>nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb647-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb647-9" data-line-number="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb647-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb647-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb647-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb647-13" data-line-number="13"><span class="co"># FIND CRITICAL VALUE</span></a>
+<a class="sourceLine" id="cb647-14" data-line-number="14">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb647-15" data-line-number="15"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb647-16" data-line-number="16"><span class="st">  </span><span class="kw">arrange</span>(prop) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb647-17" data-line-number="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">idx =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()<span class="op">/</span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb647-18" data-line-number="18"><span class="st">  </span><span class="kw">filter</span>(idx <span class="op">==</span><span class="st"> </span><span class="fl">0.95</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb647-19" data-line-number="19"><span class="st">  </span><span class="kw">pull</span>(prop)</a>
+<a class="sourceLine" id="cb647-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb647-21" data-line-number="21"><span class="co"># GENERATE THEORISED ALTERNATIVE</span></a>
+<a class="sourceLine" id="cb647-22" data-line-number="22">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb647-23" data-line-number="23">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb647-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb647-25" data-line-number="25">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb647-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb647-27" data-line-number="27">true_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb647-28" data-line-number="28"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb647-29" data-line-number="29"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb647-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb647-31" data-line-number="31"><span class="co"># CALCULATE POWER</span></a>
+<a class="sourceLine" id="cb647-32" data-line-number="32">true_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb647-33" data-line-number="33"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb647-34" data-line-number="34">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb647-35" data-line-number="35">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   prob_crit
+##       &lt;dbl&gt;
+## 1     0.418</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question 3
+</p>
+<div class="question-body">
+<p>List the three things which affect the power of a statistical test.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-141" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-141&#39;, &#39;sol-start-141&#39;)"></span>
+</p>
+<div id="sol-body-141" class="solution-body" style="display: none;">
+<ul>
+<li>Alpha level</li>
+<li>Sample size</li>
+<li>Effect size</li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chap-hyp-test.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
