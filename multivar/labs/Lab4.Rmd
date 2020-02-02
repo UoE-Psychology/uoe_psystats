@@ -1,0 +1,199 @@
+---
+title: "Lab4"
+author: "Dan Mirman"
+date: "11/01/2020"
+output: html_document
+---
+
+# Lab 04: Other Random Effect Structures
+
+## Exercise 1
+
+**The data:**
+```{r}
+load("../data/problem_solving.Rdata")
+summary(problem_solving)
+```
+
+* `Item`: word problem, can be *Hard* or *Easy*
+* `Prob_Type`: difficulty level of word problem (16 hard problems, 14 easy problems)
+* `Subject`: Participant ID, N=120
+* `Condition`: whether the participant received the `Treatment` or not
+* `RT`: time to solve the problem
+* Note: there is some missing data because trials where the participants failed to solve the problem are excluded.
+
+**The exercise:**
+Use MLR with crossed random effects of subjects and items to answer these research questions:
+
+1. Did the treatment improve problem solving ability? 
+2. Did the treatment effect differ between hard and easy problems?
+3. Make a graph of the condition means and variability based on your analysis model
+
+## Exercise 1 Solution
+```{r}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(effects)
+mod_ps <- lmer(RT ~ Prob_Type*Condition + 
+                   (Prob_Type | Subject) + 
+                   (Condition | Item), 
+                 data=problem_solving, REML=FALSE)
+summary(mod_ps)
+```
+
+```{r, fig.width=5, fig.height=4}
+efx <- as.data.frame(effect("Prob_Type:Condition", mod_ps))
+ggplot(efx, aes(Condition, fit, color=Prob_Type, ymin=fit-se, ymax=fit+se)) + 
+  geom_pointrange() +
+  theme_bw() +
+  labs(y="Response Time", color="Problem\nType")
+```
+
+## Exercise 2
+An experiment was run to replicate "test-enhanced learning" (Roediger & Karpicke, 2006): two groups of 25 participants were presented with material to learn. One group studied the material twice (`StudyStudy`), the other group studied the material once then did a test (`StudyTest`). Recall was tested immediately (one minute) after the learning session and one week later. The recall tests were composed of 175 items identified by a keyword (`Test_word`).
+
+The critical (replication) prediction is that the `StudyStudy` group should perform somewhat better on the immediate recall test, but the `StudyTest` group will retain the material better and thus perform better on the 1-week follow-up test.
+
+```{r}
+load("../data/TestEnhancedLearning.RData")
+summary(tel)
+```
+
+1. Plot the data. Does it look like the effect was replicated?
+2. Test the critical hypothesis using a mixed-effects model. Some questions to consider:
+    + Item accuracy is a binary variable. What kind of model will you use?
+    + We can expect variability across subjects (some people are better at learning than others) and across items (some of the recall items are harder than others). How should this be represented in the random effects?
+    + A model with maximal random effects will probably not converge. How will you simplify the model?
+    + Note: these models might take a long time to run.
+3. Plot the model-estimated condition means and variability.
+4. How would you apply test-enhanced learning to the challenge of learning R and statistical modeling?
+
+## Exercise 2 Solution
+
+1. Plot the data. Does it look like the effect was replicated?
+```{r}
+ggplot(tel, aes(Delay, Correct, fill=Group)) + 
+  stat_summary(fun.y=mean, geom="bar", position = "dodge")
+```
+
+That looks like test-enhanced learning to me!
+
+2. Test the critical hypothesis using a mixed-effects model.
+
+```{r eval=FALSE}
+# not evaluating these models because they took forever to run.
+# not joking: I did my grocery shopping and had a beer while these were running.
+m <- glmer(Correct ~ Delay*Group +
+             (Delay + Group | Subject_ID) +
+             (Delay + Group | Test_word),
+           data=tel, family="binomial")
+summary(m)
+#max|grad| = 0.0182486 (tol = 0.001)
+
+# not surprisingly, full model didn't converge. how to simplify?
+# which random effects are least important?
+# (1) generalization over subjects is more important than items
+# (2) for test_word, the group random effect is almost perfectly correlated with the others, so start by try removing those correlations
+m2 <- glmer(Correct ~ Delay*Group +
+             (Delay + Group | Subject_ID) +
+             (Delay | Test_word) +
+              (0 + Group | Test_word),
+            data=tel, family="binomial")
+summary(m2)
+# max|grad| = 0.0145853 (tol = 0.001) -- not much of an improvement
+# the Delay random slope by Test_word variance is extrely low and perfectly correlated with the intercept, try removing that
+m3 <- glmer(Correct ~ Delay*Group +
+              (Delay + Group | Subject_ID) +
+              (1 | Test_word) +
+              (0 + Group | Test_word),
+            data=tel, family="binomial")
+summary(m3)
+# max|grad| = 0.0185765 (tol = 0.001)
+```
+This model converged:
+```{r}
+# try just random intercepts for word
+m4 <- glmer(Correct ~ Delay*Group +
+              (Delay + Group | Subject_ID) +
+              (1 | Test_word),
+            data=tel, family="binomial")
+summary(m4)
+```
+
+3. Plot the model-estimated condition means and variability.
+```{r}
+library(effects)
+ef <- as.data.frame(effect("Delay:Group", m4))
+ggplot(ef, aes(Delay, fit, color=Group)) + 
+  geom_pointrange(aes(ymax=upper, ymin=lower), position=position_dodge(width = 0.2))
+```
+
+4. How would you apply test-enhanced learning to the challenge of learning R and statistical modeling?
+
+A: Ooh, I have an idea: have "labs" where students test themselves by using R to do statistical modeling! They will try to solve the problems on their own and after they've got their answer, *then* they look at the solution and find out if there was a different/better way to do it. That way they get the benefit of test-enahanced learning, and get the "right" answer as well. Because if they just study the lecture notes and solutions, then they'll just forget everything within days.
+
+## Exercise 3
+Made-up date from a RCT treatment study: 5 therapists randomly assigned participants to control or treatment group and monitored the participants' performance over time. There was a baseline test, then 6 weeks of treatment, with test sessions every week (7 total sessions).
+
+```{r}
+load("../data/tx.Rdata")
+summary(tx)
+```
+
+1. Plot the data. Does it look like the treatment had an effect on the performance score?
+2. Test whether the treatment had an effect using mixed-effects modeling. Consider these questions when you're designing your model(s) and use your answers to motivate your model design and interpretation of results:
+
+* What are the levels of nesting? How should that be reflected in the random effect structure?
+* What is the shape of change over time? Do you need polynomials to model this shape? If yes, what order polynomials?
+* If your full model doesn't converge, how do you simplify it?
+
+## Exercise 3 Solution
+1. Plot the data. Does it look like the treatment had an effect on the performance score?
+```{r}
+library(tidyverse)
+load("../data/tx.Rdata")
+ggplot(tx, aes(session, Score, color=group)) +
+  stat_summary(fun.data = mean_se, geom="pointrange") +
+  stat_smooth()
+```
+
+2. Test whether the treatment had an effect using mixed-effects modeling. Consider these questions when you're designing your model(s) and use your answers to motivate your model design and interpretation of results:
+
+* What are the levels of nesting? How should that be reflected in the random effect structure?
+    + There are repeated measures of participants (session). There are also repeated measures of therapists (each one treated many participants).
+* What is the shape of change over time? Do you need polynomials to model this shape? If yes, what order polynomials?
+    + Looks like linear change, don't need polynomials. Good to know that there is no difference at baseline, so no need for orthogonal time.
+* If your full model doesn't converge, how do you simplify it?
+    + Remove random intercept-slope correlation
+
+```{r}
+library(lme4)
+library(lmerTest)
+# start with maximal model
+m1 <- lmer(Score ~ session * group + 
+             (1 + session | PID) + 
+             (1 + session | therapist),
+           data=tx, REML=FALSE)
+summary(m1) 
+# singluar fit, remove nonsense random intercept-slope correlation for therapists
+m2 <- lmer(Score ~ session * group + 
+             (1 + session | PID) + 
+             (1 + session || therapist),
+           data=tx, REML=FALSE)
+# still singluar fit, remove random intercept-slope correlation for participants
+m3 <- lmer(Score ~ session * group + 
+             (1 + session || PID) + 
+             (1 + session || therapist),
+           data=tx, REML=FALSE)
+VarCorr(m3)
+# still singluar fit, remove random slope for therapists; looking at VarCorr: random variance between therapists is much smaller than between participants, so removing it less bad
+
+m4 <- lmer(Score ~ session * group + 
+             (1 + session || PID) + 
+             (1 | therapist),
+           data=tx, REML=FALSE)
+# this is pretty close to good convergence
+summary(m4)
+# it's a good idea to check that the parameter estimates and SE are not radically different across these models (they are virtually identical)
+```
