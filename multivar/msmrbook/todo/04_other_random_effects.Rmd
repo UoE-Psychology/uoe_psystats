@@ -16,7 +16,8 @@ library(effects)
 
 ### Lecture Slides {-}  
 
-The lecture slides can be accessed [here](https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/Lecture04_RanEf.html). 
+The lecture slides can be accessed [here](https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/Lecture04_RanEf.html).  
+Data from the lecture can be found at [https://edin.ac/36UYA00 (active_math_sim.csv)](https://edin.ac/36UYA00) and [https://edin.ac/2ShRCNl (problem_solving.Rdata)](https://edin.ac/2ShRCNl).  
 
 ### Background & Reading {-}  
   
@@ -31,7 +32,7 @@ The lecture slides can be accessed [here](https://uoe-psychology.github.io/uoe_p
 ### The data {-}  
 
 ```{r}
-load("../../labs/problem_solving.Rdata")
+load(url("https://edin.ac/2ShRCNl"))
 summary(problem_solving)
 ```
 
@@ -52,9 +53,10 @@ Check the contrasts of the `Condition` and `Prob_Type` variables.
 contrasts(problem_solving$Condition)
 contrasts(problem_solving$Prob_Type)
 ```
-They are sum-coded. Think about what this means for when you are interpreting the intercept and coefficients!
+They are sum-coded. Remember what this means when you are interpreting the intercept and coefficients!
 `r msmbstyle::solution_end()`
-
+  
+<hr />
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
 + Does `Prob_Type` vary within subjects?
@@ -63,21 +65,21 @@ They are sum-coded. Think about what this means for when you are interpreting th
 + Does `Condition` vary within items?
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=FALSE)`
-Each subject solved both Easy and Hard problems.
-Each item was either Easy or Hard.
-Each subject was either in the control condition or the treatment condition.
-Each item was solved both by subjects in the control condition and subjects in the treatment condition.
-
-
++ Yes: Each subject solved both Easy and Hard problems.
++ No: Each item was either Easy or Hard.
++ No: Each subject was either in the control condition or the treatment condition.
++ Yes: Each item was solved both by subjects in the control condition and subjects in the treatment condition.
 `r msmbstyle::solution_end()`
-
-Use MLR with crossed random effects of subjects and items to answer these research questions
+  
+<hr />
+  
+`r msmbstyle::question_begin(header = "&#x25BA; Question 3")`
+Conduct MLR with crossed random effects of subjects and items to answer these research questions
 
 1. Did the treatment improve problem solving ability? 
 2. Did the treatment effect differ between hard and easy problems?
 
-
-
+**Hint:** You can do this with one model, given what you know about the contrasts.
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r message=FALSE, warning=FALSE}
@@ -88,14 +90,278 @@ mod_ps <- lmer(RT ~ Prob_Type*Condition +
 
 summary(mod_ps)
 ```
++ Because both `Condition` and `Prob_Type` are sum-coded, the intercept term is the grand mean.  
++ The `Prob_Type1` coefficient corresponds to the mean for `Prob_Type == "Hard"` minus the grand mean.
+<small>Note that sum-coding means that we no longer interpret this as the effect of `Prob_Type` at a reference level of `Condition` - instead it may help to think of it as the effect of `Prob_Type` 'when `Condition == 0`'. In the default coding, 0 corresponds to the reference level, but in sum-coding, where Control = 1 and Treatment = -1, what is 0? It's mid-way between the two (it may help to think of sum-coding similar to what happens when we 'center' continuous variables).</small>
++ The `Condition1` coefficient corresponds to the mean for `Condition == "Control"` minus the grand mean. 
++ The `Prob_Type1:Condition1` coefficient corresponds to the effect of `Prob_Type` when `Condition == "Control"` relative to the effect of `Prob_Type` at the grand mean. Or, equivalently, the effect of `Condition` when `Prob_Type == "Hard"` relative to the effect of `Condition` at the grand mean.  
+<br>  
+  
+1. Treatment improves problem solving ability (slower reaction times in the control group across both easy and hard problems), $\beta = 58.34, SE = 29.43, p = 0.0499$
+2. Treatment effect differs between easy and hard problems, with a greater effect for harder problems (greater difference in reaction times between control and treatment groups for hard problems), $\beta = 36.14, SE = 17.73, p = 0.0446$
+  
 `r msmbstyle::solution_end()`
 
-3. Make a graph of the condition means and variability based on your analysis model
+<hr />
 
+`r msmbstyle::question_begin(header = "&#x25BA; Question 4")`
+Make a graph of the condition means and variability based on your analysis model.  
+**Hint:** start with`as.data.frame(effect(........))`, and pass to it the parameter you're interested in and your model. 
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r, fig.width=5, fig.height=4}
 efx <- as.data.frame(effect("Prob_Type:Condition", mod_ps))
+
 ggplot(efx, aes(Condition, fit, color=Prob_Type, ymin=fit-se, ymax=fit+se)) + 
   geom_pointrange() +
-  theme_bw() +
+  theme_light() +
+  scale_color_manual(values=c("lightgreen","tomato1")) +
   labs(y="Response Time", color="Problem\nType")
 ```
+`r msmbstyle::solution_end()`
+
+
+## Exercise 2  
+
+<div class = "red">
+### The data {-}  
+
+An experiment was run to replicate "test-enhanced learning" (Roediger & Karpicke, 2006): two groups of 25 participants were presented with material to learn. One group studied the material twice (`StudyStudy`), the other group studied the material once then did a test (`StudyTest`). Recall was tested immediately (one minute) after the learning session and one week later. The recall tests were composed of 175 items identified by a keyword (`Test_word`).  
+<br>  
+The critical (replication) prediction is that the `StudyStudy` group should perform somewhat better on the immediate recall test, but the `StudyTest` group will retain the material better and thus perform better on the 1-week follow-up test.
+
+```{r}
+load(url("https://edin.ac/2RWbl6g"))
+summary(tel)
+```
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
+Plot the data. Does it look like the effect was replicated?
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+You can make use of `stat_summary()` again!
+```{r, eval=FALSE}
+ggplot(tel, aes(Delay, Correct, col=Group)) + 
+  stat_summary(fun.data=mean_se, geom="pointrange")+
+  theme_light()
+```
+It's more work, but some people might rather calculate the numbers and then plot them directly. It does just the same thing: 
+```{r}
+tel %>% 
+  group_by(Delay, Group) %>%
+  summarise(
+    mean = mean(Correct),
+    se = sd(Correct)/sqrt(n())
+  ) %>%
+  ggplot(., aes(x=Delay, col = Group)) +
+  geom_pointrange(aes(y=mean, ymin=mean-se, ymax=mean+se))+
+  theme_light() +
+  labs(y = "Correct")
+```
+That looks like test-enhanced learning to me!  
+`r msmbstyle::solution_end()` 
+
+<hr />
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
+Test the critical hypothesis using a mixed-effects model. 
+
+Some questions to consider:  
+  
++ Item accuracy is a binary variable. What kind of model will you use?  
++ We can expect variability across subjects (some people are better at learning than others) and across items (some of the recall items are harder than others). How should this be represented in the random effects?
++ A model with maximal random effects will probably not converge. How will you simplify the model?  
+
+*Note:* these models might take a **long** time to run.  
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+```{r eval=FALSE}
+# not evaluating these models because they took forever to run.
+# not joking: I did my grocery shopping and had a beer while these were running.
+m <- glmer(Correct ~ Delay*Group +
+             (Delay + Group | Subject_ID) +
+             (Delay + Group | Test_word),
+           data=tel, family="binomial")
+summary(m)
+#max|grad| = 0.0182486 (tol = 0.001)
+
+# not surprisingly, full model didn't converge. how to simplify?
+# which random effects are least important?
+# (1) generalization over subjects is more important than items
+# (2) for test_word, the group random effect is almost perfectly correlated with the others, so start by try removing those correlations
+m2 <- glmer(Correct ~ Delay*Group +
+             (Delay + Group | Subject_ID) +
+             (Delay | Test_word) +
+              (0 + Group | Test_word),
+            data=tel, family="binomial")
+summary(m2)
+# max|grad| = 0.0145853 (tol = 0.001) -- not much of an improvement
+# the Delay random slope by Test_word variance is extrely low and perfectly correlated with the intercept, try removing that
+m3 <- glmer(Correct ~ Delay*Group +
+              (Delay + Group | Subject_ID) +
+              (1 | Test_word) +
+              (0 + Group | Test_word),
+            data=tel, family="binomial")
+summary(m3)
+# max|grad| = 0.0185765 (tol = 0.001)
+```
+This model converged:
+```{r}
+# try just random intercepts for word
+m4 <- glmer(Correct ~ Delay*Group +
+              (Delay + Group | Subject_ID) +
+              (1 | Test_word),
+            data=tel, family="binomial",
+            glmerControl(optimizer = "bobyqa"))
+summary(m4)
+```
+You can also get some odds-ratios and quick confidence intervals using the following:
+*Note, the `method = "Wald"` corresponds to a quick-and-easy method of calculating confidence intervals (simply $1.96 \times SE$). The gold standard for confidence intervals is `method = "boot"`, which obtains them via bootstrapping, but this will take too long! 
+```{r}
+exp(fixef(m4))
+exp(confint(m4, method="Wald"))[8:11,]
+```
+
+<!-- No difference between groups on the immediate test.  -->
+<!-- For the `StudyStudy` group, there was a decreased likelihood of getting an item correct on the follow-up test relative to the immediate test ($OR = 0.35, \text{95% CI} = [0.31, 0.40]$).   -->
+<!-- For the The likelihood of correctly answering an item  -->
+`r msmbstyle::solution_end()` 
+
+<hr />
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 7")`
+Plot the model-estimated condition means and variability.  
+
+*Hint:* This is very similar to question 4.
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+```{r}
+ef <- as.data.frame(effect("Delay:Group", m4))
+
+ggplot(ef, aes(Delay, fit, color=Group)) + 
+  geom_pointrange(aes(ymax=upper, ymin=lower), position=position_dodge(width = 0.2))+
+  theme_classic() # just for a change :)
+```
+`r msmbstyle::solution_end()` 
+
+<hr />
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 8")`
+What should we do with this information? How can we apply test-enhanced learning to learning R and statistics?
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+You'll get the benefits of test-enhanced learning if you try yourself before looking at the solutions! If you don't test yourself, you're more likely to forget it in the long run. 
+`r msmbstyle::solution_end()` 
+
+## Exercise 3 - Handling singular fits.  
+
+Up to now, we've been largely ignoring these warnings. However, in this exercise we're going to look at how to deal with this issue.
+</div>
+
+
+<div class="red">  
+### The data {-}  
+  
+Made-up date from a RCT treatment study: 5 therapists randomly assigned participants to control or treatment group and monitored the participants' performance over time. There was a baseline test, then 6 weeks of treatment, with test sessions every week (7 total sessions).
+
+```{r}
+load(url("https://edin.ac/2GPGgev"))
+summary(tx)
+```
+</div> 
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
+Plot the data. Does it look like the treatment had an effect on the performance score?
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+```{r message=FALSE}
+ggplot(tx, aes(session, Score, color=group)) +
+  stat_summary(fun.data = mean_se, geom="pointrange") +
+  stat_smooth() +
+  theme_classic()
+```
+
+Just for fun, let's add on the individual participant scores, and also make a plot for each therapist. 
+```{r message=FALSE}
+ggplot(tx, aes(session, Score, color=group)) +
+  stat_summary(fun.data = mean_se, geom="pointrange") +
+  stat_smooth() +
+  theme_classic() +
+  geom_line(aes(group=PID), alpha=.2)+facet_wrap(~therapist)
+```
+`r msmbstyle::solution_end()` 
+
+<hr />
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 10")`
+Consider these questions when you're designing your model(s) and use your answers to motivate your model design and interpretation of results:  
+
+a. What are the levels of nesting? How should that be reflected in the random effect structure?
+a. What is the shape of change over time? Do you need polynomials to model this shape? If yes, what order polynomials?
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+a. There are repeated measures of participants (session). There are also repeated measures of therapists (each one treated many participants).
+a. Looks like linear change, don't need polynomials. Good to know that there is no difference at baseline, so no need for orthogonal time.
+`r msmbstyle::solution_end()` 
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 11")`
+Test whether the treatment had an effect using mixed-effects modeling. Specify the maximal model. 
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+```{r}
+# start with maximal model
+m1 <- lmer(Score ~ session * group + 
+             (1 + session | PID) + 
+             (1 + session | therapist),
+           data=tx, REML=FALSE)
+summary(m1)
+```
+`r msmbstyle::solution_end()` 
+
+<div class="lo">
+<br>
+You may have noticed that a lot of our models over the last few weeks have been giving us a warning: `boundary (singular) fit: see ?isSingular`.   
+This warning us that our model has resulted in a 'singular fit'. You can read in depth about what this means by reading the help documentation for `?isSingular`. For our purposes, a relevant section is copied below: 
+```
+...intercept-only models, or 2-dimensional random effects such as intercept+slope models, singularity is relatively easy to detect because it leads to random-effect variance estimates of (nearly) zero, or estimates of correlations that are (almost) exactly -1 or 1.
+```
+<br>
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 12")`
+Examine the variance estimates and correlations by using the `VarCorr()` function. What jumps out?  
+
+Try adjusting your model, examining the estimates again, and so on..  
+What we're doing here is following Barr et al.'s advice of defining our maximal model and then removing only the terms to allow a non-singular fit.  
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+```{r}
+VarCorr(m1)
+```
+There's a correlation of exactly -1 between the random intercepts and slopes for therapists. Let's remove it. 
+```{r}
+# remove nonsense random intercept-slope correlation for therapists
+m2 <- lmer(Score ~ session * group + 
+             (1 + session | PID) + 
+             (1 + session || therapist),
+           data=tx, REML=FALSE)
+VarCorr(m2)
+```
+It now looks like variance estimates for intercepts and slopes for therapists are both 0. If we remove them both, our model finally is non-singular:
+```{r}
+m3 <- lmer(Score ~ session * group + 
+             (1 + session || PID),
+           data=tx, REML=FALSE)
+summary(m3)
+```
+
+Lastly, it's then a good idea to check that the parameter estimates and SE are not radically different across these models (they are virtually identical)
+```{r}
+summary(m1)$coefficients
+summary(m2)$coefficients
+summary(m3)$coefficients
+```
+`r msmbstyle::solution_end()` 
+
+
