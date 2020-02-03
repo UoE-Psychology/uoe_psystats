@@ -401,15 +401,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-i-errors"><i class="fa fa-check"></i>Type I errors</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors-and-power"><i class="fa fa-check"></i>Type II Errors and Power</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2-a-biased-coin"><i class="fa fa-check"></i>Example 2: A biased coin</a></li>
-<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overlapping-distributions"><i class="fa fa-check"></i>Overlapping distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
 </ul></li>
 <li class="chapter" data-level="14.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#summary-3"><i class="fa fa-check"></i><b>14.3</b> Summary</a></li>
 <li class="chapter" data-level="14.4" data-path="chap-typeerror.html"><a href="chap-typeerror.html#lab-2"><i class="fa fa-check"></i><b>14.4</b> Lab</a><ul>
-<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Calculating power for a different coin.</a></li>
-<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Sample size (number of flips) and power</a></li>
+<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-rock-paper-scissors"><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Rock Paper Scissors!</a></li>
+<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Calculating power for a different coin.</a></li>
 </ul></li>
-<li class="chapter" data-level="14.5" data-path="chap-typeerror.html"><a href="chap-typeerror.html#glossary-3"><i class="fa fa-check"></i><b>14.5</b> Glossary</a></li>
+<li class="chapter" data-level="14.5" data-path="chap-typeerror.html"><a href="chap-typeerror.html#extra-exercises"><i class="fa fa-check"></i><b>14.5</b> Extra Exercises</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-3-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.5.1</b> Exercise 3: Sample size (number of flips) and power</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="chap-typeerror.html"><a href="chap-typeerror.html#glossary-3"><i class="fa fa-check"></i><b>14.6</b> Glossary</a></li>
+<li class="chapter" data-level="14.7" data-path="chap-typeerror.html"><a href="chap-typeerror.html#references-3"><i class="fa fa-check"></i><b>14.7</b> References</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -459,16 +463,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">14.2</span> Walkthrough</h2>
 <div id="example-1-coin-flip" class="section level3 unnumbered">
 <h3>Example 1: Coin flip</h3>
-<div style="background-image: url(&#39;flipping.jpg&#39;)">
+<div class="red">
 <h4 id="research-question-hypotheses" class="unnumbered">Research Question &amp; Hypotheses</h4>
-<p>Is our coin biased?
-<br><br>
+<p>Is our coin biased?</p>
+</div>
+<p><br><br>
 <em>Null hypothesis</em>: We’re just as likely to get heads as tails when we flip the coin. We will denote by <span class="math inline">\(p\)</span> the probability of ‘heads’.
 <span class="math display">\[H_0: p = 0.5\]</span>
 <em>Alternative hypothesis</em>: We’re more likely to see either heads or tails when we flip the coin.
 <span class="math display">\[H_1: p \neq 0.5\]</span></p>
-<h4 id="data-collection" class="unnumbered">Data collection</h4>
-<p>We flip the coin 90 times, and it lands on heads 55 times.</p>
+<div id="data-collection" class="section level4 unnumbered">
+<h4>Data collection</h4>
+<p>We flip the coin 90 times, and it lands on heads 55 times.<br />
+<span class="math display">\[H, T, H, H, T, T, T, H, H, H, H, T, H, H, T, T, H, T, H, H,...\]</span></p>
 </div>
 <div id="analysis" class="section level4 unnumbered">
 <h4>Analysis</h4>
@@ -540,9 +547,9 @@ How surprising is 55 heads in 90 coin flips? We can compare it against the null 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-86" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-86&#39;, &#39;sol-start-86&#39;)"></span>
+► Solution<span id="sol-start-358" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-358&#39;, &#39;sol-start-358&#39;)"></span>
 </p>
-<div id="sol-body-86" class="solution-body" style="display: none;">
+<div id="sol-body-358" class="solution-body" style="display: none;">
 <p>If we perform an hypothesis test for the two-sided alternative <span class="math inline">\(p \neq 0.5\)</span>, this is the proportion of statistics <em>at least as extreme in either direction</em>, so we’re looking at both tails of the distribution (i.e., answer B above).
 <br>
 However, we can assume the distribution to be symmetric, so we can simply multiply the proportion of the null distribution in one tail by two (i.e., answer C above).</p>
@@ -581,9 +588,9 @@ However, we can assume the distribution to be symmetric, so we can simply multip
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-87" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-87&#39;, &#39;sol-start-87&#39;)"></span>
+► Solution<span id="sol-start-359" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-359&#39;, &#39;sol-start-359&#39;)"></span>
 </p>
-<div id="sol-body-87" class="solution-body" style="display: none;">
+<div id="sol-body-359" class="solution-body" style="display: none;">
 <p>According to the p-value previously found, 0.04 <span class="math inline">\(\leq\)</span> 0.05, we have reason to reject the null hypothesis that our coin will land on heads and tails equally often.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -617,11 +624,11 @@ Last week we discussed an analogy in law, in which a person on trial is presumed
 <tr class="odd">
 <td align="left"><strong>Verdict = Innocent</strong> <br> <strong>Test fails to reject <span class="math inline">\(H_0\)</span></strong></td>
 <td align="center">Correct decision</td>
-<td align="center">Criminal goes free <br> Type II Error = <span class="math inline">\(\beta\)</span></td>
+<td align="center">Criminal goes free <br> Type II Error <br> <span class="math inline">\(\beta\)</span></td>
 </tr>
 <tr class="even">
 <td align="left"><strong>Verdict = Guilty</strong> <br> <strong>Test rejects <span class="math inline">\(H_0\)</span></strong></td>
-<td align="center">Wrongful conviction <br> Type I Error = <span class="math inline">\(\alpha\)</span></td>
+<td align="center">Wrongful conviction <br> Type I Error <br> <span class="math inline">\(\alpha\)</span></td>
 <td align="center">Correct decision</td>
 </tr>
 </tbody>
@@ -638,21 +645,12 @@ Last week we discussed an analogy in law, in which a person on trial is presumed
 So the probability of making this error is equal to the <span class="math inline">\(\alpha\)</span> level which we set.<br />
 <br>
 In other words, when the null hypothesis is true, 0.05 (or 5%) of the random samples we could take would result in us rejecting it.</p>
-<div class="noteBox">
-<h4 id="a-thought-experiment" class="unnumbered">A thought experiment</h4>
-<ul>
-<li>There are 20 researchers.</li>
-<li>Each researcher has a perfectly balanced/fair coin.<br />
-</li>
-<li>Each researcher conducts a statistical test at <span class="math inline">\(\alpha = 0.05\)</span> to evaluate whether their coin is fair (lands on heads equally as often as it lands on tails).</li>
-</ul>
 <div class="question">
 <p class="question-begin">
 ► Question
 </p>
 <div class="question-body">
-<p>How many of the researchers’ tests would we expect to result in a type I error?<br />
-<small><strong>Remember:</strong> The probability of making a Type I error is the probability of getting an unlikely sample statistic simply due to chance sampling variation (i.e., we just happen to get a random sample with an unlikely statistic).</small></p>
+<p>If there are 100 researchers, each testing a fair coin at <span class="math inline">\(\alpha = 0.05\)</span>, how many of them will incorrectly reject their null hypothesis that the coin is equally likely to land on heads or tails (<span class="math inline">\(p = 0.5\)</span>).</p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -660,26 +658,20 @@ In other words, when the null hypothesis is true, 0.05 (or 5%) of the random sam
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-88" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-88&#39;, &#39;sol-start-88&#39;)"></span>
+► Solution<span id="sol-start-360" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-360&#39;, &#39;sol-start-360&#39;)"></span>
 </p>
-<div id="sol-body-88" class="solution-body" style="display: none;">
-<p>This is similar to asking “What is the probability of observing at least one significant result due to chance sampling variation alone?”. We can work this out..
-<br></p>
-<ul>
-<li><p>For one researcher, if their null hypothesis is true, the probability that they get a significant result is 0.05, and the probability that they get a non-significant result (p-value <span class="math inline">\(&gt; 0.05\)</span>) is 0.95.</p></li>
-<li><p>If there are 20 researchers, the probability of them <em>all</em> getting <em>non-significant</em> results when their null hypotheses are all true is <span class="math inline">\(0.95^{20} = 0.358\)</span>.</p></li>
-<li><p>This means that the probability of the opposite - <em>at least one</em> of them gets a significant result even though all their nulls are true - is <span class="math inline">\(1 - 0.358 = 0.642\)</span>.</p></li>
-</ul>
+<div id="sol-body-360" class="solution-body" style="display: none;">
+<p>We would expect 0.05 (5%) of the 100 researchers’ random samples (sequence of coin flips) to have a proportion of heads extreme enough for them to reject the null hypothesis.<br>
+We would expect 5 researchers to make a Type I Error.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
 </div>
 </div>
 </div>
-</div>
 <div id="type-ii-errors-and-power" class="section level3 unnumbered">
 <h3>Type II Errors and Power</h3>
-<p>The other kind of error we might make is a <strong>type II error</strong>, and is denoted by <span class="math inline">\(\beta\)</span>.<br>
+<p>The other kind of error we might make is a <strong>Type II Error</strong>, and is denoted by <span class="math inline">\(\beta\)</span>.<br>
 This happens when <span class="math inline">\(H_0\)</span> is false, but we do not have enough evidence to reject it.</p>
 <p>In our table, the columns specify the possible states of the world (<span class="math inline">\(H_0\)</span> is either True or False).<br />
 <br>
@@ -703,12 +695,12 @@ We have seen that:</p>
 <tr class="odd">
 <td align="left"><strong>Test doesn’t reject <span class="math inline">\(H_0\)</span></strong></td>
 <td align="center">Correct<br><strong><span class="math inline">\(1 - \alpha\)</span></strong></td>
-<td align="center">Type II Error = <span class="math inline">\(\beta\)</span></td>
+<td align="center">Type II Error <br> <span class="math inline">\(\beta\)</span></td>
 </tr>
 <tr class="even">
 <td align="left"><strong>Test rejects <span class="math inline">\(H_0\)</span></strong></td>
-<td align="center">Type I Error = <span class="math inline">\(\alpha\)</span></td>
-<td align="center">Correct<br><strong>Power</strong> = <strong><span class="math inline">\(1 - \beta\)</span></strong></td>
+<td align="center">Type I Error <br> <span class="math inline">\(\alpha\)</span></td>
+<td align="center">Correct<br><strong>Power</strong> <br> <strong><span class="math inline">\(1 - \beta\)</span></strong></td>
 </tr>
 </tbody>
 </table>
@@ -744,11 +736,11 @@ Where <span class="math inline">\(p\)</span> is the probability of ‘heads’, 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-89" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-89&#39;, &#39;sol-start-89&#39;)"></span>
+► Solution<span id="sol-start-361" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-361&#39;, &#39;sol-start-361&#39;)"></span>
 </p>
-<div id="sol-body-89" class="solution-body" style="display: none;">
+<div id="sol-body-361" class="solution-body" style="display: none;">
 <p>Given that Tom thinks the coin is biased towards landing on heads, we will use (b) as his alternative hypothesis: <span class="math inline">\(H_1: p &gt; 0.5\)</span>.</p>
-<p class="question-end">
+<p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
 </div>
@@ -760,31 +752,13 @@ Where <span class="math inline">\(p\)</span> is the probability of ‘heads’, 
 <ol style="list-style-type: decimal">
 <li>Generate the null distribution for Tom’s test.<br />
 </li>
-<li>Calculate the critical value (the minimum number of heads needed for Tom to reject his null hypothesis).<br />
+<li>Calculate the <strong>critical value</strong> (the minimum number of heads in 50 flips which would lead Tom to reject his null hypothesis).<br />
 </li>
-<li>Calculate the actual probability of seeing a statistic larger than the critical value, given that we know the true bias of the coin.</li>
+<li>Calculate the actual probability of seeing a statistic larger than the critical value, given that we know the true bias of the coin. This is the statistical power of Tom’s test.</li>
 </ol>
 </div>
-<p><br></p>
-<div id="calculating-toms-critical-regions" class="section level4 unnumbered">
-<h4>Calculating Tom’s critical regions</h4>
-<div class="question">
-<p class="question-begin">
-► Question
-</p>
-<div class="question-body">
-<p>In Tom’s 50 coin flips, at a significance level of 0.05, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?</p>
-<p class="question-end">
-<span class="fa fa-square-o solution-icon"></span>
-</p>
-</div>
-</div>
-<div class="solution">
-<p class="solution-begin">
-► Solution<span id="sol-start-90" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-90&#39;, &#39;sol-start-90&#39;)"></span>
-</p>
-<div id="sol-body-90" class="solution-body" style="display: none;">
-<p>Generate Tom’s null distribution:</p>
+<p><strong>1. Generate Tom’s null distribution</strong></p>
+<p>In Tom’s 50 coin flips, at a significance level of 0.05, what proportion of heads would lead him to the conclusion that the coin is a trick coin? The first step is to generate the null distribution:</p>
 <div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb636-1" title="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
 <a class="sourceLine" id="cb636-2" title="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
 <a class="sourceLine" id="cb636-3" title="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
@@ -796,54 +770,31 @@ Where <span class="math inline">\(p\)</span> is the probability of ‘heads’, 
 <a class="sourceLine" id="cb636-9" title="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb636-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb636-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<p><strong>2. Calculating Tom’s critical value:</strong></p>
 <p>Now that we have generated the null distribution which Tom will use to test his observed statistic, we need to work out the values at which he will reject the null.<br>
 In other words, we need to work out where the top 5% of the null distribution is.<br>
 <br>
 Note that we are only looking at the top 5% because Tom thinks the coin is biased <em>towards heads</em>. So his alternative hypothesis (<span class="math inline">\(H_1\)</span>) is <span class="math inline">\(p &gt; 0.5\)</span>, and he will reject <span class="math inline">\(H_0\)</span> if his observed statistic falls in the top end of the distribution.
 <br>
-To do this, we’re going to order the simulated sample proportions (the null distribution) from smallest to largest, and find the value at which 95% of them are smaller.</p>
-<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb637-1" title="1">null_distribution &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb637-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(prop) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb637-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">idx =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()<span class="op">/</span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb637-4" title="4"></a>
-<a class="sourceLine" id="cb637-5" title="5">null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb637-6" title="6"><span class="st">  </span><span class="kw">filter</span>(idx <span class="op">==</span><span class="st"> </span><span class="fl">0.95</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 1 x 3
-##   replicate  prop   idx
-##       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1        92  0.62  0.95</code></pre>
+To do this, we’re going to use a new function called <code>quantile()</code>, which will give us the value for which a given percentage of the distribution of simulated sample statistics is to the left (e.g., smaller).</p>
+<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb637-1" title="1">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb637-2" title="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb637-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb637-4" title="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a>
+<a class="sourceLine" id="cb637-5" title="5"></a>
+<a class="sourceLine" id="cb637-6" title="6">crit_val</a></code></pre></div>
+<pre><code>##  95% 
+## 0.62</code></pre>
 <p>If Tom flips the coin 50 times, under the null hypothesis, he would need to get a sample statistic (<span class="math inline">\(\hat{p}\)</span>) of greater than or equal to 0.62.</p>
-<p class="solution-end">
-<span class="fa fa-square-o solution-icon"></span>
-</p>
-</div>
-</div>
-</div>
-<div id="calculating-toms-power" class="section level4 unnumbered">
-<h4>Calculating Tom’s power</h4>
-<div class="question">
-<p class="question-begin">
-► Question
-</p>
-<div class="question-body">
+<p><strong>3. Calculating Tom’s power</strong></p>
 <p>Things we know so far:</p>
 <ul>
 <li>The coin is rigged to land on heads on 60% of flips - the true probability of heads is 0.6.</li>
 <li>If 62% or more of Tom’s 50 coin flips come up heads, then he will reject his null hypothesis (that the coin is fair).</li>
 </ul>
-<p>What’s the probability that Tom’s 50 flips will come up with 62% or more heads?
+<p>What’s the probability that Tom’s 50 flips will come up with 62% or more heads using the biased coin?
 <br>
 In other words, what is the <em>power</em> of his test?</p>
-<p class="question-end">
-<span class="fa fa-square-o solution-icon"></span>
-</p>
-</div>
-</div>
-<div class="solution">
-<p class="solution-begin">
-► Solution<span id="sol-start-91" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-91&#39;, &#39;sol-start-91&#39;)"></span>
-</p>
-<div id="sol-body-91" class="solution-body" style="display: none;">
 <p>We can do this by generating the sampling distribution for when the coin is biased towards heads 60% of the time (which we know is actually true).</p>
 <div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb639-1" title="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
 <a class="sourceLine" id="cb639-2" title="2">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
@@ -855,49 +806,125 @@ In other words, what is the <em>power</em> of his test?</p>
 <a class="sourceLine" id="cb639-8" title="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb639-9" title="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
 <a class="sourceLine" id="cb639-10" title="10"></a>
-<a class="sourceLine" id="cb639-11" title="11">true_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb639-12" title="12"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb639-13" title="13">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.62</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb639-14" title="14">  )</a></code></pre></div>
+<a class="sourceLine" id="cb639-11" title="11">tom_power &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb639-12" title="12"><span class="st">  </span>true_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb639-13" title="13"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb639-14" title="14">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb639-15" title="15">  )</a>
+<a class="sourceLine" id="cb639-16" title="16">tom_power</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   prob_crit
 ##       &lt;dbl&gt;
 ## 1     0.463</code></pre>
-<p class="solution-end">
+<p>Tom’s 50 flips has 46.3% power.<br>
+What does this mean?<br>
+It means that he has a 0.463 probability of concluding that my biased coin is biased!<br />
+<br>
+It might help if we plotted the two distributions which we just generated.<br />
+We’ll start with Tom’s null distribution (proportions of heads in 1000 simulated samples of size 50, assuming the probability of heads = 0.5). It’s a histogram, with the dotplots on top just to show their equivalence.
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-411-1.png" width="672" /></p>
+<p>This shows the critical value and region for Tom’s one-tailed test at <span class="math inline">\(\alpha = 0.05\)</span>.
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-412-1.png" width="672" /></p>
+<p>Finally, let’s add to that the <em>true distribution</em> which we generated based on our knowledge that the coin is actually biased towards landing on heads 60% of the time. Here it is (in green):
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-413-1.png" width="672" />
+Think about what this shows. For a coin which is biased towards landing on heads 60% of the time, more often than not, the proportion of heads in 50 flips will fall below 0.62 (which is Tom’s critical value - i.e., the minimum value which would result in him rejecting the null hypothesis).<br>
+In fact, the probability of 50 flips of the trick coin resulting in a proportion of heads large enough for Tom to reject the null is about 46.3%.<br>
+This is the proportion of the true sampling distribution (green, above) which is equal to or greater than the critical value (black vertical line).</p>
+</div>
+<div id="overlapping-distributions" class="section level3 unnumbered">
+<h3>Overlapping distributions</h3>
+<p>We’ve just seem a visualisation of two different possible sampling distributions, one reflecting the null hypothesis, and one reflecting an alternative (in this case, it reflected the <em>true</em> bias of the coin). It helps to think of the statistical power of a test in terms of the <em>overlap</em> of two such distributions.</p>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>How will our choice of <span class="math inline">\(\alpha\)</span> influence our statistical power? (Try explaining it in terms of the two distributions we saw above)</p>
+<p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
 </div>
 </div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-362" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-362&#39;, &#39;sol-start-362&#39;)"></span>
+</p>
+<div id="sol-body-362" class="solution-body" style="display: none;">
+<p>A lower <span class="math inline">\(\alpha\)</span> means that we need stronger evidence to reject the null hypothesis.<br>
+We have less power when we have a lower <span class="math inline">\(\alpha\)</span> because the critical value is further from the center of the null distribution (i.e., more extreme). Less of the alternative distribution will be equal or greater than a more extreme critical value.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
 </div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>How will our sample size influence our statistical power? (Try explaining it in terms of the two distributions we saw above)</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-363" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-363&#39;, &#39;sol-start-363&#39;)"></span>
+</p>
+<div id="sol-body-363" class="solution-body" style="display: none;">
+<p>A bigger sample means a smaller standard error (see <a href="chap-sampling-distributions.html#chap-sampling-distributions">Week 11</a>).<br>
+This would make both sampling distributions (that under the null hypothesis, and that under an alternative hypothesis) <em>narrower</em>, and therefore overlap less, leading to more power.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>How would it influence our statistical power if we assumed the coin was actually rigged to land 70% of the time on heads? (Try explaining it in terms of the two distributions we saw above)</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-364" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-364&#39;, &#39;sol-start-364&#39;)"></span>
+</p>
+<div id="sol-body-364" class="solution-body" style="display: none;">
+<p>When there is greater difference between the null distribution and an hypothesised distribution, the two distributions will overlap less, leading to more power.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>A nice visualisation of power can be found here: <a href="https://rpsychologist.com/d3/NHST/" class="uri">https://rpsychologist.com/d3/NHST/</a></p>
 </div>
 <div id="generalising-it" class="section level3 unnumbered">
 <h3>Generalising it</h3>
-<ol style="list-style-type: decimal">
-<li>When we conduct NHST (Null Hypothesis Significance Testing), we set <span class="math inline">\(\alpha\)</span>.<br />
-</li>
-<li>In setting <span class="math inline">\(\alpha\)</span>, we define a <strong>critical region</strong> under the null distribution. The <strong>critical value</strong> is the value of the statistic which defines the start of this region. Any statistic more extreme than this will result in rejecting the null hypothesis.</li>
-<li>If the null hypothesis is false, the probability that we reject the null hypothesis depends on a) how far away from the null hypothesis the true state of the world is, and b) our sample size.
-<br></li>
-</ol>
-<div id="why-is-this-useful" class="section level4 unnumbered">
-<h4>Why is this useful??</h4>
 <p>In our example, we <em>knew</em> the true bias of the coin. But Tom didn’t!<br />
 <br>
 What Tom <em>could</em> do, is calculate the power of his test <em>assuming</em> a given value for <span class="math inline">\(p\)</span>. He might have thought to himself:<br>
 “Hmm, that coin seems to land on heads about 3/4 of the time. If that is true, I want to know what the probability of me being able to correctly reject the null hypothesis is when I flip the coin 50 times”.</p>
-<p><small>Had Tom used the R code above he might have called his distribution <code>theoretical_distribution</code> rather than <code>true_distribution</code>!</small><br />
+<p><small>Had Tom used the R code above he might have called his distribution <code>hypothesised_distribution</code> rather than <code>true_distribution</code>!</small><br />
 <br></p>
 <div class="red">
-<p>The important thing is that, given an assumed <strong>effect size</strong> (i.e., difference from the null hypothesis) - or <em>set of</em> effect sizes - we can compute the power of a test for a given sample size.<br />
-We can reframe this and find out what the minimum sample size is that would be required to detect a given effect size.</p>
+<p><br></p>
+<ul>
+<li>When we conduct NHST (Null Hypothesis Significance Testing), we set <span class="math inline">\(\alpha\)</span>.<br />
+</li>
+<li>In setting <span class="math inline">\(\alpha\)</span>, we define a <strong>critical region</strong> under the null distribution. The <strong>critical value</strong> is the value of the statistic which defines the start of this region. Any statistic more extreme than this will result in rejecting the null hypothesis.<br />
+</li>
+<li>If the null hypothesis is false, the probability that we reject the null hypothesis depends on a) our <span class="math inline">\(\alpha\)</span> level, b) how far away from the null distribution the assumed state of the world is, and c) our sample size.<br />
+</li>
+<li>This means that, for an assumed <strong>effect size</strong> (i.e., difference from the null hypothesis) - or <em>set of</em> effect sizes - we can compute the power of a test for a given sample size.<br />
+We can then do useful things such as reframe this to find out what the minimum sample size is that would be required to achieve a given level of power to detect a given effect size.</li>
+</ul>
 </div>
-</div>
-</div>
-<div id="overlapping-distributions" class="section level3 unnumbered">
-<h3>Overlapping distributions</h3>
-<p>It will hopefully help to think of the statistical power of a test in terms of two distributions and their overlap:
-<br>
-<a href="https://rpsychologist.com/d3/NHST/" class="uri">https://rpsychologist.com/d3/NHST/</a></p>
 </div>
 </div>
 <div id="summary-3" class="section level2">
@@ -906,7 +933,7 @@ We can reframe this and find out what the minimum sample size is that would be r
 <br>
 We learned that when we reject a <em>true</em> null hypothesis because we happen (by random chance) to have a sample statistic which is unlikely under the null, we commit a Type I Error. We saw how the probability of this happening is equal to our <span class="math inline">\(\alpha\)</span> level.<br />
 <br>
-We also learned that failing to reject the null hypothesis when it is actually false, is known as a Type II Error, and the probability of this depends on how far away from the null hypothesis the true parameter is, as well as how big our sample is.<br />
+We also learned that failing to reject the null hypothesis when it is actually false, is known as a Type II Error, and the probability of this depends on how far away from the null parameter the true parameter is (i.e., effect size), as well as how big our sample is.<br />
 <br>
 We simulated different distributions under different hypotheses, using the code below:</p>
 <div class="sourceCode" id="cb641"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb641-1" title="1"><span class="co"># Our possible outcomes</span></a>
@@ -922,30 +949,46 @@ We simulated different distributions under different hypotheses, using the code 
 <a class="sourceLine" id="cb641-11" title="11">distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb641-12" title="12"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb641-13" title="13"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
-<p>We calculated the critical value (for a one-sided test) for a null distribution by arranging the sample statistics and finding where 95% of them are below:</p>
+<p>We calculated the critical value (for a one-sided test) for a null distribution by using the <code>quantile()</code> function, to find the values at which 95% of the distribution of simulated sample statistics are to the left.</p>
 <div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" title="1">crit_val &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb642-2" title="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb642-3" title="3"><span class="st">  </span><span class="kw">arrange</span>(prop) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb642-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">idx =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()<span class="op">/</span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb642-5" title="5"><span class="st">  </span><span class="kw">filter</span>(idx <span class="op">==</span><span class="st"> </span><span class="fl">0.95</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb642-6" title="6"><span class="st">  </span><span class="kw">pull</span>(prop)</a></code></pre></div>
-<p>We could then find the proportion of a different theorised distribution which fell above that critical value, giving our power:</p>
-<div class="sourceCode" id="cb643"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb643-1" title="1">another_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb642-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb642-4" title="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
+<p>For a two-sided test at <span class="math inline">\(\alpha = 0.05\)</span>, we can simply extend this to ask for the values where 2.5% of the distribution is to the left, and where 97.5% of the distribution is to the left (so 2.5% is to the right). In doing so, we divide our critical region in to the two tails of the distribution.</p>
+<div class="sourceCode" id="cb643"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb643-1" title="1">null_distribution <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb643-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb643-3" title="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb643-4" title="4">  )</a></code></pre></div>
+<a class="sourceLine" id="cb643-3" title="3">    <span class="dt">crit025 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.025</span>),</a>
+<a class="sourceLine" id="cb643-4" title="4">    <span class="dt">crit975 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.975</span>)</a>
+<a class="sourceLine" id="cb643-5" title="5">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   crit025 crit975
+##     &lt;dbl&gt;   &lt;dbl&gt;
+## 1    0.36    0.64</code></pre>
+<p>We can find the proportion of a different theorised distribution which fell beyond a critical value, giving our power:</p>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" title="1">another_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb645-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb645-3" title="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb645-4" title="4">  )</a></code></pre></div>
 <hr />
 </div>
 <div id="lab-2" class="section level2">
 <h2><span class="header-section-number">14.4</span> Lab</h2>
-<div id="exercise-1-calculating-power-for-a-different-coin." class="section level3">
-<h3><span class="header-section-number">14.4.1</span> Exercise 1: Calculating power for a different coin.</h3>
+<div id="exercise-1-rock-paper-scissors" class="section level3">
+<h3><span class="header-section-number">14.4.1</span> Exercise 1: Rock Paper Scissors!</h3>
+<p>If you haven’t ever played Rock, Paper, Scissors before, then play it now against someone nearby!
+<br>
+A <a href="https://www.jstor.org/stable/25653686?">paper in 2009</a> found that novice players tend to avoid choosing scissors. We are going to test this.<br />
+<br></p>
+<div class="red">
+<h4 id="research-question" class="unnumbered">Research Question</h4>
+<p>Are novice players of Rock, Paper, Scissors biased to choosing scissors less often?</p>
+</div>
 <div class="question">
 <p class="question-begin">
 ► Question 1
 </p>
 <div class="question-body">
-<p>If my trick coin was actually weighted so that it landed on heads 65% of the time, what would the power of Tom’s test (50 flips) be?</p>
+<p>Write out your null and alternative hypotheses. Is our alternative hypothesis one-sided or two-sided?</p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -953,47 +996,27 @@ We simulated different distributions under different hypotheses, using the code 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-92" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-92&#39;, &#39;sol-start-92&#39;)"></span>
+► Solution<span id="sol-start-365" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-365&#39;, &#39;sol-start-365&#39;)"></span>
 </p>
-<div id="sol-body-92" class="solution-body" style="display: none;">
-<p>We already know the critical value at which Tom will reject the null hypothesis based on his 50 flips.
-We need to:
+<div id="sol-body-365" class="solution-body" style="display: none;">
+<p>Null hypothesis: Novice players are equally likely to choose Scissors as they are to choose Rock or Paper.
+Alternative hypothesis: Novice players are less likely to choose Scissors as they are to choose Rock or Paper.
 <br>
-Generate the theoretical distribution of <span class="math inline">\(\hat(p) = 0.65\)</span>.</p>
-<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" title="1"><span class="co">#Remember that Tom&#39;s critical value is:</span></a>
-<a class="sourceLine" id="cb644-2" title="2">crit_val &lt;-<span class="st"> </span><span class="fl">0.62</span></a>
-<a class="sourceLine" id="cb644-3" title="3"></a>
-<a class="sourceLine" id="cb644-4" title="4">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb644-5" title="5">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.65</span>, <span class="fl">0.35</span>)</a>
-<a class="sourceLine" id="cb644-6" title="6"></a>
-<a class="sourceLine" id="cb644-7" title="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb644-8" title="8"></a>
-<a class="sourceLine" id="cb644-9" title="9">theoretical_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb644-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb644-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
-<p>Calculate what proportion of this distribution is greater than his critical value. This will be the power.</p>
-<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" title="1">theoretical_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb645-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb645-3" title="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb645-4" title="4">  )</a></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##   prob_crit
-##       &lt;dbl&gt;
-## 1     0.732</code></pre>
+Where <span class="math inline">\(p\)</span> denotes the proportion of games in which players choose scissors:<br />
+<span class="math display">\[H_0: p = 1/3\]</span>
+<span class="math display">\[H_1: p &lt; 1/3\]</span></p>
+<p>Our alternative hypothesis is one-sided, because we are suggesting that the proportion of games in which players choose scissors is <em>less than</em> 1/3.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
 </div>
 </div>
-</div>
-<div id="exercise-2-sample-size-number-of-flips-and-power" class="section level3">
-<h3><span class="header-section-number">14.4.2</span> Exercise 2: Sample size (number of flips) and power</h3>
 <div class="question">
 <p class="question-begin">
 ► Question 2
 </p>
 <div class="question-body">
-<p>Assuming the coin to be biased towards landing on heads 60% of the time, calculate the power of Tom’s statistical test for when he flips the coin 75 times, 100 times, and 200 times. Which sample size should Tom use if he wants at least 80% power?</p>
+<p>Assuming that novice players actually choose Scissors only 1/5 of the time (<span class="math inline">\(p = 1/5\)</span>), calculate the power to detect this if we conduct a test (at <span class="math inline">\(\alpha = 0.05\)</span>) based on 75 games of Rock, Paper, Scissors with novice players.</p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1001,49 +1024,46 @@ Generate the theoretical distribution of <span class="math inline">\(\hat(p) = 0
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-93" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-93&#39;, &#39;sol-start-93&#39;)"></span>
+► Solution<span id="sol-start-366" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-366&#39;, &#39;sol-start-366&#39;)"></span>
 </p>
-<div id="sol-body-93" class="solution-body" style="display: none;">
-<p>We can run this chunk changing the <code>nr_flips</code> value each time, to calculate power at different sample sizes.</p>
-<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb647-1" title="1">nr_flips &lt;-<span class="st"> </span><span class="dv">50</span></a>
-<a class="sourceLine" id="cb647-2" title="2"></a>
-<a class="sourceLine" id="cb647-3" title="3">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb647-4" title="4">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb647-5" title="5"></a>
-<a class="sourceLine" id="cb647-6" title="6"><span class="co"># GENERATE THE NULL</span></a>
-<a class="sourceLine" id="cb647-7" title="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span>nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb647-8" title="8"></a>
-<a class="sourceLine" id="cb647-9" title="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb647-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb647-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb647-12" title="12"></a>
-<a class="sourceLine" id="cb647-13" title="13"><span class="co"># FIND CRITICAL VALUE</span></a>
-<a class="sourceLine" id="cb647-14" title="14">crit_val &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb647-15" title="15"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb647-16" title="16"><span class="st">  </span><span class="kw">arrange</span>(prop) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb647-17" title="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">idx =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()<span class="op">/</span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb647-18" title="18"><span class="st">  </span><span class="kw">filter</span>(idx <span class="op">==</span><span class="st"> </span><span class="fl">0.95</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb647-19" title="19"><span class="st">  </span><span class="kw">pull</span>(prop)</a>
-<a class="sourceLine" id="cb647-20" title="20"></a>
-<a class="sourceLine" id="cb647-21" title="21"><span class="co"># GENERATE THEORISED ALTERNATIVE</span></a>
-<a class="sourceLine" id="cb647-22" title="22">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb647-23" title="23">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
-<a class="sourceLine" id="cb647-24" title="24"></a>
-<a class="sourceLine" id="cb647-25" title="25">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb647-26" title="26"></a>
-<a class="sourceLine" id="cb647-27" title="27">true_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb647-28" title="28"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb647-29" title="29"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb647-30" title="30"></a>
-<a class="sourceLine" id="cb647-31" title="31"><span class="co"># CALCULATE POWER</span></a>
-<a class="sourceLine" id="cb647-32" title="32">true_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb647-33" title="33"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb647-34" title="34">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb647-35" title="35">  )</a></code></pre></div>
+<div id="sol-body-366" class="solution-body" style="display: none;">
+<p>We need to generate our null distribution:</p>
+<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb646-1" title="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Rock&#39;</span>,<span class="st">&#39;Paper&#39;</span>,<span class="st">&#39;Scissors&#39;</span>)))</a>
+<a class="sourceLine" id="cb646-2" title="2">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb646-3" title="3"></a>
+<a class="sourceLine" id="cb646-4" title="4"><span class="co"># GENERATE THE NULL</span></a>
+<a class="sourceLine" id="cb646-5" title="5">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">75</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb646-6" title="6"></a>
+<a class="sourceLine" id="cb646-7" title="7">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb646-8" title="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb646-9" title="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Scissors&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<p>And calculate the critical value (note that because the alternative is <span class="math inline">\(p &lt; 1/3\)</span>, we are looking for the bottom 5%, rather the top 5%):</p>
+<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb647-1" title="1"><span class="co"># FIND CRITICAL VALUE</span></a>
+<a class="sourceLine" id="cb647-2" title="2">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb647-3" title="3"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb647-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.05</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb647-5" title="5"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
+<p>Construct an alternative distribution:</p>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb648-1" title="1"><span class="co"># GENERATE ALTERNATIVE</span></a>
+<a class="sourceLine" id="cb648-2" title="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Rock&#39;</span>,<span class="st">&#39;Paper&#39;</span>,<span class="st">&#39;Scissors&#39;</span>)))</a>
+<a class="sourceLine" id="cb648-3" title="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>)</a>
+<a class="sourceLine" id="cb648-4" title="4"></a>
+<a class="sourceLine" id="cb648-5" title="5">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">75</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a></code></pre></div>
+<pre><code>## Joining, by = &quot;vals&quot;</code></pre>
+<pre><code>## Warning: Column `vals` joining character vector and factor, coercing into character vector</code></pre>
+<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb651-1" title="1">hypothesised_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb651-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb651-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Scissors&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<p>And calculate power.</p>
+<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb652-1" title="1"><span class="co"># CALCULATE POWER</span></a>
+<a class="sourceLine" id="cb652-2" title="2">hypothesised_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb652-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb652-4" title="4">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb652-5" title="5">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   prob_crit
 ##       &lt;dbl&gt;
-## 1     0.418</code></pre>
+## 1     0.898</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1054,6 +1074,155 @@ Generate the theoretical distribution of <span class="math inline">\(\hat(p) = 0
 ► Question 3
 </p>
 <div class="question-body">
+<p>Calculate the power if we were to conduct the same test at <span class="math inline">\(\alpha = 0.01\)</span> instead.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-367" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-367&#39;, &#39;sol-start-367&#39;)"></span>
+</p>
+<div id="sol-body-367" class="solution-body" style="display: none;">
+<p>We would have a different critical value:</p>
+<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb654-1" title="1">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb654-2" title="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb654-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.01</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb654-4" title="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
+<p>And our power would therefore change accordingly:</p>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb655-1" title="1"><span class="co"># CALCULATE POWER</span></a>
+<a class="sourceLine" id="cb655-2" title="2">hypothesised_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb655-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb655-4" title="4">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb655-5" title="5">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   prob_crit
+##       &lt;dbl&gt;
+## 1     0.661</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="exercise-2-calculating-power-for-a-different-coin." class="section level3">
+<h3><span class="header-section-number">14.4.2</span> Exercise 2: Calculating power for a different coin.</h3>
+<div class="question">
+<p class="question-begin">
+► Question 4
+</p>
+<div class="question-body">
+<p>If my trick coin was actually weighted so that it landed on heads 65% of the time, what would the power of Tom’s test (50 flips) be?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-368" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-368&#39;, &#39;sol-start-368&#39;)"></span>
+</p>
+<div id="sol-body-368" class="solution-body" style="display: none;">
+<p>We already know the critical value at which Tom will reject the null hypothesis based on his 50 flips.
+We need to:
+<br>
+Generate the theoretical distribution of <span class="math inline">\(\hat(p) = 0.65\)</span>.</p>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb657-1" title="1"><span class="co">#Remember that Tom&#39;s critical value is:</span></a>
+<a class="sourceLine" id="cb657-2" title="2">crit_val &lt;-<span class="st"> </span><span class="fl">0.62</span></a>
+<a class="sourceLine" id="cb657-3" title="3"></a>
+<a class="sourceLine" id="cb657-4" title="4">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb657-5" title="5">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.65</span>, <span class="fl">0.35</span>)</a>
+<a class="sourceLine" id="cb657-6" title="6"></a>
+<a class="sourceLine" id="cb657-7" title="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb657-8" title="8"></a>
+<a class="sourceLine" id="cb657-9" title="9">theoretical_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb657-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb657-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<p>Calculate what proportion of this distribution is greater than his critical value. This will be the power.</p>
+<div class="sourceCode" id="cb658"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb658-1" title="1">theoretical_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb658-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb658-3" title="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb658-4" title="4">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   prob_crit
+##       &lt;dbl&gt;
+## 1     0.724</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="extra-exercises" class="section level2">
+<h2><span class="header-section-number">14.5</span> Extra Exercises</h2>
+<div id="exercise-3-sample-size-number-of-flips-and-power" class="section level3">
+<h3><span class="header-section-number">14.5.1</span> Exercise 3: Sample size (number of flips) and power</h3>
+<div class="question">
+<p class="question-begin">
+► Question 5
+</p>
+<div class="question-body">
+<p>Assuming the coin to be biased towards landing on heads 60% of the time, calculate the power of Tom’s statistical test for when he flips the coin 75 times, 100 times, and 200 times. Which sample size should Tom use if he wants at least 80% power?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-369" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-369&#39;, &#39;sol-start-369&#39;)"></span>
+</p>
+<div id="sol-body-369" class="solution-body" style="display: none;">
+<p>We can run this chunk changing the <code>nr_flips</code> value each time, to calculate power at different sample sizes.</p>
+<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb660-1" title="1">nr_flips &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb660-2" title="2"></a>
+<a class="sourceLine" id="cb660-3" title="3">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb660-4" title="4">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb660-5" title="5"></a>
+<a class="sourceLine" id="cb660-6" title="6"><span class="co"># GENERATE THE NULL</span></a>
+<a class="sourceLine" id="cb660-7" title="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span>nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb660-8" title="8"></a>
+<a class="sourceLine" id="cb660-9" title="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb660-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb660-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb660-12" title="12"></a>
+<a class="sourceLine" id="cb660-13" title="13"><span class="co"># FIND CRITICAL VALUE</span></a>
+<a class="sourceLine" id="cb660-14" title="14">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb660-15" title="15"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb660-16" title="16"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb660-17" title="17"><span class="st">  </span><span class="kw">pull</span>(crit95)</a>
+<a class="sourceLine" id="cb660-18" title="18"></a>
+<a class="sourceLine" id="cb660-19" title="19"><span class="co"># GENERATE THEORISED ALTERNATIVE</span></a>
+<a class="sourceLine" id="cb660-20" title="20">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb660-21" title="21">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb660-22" title="22"></a>
+<a class="sourceLine" id="cb660-23" title="23">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb660-24" title="24"></a>
+<a class="sourceLine" id="cb660-25" title="25">hypothesised_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb660-26" title="26"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb660-27" title="27"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb660-28" title="28"></a>
+<a class="sourceLine" id="cb660-29" title="29"><span class="co"># CALCULATE POWER</span></a>
+<a class="sourceLine" id="cb660-30" title="30">hypothesised_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb660-31" title="31"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb660-32" title="32">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb660-33" title="33">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   prob_crit
+##       &lt;dbl&gt;
+## 1     0.445</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question 6
+</p>
+<div class="question-body">
 <p>List the three things which affect the power of a statistical test.</p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1062,9 +1231,9 @@ Generate the theoretical distribution of <span class="math inline">\(\hat(p) = 0
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-94" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-94&#39;, &#39;sol-start-94&#39;)"></span>
+► Solution<span id="sol-start-370" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-370&#39;, &#39;sol-start-370&#39;)"></span>
 </p>
-<div id="sol-body-94" class="solution-body" style="display: none;">
+<div id="sol-body-370" class="solution-body" style="display: none;">
 <ul>
 <li>Alpha level</li>
 <li>Sample size</li>
@@ -1075,15 +1244,52 @@ Generate the theoretical distribution of <span class="math inline">\(\hat(p) = 0
 </p>
 </div>
 </div>
+<div class="noteBox">
+<h4 id="a-thought-experiment" class="unnumbered">A thought experiment</h4>
+<ul>
+<li>There are 20 researchers.</li>
+<li>Each researcher has a perfectly balanced/fair coin.<br />
+</li>
+<li>Each researcher conducts a statistical test at <span class="math inline">\(\alpha = 0.05\)</span> to evaluate whether their coin is fair (lands on heads equally as often as it lands on tails).</li>
+</ul>
+<p>How many of the researchers’ tests would we expect to result in a Type I Error?<br />
+<small><strong>Remember:</strong> The probability of making a Type I error is the probability of getting an unlikely sample statistic simply due to chance sampling variation (i.e., we just happen to get a random sample with an unlikely statistic).</small></p>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-371" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-371&#39;, &#39;sol-start-371&#39;)"></span>
+</p>
+<div id="sol-body-371" class="solution-body" style="display: none;">
+<p>This is similar to asking “What is the probability of observing at least one significant result due to chance sampling variation alone?”. We can work this out..
+<br></p>
+<ul>
+<li><p>For one researcher, if their null hypothesis is true, the probability that they get a significant result is 0.05, and the probability that they get a non-significant result (p-value <span class="math inline">\(&gt; 0.05\)</span>) is 0.95.</p></li>
+<li><p>If there are 20 researchers, the probability of them <em>all</em> getting <em>non-significant</em> results when their null hypotheses are all true is <span class="math inline">\(0.95^{20} = 0.358\)</span>.</p></li>
+<li><p>This means that the probability of the opposite - <em>at least one</em> of them gets a significant result even though all their nulls are true - is <span class="math inline">\(1 - 0.358 = 0.642\)</span>.</p></li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="glossary-3" class="section level2">
-<h2><span class="header-section-number">14.5</span> Glossary</h2>
+<h2><span class="header-section-number">14.6</span> Glossary</h2>
 <ul>
-<li><em>Type I error.</em> Rejecting the null hypothesis when it is actually true (false positive). Its probability is denoted by <span class="math inline">\(\alpha\)</span>.</li>
-<li><em>Type II error.</em> Failing to reject a null hypothesis that is actually false (false negative). Its probability is denoted by <span class="math inline">\(\beta\)</span>.</li>
+<li><em>Type I Error.</em> Rejecting the null hypothesis when it is actually true (false positive). Its probability is denoted by <span class="math inline">\(\alpha\)</span>.</li>
+<li><em>Type II Error.</em> Failing to reject a null hypothesis that is actually false (false negative). Its probability is denoted by <span class="math inline">\(\beta\)</span>.</li>
 <li><em>Power (<span class="math inline">\(1 - \beta\)</span>).</em> The probability of (correctly) rejecting the null hypothesis when it is false.</li>
+<li><em>Critical Region</em>. The area of the null distribution in which an observed sample statistic would lead to rejecting the null hypothesis. The area of the critical region corresponds to <span class="math inline">\(\alpha\)</span>% of the null distribution.</li>
+<li><em>Critical value</em>. The value of the statistic which defines the start of the critical region. Any statistic more extreme than this will result in rejecting the null hypothesis.</li>
 <li><em>Effect size.</em> The distance from the value of the parameter under the null hypothesis. When we calculate power, we often do so for an <em>assumed</em> effect size. When we take a sample and calculate an observed statistic, the distance from that observed statistic to the parameter under the null is our observed effect size.</li>
+</ul>
+</div>
+<div id="references-3" class="section level2">
+<h2><span class="header-section-number">14.7</span> References</h2>
+<ul>
+<li>Eyler, D., Shalla, Z., Doumaux, A., &amp; McDevitt, T. (2009). Winning at Rock-Paper-Scissors. <em>The College Mathematics Journal</em>, 40(2), 125-128.</li>
+<li>Tintle, N., Chance, B. L., Cobb, G. W., Rossman, A. J., Roy, S., Swanson, T., &amp; VanderStoep, J. (2015). <em>Introduction to statistical investigations.</em> New York: Wiley.</li>
 </ul>
 
 </div>

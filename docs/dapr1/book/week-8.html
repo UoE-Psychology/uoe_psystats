@@ -401,15 +401,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-i-errors"><i class="fa fa-check"></i>Type I errors</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors-and-power"><i class="fa fa-check"></i>Type II Errors and Power</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2-a-biased-coin"><i class="fa fa-check"></i>Example 2: A biased coin</a></li>
-<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
 <li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overlapping-distributions"><i class="fa fa-check"></i>Overlapping distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
 </ul></li>
 <li class="chapter" data-level="14.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#summary-3"><i class="fa fa-check"></i><b>14.3</b> Summary</a></li>
 <li class="chapter" data-level="14.4" data-path="chap-typeerror.html"><a href="chap-typeerror.html#lab-2"><i class="fa fa-check"></i><b>14.4</b> Lab</a><ul>
-<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Calculating power for a different coin.</a></li>
-<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Sample size (number of flips) and power</a></li>
+<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-rock-paper-scissors"><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Rock Paper Scissors!</a></li>
+<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Calculating power for a different coin.</a></li>
 </ul></li>
-<li class="chapter" data-level="14.5" data-path="chap-typeerror.html"><a href="chap-typeerror.html#glossary-3"><i class="fa fa-check"></i><b>14.5</b> Glossary</a></li>
+<li class="chapter" data-level="14.5" data-path="chap-typeerror.html"><a href="chap-typeerror.html#extra-exercises"><i class="fa fa-check"></i><b>14.5</b> Extra Exercises</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-3-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.5.1</b> Exercise 3: Sample size (number of flips) and power</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="chap-typeerror.html"><a href="chap-typeerror.html#glossary-3"><i class="fa fa-check"></i><b>14.6</b> Glossary</a></li>
+<li class="chapter" data-level="14.7" data-path="chap-typeerror.html"><a href="chap-typeerror.html#references-3"><i class="fa fa-check"></i><b>14.7</b> References</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -510,15 +514,14 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <a class="sourceLine" id="cb358-2" title="2">outcomes&lt;-<span class="kw">c</span>(<span class="st">&quot;heads&quot;</span>, <span class="st">&quot;tails&quot;</span>)</a>
 <a class="sourceLine" id="cb358-3" title="3"><span class="co">#We then will sample the outcomes 100 time with replacement (note: events are independent)</span></a>
 <a class="sourceLine" id="cb358-4" title="4"><span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code>##   [1] &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot;
-##  [13] &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot;
-##  [25] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot;
-##  [37] &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot;
-##  [49] &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot;
-##  [61] &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot;
-##  [73] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot;
-##  [85] &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot;
-##  [97] &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot;</code></pre>
+<pre><code>##   [1] &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot;
+##  [15] &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot;
+##  [29] &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot;
+##  [43] &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot;
+##  [57] &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot;
+##  [71] &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;tails&quot;
+##  [85] &quot;tails&quot; &quot;tails&quot; &quot;tails&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;heads&quot; &quot;tails&quot; &quot;heads&quot;
+##  [99] &quot;heads&quot; &quot;tails&quot;</code></pre>
 <div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" title="1"><span class="co">#We can also assign the simulation to an object and use count() to see the resulting distribution and the proportion</span></a>
 <a class="sourceLine" id="cb360-2" title="2">outcomes&lt;-<span class="kw">c</span>(<span class="st">&quot;heads&quot;</span>, <span class="st">&quot;tails&quot;</span>)</a>
 <a class="sourceLine" id="cb360-3" title="3">simulation_coin&lt;-<span class="kw">tibble</span>(<span class="dt">coin_side =</span> <span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
@@ -527,8 +530,8 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <pre><code>## # A tibble: 2 x 2
 ##   coin_side     n
 ##   &lt;chr&gt;     &lt;int&gt;
-## 1 heads        52
-## 2 tails        48</code></pre>
+## 1 heads        56
+## 2 tails        44</code></pre>
 <p>You can also do the same via table() and use the results to construct a propotions table:</p>
 <div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" title="1"> simulation_coin <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb362-2" title="2"><span class="st">  </span><span class="kw">select</span>(coin_side) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#select the variable to provide counts</span></a>
@@ -537,10 +540,10 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <a class="sourceLine" id="cb362-5" title="5"><span class="st">  </span><span class="kw">prop.table</span>() <span class="co"># use the output to calculation the proportion</span></a></code></pre></div>
 <pre><code>## .
 ## heads tails 
-##    52    48</code></pre>
+##    56    44</code></pre>
 <pre><code>## .
 ## heads tails 
-##  0.52  0.48</code></pre>
+##  0.56  0.44</code></pre>
 <p>Try to vary the size and see how table changes. You’ll note that as your sample size (N) approaches infinity (<span class="math inline">\(N -&gt; +∞\)</span>) you get closer to the true probability of the event.</p>
 <div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" title="1"><span class="co"># Try with the small simulation first</span></a>
 <a class="sourceLine" id="cb365-2" title="2">simulation_coin &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">coin_side =</span> <span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
@@ -549,8 +552,8 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <pre><code>## # A tibble: 2 x 2
 ##   coin_side     n
 ##   &lt;chr&gt;     &lt;int&gt;
-## 1 heads         5
-## 2 tails         5</code></pre>
+## 1 heads         3
+## 2 tails         7</code></pre>
 <div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" title="1"><span class="co"># Or increase to a 1000</span></a>
 <a class="sourceLine" id="cb367-2" title="2">simulation_coin&lt;-<span class="kw">tibble</span>(<span class="dt">coin_side=</span><span class="kw">sample</span>(outcomes, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb367-3" title="3">simulation_coin <span class="op">%&gt;%</span></a>
@@ -558,8 +561,8 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <pre><code>## # A tibble: 2 x 2
 ##   coin_side     n
 ##   &lt;chr&gt;     &lt;int&gt;
-## 1 heads       506
-## 2 tails       494</code></pre>
+## 1 heads       498
+## 2 tails       502</code></pre>
 <p>What if you have <strong>an unfair coin</strong>? By default the previous simulation assumes that we have 50/50 chance to observe ‘heads’ or ‘tails’.</p>
 <p>You can assign different probability via simulations:</p>
 <div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" title="1"><span class="co"># Simulate an unfair coin</span></a>
@@ -569,8 +572,8 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <pre><code>## # A tibble: 2 x 2
 ##   coin_side     n
 ##   &lt;chr&gt;     &lt;int&gt;
-## 1 heads        19
-## 2 tails        81</code></pre>
+## 1 heads        20
+## 2 tails        80</code></pre>
 <p>Lastly, plot them both to compare:</p>
 <div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" title="1"><span class="co"># Barplot (fair coin)</span></a>
 <a class="sourceLine" id="cb371-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_coin, <span class="kw">aes</span>(<span class="dt">x =</span> coin_side)) <span class="op">+</span><span class="st"> </span></a>
@@ -593,12 +596,11 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <a class="sourceLine" id="cb373-3" title="3"></a>
 <a class="sourceLine" id="cb373-4" title="4"><span class="co"># We then will sample the outcomes 100 times with replacement</span></a>
 <a class="sourceLine" id="cb373-5" title="5"><span class="kw">sample</span>(outcomes_h_m, <span class="dt">size =</span> <span class="dv">133</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.45</span>, <span class="fl">0.55</span>))  </a></code></pre></div>
-<pre><code>##   [1] &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot;
-##  [26] &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot;
-##  [51] &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot;
-##  [76] &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot;
-## [101] &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot;
-## [126] &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot;</code></pre>
+<pre><code>##   [1] &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot;
+##  [29] &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot;
+##  [57] &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot;
+##  [85] &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot;
+## [113] &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;H&quot; &quot;H&quot;</code></pre>
 <div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" title="1"><span class="co">#Lets save to a tibble</span></a>
 <a class="sourceLine" id="cb375-2" title="2"><span class="co">#Or increase to a 1000</span></a>
 <a class="sourceLine" id="cb375-3" title="3">simulation_h_m&lt;-<span class="kw">tibble</span>(<span class="dt">h_m=</span><span class="kw">sample</span>(outcomes_h_m, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a>
@@ -607,8 +609,8 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <pre><code>## # A tibble: 2 x 2
 ##   h_m       n
 ##   &lt;chr&gt; &lt;int&gt;
-## 1 H       489
-## 2 M       511</code></pre>
+## 1 H       501
+## 2 M       499</code></pre>
 <p>Also, a proportion:</p>
 <div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" title="1">simulation_h_m <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb377-2" title="2"><span class="st">  </span><span class="kw">select</span>(h_m) <span class="op">%&gt;%</span></a>
@@ -617,10 +619,10 @@ The streak length is the number of consecutive HITs until a MISS e.g. <span cla
 <a class="sourceLine" id="cb377-5" title="5"><span class="st">  </span><span class="kw">prop.table</span>()</a></code></pre></div>
 <pre><code>## .
 ##   H   M 
-## 489 511</code></pre>
+## 501 499</code></pre>
 <pre><code>## .
 ##     H     M 
-## 0.489 0.511</code></pre>
+## 0.501 0.499</code></pre>
 <p>To provide a comparison, let’s plot the distribution of streaks:</p>
 <div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" title="1"><span class="co"># Calculate streaks using the function that came with the data (calc = streak)</span></a>
 <a class="sourceLine" id="cb380-2" title="2">indep_streak&lt;-<span class="kw">tibble</span>(<span class="dt">h_m_ind=</span><span class="kw">calc_streak</span>(<span class="kw">pull</span>(simulation_h_m,h_m)))</a>
@@ -650,10 +652,10 @@ To convert from odds to probability, divide the odds by one plus the odds. So to
 <a class="sourceLine" id="cb381-3" title="3"></a>
 <a class="sourceLine" id="cb381-4" title="4"><span class="co"># We then will sample the outcomes 100 times with replacement</span></a>
 <a class="sourceLine" id="cb381-5" title="5"><span class="kw">sample</span>(outcomes_babies, <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.51</span>, <span class="fl">0.49</span>))  </a></code></pre></div>
-<pre><code>##   [1] &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot;
-##  [26] &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot;
-##  [51] &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot;
-##  [76] &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot;</code></pre>
+<pre><code>##   [1] &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot;
+##  [29] &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot;
+##  [57] &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot;
+##  [85] &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot;</code></pre>
 <div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" title="1"><span class="co"># Or increase to 1000 and put into a tibble</span></a>
 <a class="sourceLine" id="cb383-2" title="2">simulation_babies&lt;-<span class="kw">tibble</span>(<span class="dt">baby=</span><span class="kw">sample</span>(outcomes_babies, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>,  <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.51</span>,<span class="fl">0.49</span>)))</a>
 <a class="sourceLine" id="cb383-3" title="3">simulation_babies<span class="op">%&gt;%</span></a>
@@ -661,8 +663,8 @@ To convert from odds to probability, divide the odds by one plus the odds. So to
 <pre><code>## # A tibble: 2 x 2
 ##   baby      n
 ##   &lt;chr&gt; &lt;int&gt;
-## 1 F       500
-## 2 M       500</code></pre>
+## 1 F       490
+## 2 M       510</code></pre>
 <p>To provide a comparison, let’s plot as well:</p>
 <div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" title="1"><span class="co"># Barplot</span></a>
 <a class="sourceLine" id="cb385-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_babies, <span class="kw">aes</span>(<span class="dt">x =</span> baby)) <span class="op">+</span></a>
@@ -679,8 +681,8 @@ To convert from odds to probability, divide the odds by one plus the odds. So to
 <pre><code>## # A tibble: 2 x 2
 ##   baby      n
 ##   &lt;chr&gt; &lt;int&gt;
-## 1 F       212
-## 2 M        88</code></pre>
+## 1 F       211
+## 2 M        89</code></pre>
 <p>To provide a comparison, let’s plot as well:</p>
 <div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" title="1"><span class="co"># Barplot</span></a>
 <a class="sourceLine" id="cb388-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> simulation_babies, <span class="kw">aes</span>(<span class="dt">x =</span> baby)) <span class="op">+</span></a>

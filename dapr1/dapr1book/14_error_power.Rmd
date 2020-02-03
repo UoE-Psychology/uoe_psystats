@@ -46,10 +46,14 @@ This week, we will recap this process of hypothesis testing, before thinking abo
 
 ### Example 1: Coin flip {-}    
 
-<div style="background-image: url('flipping.jpg')">
-#### Research Question & Hypotheses {-}
+
+
+<div class="red">
+#### Research Question & Hypotheses {-} 
 
 Is our coin biased? 
+</div>
+
 <br><br>
 *Null hypothesis*: We're just as likely to get heads as tails when we flip the coin. We will denote by $p$ the probability of 'heads'.
 $$H_0: p = 0.5$$
@@ -58,8 +62,9 @@ $$H_1: p \neq 0.5$$
 
 #### Data collection {-} 
 
-We flip the coin 90 times, and it lands on heads 55 times. 
-</div>
+We flip the coin 90 times, and it lands on heads 55 times.  
+$$H, T, H, H, T, T, T, H, H, H, H, T, H, H, T, T, H, T, H, H,...$$
+
 
 #### Analysis {-}  
 
@@ -223,8 +228,8 @@ Last week we discussed an analogy in law, in which a person on trial is presumed
 
 |                          | Person is innocent<br>$H_0$ is True | Person is guilty<br>$H_0$ is False        |
 |:-------------------------|:------------------------------------:|:------------------------:|
-|**Verdict = Innocent** <br> **Test fails to reject $H_0$**  | Correct decision       | Criminal goes free <br> Type II Error = $\beta$      |
-|**Verdict =  Guilty** <br> **Test rejects $H_0$**          | Wrongful conviction <br> Type I Error = $\alpha$   | Correct decision         |
+|**Verdict = Innocent** <br> **Test fails to reject $H_0$**  | Correct decision       | Criminal goes free <br> Type II Error <br> $\beta$      |
+|**Verdict =  Guilty** <br> **Test rejects $H_0$**          | Wrongful conviction <br> Type I Error <br> $\alpha$   | Correct decision         |
   
   
 <!-- |                          | $H_0$ is True              | $H_0$ is False             | -->
@@ -241,34 +246,19 @@ So the probability of making this error is equal to the $\alpha$ level which we 
 <br>
 In other words, when the null hypothesis is true, 0.05 (or 5%) of the random samples we could take would result in us rejecting it.   
 
-<div class="noteBox"> 
-#### A thought experiment {-} 
-
-+ There are 20 researchers. 
-+ Each researcher has a perfectly balanced/fair coin.  
-+ Each researcher conducts a statistical test at $\alpha = 0.05$ to evaluate whether their coin is fair (lands on heads equally as often as it lands on tails).
-
 `r msmbstyle::question_begin()`
-How many of the researchers' tests would we expect to result in a type I error?  
-<small>**Remember:** The probability of making a Type I error is the probability of getting an unlikely sample statistic simply due to chance sampling variation (i.e., we just happen to get a random sample with an unlikely statistic).</small>
+If there are 100 researchers, each testing a fair coin at $\alpha = 0.05$, how many of them will incorrectly reject their null hypothesis that the coin is equally likely to land on heads or tails ($p = 0.5$).
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
-
-This is similar to asking "What is the probability of observing at least one significant result due to chance sampling variation alone?". We can work this out..
-<br>  
-
-+ For one researcher, if their null hypothesis is true, the probability that they get a significant result is 0.05, and the probability that they get a non-significant result (p-value $> 0.05$) is 0.95.
-
-+ If there are 20 researchers, the probability of them *all* getting *non-significant* results when their null hypotheses are all true is $0.95^{20} = 0.358$.  
-
-+ This means that the probability of the opposite - *at least one* of them gets a significant result even though all their nulls are true - is $1 - 0.358 = 0.642$.  
-
+We would expect 0.05 (5%) of the 100 researchers' random samples (sequence of coin flips) to have a proportion of heads extreme enough for them to reject the null hypothesis.<br>
+We would expect 5 researchers to make a Type I Error.
 `r msmbstyle::solution_end()`
-</div>
+
+
 
 ### Type II Errors and Power {-}
 
-The other kind of error we might make is a **type II error**, and is denoted by $\beta$.<br>
+The other kind of error we might make is a **Type II Error**, and is denoted by $\beta$.<br>
 This happens when $H_0$ is false, but we do not have enough evidence to reject it.  
   
 In our table, the columns specify the possible states of the world ($H_0$ is either True or False).   
@@ -282,8 +272,8 @@ We have seen that:
 
 |                          | $H_0$ is True          | $H_0$ is False             |
 |:-------------------------|:----------------------:|:--------------------------:|
-|**Test doesn't reject $H_0$** | Correct<br>**$1 - \alpha$**  | Type II Error = $\beta$ |
-|**Test rejects $H_0$**        | Type I Error = $\alpha$ | Correct<br>**Power** = **$1 - \beta$**|
+|**Test doesn't reject $H_0$** | Correct<br>**$1 - \alpha$**  | Type II Error <br> $\beta$ |
+|**Test rejects $H_0$**        | Type I Error <br> $\alpha$ | Correct<br>**Power** <br> **$1 - \beta$**|
 
 <div class="def">
 #### Power of a statistical test {-}
@@ -313,7 +303,7 @@ a. $H_1: p < 0.5$
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 Given that Tom thinks the coin is biased towards landing on heads, we will use (b) as his alternative hypothesis: $H_1: p > 0.5$. 
-`r msmbstyle::question_end()`
+`r msmbstyle::solution_end()`
 
 <div class="red">
 <br>
@@ -321,19 +311,14 @@ Given that Tom thinks the coin is biased towards landing on heads, we will use (
 <br> 
 
 1. Generate the null distribution for Tom's test.  
-1. Calculate the critical value (the minimum number of heads needed for Tom to reject his null hypothesis).  
-1. Calculate the actual probability of seeing a statistic larger than the critical value, given that we know the true bias of the coin.   
+1. Calculate the **critical value** (the minimum number of heads in 50 flips which would lead Tom to reject his null hypothesis).  
+1. Calculate the actual probability of seeing a statistic larger than the critical value, given that we know the true bias of the coin. This is the statistical power of Tom's test.  
 
 </div>  
-<br>
 
-#### Calculating Tom's critical regions {-}
+**1. Generate Tom's null distribution**  
 
-`r msmbstyle::question_begin()`
-In Tom's 50 coin flips, at a significance level of 0.05, what proportion of heads would lead him to the correct conclusion that the coin is a trick coin?
-`r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
-Generate Tom's null distribution:
+In Tom's 50 coin flips, at a significance level of 0.05, what proportion of heads would lead him to the conclusion that the coin is a trick coin? The first step is to generate the null distribution: 
 ```{r message=FALSE,warning=FALSE}
 # Specify our possible outcomes and their probabilities under the null
 outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
@@ -348,37 +333,35 @@ null_distribution <- samples %>%
   summarise(prop = sum(vals == 'Heads') / n())
 ```
 
+**2. Calculating Tom's critical value:**  
+
 Now that we have generated the null distribution which Tom will use to test his observed statistic, we need to work out the values at which he will reject the null.<br>
 In other words, we need to work out where the top 5% of the null distribution is.<br>
 <br>
 Note that we are only looking at the top 5% because Tom thinks the coin is biased *towards heads*. So his alternative hypothesis ($H_1$) is $p > 0.5$, and he will reject $H_0$ if his observed statistic falls in the top end of the distribution.
 <br>
-To do this, we're going to order the simulated sample proportions (the null distribution) from smallest to largest, and find the value at which 95% of them are smaller. 
+To do this, we're going to use a new function called `quantile()`, which will give us the value for which a given percentage of the distribution of simulated sample statistics is to the left (e.g., smaller).  
 ```{r warning=FALSE,message=FALSE}
-null_distribution <- null_distribution %>%
-  arrange(prop) %>%
-  mutate(idx = 1:n()/n())
+crit_val <- 
+  null_distribution %>%
+  summarise(crit95 = quantile(prop, 0.95)) %>%
+  pull(crit95)
 
-null_distribution %>%
-  filter(idx == 0.95)
+crit_val
 ```
 If Tom flips the coin 50 times, under the null hypothesis, he would need to get a sample statistic ($\hat{p}$) of greater than or equal to 0.62.
-`r msmbstyle::solution_end()`
 
-#### Calculating Tom's power {-}
+**3. Calculating Tom's power**
 
-`r msmbstyle::question_begin()`
 Things we know so far:  
 
 + The coin is rigged to land on heads on 60% of flips - the true probability of heads is 0.6. 
 + If 62% or more of Tom's 50 coin flips come up heads, then he will reject his null hypothesis (that the coin is fair).
 
-
-What's the probability that Tom's 50 flips will come up with 62% or more heads?
+What's the probability that Tom's 50 flips will come up with 62% or more heads using the biased coin? 
 <br>
 In other words, what is the *power* of his test?
-`r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
+
 We can do this by generating the sampling distribution for when the coin is biased towards heads 60% of the time (which we know is actually true).
 ```{r message=FALSE, warning=FALSE}
 outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
@@ -391,43 +374,114 @@ true_distribution <- samples %>%
   group_by(replicate) %>%
   summarise(prop = sum(vals == 'Heads') / n())
 
-true_distribution %>%
+tom_power <- 
+  true_distribution %>%
   summarise(
-    prob_crit = sum(prop >= 0.62) / n()
+    prob_crit = sum(prop >= crit_val) / n()
   )
+tom_power
+```
+
+Tom's 50 flips has `r tom_power*100`% power.<br>
+What does this mean?<br>
+It means that he has a `r tom_power` probability of concluding that my biased coin is biased!  
+<br>
+It might help if we plotted the two distributions which we just generated.  
+We'll start with Tom's null distribution (proportions of heads in 1000 simulated samples of size 50, assuming the probability of heads = 0.5). It's a histogram, with the dotplots on top just to show their equivalence.
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(null_distribution, aes(x = prop)) +
+  geom_histogram(binwidth = 0.01, fill="grey70") +
+  geom_dotplot(binwidth = 0.01, dotsize = 0.5, stackratio = 0.6, fill="white") +
+  labs(title = "Tom's null distribution", x = expr(hat(p)), fill = expr(hat(p) >= 0.62))+
+  xlim(0.25,0.85)
+```
+
+This shows the critical value and region for Tom's one-tailed test at $\alpha = 0.05$.
+```{r echo=FALSE, warning=FALSE,message=FALSE}
+tnull<- ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.62))) +
+  geom_histogram(binwidth = 0.01) +
+  scale_fill_manual(values = c('grey70', 'tomato1')) +
+  theme(legend.position = "none") +
+  xlim(0.25,0.85) +
+  labs(title = "Tom's null distribution", x = expr(hat(p))) +
+  geom_label(aes(x = 0.4, y = 125, label = "Critical value: Any observed statistic equal to or\ngreater than this, Tom will reject his null hypothesis"),hjust = 0, vjust = 0.5, lineheight = 0.8, fill="white",
+             label.size = NA, size = 3) +
+  geom_curve(aes(x = 0.62, y = 120, xend = 0.62, yend = 0),
+             size=0.5, curvature = 0,
+             arrow = arrow(length = unit(0.03, "npc")))+
+  geom_label(aes(x = 0.25, y = 85, label = "Critical region: These dots are the top 5% of the distribution"),
+             hjust = 0, vjust = 0.5, lineheight = 0.8, fill="white", colour = "tomato1",
+             label.size = NA, size = 3) +
+  geom_curve(aes(x = 0.56, y = 85, xend = 0.65, yend = 16),
+             colour = "tomato1", size=0.5, curvature = -0.2,
+             arrow = arrow(length = unit(0.03, "npc")))
+  
+
+tnull
+```
+
+Finally, let's add to that the *true distribution* which we generated based on our knowledge that the coin is actually biased towards landing on heads 60% of the time. Here it is (in green):
+```{r echo=FALSE, warning=FALSE,message=FALSE}
+tnull + 
+  geom_histogram(inherit.aes=FALSE, data=true_distribution, aes(x=prop), binwidth = 0.01, fill="darkolivegreen4", alpha=.4) +
+  labs(title = "Tom's null distribution & the true distribution")
 
 ```
-`r msmbstyle::solution_end()`
+Think about what this shows. For a coin which is biased towards landing on heads 60% of the time, more often than not, the proportion of heads in 50 flips will fall below 0.62 (which is Tom's critical value - i.e., the minimum value which would result in him rejecting the null hypothesis).<br>
+In fact, the probability of 50 flips of the trick coin resulting in a proportion of heads large enough for Tom to reject the null is about `r tom_power*100`%.<br>
+This is the proportion of the true sampling distribution (green, above) which is equal to or greater than the critical value (black vertical line).
+  
 
-### Generalising it {-} 
+### Overlapping distributions {-}
 
-1. When we conduct NHST (Null Hypothesis Significance Testing), we set $\alpha$.  
-1. In setting $\alpha$, we define a **critical region** under the null distribution. The **critical value** is the value of the statistic which defines the start of this region. Any statistic more extreme than this will result in rejecting the null hypothesis.
-1. If the null hypothesis is false, the probability that we reject the null hypothesis depends on a) how far away from the null hypothesis the true state of the world is, and b) our sample size. 
-<br>
+We've just seem a visualisation of two different possible sampling distributions, one reflecting the null hypothesis, and one reflecting an alternative (in this case, it reflected the *true* bias of the coin). It helps to think of the statistical power of a test in terms of the *overlap* of two such distributions. 
 
-#### Why is this useful?? {-} 
+`r msmbstyle::question_begin()`
+How will our choice of $\alpha$ influence our statistical power? (Try explaining it in terms of the two distributions we saw above)
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+A lower $\alpha$ means that we need stronger evidence to reject the null hypothesis.<br>
+We have less power when we have a lower $\alpha$ because the critical value is further from the center of the null distribution (i.e., more extreme). Less of the alternative distribution will be equal or greater than a more extreme critical value.  
+`r msmbstyle::question_end()`
+
+`r msmbstyle::question_begin()`
+How will our sample size influence our statistical power? (Try explaining it in terms of the two distributions we saw above)
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+A bigger sample means a smaller standard error (see [Week 11](#chap-sampling-distributions)).<br>
+This would make both sampling distributions (that under the null hypothesis, and that under an alternative hypothesis) *narrower*, and therefore overlap less, leading to more power. 
+`r msmbstyle::question_end()`
+
+`r msmbstyle::question_begin()`
+How would it influence our statistical power if we assumed the coin was actually rigged to land 70% of the time on heads? (Try explaining it in terms of the two distributions we saw above)
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+When there is greater difference between the null distribution and an hypothesised distribution, the two distributions will overlap less, leading to more power. 
+`r msmbstyle::question_end()`
+
+A nice visualisation of power can be found here: https://rpsychologist.com/d3/NHST/ 
+
+### Generalising it {-}  
 
 In our example, we *knew* the true bias of the coin. But Tom didn't!   
 <br>
 What Tom *could* do, is calculate the power of his test *assuming* a given value for $p$. He might have thought to himself:<br>
 "Hmm, that coin seems to land on heads about 3/4 of the time. If that is true, I want to know what the probability of me being able to correctly reject the null hypothesis is when I flip the coin 50 times".   
   
-<small>Had Tom used the R code above he might have called his distribution `theoretical_distribution` rather than `true_distribution`!</small>   
+<small>Had Tom used the R code above he might have called his distribution `hypothesised_distribution` rather than `true_distribution`!</small>   
 <br>
 
 <div class="red">
   
-The important thing is that, given an assumed **effect size** (i.e., difference from the null hypothesis) - or *set of* effect sizes - we can compute the power of a test for a given sample size.  
-We can reframe this and find out what the minimum sample size is that would be required to detect a given effect size.  
+<br>
+
++ When we conduct NHST (Null Hypothesis Significance Testing), we set $\alpha$.  
++ In setting $\alpha$, we define a **critical region** under the null distribution. The **critical value** is the value of the statistic which defines the start of this region. Any statistic more extreme than this will result in rejecting the null hypothesis.  
++ If the null hypothesis is false, the probability that we reject the null hypothesis depends on a) our $\alpha$ level, b) how far away from the null distribution the assumed state of the world is, and c) our sample size.  
++ This means that, for an assumed **effect size** (i.e., difference from the null hypothesis) - or *set of* effect sizes - we can compute the power of a test for a given sample size.  
+We can then do useful things such as reframe this to find out what the minimum sample size is that would be required to achieve a given level of power to detect a given effect size.  
   
 </div>
-
-### Overlapping distributions {-}
-
-It will hopefully help to think of the statistical power of a test in terms of two distributions and their overlap: 
-<br>
-https://rpsychologist.com/d3/NHST/ 
 
 
 ## Summary
@@ -436,7 +490,7 @@ Today, we have recapped what we learned last week about hypothesis testing, and 
 <br>
 We learned that when we reject a *true* null hypothesis because we happen (by random chance) to have a sample statistic which is unlikely under the null, we commit a Type I Error. We saw how the probability of this happening is equal to our $\alpha$ level.  
 <br>
-We also learned that failing to reject the null hypothesis when it is actually false, is known as a Type II Error, and the probability of this depends on how far away from the null hypothesis the true parameter is, as well as how big our sample is.  
+We also learned that failing to reject the null hypothesis when it is actually false, is known as a Type II Error, and the probability of this depends on how far away from the null parameter the true parameter is (i.e., effect size), as well as how big our sample is.  
 <br>
 We simulated different distributions under different hypotheses, using the code below: 
 ```{r, eval=FALSE}
@@ -455,17 +509,24 @@ distribution <- samples %>%
   summarise(prop = sum(vals == 'Heads') / n())
 ```
 
-We calculated the critical value (for a one-sided test) for a null distribution by arranging the sample statistics and finding where 95% of them are below:
+We calculated the critical value (for a one-sided test) for a null distribution by using the `quantile()` function, to find the values at which 95% of the distribution of simulated sample statistics are to the left.
 ```{r, eval=FALSE}
 crit_val <- 
   null_distribution %>%
-  arrange(prop) %>% 
-  mutate(idx = 1:n()/n()) %>%
-  filter(idx == 0.95) %>%
-  pull(prop)
+  summarise(crit95 = quantile(prop, 0.95)) %>%
+  pull(crit95)
 ```
 
-We could then find the proportion of a different theorised distribution which fell above that critical value, giving our power:
+For a two-sided test at $\alpha = 0.05$, we can simply extend this to ask for the values where 2.5% of the distribution is to the left, and where 97.5% of the distribution is to the left (so 2.5% is to the right). In doing so, we divide our critical region in to the two tails of the distribution.
+```{r}
+null_distribution %>%
+  summarise(
+    crit025 = quantile(prop, 0.025),
+    crit975 = quantile(prop, 0.975)
+  )
+```
+
+We can find the proportion of a different theorised distribution which fell beyond a critical value, giving our power:
 ```{r eval=FALSE}
 another_distribution %>%
   summarise(
@@ -477,9 +538,107 @@ another_distribution %>%
 
 ## Lab
 
-### Exercise 1: Calculating power for a different coin.
+### Exercise 1: Rock Paper Scissors!
+
+If you haven't ever played Rock, Paper, Scissors before, then play it now against someone nearby! 
+<br>
+A [paper in 2009](https://www.jstor.org/stable/25653686?) found that novice players tend to avoid choosing scissors. We are going to test this.  
+<br>
+
+<div class="red">
+#### Research Question {-}
+Are novice players of Rock, Paper, Scissors biased to choosing scissors less often?
+</div>
+
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
+Write out your null and alternative hypotheses. Is our alternative hypothesis one-sided or two-sided?
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+Null hypothesis: Novice players are equally likely to choose Scissors as they are to choose Rock or Paper. 
+Alternative hypothesis: Novice players are less likely to choose Scissors as they are to choose Rock or Paper. 
+<br>
+Where $p$ denotes the proportion of games in which players choose scissors:  
+$$H_0: p = 1/3$$
+$$H_1: p < 1/3$$
+  
+Our alternative hypothesis is one-sided, because we are suggesting that the proportion of games in which players choose scissors is *less than* 1/3. 
+`r msmbstyle::solution_end()`
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
+Assuming that novice players actually choose Scissors only 1/5 of the time ($p = 1/5$), calculate the power to detect this if we conduct a test (at $\alpha = 0.05$) based on 75 games of Rock, Paper, Scissors with novice players. 
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+We need to generate our null distribution:
+```{r, message=FALSE, warning=FALSE}
+outcomes <- tibble(vals = factor(c('Rock','Paper','Scissors')))
+prob <- c(1/3, 1/3, 1/3)
+
+# GENERATE THE NULL
+samples <- rep_sample_n(outcomes, size = 75, replace = TRUE, reps = 1000, prob = prob)
+
+null_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Scissors') / n())
+```
+
+And calculate the critical value (note that because the alternative is $p < 1/3$, we are looking for the bottom 5%, rather the top 5%):
+```{r}
+# FIND CRITICAL VALUE
+crit_val <- 
+  null_distribution %>%
+  summarise(crit95 = quantile(prop, 0.05)) %>%
+  pull(crit95)
+```
+
+Construct an alternative distribution:
+```{r}
+# GENERATE ALTERNATIVE
+outcomes <- tibble(vals = factor(c('Rock','Paper','Scissors')))
+prob <- c(0.4, 0.4, 0.2)
+
+samples <- rep_sample_n(outcomes, size = 75, replace = TRUE, reps = 1000, prob = prob)
+
+hypothesised_distribution <- samples %>% 
+  group_by(replicate) %>%
+  summarise(prop = sum(vals == 'Scissors') / n())
+```
+
+And calculate power.
+```{r}
+# CALCULATE POWER
+hypothesised_distribution %>%
+  summarise(
+    prob_crit = sum(prop <= crit_val) / n()
+  )
+```
+`r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 3")`
+Calculate the power if we were to conduct the same test at $\alpha = 0.01$ instead.
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden=FALSE)`
+We would have a different critical value:
+```{r}
+crit_val <- 
+  null_distribution %>%
+  summarise(crit95 = quantile(prop, 0.01)) %>%
+  pull(crit95)
+```
+And our power would therefore change accordingly:
+```{r}
+# CALCULATE POWER
+hypothesised_distribution %>%
+  summarise(
+    prob_crit = sum(prop <= crit_val) / n()
+  )
+```
+`r msmbstyle::solution_end()`
+
+### Exercise 2: Calculating power for a different coin.
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 4")`
 If my trick coin was actually weighted so that it landed on heads 65% of the time, what would the power of Tom's test (50 flips) be? 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
@@ -510,9 +669,11 @@ theoretical_distribution %>%
 `r msmbstyle::solution_end()`
 
 
-### Exercise 2: Sample size (number of flips) and power  
+## Extra Exercises
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
+### Exercise 3: Sample size (number of flips) and power  
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
 Assuming the coin to be biased towards landing on heads 60% of the time, calculate the power of Tom's statistical test for when he flips the coin 75 times, 100 times, and 200 times. Which sample size should Tom use if he wants at least 80% power?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
@@ -533,10 +694,8 @@ null_distribution <- samples %>%
 # FIND CRITICAL VALUE
 crit_val <- 
   null_distribution %>%
-  arrange(prop) %>% 
-  mutate(idx = 1:n()/n()) %>%
-  filter(idx == 0.95) %>%
-  pull(prop)
+  summarise(crit95 = quantile(prop, 0.95)) %>%
+  pull(crit95)
 
 # GENERATE THEORISED ALTERNATIVE
 outcomes <- tibble(vals = factor(c('Heads', 'Tails')))
@@ -544,19 +703,19 @@ prob <- c(0.6, 0.4)
 
 samples <- rep_sample_n(outcomes, size = nr_flips, replace = TRUE, reps = 1000, prob = prob)
 
-true_distribution <- samples %>% 
+hypothesised_distribution <- samples %>% 
   group_by(replicate) %>%
   summarise(prop = sum(vals == 'Heads') / n())
 
 # CALCULATE POWER
-true_distribution %>%
+hypothesised_distribution %>%
   summarise(
     prob_crit = sum(prop >= crit_val) / n()
   )
 ```
 `r msmbstyle::solution_end()`
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question 3")`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
 List the three things which affect the power of a statistical test. 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
@@ -568,9 +727,43 @@ List the three things which affect the power of a statistical test.
 `r msmbstyle::solution_end()`
 
 
+<div class="noteBox"> 
+#### A thought experiment {-} 
+
++ There are 20 researchers. 
++ Each researcher has a perfectly balanced/fair coin.  
++ Each researcher conducts a statistical test at $\alpha = 0.05$ to evaluate whether their coin is fair (lands on heads equally as often as it lands on tails).
+
+How many of the researchers' tests would we expect to result in a Type I Error?  
+<small>**Remember:** The probability of making a Type I error is the probability of getting an unlikely sample statistic simply due to chance sampling variation (i.e., we just happen to get a random sample with an unlikely statistic).</small>
+`r msmbstyle::solution_begin(hidden=FALSE)`
+
+This is similar to asking "What is the probability of observing at least one significant result due to chance sampling variation alone?". We can work this out..
+<br>  
+
++ For one researcher, if their null hypothesis is true, the probability that they get a significant result is 0.05, and the probability that they get a non-significant result (p-value $> 0.05$) is 0.95.
+
++ If there are 20 researchers, the probability of them *all* getting *non-significant* results when their null hypotheses are all true is $0.95^{20} = 0.358$.  
+
++ This means that the probability of the opposite - *at least one* of them gets a significant result even though all their nulls are true - is $1 - 0.358 = 0.642$.  
+
+`r msmbstyle::solution_end()`
+</div>
+
+
+
 ## Glossary
 
-- *Type I error.* Rejecting the null hypothesis when it is actually true (false positive). Its probability is denoted by $\alpha$.
-- *Type II error.* Failing to reject a null hypothesis that is actually false (false negative). Its probability is denoted by $\beta$.
+- *Type I Error.* Rejecting the null hypothesis when it is actually true (false positive). Its probability is denoted by $\alpha$.
+- *Type II Error.* Failing to reject a null hypothesis that is actually false (false negative). Its probability is denoted by $\beta$.
 - *Power ($1 - \beta$).* The probability of (correctly) rejecting the null hypothesis when it is false.
+- *Critical Region*. The area of the null distribution in which an observed sample statistic would lead to rejecting the null hypothesis. The area of the critical region corresponds to $\alpha$% of the null distribution.
+- *Critical value*. The value of the statistic which defines the start of the critical region. Any statistic more extreme than this will result in rejecting the null hypothesis.
 - *Effect size.* The distance from the value of the parameter under the null hypothesis. When we calculate power, we often do so for an *assumed* effect size. When we take a sample and calculate an observed statistic, the distance from that observed statistic to the parameter under the null is our observed effect size.
+
+
+
+## References  
+
+- Eyler, D., Shalla, Z., Doumaux, A., & McDevitt, T. (2009). Winning at Rock-Paper-Scissors. *The College Mathematics Journal*, 40(2), 125-128.
+- Tintle, N., Chance, B. L., Cobb, G. W., Rossman, A. J., Roy, S., Swanson, T., & VanderStoep, J. (2015). *Introduction to statistical investigations.* New York: Wiley.
