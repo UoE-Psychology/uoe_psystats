@@ -6,13 +6,96 @@ HIDDEN_SOLS=FALSE
 
 ### Packages {-}  
 
-+ lme4  
+```{r message=FALSE,warning=FALSE}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(effects)
+```
+
 
 ### Lecture Slides {-}  
 
-+ Coming soon  
+The lecture slides can be accessed [here](https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/Lecture04_RanEf.html). 
 
 ### Background & Reading {-}  
   
-+ Coming soon  
++ [Baayen et al., 2008](https://doi.org/10.1016/j.jml.2007.12.005)  
++ [Barr et al., 2013](https://doi.org/10.1016/j.jml.2012.11.001)  
++ [Matuschek et al., 2017](https://doi.org/10.1016/j.jml.2017.01.001)  
+
   
+## Exercise 1 
+
+<div class="red">
+### The data {-}  
+
+```{r}
+load("../../labs/problem_solving.Rdata")
+summary(problem_solving)
+```
+
+* `Item`: word problem, can be *Hard* or *Easy*
+* `Prob_Type`: difficulty level of word problem (16 hard problems, 14 easy problems)
+* `Subject`: Participant ID, N=120
+* `Condition`: whether the participant received the `Treatment` or not
+* `RT`: time to solve the problem
+* Note: there is some missing data because trials where the participants failed to solve the problem are excluded.
+
+</div>
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
+Check the contrasts of the `Condition` and `Prob_Type` variables. 
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+```{r}
+contrasts(problem_solving$Condition)
+contrasts(problem_solving$Prob_Type)
+```
+They are sum-coded. Think about what this means for when you are interpreting the intercept and coefficients!
+`r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
++ Does `Prob_Type` vary within subjects?
++ Does `Prob_Type` vary within items?
++ Does `Condition` vary within subjects?
++ Does `Condition` vary within items?
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+Each subject solved both Easy and Hard problems.
+Each item was either Easy or Hard.
+Each subject was either in the control condition or the treatment condition.
+Each item was solved both by subjects in the control condition and subjects in the treatment condition.
+
+
+`r msmbstyle::solution_end()`
+
+Use MLR with crossed random effects of subjects and items to answer these research questions
+
+1. Did the treatment improve problem solving ability? 
+2. Did the treatment effect differ between hard and easy problems?
+
+
+
+`r msmbstyle::question_end()` 
+`r msmbstyle::solution_begin(hidden=FALSE)`
+```{r message=FALSE, warning=FALSE}
+mod_ps <- lmer(RT ~ Prob_Type*Condition + 
+                   (Prob_Type | Subject) + 
+                   (Condition | Item), 
+                 data=problem_solving, REML=FALSE)
+
+summary(mod_ps)
+```
+`r msmbstyle::solution_end()`
+
+3. Make a graph of the condition means and variability based on your analysis model
+
+```{r, fig.width=5, fig.height=4}
+efx <- as.data.frame(effect("Prob_Type:Condition", mod_ps))
+ggplot(efx, aes(Condition, fit, color=Prob_Type, ymin=fit-se, ymax=fit+se)) + 
+  geom_pointrange() +
+  theme_bw() +
+  labs(y="Response Time", color="Problem\nType")
+```
