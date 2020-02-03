@@ -1,0 +1,303 @@
+---
+title: 'Week 05: Individual Differences'
+date: "2020-Feb-10 (updated: `r Sys.Date()`)"
+output: 
+  slidy_presentation:
+    highlight: pygments
+---
+
+## Individual differences
+```{css, echo=FALSE}
+body
+{
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  width: 100%;
+  height: 100%;
+  color: black;
+  background-color: white;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: 14pt;
+}
+
+.smallfont
+{
+  font-size: 90%;
+}
+
+.tinyfont
+{
+  font-size: 70%;
+}
+
+#left {
+  left:-8.33%;
+  text-align: left;
+  float: left;
+  width:50%;
+  z-index:-10;
+}
+
+#right {
+  left:31.25%;
+  top: 75px;
+  float: right;
+  text-align: left;
+  z-index:-10;
+  width:50%;
+}
+```
+```{r setup, include=FALSE, message=FALSE}
+#knitr::opts_chunk$set(echo = FALSE)
+options(digits = 4)
+library(tidyverse)
+library(knitr)
+library(lme4)
+library(lmerTest)
+library(patchwork)
+library(broom.mixed)
+```
+
+Individual differences provide an additional level of analysis for understanding phenomena
+
+> * At a group level, a treatment works better than a placebo, but why does it work better for some people than for others?
+> * People solve easy problems faster than hard problems, but why are some people a lot faster on the easy problems and other people only a little faster?
+> * t-test and ANOVA methods treat individual differences as noise
+> * Multilevel regression provides two ways to quantify and analyze individual differences
+
+## "External" individual differences can be added as fixed effects {.smallfont}
+Example: National Youth Survey longitudinal data on tolerance for deviant behavior, exposure to deviant behavior, and gender. Subset of 16 subjects printed in Willett (1997, Table 11.1). (`DeviantBehavior`)
+
+`Tolerance` was measured by asking whether it is wrong for someone their age to: cheat on tests, purposely destroy property of others, use marijuana, steal something worth less than \$5, hit or threaten someone without reason, use alcohol, break into a building or vehicle to steal, sell hard drugs, or steal something worth more than \$50.
+
+```{r echo=FALSE, fig.height=3, fig.width=5}
+load("../data/DeviantBehavior.RData")
+summary(DeviantBehavior)
+# let's look at the overall pattern (ignore gender for now)
+ggplot(DeviantBehavior, aes(Age, Tolerance, color=Gender)) + 
+  stat_summary(fun.y=mean, geom="point", size=3) +
+  stat_summary(fun.data=mean_se, geom="errorbar", width=0.2) + 
+  stat_summary(fun.y=mean, geom="line") +
+  labs(x="Age", y="Tolerance for deviant behavior") + 
+  theme_bw()
+```
+
+## Does tolerance increase with age and is it modulated by gender?
+
+```{r}
+m.base <- lmer(Tolerance ~ Age*Gender + (Age | SubjID),
+                 contrasts=list(Gender="contr.sum"), data=DeviantBehavior)
+kable(tidy(m.base))
+```
+Significant increase with age, no significant effects of gender
+
+## Is this modulated by exposure to deviant behavior?
+`Exposure` scale is not clear and other effects would be estimated at `Exposure=0`, which is not an attested value. 
+
+If we center `Exposure`, its effects and the effects of other predictors will be easier to interpret.
+
+```{r}
+# center Exposure, but do not re-scale it
+DeviantBehavior$Exposure.center <- scale(DeviantBehavior$Exposure, scale=FALSE)
+```
+
+## Is this modulated by exposure to deviant behavior?
+```{r}
+# full model
+m.exp1 <- lmer(Tolerance ~ Age*Gender*Exposure.center + (Age | SubjID), 
+               data=DeviantBehavior, contrasts=list(Gender="contr.sum"))
+kable(tidy(m.exp1))
+```
+
+* Significant main effects: Age and Exposure
+* Significant interactions: Age-by-Exposure, Gender-by-Exposure, Age-by-Gender-by-Exposure
+
+## How to plot the three-way interaction?
+The three-way Age-by-Gender-by-Exposure interaction is a relationship among four variables (Tolerance for deviant behavior, Exposure to deviant behavior, Age, and Gender), three of which are continuous variables. *This is hard to visualize.*
+
+To make it easier to visualize, can split the `Exposure` into levels
+```{r fig.height=3, fig.width=7}
+# a simple median split
+DeviantBehavior$ExposureMedSpl <- ifelse(
+  DeviantBehavior$Exposure >= median(DeviantBehavior$Exposure), "High", "Low")
+# plot the interaction
+ggplot(DeviantBehavior, aes(Age, Tolerance, color=ExposureMedSpl)) + 
+  facet_wrap(~ Gender) + 
+  stat_summary(fun.y=mean, geom="point", size=3) +
+  stat_summary(fun.y=mean, geom="line") +
+  stat_summary(fun.data=mean_se, geom="errorbar", width=0.2) + 
+  labs(x="Age", y="Tolerance for deviant behavior", 
+       color="Exposure\n(Median Split)") + 
+  theme_bw() 
+```
+
+Adolescents with higher Exposure to deviant behavior tend to have increased Tolerance for deviant behavior as they get older, and this is more true for males than females.
+
+## How to plot the three-way interaction?
+To make it easier to visualize, can split the `Exposure` into levels: tertile split
+
+```{r fig.height=3, fig.width=7, warning=FALSE}
+# define break points
+b <- quantile(DeviantBehavior$Exposure, probs=seq(0, 1, by=1/3)) 
+# split continuous predictor and provide level labels
+DeviantBehavior$Exposure3 <- cut(DeviantBehavior$Exposure, 
+                                 breaks=b, include.lowest=T, 
+                                 labels=c("Low", "Medium", "High"))
+# make the plot
+ggplot(DeviantBehavior, aes(Age, Tolerance, color=Exposure3)) + 
+  facet_wrap(~ Gender) + 
+  stat_summary(fun.y=mean, geom="point", size=3) + 
+  stat_summary(fun.y=mean, geom="line") +
+  stat_summary(fun.data=mean_se, geom="errorbar", width=0.2) + 
+  labs(x="Age", y="Tolerance for deviant behavior", 
+       color="Exposure\n(Tertile)") + 
+  theme_bw() 
+```
+
+## "Internal" individual differences {.smallfont}
+* No "external" measure that can be entered as a fixed effect 
+* Individual differences needed for a different analysis (e.g., LSM)
+
+For such situations, random effects provide a way to quantify individual effect sizes in the context of a model of overall group performance.
+
+A simple example:
+
+![](../figs/IndivDiffsDemo.png){ width=50% }
+
+Participant A: $\zeta_{A1} - \zeta_{A0} = 1 - (-1) = 2$
+
+Participant B: $\zeta_{B1} - \zeta_{B0} = (-1) - 1 = -2$
+
+## "Internal" individual differences: Example {.smallfont}
+Data (Made-up): Effect of school mental health services on educational achievement (`EducMH`)
+
+* `Condition` = Treatment (students who received mental health services) vs. Control (academically matched group of students who did not receive services)
+* `SDQ` = Strengths and Difficulties Questionnaire: a brief behavioral screening for mental health, only available for Treatment group. Lower scores are better (Total difficulties).
+* `Math` = Score on standardized math test
+
+```{r}
+load("../data/EducMH.RData")
+summary(EducMH)
+```
+
+## "Internal" individual differences: Example {.smallfont}
+Data (Made-up): Effect of school mental health services on educational achievement (`EducMH`)
+
+```{r echo=FALSE, fig.width=5, fig.height=3}
+ggplot(EducMH, aes(Year, Math, color=Condition, fill=Condition)) + 
+  stat_summary(fun.y=mean, geom="line") + 
+  stat_summary(fun.data=mean_se, geom="ribbon", color=NA, alpha=0.3) + 
+  labs(y="Math Achievement Score") + theme_bw(base_size=12) + 
+  scale_color_manual(values=c("red", "blue")) + 
+  scale_fill_manual(values=c("red", "blue"))
+```
+
+**Question 1**: Did the school mental health services improve academic achievement? That is, did the two groups differ on math achievement at baseline and over the 6 years of the study?
+
+**Question 2**: For the treatment group, was individual-level improvement in mental health associated with improvement in math scores?
+
+## "Internal" individual differences: Example {.smallfont}
+
+**Question 1**: Did the school mental health services improve academic achievement? That is, did the two groups differ on math achievement at baseline and over the 6 years of the study?
+
+```{r}
+# adjust time variable to have a sensible intercept
+EducMH$Time <- EducMH$Year - 2009
+# fit the models
+m.base <- lmer(Math ~ Time + (Time | ID), data=EducMH, REML=F)
+m.0 <- lmer(Math ~ Time + Condition + (Time | ID), data=EducMH, REML=F)
+m.1 <- lmer(Math ~ Time*Condition + (Time | ID), data=EducMH, REML=F)
+# compare the models
+anova(m.base, m.0, m.1)
+kable(tidy(m.1))
+```
+
+There was no group difference at baseline, but there was a group difference on slope. That is, math achievement in the two groups started out the same, but increased more quickly in the Treatment group.
+
+## "Internal" individual differences: Example {.smallfont}
+
+**Question 2**: For the treatment group, was individual-level improvement in mental health associated with improvement in math scores?
+
+First step: For the treatment group, plot change in the SDQ over time showing both group mean and individual variability
+
+```{r fig.height=3, fig.width=5}
+ggplot(subset(EducMH, Condition == "Treatment"), aes(Year, SDQ)) + 
+  geom_line(aes(group=ID), color="gray") +
+  stat_summary(fun.y=mean, geom="line") +
+  stat_summary(fun.data=mean_se, geom="errorbar", width=0.3) +
+  theme_bw(base_size=12)
+```
+
+Within the treatment group, it looks like there is lots of variability in response to the mental health services. Some people responded really well (big decreases in difficulties on SDQ), some people didn't respond well (increased difficulties according to SDQ). 
+
+We want to know whether this variability is associated with variability in improved math achievement.
+  
+## "Internal" individual differences: Example {.smallfont}
+
+**Question 2**: For the treatment group, was individual-level improvement in mental health associated with improvement in math scores?
+
+Analysis strategy:
+
+* Build separate models for change in SDQ and change in Math scores over time
+* Use random effects to quantify individual differences in change over time for the two scores
+* Test the correlation between change in SDQ and in Math achievement (and make a scatterplot showing this).
+
+## "Internal" individual differences: Example {.smallfont}
+
+**Question 2**: For the treatment group, was individual-level improvement in mental health associated with improvement in math scores?
+
+Analysis strategy:
+
+* Build separate models for change in SDQ and change in Math scores over time
+
+```{r}
+m.math <- lmer(Math ~ Time + (Time | ID), 
+               data=subset(EducMH, Condition == "Treatment"), REML=F)
+m.sdq <- lmer(SDQ ~ Time + (Time | ID), 
+              data=subset(EducMH, Condition == "Treatment"), REML=F)
+```
+
+## "Internal" individual differences: Example {.smallfont}
+
+**Question 2**: For the treatment group, was individual-level improvement in mental health associated with improvement in math scores?
+
+Analysis strategy:
+
+* Build separate models for change in SDQ and change in Math scores over time
+* Use random effects to quantify individual differences in change over time for the two scores
+
+```{r}
+source("get_ranef.R")
+#get_ranef() will extract the named random effect and clean them up a bit
+re.math <- get_ranef(m.math, "ID")
+re.sdq <- get_ranef(m.sdq, "ID")
+#merge() will combine those into one data frame, but needs some help because the variable names are all the same
+re <- merge(re.math, re.sdq, by="ID", suffixes = c(".math", ".sdq"))
+summary(re)
+head(re)
+```
+
+## "Internal" individual differences: Example {.smallfont}
+
+**Question 2**: For the treatment group, was individual-level improvement in mental health associated with improvement in math scores?
+
+Analysis strategy:
+
+* Build separate models for change in SDQ and change in Math scores over time
+* Use random effects to quantify individual differences in change over time for the two scores
+* Test the correlation between change in SDQ and in Math achievement (and make a scatterplot showing this).
+
+```{r fig.height=4, fig.width=4}
+cor.test(re$Time.math, re$Time.sdq)
+
+ggplot(re, aes(Time.math, Time.sdq)) + geom_point() + stat_smooth(method="lm") + 
+  labs(x="Relative Rate of Increase in Math Score", 
+       y="Relative Rate of Decrease in\nSDQ Total Difficulties Score") + 
+  theme_bw(base_size=12)
+```
+
+Strong correlation ($r = -0.77$, $p < 0.0001$) indicating that response to mental health intervention (decreased difficulties) was associated with larger increases in math achievement. Note that the key quantities here are *slopes*. That is, the *rate* of decreased mental health difficulties is associated with a higher *rate* of math achievement.
+
+## Revisit lab exercises
+* Exercise 2: test-enhanced learning
+* Exercise 3: treatment effect
