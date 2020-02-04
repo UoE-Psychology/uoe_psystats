@@ -33,7 +33,7 @@ Data from the lecture can be found at [https://edin.ac/36UYA00 (active_math_sim.
 
 ```{r}
 load(url("https://edin.ac/2ShRCNl"))
-summary(problem_solving)
+str(problem_solving)
 ```
 
 * `Item`: word problem, can be *Hard* or *Easy*
@@ -132,9 +132,9 @@ The critical (replication) prediction is that the `StudyStudy` group should perf
 
 ```{r}
 load(url("https://edin.ac/2RWbl6g"))
-summary(tel)
+str(tel)
 ```
-
+</div>
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
 Plot the data. Does it look like the effect was replicated?
@@ -159,6 +159,7 @@ tel %>%
   theme_light() +
   labs(y = "Correct")
 ```
+  
 That looks like test-enhanced learning to me!  
 `r msmbstyle::solution_end()` 
 
@@ -182,7 +183,8 @@ Some questions to consider:
 m <- glmer(Correct ~ Delay*Group +
              (Delay + Group | Subject_ID) +
              (Delay + Group | Test_word),
-           data=tel, family="binomial")
+           data=tel, family="binomial",
+           glmerControl(optimizer = "bobyqa"))
 summary(m)
 #max|grad| = 0.0182486 (tol = 0.001)
 
@@ -194,7 +196,8 @@ m2 <- glmer(Correct ~ Delay*Group +
              (Delay + Group | Subject_ID) +
              (Delay | Test_word) +
               (0 + Group | Test_word),
-            data=tel, family="binomial")
+            data=tel, family="binomial",
+            glmerControl(optimizer = "bobyqa"))
 summary(m2)
 # max|grad| = 0.0145853 (tol = 0.001) -- not much of an improvement
 # the Delay random slope by Test_word variance is extrely low and perfectly correlated with the intercept, try removing that
@@ -202,7 +205,8 @@ m3 <- glmer(Correct ~ Delay*Group +
               (Delay + Group | Subject_ID) +
               (1 | Test_word) +
               (0 + Group | Test_word),
-            data=tel, family="binomial")
+            data=tel, family="binomial",
+            glmerControl(optimizer = "bobyqa"))
 summary(m3)
 # max|grad| = 0.0185765 (tol = 0.001)
 ```
@@ -254,11 +258,7 @@ What should we do with this information? How can we apply test-enhanced learning
 You'll get the benefits of test-enhanced learning if you try yourself before looking at the solutions! If you don't test yourself, you're more likely to forget it in the long run. 
 `r msmbstyle::solution_end()` 
 
-## Exercise 3 - Handling singular fits.  
-
-Up to now, we've been largely ignoring these warnings. However, in this exercise we're going to look at how to deal with this issue.
-</div>
-
+## Exercise 3
 
 <div class="red">  
 ### The data {-}  
@@ -305,6 +305,7 @@ a. There are repeated measures of participants (session). There are also repeate
 a. Looks like linear change, don't need polynomials. Good to know that there is no difference at baseline, so no need for orthogonal time.
 `r msmbstyle::solution_end()` 
 
+<hr />
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 11")`
 Test whether the treatment had an effect using mixed-effects modeling. Specify the maximal model. 
@@ -321,19 +322,24 @@ summary(m1)
 `r msmbstyle::solution_end()` 
 
 <div class="lo">
-<br>
+### Handling singular fits {-}  
+
 You may have noticed that a lot of our models over the last few weeks have been giving us a warning: `boundary (singular) fit: see ?isSingular`.   
-This warning us that our model has resulted in a 'singular fit'. You can read in depth about what this means by reading the help documentation for `?isSingular`. For our purposes, a relevant section is copied below: 
+Up to now, we've been largely ignoring these warnings. However, in this exercise we're going to look at how to deal with this issue.
+<br>
+The warning is telling us us that our model has resulted in a 'singular fit'. You can read in depth about what this means by reading the help documentation for `?isSingular`. For our purposes, a relevant section is copied below: 
 ```
 ...intercept-only models, or 2-dimensional random effects such as intercept+slope models, singularity is relatively easy to detect because it leads to random-effect variance estimates of (nearly) zero, or estimates of correlations that are (almost) exactly -1 or 1.
 ```
 <br>
+</div>
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 12")`
 Examine the variance estimates and correlations by using the `VarCorr()` function. What jumps out?  
 
 Try adjusting your model, examining the estimates again, and so on..  
-What we're doing here is following Barr et al.'s advice of defining our maximal model and then removing only the terms to allow a non-singular fit.  
+What we're aiming to do here is to follow Barr et al.'s advice of defining our maximal model and then removing only the terms to allow a non-singular fit.  
+**Note:** This is just *one* way of dealing with singular fits. There is no consensus on what approach is best (see `?isSingular`).  
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r}
