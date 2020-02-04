@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="basic-multilevel-regression.html"/>
-
+<link rel="next" href="other-random-effects-structures.html"/>
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -199,6 +199,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#exercise-2-writing-up-and-logistic-gca"><i class="fa fa-check"></i><b>3.3</b> Exercise 2: Writing up, and Logistic GCA</a></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html"><i class="fa fa-check"></i><b>4</b> Other random effects structures</a><ul>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#packages-3"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#lecture-slides-3"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#background-reading-3"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="4.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-1-2"><i class="fa fa-check"></i><b>4.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="4.2" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-2-1"><i class="fa fa-check"></i><b>4.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.3" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-3-1"><i class="fa fa-check"></i><b>4.3</b> Exercise 3</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -280,9 +288,9 @@ We encourage you to try working through the questions yourself before looking at
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-62" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-62&#39;, &#39;sol-start-62&#39;)"></span>
+► Solution<span id="sol-start-118" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-118&#39;, &#39;sol-start-118&#39;)"></span>
 </p>
-<div id="sol-body-62" class="solution-body" style="display: none;">
+<div id="sol-body-118" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/35Njwpl&quot;</span>))</a>
 <a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw">summary</span>(Az)</a></code></pre></div>
 <pre><code>##     Subject         Time          Task      Performance   
@@ -314,9 +322,9 @@ We encourage you to try working through the questions yourself before looking at
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-63" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-63&#39;, &#39;sol-start-63&#39;)"></span>
+► Solution<span id="sol-start-119" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-119&#39;, &#39;sol-start-119&#39;)"></span>
 </p>
-<div id="sol-body-63" class="solution-body" style="display: none;">
+<div id="sol-body-119" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">ggplot</span>(Az, <span class="kw">aes</span>(Time, Performance, <span class="dt">color=</span>Task, <span class="dt">fill=</span>Task)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb60-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;ribbon&quot;</span>, <span class="dt">color=</span><span class="ot">NA</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb60-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
@@ -342,9 +350,9 @@ We encourage you to try working through the questions yourself before looking at
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-64" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-64&#39;, &#39;sol-start-64&#39;)"></span>
+► Solution<span id="sol-start-120" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-120&#39;, &#39;sol-start-120&#39;)"></span>
 </p>
-<div id="sol-body-64" class="solution-body" style="display: none;">
+<div id="sol-body-120" class="solution-body" style="display: none;">
 <p>Because it’s useful to know whether there are task differences at the starting baseline point</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -376,9 +384,9 @@ We encourage you to try working through the questions yourself before looking at
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-65" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-65&#39;, &#39;sol-start-65&#39;)"></span>
+► Solution<span id="sol-start-121" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-121&#39;, &#39;sol-start-121&#39;)"></span>
 </p>
-<div id="sol-body-65" class="solution-body" style="display: none;">
+<div id="sol-body-121" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="co"># prep for analysis</span></a>
 <a class="sourceLine" id="cb61-2" data-line-number="2">Az &lt;-<span class="st"> </span><span class="kw">code_poly</span>(Az, <span class="dt">predictor=</span><span class="st">&quot;Time&quot;</span>, <span class="dt">poly.order=</span><span class="dv">2</span>, <span class="dt">orthogonal=</span>F, <span class="dt">draw.poly =</span> F)</a>
 <a class="sourceLine" id="cb61-3" data-line-number="3"></a>
@@ -453,21 +461,21 @@ If you’re struggling with the idea of polynomials, try looking at the output o
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-66" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-66&#39;, &#39;sol-start-66&#39;)"></span>
+► Solution<span id="sol-start-122" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-122&#39;, &#39;sol-start-122&#39;)"></span>
 </p>
-<div id="sol-body-66" class="solution-body" style="display: none;">
+<div id="sol-body-122" class="solution-body" style="display: none;">
 <p>Get p-values for your full model:</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">get_pvalues</span>(m.Az.full)</a></code></pre></div>
-<pre><code>##                      Estimate Std..Error     t.value     p.normal p.normal.star
-## (Intercept)      67.161666666 0.92669108  72.4747097 0.000000e+00           ***
-## poly1            -3.287803030 0.34111997  -9.6382602 0.000000e+00           ***
-## poly2             0.009469697 0.01243576   0.7614891 4.463650e-01              
-## TasksADL          0.095000000 0.81069066   0.1171840 9.067142e-01              
-## TaskMemory        1.240000000 0.81069066   1.5295600 1.261257e-01              
-## poly1:TasksADL    1.362196970 0.26753689   5.0916229 3.550117e-07           ***
-## poly1:TaskMemory -3.977070707 0.26753689 -14.8655038 0.000000e+00           ***
-## poly2:TasksADL   -0.013257576 0.01748015  -0.7584360 4.481900e-01              
-## poly2:TaskMemory  0.338888889 0.01748015  19.3870696 0.000000e+00           ***</code></pre>
+<pre><code>##                      Estimate Std..Error       df     t.value     Pr...t..     p.normal p.normal.star
+## (Intercept)      67.161666666 0.92669108 50.86054  72.4747097 5.319152e-53 0.000000e+00           ***
+## poly1            -3.287803030 0.34111997 45.90148  -9.6382602 1.325514e-12 0.000000e+00           ***
+## poly2             0.009469697 0.01243576 89.96602   0.7614891 4.483565e-01 4.463650e-01              
+## TasksADL          0.095000000 0.81069066 60.26206   0.1171840 9.071039e-01 9.067142e-01              
+## TaskMemory        1.240000000 0.81069066 60.26206   1.5295600 1.313584e-01 1.261257e-01              
+## poly1:TasksADL    1.362196970 0.26753689 61.08496   5.0916229 3.654517e-06 3.550117e-07           ***
+## poly1:TaskMemory -3.977070707 0.26753689 61.08496 -14.8655038 5.824804e-22 0.000000e+00           ***
+## poly2:TasksADL   -0.013257576 0.01748015 89.64036  -0.7584360 4.501795e-01 4.481900e-01              
+## poly2:TaskMemory  0.338888889 0.01748015 89.64036  19.3870696 8.031048e-34 0.000000e+00           ***</code></pre>
 <ul>
 <li>Intercepts are not different: performance in all tasks starts out the same (thanks, natural polynomials)</li>
 <li>Linear slopes are different: compared to complex ADL tasks, decline in simple ADL tasks is slower and decline in Memory is faster.</li>
@@ -494,9 +502,9 @@ If you’re struggling with the idea of polynomials, try looking at the output o
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-67" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-67&#39;, &#39;sol-start-67&#39;)"></span>
+► Solution<span id="sol-start-123" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-123&#39;, &#39;sol-start-123&#39;)"></span>
 </p>
-<div id="sol-body-67" class="solution-body" style="display: none;">
+<div id="sol-body-123" class="solution-body" style="display: none;">
 <p>Model comparisons suggest:</p>
 <ul>
 <li>Linear slopes are different: <span class="math inline">\(\chi^2(2)=30.56, p &lt;&lt; 0.0001\)</span> (comparison <code>m.0</code> and <code>m.1</code> above).<br />
@@ -532,9 +540,9 @@ Last week’s lab has been amended. Apologies for any confusion!</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-68" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-68&#39;, &#39;sol-start-68&#39;)"></span>
+► Solution<span id="sol-start-124" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-124&#39;, &#39;sol-start-124&#39;)"></span>
 </p>
-<div id="sol-body-68" class="solution-body" style="display: none;">
+<div id="sol-body-124" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">ggplot</span>(Az, <span class="kw">aes</span>(Time, Performance, <span class="dt">color=</span>Task)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb67-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb67-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>, <span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">fitted</span>(m.Az.full)))</a></code></pre></div>
@@ -580,9 +588,9 @@ Write up the results of the model</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-69" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-69&#39;, &#39;sol-start-69&#39;)"></span>
+► Solution<span id="sol-start-125" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-125&#39;, &#39;sol-start-125&#39;)"></span>
 </p>
-<div id="sol-body-69" class="solution-body" style="display: none;">
+<div id="sol-body-125" class="solution-body" style="display: none;">
 <p>There are two rules of thumb for reporting growth curve analysis results:</p>
 <ul>
 <li><strong>Clearly describe each of the three key components of the model</strong>: the functional form (third-order orthogonal polynomial), the fixed effects (effect of Condition on all time terms), and the random effects (effect of Subject on each of the time terms and nested effects of Subject-by-Condition on each of the time terms except the cubic). Depending on the circumstances and complexity of the model, you may want to include additional information about the factors and why they were included or not. It’s also a good idea to report which method was used for computing p-values.<br />
@@ -625,9 +633,9 @@ The data (.rda format) is available at <a href="https://edin.ac/2TieJK0">https:/
 </div>
 <div class="solution" style="display: none;">
 <p class="solution-begin">
-► Solution<span id="sol-start-70" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-70&#39;, &#39;sol-start-70&#39;)"></span>
+► Solution<span id="sol-start-126" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-126&#39;, &#39;sol-start-126&#39;)"></span>
 </p>
-<div id="sol-body-70" class="solution-body" style="display: none;">
+<div id="sol-body-126" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2TieJK0&quot;</span>))</a>
 <a class="sourceLine" id="cb69-2" data-line-number="2"><span class="co">#make 3rd-order orth poly</span></a>
 <a class="sourceLine" id="cb69-3" data-line-number="3">TargetFix &lt;-<span class="st"> </span><span class="kw">code_poly</span>(TargetFix, <span class="dt">predictor=</span><span class="st">&quot;timeBin&quot;</span>, <span class="dt">poly.order=</span><span class="dv">3</span>, <span class="dt">draw.poly=</span>F)</a>
@@ -762,8 +770,8 @@ The data (.rda format) is available at <a href="https://edin.ac/2TieJK0">https:/
           </div>
         </div>
       </div>
-<a href="basic-multilevel-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="basic-multilevel-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="other-random-effects-structures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
