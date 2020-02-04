@@ -345,19 +345,18 @@ What we're aiming to do here is to follow Barr et al.'s advice of defining our m
 ```{r}
 VarCorr(m1)
 ```
-There's a correlation of exactly -1 between the random intercepts and slopes for therapists. Let's remove it. 
+There's a correlation of exactly -1 between the random intercepts and slopes for therapists, and the standard deviation estimate for `session|therapist` is pretty small. Let's remove it. 
 ```{r}
-# remove nonsense random intercept-slope correlation for therapists
 m2 <- lmer(Score ~ session * group + 
              (1 + session | PID) + 
-             (1 + session || therapist),
+             (1 | therapist),
            data=tx, REML=FALSE)
 VarCorr(m2)
 ```
-It now looks like variance estimates for intercepts and slopes for therapists are both 0. If we remove them both, our model finally is non-singular:
+It now looks like estimates for random intercepts for therapists is now 0. If we remove this, our model finally is non-singular:
 ```{r}
 m3 <- lmer(Score ~ session * group + 
-             (1 + session || PID),
+             (1 + session | PID),
            data=tx, REML=FALSE)
 summary(m3)
 ```
