@@ -387,7 +387,8 @@ What does this mean?<br>
 It means that he has a `r tom_power` probability of concluding that my biased coin is biased!  
 <br>
 It might help if we plotted the two distributions which we just generated.  
-We'll start with Tom's null distribution (proportions of heads in 1000 simulated samples of size 50, assuming the probability of heads = 0.5). It's a histogram, with the dotplots on top just to show their equivalence.
+We'll start with Tom's null distribution (proportions of heads in 1000 simulated samples of size 50, assuming the probability of heads = 0.5). It's a histogram, with the dotplots on top just to show their equivalence.  
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(null_distribution, aes(x = prop)) +
   geom_histogram(binwidth = 0.01, fill="grey70") +
@@ -412,7 +413,7 @@ tnull<- ggplot(null_distribution, aes(x = prop, fill = (prop >= 0.62))) +
   geom_label(aes(x = 0.25, y = 85, label = "Critical region: These dots are the top 5% of the distribution"),
              hjust = 0, vjust = 0.5, lineheight = 0.8, fill="white", colour = "tomato1",
              label.size = NA, size = 3) +
-  geom_curve(aes(x = 0.56, y = 85, xend = 0.65, yend = 16),
+  geom_curve(aes(x = 0.56, y = 80, xend = 0.65, yend = 16),
              colour = "tomato1", size=0.5, curvature = -0.2,
              arrow = arrow(length = unit(0.03, "npc")))
   
@@ -427,6 +428,7 @@ tnull +
   labs(title = "Tom's null distribution & the true distribution")
 
 ```
+  
 Think about what this shows. For a coin which is biased towards landing on heads 60% of the time, more often than not, the proportion of heads in 50 flips will fall below 0.62 (which is Tom's critical value - i.e., the minimum value which would result in him rejecting the null hypothesis).<br>
 In fact, the probability of 50 flips of the trick coin resulting in a proportion of heads large enough for Tom to reject the null is about `r tom_power*100`%.<br>
 This is the proportion of the true sampling distribution (green, above) which is equal to or greater than the critical value (black vertical line).
