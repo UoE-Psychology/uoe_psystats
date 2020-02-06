@@ -18,11 +18,11 @@ library(tidyverse)
 
 #### Learning outcomes {-}
 
-**LO1.** Understand the Normal distribution
+**LO1.** Understand the normal distribution
 
-**LO2.** Compute probabilities using a distribution
+**LO2.** Compute probabilities using the uniform and normal density functions
 
-**LO3.** Understand distributions related to the Normal
+**LO3.** Assess normality
 
 #### Reading {-}
 
@@ -70,6 +70,27 @@ You can divide the counts by the total number of statistics that we have, obtain
 
 In mathematics, a model is an equation or a graph which is used to describe and recreate the behavior of something happening in reality.
 The red curve in Figure \@ref(fig:normal-fits) is known as the **normal curve**, and it is used to describe the typical values we would see for continuous variables which are said to be **normally distributed**.
+
+
+### Example: IQ scores
+
+An example of a continuous random variable whose distribution is symmetric and bell-shaped is IQ scores.
+The following histogram shows the IQ scores of 10,000 randomly selected UK adults:
+```{r}
+set.seed(1)
+n <- 10000
+iq_sample <- tibble(ID = 1:n, IQ = rnorm(n, mean = 100, sd = 15) %>% round(2))
+write_csv(iq_sample, '../data/iq_sample.csv')
+```
+
+```{r}
+library(tidyverse)
+data <- read_csv('../data/iq_sample.csv', col_names = TRUE)
+data
+
+ggplot(data, aes(x = IQ)) +
+  geom_histogram(color = 'white')
+```
 
 
 - how many times do you look at your phone in a day? 
