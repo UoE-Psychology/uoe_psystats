@@ -1,0 +1,89 @@
+---
+title: "Week 15: Normal distribution and probability"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# A: Walkthrough
+
+```{r}
+library(tidyverse)
+
+# load the sample
+cognitive <- read_csv('data/cognitive_sample.csv', col_names = TRUE)
+
+# first six rows
+head(cognitive)
+
+# dimensions of the tibble
+dim(cognitive)
+```
+
+```{r}
+ggplot(cognitive, aes(x = CognitiveScore, y = stat(density))) +
+  geom_histogram(color = 'white')
+```
+
+```{r}
+sample_mean <- cognitive %>%
+  pull(CognitiveScore) %>%
+  mean()
+
+sample_mean
+```
+
+```{r}
+sample_sd <- cognitive %>%
+  pull(CognitiveScore) %>%
+  sd()
+
+sample_sd
+```
+
+```{r}
+ggplot(cognitive) +
+  geom_histogram(aes(x = CognitiveScore, y = stat(density)), color = 'white') +
+  stat_function(fun = dnorm, 
+                args = list(mean = sample_mean, sd = sample_sd), 
+                color = 'red', size = 2)
+```
+
+```{r}
+theory_prob <- pnorm(130, mean = sample_mean, sd = sample_sd) - 
+  pnorm(120, mean = sample_mean, sd = sample_sd)
+theory_prob
+```
+
+```{r}
+sample_prob <- cognitive %>%
+  summarise(prop = sum(CognitiveScore >= 120 & CognitiveScore <= 130) / n())
+sample_prob
+```
+
+
+
+# B: Lab
+
+```{r, message=FALSE, warning=FALSE}
+# Step 1: load the required libraries
+library(tidyverse)
+library(moderndive)
+
+# Step 2: load the data and select the columns of interest
+nfl <- read_tsv('https://edin.ac/2TexAFA')
+
+# Step 3: look at the first rows of the data
+head(nfl)
+
+# Step 4: check the dimensions of the tibble
+dim(nfl)
+
+# Step 5: select relevant variables
+nfl <- nfl %>%
+  select(Player, YearlySalary)
+```
+
+
