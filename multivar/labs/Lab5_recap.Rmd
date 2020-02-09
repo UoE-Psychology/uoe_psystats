@@ -1,0 +1,152 @@
+---
+title: "Lab 5"
+author: "Dan Mirman"
+date: "09/02/2020"
+output: html_document
+---
+
+# Lab 05: Recap
+
+## The data
+44 participants across 4 groups (between-subjects) were tested 5 times (waves) in 11 domains. In each wave of testing, each domain received a score on a 20-point scale and a set of several questions, which could be answered correctly or incorrectly.
+
+```{r}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(effects)
+load("../data/lab5.Rdata")
+summary(dat5)
+```
+
+## Exercise 1
+Research question: Did the groups differ in overall performance?
+
+There are different ways to test this: use the 20-point score or the accuracy? Keep the domains separate or calculate an aggregate across all domains? Which way makes the most sense to you?
+
+[Idea: let student pick a method and follow it through, then have them go back and pick a different approach?]
+
+Analysis steps:
+
+1. Make a plot that corresponds to the reseach question. Does it look like there's a difference?
+2. Use a mixed-effects model to test the difference. 
+
+* Will you use a linear or logistic model?
+* What should the fixed(s) effect be? 
+* What should the random effect(s) be?
+
+## Exercise 1 Solution
+1. Make a plot that corresponds to the reseach question. Does it look like there's a difference?
+
+Lots of options for this one, here is one that shows Group and Domain differences:
+```{r}
+ggplot(dat5, aes(Domain, Score, color=Group)) +
+  stat_summary(fun.data=mean_se, geom="pointrange") +
+  coord_flip()
+```
+
+Looks like there are group differences and domain differences, but not much in the way of group-by-domain differences.
+
+2. Use a mixed-effects model to test the difference.
+```{r}
+# maximal model doesn't converge, removed random Group slopes for Domain
+mod_grp <- lmer(Score ~ Group + 
+                   (1 | Anonymous_Subject_ID) + 
+                   (1 | Domain), 
+                 data=dat5, REML=FALSE)
+summary(mod_grp)
+```
+
+Yes, substantial Group differences: overall, group A does the best, group B is slightly behind, group C next, and group W does the worst.
+
+## Exercise 2
+Research question: Did performance change over time (across waves)? Did the groups differ in pattern of change?
+
+Analysis steps:
+
+1. Make a plot that corresponds to the reseach question. Does it look like there was a change? A group difference?
+
+2. Use a mixed-effects model to test this. 
+
+* Will you use a linear or logistic model?
+* What should the fixed(s) effect be? 
+* What should the random effect(s) be?
+
+3. Make plots of the data with the model fit. 
+(a) Plot the group-level data and model fits. 
+*We fit a linear model, but the model fit lines are not straight lines. Why is that?*
+
+(b) Plot data and model fit for individual subjects
+
+(c) Use the `effects` package to make a plot of the actual (linear) model prediction. What important things are different between this plot and the plot in part (a)? 
+
+## Exercise 2 Solution
+1. Make a plot that corresponds to the reseach question. Does it look like there was a change? A group difference?
+
+```{r, fig.width=5, fig.height=4}
+ggplot(dat5, aes(Wave, Score, color=Group, fill=Group)) +
+  stat_summary(fun.data=mean_se, geom="ribbon", alpha=0.3, color=NA) +
+  stat_summary(fun.y=mean, geom="line")
+```
+
+Yes, looks like groups A, C, and W are improving, but group B is getting worse.
+
+2. Use a mixed-effects model to test this. 
+```{r}
+# maximal model doesn't converge, removed random intercept-slope corrections for Domain
+mod_wv <- lmer(Score ~ Wave + 
+                   (Wave | Anonymous_Subject_ID) + 
+                   (Wave || Domain), 
+                 data=dat5, REML=FALSE)
+mod_wv_grp <- lmer(Score ~ Wave+Group + 
+                   (Wave | Anonymous_Subject_ID) + 
+                   (Wave || Domain), 
+                 data=dat5, REML=FALSE)
+mod_wv_x_grp <- lmer(Score ~ Wave*Group + 
+                   (Wave | Anonymous_Subject_ID) + 
+                   (Wave || Domain), 
+                 data=dat5, REML=FALSE)
+anova(mod_wv, mod_wv_grp, mod_wv_x_grp)
+summary(mod_wv_x_grp)
+```
+
+3. Make a plot of the data with the model fit.
+(a) Plot the group-level data and model fits.
+```{r}
+ggplot(fortify(mod_wv_x_grp), aes(Wave, Score, color=Group)) +
+  stat_summary(fun.data=mean_se, geom="pointrange") +
+  stat_summary(aes(y=.fitted), fun.y=mean, geom="line")
+```
+
+*We fit a linear model, but the model fit lines are not straight lines. Why is that?*
+
+(b) Individual subject plots
+```{r}
+ggplot(fortify(mod_wv_x_grp), aes(Wave, Score, color=Group)) +
+  facet_wrap(~ Anonymous_Subject_ID) +
+  stat_summary(fun.data=mean_se, geom="pointrange") +
+  stat_summary(aes(y=.fitted), fun.y=mean, geom="line")
+```
+
+The individual subject plots show linear fits, which is a better match to the model. But now we see the missing data -- some participants only completed the first few waves. Can use `effects` to get better idea of model. 
+
+(c) Make a plot of the actual (linear) model prediction. 
+```{r}
+ef <- as.data.frame(effect("Wave:Group", mod_wv_x_grp))
+ggplot(ef, aes(Wave, fit, color=Group, fill=Group)) +
+  geom_ribbon(aes(ymax=fit+se, ymin=fit-se), color=NA, alpha=0.1) +
+  geom_line()
+```
+
+What important things are different between this plot and the plot in 3a?
+
+*Group B was not actually getting worse. The appearance that it was getting worse is an artifact of selective drop-out: there's only a few people in this group and the better-performing ones only did the first few waves so they are not represented in the later waves, but the worse-performing ones are contributing to the later waves. The model estimates how the better-performing ones would have done in later waves based on their early-wave performance and the pattern of performance of other participants in the study.*
+
+```{r}
+cfs <- coef(summary(mod_wv_x_grp))
+cfs
+```
+
+Note that the Group A slope (coefficient for `Wave`) is `r round(cfs[2, 1], 3)` and, relative to that slope, the Group B slope is `r round(cfs[6, 1], 3)` (coefficient for `Wave:GroupB`). This means that the model-estimated slope for Group B is `r round(cfs[2, 1] + cfs[6, 1], 3)`, which is very slightly positive, not strongly negative as appeared in the initial plots.
+
+One of the valuable things about mixed-effects (aka multilevel) modeling is that individual-level and group-level trajectories are estimated. This helps the model overcome missing data in a sensible way. In fact, MLM/MLR models are sometimes used for imputing missing data. However, one has to think carefully about *why* data are missing. Group B is small and it might just be a coincidence that the better-performing participants dropped out after the first few waves, which would make it easier to generalize the patterns to them. On the other hand, it might be the case that there is something about the study that makes better-performing members of Group B drop out, which should make us suspicious of generalizing to them.
