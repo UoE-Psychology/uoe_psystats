@@ -529,7 +529,7 @@ We can use the normal curve to compute probabilities. The function to compute th
 
 1. Probability of observing a value less than or equal `x`: `pnorm(x, mean, sd)`
 2. Probability of observing a value between `xl` and `xu`: `pnorm(xu, mean, sd) - pnorm(xl, mean, sd)`
-2. Probability of observing a value greater than `xu`: `1 - pnorm(xu, mean, sd)`
+3. Probability of observing a value greater than `xu`: `1 - pnorm(xu, mean, sd)`
 
 
 
@@ -731,9 +731,104 @@ This avoids us the burden of
 - plotting the histogram of the sample means
 
 
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
+The lengths of human pregnancies are normally distributed with mean $\mu = 266$ days and standard deviation $\sigma = 16$ days.
+
+Plot the distribution of the length of human pregnancies.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+First we need to create a grid of days for the plot.
+Remember the fact that 99.7% of all values lie between the mean plus or minus 3 standard deviations. For safety we will use 4 times the standard deviation/
+
+```{r}
+mu <- 266
+sigma <- 16
+
+x <- seq(mu - 4 * sigma, mu + 4 * sigma, by = 0.1)
+y <- dnorm(x, mu, sigma)
+df <- tibble(x, y)
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_line(color = 'red', size = 2) +
+  labs(x = 'length of pregnancy (in days)', y = 'normal density')
+```
+
+`r msmbstyle::solution_end()`
+
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 10")`
+What is the proportion of the population with length of pregnancy greater than 280 days?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+Careful, you must use the distribution of the length of pregnancy to answer this question, not the distribution of the sample mean.
+
+```{r}
+1 - pnorm(280, mean = mu, sd = sigma)
+```
+
+The proportion of the population with length of pregnancy greater than 280 days is 19%.
+Another way to say this is, the probability that a randomly selected person from the population will have a length of pregnancy greater than 280 days is 0.19.
+`r msmbstyle::solution_end()`
+
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 11")`
+What is the proportion of the population with length of pregnancy between 230 and 260 days?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+```{r}
+pnorm(260, mean = mu, sd = sigma) - pnorm(230, mean = mu, sd = sigma)
+```
+
+The proportion of the population with length of pregnancy between 230 and 260 days is 34%.
+Another way to say this is, the probability that a randomly selected person from the population will have a length of pregnancy between 230 and 260 days is 0.19.
+`r msmbstyle::solution_end()`
+
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 12")`
+Using the theory-based approach, write down:
+
+1. the mean of the sampling distribution of the average length of pregnancy using samples of size 50;
+2. the standard error of the mean.
+
+Plot the sampling distribution of the mean for samples of size 50.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+```{r}
+n <- 50
+SE <- sigma / sqrt(n)
+SE
+```
+
+1. the sampling distribution is centred at the population mean, $\mu = 266$;
+2. the standard error of the mean is $SE(\bar{x}) = \frac{\sigma}{\sqrt{n}} = \frac{16}{\sqrt{50}} = 2.26$.
+
+Let's plot the sampling distribution of the mean:
+```{r}
+x <- seq(mu - 4 * SE, mu + 4 * SE, by = 0.1)
+y <- dnorm(x, mu, SE)
+df <- tibble(x, y)
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_line(color = 'red', size = 2) +
+  labs(x = expr(bar(x)), y = 'normal density')
+```
+
+`r msmbstyle::solution_end()`
+
+
+
+
 ## Glossary
 
 - _Normal curve._ A density curve used to model symmetric and bell-shaped distributions of continuous random variables.
-_ _Simulation-based SE of the mean._ The standard deviation of the sampling distribution of the mean, obtained by generating many random samples and calculating the mean for each sample.
-_ _Theory-based SE of the mean._ For a population with mean $\mu$ and standard deviation $\sigma$, the SE of the mean computed on samples of size $n$ is $SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$.
+- _Simulation-based SE of the mean._ The standard deviation of the sampling distribution of the mean, obtained by generating many random samples and calculating the mean for each sample.
+- _Theory-based SE of the mean._ For a population with mean $\mu$ and standard deviation $\sigma$, the SE of the mean computed on samples of size $n$ is $SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$.
 
