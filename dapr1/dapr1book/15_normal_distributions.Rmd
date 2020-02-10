@@ -17,20 +17,20 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 
 #### Learning outcomes {-}
 
-**LO1.** Understand the normal distribution
+**LO1.** Understand the normal distribution.
 
-**LO2.** Compute probabilities using density functions
+**LO2.** Compute probabilities using density functions.
 
-**LO3.** Understand the link between simulation-based standard errors and theory-based standard errors
+**LO3.** Understand the link between simulation-based standard errors and theory-based standard errors.
 
 </div>
 
 
 ## Recap
 
-- Flow-chart revising how to perform hypothesis testing using the [p-value method](images/recap_pvalues.pdf)
+- Flow-chart revising how to perform hypothesis testing using the [p-value method](images/recap_pvalues.pdf).
 
-- Flow-chart revising how to perform hypothesis testing using the [critical value or rejection region method](images/recap_rr.pdf))
+- Flow-chart revising how to perform hypothesis testing using the [critical value or rejection region method](images/recap_rr.pdf)).
 
 
 
@@ -166,7 +166,7 @@ We can specify the normal curve appropriate for each histogram by specifying
 1. and what should its spread be.
 
 
-Hence, the normal curve depends on two quantities called the __parameters__ of the normal distribution:
+Hence, the normal curve depends on two quantities called the __parameters__ of the normal distribution (see Figure \@ref(fig:vary-params)):
 
 1. the mean $\mu$, specifying the centre of the distribution;
 1. the standard deviation $\sigma$, specifying the spread of the distribution.
@@ -204,7 +204,7 @@ What happens when we vary the mean and the standard deviation parameters?
 `r msmbstyle::solution_begin()`
 By varying the mean only, we can model histograms that are centred at different values but have the same spread.
 
-By varying the standard deviation only, we can model histograms with different spreads but have the same mean.
+By varying the standard deviation only, we can model histograms with different spreads but that have the same mean.
 
 By varying both the mean and the standard deviation we can model any symmetric and bell-shaped histogram.
 `r msmbstyle::solution_end()`
@@ -235,13 +235,13 @@ x = rnorm(10000, mu, sigma / sqrt(n))
 prop = mean(x >= 2.2 & x <= 2.3)
 ```
 
-Consider Panel (a) in Figure \@ref(fig:normal-fits).
+Consider panel (a) in Figure \@ref(fig:normal-fits).
 Each bar in the histogram shows the proportion of all the generated statistics falling in a given interval. For example, the proportion of sample means between 2.2 and 2.3 is equal to `r prop %>% round(2)`.
 
 This proportion can be interpreted as a probability. So, the proportion of means between 2.2 and 2.3 has two possible interpretations:
 
-- the proportion of all samples with a mean between 2.2 and 2.3 is 9%.
-- there is a 9% probability that a randomly selected sample from the population has a mean between 2.2 and 2.3
+- the proportion of all samples with a mean between 2.2 and 2.3 is 9%;
+- there is a 9% probability that a randomly selected sample from the population has a mean between 2.2 and 2.3.
 
 
 
@@ -262,7 +262,7 @@ Such a random variable is said to follow a __uniform distribution__.
 
 For discrete random variables, i.e. random variables whose possible values are only whole numbers without decimals, we compute probabilities as the __number of favourable cases divided by the total number of possibilities__.
 
-The probability of seeing an even face when throwing a die is obtained by dividing the number of ways the event "even face" can occur (3 even faces in a die: ⚁, ⚃, ⚅) by the total number of possibilities (6 total faces in a die: ⚀, ⚁, ⚂, ⚃, ⚄, ⚅):
+The probability of seeing an even face when throwing a die is obtained by dividing the number of ways the event "even face" can occur (three even faces in a die: ⚁, ⚃, ⚅) by the total number of possibilities (six total faces in a die: ⚀, ⚁, ⚂, ⚃, ⚄, ⚅):
 $$
 P(\textrm{even face}) = \frac{n_\textrm{even faces}}{n_\textrm{faces}} = \frac{3}{6} = 0.5
 $$
@@ -297,8 +297,8 @@ A __probability density function__ is an equation used to compute the probabilit
 
 It must satisfy the following properties:
 
-1. The total area under the graph of the equation must be equal to 1, equivalent to the fact that the total probability must be 1;
-1. The graph of the equation must be greater than or equal to zero for all possible values.
+1. the total area under the graph of the equation must be equal to one, equivalent to the fact that the total probability must be one;
+1. the graph of the equation must be greater than or equal to zero for all possible values.
 </div>
 
 For discrete random variables, property 1 is similar to saying that the sum of all probabilities must be equal to 100%. Property 2 is similar to saying that probabilities can not be negative.
@@ -363,7 +363,7 @@ Now, strong in what we have learned, we will move towards a more widely used mod
 ### Probabilities for normally distributed random variables
 
 We used a rectangle to find the probability of a uniformly distributed variable being in a given range.
-However, only few continuous random variables follow such a graph.
+However, only a few continuous random variables follow such a graph.
 
 More common is to see random variables whose distribution is symmetric and bell-shaped.
 This is the case for aptitude-test scores, the birth weights of newborns, and so on...
@@ -392,7 +392,7 @@ head(cognitive)
 dim(cognitive)
 ```
 
-We have 10,000 rows (subjects) and 2 columns (measured variables).
+We have 10,000 rows (subjects) and two columns (measured variables).
 
 Let's plot the distribution of the variable of interest, `CognitiveScore`, as a histogram.
 However, on the y-axis, instead of the absolute counts of the values we ask for the density or proportion.
@@ -404,12 +404,12 @@ ggplot(cognitive, aes(x = CognitiveScore, y = stat(density))) +
   geom_histogram(color = 'white')
 ```
 
-We can see that the distribution of cognitive scores is symmetric, around 100 approximately, and bell-shaped. We can therefore try to fit a normal curve to it.
+We can see that the distribution of cognitive scores is symmetric, centres approximately around 100, and is bell-shaped. We can therefore try to fit a normal curve to it.
 
 We must specify:
 
 - where the normal curve should be centred at. This should be the centre of the histogram/data;
-- how spread or narrow should the normal curve be. This should be the spread of the histogram, i.e. the standard deviation of the data.
+- how spread out or narrow the normal curve should be. This should be the spread of the histogram, i.e. the standard deviation of the data.
 
 __Centre:__
 ```{r}
@@ -510,7 +510,7 @@ sample_prob <- cognitive %>%
 sample_prob
 ```
 
-As we can see the theoretical probability and the sample estimate, rounded to 2 decimal places, are similar:
+As we can see the theoretical probability and the sample estimate, rounded to two decimal places, are similar:
 
 | Simulation-based             | Theory-based                 |
 |:----------------------------:|:----------------------------:|
@@ -520,13 +520,13 @@ As we can see the theoretical probability and the sample estimate, rounded to 2 
 There is a 7% chance that a randomly selected individual from the population has a cognitive score between 120 and 130.
 
 
-To summarise, the calculation of probabilities for normally distributed random variables follows 3 steps:
+To summarise, the calculation of probabilities for normally distributed random variables follows three steps:
 
-1. Find the mean of the variable
+1. find the mean of the variable,
 
-2. Find the standard deviation of the variable
+2. find the standard deviation of the variable,
 
-3. Compute the probability as the area under the normal curve with the mean found in (1) and the standard deviation found in (2).
+3. compute the probability as the area under the normal curve with the mean found in (1) and the standard deviation found in (2).
 
 
 ### Z-scores
@@ -666,13 +666,13 @@ The required steps are:
 1. Compute the standard deviation of the sample means (SE of the mean) which is used to specify the spread of the normal curve.
 
 ```{r, message=FALSE, warning=FALSE}
-# sample mean
+# Sample mean
 mean_of_distrib <- sampling_distrib_of_mean %>%
   pull(avg) %>%
   mean()
 mean_of_distrib
 
-# sample sd
+# Sample sd
 sd_of_distrib <- sampling_distrib_of_mean %>%
   pull(avg) %>%
   sd()
@@ -706,7 +706,7 @@ sigma <- nfl %>%
 sigma
 ```
 
-- The population mean is $\mu =$ `r mu %>% round(2)`
+- The population mean is $\mu =$ `r mu %>% round(2)`.
 - The population standard deviation is $\sigma =$ `r sigma %>% round(2)`.
 `r msmbstyle::solution_end()`
 
@@ -724,8 +724,8 @@ mean_of_distrib
 sd_of_distrib
 ```
 
-- the distribution of sample means has mean `r mean_of_distrib %>% round(2)` 
-- the distribution of sample means has standard deviation `r sd_of_distrib %>% round(2)`.
+- The distribution of sample means has mean `r mean_of_distrib %>% round(2)`.
+- The distribution of sample means has standard deviation `r sd_of_distrib %>% round(2)`.
 `r msmbstyle::solution_end()`
 
 
@@ -753,7 +753,7 @@ It looks like the SE of the mean is the population standard deviation divided by
 
 In general, assume that the population has mean $\mu$ and standard deviation $\sigma$.
 
-It is possible to prove that the distribution of the mean, computed on samples of size $n$, has mean equal to the population mean, $\mu$, and standard error $$SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$$.
+It is possible to prove that the distribution of the mean, computed on samples of size $n$, has mean equal to the population mean, $\mu$, and standard error: $$SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$$
 
 ```{r}
 # Simulation-based standard error
@@ -792,17 +792,17 @@ The simulation-based approach and the theory-based approach lead to very similar
 
 This is an important result. It means that, in order to show the sampling distribution of the mean, we would just:
 
-1. load the data
-2. find the population mean $\mu$
-3. find the population sd $\sigma$
-4. plot a normal curve with mean = $\mu$ and sd = $\frac{\sigma}{\sqrt{n}}$
+1. load the data,
+2. find the population mean $\mu$,
+3. find the population sd $\sigma$,
+4. plot a normal curve with mean = $\mu$ and sd = $\frac{\sigma}{\sqrt{n}}$.
 
 
-This avoids us the burden of
+This avoids us the burden of:
 
-- repeatedly sampling from the population
-- calculating the sample mean for each sample
-- plotting the histogram of the sample means
+- repeatedly sampling from the population;
+- calculating the sample mean for each sample;
+- plotting the histogram of the sample means.
 
 
 
@@ -813,19 +813,19 @@ Plot the normal curve representing the length of human pregnancies.
 
 _**Hint:** This requires the following steps:_
 
-1. _Find the population mean and standard deviation_
-2. _Create a grid of values for the length of pregnancy variable. Recall from [Week 12](#calculating-confidence-intervals-using-a-bootstrap-standard-error) that 99.7% of all values lie between the mean plus or minus 3 standard deviations. To be sure to capture all of the values, use the mean plus or minus 4 standard deviations as limits._
-3. _Compute the normal curve for the grid of values in (2)_
-4. _Plot using `geom_line()`_
+1. _Find the population mean and standard deviation_.
+2. _Create a grid of values for the length of pregnancy variable. Recall from [Week 12](#calculating-confidence-intervals-using-a-bootstrap-standard-error) that 99.7% of all values lie between the mean plus or minus three standard deviations. To be sure to capture all of the values, use the mean plus or minus four standard deviations as limits_.
+3. _Compute the normal curve for the grid of values in (2)_.
+4. _Plot using `geom_line()`_.
 
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
 First we need to create a grid of days for the plot.
 
-Remember from [Week 12](#calculating-confidence-intervals-using-a-bootstrap-standard-error) that 99.7% of all values lie between the mean plus or minus 3 standard deviations. 
+Remember from [Week 12](#calculating-confidence-intervals-using-a-bootstrap-standard-error) that 99.7% of all values lie between the mean plus or minus three standard deviations. 
 
-To capture all of the values, we will use 4 times the standard deviation:
+To capture all of the values, we will use four times the standard deviation:
 
 ```{r}
 mu <- 266
@@ -869,7 +869,7 @@ pnorm(260, mean = mu, sd = sigma) - pnorm(230, mean = mu, sd = sigma)
 ```
 
 The proportion of the population with length of pregnancy between 230 and 260 days is 34%.
-Another way to say this is, the probability that a randomly selected person from the population will have a length of pregnancy between 230 and 260 days is 0.19.
+Another way to say this is, the probability that a randomly selected person from the population will have a length of pregnancy between 230 and 260 days is 0.34.
 `r msmbstyle::solution_end()`
 
 
