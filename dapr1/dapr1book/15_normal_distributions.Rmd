@@ -138,7 +138,7 @@ d = ggplot(tibble(x=x, y=y)) +
 
 The symmetric and bell-shaped red curve is known as the __normal curve__ and is a mathematical model (i.e. an equation or graph) which is used to describe reality (see Figure \@ref(fig:normal-curve)).
 
-```{r normal-curve, echo=FALSE, fig.cap='Normal curve', fig.align='center', out.width='60%'}
+```{r normal-curve, echo=FALSE, fig.cap='Normal curve.', fig.align='center', out.width='60%'}
 curve(dnorm(x, 0, 1), -4, 4, col = 'red', lwd = 2, xaxt="n", yaxt="n", axes=F, xlab='', ylab='')
 ```
 
@@ -159,9 +159,9 @@ How can we make sure that the normal curve can adapt to any symmetric and bell-s
 
 __Every histogram can be centred at a different value and have a different spread.__
 
-We can specify the normal curve appropriate for each histogram by specifying 
+We can specify the normal curve appropriate for each histogram by specifying
 
-1. where it should be centred at, 
+1. where it should be centred at,
 1. and what should its spread be.
 
 
@@ -229,7 +229,7 @@ prop = mean(x >= 2.2 & x <= 2.3)
 ```
 
 Consider Panel (a) in Figure \@ref(fig:normal-fits).
-Each bar in the histogram shows the proportion of all the generated statistics falling in a given interval, such as the proportion of sample means between 2.2 and 2.3 which is equal to `r prop %>% round(2)`.
+Each bar in the histogram shows the proportion of all the generated statistics falling in a given interval. For example, the proportion of sample means between 2.2 and 2.3 is equal to `r prop %>% round(2)`.
 
 This proportion can be interpreted as a probability. So, the proportion of means between 2.2 and 2.3 has two possible interpretations:
 
@@ -248,7 +248,7 @@ Such a random variable is said to follow a __uniform distribution__.
 
 For discrete random variables, i.e. random variables whose possible values are only whole numbers without decimals, we compute probabilities as the __number of favourable cases divided by the total number of possibilities__.
 
-The probability of seeing an even face when throwing a die is obtained by dividing the number of ways the event "even face" can occurr (3 even faces in a die: ⚁, ⚃, ⚅) by the total number of possibilities (6 total faces in a die: ⚀, ⚁, ⚂, ⚃, ⚄, ⚅):
+The probability of seeing an even face when throwing a die is obtained by dividing the number of ways the event "even face" can occur (3 even faces in a die: ⚁, ⚃, ⚅) by the total number of possibilities (6 total faces in a die: ⚀, ⚁, ⚂, ⚃, ⚄, ⚅):
 $$
 P(\textrm{even face}) = \frac{n_\textrm{even faces}}{n_\textrm{faces}} = \frac{3}{6} = 0.5
 $$
@@ -322,7 +322,7 @@ The area between 10 and 20 is $10 \times \frac{1}{30} = \frac{1}{3}$.
 
 So, the probability of the subject losing attention between 10 and 20 minutes from the beginning of the study is $1/3$.
 
-```{r unif-shaded, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Uniform distribution between 0 and 30 minutes.'}
+```{r unif-shaded, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Probability of losing attention after 10 to 20 minutes.'}
 knitr::include_graphics('images/unif_shaded.png')
 ```
 
@@ -367,24 +367,24 @@ Let's load the data and inspect them:
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 
-# load the sample
+# Load the sample
 cognitive <- read_csv('https://edin.ac/39jPFa5', col_names = TRUE)
 
-# first six rows
+# Display the first six rows
 head(cognitive)
 
-# dimensions of the tibble
+# Check the dimensions of the tibble
 dim(cognitive)
 ```
 
 We have 10,000 rows (subjects) and 2 columns (measured variables).
 
-Let's plot the distribution of the variable of interest, CognitiveScore, as a histogram.
-However, on the y-axis, instead of the crude counts of the values, we ask for the density or proportion.
-This makes it easier to compare across samples of different sizes, as the range of the y-axis won't be absolute counts and therefore change with the sample size.
+Let's plot the distribution of the variable of interest, `CognitiveScore`, as a histogram.
+However, on the y-axis, instead of the absolute counts of the values we ask for the density or proportion.
+This makes it easier to compare across samples of different sizes, as the range of the y-axis won't change with the sample size.
 
 We plot the density by specifying `y = stat(density)` in the `aes()` function:
-```{r}
+```{r, message=FALSE, warning=FALSE}
 ggplot(cognitive, aes(x = CognitiveScore, y = stat(density))) +
   geom_histogram(color = 'white')
 ```
@@ -414,10 +414,10 @@ sample_sd <- cognitive %>%
 sample_sd
 ```
 
-Hence the normal curve should be centred at the mean of the data, `r sample_mean` and have standard deviation `r sample_sd`.
+Hence the normal curve should be centred at the mean of the data, `r sample_mean %>% round(2)` and have standard deviation `r sample_sd %>% round(2)`.
 
 
-We specify a normal density curve with the following command:
+The equation of the normal density curve is provided by the following function:
 ```{r, eval=FALSE}
 dnorm(x, mean, sd)
 ```
@@ -425,14 +425,14 @@ dnorm(x, mean, sd)
 where:
 
 - `x` represents the value of the random variable
-- `mean` the centre of the normal curve
+- `mean` the mean of the normal curve
 - `sd` the standard deviation of the curve
 
 
 Let's add the red curve on top of the histogram using `stat_function()`. It takes as arguments:
 
 - `fun`: the function to plot
-- `args`: parameters of the function
+- `args`: parameters of the function to be plotted
 - plotting specifications
 
 ```{r, out.width='70%', fig.align='center', message=FALSE, warning=FALSE}
@@ -459,9 +459,9 @@ ggplot(cognitive, aes(x = CognitiveScore)) +
 
 ---
 
-We compute areas for normal curves using the function `pnorm(x, mean, sd)`. This function computes the area to the left of x in a normal curve centred at `mean` and having standard deviation `sd`.
+We compute areas for normal curves using the function `pnorm(x, mean, sd)`. This function computes the area to the left of `x` in a normal curve centred at `mean` and having standard deviation `sd`.
 
-**Area to the left of a value x**
+**Area to the left of a value $x$**
 ```{r, echo=FALSE, out.width='80%', fig.align='center'}
 knitr::include_graphics('images/pnorm_left.png')
 ```
@@ -479,7 +479,7 @@ knitr::include_graphics('images/pnorm_right.png')
 ---
 
 
-The probability that a randomly selected individual has a cognitive score between 120 and 130 as the area under the normal curve between 120 and 130 is:
+The probability that a randomly selected individual has a cognitive score between 120 and 130 is the area under the normal curve between 120 and 130:
 ```{r}
 theory_prob <- pnorm(130, mean = sample_mean, sd = sample_sd) - 
   pnorm(120, mean = sample_mean, sd = sample_sd)
@@ -509,6 +509,33 @@ To summarise, the calculation of probabilities for normally distributed random v
 3. Compute the probability as the area under the normal curve with the mean found in (1) and the standard deviation found in (2).
 
 
+### Z-scores
+
+Instead of always specifying the mean and the standard deviation of the normal curve, we can work with a **standard normal distribution**. 
+
+<div class="def">
+#### Standard normal distribution {-}
+
+A standard normal distribution, denoted $N(0, 1)$, is simply a normal distribution with mean = 0 and sd = 1.
+</div>
+
+The functions `dnorm` and `pnorm` assume that the mean = 0 and the sd = 1 if not provided, i.e. they assume a standard normal distribution by default.
+
+In order to transform a value $x$ from a normal distribution with mean $\mu$ and sd $\sigma$ to a score on the standard normal scale, we must use the z-score transformation:
+$$
+z = \frac{x - \mu}{\sigma}
+$$
+
+Let's compute again the probability that a randomly selected individual has a cognitive score between 120 and 130 using standard normal distributions. 
+First we must convert the values to z-scores by subtracting the mean and the standard deviation of the distribution. Then we use the function `pnorm()`:
+```{r}
+z_u <- (130 - sample_mean) / sample_sd
+z_l <- (120 - sample_mean) / sample_sd
+
+pnorm(z_u) - pnorm(z_l)
+```
+
+As you can see, this is exactly the same value we found before with the shifted and scaled normal distribution.
 
 
 ## Summary
