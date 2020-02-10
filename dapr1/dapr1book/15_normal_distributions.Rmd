@@ -11,6 +11,7 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 #### Instructions {-}
   
 - In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.
+- __The lab questions are important, as they are not just a copy of the walkthrough. They consolidated some key points covered in the lecture, but not the walkthrough.__
 - The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_15_practice.Rmd).
 
 
@@ -179,9 +180,9 @@ x <- seq(-5, 6, by = 0.05)
 
 p1 <- ggplot(data = data.frame(x = x), aes(x)) +
   stat_function(fun = dnorm, args = list(mean = 0, sd = 1), size = 1, mapping = aes(color = '0')) + 
-  stat_function(fun = dnorm, args = list(mean = 2, sd = 1), size = 1, mapping = aes(color = '1')) + 
+  stat_function(fun = dnorm, args = list(mean = 2, sd = 1), size = 1, mapping = aes(color = '2')) + 
   labs(y = "", title = expr(Varying~mu)) + 
-  scale_colour_manual(expr(mu), values = c("0"="dodgerblue", "1"="darkorange")) +
+  scale_colour_manual(expr(mu), values = c("0"="dodgerblue", "2"="darkorange")) +
   theme(legend.position = 'bottom')
 
 p2 <- ggplot(data = data.frame(x = x), aes(x)) +
@@ -246,11 +247,18 @@ This proportion can be interpreted as a probability. So, the proportion of means
 
 We will now discuss the __uniform distribution__ to understand the relation between area and probability.
 
+
+<div class="noteBox">
 Suppose that you are performing an experiment to study the time until loss of attention.
 You are currently monitoring a subject from a starting point, coded as time = 0, until up to 30 minutes later.
-Furthermore, suppose the subject can lose focus immediately (time = 0) or up to 30 minutes of observation, with all intervals of the same length being equally likely.
-This means, for example, that the subject is equally likely to lose attention after 3-4 minutes as they are likely after 25-26 minutes.
+
+The subject is equally likely to lose attention at any point across the 30 minutes.
+They are equally likely to lose attention after 3-4 minutes as they are likely after 25-26 minutes, or after 6-10 minutes as they are after 20-24 minutes.
+
+More generally, the subject is equally likely to lose attention in intervals of time that have the same length.
 Such a random variable is said to follow a __uniform distribution__.
+</div>
+
 
 For discrete random variables, i.e. random variables whose possible values are only whole numbers without decimals, we compute probabilities as the __number of favourable cases divided by the total number of possibilities__.
 
@@ -260,6 +268,7 @@ P(\textrm{even face}) = \frac{n_\textrm{even faces}}{n_\textrm{faces}} = \frac{3
 $$
 
 `r msmbstyle::question_begin()`
+Think about continuous random variables, such as time until loss of attention or reaction times.
 For continuous random variables, can we compute probabilities in the same way?
 `r msmbstyle::question_end()`
 
@@ -288,7 +297,7 @@ A __probability density function__ is an equation used to compute the probabilit
 
 It must satisfy the following properties:
 
-1. The total area under the graph of the equation must be equal to 1
+1. The total area under the graph of the equation must be equal to 1, equivalent to the fact that the total probability must be 1;
 1. The graph of the equation must be greater than or equal to zero for all possible values.
 </div>
 
@@ -508,6 +517,9 @@ As we can see the theoretical probability and the sample estimate, rounded to 2 
 | `r sample_prob %>% round(2)` | `r theory_prob %>% round(2)` |
 
 
+There is a 7% chance that a randomly selected individual from the population has a cognitive score between 120 and 130.
+
+
 To summarise, the calculation of probabilities for normally distributed random variables follows 3 steps:
 
 1. Find the mean of the variable
@@ -529,19 +541,22 @@ A standard normal distribution, denoted $N(0, 1)$, is a normal distribution with
 
 The functions `dnorm` and `pnorm` assume that the mean = 0 and the sd = 1 if not provided, i.e. they assume a standard normal distribution by default.
 
-In order to transform a value $x$ from a normal distribution with mean $\mu$ and sd $\sigma$ to a score on the standard normal scale, we must use the z-score transformation:
+In order to transform a value $x$ from a normal distribution with mean = $\mu$ and sd = $\sigma$ to a score on the standard normal scale, we must use the z-score transformation:
 $$
 z = \frac{x - \mu}{\sigma}
 $$
 
-Let's compute again the probability that a randomly selected individual has a cognitive score between 120 and 130 using standard normal distributions. 
-First we must convert the values to z-scores by subtracting the mean and the standard deviation of the distribution. Then we use the function `pnorm()`:
+Let's compute again the probability that a randomly selected individual has a cognitive score between 120 and 130 using a standard normal distribution. 
+
+First, we must convert the values to z-scores by subtracting the mean and the standard deviation of the distribution. Then we use the function `pnorm()`:
 ```{r}
 z_u <- (130 - sample_mean) / sample_sd
 z_l <- (120 - sample_mean) / sample_sd
 
 pnorm(z_u) - pnorm(z_l)
 ```
+
+There is a 7% chance that a randomly selected individual from the population has a cognitive score between 120 and 130.
 
 As you can see, this is exactly the same value we found before with the shifted and scaled normal distribution.
 
@@ -550,10 +565,10 @@ As you can see, this is exactly the same value we found before with the shifted 
 
 When a histogram shows that a variable's distribution is symmetric and bell-shaped, we can say that the variable is normally distributed and we can model the distribution with a mathematical curve called the normal probability distribution.
 
-We saw that the normal distribution depends on two parameters, that control the centre and spread of the normal curve:
+We saw that the normal distribution depends on two parameters that control the centre and spread of the normal curve:
 
-- the mean,
-- and the standard deviation.
+- the mean;
+- the standard deviation.
 
 These two parameters let the normal curve model histograms that have different centres and different spreads.
 
@@ -580,7 +595,7 @@ Consider again the dataset with the yearly salaries of National Football League 
 
 We have data on 2,099 players: their name, position, team they played for, total money while on a NFL payroll, and yearly salary.
 
-Since we are only interested in the yearly salary we can select the relevant columns:
+Since we are only interested in the yearly salary, we can select the relevant columns:
 
 ```{r, message=FALSE, warning=FALSE}
 # Step 1: load the required libraries
@@ -648,7 +663,7 @@ Plot the normal curve in red on top of the histogram.
 The required steps are:
 
 1. Compute the mean of the sample means, which is used to specify where the normal curve should be centred at;
-1. Compute the standard deviation of the sample means, which is used to specify the spread of the normal curve.
+1. Compute the standard deviation of the sample means (SE of the mean) which is used to specify the spread of the normal curve.
 
 ```{r, message=FALSE, warning=FALSE}
 # sample mean
@@ -692,12 +707,14 @@ sigma
 ```
 
 - The population mean is $\mu =$ `r mu %>% round(2)`
-- The population standard deviation $\sigma =$ `r sigma %>% round(2)`.
+- The population standard deviation is $\sigma =$ `r sigma %>% round(2)`.
 `r msmbstyle::solution_end()`
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
 What are the mean and the standard deviation of the sampling distribution of the mean?
+
+_**Reminder:** Remember that the standard deviation of the sampling distribution of the mean is also known as the standard error (SE) of the mean._
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
@@ -739,8 +756,10 @@ In general, assume that the population has mean $\mu$ and standard deviation $\s
 It is possible to prove that the distribution of the mean, computed on samples of size $n$, has mean equal to the population mean, $\mu$, and standard error $$SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$$.
 
 ```{r}
+# Simulation-based standard error
 sd_of_distrib
 
+# Theory-based standard error
 sigma / sqrt(100)
 ```
 
@@ -748,7 +767,17 @@ sigma / sqrt(100)
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 8")`
-Compare the mean and the standard error computed using the simulation-based approach and the theory-based approach.
+**Comparison of the simulation-based and theory-based sampling distribution of the mean.**
+
+_Write down on paper the table below and fill the ? with the mean and the standard error computed using the simulation-based approach and the theory-based approach._
+
+The sampling distribution of the mean is a normal distribution with mean and standard deviation:
+
+|           | Simulation-based approach | Theory-based approach               |
+|:---------:|:-------------------------:|:-----------------------------------:|
+| Mean      | ?                         | $\mu =$ ?                           |
+| SE        | ?                         | $\frac{\sigma}{\sqrt{n}} =$ ?       |
+
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
@@ -780,7 +809,15 @@ This avoids us the burden of
 `r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
 The lengths of human pregnancies are normally distributed with mean $\mu = 266$ days and standard deviation $\sigma = 16$ days.
 
-Plot the distribution of the length of human pregnancies.
+Plot the normal curve representing the length of human pregnancies.
+
+_**Hint:** This requires the following steps:_
+
+1. _Find the population mean and standard deviation_
+2. _Create a grid of values for the length of pregnancy variable. Recall from [Week 12](#calculating-confidence-intervals-using-a-bootstrap-standard-error) that 99.7% of all values lie between the mean plus or minus 3 standard deviations. To be sure to capture all of the values, use the mean plus or minus 4 standard deviations as limits._
+3. _Compute the normal curve for the grid of values in (2)_
+4. _Plot using `geom_line()`_
+
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
@@ -794,10 +831,9 @@ To capture all of the values, we will use 4 times the standard deviation:
 mu <- 266
 sigma <- 16
 
-df <- tibble(
-  x = seq(mu - 4 * sigma, mu + 4 * sigma, by = 0.1),
-  y = dnorm(x, mu, sigma)
-)
+x <- seq(mu - 4 * sigma, mu + 4 * sigma, by = 0.1)
+y <- dnorm(x, mu, sigma)
+df <- tibble(x, y)
 
 ggplot(df, aes(x = x, y = y)) +
   geom_line(color = 'red', size = 2) +
@@ -813,8 +849,6 @@ What is the proportion of the population with length of pregnancy greater than 2
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
-Careful, you must use the distribution of the length of pregnancy to answer this question, not the distribution of the sample mean.
-
 ```{r}
 1 - pnorm(280, mean = mu, sd = sigma)
 ```
@@ -847,6 +881,8 @@ Using the theory-based approach, write down:
 2. the standard error of the mean.
 
 Plot the sampling distribution of the mean for samples of size 50.
+
+_**Hint:** Remember to create a grid of values going from `mean - 4 * SE` to `mean + 4 * SE`._
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
@@ -878,6 +914,10 @@ ggplot(df, aes(x = x, y = y)) +
 ## Glossary
 
 - _Normal curve._ A density curve used to model symmetric and bell-shaped distributions of continuous random variables.
+- _Distribution of the sample mean._ The sample mean is a random variable which is normally distributed. Its mean is $\mu$ and its standard deviation (standard error of the mean) is $\frac{\sigma}{\sqrt{n}}$.
 - _Simulation-based SE of the mean._ The standard deviation of the sampling distribution of the mean, obtained by generating many random samples and calculating the mean for each sample.
 - _Theory-based SE of the mean._ For a population with mean $\mu$ and standard deviation $\sigma$, the SE of the mean computed on samples of size $n$ is $SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$.
+- _Z-score._ The transformation $\frac{x - \mu}{\sigma}$. It translates a value from a $N(\mu, \sigma)$ scale to a $N(0,1)$ scale.
+
+
 
