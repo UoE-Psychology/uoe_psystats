@@ -89,7 +89,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -297,7 +297,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
 </ul></li>
 <li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
-<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.-jones-and-mr.-smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.jones-and-mr.smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
 <li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
 <li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
 <li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
@@ -421,6 +421,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2.1" data-path="chap-normal.html"><a href="chap-normal.html#from-histograms-to-normal-curves"><i class="fa fa-check"></i><b>15.2.1</b> From histograms to normal curves</a></li>
 <li class="chapter" data-level="15.2.2" data-path="chap-normal.html"><a href="chap-normal.html#sec-area-and-prob"><i class="fa fa-check"></i><b>15.2.2</b> The relation between area and probability</a></li>
 <li class="chapter" data-level="15.2.3" data-path="chap-normal.html"><a href="chap-normal.html#probabilities-for-normally-distributed-random-variables"><i class="fa fa-check"></i><b>15.2.3</b> Probabilities for normally distributed random variables</a></li>
+<li class="chapter" data-level="15.2.4" data-path="chap-normal.html"><a href="chap-normal.html#z-scores"><i class="fa fa-check"></i><b>15.2.4</b> Z-scores</a></li>
 </ul></li>
 <li class="chapter" data-level="15.3" data-path="chap-normal.html"><a href="chap-normal.html#summary-4"><i class="fa fa-check"></i><b>15.3</b> Summary</a></li>
 <li class="chapter" data-level="15.4" data-path="chap-normal.html"><a href="chap-normal.html#lab-3"><i class="fa fa-check"></i><b>15.4</b> Lab</a></li>
@@ -505,36 +506,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 </div>
 <p><strong>1. Calculate the sample statistic, <span class="math inline">\(\hat{p}\)</span></strong></p>
-<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb640-1" title="1">p_hat &lt;-<span class="st"> </span><span class="dv">55</span><span class="op">/</span><span class="dv">90</span></a>
-<a class="sourceLine" id="cb640-2" title="2">p_hat</a></code></pre></div>
+<div class="sourceCode" id="cb641"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb641-1" data-line-number="1">p_hat &lt;-<span class="st"> </span><span class="dv">55</span><span class="op">/</span><span class="dv">90</span></a>
+<a class="sourceLine" id="cb641-2" data-line-number="2">p_hat</a></code></pre></div>
 <pre><code>## [1] 0.6111111</code></pre>
 <p><strong>2. Generate the null distribution</strong></p>
 <div class="noteBox">
 <p>Remember that the null distribution is what we would expect if the null hypothesis were true - it is how much the statistics computed from samples of size <span class="math inline">\(n\)</span> would vary if the null is true.<br />
 In our case, this quantifies how much our statistic (the proportion of heads) in a sample of size 90 would vary if the true probability of the coin landing on heads were 1/2.</p>
 </div>
-<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" title="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
-<a class="sourceLine" id="cb642-2" title="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb642-3" title="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb642-4" title="4"></a>
-<a class="sourceLine" id="cb642-5" title="5"><span class="co"># Generate samples under the null</span></a>
-<a class="sourceLine" id="cb642-6" title="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">90</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb642-7" title="7"></a>
-<a class="sourceLine" id="cb642-8" title="8"><span class="co"># Calculate the statistics for each sample to create the null distribution</span></a>
-<a class="sourceLine" id="cb642-9" title="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb642-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb642-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb643"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb643-1" data-line-number="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
+<a class="sourceLine" id="cb643-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb643-3" data-line-number="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb643-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb643-5" data-line-number="5"><span class="co"># Generate samples under the null</span></a>
+<a class="sourceLine" id="cb643-6" data-line-number="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">90</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb643-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb643-8" data-line-number="8"><span class="co"># Calculate the statistics for each sample to create the null distribution</span></a>
+<a class="sourceLine" id="cb643-9" data-line-number="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb643-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb643-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
 <p>Now we can plot our null distribution:</p>
-<div class="sourceCode" id="cb643"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb643-1" title="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb643-2" title="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb643-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb644-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb644-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-403-1.png" width="672" /></p>
 <p>And plot the observed statistic on top, like we did last week:</p>
-<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" title="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop, <span class="dt">fill =</span> (prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb644-2" title="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb644-3" title="3"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;white&#39;</span>, <span class="st">&#39;tomato1&#39;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb644-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.61</span>, <span class="dt">color =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb644-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)), <span class="dt">fill =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" data-line-number="1"><span class="kw">ggplot</span>(null_distribution, <span class="kw">aes</span>(<span class="dt">x =</span> prop, <span class="dt">fill =</span> (prop <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb645-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="fl">0.01</span>, <span class="dt">dotsize =</span> <span class="fl">0.5</span>, <span class="dt">stackratio =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb645-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;white&#39;</span>, <span class="st">&#39;tomato1&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb645-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.61</span>, <span class="dt">color =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb645-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p)), <span class="dt">fill =</span> <span class="kw">expr</span>(<span class="kw">hat</span>(p) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.61</span>))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-405-1.png" width="672" /></p>
 <p><strong>3. Calculate our p-value</strong><br />
 <br>
@@ -566,13 +567,13 @@ How surprising is 55 heads in 90 coin flips? We can compare it against the null 
 However, we can assume the distribution to be symmetric, so we can simply multiply the proportion of the null distribution in one tail by two (i.e., answer C above).</p>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-406-1.png" width="672" /></p>
 <p>Both answers (b) and (c) are correct. As you can see, both methods return very similar estimates of the p-values, with the estimates getting closer and closer as the number of simulated samples increases.</p>
-<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" title="1">pvalue &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb645-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb645-3" title="3">    <span class="dt">pvalue_bothtails =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.39</span> <span class="op">|</span><span class="st"> </span>prop<span class="op">&gt;=</span><span class="fl">0.61</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>(),</a>
-<a class="sourceLine" id="cb645-4" title="4">    <span class="dt">pvalue_2righttail =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(prop<span class="op">&gt;=</span><span class="fl">0.61</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb645-5" title="5">  )</a>
-<a class="sourceLine" id="cb645-6" title="6"></a>
-<a class="sourceLine" id="cb645-7" title="7">pvalue</a></code></pre></div>
+<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb646-1" data-line-number="1">pvalue &lt;-<span class="st"> </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb646-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb646-3" data-line-number="3">    <span class="dt">pvalue_bothtails =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.39</span> <span class="op">|</span><span class="st"> </span>prop<span class="op">&gt;=</span><span class="fl">0.61</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb646-4" data-line-number="4">    <span class="dt">pvalue_2righttail =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(prop<span class="op">&gt;=</span><span class="fl">0.61</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb646-5" data-line-number="5">  )</a>
+<a class="sourceLine" id="cb646-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb646-7" data-line-number="7">pvalue</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   pvalue_bothtails pvalue_2righttail
 ##              &lt;dbl&gt;             &lt;dbl&gt;
@@ -770,17 +771,17 @@ Where <span class="math inline">\(p\)</span> is the probability of ‘heads’, 
 </div>
 <p><strong>1. Generate Tom’s null distribution</strong></p>
 <p>In Tom’s 50 coin flips, at a significance level of 0.05, what proportion of heads would lead him to the conclusion that the coin is a trick coin? The first step is to generate the null distribution:</p>
-<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb647-1" title="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
-<a class="sourceLine" id="cb647-2" title="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb647-3" title="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb647-4" title="4"></a>
-<a class="sourceLine" id="cb647-5" title="5"><span class="co"># Generate samples under the null</span></a>
-<a class="sourceLine" id="cb647-6" title="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb647-7" title="7"></a>
-<a class="sourceLine" id="cb647-8" title="8"><span class="co"># Calculate the statistics for each sample to create the null distribution</span></a>
-<a class="sourceLine" id="cb647-9" title="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb647-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb647-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb648-1" data-line-number="1"><span class="co"># Specify our possible outcomes and their probabilities under the null</span></a>
+<a class="sourceLine" id="cb648-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb648-3" data-line-number="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb648-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb648-5" data-line-number="5"><span class="co"># Generate samples under the null</span></a>
+<a class="sourceLine" id="cb648-6" data-line-number="6">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb648-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb648-8" data-line-number="8"><span class="co"># Calculate the statistics for each sample to create the null distribution</span></a>
+<a class="sourceLine" id="cb648-9" data-line-number="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb648-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb648-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
 <p><strong>2. Calculating Tom’s critical value:</strong></p>
 <p>Now that we have generated the null distribution which Tom will use to test his observed statistic, we need to work out the values at which he will reject the null.<br>
 In other words, we need to work out where the top 5% of the null distribution is.<br>
@@ -788,12 +789,12 @@ In other words, we need to work out where the top 5% of the null distribution is
 Note that we are only looking at the top 5% because Tom thinks the coin is biased <em>towards heads</em>. So his alternative hypothesis (<span class="math inline">\(H_1\)</span>) is <span class="math inline">\(p &gt; 0.5\)</span>, and he will reject <span class="math inline">\(H_0\)</span> if his observed statistic falls in the top end of the distribution.
 <br>
 To do this, we’re going to use a new function called <code>quantile()</code>, which will give us the value for which a given percentage of the distribution of simulated sample statistics is to the left (e.g., smaller).</p>
-<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb648-1" title="1">crit_val &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb648-2" title="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb648-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb648-4" title="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a>
-<a class="sourceLine" id="cb648-5" title="5"></a>
-<a class="sourceLine" id="cb648-6" title="6">crit_val</a></code></pre></div>
+<div class="sourceCode" id="cb649"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb649-1" data-line-number="1">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb649-2" data-line-number="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb649-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb649-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a>
+<a class="sourceLine" id="cb649-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb649-6" data-line-number="6">crit_val</a></code></pre></div>
 <pre><code>##  95% 
 ## 0.62</code></pre>
 <p>If Tom flips the coin 50 times, under the null hypothesis, he would need to get a sample statistic (<span class="math inline">\(\hat{p}\)</span>) of greater than or equal to 0.62.</p>
@@ -807,22 +808,22 @@ To do this, we’re going to use a new function called <code>quantile()</code>, 
 <br>
 In other words, what is the <em>power</em> of his test?</p>
 <p>We can do this by generating the sampling distribution for when the coin is biased towards heads 60% of the time (which we know is actually true).</p>
-<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb650-1" title="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb650-2" title="2">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
-<a class="sourceLine" id="cb650-3" title="3"></a>
-<a class="sourceLine" id="cb650-4" title="4">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb650-5" title="5"></a>
-<a class="sourceLine" id="cb650-6" title="6"><span class="co"># Calculate the statistics for each sample to create the true distribution</span></a>
-<a class="sourceLine" id="cb650-7" title="7">true_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb650-8" title="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb650-9" title="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb650-10" title="10"></a>
-<a class="sourceLine" id="cb650-11" title="11">tom_power &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb650-12" title="12"><span class="st">  </span>true_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb650-13" title="13"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb650-14" title="14">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb650-15" title="15">  )</a>
-<a class="sourceLine" id="cb650-16" title="16">tom_power</a></code></pre></div>
+<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb651-1" data-line-number="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb651-2" data-line-number="2">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb651-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb651-4" data-line-number="4">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb651-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb651-6" data-line-number="6"><span class="co"># Calculate the statistics for each sample to create the true distribution</span></a>
+<a class="sourceLine" id="cb651-7" data-line-number="7">true_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb651-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb651-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb651-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb651-11" data-line-number="11">tom_power &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb651-12" data-line-number="12"><span class="st">  </span>true_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb651-13" data-line-number="13"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb651-14" data-line-number="14">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb651-15" data-line-number="15">  )</a>
+<a class="sourceLine" id="cb651-16" data-line-number="16">tom_power</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   prob_crit
 ##       &lt;dbl&gt;
@@ -947,39 +948,39 @@ We learned that when we reject a <em>true</em> null hypothesis because we happen
 We also learned that failing to reject the null hypothesis when it is actually false, is known as a Type II Error, and the probability of this depends on how far away from the null parameter the true parameter is (i.e., effect size), as well as how big our sample is.<br />
 <br>
 We simulated different distributions under different hypotheses, using the code below:</p>
-<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb652-1" title="1"><span class="co"># Our possible outcomes</span></a>
-<a class="sourceLine" id="cb652-2" title="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>))) </a>
-<a class="sourceLine" id="cb652-3" title="3"></a>
-<a class="sourceLine" id="cb652-4" title="4"><span class="co"># Our probabilities (reflecting the hypothesis)</span></a>
-<a class="sourceLine" id="cb652-5" title="5">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb652-6" title="6"></a>
-<a class="sourceLine" id="cb652-7" title="7"><span class="co"># Our simulated samples of size 50</span></a>
-<a class="sourceLine" id="cb652-8" title="8">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb652-9" title="9"></a>
-<a class="sourceLine" id="cb652-10" title="10"><span class="co"># Our distribution</span></a>
-<a class="sourceLine" id="cb652-11" title="11">distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb652-12" title="12"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb652-13" title="13"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb653-1" data-line-number="1"><span class="co"># Our possible outcomes</span></a>
+<a class="sourceLine" id="cb653-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>))) </a>
+<a class="sourceLine" id="cb653-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb653-4" data-line-number="4"><span class="co"># Our probabilities (reflecting the hypothesis)</span></a>
+<a class="sourceLine" id="cb653-5" data-line-number="5">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb653-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb653-7" data-line-number="7"><span class="co"># Our simulated samples of size 50</span></a>
+<a class="sourceLine" id="cb653-8" data-line-number="8">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb653-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb653-10" data-line-number="10"><span class="co"># Our distribution</span></a>
+<a class="sourceLine" id="cb653-11" data-line-number="11">distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb653-12" data-line-number="12"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb653-13" data-line-number="13"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
 <p>We calculated the critical value (for a one-sided test) for a null distribution by using the <code>quantile()</code> function, to find the values at which 95% of the distribution of simulated sample statistics are to the left.</p>
-<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb653-1" title="1">crit_val &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb653-2" title="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb653-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb653-4" title="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
+<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb654-1" data-line-number="1">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb654-2" data-line-number="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb654-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb654-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
 <p>For a two-sided test at <span class="math inline">\(\alpha = 0.05\)</span>, we can simply extend this to ask for the values where 2.5% of the distribution is to the left, and where 97.5% of the distribution is to the left (so 2.5% is to the right). In doing so, we divide our critical region in to the two tails of the distribution.</p>
-<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb654-1" title="1">null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb654-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb654-3" title="3">    <span class="dt">crit025 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.025</span>),</a>
-<a class="sourceLine" id="cb654-4" title="4">    <span class="dt">crit975 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.975</span>)</a>
-<a class="sourceLine" id="cb654-5" title="5">  )</a></code></pre></div>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb655-1" data-line-number="1">null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb655-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb655-3" data-line-number="3">    <span class="dt">crit025 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.025</span>),</a>
+<a class="sourceLine" id="cb655-4" data-line-number="4">    <span class="dt">crit975 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.975</span>)</a>
+<a class="sourceLine" id="cb655-5" data-line-number="5">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   crit025 crit975
 ##     &lt;dbl&gt;   &lt;dbl&gt;
 ## 1    0.36    0.64</code></pre>
 <p>We can find the proportion of a different theorised distribution which fell beyond a critical value, giving our power:</p>
-<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb656-1" title="1">another_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb656-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb656-3" title="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb656-4" title="4">  )</a></code></pre></div>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb657-1" data-line-number="1">another_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb657-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb657-3" data-line-number="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb657-4" data-line-number="4">  )</a></code></pre></div>
 <hr />
 </div>
 <div id="lab-2" class="section level2">
@@ -1039,38 +1040,38 @@ Where <span class="math inline">\(p\)</span> denotes the proportion of games in 
 </p>
 <div id="sol-body-47" class="solution-body" style="display: none;">
 <p>We need to generate our null distribution:</p>
-<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb657-1" title="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Rock&#39;</span>,<span class="st">&#39;Paper&#39;</span>,<span class="st">&#39;Scissors&#39;</span>)))</a>
-<a class="sourceLine" id="cb657-2" title="2">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb657-3" title="3"></a>
-<a class="sourceLine" id="cb657-4" title="4"><span class="co"># GENERATE THE NULL</span></a>
-<a class="sourceLine" id="cb657-5" title="5">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">75</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb657-6" title="6"></a>
-<a class="sourceLine" id="cb657-7" title="7">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb657-8" title="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb657-9" title="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Scissors&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb658"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb658-1" data-line-number="1">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Rock&#39;</span>,<span class="st">&#39;Paper&#39;</span>,<span class="st">&#39;Scissors&#39;</span>)))</a>
+<a class="sourceLine" id="cb658-2" data-line-number="2">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb658-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb658-4" data-line-number="4"><span class="co"># GENERATE THE NULL</span></a>
+<a class="sourceLine" id="cb658-5" data-line-number="5">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">75</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb658-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb658-7" data-line-number="7">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb658-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb658-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Scissors&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
 <p>And calculate the critical value (note that because the alternative is <span class="math inline">\(p &lt; 1/3\)</span>, we are looking for the bottom 5%, rather the top 5%):</p>
-<div class="sourceCode" id="cb658"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb658-1" title="1"><span class="co"># FIND CRITICAL VALUE</span></a>
-<a class="sourceLine" id="cb658-2" title="2">crit_val &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb658-3" title="3"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb658-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.05</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb658-5" title="5"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb659-1" data-line-number="1"><span class="co"># FIND CRITICAL VALUE</span></a>
+<a class="sourceLine" id="cb659-2" data-line-number="2">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb659-3" data-line-number="3"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb659-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.05</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb659-5" data-line-number="5"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
 <p>Construct an alternative distribution:</p>
-<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb659-1" title="1"><span class="co"># GENERATE ALTERNATIVE</span></a>
-<a class="sourceLine" id="cb659-2" title="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Rock&#39;</span>,<span class="st">&#39;Paper&#39;</span>,<span class="st">&#39;Scissors&#39;</span>)))</a>
-<a class="sourceLine" id="cb659-3" title="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>)</a>
-<a class="sourceLine" id="cb659-4" title="4"></a>
-<a class="sourceLine" id="cb659-5" title="5">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">75</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a></code></pre></div>
+<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb660-1" data-line-number="1"><span class="co"># GENERATE ALTERNATIVE</span></a>
+<a class="sourceLine" id="cb660-2" data-line-number="2">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Rock&#39;</span>,<span class="st">&#39;Paper&#39;</span>,<span class="st">&#39;Scissors&#39;</span>)))</a>
+<a class="sourceLine" id="cb660-3" data-line-number="3">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>)</a>
+<a class="sourceLine" id="cb660-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb660-5" data-line-number="5">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">75</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;vals&quot;</code></pre>
 <pre><code>## Warning: Column `vals` joining character vector and factor, coercing into character vector</code></pre>
-<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb662-1" title="1">hypothesised_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb662-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb662-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Scissors&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb663"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb663-1" data-line-number="1">hypothesised_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb663-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb663-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Scissors&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
 <p>And calculate power.</p>
-<div class="sourceCode" id="cb663"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb663-1" title="1"><span class="co"># CALCULATE POWER</span></a>
-<a class="sourceLine" id="cb663-2" title="2">hypothesised_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb663-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb663-4" title="4">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb663-5" title="5">  )</a></code></pre></div>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb664-1" data-line-number="1"><span class="co"># CALCULATE POWER</span></a>
+<a class="sourceLine" id="cb664-2" data-line-number="2">hypothesised_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb664-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb664-4" data-line-number="4">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb664-5" data-line-number="5">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   prob_crit
 ##       &lt;dbl&gt;
@@ -1097,16 +1098,16 @@ Where <span class="math inline">\(p\)</span> denotes the proportion of games in 
 </p>
 <div id="sol-body-48" class="solution-body" style="display: none;">
 <p>We would have a different critical value:</p>
-<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb665-1" title="1">crit_val &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb665-2" title="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb665-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.01</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb665-4" title="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
+<div class="sourceCode" id="cb666"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb666-1" data-line-number="1">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb666-2" data-line-number="2"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb666-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.01</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb666-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(crit95)</a></code></pre></div>
 <p>And our power would therefore change accordingly:</p>
-<div class="sourceCode" id="cb666"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb666-1" title="1"><span class="co"># CALCULATE POWER</span></a>
-<a class="sourceLine" id="cb666-2" title="2">hypothesised_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb666-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb666-4" title="4">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb666-5" title="5">  )</a></code></pre></div>
+<div class="sourceCode" id="cb667"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb667-1" data-line-number="1"><span class="co"># CALCULATE POWER</span></a>
+<a class="sourceLine" id="cb667-2" data-line-number="2">hypothesised_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb667-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb667-4" data-line-number="4">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&lt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb667-5" data-line-number="5">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   prob_crit
 ##       &lt;dbl&gt;
@@ -1139,22 +1140,22 @@ Where <span class="math inline">\(p\)</span> denotes the proportion of games in 
 We need to:
 <br>
 Generate the theoretical distribution of <span class="math inline">\(\hat{p} = 0.65\)</span>.</p>
-<div class="sourceCode" id="cb668"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb668-1" title="1"><span class="co">#Remember that Tom&#39;s critical value is:</span></a>
-<a class="sourceLine" id="cb668-2" title="2">crit_val &lt;-<span class="st"> </span><span class="fl">0.62</span></a>
-<a class="sourceLine" id="cb668-3" title="3"></a>
-<a class="sourceLine" id="cb668-4" title="4">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb668-5" title="5">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.65</span>, <span class="fl">0.35</span>)</a>
-<a class="sourceLine" id="cb668-6" title="6"></a>
-<a class="sourceLine" id="cb668-7" title="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb668-8" title="8"></a>
-<a class="sourceLine" id="cb668-9" title="9">theoretical_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb668-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb668-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb669-1" data-line-number="1"><span class="co">#Remember that Tom&#39;s critical value is:</span></a>
+<a class="sourceLine" id="cb669-2" data-line-number="2">crit_val &lt;-<span class="st"> </span><span class="fl">0.62</span></a>
+<a class="sourceLine" id="cb669-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb669-4" data-line-number="4">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb669-5" data-line-number="5">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.65</span>, <span class="fl">0.35</span>)</a>
+<a class="sourceLine" id="cb669-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb669-7" data-line-number="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb669-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb669-9" data-line-number="9">theoretical_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb669-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb669-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a></code></pre></div>
 <p>Calculate what proportion of this distribution is greater than his critical value. This will be the power.</p>
-<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb669-1" title="1">theoretical_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb669-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb669-3" title="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb669-4" title="4">  )</a></code></pre></div>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb670-1" data-line-number="1">theoretical_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb670-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb670-3" data-line-number="3">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb670-4" data-line-number="4">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   prob_crit
 ##       &lt;dbl&gt;
@@ -1187,39 +1188,39 @@ Generate the theoretical distribution of <span class="math inline">\(\hat{p} = 0
 </p>
 <div id="sol-body-50" class="solution-body" style="display: none;">
 <p>We can run this chunk changing the <code>nr_flips</code> value each time, to calculate power at different sample sizes.</p>
-<div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb671-1" title="1">nr_flips &lt;-<span class="st"> </span><span class="dv">50</span></a>
-<a class="sourceLine" id="cb671-2" title="2"></a>
-<a class="sourceLine" id="cb671-3" title="3">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb671-4" title="4">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb671-5" title="5"></a>
-<a class="sourceLine" id="cb671-6" title="6"><span class="co"># GENERATE THE NULL</span></a>
-<a class="sourceLine" id="cb671-7" title="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span>nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb671-8" title="8"></a>
-<a class="sourceLine" id="cb671-9" title="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb671-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb671-11" title="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb671-12" title="12"></a>
-<a class="sourceLine" id="cb671-13" title="13"><span class="co"># FIND CRITICAL VALUE</span></a>
-<a class="sourceLine" id="cb671-14" title="14">crit_val &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb671-15" title="15"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb671-16" title="16"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb671-17" title="17"><span class="st">  </span><span class="kw">pull</span>(crit95)</a>
-<a class="sourceLine" id="cb671-18" title="18"></a>
-<a class="sourceLine" id="cb671-19" title="19"><span class="co"># GENERATE THEORISED ALTERNATIVE</span></a>
-<a class="sourceLine" id="cb671-20" title="20">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
-<a class="sourceLine" id="cb671-21" title="21">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
-<a class="sourceLine" id="cb671-22" title="22"></a>
-<a class="sourceLine" id="cb671-23" title="23">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
-<a class="sourceLine" id="cb671-24" title="24"></a>
-<a class="sourceLine" id="cb671-25" title="25">hypothesised_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb671-26" title="26"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb671-27" title="27"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb671-28" title="28"></a>
-<a class="sourceLine" id="cb671-29" title="29"><span class="co"># CALCULATE POWER</span></a>
-<a class="sourceLine" id="cb671-30" title="30">hypothesised_distribution <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb671-31" title="31"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb671-32" title="32">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb671-33" title="33">  )</a></code></pre></div>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb672-1" data-line-number="1">nr_flips &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb672-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb672-3" data-line-number="3">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb672-4" data-line-number="4">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb672-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb672-6" data-line-number="6"><span class="co"># GENERATE THE NULL</span></a>
+<a class="sourceLine" id="cb672-7" data-line-number="7">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span>nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb672-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb672-9" data-line-number="9">null_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb672-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb672-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb672-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb672-13" data-line-number="13"><span class="co"># FIND CRITICAL VALUE</span></a>
+<a class="sourceLine" id="cb672-14" data-line-number="14">crit_val &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb672-15" data-line-number="15"><span class="st">  </span>null_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb672-16" data-line-number="16"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">crit95 =</span> <span class="kw">quantile</span>(prop, <span class="fl">0.95</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb672-17" data-line-number="17"><span class="st">  </span><span class="kw">pull</span>(crit95)</a>
+<a class="sourceLine" id="cb672-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb672-19" data-line-number="19"><span class="co"># GENERATE THEORISED ALTERNATIVE</span></a>
+<a class="sourceLine" id="cb672-20" data-line-number="20">outcomes &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">vals =</span> <span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&#39;Heads&#39;</span>, <span class="st">&#39;Tails&#39;</span>)))</a>
+<a class="sourceLine" id="cb672-21" data-line-number="21">prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb672-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb672-23" data-line-number="23">samples &lt;-<span class="st"> </span><span class="kw">rep_sample_n</span>(outcomes, <span class="dt">size =</span> nr_flips, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb672-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb672-25" data-line-number="25">hypothesised_distribution &lt;-<span class="st"> </span>samples <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb672-26" data-line-number="26"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb672-27" data-line-number="27"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(vals <span class="op">==</span><span class="st"> &#39;Heads&#39;</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb672-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb672-29" data-line-number="29"><span class="co"># CALCULATE POWER</span></a>
+<a class="sourceLine" id="cb672-30" data-line-number="30">hypothesised_distribution <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb672-31" data-line-number="31"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb672-32" data-line-number="32">    <span class="dt">prob_crit =</span> <span class="kw">sum</span>(prop <span class="op">&gt;=</span><span class="st"> </span>crit_val) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb672-33" data-line-number="33">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   prob_crit
 ##       &lt;dbl&gt;

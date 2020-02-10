@@ -89,7 +89,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -297,7 +297,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
 </ul></li>
 <li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
-<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.-jones-and-mr.-smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.jones-and-mr.smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
 <li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
 <li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
 <li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
@@ -421,6 +421,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2.1" data-path="chap-normal.html"><a href="chap-normal.html#from-histograms-to-normal-curves"><i class="fa fa-check"></i><b>15.2.1</b> From histograms to normal curves</a></li>
 <li class="chapter" data-level="15.2.2" data-path="chap-normal.html"><a href="chap-normal.html#sec-area-and-prob"><i class="fa fa-check"></i><b>15.2.2</b> The relation between area and probability</a></li>
 <li class="chapter" data-level="15.2.3" data-path="chap-normal.html"><a href="chap-normal.html#probabilities-for-normally-distributed-random-variables"><i class="fa fa-check"></i><b>15.2.3</b> Probabilities for normally distributed random variables</a></li>
+<li class="chapter" data-level="15.2.4" data-path="chap-normal.html"><a href="chap-normal.html#z-scores"><i class="fa fa-check"></i><b>15.2.4</b> Z-scores</a></li>
 </ul></li>
 <li class="chapter" data-level="15.3" data-path="chap-normal.html"><a href="chap-normal.html#summary-4"><i class="fa fa-check"></i><b>15.3</b> Summary</a></li>
 <li class="chapter" data-level="15.4" data-path="chap-normal.html"><a href="chap-normal.html#lab-3"><i class="fa fa-check"></i><b>15.4</b> Lab</a></li>
@@ -496,9 +497,9 @@ Figure 15.1: Different distributions with their corresponding normal curves show
 </div>
 <p>The symmetric and bell-shaped red curve is known as the <strong>normal curve</strong> and is a mathematical model (i.e. an equation or graph) which is used to describe reality (see Figure <a href="chap-normal.html#fig:normal-curve">15.2</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:normal-curve"></span>
-<img src="bookdown-demo_files/figure-html/normal-curve-1.png" alt="Normal curve" width="60%" />
+<img src="bookdown-demo_files/figure-html/normal-curve-1.png" alt="Normal curve." width="60%" />
 <p class="caption">
-Figure 15.2: Normal curve
+Figure 15.2: Normal curve.
 </p>
 </div>
 <div class="def">
@@ -550,11 +551,16 @@ Figure 15.3: Normal curves for different means and standard deviations.
 </p>
 </div>
 </div>
+<div class="def">
+<h4 id="notation" class="unnumbered">Notation</h4>
+<p>We will write that a random variable <span class="math inline">\(X\)</span> follows a normal distribution with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span> as:
+<span class="math display">\[X \sim N(\mu, \sigma)\]</span></p>
+</div>
 </div>
 <div id="sec-area-and-prob" class="section level3">
 <h3><span class="header-section-number">15.2.2</span> The relation between area and probability</h3>
 <p>Consider Panel (a) in Figure <a href="chap-normal.html#fig:normal-fits">15.1</a>.
-Each bar in the histogram shows the proportion of all the generated statistics falling in a given interval, such as the proportion of sample means between 2.2 and 2.3 which is equal to 0.09.</p>
+Each bar in the histogram shows the proportion of all the generated statistics falling in a given interval. For example, the proportion of sample means between 2.2 and 2.3 is equal to 0.09.</p>
 <p>This proportion can be interpreted as a probability. So, the proportion of means between 2.2 and 2.3 has two possible interpretations:</p>
 <ul>
 <li>the proportion of all samples with a mean between 2.2 and 2.3 is 9%.</li>
@@ -567,7 +573,7 @@ Furthermore, suppose the subject can lose focus immediately (time = 0) or up to 
 This means, for example, that the subject is equally likely to lose attention after 3-4 minutes as they are likely after 25-26 minutes.
 Such a random variable is said to follow a <strong>uniform distribution</strong>.</p>
 <p>For discrete random variables, i.e. random variables whose possible values are only whole numbers without decimals, we compute probabilities as the <strong>number of favourable cases divided by the total number of possibilities</strong>.</p>
-<p>The probability of seeing an even face when throwing a die is obtained by dividing the number of ways the event “even face” can occurr (3 even faces in a die: ⚁, ⚃, ⚅) by the total number of possibilities (6 total faces in a die: ⚀, ⚁, ⚂, ⚃, ⚄, ⚅):
+<p>The probability of seeing an even face when throwing a die is obtained by dividing the number of ways the event “even face” can occur (3 even faces in a die: ⚁, ⚃, ⚅) by the total number of possibilities (6 total faces in a die: ⚀, ⚁, ⚂, ⚃, ⚄, ⚅):
 <span class="math display">\[
 P(\textrm{even face}) = \frac{n_\textrm{even faces}}{n_\textrm{faces}} = \frac{3}{6} = 0.5
 \]</span></p>
@@ -639,9 +645,9 @@ The height of the shaded region is <span class="math inline">\(1/30\)</span>.
 The area between 10 and 20 is <span class="math inline">\(10 \times \frac{1}{30} = \frac{1}{3}\)</span>.</p>
 <p>So, the probability of the subject losing attention between 10 and 20 minutes from the beginning of the study is <span class="math inline">\(1/3\)</span>.</p>
 <div class="figure" style="text-align: center"><span id="fig:unif-shaded"></span>
-<img src="images/unif_shaded.png" alt="Uniform distribution between 0 and 30 minutes." width="60%" />
+<img src="images/unif_shaded.png" alt="Probability of losing attention after 10 to 20 minutes." width="60%" />
 <p class="caption">
-Figure 15.5: Uniform distribution between 0 and 30 minutes.
+Figure 15.5: Probability of losing attention after 10 to 20 minutes.
 </p>
 </div>
 <div class="question">
@@ -680,13 +686,13 @@ This is the case for aptitude-test scores, the birth weights of newborns, and so
 We previously learned that if a random variable has a histogram which is symmetric and bell-shaped, we say that the variable follows a normal distribution.</p>
 <p>Consider the following sample of 10,000 people, for which we have recorded their score on a cognitive test.</p>
 <p>Let’s load the data and inspect them:</p>
-<div class="sourceCode" id="cb673"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb673-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb673-2" title="2"></a>
-<a class="sourceLine" id="cb673-3" title="3"><span class="co"># load the sample</span></a>
-<a class="sourceLine" id="cb673-4" title="4">cognitive &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://edin.ac/39jPFa5&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb673-5" title="5"></a>
-<a class="sourceLine" id="cb673-6" title="6"><span class="co"># first six rows</span></a>
-<a class="sourceLine" id="cb673-7" title="7"><span class="kw">head</span>(cognitive)</a></code></pre></div>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb674-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb674-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb674-3" data-line-number="3"><span class="co"># Load the sample</span></a>
+<a class="sourceLine" id="cb674-4" data-line-number="4">cognitive &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://edin.ac/39jPFa5&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb674-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb674-6" data-line-number="6"><span class="co"># Display the first six rows</span></a>
+<a class="sourceLine" id="cb674-7" data-line-number="7"><span class="kw">head</span>(cognitive)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
 ##   SubjectID CognitiveScore
 ##       &lt;dbl&gt;          &lt;dbl&gt;
@@ -696,79 +702,79 @@ We previously learned that if a random variable has a histogram which is symmetr
 ## 4         4          124. 
 ## 5         5          105. 
 ## 6         6           87.7</code></pre>
-<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb675-1" title="1"><span class="co"># dimensions of the tibble</span></a>
-<a class="sourceLine" id="cb675-2" title="2"><span class="kw">dim</span>(cognitive)</a></code></pre></div>
+<div class="sourceCode" id="cb676"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb676-1" data-line-number="1"><span class="co"># Check the dimensions of the tibble</span></a>
+<a class="sourceLine" id="cb676-2" data-line-number="2"><span class="kw">dim</span>(cognitive)</a></code></pre></div>
 <pre><code>## [1] 10000     2</code></pre>
 <p>We have 10,000 rows (subjects) and 2 columns (measured variables).</p>
-<p>Let’s plot the distribution of the variable of interest, CognitiveScore, as a histogram.
-However, on the y-axis, instead of the crude counts of the values, we ask for the density or proportion.
-This makes it easier to compare across samples of different sizes, as the range of the y-axis won’t be absolute counts and therefore change with the sample size.</p>
+<p>Let’s plot the distribution of the variable of interest, <code>CognitiveScore</code>, as a histogram.
+However, on the y-axis, instead of the absolute counts of the values we ask for the density or proportion.
+This makes it easier to compare across samples of different sizes, as the range of the y-axis won’t change with the sample size.</p>
 <p>We plot the density by specifying <code>y = stat(density)</code> in the <code>aes()</code> function:</p>
-<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb677-1" title="1"><span class="kw">ggplot</span>(cognitive, <span class="kw">aes</span>(<span class="dt">x =</span> CognitiveScore, <span class="dt">y =</span> <span class="kw">stat</span>(density))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb677-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>)</a></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-431-1.png" width="672" /></p>
+<div class="sourceCode" id="cb678"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb678-1" data-line-number="1"><span class="kw">ggplot</span>(cognitive, <span class="kw">aes</span>(<span class="dt">x =</span> CognitiveScore, <span class="dt">y =</span> <span class="kw">stat</span>(density))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb678-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-431-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>We can see that the distribution of cognitive scores is symmetric, around 100 approximately, and bell-shaped. We can therefore try to fit a normal curve to it.</p>
 <p>We must specify:</p>
 <ul>
 <li>where the normal curve should be centred at. This should be the centre of the histogram/data;</li>
 <li>how spread or narrow should the normal curve be. This should be the spread of the histogram, i.e. the standard deviation of the data.</li>
 </ul>
-<p>Centre:</p>
-<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb679-1" title="1">sample_mean &lt;-<span class="st"> </span>cognitive <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb679-2" title="2"><span class="st">  </span><span class="kw">pull</span>(CognitiveScore) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb679-3" title="3"><span class="st">  </span><span class="kw">mean</span>()</a>
-<a class="sourceLine" id="cb679-4" title="4"></a>
-<a class="sourceLine" id="cb679-5" title="5">sample_mean</a></code></pre></div>
+<p><strong>Centre:</strong></p>
+<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb679-1" data-line-number="1">sample_mean &lt;-<span class="st"> </span>cognitive <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb679-2" data-line-number="2"><span class="st">  </span><span class="kw">pull</span>(CognitiveScore) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb679-3" data-line-number="3"><span class="st">  </span><span class="kw">mean</span>()</a>
+<a class="sourceLine" id="cb679-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb679-5" data-line-number="5">sample_mean</a></code></pre></div>
 <pre><code>## [1] 99.9019</code></pre>
-<p>Spread:</p>
-<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb681-1" title="1">sample_sd &lt;-<span class="st"> </span>cognitive <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb681-2" title="2"><span class="st">  </span><span class="kw">pull</span>(CognitiveScore) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb681-3" title="3"><span class="st">  </span><span class="kw">sd</span>()</a>
-<a class="sourceLine" id="cb681-4" title="4"></a>
-<a class="sourceLine" id="cb681-5" title="5">sample_sd</a></code></pre></div>
+<p><strong>Spread:</strong></p>
+<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb681-1" data-line-number="1">sample_sd &lt;-<span class="st"> </span>cognitive <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb681-2" data-line-number="2"><span class="st">  </span><span class="kw">pull</span>(CognitiveScore) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb681-3" data-line-number="3"><span class="st">  </span><span class="kw">sd</span>()</a>
+<a class="sourceLine" id="cb681-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb681-5" data-line-number="5">sample_sd</a></code></pre></div>
 <pre><code>## [1] 15.18534</code></pre>
-<p>Hence the normal curve should be centred at the mean of the data, 99.901902 and have standard deviation 15.1853396.</p>
-<p>We specify a normal density curve with the following command:</p>
-<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb683-1" title="1"><span class="kw">dnorm</span>(x, mean, sd)</a></code></pre></div>
+<p>Hence the normal curve should be centred at the mean of the data, 99.9 and have standard deviation 15.19.</p>
+<p>The equation of the normal density curve is provided by the following function:</p>
+<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb683-1" data-line-number="1"><span class="kw">dnorm</span>(x, mean, sd)</a></code></pre></div>
 <p>where:</p>
 <ul>
 <li><code>x</code> represents the value of the random variable</li>
-<li><code>mean</code> the centre of the normal curve</li>
+<li><code>mean</code> the mean of the normal curve</li>
 <li><code>sd</code> the standard deviation of the curve</li>
 </ul>
 <p>Let’s add the red curve on top of the histogram using <code>stat_function()</code>. It takes as arguments:</p>
 <ul>
 <li><code>fun</code>: the function to plot</li>
-<li><code>args</code>: parameters of the function</li>
+<li><code>args</code>: parameters of the function to be plotted</li>
 <li>plotting specifications</li>
 </ul>
-<div class="sourceCode" id="cb684"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb684-1" title="1"><span class="kw">ggplot</span>(cognitive) <span class="op">+</span></a>
-<a class="sourceLine" id="cb684-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> CognitiveScore, <span class="dt">y =</span> <span class="kw">stat</span>(density)), <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb684-3" title="3"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, </a>
-<a class="sourceLine" id="cb684-4" title="4">                <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">mean =</span> sample_mean, <span class="dt">sd =</span> sample_sd), </a>
-<a class="sourceLine" id="cb684-5" title="5">                <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb684"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb684-1" data-line-number="1"><span class="kw">ggplot</span>(cognitive) <span class="op">+</span></a>
+<a class="sourceLine" id="cb684-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> CognitiveScore, <span class="dt">y =</span> <span class="kw">stat</span>(density)), <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb684-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, </a>
+<a class="sourceLine" id="cb684-4" data-line-number="4">                <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">mean =</span> sample_mean, <span class="dt">sd =</span> sample_sd), </a>
+<a class="sourceLine" id="cb684-5" data-line-number="5">                <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-435-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>We can now calculate the probability that a randomly selected individual has a cognitive score between 120 and 130 as the area under the normal curve between 120 and 130:</p>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-436-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <hr />
-<p>We compute areas for normal curves using the function <code>pnorm(x, mean, sd)</code>. This function computes the area to the left of x in a normal curve centred at <code>mean</code> and having standard deviation <code>sd</code>.</p>
-<p><strong>Area to the left of a value x</strong>
+<p>We compute areas for normal curves using the function <code>pnorm(x, mean, sd)</code>.</p>
+<p>This function computes the area to the left of <code>x</code> in a normal curve centred at <code>mean</code> and having standard deviation <code>sd</code>.</p>
+<p><strong>1. Area to the left of a value <span class="math inline">\(x\)</span></strong>
 <img src="images/pnorm_left.png" width="80%" style="display: block; margin: auto;" /></p>
-<p><strong>Area between the values <span class="math inline">\(x_l\)</span> and <span class="math inline">\(x_u\)</span></strong>
+<p><strong>2. Area between the values <span class="math inline">\(x_l\)</span> and <span class="math inline">\(x_u\)</span></strong>
 <img src="images/pnorm_interval.png" width="100%" style="display: block; margin: auto;" /></p>
-<p><strong>Area to the right of <span class="math inline">\(x\)</span></strong>
+<p><strong>3. Area to the right of <span class="math inline">\(x\)</span></strong>
 <img src="images/pnorm_right.png" width="100%" style="display: block; margin: auto;" /></p>
 <hr />
-<p>The probability that a randomly selected individual has a cognitive score between 120 and 130 as the area under the normal curve between 120 and 130 is:</p>
-<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb685-1" title="1">theory_prob &lt;-<span class="st"> </span><span class="kw">pnorm</span>(<span class="dv">130</span>, <span class="dt">mean =</span> sample_mean, <span class="dt">sd =</span> sample_sd) <span class="op">-</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb685-2" title="2"><span class="st">  </span><span class="kw">pnorm</span>(<span class="dv">120</span>, <span class="dt">mean =</span> sample_mean, <span class="dt">sd =</span> sample_sd)</a>
-<a class="sourceLine" id="cb685-3" title="3">theory_prob</a></code></pre></div>
+<p>The probability that a randomly selected individual has a cognitive score between 120 and 130 is the area under the normal curve between 120 and 130:</p>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb685-1" data-line-number="1">theory_prob &lt;-<span class="st"> </span><span class="kw">pnorm</span>(<span class="dv">130</span>, <span class="dt">mean =</span> sample_mean, <span class="dt">sd =</span> sample_sd) <span class="op">-</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb685-2" data-line-number="2"><span class="st">  </span><span class="kw">pnorm</span>(<span class="dv">120</span>, <span class="dt">mean =</span> sample_mean, <span class="dt">sd =</span> sample_sd)</a>
+<a class="sourceLine" id="cb685-3" data-line-number="3">theory_prob</a></code></pre></div>
 <pre><code>## [1] 0.06909445</code></pre>
 <p>Let’s compare that with the proportion obtained from the histogram:</p>
-<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb687-1" title="1">sample_prob &lt;-<span class="st"> </span>cognitive <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb687-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(CognitiveScore <span class="op">&gt;=</span><span class="st"> </span><span class="dv">120</span> <span class="op">&amp;</span><span class="st"> </span>CognitiveScore <span class="op">&lt;=</span><span class="st"> </span><span class="dv">130</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb687-3" title="3">sample_prob</a></code></pre></div>
+<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb687-1" data-line-number="1">sample_prob &lt;-<span class="st"> </span>cognitive <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb687-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">sum</span>(CognitiveScore <span class="op">&gt;=</span><span class="st"> </span><span class="dv">120</span> <span class="op">&amp;</span><span class="st"> </span>CognitiveScore <span class="op">&lt;=</span><span class="st"> </span><span class="dv">130</span>) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb687-3" data-line-number="3">sample_prob</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##     prop
 ##    &lt;dbl&gt;
@@ -795,39 +801,82 @@ This makes it easier to compare across samples of different sizes, as the range 
 <li><p>Compute the probability as the area under the normal curve with the mean found in (1) and the standard deviation found in (2).</p></li>
 </ol>
 </div>
+<div id="z-scores" class="section level3">
+<h3><span class="header-section-number">15.2.4</span> Z-scores</h3>
+<p>Instead of always specifying the mean and the standard deviation of the normal curve, we can work with a reference normal curve that has mean = 0 and sd = 1. This is known as the <strong>standard normal distribution</strong>.</p>
+<div class="def">
+<h4 id="standard-normal-distribution" class="unnumbered">Standard normal distribution</h4>
+<p>A standard normal distribution, denoted <span class="math inline">\(N(0, 1)\)</span>, is a normal distribution with mean = 0 and sd = 1.</p>
+</div>
+<p>The functions <code>dnorm</code> and <code>pnorm</code> assume that the mean = 0 and the sd = 1 if not provided, i.e. they assume a standard normal distribution by default.</p>
+<p>In order to transform a value <span class="math inline">\(x\)</span> from a normal distribution with mean <span class="math inline">\(\mu\)</span> and sd <span class="math inline">\(\sigma\)</span> to a score on the standard normal scale, we must use the z-score transformation:
+<span class="math display">\[
+z = \frac{x - \mu}{\sigma}
+\]</span></p>
+<p>Let’s compute again the probability that a randomly selected individual has a cognitive score between 120 and 130 using standard normal distributions.
+First we must convert the values to z-scores by subtracting the mean and the standard deviation of the distribution. Then we use the function <code>pnorm()</code>:</p>
+<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb689-1" data-line-number="1">z_u &lt;-<span class="st"> </span>(<span class="dv">130</span> <span class="op">-</span><span class="st"> </span>sample_mean) <span class="op">/</span><span class="st"> </span>sample_sd</a>
+<a class="sourceLine" id="cb689-2" data-line-number="2">z_l &lt;-<span class="st"> </span>(<span class="dv">120</span> <span class="op">-</span><span class="st"> </span>sample_mean) <span class="op">/</span><span class="st"> </span>sample_sd</a>
+<a class="sourceLine" id="cb689-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb689-4" data-line-number="4"><span class="kw">pnorm</span>(z_u) <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(z_l)</a></code></pre></div>
+<pre><code>## [1] 0.06909445</code></pre>
+<p>As you can see, this is exactly the same value we found before with the shifted and scaled normal distribution.</p>
+</div>
 </div>
 <div id="summary-4" class="section level2">
 <h2><span class="header-section-number">15.3</span> Summary</h2>
-<p>Today we saw that when a histogram shows that a variable’s distribution is symmetric and bell-shaped, we can say that the variable is normally distributed and we can model the distribution with a mathematical curve called the normal probability distribution.</p>
+<p>When a histogram shows that a variable’s distribution is symmetric and bell-shaped, we can say that the variable is normally distributed and we can model the distribution with a mathematical curve called the normal probability distribution.</p>
 <p>We saw that the normal distribution depends on two parameters, that control the centre and spread of the normal curve:</p>
 <ul>
-<li>the mean</li>
-<li>the standard deviation</li>
+<li>the mean,</li>
+<li>and the standard deviation.</li>
 </ul>
 <p>These two parameters let the normal curve model histograms that have different centres and different spreads.</p>
-<p>The normal curve is given by the function <code>dnorm(x, mean, sd)</code>.</p>
-<p>We can use the normal curve to compute probabilities. The function to compute the area to the left of <code>x</code> under a normal curve is <code>pnorm(x, mean, sd)</code>.</p>
-<ol style="list-style-type: decimal">
-<li>Probability of observing a value less than or equal <code>x</code>: <code>pnorm(x, mean, sd)</code></li>
-<li>Probability of observing a value between <code>xl</code> and <code>xu</code>: <code>pnorm(xu, mean, sd) - pnorm(xl, mean, sd)</code></li>
-<li>Probability of observing a value greater than <code>xu</code>: <code>1 - pnorm(xu, mean, sd)</code></li>
-</ol>
+<p>In R, the equation of the normal density curve is given by the function <code>dnorm(x, mean, sd)</code>.</p>
+<p>We can use the normal curve to compute the probability of intervals as the area under the curve in that interval.</p>
+<p>The function to compute the area under a normal curve to the left of <code>x</code> is <code>pnorm(x, mean, sd)</code>.</p>
+<table>
+<colgroup>
+<col width="54%" />
+<col width="45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Probability</th>
+<th align="left">R command</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Probability of observing a value less than or equal <code>x</code></td>
+<td align="left"><code>pnorm(x, mean, sd)</code></td>
+</tr>
+<tr class="even">
+<td align="left">Probability of observing a value between <code>xl</code> and <code>xu</code></td>
+<td align="left"><code>pnorm(xu, mean, sd) - pnorm(xl, mean, sd)</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Probability of observing a value greater than <code>xu</code></td>
+<td align="left"><code>1 - pnorm(xu, mean, sd)</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="lab-3" class="section level2">
 <h2><span class="header-section-number">15.4</span> Lab</h2>
-<p>In today’s lab we will fit a normal curve to the sampling distribution of the mean from the <a href="chap-sampling-distributions.html#sec-sampling-distributions">NFL example</a> we saw in Week 11.</p>
+<p>In today’s lab we will fit a normal curve to the sampling distribution of the mean using the <a href="chap-sampling-distributions.html#sec-sampling-distributions">NFL example</a> introduced in Week 11.</p>
 <p>Consider again the dataset with the yearly salaries of National Football League (NFL) players. We are interested in the average yearly salary of a NFL player.</p>
-<p>We have data on 2,099 players, including their name, position, team they played for, total money while on a NFL payroll and the yearly salary.
-Since we are only interested in the yearly salary we can select the relevant columns:</p>
-<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb689-1" title="1"><span class="co"># Step 1: load the required libraries</span></a>
-<a class="sourceLine" id="cb689-2" title="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb689-3" title="3"><span class="kw">library</span>(moderndive)</a>
-<a class="sourceLine" id="cb689-4" title="4"></a>
-<a class="sourceLine" id="cb689-5" title="5"><span class="co"># Step 2: load the data and select the columns of interest</span></a>
-<a class="sourceLine" id="cb689-6" title="6">nfl &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2TexAFA&#39;</span>)</a>
-<a class="sourceLine" id="cb689-7" title="7"></a>
-<a class="sourceLine" id="cb689-8" title="8"><span class="co"># Step 3: look at the first rows of the data</span></a>
-<a class="sourceLine" id="cb689-9" title="9"><span class="kw">head</span>(nfl)</a></code></pre></div>
+<p>We have data on 2,099 players: their name, position, team they played for, total money while on a NFL payroll, and yearly salary.</p>
+<p>Since we are only interested in the yearly salary we can select the relevant columns:</p>
+<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb691-1" data-line-number="1"><span class="co"># Step 1: load the required libraries</span></a>
+<a class="sourceLine" id="cb691-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb691-3" data-line-number="3"><span class="kw">library</span>(moderndive)</a>
+<a class="sourceLine" id="cb691-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb691-5" data-line-number="5"><span class="co"># Step 2: load the data and select the columns of interest</span></a>
+<a class="sourceLine" id="cb691-6" data-line-number="6">nfl &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2TexAFA&#39;</span>)</a>
+<a class="sourceLine" id="cb691-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb691-8" data-line-number="8"><span class="co"># Step 3: look at the first rows of the data</span></a>
+<a class="sourceLine" id="cb691-9" data-line-number="9"><span class="kw">head</span>(nfl)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 5
 ##   Player             Position Team     TotalMoney YearlySalary
 ##   &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;
@@ -837,20 +886,20 @@ Since we are only interested in the yearly salary we can select the relevant col
 ## 4 Philip Rivers      QB       Chargers       83.2         20.8
 ## 5 Cam Newton         QB       Panthers      104.          20.8
 ## 6 Matt Ryan          QB       Falcons       104.          20.8</code></pre>
-<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb691-1" title="1"><span class="co"># Step 4: check the dimensions of the tibble</span></a>
-<a class="sourceLine" id="cb691-2" title="2"><span class="kw">dim</span>(nfl)</a></code></pre></div>
+<div class="sourceCode" id="cb693"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb693-1" data-line-number="1"><span class="co"># Step 4: check the dimensions of the tibble</span></a>
+<a class="sourceLine" id="cb693-2" data-line-number="2"><span class="kw">dim</span>(nfl)</a></code></pre></div>
 <pre><code>## [1] 2099    5</code></pre>
-<div class="sourceCode" id="cb693"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb693-1" title="1"><span class="co"># Step 5: select relevant variables</span></a>
-<a class="sourceLine" id="cb693-2" title="2">nfl &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb693-3" title="3"><span class="st">  </span><span class="kw">select</span>(Player, YearlySalary)</a></code></pre></div>
+<div class="sourceCode" id="cb695"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb695-1" data-line-number="1"><span class="co"># Step 5: select relevant variables</span></a>
+<a class="sourceLine" id="cb695-2" data-line-number="2">nfl &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb695-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(Player, YearlySalary)</a></code></pre></div>
 <div class="question">
 <p class="question-begin">
 ► Question 1
 </p>
 <div class="question-body">
 <p>Compute the sampling distribution of the mean using 10,000 samples of 100 players each.</p>
-<p>Display the sampling distribution using a density histogram.
-<em><strong>Hint</strong>. Remember to use <code>y = stat(density)</code> inside the function <code>aes()</code>.</em></p>
+<p>Display the sampling distribution using a density histogram.</p>
+<p><em><strong>Hint</strong>. Remember to use <code>y = stat(density)</code> inside the function <code>aes()</code>.</em></p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -862,16 +911,16 @@ Since we are only interested in the yearly salary we can select the relevant col
 </p>
 <div id="sol-body-56" class="solution-body" style="display: none;">
 <p>Let’s compute the sampling distribution of the mean for samples of size <span class="math inline">\(n = 100\)</span>, using 10,000 samples:</p>
-<div class="sourceCode" id="cb694"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb694-1" title="1"><span class="co"># Step 1: obtain many samples of size 100 and compute the mean of each sample</span></a>
-<a class="sourceLine" id="cb694-2" title="2">sampling_distrib_of_mean &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb694-3" title="3"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">reps =</span> <span class="dv">10000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb694-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb694-5" title="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
-<a class="sourceLine" id="cb694-6" title="6"></a>
-<a class="sourceLine" id="cb694-7" title="7"><span class="co"># Step 2: plot the sampling distribution of the mean for samples of size 100</span></a>
-<a class="sourceLine" id="cb694-8" title="8"><span class="kw">ggplot</span>(sampling_distrib_of_mean) <span class="op">+</span></a>
-<a class="sourceLine" id="cb694-9" title="9"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> avg, <span class="dt">y =</span> <span class="kw">stat</span>(density)), <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb694-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
+<div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb696-1" data-line-number="1"><span class="co"># Step 1: obtain many samples of size 100 and compute the mean of each sample</span></a>
+<a class="sourceLine" id="cb696-2" data-line-number="2">sampling_distrib_of_mean &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb696-3" data-line-number="3"><span class="st">  </span><span class="kw">rep_sample_n</span>(<span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">reps =</span> <span class="dv">10000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb696-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(replicate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb696-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(YearlySalary))</a>
+<a class="sourceLine" id="cb696-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb696-7" data-line-number="7"><span class="co"># Step 2: plot the sampling distribution of the mean for samples of size 100</span></a>
+<a class="sourceLine" id="cb696-8" data-line-number="8"><span class="kw">ggplot</span>(sampling_distrib_of_mean) <span class="op">+</span></a>
+<a class="sourceLine" id="cb696-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> avg, <span class="dt">y =</span> <span class="kw">stat</span>(density)), <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb696-10" data-line-number="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nfl-hist-norm"></span>
 <img src="bookdown-demo_files/figure-html/nfl-hist-norm-1.png" alt="Sampling distribution of the mean." width="672" />
 <p class="caption">
@@ -899,7 +948,7 @@ Figure 15.6: Sampling distribution of the mean.
 ► Solution<span id="sol-start-57" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-57&#39;, &#39;sol-start-57&#39;)"></span>
 </p>
 <div id="sol-body-57" class="solution-body" style="display: none;">
-<p>The distribution of the sample means seems to be symmetric and bell-shaped, hence it is approximately normally distributed.</p>
+<p>The distribution of sample means seems to be symmetric and bell-shaped, hence the sample mean is a normally distributed random variable.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -910,7 +959,7 @@ Figure 15.6: Sampling distribution of the mean.
 ► Question 3
 </p>
 <div class="question-body">
-<p>Find the normal distribution that models the sampling distribution of the mean for samples of size <span class="math inline">\(n = 100\)</span>.</p>
+<p>Find the normal probability density function that models the sampling distribution of the mean for samples of size <span class="math inline">\(n = 100\)</span>.</p>
 <p>Plot the normal curve in red on top of the histogram.</p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -924,29 +973,29 @@ Figure 15.6: Sampling distribution of the mean.
 <div id="sol-body-58" class="solution-body" style="display: none;">
 <p>The required steps are:</p>
 <ol style="list-style-type: decimal">
-<li>Compute the mean of the sample, which is used to specify where the normal curve should be centred at</li>
-<li>Compute the standard deviation of the sample, which is used to specify the spread of the normal curve</li>
+<li>Compute the mean of the sample means, which is used to specify where the normal curve should be centred at;</li>
+<li>Compute the standard deviation of the sample means, which is used to specify the spread of the normal curve.</li>
 </ol>
-<div class="sourceCode" id="cb695"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb695-1" title="1"><span class="co"># sample mean</span></a>
-<a class="sourceLine" id="cb695-2" title="2">mean_of_distrib &lt;-<span class="st"> </span>sampling_distrib_of_mean <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb695-3" title="3"><span class="st">  </span><span class="kw">pull</span>(avg) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb695-4" title="4"><span class="st">  </span><span class="kw">mean</span>()</a>
-<a class="sourceLine" id="cb695-5" title="5">mean_of_distrib</a></code></pre></div>
+<div class="sourceCode" id="cb697"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb697-1" data-line-number="1"><span class="co"># sample mean</span></a>
+<a class="sourceLine" id="cb697-2" data-line-number="2">mean_of_distrib &lt;-<span class="st"> </span>sampling_distrib_of_mean <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb697-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(avg) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb697-4" data-line-number="4"><span class="st">  </span><span class="kw">mean</span>()</a>
+<a class="sourceLine" id="cb697-5" data-line-number="5">mean_of_distrib</a></code></pre></div>
 <pre><code>## [1] 2.240886</code></pre>
-<div class="sourceCode" id="cb697"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb697-1" title="1"><span class="co"># sample sd</span></a>
-<a class="sourceLine" id="cb697-2" title="2">sd_of_distrib &lt;-<span class="st"> </span>sampling_distrib_of_mean <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb697-3" title="3"><span class="st">  </span><span class="kw">pull</span>(avg) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb697-4" title="4"><span class="st">  </span><span class="kw">sd</span>()</a>
-<a class="sourceLine" id="cb697-5" title="5">sd_of_distrib</a></code></pre></div>
+<div class="sourceCode" id="cb699"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb699-1" data-line-number="1"><span class="co"># sample sd</span></a>
+<a class="sourceLine" id="cb699-2" data-line-number="2">sd_of_distrib &lt;-<span class="st"> </span>sampling_distrib_of_mean <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb699-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(avg) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb699-4" data-line-number="4"><span class="st">  </span><span class="kw">sd</span>()</a>
+<a class="sourceLine" id="cb699-5" data-line-number="5">sd_of_distrib</a></code></pre></div>
 <pre><code>## [1] 0.297133</code></pre>
-<div class="sourceCode" id="cb699"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb699-1" title="1"><span class="co"># Plot the histogram of the sampling distribution and the fitted normal curve</span></a>
-<a class="sourceLine" id="cb699-2" title="2"><span class="kw">ggplot</span>(sampling_distrib_of_mean) <span class="op">+</span></a>
-<a class="sourceLine" id="cb699-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> avg, <span class="dt">y =</span> <span class="kw">stat</span>(density)), <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb699-4" title="4"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, </a>
-<a class="sourceLine" id="cb699-5" title="5">                <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">mean =</span> mean_of_distrib, <span class="dt">sd =</span> sd_of_distrib), </a>
-<a class="sourceLine" id="cb699-6" title="6">                <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb699-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-443-1.png" width="672" /></p>
+<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb701-1" data-line-number="1"><span class="co"># Plot the histogram of the sampling distribution and the fitted normal curve</span></a>
+<a class="sourceLine" id="cb701-2" data-line-number="2"><span class="kw">ggplot</span>(sampling_distrib_of_mean) <span class="op">+</span></a>
+<a class="sourceLine" id="cb701-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> avg, <span class="dt">y =</span> <span class="kw">stat</span>(density)), <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb701-4" data-line-number="4"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, </a>
+<a class="sourceLine" id="cb701-5" data-line-number="5">                <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">mean =</span> mean_of_distrib, <span class="dt">sd =</span> sd_of_distrib), </a>
+<a class="sourceLine" id="cb701-6" data-line-number="6">                <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb701-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-444-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -968,15 +1017,15 @@ Figure 15.6: Sampling distribution of the mean.
 ► Solution<span id="sol-start-59" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-59&#39;, &#39;sol-start-59&#39;)"></span>
 </p>
 <div id="sol-body-59" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb700"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb700-1" title="1">mu &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb700-2" title="2"><span class="st">  </span><span class="kw">pull</span>(YearlySalary) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb700-3" title="3"><span class="st">  </span><span class="kw">mean</span>()</a>
-<a class="sourceLine" id="cb700-4" title="4">mu</a></code></pre></div>
+<div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb702-1" data-line-number="1">mu &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb702-2" data-line-number="2"><span class="st">  </span><span class="kw">pull</span>(YearlySalary) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb702-3" data-line-number="3"><span class="st">  </span><span class="kw">mean</span>()</a>
+<a class="sourceLine" id="cb702-4" data-line-number="4">mu</a></code></pre></div>
 <pre><code>## [1] 2.238363</code></pre>
-<div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb702-1" title="1">sigma &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb702-2" title="2"><span class="st">  </span><span class="kw">pull</span>(YearlySalary) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb702-3" title="3"><span class="st">  </span><span class="kw">sd</span>()</a>
-<a class="sourceLine" id="cb702-4" title="4">sigma</a></code></pre></div>
+<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb704-1" data-line-number="1">sigma &lt;-<span class="st"> </span>nfl <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb704-2" data-line-number="2"><span class="st">  </span><span class="kw">pull</span>(YearlySalary) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb704-3" data-line-number="3"><span class="st">  </span><span class="kw">sd</span>()</a>
+<a class="sourceLine" id="cb704-4" data-line-number="4">sigma</a></code></pre></div>
 <pre><code>## [1] 3.066385</code></pre>
 <ul>
 <li>The population mean is <span class="math inline">\(\mu =\)</span> 2.24</li>
@@ -1003,10 +1052,10 @@ Figure 15.6: Sampling distribution of the mean.
 ► Solution<span id="sol-start-60" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-60&#39;, &#39;sol-start-60&#39;)"></span>
 </p>
 <div id="sol-body-60" class="solution-body" style="display: none;">
-<p>We have already calculated them to find the centre and spread of the normal curve</p>
-<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb704-1" title="1">mean_of_distrib</a></code></pre></div>
+<p>We have already calculated them to find the centre and spread of the normal curve:</p>
+<div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb706-1" data-line-number="1">mean_of_distrib</a></code></pre></div>
 <pre><code>## [1] 2.240886</code></pre>
-<div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb706-1" title="1">sd_of_distrib</a></code></pre></div>
+<div class="sourceCode" id="cb708"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb708-1" data-line-number="1">sd_of_distrib</a></code></pre></div>
 <pre><code>## [1] 0.297133</code></pre>
 <ul>
 <li>the distribution of sample means has mean 2.24</li>
@@ -1033,7 +1082,7 @@ Figure 15.6: Sampling distribution of the mean.
 ► Solution<span id="sol-start-61" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-61&#39;, &#39;sol-start-61&#39;)"></span>
 </p>
 <div id="sol-body-61" class="solution-body" style="display: none;">
-<p>The distribution of sample means is centred at the population mean. In other words, the average of the sampling distribution of the mean is equal to the population mean.</p>
+<p>The sampling distribution of the mean is centred at the population mean, <span class="math inline">\(\mu =\)</span> 2.24. In other words, the average of the sampling distribution of the mean is equal to the population mean.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1044,7 +1093,7 @@ Figure 15.6: Sampling distribution of the mean.
 ► Question 7
 </p>
 <div class="question-body">
-<p>Do you notice any relation between the population standard deviation and the standard deviation of the sampling distribution of the mean?</p>
+<p>Do you notice any relation between the population standard deviation and the standard error of the mean?</p>
 <p><em><strong>Hint.</strong> If the population standard deviation is <span class="math inline">\(\sigma\)</span>, the sampling distribution of the mean should have standard deviation <span class="math inline">\(\frac{\sigma}{\sqrt{n}}\)</span>, where <span class="math inline">\(n\)</span> is the sample size.</em></p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1056,11 +1105,16 @@ Figure 15.6: Sampling distribution of the mean.
 ► Solution<span id="sol-start-62" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-62&#39;, &#39;sol-start-62&#39;)"></span>
 </p>
 <div id="sol-body-62" class="solution-body" style="display: none;">
-<p>Assume that the population has mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>.</p>
-<p>It is possible to prove that the distribution of the mean, computed on samples of size <span class="math inline">\(n\)</span>, is centre at the population mean, <span class="math inline">\(\mu\)</span> and has standard error <span class="math display">\[SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}\]</span>.</p>
-<div class="sourceCode" id="cb708"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb708-1" title="1">sd_of_distrib</a></code></pre></div>
+<ul>
+<li>Population standard deviation: <span class="math inline">\(\sigma =\)</span> 3.07</li>
+<li>Standard error of the mean: <span class="math inline">\(SE(\bar{x}) =\)</span> 0.3</li>
+</ul>
+<p>It looks like the SE of the mean is the population standard deviation divided by 10. However, recall that the sample size was 100, so <span class="math inline">\(10 = \sqrt{100}\)</span>.</p>
+<p>In general, assume that the population has mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>.</p>
+<p>It is possible to prove that the distribution of the mean, computed on samples of size <span class="math inline">\(n\)</span>, has mean equal to the population mean, <span class="math inline">\(\mu\)</span>, and standard error <span class="math display">\[SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}\]</span>.</p>
+<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb710-1" data-line-number="1">sd_of_distrib</a></code></pre></div>
 <pre><code>## [1] 0.297133</code></pre>
-<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb710-1" title="1">sigma <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb712-1" data-line-number="1">sigma <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">100</span>)</a></code></pre></div>
 <pre><code>## [1] 0.3066385</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1140,19 +1194,21 @@ Figure 15.6: Sampling distribution of the mean.
 ► Solution<span id="sol-start-64" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-64&#39;, &#39;sol-start-64&#39;)"></span>
 </p>
 <div id="sol-body-64" class="solution-body" style="display: none;">
-<p>First we need to create a grid of days for the plot.
-Remember the fact that 99.7% of all values lie between the mean plus or minus 3 standard deviations. For safety we will use 4 times the standard deviation/</p>
-<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb712-1" title="1">mu &lt;-<span class="st"> </span><span class="dv">266</span></a>
-<a class="sourceLine" id="cb712-2" title="2">sigma &lt;-<span class="st"> </span><span class="dv">16</span></a>
-<a class="sourceLine" id="cb712-3" title="3"></a>
-<a class="sourceLine" id="cb712-4" title="4">x &lt;-<span class="st"> </span><span class="kw">seq</span>(mu <span class="op">-</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>sigma, mu <span class="op">+</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>sigma, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb712-5" title="5">y &lt;-<span class="st"> </span><span class="kw">dnorm</span>(x, mu, sigma)</a>
-<a class="sourceLine" id="cb712-6" title="6">df &lt;-<span class="st"> </span><span class="kw">tibble</span>(x, y)</a>
-<a class="sourceLine" id="cb712-7" title="7"></a>
-<a class="sourceLine" id="cb712-8" title="8"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb712-9" title="9"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb712-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;length of pregnancy (in days)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;normal density&#39;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-447-1.png" width="672" /></p>
+<p>First we need to create a grid of days for the plot.</p>
+<p>Remember from <a href="bootstrapping-and-confidence-intervals.html#calculating-confidence-intervals-using-a-bootstrap-standard-error">Week 12</a> that 99.7% of all values lie between the mean plus or minus 3 standard deviations.</p>
+<p>To capture all of the values, we will use 4 times the standard deviation:</p>
+<div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb714-1" data-line-number="1">mu &lt;-<span class="st"> </span><span class="dv">266</span></a>
+<a class="sourceLine" id="cb714-2" data-line-number="2">sigma &lt;-<span class="st"> </span><span class="dv">16</span></a>
+<a class="sourceLine" id="cb714-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb714-4" data-line-number="4">df &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb714-5" data-line-number="5">  <span class="dt">x =</span> <span class="kw">seq</span>(mu <span class="op">-</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>sigma, mu <span class="op">+</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>sigma, <span class="dt">by =</span> <span class="fl">0.1</span>),</a>
+<a class="sourceLine" id="cb714-6" data-line-number="6">  <span class="dt">y =</span> <span class="kw">dnorm</span>(x, mu, sigma)</a>
+<a class="sourceLine" id="cb714-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb714-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb714-9" data-line-number="9"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb714-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb714-11" data-line-number="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;length of pregnancy (in days)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;normal density&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-448-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1175,7 +1231,7 @@ Remember the fact that 99.7% of all values lie between the mean plus or minus 3 
 </p>
 <div id="sol-body-65" class="solution-body" style="display: none;">
 <p>Careful, you must use the distribution of the length of pregnancy to answer this question, not the distribution of the sample mean.</p>
-<div class="sourceCode" id="cb713"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb713-1" title="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="dv">280</span>, <span class="dt">mean =</span> mu, <span class="dt">sd =</span> sigma)</a></code></pre></div>
+<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb715-1" data-line-number="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="dv">280</span>, <span class="dt">mean =</span> mu, <span class="dt">sd =</span> sigma)</a></code></pre></div>
 <pre><code>## [1] 0.190787</code></pre>
 <p>The proportion of the population with length of pregnancy greater than 280 days is 19%.
 Another way to say this is, the probability that a randomly selected person from the population will have a length of pregnancy greater than 280 days is 0.19.</p>
@@ -1200,7 +1256,7 @@ Another way to say this is, the probability that a randomly selected person from
 ► Solution<span id="sol-start-66" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-66&#39;, &#39;sol-start-66&#39;)"></span>
 </p>
 <div id="sol-body-66" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb715-1" title="1"><span class="kw">pnorm</span>(<span class="dv">260</span>, <span class="dt">mean =</span> mu, <span class="dt">sd =</span> sigma) <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="dv">230</span>, <span class="dt">mean =</span> mu, <span class="dt">sd =</span> sigma)</a></code></pre></div>
+<div class="sourceCode" id="cb717"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb717-1" data-line-number="1"><span class="kw">pnorm</span>(<span class="dv">260</span>, <span class="dt">mean =</span> mu, <span class="dt">sd =</span> sigma) <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="dv">230</span>, <span class="dt">mean =</span> mu, <span class="dt">sd =</span> sigma)</a></code></pre></div>
 <pre><code>## [1] 0.3416058</code></pre>
 <p>The proportion of the population with length of pregnancy between 230 and 260 days is 34%.
 Another way to say this is, the probability that a randomly selected person from the population will have a length of pregnancy between 230 and 260 days is 0.19.</p>
@@ -1230,23 +1286,23 @@ Another way to say this is, the probability that a randomly selected person from
 ► Solution<span id="sol-start-67" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-67&#39;, &#39;sol-start-67&#39;)"></span>
 </p>
 <div id="sol-body-67" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb717"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb717-1" title="1">n &lt;-<span class="st"> </span><span class="dv">50</span></a>
-<a class="sourceLine" id="cb717-2" title="2">SE &lt;-<span class="st"> </span>sigma <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n)</a>
-<a class="sourceLine" id="cb717-3" title="3">SE</a></code></pre></div>
+<div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb719-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb719-2" data-line-number="2">SE &lt;-<span class="st"> </span>sigma <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n)</a>
+<a class="sourceLine" id="cb719-3" data-line-number="3">SE</a></code></pre></div>
 <pre><code>## [1] 2.262742</code></pre>
 <ol style="list-style-type: decimal">
 <li>the sampling distribution is centred at the population mean, <span class="math inline">\(\mu = 266\)</span>;</li>
 <li>the standard error of the mean is <span class="math inline">\(SE(\bar{x}) = \frac{\sigma}{\sqrt{n}} = \frac{16}{\sqrt{50}} = 2.26\)</span>.</li>
 </ol>
 <p>Let’s plot the sampling distribution of the mean:</p>
-<div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb719-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(mu <span class="op">-</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>SE, mu <span class="op">+</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>SE, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb719-2" title="2">y &lt;-<span class="st"> </span><span class="kw">dnorm</span>(x, mu, SE)</a>
-<a class="sourceLine" id="cb719-3" title="3">df &lt;-<span class="st"> </span><span class="kw">tibble</span>(x, y)</a>
-<a class="sourceLine" id="cb719-4" title="4"></a>
-<a class="sourceLine" id="cb719-5" title="5"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb719-6" title="6"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb719-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)), <span class="dt">y =</span> <span class="st">&#39;normal density&#39;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-451-1.png" width="672" /></p>
+<div class="sourceCode" id="cb721"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb721-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(mu <span class="op">-</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>SE, mu <span class="op">+</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>SE, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb721-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">dnorm</span>(x, mu, SE)</a>
+<a class="sourceLine" id="cb721-3" data-line-number="3">df &lt;-<span class="st"> </span><span class="kw">tibble</span>(x, y)</a>
+<a class="sourceLine" id="cb721-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb721-5" data-line-number="5"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb721-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb721-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expr</span>(<span class="kw">bar</span>(x)), <span class="dt">y =</span> <span class="st">&#39;normal density&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-452-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>

@@ -209,6 +209,12 @@ By varying both the mean and the standard deviation we can model any symmetric a
 `r msmbstyle::solution_end()`
 
 
+<div class="def">
+#### Notation {-}
+
+We will write that a random variable $X$ follows a normal distribution with mean $\mu$ and standard deviation $\sigma$ as: 
+$$X \sim N(\mu, \sigma)$$
+</div>
 
 
 ### The relation between area and probability {#sec-area-and-prob}
@@ -384,7 +390,7 @@ However, on the y-axis, instead of the absolute counts of the values we ask for 
 This makes it easier to compare across samples of different sizes, as the range of the y-axis won't change with the sample size.
 
 We plot the density by specifying `y = stat(density)` in the `aes()` function:
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, out.width='70%', fig.align='center'}
 ggplot(cognitive, aes(x = CognitiveScore, y = stat(density))) +
   geom_histogram(color = 'white')
 ```
@@ -396,7 +402,7 @@ We must specify:
 - where the normal curve should be centred at. This should be the centre of the histogram/data;
 - how spread or narrow should the normal curve be. This should be the spread of the histogram, i.e. the standard deviation of the data.
 
-Centre:
+__Centre:__
 ```{r}
 sample_mean <- cognitive %>%
   pull(CognitiveScore) %>%
@@ -405,7 +411,7 @@ sample_mean <- cognitive %>%
 sample_mean
 ```
 
-Spread:
+__Spread:__
 ```{r}
 sample_sd <- cognitive %>%
   pull(CognitiveScore) %>%
@@ -459,19 +465,21 @@ ggplot(cognitive, aes(x = CognitiveScore)) +
 
 ---
 
-We compute areas for normal curves using the function `pnorm(x, mean, sd)`. This function computes the area to the left of `x` in a normal curve centred at `mean` and having standard deviation `sd`.
+We compute areas for normal curves using the function `pnorm(x, mean, sd)`. 
 
-**Area to the left of a value $x$**
+This function computes the area to the left of `x` in a normal curve centred at `mean` and having standard deviation `sd`.
+
+**1. Area to the left of a value $x$**
 ```{r, echo=FALSE, out.width='80%', fig.align='center'}
 knitr::include_graphics('images/pnorm_left.png')
 ```
 
-**Area between the values $x_l$ and $x_u$**
+**2. Area between the values $x_l$ and $x_u$**
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics('images/pnorm_interval.png')
 ```
 
-**Area to the right of $x$**
+**3. Area to the right of $x$**
 ```{r, echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics('images/pnorm_right.png')
 ```
@@ -511,12 +519,12 @@ To summarise, the calculation of probabilities for normally distributed random v
 
 ### Z-scores
 
-Instead of always specifying the mean and the standard deviation of the normal curve, we can work with a **standard normal distribution**. 
+Instead of always specifying the mean and the standard deviation of the normal curve, we can work with a reference normal curve that has mean = 0 and sd = 1. This is known as the **standard normal distribution**. 
 
 <div class="def">
 #### Standard normal distribution {-}
 
-A standard normal distribution, denoted $N(0, 1)$, is simply a normal distribution with mean = 0 and sd = 1.
+A standard normal distribution, denoted $N(0, 1)$, is a normal distribution with mean = 0 and sd = 1.
 </div>
 
 The functions `dnorm` and `pnorm` assume that the mean = 0 and the sd = 1 if not provided, i.e. they assume a standard normal distribution by default.
@@ -540,34 +548,38 @@ As you can see, this is exactly the same value we found before with the shifted 
 
 ## Summary
 
-Today we saw that when a histogram shows that a variable's distribution is symmetric and bell-shaped, we can say that the variable is normally distributed and we can model the distribution with a mathematical curve called the normal probability distribution.
+When a histogram shows that a variable's distribution is symmetric and bell-shaped, we can say that the variable is normally distributed and we can model the distribution with a mathematical curve called the normal probability distribution.
 
 We saw that the normal distribution depends on two parameters, that control the centre and spread of the normal curve:
 
-- the mean
-- the standard deviation
+- the mean,
+- and the standard deviation.
 
 These two parameters let the normal curve model histograms that have different centres and different spreads.
 
-The normal curve is given by the function `dnorm(x, mean, sd)`.
+In R, the equation of the normal density curve is given by the function `dnorm(x, mean, sd)`.
 
-We can use the normal curve to compute probabilities. The function to compute the area to the left of `x` under a normal curve is `pnorm(x, mean, sd)`.
+We can use the normal curve to compute the probability of intervals as the area under the curve in that interval.
 
+The function to compute the area under a normal curve to the left of `x` is `pnorm(x, mean, sd)`.
 
-1. Probability of observing a value less than or equal `x`: `pnorm(x, mean, sd)`
-2. Probability of observing a value between `xl` and `xu`: `pnorm(xu, mean, sd) - pnorm(xl, mean, sd)`
-3. Probability of observing a value greater than `xu`: `1 - pnorm(xu, mean, sd)`
+| Probability | R command |
+|:------------|:----------|
+| Probability of observing a value less than or equal `x` | `pnorm(x, mean, sd)` |
+| Probability of observing a value between `xl` and `xu`  | `pnorm(xu, mean, sd) - pnorm(xl, mean, sd)` |
+| Probability of observing a value greater than `xu`      | `1 - pnorm(xu, mean, sd)` |
 
 
 
 ## Lab
 
 
-In today's lab we will fit a normal curve to the sampling distribution of the mean from the [NFL example](#sec-sampling-distributions) we saw in Week 11.
+In today's lab we will fit a normal curve to the sampling distribution of the mean using the [NFL example](#sec-sampling-distributions) introduced in Week 11.
 
 Consider again the dataset with the yearly salaries of National Football League (NFL) players. We are interested in the average yearly salary of a NFL player.
 
-We have data on 2,099 players, including their name, position, team they played for, total money while on a NFL payroll and the yearly salary.
+We have data on 2,099 players: their name, position, team they played for, total money while on a NFL payroll, and yearly salary.
+
 Since we are only interested in the yearly salary we can select the relevant columns:
 
 ```{r, message=FALSE, warning=FALSE}
@@ -594,6 +606,7 @@ nfl <- nfl %>%
 Compute the sampling distribution of the mean using 10,000 samples of 100 players each.
 
 Display the sampling distribution using a density histogram.
+
 _**Hint**. Remember to use `y = stat(density)` inside the function `aes()`._
 `r msmbstyle::question_end()`
 
@@ -620,12 +633,12 @@ Does the sampling distribution of the mean for samples of size 100 follow a norm
 
 
 `r msmbstyle::solution_begin()`
-The distribution of the sample means seems to be symmetric and bell-shaped, hence it is approximately normally distributed.
+The distribution of sample means seems to be symmetric and bell-shaped, hence the sample mean is a normally distributed random variable.
 `r msmbstyle::solution_end()`
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 3")`
-Find the normal distribution that models the sampling distribution of the mean for samples of size $n = 100$.
+Find the normal probability density function that models the sampling distribution of the mean for samples of size $n = 100$.
 
 Plot the normal curve in red on top of the histogram.
 `r msmbstyle::question_end()`
@@ -634,8 +647,8 @@ Plot the normal curve in red on top of the histogram.
 `r msmbstyle::solution_begin()`
 The required steps are:
 
-1. Compute the mean of the sample, which is used to specify where the normal curve should be centred at
-1. Compute the standard deviation of the sample, which is used to specify the spread of the normal curve
+1. Compute the mean of the sample means, which is used to specify where the normal curve should be centred at;
+1. Compute the standard deviation of the sample means, which is used to specify the spread of the normal curve.
 
 ```{r, message=FALSE, warning=FALSE}
 # sample mean
@@ -688,16 +701,16 @@ What are the mean and the standard deviation of the sampling distribution of the
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
-We have already calculated them to find the centre and spread of the normal curve
+We have already calculated them to find the centre and spread of the normal curve:
 ```{r}
 mean_of_distrib
 sd_of_distrib
 ```
 
-
 - the distribution of sample means has mean `r mean_of_distrib %>% round(2)` 
 - the distribution of sample means has standard deviation `r sd_of_distrib %>% round(2)`.
 `r msmbstyle::solution_end()`
+
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
@@ -705,20 +718,25 @@ What is the relation between the population mean and the mean of the sampling di
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
-The distribution of sample means is centred at the population mean. In other words, the average of the sampling distribution of the mean is equal to the population mean.
+The sampling distribution of the mean is centred at the population mean, $\mu =$ `r mu %>% round(2)`. In other words, the average of the sampling distribution of the mean is equal to the population mean.
 `r msmbstyle::solution_end()`
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 7")`
-Do you notice any relation between the population standard deviation and the standard deviation of the sampling distribution of the mean?
+Do you notice any relation between the population standard deviation and the standard error of the mean?
 
 _**Hint.** If the population standard deviation is $\sigma$, the sampling distribution of the mean should have standard deviation $\frac{\sigma}{\sqrt{n}}$, where $n$ is the sample size._
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin()`
-Assume that the population has mean $\mu$ and standard deviation $\sigma$.
+- Population standard deviation: $\sigma =$ `r sigma %>% round(2)`
+- Standard error of the mean: $SE(\bar{x}) =$ `r sd_of_distrib %>% round(2)`
 
-It is possible to prove that the distribution of the mean, computed on samples of size $n$, is centre at the population mean, $\mu$ and has standard error $$SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$$.
+It looks like the SE of the mean is the population standard deviation divided by 10. However, recall that the sample size was 100, so $10 = \sqrt{100}$.
+
+In general, assume that the population has mean $\mu$ and standard deviation $\sigma$.
+
+It is possible to prove that the distribution of the mean, computed on samples of size $n$, has mean equal to the population mean, $\mu$, and standard error $$SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$$.
 
 ```{r}
 sd_of_distrib
@@ -767,15 +785,19 @@ Plot the distribution of the length of human pregnancies.
 
 `r msmbstyle::solution_begin()`
 First we need to create a grid of days for the plot.
-Remember the fact that 99.7% of all values lie between the mean plus or minus 3 standard deviations. For safety we will use 4 times the standard deviation/
+
+Remember from [Week 12](#calculating-confidence-intervals-using-a-bootstrap-standard-error) that 99.7% of all values lie between the mean plus or minus 3 standard deviations. 
+
+To capture all of the values, we will use 4 times the standard deviation:
 
 ```{r}
 mu <- 266
 sigma <- 16
 
-x <- seq(mu - 4 * sigma, mu + 4 * sigma, by = 0.1)
-y <- dnorm(x, mu, sigma)
-df <- tibble(x, y)
+df <- tibble(
+  x = seq(mu - 4 * sigma, mu + 4 * sigma, by = 0.1),
+  y = dnorm(x, mu, sigma)
+)
 
 ggplot(df, aes(x = x, y = y)) +
   geom_line(color = 'red', size = 2) +
