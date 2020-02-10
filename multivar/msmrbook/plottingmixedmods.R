@@ -10,6 +10,29 @@ mod2<-lmer(outcome~x1+(1|subject),data=dat)
 mod2pooled<-lm(outcome~x1+subject,data=dat)
 mod3<-lmer(outcome~x1+(1+x1|subject),data=dat)
 
+
+
+subsannotate<-function(mod){
+  if(class(mod)=="lm"){
+    x<-enframe(coef(mod1)) %>% pivot_wider %>%
+      mutate(
+        label1 = paste0("Intercept: ", round(`(Intercept)`,2),
+                        "\nSlope: ",round(x1, 2))
+      )
+  } else {
+    x<-coef(mod)$subject
+    x %>% mutate(
+      subject = row.names(x),
+      label1 = paste0("Intercept: ", round(`(Intercept)`,2),
+                      "\nSlope: ",round(x1, 2)),
+    ) -> x
+  }
+  geom_text(data=x,aes(label=label1), x=90,y=600, hjust=1,size=3)
+}
+
+
+
+
 plot_data<-
   ggplot(dat, aes(x=x1,y=outcome))+
   geom_point(alpha=0.5,col="tomato1")+
@@ -51,6 +74,7 @@ plot_lm_fac <-
                               "lmer(y~x+(1|subject))"="#00CD66",
                               "lm(y~x+subject)"="#B000CF",
                               "lmer(y~x+(1+x|subject))"="#008B45"))+
+  subsannotate(mod1)+
   NULL
 
 plot_ri_fac <-
@@ -68,6 +92,7 @@ plot_ri_fac <-
                               "lmer(y~x+(1|subject))"="#00CD66",
                               "lm(y~x+subject)"="#B000CF",
                               "lmer(y~x+(1+x|subject))"="#008B45"))+
+  subsannotate(mod2)+
   NULL
 
 plot_rs_fac <-
@@ -85,27 +110,8 @@ plot_rs_fac <-
                               "lmer(y~x+(1|subject))"="#00CD66",
                               "lm(y~x+subject)"="#B000CF",
                               "lmer(y~x+(1+x|subject))"="#008B45"))+
+  subsannotate(mod3)+
   NULL
-
-
-plot_lmvsri <-
-  ggplot(dat, aes(x=x1,y=outcome))+
-  facet_wrap(~subject)+
-  geom_point(alpha=0.5,col="tomato1")+
-  theme_classic()+
-  theme(plot.title = element_text(hjust = 0.5),legend.position = "bottom")+
-  scale_y_continuous(breaks=NULL)+scale_x_continuous(breaks=NULL)+
-  labs(title="- The simple regression model - ", y="y", x="x")+
-  geom_line(aes(y=fitted(mod1),col="lm(y~x)"),lwd=1)+
-  geom_line(aes(y=fitted(mod2),col="lmer(y~x+(1|subject))"),lwd=1)+
-  scale_color_manual(NULL, breaks = c("lm(y~x)","lmer(y~x+(1|subject))",
-                                      "lm(y~x+subject)","lmer(y~x+(1+x|subject))"),
-                     values=c("lm(y~x)"="#1C86EE",
-                              "lmer(y~x+(1|subject))"="#00CD66",
-                              "lm(y~x+subject)"="#B000CF",
-                              "lmer(y~x+(1+x|subject))"="#008B45"))+
-  NULL
-
 
 
 plot_shrinkage <-
