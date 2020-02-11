@@ -20,9 +20,9 @@ library(effects)
 
 ### Lecture Slides {-}  
 
-+ Coming soon  
++ Lecture slides are available [here](https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/Lecture05_IndivDiffs.html)  
 
-## A broad overview {-} 
+## Mixed model recap {-} 
 
 In a simple linear regression, there is only considered to be one source of random variability: any variability left unexplained by a set of predictors (which are modelled as fixed estimates) is captured in the model residuals.  
 <br>
@@ -33,7 +33,7 @@ We can account for this variability by allowing the outcome to be lower/higher f
 The first part of this lab will guide you through a walkthrough of these concepts, before you tackle some exercises.  
 
 
-## Simple regression
+### Simple regression {-}
 
 <div class="noteBox">
 **Formula:**  
@@ -53,7 +53,7 @@ plot_data + plot_lm
 
 
 
-## Clustered (multi-level) data structures 
+### Clustered (multi-level) data structures {-}
 
 When our data is clustered (or 'grouped') such that datapoints are no longer independent, but belong to some grouping such as that of multiple observations from the same subject, we have multiple sources of random variability. A simple regression does not capture this.  
 
@@ -63,7 +63,7 @@ If we separate out our data to show an individual plot for each subject, we can 
 plot_lm_fac
 ```
 
-## Random intercept models  
+### Random intercept models {-} 
 
 By including a random-intercept term, we are letting our model estimate random variability around an average parameter (represented by the fixed effects) for the clusters.
 
@@ -97,7 +97,7 @@ plot_lm_fac + plot_ri_fac
 
 <div class="lo">
 
-### Shrinkage {-}  
+#### Shrinkage {-}  
 
 If you think about it, we might have done a similar thing with the tools we already had at our disposal, by using `lm(y~x+subject)`.  
 This would give us a coefficient for the difference between each subject and the reference level intercept.  
@@ -112,7 +112,7 @@ plot_shrinkage
 
 </div>
 
-## Random slopes  
+### Random slopes {-} 
 
 
 <div class="noteBox">
@@ -126,7 +126,7 @@ Level 2:
 + $\beta_{0j} = \gamma_{00} + u_{0j}$  
 + $\beta_{1j} = \gamma_{10} + u_{1j}$  
 
-Where the expected values of $u_0$, $u_1$, and $\epsilon$ are 0, and their variances are $\sigma_{u_0}^2)$, $\sigma_{u_1}^2)$, $\sigma_\epsilon^2)$ respectively. We will further assume that these are normally distributed.
+Where the expected values of $u_0$, $u_1$, and $\epsilon$ are 0, and their variances are $\sigma_{u_0}^2$, $\sigma_{u_1}^2$, $\sigma_\epsilon^2$ respectively. We will further assume that these are normally distributed.
 
 As with the intercept $\beta_0$, the slope of the predictor $\beta_1$ is now modelled by a mean and a random effect for each group ($u_{1j}$). 
 
@@ -143,7 +143,7 @@ plot_ri_fac + plot_rs_fac
 ```
 
 
-## Fixef, Ranef, Coef
+### Fixef(), Ranef, and Coef {-}
 
 The plots below show the fitted values from each model for each subject: 
 
@@ -170,7 +170,6 @@ knitr::include_graphics("images/varcors.PNG")
 ```
   
 In the random-slope model (right panel), the same is true for the differences from each subjects' slope to the fixed slope. 
-
 
 
 `r msmbstyle::solution_begin(header = "&#x25BA; Fixed effects", hidden=FALSE)`
@@ -204,19 +203,38 @@ randoms <- ranef(random_intercept_model, condVar=TRUE)
 
 dotplot.ranef.mer(randoms)
 ```
-<!-- Sometimes, however, we might want to have a bit more control over our plotting, and we can extract the estimates and correlations for each subject using the `condVar=TRUE`: -->
+
+<!-- Sometimes, however, we might want to have a bit more control over our plotting, we can extract the estimates and correlations for each subject using the `condVar=TRUE`: --> -->
 <!-- ```{r} -->
-<!-- randoms <- ranef(random_slopes_model, condVar=TRUE) -->
+<!-- #we can get the random effects: -->
+<!-- #(note that we use $subject because there might be other groupings, and the ranef() function will give us a list, with one element for each grouping variable) -->
+<!-- randoms <-  -->
+<!--   ranef(random_slopes_model)$subject %>% -->
+<!--   mutate(subject = row.names(randoms)) %>%  # the subject IDs are stored in the rownames, so lets add them as a variable -->
+<!--   pivot_longer(cols=1:2, names_to="term",values_to="estimate") # finally, let's reshape it for plotting -->
 
-<!-- standard_errors = attr(randoms$subject,"postVar") -->
+<!-- #and the same for the standard errors (from the arm package): -->
+<!-- randoms_se <-  -->
+<!--   se.ranef(random_slopes_model)$subject %>% -->
+<!--   enframe %>% -->
+<!--   mutate(subject = row.names(randoms_se)) %>% -->
+<!--   pivot_longer(cols=1:2, names_to="term",values_to="se") -->
 
-<!-- standard_errors -->
+<!-- # join them together: -->
+<!-- left_join(randoms, randoms_se) -->
+
+
+
+
+<!-- # it's easier for plotting if we  -->
+
+<!-- ggplot(ranefs_plotting, aes(y=)) -->
+
 <!-- ``` -->
 `r msmbstyle::solution_end()` 
 
 
-
-## More levels: Nested and Crossed random-effects  
+### More levels: Nested and Crossed random-effects {-}  
 
 The same principle we have seen for one level of clustering can be extended to clustering at different levels (for instance, observations are clustered within subjects, which are in turn clustered within groups). 
 
@@ -267,14 +285,14 @@ In R, we can specify this using:
 `r msmbstyle::solution_end()` 
 
 <div class="red">
-#### Definitions {-}  
+#### Nested vs Crossed {-}  
 *Nested:* Each group belongs uniquely to a higher-level group.   
 
 *Crossed:* Not-nested. 
 </div>
 
 
-Note that in the schools and classes example, had we changed data such that the classes had unique IDs (e.g., see below), then the structures `(1 | scool) + (1 | class)` and `(1 | school/class)` would give the same results.  
+Note that in the schools and classes example, had we changed data such that the classes had unique IDs (e.g., see below), then the structures `(1 | school) + (1 | class)` and `(1 | school/class)` would give the same results.  
 ```{r echo=FALSE, out.width="1200px"}
 knitr::include_graphics("images/structure_nested.png")
 ```
@@ -304,14 +322,15 @@ knitr::include_graphics("images/structure_nested.png")
 <hr />
  
 
-## THE LAB (finally!)
+## THE LAB
 
 
 <div class="red">
 #### The data {-} 
 
-44 participants across 4 groups (between-subjects) were tested 5 times (waves) in 11 domains.  
-In each wave of testing, each domain received a score on a 20-point scale and a set of several questions, which could be answered correctly or incorrectly.
+44 participants across 4 groups (between-subjects) were tested 5 times (waves) in 11 domains. 
+In each wave, participants received a score (on a 20-point scale) for each domain and a set of questions which were they answered either correctly or incorrectly.  
+
 
 
 ```{r}
@@ -404,26 +423,24 @@ Yes, looks like groups A, C, and W are improving, but group B is getting worse.
 Use mixed-effects model(s) to test this.  
 <br>
 *Hint:* Fit a baseline model in which scores change over time (wave), then assess improvement in model fit due to inclusion of overall group effect and finally the interaction of group with time.  
-Note that you may want to remove correlations in random terms which are close to -1 or 1
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r}
-# maximal model doesn't converge, removed random intercept-slope corrections for Domain
 mod_wv <- lmer(Score ~ Wave + 
                    (1 + Wave | Anonymous_Subject_ID) + 
-                   (1 + Wave || Domain), 
+                   (1 + Wave | Domain), 
                  data=dat5, REML=FALSE,
                  lmerControl(optimizer = "bobyqa"))
 
 mod_wv_grp <- lmer(Score ~ Wave+Group + 
                    (1 + Wave | Anonymous_Subject_ID) + 
-                   (1 + Wave || Domain), 
+                   (1 + Wave | Domain), 
                  data=dat5, REML=FALSE,
                  lmerControl(optimizer = "bobyqa"))
 
 mod_wv_x_grp <- lmer(Score ~ Wave*Group + 
                    (1 + Wave | Anonymous_Subject_ID) + 
-                   (1 + Wave || Domain), 
+                   (1 + Wave | Domain), 
                  data=dat5, REML=FALSE,
                  lmerControl(optimizer = "bobyqa"))
 
@@ -493,6 +510,10 @@ What important things are different between the plot from question 7 and that fr
 `r msmbstyle::solution_begin(hidden=FALSE, toggle=FALSE)`
 *Group B was not actually getting worse. The appearance that it was getting worse is an artifact of selective drop-out: there's only a few people in this group and the better-performing ones only did the first few waves so they are not represented in the later waves, but the worse-performing ones are contributing to the later waves. The model estimates how the better-performing ones would have done in later waves based on their early-wave performance and the pattern of performance of other participants in the study.*  
 
+```{r echo=FALSE}
+cfs <- coef(summary(mod_wv_x_grp))
+```
+
 ```{r}
 summary(mod_wv_x_grp)$coefficients
 ```
@@ -506,12 +527,20 @@ One of the valuable things about mixed-effects (aka multilevel) modeling is that
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
 Create a plot of the subject and domain random effects. 
+Notice the pattern between the random intercept and random slope estimates for the 11 domains - what in our model is this pattern representing?  
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r}
 randoms <- ranef(mod_wv_x_grp, condVar=TRUE)
 dotplot.ranef.mer(randoms)
 ```
+
+Notice that the domains with the lower relative intercept tend to have a higher relative slope (and vice versa). This is the negative correlation between random intercepts and slopes for domain in our model: 
+```{r}
+VarCorr(mod_wv_x_grp)
+```
+
+Try removing the correlation (hint: use the `||`) to see what happens. Does it make sense that these would be correlated? (Answer: we don't really know enough about the study, but it's something to think about!)
 `r msmbstyle::solution_end()` 
 
 
