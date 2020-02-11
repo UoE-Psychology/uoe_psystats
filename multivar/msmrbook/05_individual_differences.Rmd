@@ -373,13 +373,13 @@ Use a mixed-effects model to test the difference.
   
 + Will you use a linear or logistic model?
 + What should the fixed(s) effect be? 
-+ What should the random effect(s) be? 
++ What should the random effect(s) be? We have observations clustered by subjects and by domains - are they nested?  
   
   
 *Tip:* For now, forget about the longitudinal aspect to the data.
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=FALSE)`
-We're interested in the amount to which Groups vary in their overall performance, so we want a fixed effect of Group. We also have observations clustered by subject and domain.
+We're interested in the amount to which Groups vary in their overall performance, so we want a fixed effect of Group. Subjects and Domains are not nested - each subject sees different domains, and each domain is seen by multiple subjects.  
 
 ```{r}
 # maximal model doesn't converge, removed random Group slopes for Domain
@@ -452,7 +452,7 @@ summary(mod_wv_x_grp)
 <hr />
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
-Plot the group-level data (see Question 3) and model fitted values from your final model from Question 4.  
+Plot the group-level data (see Question 3) and model fitted values for each group from your final model from Question 4.  
 <br>
 *Hint:* using `fortify(model)` or `broom::augment(model)` as your starting point will help.  
 `r msmbstyle::question_end()` 
