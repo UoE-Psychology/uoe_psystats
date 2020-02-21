@@ -36,13 +36,282 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 ## Walkthrough
 
 
-### Example 1: When you call my name...
+### Activity 1: Close friends {-}
 
-Can a waitress earn higher tips simply by giving her name when she greets her customers?
+In today's in-class activity we will use data from the General Social Survey conducted in the US in 2004.
+One of the questions asked to a random sample of adult Americans in the 2004 General Social Survey (GSS) was:
+
+> "From time to time, most people discuss important matters with other people. Looking back over the last six months --- who are the people with whom you discussed matters important to you? Just tell me their first names or initials."
+
+The interviewer was asked to record how many names were mentioned, along with the person's sex.
+
+Suppose you now want to examine whether mean and women differ with regard to the number of names they tend to mention.
+For simplicity, we will refer to the people with whom you talk about important personal matters as "close friends".
 
 
-[Garrity & Degelman (1990)](#w17-references) investigated if waitresses can increase their tips simply by introducing themselves by name when greeting customers.
-The two researchers 
+<div class="def">
+#### Key terminology {-}
+The __observational units__ are the subjects or objects on whom data are recorded.
+
+The number of observational units in the study is known as the __sample size__, and it is typically denoted by $n$.
+
+A __variable__ is any characteristic that varies from observational unit to observational unit.
+
+</div>
+
+`r msmbstyle::question_begin()`
+Identify the observational units.
+`r msmbstyle::question_end()`
+
+
+<div class="def">
+#### Categorical and quantitative variables {-}
+Variables are either categorical or quantitative:
+
+- A __categorical variable__ divides the units into groups, placing each unit into exactly one of two or more categories (e.g., a factor).
+- A __quantitative variable__ measures a numerical quantity for each case.
+Numerical operations like adding and averaging make sense only for quantitative variables.
+</div>
+
+
+<div class="def">
+#### Explanatory and response variables {-}
+
+If we are using one variable to help us understand or predict values of another variable, we call the former the __explanatory variable__ and the latter the __response variable__.
+</div>
+
+
+`r msmbstyle::question_begin()`
+Identify the variables recorded for this study.
+
+Classify each variabile either as categorical (also binary) or quantitative.
+
+Also identify each variable's role: explanatory or response.
+
+
+| Variable's name | Type             | Role             |
+|:----------------|:----------------:|:----------------:|
+| ?               | ?                | ?                |
+| ?               | ?                | ?                |
+
+
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+
+
+| Variable's name         | Type                 | Role             |
+|:------------------------|:--------------------:|:----------------:|
+| Sex                     | Categorical (binary) | Explanatory      |
+| Number of close friends | Quantitative         | Response         |
+
+_**Note**: This survey was conducted in the US in the year 2004. We are merely analysing the data that were collected in that survey as it is an interesting and extensive dataset. The fact that we are presenting this study as an in-class example is not an endorsement to the view that Gender is a binary variable. Gender, **in that specific survey**, was recorded either as Male or Female and we are merely analysing the available open-source data._
+
+`r msmbstyle::solution_end()`
+
+
+<div class="def">
+#### Observational study vs randomized experiment {-}
+
+An __observational study__ is a study in which the researcher does not actively control the value of any variable, but simply observes the values as they naturally	exist.
+
+A __randomized experiment__ is a study in which the researcher determines __at random__ the explanatory variable for each unit, before the response variable is measured.
+</div>
+
+`r msmbstyle::question_begin()`
+Did the study make use of random assignment, random sampling, both or neither?
+`r msmbstyle::question_end()`
+
+
+`r msmbstyle::question_begin()`
+Is this an observational study or an experiment? Explain why.
+`r msmbstyle::question_end()`
+
+
+`r msmbstyle::question_begin()`
+State, in words, the null and alternative hypotheses to test whether American men and women tend to differ with regard to the average number of close friends they mention.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::question_begin()`
+Define the parameters of interest in this study, and identify the appropriate symbols for them.
+`r msmbstyle::question_end()`
+
+
+`r msmbstyle::question_begin()`
+State the null and alternative hypotheses in symbols.
+`r msmbstyle::question_end()`
+
+
+`r msmbstyle::question_begin()`
+Explain why the one-sample t-test is not appropriate to answer the research question of this study.
+`r msmbstyle::question_end()`
+
+
+The survey data are stored in the file [`close_friends.txt`](https://raw.githubusercontent.com/UoE-Psychology/uoe_psystats/master/dapr1/dapr1book/data/close_friends.txt).
+
+
+`r msmbstyle::question_begin()`
+Load the data into R and inspect them. Look at the variable names, the dimensions of the tibble, and the format of the data.
+`r msmbstyle::question_end()`
+
+
+```{r}
+library(tidyverse)
+
+gss <- read_tsv('https://edin.ac/2vQrCBi', col_names = TRUE)
+
+head(gss)
+
+dim(gss)
+
+gss <- gss %>%
+  mutate(Sex = factor(Sex))
+
+head(gss)
+```
+
+
+
+<!-- <div class="def"> -->
+<!-- #### Long vs wide format {-} -->
+
+<!-- Data are in **long** format if each column represents a different variable (e.g., year, sex or assigned task) and they are in **wide** format if each column represents a different group (e.g., task 1 and task 2). -->
+<!-- </div> -->
+
+<!-- `r msmbstyle::question_begin()` -->
+<!-- Are the data in wide or long format? -->
+<!-- `r msmbstyle::question_end()` -->
+
+
+<!-- We will now convert the data from wide to long format. -->
+
+<!-- The relevant function is: -->
+<!-- ``` -->
+<!-- pivot_longer(DATA NAME,  -->
+<!--              GROUP COLUMNS,  -->
+<!--              names_to = "NAME OF COLUMN REPRESENTING GROUPS",  -->
+<!--              values_to = "NAME OF VALUES COLUMN") -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- gss_data <- pivot_longer(gss,  -->
+<!--                          1:2, -->
+<!--                          names_to = 'sex', -->
+<!--                          values_to = 'number_close_friends') -->
+<!-- head(gss_data) -->
+
+<!-- gss_data <- gss_data %>% -->
+<!--   mutate(sex = str_replace(sex, 'CloseFriendsMen', 'male'), -->
+<!--          sex = str_replace(sex, 'CloseFriendsWomen', 'female')) -->
+<!-- head(gss_data) -->
+<!-- ``` -->
+
+
+Before learning a new test procedure, start by performing an exploratory analysis of the data.
+
+`r msmbstyle::question_begin()`
+Summarise the survey by showing the counts of the number of close friends by sex.
+`r msmbstyle::question_end()`
+
+
+```{r}
+addmargins(xtabs(~ Sex + NumberCloseFriends, data = gss), margin = 2)
+```
+
+
+`r msmbstyle::question_begin()`
+Plot the distribution of the number of reported close friends for males and females.
+`r msmbstyle::question_end()`
+
+```{r}
+ggplot(gss, aes(x = NumberCloseFriends, fill = Sex)) +
+  geom_histogram(binwidth = 1, color = 'white') +
+  facet_grid(cols = vars(Sex))
+```
+
+
+`r msmbstyle::question_begin()`
+Compute descriptive summaries of the number of close friends reported for each sex.
+
+Report the sample size, sample mean, sample SD, minimum, median, interquartile range, and maximum for each sex.
+`r msmbstyle::question_end()`
+
+```{r}
+gss %>%
+  group_by(Sex) %>%
+  summarise(SampleSize = length(NumberCloseFriends), 
+            Mean = mean(NumberCloseFriends),
+            SD = sd(NumberCloseFriends),
+            Minimum = min(NumberCloseFriends),
+            Median = median(NumberCloseFriends),
+            IQR = IQR(NumberCloseFriends),
+            Maximum = max(NumberCloseFriends))
+
+ggplot(gss, aes(x = Sex, y = NumberCloseFriends, fill = Sex)) +
+  geom_boxplot()
+```
+
+
+
+`r msmbstyle::question_begin()`
+Are the computed summaries from the previous question parameters or statistics? Explain why.
+`r msmbstyle::question_end()`
+
+
+
+
+
+`r msmbstyle::question_begin()`
+Comment on any differences that you observe in the distribution of the reported number of close friends between males and females.
+`r msmbstyle::question_end()`
+
+
+
+`r msmbstyle::question_begin()`
+Do you think it could be possible to obtain sample means this far apart even if the population means were equal? Explain why.
+`r msmbstyle::question_end()`
+
+
+
+---
+
+Because of sampling variability, we can not conclude that, because the sample means differ, the means of the two populations must differ too.
+
+We must resort to a principled way to test that, and we have already learned that we use statistical hypothesis testing to test if a sample result (in our case, the observed difference in sample mean number of close friends) is significant in the sense of beingly unlikely to have occurred by chance (from random sampling) alone.
+
+__Estimating the magnitude of the difference in population means.__
+
+How can we estimate the magnitude of the difference in population means? By using a confidence interval for the difference in means!
+
+
+
+
+
+---
+
+
+### Example 2
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+
+soupdata = read_tsv("https://statweb.calpoly.edu/bchance/stat302/data/SoupBowl.txt", )
+soupdata
+
+soupdata = soupdata %>%
+  mutate(group = factor(group)) %>%
+  mutate(group = relevel(group, ref = 'secret'))
+
+soupdata$group
+
+t.test(ounces ~ group, data = soupdata, var.equal=FALSE)
+
+t.test(ounces ~ group, data = soupdata, var.equal=TRUE)
+```
+
+
+---
 
 
 ### Example 1: Does color affect creativity and cognitive tasks? {-}
@@ -112,27 +381,6 @@ Furthemore, we assume we know the standard deviation of the two populations, $\s
 
 
 </div>
-
-
----
-
-
-### Example 2: {-}
-
-
-### Case 2: Independent samples with $\sigma_1$ and $\sigma_2$ unknown and equal {-#two-indep-samples-case-2}
-
-
-
----
-
-
-
-### Example 3: {-}
-
-
-### Case 3: Independent samples with $\sigma_1$ and $\sigma_2$ unknown and not equal {-#two-indep-samples-case-3}
-
 
 
 
