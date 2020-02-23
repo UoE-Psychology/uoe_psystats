@@ -18,11 +18,13 @@ library(tidyverse)
 
 #### Learning outcomes {-}
 
-**LO1.** 
+**LO1.** Understand the t-test for one mean.
 
-**LO2.** 
+**LO2.** Understand the t distribution and the concept of degrees of freedom.
 
-#### Reading {-}
+**LO3.** Understand how to assess normality.
+
+<!-- #### Reading {-} -->
 
 
 </div>
@@ -30,18 +32,18 @@ library(tidyverse)
 
 ## Recap
 
-Over the last 5 weeks, we have started to look at how we can use samples from a population to draw infereces about a population.  
+Over the last 5 weeks, we have started to look at how we can use a sample from a population to draw infereces about the population.  
 <br>  
 Some key things which we have learned:  
 
 <div class="noteBox"> 
 #### Week 11 {-} 
 
-+ Distinction between a **population** and a **sample**.  
-+ Use of sample statistics to draw infereces about a population parameter.  
-+ **Sampling variability:** how statistics will vary from sample to sample.
-+ A **sampling distribution** of a statistic is the distribution of the values that a statistic takes for *all possible samples of the same size* from the same population.  
-+ To quantify the random sampling variability, we calculate the standard deviation of the sampling distribution. This we call the **standard error** of the statistic.  
++ Distinction between **population** and **sample**.  
++ Use of sample statistics to draw infereces about population parameters.  
++ **Sampling variability** leads a statistic to vary from sample to sample.
++ The **sampling distribution** of a statistic is the distribution of the values that a statistic takes for *all possible samples of the same size* from the same population.  
++ To quantify the accuracy of our statistic, we calculate the standard deviation of its sampling distribution. This we call the **standard error** of the statistic.
 
 </div>
 <hr />
@@ -97,33 +99,34 @@ Questions which can be answered by a one sample mean test often take the form:
 
 + Is the average weight of a dog greater than 20kg?  
 + Is the mean body temperature not equal to 37 degrees C?  
-+ On the Beck Depression Inventory (BDI), a score of >25 is considered clinical diagnosis of depression. Is the average score of people with --- significantly above this cutoff?  
++ On the Beck Depression Inventory (BDI), a score of >25 is considered clinical diagnosis of depression. Is the average score of people with --- significantly above this cutoff?  __TODO: unclear__
 
 ### Hypotheses  
 
 **Null hypothesis:**  
 
-+ The population mean ($\mu$) is equal to some pre-specified number (denoted $\mu_{H_0}$).  
-  + $H_0: \mu = \mu_{H_0}$  
++ The population mean ($\mu$) is equal to some pre-specified number (denoted $\mu_{0}$).  
+  + $H_0: \mu = \mu_{0}$  
 
 **Alternative hypothesis:** 
 
-+ The population mean ($\mu$) is not equal to/is less than/is greater than some pre-specified number (denoted $\mu_{H_0}$).  
-  + $H_1: \mu \neq \mu_{H_0}$  
-  + $H_1: \mu > \mu_{H_0}$  
-  + $H_1: \mu < \mu_{H_0}$  
++ The population mean ($\mu$) is not equal to/is less than/is greater than some pre-specified number (denoted $\mu_{0}$).  
+  + $H_1: \mu \neq \mu_{0}$  
+  + $H_1: \mu > \mu_{0}$  
+  + $H_1: \mu < \mu_{0}$  
 
 ### Formula  
 
-#### Standardized statistic ($z$)
+#### Standardized statistic $(z)$
 
-Recall that in [week 13](#chap-hyp-test), we briefly introduced the concept of a **standardized statistic**. This was a measure (typically denoted by $z$) of the number of standard deviations away from the mean of the null distribution: 
+Recall that in [Week 13](#chap-hyp-test), we introduced the concept of a **standardized statistic**, typically denoted by $z$.
+This measures how many standard deviations away from the mean of the null distribution the observed statistic is: 
 
 $$
 \textrm{standardized statistic} = z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}
 $$
 
-We also saw how, assuming the null hypothesis to be true, if we were to draw multiple random samples of the same size from the same population, and perform the same calculation of a standardized $z$-statistic for each sample, the values we would obtain would follow a normal distribution: 
+We also saw how, assuming the null hypothesis to be true, if we were to draw multiple random samples of the same size from the same population and perform the same calculation of a standardized $z$-statistic for each sample, the values we would obtain would follow a normal distribution: 
 
 _**Reminder:** The sampling distribution is the distribution of the values that a statistic takes on different samples of the same size and from the same population._  
 
@@ -150,7 +153,7 @@ ggplot(dfg, aes(x = xg, y = yg, ymin = 0, ymax = yg)) +
 ```
 
 
-When we introduced the notion of a standardized statistic in [week 13](#making-a-formal-decision), we had simulated the null sampling distribution by constructing repeated random samples and calculating the statistic for each one. This allowed us to see how these statistics would vary due to random sampling, assuming the null hypothesis to be true. 
+When we introduced the notion of a standardized statistic in [Week 13](#making-a-formal-decision), we had simulated the null sampling distribution by constructing repeated random samples and calculating the statistic for each one. This allowed us to see how these statistics would vary due to random sampling, assuming the null hypothesis to be true. 
 We could quantify this directly by calculating the standard deviation of the simulated null distribution - the standard error.  
 
 _**Reminder:** The standard deviation of the sampling distribution of a statistic (e.g. the mean) is also known as the standard error (SE) of the statistic._
@@ -160,7 +163,7 @@ When we have not simulated a sampling distribution for a statistic, we can assum
 So our formula for the standardized statistic becomes:  
 
 $$
-z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}} = \frac{\bar{x} - \mu_{H_0}}{\sigma/\sqrt{n}}
+z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}} = \frac{\bar{x} - \mu_{0}}{\sigma/\sqrt{n}}
 $$
 
 
@@ -168,10 +171,10 @@ $$
 
 In the formula for $z$ above, $\sigma$ denotes the population standard deviation. But to calculate this we need to have data on the whole population.  
   
-When the population standard deviation ($\sigma$) is *unknown*, we estimate it using the sample standard deviation ($s$).  
+When the population standard deviation ($\sigma$) is *unknown*, we estimate it using the sample standard deviation ($s$):
 
 $$ 
-t = \frac{\bar{x} - \mu_{H_0}}{s/\sqrt{n}}
+t = \frac{\bar{x} - \mu_{0}}{s/\sqrt{n}}
 $$
 
 Note that when we use the sample standard deviation $s$ in this formula, the standardized statistic we calculate gets denoted as $t$, rather than $z$.   
@@ -243,7 +246,7 @@ Looking at the plot above, for a $t$-distribution with degrees of freedom of 5 (
 pt(-2, df = 5)
 ```
 
-From this, we can say that assuming the null hypothesis to be true, the probability of obtaining a $t$-statistic with 5 degrees of freedom of $\leq -2$ is `r round(pt(-2,5),4)`.  
+From this, we can say that assuming the null hypothesis to be true, the probability of obtaining a $t$-statistic with 5 degrees of freedom of $\leq -2$ is `r round(pt(-2,5),4)`.
 `r msmbstyle::solution_end()`
 
 We can also find the critical values of a $t$-distribution using the function `qt(p, df)`. This will return the values of $t$ for which $p$% of the distribution lies to the left.  
@@ -258,14 +261,14 @@ At what value**s** of $t$ do 5% of the $t$-distribution with 5 degrees of freedo
 qt(.05, df = 5)
 ```
 
-If we perform a one-tailed test of $\mu < \mu_{H_0}$ on a sample of 6, we will reject the null hypothesis ($\mu = \mu_{H_0}$) if our corresponding $t$-statistic is $\leq -2.015$.  
+If we perform a one-tailed test of $\mu < \mu_{0}$ on a sample of 6, we will reject the null hypothesis ($\mu = \mu_{0}$) if our corresponding $t$-statistic is $\leq -2.015$.  
 
 ```{r}
 qt(.025, df = 5)
 qt(.975, df = 5) 
 # remember that the t-distribution is symmetric and centered on 0! 
 ```
-If we perform a *two*-tailed test of $\mu \neq \mu_{H_0}$ on a sample of 6, we will reject the null hypothesis ($\mu = \mu_{H_0}$) if the **absolute magnitude** of our corresponding $t$-statistic is $\geq 2.571$.  
+If we perform a *two*-tailed test of $\mu \neq \mu_{0}$ on a sample of 6, we will reject the null hypothesis ($\mu = \mu_{0}$) if the **absolute magnitude** of our corresponding $t$-statistic is $\geq 2.571$.  
 
 `r msmbstyle::solution_end()`
 
@@ -323,6 +326,9 @@ spotify_songs %>%
 ```
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
+
+__TODO: isn't clear - requires students to clearly see that the sample is already from the rock category. Perhaps add a note?__
+
 B.
 ```{r}
 spotify_songs %>%
@@ -351,34 +357,40 @@ spotify_songs %>%
 `r msmbstyle::question_begin()`
 Fill in the blanks:  
 $$
-\bar{x} \qquad = \qquad ?\\
-\mu_{H_0} \qquad = \qquad ?\\
-s \qquad = \qquad ?\\
-n \qquad = \qquad ?\\
+\begin{aligned}
+\bar{x}  &= \ ? \\
+\mu_{0}  &= \ ? \\
+s  &= \ ? \\
+n  &= \ ? \\
+SE(\bar{x}) &= \ ?
+\end{aligned}
 $$
 and write out the $t$-statistic: 
 $$
-t_{obs} \qquad = \qquad \frac{? \qquad - \qquad ?}{? \qquad / \qquad ?}
+t \qquad = \qquad \frac{? \qquad - \qquad ?}{?}
 $$
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 Fill in the blanks:  
 $$
-\bar{x} \qquad = \qquad 128.9\\
-\mu_{H_0} \qquad = \qquad 125\\
-s \qquad = \qquad 26.5\\
-n \qquad = \qquad 200\\
+\begin{aligned}
+\bar{x} &= \  128.9\\
+\mu_{0} &= \  125\\
+s &= \  26.5\\
+n &= \  200\\
+SE(\bar{x}) &= 26.5 / \sqrt{200}
+\end{aligned}
 $$
 and write out the $t$-statistic: 
 $$
-t_{obs} \qquad = \qquad \frac{128.9 - 125}{26.5 / \sqrt{200}}
+t  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 $$
 `r msmbstyle::solution_end()`
 
 We can do this quickly using `R` just like a calculator:
 ```{r}
-observed_t = (128.9 - 125) / (26.5 / sqrt(200))
-observed_t
+t_stat = (128.9 - 125) / (26.5 / sqrt(200))
+t_stat
 ```
 
 Or, going back to the start, we can use our skills with `summarise()` to calculate all the terms we need for our $t$-statistic: 
@@ -396,25 +408,33 @@ terms
 
 And then we can plug in these numbers to our equation.    
 
-**Note** that we're introducing a new technique here, the `$`. This is similar to how we have used `pull()` previously - it pulls out the column from a tibble.  
+<div class="red">
+#### Note {-}
+
+We now introduce a new technique: the `$` operator. This is similar to the `pull()` function we previously used, as it pulls out the column from a tibble.
+</div>
+
 ```{r}
 (terms$xbar - terms$mu_h0) / (terms$s / sqrt(terms$n))
 ```
 
+
 ### Test the significance of $t$  
 
 `r msmbstyle::question_begin()`
-Using the `qt()` function, calculate critical value for an $\alpha$ of 0.05. This is the smallest *absolute* value of $t$ at which you will reject the null hypothesis.  
+Using the `qt()` function, calculate the critical value for $\alpha$ = 0.05. This is the smallest *absolute* value of $t$ at which you will reject the null hypothesis.  
 
 + You'll need to work out the degrees of freedom  
-+ You'll also need to think about whether we are performing a two-tailed test or a one-tailed test. If a two-tailed test, then remember that the $\alpha$ is split between the two tails (and os we would reject anything in the most extreme 2.5%)    
++ You'll also need to think about whether we are performing a two-tailed test or a one-tailed test. If a two-tailed test, then remember that the $\alpha$ is split between the two tails (and so we would reject anything in the most extreme 2.5%)    
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
-The degrees of freedom is $n-1 = 200-1 = 199$  
+The degrees of freedom are $n-1 = 200-1 = 199$  
   
 We're performing a one-tailed test here because our alternative hypothesis ($H_1$) is that the mean tempo is > 125.  
 
 Note that while we are interested in the top 5%, we are assuming a completely symmetric distribution, centered on 0, so the following two commands return the same (apart from the +/-)
+
+__TODO: can be confusing for students, I'd just introduce the relevant quantile function, if the alternative is greater than, I'd use the upper tail only.__
 ```{r}
 qt(.05, df = 199) # 5% to the left
 qt(.95, df = 199) # 5% to the right
@@ -427,12 +447,11 @@ We will reject a $t$-statistic which is greater (in magnitude) than 1.65
 `r msmbstyle::question_begin()`
 We have our observed $t$-statistic of 2.1. We know that this is greater than the critical value of 1.65.  
 
-What is the probability of obtaining a $t$-statistic at least as extreme as the one we have, assuming the null hypothesis to be true.  
-In other words, what is the p-value?  
+What is the probability of obtaining a $t$-statistic at least as extreme as 2.1, assuming the null hypothesis to be true? In other words, what is the p-value?
 
 Things you'll need to work out:  
 
-+ Do we want the area under the curve which is to the *left*, or to the *right*? Remember that the total area under probability curves such as the normal and the $t$ is always equal to 1, so $right = 1-left$.  
++ Do we want the area under the curve which is to the *left* or to the *right* of $t = 2.1$? Remember that the total area under probability curves such as the normal and the $t$ is always equal to 1, so **area to the right = 1 - area to the left**.  
 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
@@ -453,8 +472,8 @@ Now that we've gone through all that, you'll be happy to know that we can do all
 The `t.test()` function takes several arguments, but for the current purposes, we are interested in `t.test(x, mu, alternative)`.  
 
 + `x` is the data  
-+ `mu` is the null hypothesis mean  
-+ `alternative` is either "two.sided" (default), "less", or "greater", and specifies the direction of the alternative hypothesis  
++ `mu` is the hypothesized value of the mean in $H_0$  
++ `alternative` is either `"two.sided"` (default), `"less"`, or `"greater"`, and specifies the direction of the alternative hypothesis.
 
 *Note* again that we can use the `pull()` and `%>%`:
 ```{r eval=FALSE}
@@ -463,12 +482,12 @@ spotify_songs %>%
    t.test(mu = 125, alternative = "greater")
 ```
 
-... or we can use our new friend, the `$`:
+or we can use our new friend, the `$` operator:
 ```{r}
 t.test(x = spotify_songs$tempo, mu = 125, alternative = "greater")
 ```
 ```{r echo=FALSE}
-res<-t.test(x = spotify_songs$tempo, mu = 125, alternative = "greater")
+res <- t.test(x = spotify_songs$tempo, mu = 125, alternative = "greater")
 ```
 
 Hooray!! We can see this gives us the same results - it shows us the mean of our sample (`r res$estimate %>% round(.,4)`), it writes out our alternative hypothesis for us, and returns our $t$ value of `r res$statistic %>% round(.,4)` and our p-value of `r res$p.value %>% round(.,4)`.  
@@ -477,10 +496,10 @@ Additionally, it even gives us some 95% confidence intervals for the population 
 
 ### Assumptions {-}  
 
-One last important thing to note is that when we perform one sample mean tests, we assume a few basic things: 
+One last important thing to note is that when we perform one sample mean tests, we assume a few basic things. These assumptions need to be satisfied in order for the inference procedure to be valid:
 
-1. The data are continuous (not discrete).  
-2. The data are normally distributed.  
+1. The data are continuous (not discrete);
+2. The data are normally distributed OR the sample size is large enough (rule-of-thumb $n$ = 20) and the data are not strongly skewed;
 3. The data are randomly sampled from a population.  
   
 If any of these assumptions are not met, the results of the test are unreliable.  
@@ -530,7 +549,7 @@ So our assumption for the one sample mean test holds!
 ## Summary  
 
 + A standardised statistic is the relative location of a statistic to the mean of the null distribution, in terms of standard deviations.  
-+ When we do not know the population standard deviation ($\sigma$), we compute the standardised statistic $t$ using the formula $t = \frac{\bar{x} - \mu_{H_0}}{s/\sqrt{n}}$.  
++ When we do not know the population standard deviation ($\sigma$), we compute the standardised statistic $t$ using the formula $t = \frac{\bar{x} - \mu_{0}}{s/\sqrt{n}}$.  
 + The sampling distribution of $t$ follows a $t$-distribution.
 + The shape of the $t$-distribution varies depending upon the *degrees of freedom* (the number of independent observations free to vary - for a one sample mean test, this is $n-1$). 
 + To assess the statistical significance of an observed $t$-statistic, $t_{obs}$, we compute the critical values of $t$ for a $t$-distribution with the appropriate degrees of freedom. If our observed $t_{obs}$ is farther away from 0 than our critical value, we have reason to reject the null.  
@@ -608,7 +627,7 @@ You can read it as "keep all rows where there isn't an NA in the `weight_kg` var
 `r msmbstyle::question_begin(header = "&#x25BA; Question 4")` 
 Using `summarise()`, calculate $\bar{x}$, $s$ and $n$.  
   
-What is $\mu_{H_0}$, and what are our degrees of freedom ($df$)?  
+What is $\mu_{0}$, and what are our degrees of freedom ($df$)?  
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 
@@ -620,7 +639,7 @@ dogstats <- dogs %>%
     n = n()
   )
 ```
-$\mu_{H_0}$ is 20kg, and our degrees of freedom is $n-1$, which is $1333-1 = 1332$
+$\mu_{0}$ is 20kg, and our degrees of freedom is $n-1$, which is $1333-1 = 1332$
 `r msmbstyle::solution_end()`
 
 <hr />
@@ -641,12 +660,12 @@ t_observed
 Calculate the p-value using `pt()`.  
 
 + Our degrees of freedom is $n-1$  
-+ Remember that the total area under a probability curve is equal to 1. `pt()` gives us the area to the *left*, but we want the area in the smaller tail (if $\bar{x}$ is greater than $\mu_{H_0}$, we want the area to the *right* of $t_{obs}$ (see [Week 15](#chap-normal)).  
++ Remember that the total area under a probability curve is equal to 1. `pt()` gives us the area to the *left*, but we want the area in the smaller tail (if $\bar{x}$ is greater than $\mu_{0}$, we want the area to the *right* of $t_{obs}$ (see [Week 15](#chap-normal)).  
 + Is our hypothesis one- or two-sided? If it is two-sided, what do we need to do to get our p-value?  
 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
-Our sample statistic ($\bar{x}$ = `r round(dogstats$xbar,3)`kg) is greater than the hypothesised mean ($\mu_{H_0}$ = 20kg), so we want the area to the *right*.  
+Our sample statistic ($\bar{x}$ = `r round(dogstats$xbar,3)`kg) is greater than the hypothesised mean ($\mu_{0}$ = 20kg), so we want the area to the *right*.  
 
 _**Reminder:** For a probability distribution, the area under the curve to the right of X is 1 minus the area to the left. This is equivalent to saying that the probability of observing a value greater than X is 1 minus the probability of observing a value less than X._
 
