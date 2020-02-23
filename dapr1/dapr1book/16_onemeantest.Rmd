@@ -367,7 +367,7 @@ SE(\bar{x}) &= \ ?
 $$
 and write out the $t$-statistic: 
 $$
-t \qquad = \qquad \frac{? \qquad - \qquad ?}{?}
+t_{obs} \qquad = \qquad \frac{? \qquad - \qquad ?}{?}
 $$
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
@@ -383,14 +383,14 @@ SE(\bar{x}) &= 26.5 / \sqrt{200}
 $$
 and write out the $t$-statistic: 
 $$
-t  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
+t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 $$
 `r msmbstyle::solution_end()`
 
 We can do this quickly using `R` just like a calculator:
 ```{r}
-t_stat = (128.9 - 125) / (26.5 / sqrt(200))
-t_stat
+t_obs = (128.9 - 125) / (26.5 / sqrt(200))
+t_obs
 ```
 
 Or, going back to the start, we can use our skills with `summarise()` to calculate all the terms we need for our $t$-statistic: 
@@ -440,7 +440,7 @@ qt(.05, df = 199) # 5% to the left
 qt(.95, df = 199) # 5% to the right
 ```
 
-We will reject a $t$-statistic which is greater (in magnitude) than 1.65  
+We will reject a $t$-statistic which is greater (in magnitude) than 1.65.
 `r msmbstyle::solution_end()`
 
 
@@ -496,10 +496,10 @@ Additionally, it even gives us some 95% confidence intervals for the population 
 
 ### Assumptions {-}  
 
-One last important thing to note is that when we perform one sample mean tests, we assume a few basic things. These assumptions need to be satisfied in order for the inference procedure to be valid:
+One last important thing to note is that when we perform a one sample mean tests, we assume a few basic things:
 
 1. The data are continuous (not discrete);
-2. The data are normally distributed OR the sample size is large enough (rule-of-thumb $n$ = 20) and the data are not strongly skewed;
+2. The data are normally distributed __OR__ the sample size is large enough (rule-of-thumb $n$ = 20) and the data are not strongly skewed;
 3. The data are randomly sampled from a population.  
   
 If any of these assumptions are not met, the results of the test are unreliable.  
@@ -507,7 +507,7 @@ If any of these assumptions are not met, the results of the test are unreliable.
 We can assess whether a set of numbers are normally distributed (assumption 2, above) by:
 
 `r msmbstyle::solution_begin(header="Producing an appropriate plot", hidden=FALSE)`
-Plots such as the histogram, or density plots, show us the shape of our distribution: 
+Plots such as the histogram, or density plots, showing us the shape of our distribution: 
 
 ```{r}
 ggplot(spotify_songs, aes(x=tempo))+
@@ -530,7 +530,7 @@ ggplot(spotify_songs, aes(sample = tempo))+
 `r msmbstyle::solution_begin(header="Conducting a test of normality", hidden=FALSE)`
 We can also conduct a formal hypothesis test for normality, such as the Shapiro-Wilk test. 
 
-The null hypothesis of the Shapiro-Wilk is that the sample came from a population that is normally distributed.  
+The null hypothesis of the Shapiro-Wilk test is that the sample came from a population that is normally distributed.  
 The alternative hypothesis is that the sample came from a population that is *not* normally distributed.  
 
 The test returns a test statistic W, and a p-value.  
@@ -549,11 +549,11 @@ So our assumption for the one sample mean test holds!
 ## Summary  
 
 + A standardised statistic is the relative location of a statistic to the mean of the null distribution, in terms of standard deviations.  
-+ When we do not know the population standard deviation ($\sigma$), we compute the standardised statistic $t$ using the formula $t = \frac{\bar{x} - \mu_{0}}{s/\sqrt{n}}$.  
++ When we do not know the population standard deviation ($\sigma$), we compute the standardised $t$-statistic using the formula $t = \frac{\bar{x} - \mu_{0}}{s/\sqrt{n}}$.  
 + The sampling distribution of $t$ follows a $t$-distribution.
 + The shape of the $t$-distribution varies depending upon the *degrees of freedom* (the number of independent observations free to vary - for a one sample mean test, this is $n-1$). 
-+ To assess the statistical significance of an observed $t$-statistic, $t_{obs}$, we compute the critical values of $t$ for a $t$-distribution with the appropriate degrees of freedom. If our observed $t_{obs}$ is farther away from 0 than our critical value, we have reason to reject the null.  
-+ To calculate the p-value for a given $t_{obs}$, we compute the area of the $t$-distribution curve to the left/right of $t_{obs}$ (depending on whether our hypothesis is one or two-tailed). 
++ To assess the statistical significance of an observed $t$-statistic, we compute the critical values for a $t$-distribution with the appropriate degrees of freedom. If our observed $t$ is farther away from 0 than our critical value, we have reason to reject the null.  
++ To calculate the p-value for a given $t$, we compute the area of the $t$-distribution curve to the left/right of $t$ (depending on whether our hypothesis is one or two-tailed). 
 + We need to make sure we assess whether our data violates the assumptions for our test (for instance by using `shapiro.test()` to test whether our data come from a normally distributed population).  
 
 
@@ -562,9 +562,9 @@ So our assumption for the one sample mean test holds!
 _Please attempt the questions **before** looking at the solutions. Copy & pasting the solutions will not help with learning!_  
   
   
-### Pet's weights  
+### Pets' weights  
 
-Data for a sample of 2000 licensed pets from the city of Seattle, USA, can be found at the following url: []().  
+Data for a sample of 2000 licensed pets from the city of Seattle, USA, can be found at the following url: []().  __TODO: empty url__
 It contains information on the license numbers, issue date and zip-code, as well as data on the species, breeds and weights (in kg) of each pet.  
 We are interested in whether the average weight of a dog is different from 20kg.  
   
@@ -573,7 +573,7 @@ We are interested in whether the average weight of a dog is different from 20kg.
   
 `r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
 Read in the data from the url using `read_csv()`.  
-Make sure to *assign* it as an object, using `[yourdataname]<-read_csv(.....)` (choose your own name for the data).  
+Make sure to *assign* it as an object, using `[yourdataname] <- read_csv(...)` (choose your own name for the data).  
  
 Use `summary()` to have a look at your data.  
 Which variables are you going to need for our analysis?  
@@ -616,11 +616,14 @@ dogs <- dogs %>% filter(!is.na(weight_kg))
 `r msmbstyle::solution_begin(hidden=FALSE)`
 
 It takes the `dogs` dataset, and it filters so that it will keep any rows where `!is.na(weight_kg)` is TRUE.  
-The `is.na(weight_kg)` will be TRUE wherever `weight_kg == NA` and FALSE otherwise.  
+The `is.na(weight_kg)` will be TRUE wherever `weight_kg == NA` and FALSE otherwise. __TODO: careful, you can not compare for equality NAs, this is why they have a special function is.na. Something like `weight_kg == NA` will be equal to NA if the value in weight_kg is NA. In other words, NA == NA returns NA.__
+
 The `!` before it flips the TRUEs and FALSEs, so that we have TRUE wherever `weight_kg` is a value other than `NA`, and FALSE if it *is* `NA`.   
 
 You can read it as "keep all rows where there isn't an NA in the `weight_kg` variable".  
 `r msmbstyle::solution_end()`
+
+__TODO: could also use drop_na or na.omit?__
 
 <hr />
 
@@ -638,8 +641,9 @@ dogstats <- dogs %>%
     s = sd(weight_kg),
     n = n()
   )
+dogstats
 ```
-$\mu_{0}$ is 20kg, and our degrees of freedom is $n-1$, which is $1333-1 = 1332$
+$\mu_{0}$ is 20kg, and our degrees of freedom is $n-1$, which is $1333-1 = 1332$.
 `r msmbstyle::solution_end()`
 
 <hr />
@@ -649,8 +653,8 @@ Calculate the standardised statistic $t$, using `$` to access the numbers you ju
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r}
-t_observed = (dogstats$xbar - 20) / (dogstats$s / sqrt(dogstats$n))
-t_observed
+t_obs = (dogstats$xbar - 20) / (dogstats$s / sqrt(dogstats$n))
+t_obs
 ```
 `r msmbstyle::solution_end()`
 
@@ -659,7 +663,7 @@ t_observed
 `r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
 Calculate the p-value using `pt()`.  
 
-+ Our degrees of freedom is $n-1$  
++ Our degrees of freedom are $n-1$  
 + Remember that the total area under a probability curve is equal to 1. `pt()` gives us the area to the *left*, but we want the area in the smaller tail (if $\bar{x}$ is greater than $\mu_{0}$, we want the area to the *right* of $t_{obs}$ (see [Week 15](#chap-normal)).  
 + Is our hypothesis one- or two-sided? If it is two-sided, what do we need to do to get our p-value?  
 
@@ -667,10 +671,10 @@ Calculate the p-value using `pt()`.
 `r msmbstyle::solution_begin(hidden=FALSE)`
 Our sample statistic ($\bar{x}$ = `r round(dogstats$xbar,3)`kg) is greater than the hypothesised mean ($\mu_{0}$ = 20kg), so we want the area to the *right*.  
 
-_**Reminder:** For a probability distribution, the area under the curve to the right of X is 1 minus the area to the left. This is equivalent to saying that the probability of observing a value greater than X is 1 minus the probability of observing a value less than X._
+_**Reminder:** For a probability distribution, the area under the curve to the right of x is 1 minus the area to the left. This is equivalent to saying that the probability of observing a value greater than x is 1 minus the probability of observing a value less than x._
 
 ```{r}
-p_righttail = 1 - pt(t_observed, df = 1332)
+p_righttail = 1 - pt(t_obs, df = 1332)
 
 ```
 
