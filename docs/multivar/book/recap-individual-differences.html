@@ -294,13 +294,13 @@ The first part of this lab will guide you through a walkthrough of these concept
 <p><em>Note:</em> this is the same as <code>lm(outcome ~ 1 + predictor, data = dataframe)</code>. The <code>1 +</code> is always there unless we specify otherwise (e.g., by using <code>0 +</code>).</p>
 </div>
 <p><br>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
 </div>
 <div id="clustered-multi-level-data-structures" class="section level3 unnumbered">
 <h3>Clustered (multi-level) data structures</h3>
 <p>When our data is clustered (or ‘grouped’) such that datapoints are no longer independent, but belong to some grouping such as that of multiple observations from the same subject, we have multiple sources of random variability. A simple regression does not capture this.</p>
 <p>If we separate out our data to show an individual plot for each subject, we can see how the fitted regression line from <code>lm()</code> is assumed to be the same for each subject.</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
 </div>
 <div id="random-intercept-models" class="section level3 unnumbered">
 <h3>Random intercept models</h3>
@@ -324,13 +324,13 @@ Level 1:</p>
 </div>
 <p>Notice how the fitted line of the random intercept model has an adjustment for each subject.<br />
 Each subject’s line has been moved up or down accordingly.</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-88-1.png" width="1152" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-92-1.png" width="1152" /></p>
 <div class="lo">
 <h4 id="shrinkage" class="unnumbered">Shrinkage</h4>
 <p>If you think about it, we might have done a similar thing with the tools we already had at our disposal, by using <code>lm(y~x+subject)</code>.<br />
 This would give us a coefficient for the difference between each subject and the reference level intercept.</p>
 <p>However, the estimate of these models will be slightly different:</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
 <p><strong>Why?</strong> One of the benefits of multi-level models is that our cluster-level estimates are shrunk towards the average depending on a) the level of across-cluster variation and b) the number of datapoints in clusters.</p>
 </div>
 </div>
@@ -356,12 +356,12 @@ Level 1:</p>
 </ul>
 <p><em>Note:</em> this is the same as <code>lmer(outcome ~ predictor + (predictor | grouping), data = dataframe)</code> . Like in the fixed-effects part, the <code>1 +</code> is assumed in the random-effects part.</p>
 </div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-1.png" width="1152" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-94-1.png" width="1152" /></p>
 </div>
 <div id="fixef-ranef-and-coef" class="section level3 unnumbered">
 <h3>Fixef(), Ranef, and Coef</h3>
 <p>The plots below show the fitted values from each model for each subject:</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-91-1.png" width="1152" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-95-1.png" width="1152" /></p>
 <p>In the random-intercept model (center panel), the differences from each of the subjects’ intercepts to the fixed intercept (thick green line) have mean 0 and standard deviation <span class="math inline">\(\sigma_u\)</span>. The standard deviation (and variance, which is <span class="math inline">\(\sigma_u^2\)</span>) is what we see in the random effects part of our model summary (or using the <code>VarCorr()</code> function).</p>
 <p><img src="images/varcors.PNG" width="400px" /></p>
 <p>In the random-slope model (right panel), the same is true for the differences from each subjects’ slope to the fixed slope.</p>
@@ -463,7 +463,7 @@ These sometimes get referred to as “Best Linear Unbiased Estimates (BLUPS)”.
 <a class="sourceLine" id="cb125-2" title="2"></a>
 <a class="sourceLine" id="cb125-3" title="3"><span class="kw">dotplot.ranef.mer</span>(randoms)</a></code></pre></div>
 <pre><code>## $subject</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
 <!-- Sometimes, however, we might want to have a bit more control over our plotting, we can extract the estimates and correlations for each subject using the `condVar=TRUE`: -->
 <p>–&gt;
 <!-- ```{r} -->
@@ -626,7 +626,7 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" title="1"><span class="kw">ggplot</span>(dat5, <span class="kw">aes</span>(Domain, Score, <span class="dt">color=</span>Group)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb129-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb129-3" title="3"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
 <p>Looks like there are group differences and domain differences, but not much in the way of group-by-domain differences.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -729,7 +729,7 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 <div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1"><span class="kw">ggplot</span>(dat5, <span class="kw">aes</span>(Wave, Score, <span class="dt">color=</span>Group, <span class="dt">fill=</span>Group)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb132-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;ribbon&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>, <span class="dt">color=</span><span class="ot">NA</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb132-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-103-1.png" width="480" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-107-1.png" width="480" /></p>
 <p>Yes, looks like groups A, C, and W are improving, but group B is getting worse.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -859,7 +859,7 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 <div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" title="1"><span class="kw">ggplot</span>(<span class="kw">fortify</span>(mod_wv_x_grp), <span class="kw">aes</span>(Wave, Score, <span class="dt">color=</span>Group)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb137-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb137-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-109-1.png" width="672" /></p>
 <p><em>We fit a linear model, but the model fit lines are not straight lines. Why is that?</em></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -889,7 +889,7 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 <a class="sourceLine" id="cb138-2" title="2"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span></a>
 <a class="sourceLine" id="cb138-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb138-4" title="4"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
 <p>The individual subject plots show linear fits, which is a better match to the model. But now we see the missing data – some participants only completed the first few waves.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -919,7 +919,7 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 <a class="sourceLine" id="cb139-2" title="2"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Wave, fit, <span class="dt">color=</span>Group, <span class="dt">fill=</span>Group)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb139-3" title="3"><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymax=</span>fit<span class="op">+</span>se, <span class="dt">ymin=</span>fit<span class="op">-</span>se), <span class="dt">color=</span><span class="ot">NA</span>, <span class="dt">alpha=</span><span class="fl">0.1</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb139-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-107-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -981,10 +981,10 @@ Notice the pattern between the random intercept and random slope estimates for t
 <div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1">randoms &lt;-<span class="st"> </span><span class="kw">ranef</span>(mod_wv_x_grp, <span class="dt">condVar=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb142-2" title="2"><span class="kw">dotplot.ranef.mer</span>(randoms)</a></code></pre></div>
 <pre><code>## $Anonymous_Subject_ID</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
 <pre><code>## 
 ## $Domain</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-110-2.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-114-2.png" width="672" /></p>
 <p>Notice that the domains with the lower relative intercept tend to have a higher relative slope (and vice versa). This is the negative correlation between random intercepts and slopes for domain in our model:</p>
 <div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1"><span class="kw">VarCorr</span>(mod_wv_x_grp)</a></code></pre></div>
 <pre><code>##  Groups               Name        Std.Dev. Corr  
