@@ -99,7 +99,7 @@ Questions which can be answered by a one sample mean test often take the form:
 
 + Is the average weight of a dog greater than 20kg?  
 + Is the mean body temperature not equal to 37 degrees C?  
-+ On the Beck Depression Inventory (BDI), a score of >25 is considered clinical diagnosis of depression. Is the average score of people with --- significantly above this cutoff?  __TODO: unclear__
++ On the Beck Depression Inventory (BDI), a score of >25 is considered clinical diagnosis of depression. Is the average score of our population of interest (e.g., people suffering from a specific disease) significantly above this cutoff?  
 
 ### Hypotheses  
 
@@ -289,10 +289,10 @@ Alternative hypothesis ($H_1$):
 $\mu > 125$  
   
 Our hypothesis is about $\mu$, the mean of *all* rock songs on spotify. 
-To investigate this, we have a sample of 200 songs from spotify: 
+To investigate this, we have a sample of 200 rock songs from spotify: 
 
 ```{r message=FALSE}
-spotify_songs <- read_csv("data/spotify_songs.csv")
+spotify_songs <- read_csv("https://edin.ac/2wC5rz3")
 
 summary(spotify_songs)
 ```
@@ -326,8 +326,7 @@ spotify_songs %>%
 ```
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
-
-__TODO: isn't clear - requires students to clearly see that the sample is already from the rock category. Perhaps add a note?__
+Note that the entire sample contains only rock songs, so we can simply find the mean of the `tempo` variable. 
 
 B.
 ```{r}
@@ -432,11 +431,11 @@ The degrees of freedom are $n-1 = 200-1 = 199$
   
 We're performing a one-tailed test here because our alternative hypothesis ($H_1$) is that the mean tempo is > 125.  
 
-Note that while we are interested in the top 5%, we are assuming a completely symmetric distribution, centered on 0, so the following two commands return the same (apart from the +/-)
+So we will reject a $t$-statistic which falls in the upper 5% of the distribution. 
 
-__TODO: can be confusing for students, I'd just introduce the relevant quantile function, if the alternative is greater than, I'd use the upper tail only.__
+<!-- Note that while we are interested in the top 5%, we are assuming a completely symmetric distribution, centered on 0, so the following two commands return the same (apart from the +/-) -->
+
 ```{r}
-qt(.05, df = 199) # 5% to the left
 qt(.95, df = 199) # 5% to the right
 ```
 
@@ -564,7 +563,7 @@ _Please attempt the questions **before** looking at the solutions. Copy & pastin
   
 ### Pets' weights  
 
-Data for a sample of 2000 licensed pets from the city of Seattle, USA, can be found at the following url: []().  __TODO: empty url__
+Data for a sample of 2000 licensed pets from the city of Seattle, USA, can be found at the following url: [https://edin.ac/2VfPzg7](https://edin.ac/2VfPzg7).  
 It contains information on the license numbers, issue date and zip-code, as well as data on the species, breeds and weights (in kg) of each pet.  
 We are interested in whether the average weight of a dog is different from 20kg.  
   
@@ -581,7 +580,7 @@ Does anything jump out as relevant?
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r}
-pets <- read.csv("data/seattle_petssample.csv")
+pets <- read_csv("https://edin.ac/2VfPzg7")
 
 summary(pets)
 ```
@@ -616,14 +615,12 @@ dogs <- dogs %>% filter(!is.na(weight_kg))
 `r msmbstyle::solution_begin(hidden=FALSE)`
 
 It takes the `dogs` dataset, and it filters so that it will keep any rows where `!is.na(weight_kg)` is TRUE.  
-The `is.na(weight_kg)` will be TRUE wherever `weight_kg == NA` and FALSE otherwise. __TODO: careful, you can not compare for equality NAs, this is why they have a special function is.na. Something like `weight_kg == NA` will be equal to NA if the value in weight_kg is NA. In other words, NA == NA returns NA.__
+The `is.na(weight_kg)` will be TRUE wherever `weight_kg` is an `NA` and FALSE otherwise.  
 
 The `!` before it flips the TRUEs and FALSEs, so that we have TRUE wherever `weight_kg` is a value other than `NA`, and FALSE if it *is* `NA`.   
 
 You can read it as "keep all rows where there isn't an NA in the `weight_kg` variable".  
 `r msmbstyle::solution_end()`
-
-__TODO: could also use drop_na or na.omit?__
 
 <hr />
 
@@ -768,7 +765,11 @@ qqnorm(cats$weight_kg)
 
 t.test(cats$weight_kg, mu=4.5, alternative="greater")
 ```
-
 `r msmbstyle::solution_end()`
 
 
+
+
+### Glossary  
+
+- degrees of freedom
