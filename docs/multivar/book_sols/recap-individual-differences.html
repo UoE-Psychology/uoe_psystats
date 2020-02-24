@@ -231,7 +231,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="efa-and-pca.html"><a href="efa-and-pca.html"><i class="fa fa-check"></i><b>7</b> EFA and PCA</a><ul>
 <li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#packages-5"><i class="fa fa-check"></i>Packages</a></li>
 <li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#lecture-slides-5"><i class="fa fa-check"></i>Lecture Slides</a></li>
-<li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#background-reading-4"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
 <li class="chapter" data-level="7.1" data-path="efa-and-pca.html"><a href="efa-and-pca.html#todays-exercises"><i class="fa fa-check"></i><b>7.1</b> Today’s Exercises</a></li>
 </ul></li>
 <li class="divider"></li>
@@ -261,10 +260,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>lme4</li>
 </ul>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1"><span class="kw">require</span>(tidyverse)</a>
-<a class="sourceLine" id="cb117-2" title="2"><span class="kw">require</span>(lme4)</a>
-<a class="sourceLine" id="cb117-3" title="3"><span class="kw">library</span>(lmerTest)</a>
-<a class="sourceLine" id="cb117-4" title="4"><span class="kw">library</span>(effects)</a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" title="1"><span class="kw">require</span>(tidyverse)</a>
+<a class="sourceLine" id="cb118-2" title="2"><span class="kw">require</span>(lme4)</a>
+<a class="sourceLine" id="cb118-3" title="3"><span class="kw">library</span>(lmerTest)</a>
+<a class="sourceLine" id="cb118-4" title="4"><span class="kw">library</span>(effects)</a></code></pre></div>
 </div>
 <div id="lecture-slides-4" class="section level3 unnumbered">
 <h3>Lecture Slides</h3>
@@ -295,13 +294,13 @@ The first part of this lab will guide you through a walkthrough of these concept
 <p><em>Note:</em> this is the same as <code>lm(outcome ~ 1 + predictor, data = dataframe)</code>. The <code>1 +</code> is always there unless we specify otherwise (e.g., by using <code>0 +</code>).</p>
 </div>
 <p><br>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
 </div>
 <div id="clustered-multi-level-data-structures" class="section level3 unnumbered">
 <h3>Clustered (multi-level) data structures</h3>
 <p>When our data is clustered (or ‘grouped’) such that datapoints are no longer independent, but belong to some grouping such as that of multiple observations from the same subject, we have multiple sources of random variability. A simple regression does not capture this.</p>
 <p>If we separate out our data to show an individual plot for each subject, we can see how the fitted regression line from <code>lm()</code> is assumed to be the same for each subject.</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
 </div>
 <div id="random-intercept-models" class="section level3 unnumbered">
 <h3>Random intercept models</h3>
@@ -325,13 +324,13 @@ Level 1:</p>
 </div>
 <p>Notice how the fitted line of the random intercept model has an adjustment for each subject.<br />
 Each subject’s line has been moved up or down accordingly.</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-86-1.png" width="1152" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-88-1.png" width="1152" /></p>
 <div class="lo">
 <h4 id="shrinkage" class="unnumbered">Shrinkage</h4>
 <p>If you think about it, we might have done a similar thing with the tools we already had at our disposal, by using <code>lm(y~x+subject)</code>.<br />
 This would give us a coefficient for the difference between each subject and the reference level intercept.</p>
 <p>However, the estimate of these models will be slightly different:</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
 <p><strong>Why?</strong> One of the benefits of multi-level models is that our cluster-level estimates are shrunk towards the average depending on a) the level of across-cluster variation and b) the number of datapoints in clusters.</p>
 </div>
 </div>
@@ -357,22 +356,22 @@ Level 1:</p>
 </ul>
 <p><em>Note:</em> this is the same as <code>lmer(outcome ~ predictor + (predictor | grouping), data = dataframe)</code> . Like in the fixed-effects part, the <code>1 +</code> is assumed in the random-effects part.</p>
 </div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-88-1.png" width="1152" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-1.png" width="1152" /></p>
 </div>
 <div id="fixef-ranef-and-coef" class="section level3 unnumbered">
 <h3>Fixef(), Ranef, and Coef</h3>
 <p>The plots below show the fitted values from each model for each subject:</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-89-1.png" width="1152" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-91-1.png" width="1152" /></p>
 <p>In the random-intercept model (center panel), the differences from each of the subjects’ intercepts to the fixed intercept (thick green line) have mean 0 and standard deviation <span class="math inline">\(\sigma_u\)</span>. The standard deviation (and variance, which is <span class="math inline">\(\sigma_u^2\)</span>) is what we see in the random effects part of our model summary (or using the <code>VarCorr()</code> function).</p>
 <p><img src="images/varcors.PNG" width="400px" /></p>
 <p>In the random-slope model (right panel), the same is true for the differences from each subjects’ slope to the fixed slope.</p>
 <div class="solution">
 <p class="solution-begin">
-► Fixed effects<span id="sol-start-165" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-165&#39;, &#39;sol-start-165&#39;)"></span>
+► Fixed effects<span id="sol-start-46" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-46&#39;, &#39;sol-start-46&#39;)"></span>
 </p>
-<div id="sol-body-165" class="solution-body" style="display: none;">
+<div id="sol-body-46" class="solution-body" style="display: none;">
 <p>We can extract the <em>fixed effects</em> using the <code>fixef()</code> function:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" title="1"><span class="kw">fixef</span>(random_intercept_model)</a></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" title="1"><span class="kw">fixef</span>(random_intercept_model)</a></code></pre></div>
 <pre><code>## (Intercept)          x1 
 ## 413.3736136  -0.9135829</code></pre>
 <p class="solution-end">
@@ -382,11 +381,11 @@ Level 1:</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Random effects<span id="sol-start-166" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-166&#39;, &#39;sol-start-166&#39;)"></span>
+► Random effects<span id="sol-start-47" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-47&#39;, &#39;sol-start-47&#39;)"></span>
 </p>
-<div id="sol-body-166" class="solution-body" style="display: none;">
+<div id="sol-body-47" class="solution-body" style="display: none;">
 <p>We can extract the deviations for each group from these fixed effect estimates using the <code>ranef()</code> function.</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" title="1"><span class="kw">ranef</span>(random_intercept_model)</a></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" title="1"><span class="kw">ranef</span>(random_intercept_model)</a></code></pre></div>
 <pre><code>## $subject
 ##         (Intercept)
 ## sub_308  -29.278163
@@ -418,12 +417,12 @@ Level 1:</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Group-level coefficients<span id="sol-start-167" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-167&#39;, &#39;sol-start-167&#39;)"></span>
+► Group-level coefficients<span id="sol-start-48" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-48&#39;, &#39;sol-start-48&#39;)"></span>
 </p>
-<div id="sol-body-167" class="solution-body" style="display: none;">
+<div id="sol-body-48" class="solution-body" style="display: none;">
 <p>We can also see the estimate for each subject directly, using the <code>coef()</code> function.<br />
 These sometimes get referred to as “Best Linear Unbiased Estimates (BLUPS)”.</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" title="1"><span class="kw">coef</span>(random_intercept_model)</a></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" title="1"><span class="kw">coef</span>(random_intercept_model)</a></code></pre></div>
 <pre><code>## $subject
 ##         (Intercept)         x1
 ## sub_308    384.0955 -0.9135829
@@ -456,15 +455,15 @@ These sometimes get referred to as “Best Linear Unbiased Estimates (BLUPS)”.
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Plotting random effects<span id="sol-start-168" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-168&#39;, &#39;sol-start-168&#39;)"></span>
+► Plotting random effects<span id="sol-start-49" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-49&#39;, &#39;sol-start-49&#39;)"></span>
 </p>
-<div id="sol-body-168" class="solution-body" style="display: none;">
+<div id="sol-body-49" class="solution-body" style="display: none;">
 <p>The quick and easy way to plot your random effects is to use the <code>dotplot.ranef.mer()</code> function in <code>lme4</code>.</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" title="1">randoms &lt;-<span class="st"> </span><span class="kw">ranef</span>(random_intercept_model, <span class="dt">condVar=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb124-2" title="2"></a>
-<a class="sourceLine" id="cb124-3" title="3"><span class="kw">dotplot.ranef.mer</span>(randoms)</a></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" title="1">randoms &lt;-<span class="st"> </span><span class="kw">ranef</span>(random_intercept_model, <span class="dt">condVar=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb125-2" title="2"></a>
+<a class="sourceLine" id="cb125-3" title="3"><span class="kw">dotplot.ranef.mer</span>(randoms)</a></code></pre></div>
 <pre><code>## $subject</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
 <!-- Sometimes, however, we might want to have a bit more control over our plotting, we can extract the estimates and correlations for each subject using the `condVar=TRUE`: -->
 <p>–&gt;
 <!-- ```{r} -->
@@ -509,9 +508,9 @@ These sometimes get referred to as “Best Linear Unbiased Estimates (BLUPS)”.
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-169" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-169&#39;, &#39;sol-start-169&#39;)"></span>
+► Solution<span id="sol-start-50" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-50&#39;, &#39;sol-start-50&#39;)"></span>
 </p>
-<div id="sol-body-169" class="solution-body" style="display: none;">
+<div id="sol-body-50" class="solution-body" style="display: none;">
 <p>No.<br />
 <br>
 The classes in one school are distinct from the classes in another <em>even though they are named the same</em>.</p>
@@ -539,9 +538,9 @@ Are tasks nested within participants?</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-170" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-170&#39;, &#39;sol-start-170&#39;)"></span>
+► Solution<span id="sol-start-51" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-51&#39;, &#39;sol-start-51&#39;)"></span>
 </p>
-<div id="sol-body-170" class="solution-body" style="display: none;">
+<div id="sol-body-51" class="solution-body" style="display: none;">
 <p>No - tasks are seen by multiple participants (and participants see multiple tasks).</p>
 <p>We could visualise this as the below:<br />
 <img src="images/structure_crossed.png" width="400px" /></p>
@@ -580,9 +579,9 @@ Are tasks nested within participants?</p>
 <h4 id="the-data-3" class="unnumbered">The data</h4>
 <p>44 participants across 4 groups (between-subjects) were tested 5 times (waves) in 11 domains.
 In each wave, participants received a score (on a 20-point scale) for each domain and a set of questions which were they answered either correctly or incorrectly.</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" title="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2Hd6V4Q&quot;</span>))</a>
-<a class="sourceLine" id="cb126-2" title="2"></a>
-<a class="sourceLine" id="cb126-3" title="3"><span class="kw">summary</span>(dat5)</a></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" title="1"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2Hd6V4Q&quot;</span>))</a>
+<a class="sourceLine" id="cb127-2" title="2"></a>
+<a class="sourceLine" id="cb127-3" title="3"><span class="kw">summary</span>(dat5)</a></code></pre></div>
 <pre><code>##  Anonymous_Subject_ID   IndivDiff          Wave          Domain             Correct      
 ##  Length:2011          Min.   :39.30   Min.   :1.000   Length:2011        Min.   : 0.000  
 ##  Class :character     1st Qu.:69.20   1st Qu.:2.000   Class :character   1st Qu.: 4.000  
@@ -620,14 +619,14 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-171" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-171&#39;, &#39;sol-start-171&#39;)"></span>
+► Solution<span id="sol-start-52" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-52&#39;, &#39;sol-start-52&#39;)"></span>
 </p>
-<div id="sol-body-171" class="solution-body" style="display: none;">
+<div id="sol-body-52" class="solution-body" style="display: none;">
 <p>Lots of options for this one, here is one that shows Group and Domain differences:</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1"><span class="kw">ggplot</span>(dat5, <span class="kw">aes</span>(Domain, Score, <span class="dt">color=</span>Group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb128-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb128-3" title="3"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" title="1"><span class="kw">ggplot</span>(dat5, <span class="kw">aes</span>(Domain, Score, <span class="dt">color=</span>Group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb129-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb129-3" title="3"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
 <p>Looks like there are group differences and domain differences, but not much in the way of group-by-domain differences.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -644,7 +643,7 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 <ul>
 <li>Will you use a linear or logistic model?</li>
 <li>What should the fixed(s) effect be?</li>
-<li>What should the random effect(s) be?</li>
+<li>What should the random effect(s) be? We have observations clustered by subjects and by domains - are they nested?</li>
 </ul>
 <p><em>Tip:</em> For now, forget about the longitudinal aspect to the data.</p>
 <p class="question-end">
@@ -654,17 +653,17 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-172" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-172&#39;, &#39;sol-start-172&#39;)"></span>
+► Solution<span id="sol-start-53" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-53&#39;, &#39;sol-start-53&#39;)"></span>
 </p>
-<div id="sol-body-172" class="solution-body" style="display: none;">
-<p>We’re interested in the amount to which Groups vary in their overall performance, so we want a fixed effect of Group. We also have observations clustered by subject and domain.</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" title="1"><span class="co"># maximal model doesn&#39;t converge, removed random Group slopes for Domain</span></a>
-<a class="sourceLine" id="cb129-2" title="2">mod_grp &lt;-<span class="st"> </span><span class="kw">lmer</span>(Score <span class="op">~</span><span class="st"> </span>Group <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb129-3" title="3"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb129-4" title="4"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Domain), </a>
-<a class="sourceLine" id="cb129-5" title="5">                 <span class="dt">data=</span>dat5, <span class="dt">REML=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb129-6" title="6"><span class="kw">summary</span>(mod_grp)</a></code></pre></div>
-<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [lmerModLmerTest]
+<div id="sol-body-53" class="solution-body" style="display: none;">
+<p>We’re interested in the amount to which Groups vary in their overall performance, so we want a fixed effect of Group. Subjects and Domains are not nested - each subject sees different domains, and each domain is seen by multiple subjects.</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" title="1"><span class="co"># maximal model doesn&#39;t converge, removed random Group slopes for Domain</span></a>
+<a class="sourceLine" id="cb130-2" title="2">mod_grp &lt;-<span class="st"> </span><span class="kw">lmer</span>(Score <span class="op">~</span><span class="st"> </span>Group <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb130-3" title="3"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb130-4" title="4"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Domain), </a>
+<a class="sourceLine" id="cb130-5" title="5">                 <span class="dt">data=</span>dat5, <span class="dt">REML=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb130-6" title="6"><span class="kw">summary</span>(mod_grp)</a></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: Score ~ Group + (1 | Anonymous_Subject_ID) + (1 | Domain)
 ##    Data: dat5
 ## 
@@ -724,13 +723,13 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-173" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-173&#39;, &#39;sol-start-173&#39;)"></span>
+► Solution<span id="sol-start-54" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-54&#39;, &#39;sol-start-54&#39;)"></span>
 </p>
-<div id="sol-body-173" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" title="1"><span class="kw">ggplot</span>(dat5, <span class="kw">aes</span>(Wave, Score, <span class="dt">color=</span>Group, <span class="dt">fill=</span>Group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb131-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;ribbon&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>, <span class="dt">color=</span><span class="ot">NA</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb131-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-101-1.png" width="480" /></p>
+<div id="sol-body-54" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1"><span class="kw">ggplot</span>(dat5, <span class="kw">aes</span>(Wave, Score, <span class="dt">color=</span>Group, <span class="dt">fill=</span>Group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb132-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;ribbon&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>, <span class="dt">color=</span><span class="ot">NA</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb132-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-103-1.png" width="480" /></p>
 <p>Yes, looks like groups A, C, and W are improving, but group B is getting worse.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -753,28 +752,28 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-174" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-174&#39;, &#39;sol-start-174&#39;)"></span>
+► Solution<span id="sol-start-55" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-55&#39;, &#39;sol-start-55&#39;)"></span>
 </p>
-<div id="sol-body-174" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1">mod_wv &lt;-<span class="st"> </span><span class="kw">lmer</span>(Score <span class="op">~</span><span class="st"> </span>Wave <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-2" title="2"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-3" title="3"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Domain), </a>
-<a class="sourceLine" id="cb132-4" title="4">                 <span class="dt">data=</span>dat5, <span class="dt">REML=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb132-5" title="5">                 <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
-<a class="sourceLine" id="cb132-6" title="6"></a>
-<a class="sourceLine" id="cb132-7" title="7">mod_wv_grp &lt;-<span class="st"> </span><span class="kw">lmer</span>(Score <span class="op">~</span><span class="st"> </span>Wave<span class="op">+</span>Group <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-8" title="8"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-9" title="9"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Domain), </a>
-<a class="sourceLine" id="cb132-10" title="10">                 <span class="dt">data=</span>dat5, <span class="dt">REML=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb132-11" title="11">                 <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
-<a class="sourceLine" id="cb132-12" title="12"></a>
-<a class="sourceLine" id="cb132-13" title="13">mod_wv_x_grp &lt;-<span class="st"> </span><span class="kw">lmer</span>(Score <span class="op">~</span><span class="st"> </span>Wave<span class="op">*</span>Group <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-14" title="14"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb132-15" title="15"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Domain), </a>
-<a class="sourceLine" id="cb132-16" title="16">                 <span class="dt">data=</span>dat5, <span class="dt">REML=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb132-17" title="17">                 <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
-<a class="sourceLine" id="cb132-18" title="18"></a>
-<a class="sourceLine" id="cb132-19" title="19"><span class="kw">anova</span>(mod_wv, mod_wv_grp, mod_wv_x_grp)</a></code></pre></div>
+<div id="sol-body-55" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" title="1">mod_wv &lt;-<span class="st"> </span><span class="kw">lmer</span>(Score <span class="op">~</span><span class="st"> </span>Wave <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb133-2" title="2"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb133-3" title="3"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Domain), </a>
+<a class="sourceLine" id="cb133-4" title="4">                 <span class="dt">data=</span>dat5, <span class="dt">REML=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb133-5" title="5">                 <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb133-6" title="6"></a>
+<a class="sourceLine" id="cb133-7" title="7">mod_wv_grp &lt;-<span class="st"> </span><span class="kw">lmer</span>(Score <span class="op">~</span><span class="st"> </span>Wave<span class="op">+</span>Group <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb133-8" title="8"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb133-9" title="9"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Domain), </a>
+<a class="sourceLine" id="cb133-10" title="10">                 <span class="dt">data=</span>dat5, <span class="dt">REML=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb133-11" title="11">                 <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb133-12" title="12"></a>
+<a class="sourceLine" id="cb133-13" title="13">mod_wv_x_grp &lt;-<span class="st"> </span><span class="kw">lmer</span>(Score <span class="op">~</span><span class="st"> </span>Wave<span class="op">*</span>Group <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb133-14" title="14"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb133-15" title="15"><span class="st">                   </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Wave <span class="op">|</span><span class="st"> </span>Domain), </a>
+<a class="sourceLine" id="cb133-16" title="16">                 <span class="dt">data=</span>dat5, <span class="dt">REML=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb133-17" title="17">                 <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>))</a>
+<a class="sourceLine" id="cb133-18" title="18"></a>
+<a class="sourceLine" id="cb133-19" title="19"><span class="kw">anova</span>(mod_wv, mod_wv_grp, mod_wv_x_grp)</a></code></pre></div>
 <pre><code>## Data: dat5
 ## Models:
 ## mod_wv: Score ~ Wave + (1 + Wave | Anonymous_Subject_ID) + (1 + Wave | 
@@ -789,8 +788,8 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 ## mod_wv_x_grp 15 9710.5 9794.6 -4840.2   9680.5  5.8105      3   0.121204   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" title="1"><span class="kw">summary</span>(mod_wv_x_grp)</a></code></pre></div>
-<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [lmerModLmerTest]
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" title="1"><span class="kw">summary</span>(mod_wv_x_grp)</a></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 ## Formula: Score ~ Wave * Group + (1 + Wave | Anonymous_Subject_ID) + (1 +      Wave | Domain)
 ##    Data: dat5
 ## Control: lmerControl(optimizer = &quot;bobyqa&quot;)
@@ -844,7 +843,7 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 ► Question 5
 </p>
 <div class="question-body">
-<p>Plot the group-level data (see Question 3) and model fitted values from your final model from Question 4.<br />
+<p>Plot the group-level data (see Question 3) and model fitted values for each group from your final model from Question 4.<br />
 <br>
 <em>Hint:</em> using <code>fortify(model)</code> or <code>broom::augment(model)</code> as your starting point will help.</p>
 <p class="question-end">
@@ -854,13 +853,13 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-175" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-175&#39;, &#39;sol-start-175&#39;)"></span>
+► Solution<span id="sol-start-56" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-56&#39;, &#39;sol-start-56&#39;)"></span>
 </p>
-<div id="sol-body-175" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1"><span class="kw">ggplot</span>(<span class="kw">fortify</span>(mod_wv_x_grp), <span class="kw">aes</span>(Wave, Score, <span class="dt">color=</span>Group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb136-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb136-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
+<div id="sol-body-56" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" title="1"><span class="kw">ggplot</span>(<span class="kw">fortify</span>(mod_wv_x_grp), <span class="kw">aes</span>(Wave, Score, <span class="dt">color=</span>Group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb137-2" title="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb137-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
 <p><em>We fit a linear model, but the model fit lines are not straight lines. Why is that?</em></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -883,14 +882,14 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-176" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-176&#39;, &#39;sol-start-176&#39;)"></span>
+► Solution<span id="sol-start-57" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-57&#39;, &#39;sol-start-57&#39;)"></span>
 </p>
-<div id="sol-body-176" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" title="1"><span class="kw">ggplot</span>(<span class="kw">fortify</span>(mod_wv_x_grp), <span class="kw">aes</span>(Wave, Score, <span class="dt">color=</span>Group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb137-2" title="2"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span></a>
-<a class="sourceLine" id="cb137-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb137-4" title="4"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
+<div id="sol-body-57" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1"><span class="kw">ggplot</span>(<span class="kw">fortify</span>(mod_wv_x_grp), <span class="kw">aes</span>(Wave, Score, <span class="dt">color=</span>Group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb138-2" title="2"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Anonymous_Subject_ID) <span class="op">+</span></a>
+<a class="sourceLine" id="cb138-3" title="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb138-4" title="4"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
 <p>The individual subject plots show linear fits, which is a better match to the model. But now we see the missing data – some participants only completed the first few waves.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -913,14 +912,14 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-177" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-177&#39;, &#39;sol-start-177&#39;)"></span>
+► Solution<span id="sol-start-58" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-58&#39;, &#39;sol-start-58&#39;)"></span>
 </p>
-<div id="sol-body-177" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1">ef &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">effect</span>(<span class="st">&quot;Wave:Group&quot;</span>, mod_wv_x_grp))</a>
-<a class="sourceLine" id="cb138-2" title="2"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Wave, fit, <span class="dt">color=</span>Group, <span class="dt">fill=</span>Group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb138-3" title="3"><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymax=</span>fit<span class="op">+</span>se, <span class="dt">ymin=</span>fit<span class="op">-</span>se), <span class="dt">color=</span><span class="ot">NA</span>, <span class="dt">alpha=</span><span class="fl">0.1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb138-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
+<div id="sol-body-58" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1">ef &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">effect</span>(<span class="st">&quot;Wave:Group&quot;</span>, mod_wv_x_grp))</a>
+<a class="sourceLine" id="cb139-2" title="2"><span class="kw">ggplot</span>(ef, <span class="kw">aes</span>(Wave, fit, <span class="dt">color=</span>Group, <span class="dt">fill=</span>Group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb139-3" title="3"><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymax=</span>fit<span class="op">+</span>se, <span class="dt">ymin=</span>fit<span class="op">-</span>se), <span class="dt">color=</span><span class="ot">NA</span>, <span class="dt">alpha=</span><span class="fl">0.1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb139-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-107-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -944,7 +943,7 @@ In each wave, participants received a score (on a 20-point scale) for each domai
 </p>
 <div class="solution-body">
 <p><em>Group B was not actually getting worse. The appearance that it was getting worse is an artifact of selective drop-out: there’s only a few people in this group and the better-performing ones only did the first few waves so they are not represented in the later waves, but the worse-performing ones are contributing to the later waves. The model estimates how the better-performing ones would have done in later waves based on their early-wave performance and the pattern of performance of other participants in the study.</em></p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1"><span class="kw">summary</span>(mod_wv_x_grp)<span class="op">$</span>coefficients</a></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" title="1"><span class="kw">summary</span>(mod_wv_x_grp)<span class="op">$</span>coefficients</a></code></pre></div>
 <pre><code>##                Estimate Std. Error       df    t value     Pr(&gt;|t|)
 ## (Intercept) 12.77275565  1.2492775 52.57242 10.2241143 4.233953e-14
 ## Wave         1.25474611  0.2388610 44.74521  5.2530381 3.998024e-06
@@ -976,18 +975,18 @@ Notice the pattern between the random intercept and random slope estimates for t
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-179" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-179&#39;, &#39;sol-start-179&#39;)"></span>
+► Solution<span id="sol-start-60" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-60&#39;, &#39;sol-start-60&#39;)"></span>
 </p>
-<div id="sol-body-179" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1">randoms &lt;-<span class="st"> </span><span class="kw">ranef</span>(mod_wv_x_grp, <span class="dt">condVar=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb141-2" title="2"><span class="kw">dotplot.ranef.mer</span>(randoms)</a></code></pre></div>
+<div id="sol-body-60" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1">randoms &lt;-<span class="st"> </span><span class="kw">ranef</span>(mod_wv_x_grp, <span class="dt">condVar=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb142-2" title="2"><span class="kw">dotplot.ranef.mer</span>(randoms)</a></code></pre></div>
 <pre><code>## $Anonymous_Subject_ID</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
 <pre><code>## 
 ## $Domain</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-108-2.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-110-2.png" width="672" /></p>
 <p>Notice that the domains with the lower relative intercept tend to have a higher relative slope (and vice versa). This is the negative correlation between random intercepts and slopes for domain in our model:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1"><span class="kw">VarCorr</span>(mod_wv_x_grp)</a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1"><span class="kw">VarCorr</span>(mod_wv_x_grp)</a></code></pre></div>
 <pre><code>##  Groups               Name        Std.Dev. Corr  
 ##  Anonymous_Subject_ID (Intercept) 4.72927        
 ##                       Wave        0.86479  -0.336
