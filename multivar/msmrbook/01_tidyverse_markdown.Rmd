@@ -423,8 +423,15 @@ You might have to use `as_tibble(ability)` or `as.data.frame(ability)` because i
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
+```{r fig.height=4, warning=FALSE, echo=FALSE, message=FALSE}
+ability <- read_csv('https://app.quadstat.net/system/files/datasets/dataset-17103.csv')
+```
+
+```{r, eval=FALSE}
+ability <- psych::ability
+```
 ```{r fig.height=4, warning=FALSE}
-iq <- as_tibble(psych::ability) %>% 
+iq <- as_tibble(ability) %>% 
   pivot_longer(., cols=1:16, names_to = "Item", values_to = "Correct") %>%
   # gather(key="Item", value="Correct", 1:16) %>%         # The gather() alternative... 
   separate(Item, c("Domain", "Number"))
