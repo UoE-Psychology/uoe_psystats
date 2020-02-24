@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 16 One Sample Mean Test | Data Analysis for Psychology in R (dapR1) - Labs</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 16 One Sample Mean Test | Data Analysis for Psychology in R (dapR1) - Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 16 One Sample Mean Test | Data Analysis for Psychology in R (dapR1) - Labs" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chap-normal.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">DAPR1</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>1</b> Week 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="week-1.html"><a href="week-1.html#introduction-to-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="week-1.html"><a href="week-1.html#install-the-recent-version-of-r-and-r-studio"><i class="fa fa-check"></i><b>1.2</b> Install the recent version of R and R Studio</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1.html"><a href="week-1.html#first-step"><i class="fa fa-check"></i><b>1.2.1</b> First Step</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1.html"><a href="week-1.html#second-step"><i class="fa fa-check"></i><b>1.2.2</b> Second Step</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1.html"><a href="week-1.html#getting-started-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Getting Started in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="week-1.html"><a href="week-1.html#r-as-an-interactive-environment"><i class="fa fa-check"></i><b>1.4</b> R as an interactive environment</a></li>
+<li class="chapter" data-level="1.5" data-path="week-1.html"><a href="week-1.html#check-your-settings"><i class="fa fa-check"></i><b>1.5</b> Check your settings</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="week-1.html"><a href="week-1.html#disable-automatic-saving-of-your-workspace"><i class="fa fa-check"></i><b>1.5.1</b> Disable automatic saving of your workspace</a></li>
+<li class="chapter" data-level="1.5.2" data-path="week-1.html"><a href="week-1.html#adjust-fontscolours-if-you-like"><i class="fa fa-check"></i><b>1.5.2</b> Adjust fonts/colours if you like</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="week-1.html"><a href="week-1.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.6</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="1.7" data-path="week-1.html"><a href="week-1.html#the-console"><i class="fa fa-check"></i><b>1.7</b> The Console</a></li>
+<li class="chapter" data-level="1.8" data-path="week-1.html"><a href="week-1.html#spacing"><i class="fa fa-check"></i><b>1.8</b> Spacing</a></li>
+<li class="chapter" data-level="1.9" data-path="week-1.html"><a href="week-1.html#typos"><i class="fa fa-check"></i><b>1.9</b> Typos</a></li>
+<li class="chapter" data-level="1.10" data-path="week-1.html"><a href="week-1.html#unfinishe.-d"><i class="fa fa-check"></i><b>1.10</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="1.11" data-path="week-1.html"><a href="week-1.html#basic-arithmetic"><i class="fa fa-check"></i><b>1.11</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="1.12" data-path="week-1.html"><a href="week-1.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>1.12</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="1.13" data-path="week-1.html"><a href="week-1.html#r-scripts"><i class="fa fa-check"></i><b>1.13</b> R Scripts</a></li>
+<li class="chapter" data-level="1.14" data-path="week-1.html"><a href="week-1.html#short-example"><i class="fa fa-check"></i><b>1.14</b> Short Example</a></li>
+<li class="chapter" data-level="1.15" data-path="week-1.html"><a href="week-1.html#naming-variables"><i class="fa fa-check"></i><b>1.15</b> Naming variables</a></li>
+<li class="chapter" data-level="1.16" data-path="week-1.html"><a href="week-1.html#now-over-to-you"><i class="fa fa-check"></i><b>1.16</b> Now over to you</a><ul>
+<li class="chapter" data-level="1.16.1" data-path="week-1.html"><a href="week-1.html#exercise-1"><i class="fa fa-check"></i><b>1.16.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="1.16.2" data-path="week-1.html"><a href="week-1.html#exercise-2"><i class="fa fa-check"></i><b>1.16.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="1.17" data-path="week-1.html"><a href="week-1.html#solutions"><i class="fa fa-check"></i><b>1.17</b> Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2</b> Week 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="week-2.html"><a href="week-2.html#introduction-to-rmarkdown"><i class="fa fa-check"></i><b>2.1</b> Introduction to RMarkdown</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html#what-is-r-markdown"><i class="fa fa-check"></i><b>2.2</b> What is R Markdown?</a></li>
+<li class="chapter" data-level="2.3" data-path="week-2.html"><a href="week-2.html#getting-things-ready"><i class="fa fa-check"></i><b>2.3</b> Getting things ready</a></li>
+<li class="chapter" data-level="2.4" data-path="week-2.html"><a href="week-2.html#r-markdown-basics"><i class="fa fa-check"></i><b>2.4</b> R Markdown basics</a></li>
+<li class="chapter" data-level="2.5" data-path="week-2.html"><a href="week-2.html#headings"><i class="fa fa-check"></i><b>2.5</b> Headings</a></li>
+<li class="chapter" data-level="2.6" data-path="week-2.html"><a href="week-2.html#text"><i class="fa fa-check"></i><b>2.6</b> Text</a></li>
+<li class="chapter" data-level="2.7" data-path="week-2.html"><a href="week-2.html#tables"><i class="fa fa-check"></i><b>2.7</b> Tables</a></li>
+<li class="chapter" data-level="2.8" data-path="week-2.html"><a href="week-2.html#lists"><i class="fa fa-check"></i><b>2.8</b> Lists</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="week-2.html"><a href="week-2.html#unordered"><i class="fa fa-check"></i><b>2.8.1</b> Unordered</a></li>
+<li class="chapter" data-level="2.8.2" data-path="week-2.html"><a href="week-2.html#ordered"><i class="fa fa-check"></i><b>2.8.2</b> Ordered</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
+<li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
+<li class="chapter" data-level="3.2" data-path="week-3.html"><a href="week-3.html#get-the-package-first"><i class="fa fa-check"></i><b>3.2</b> Get the package first</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3.html"><a href="week-3.html#numeric-data"><i class="fa fa-check"></i><b>3.3</b> Numeric Data</a></li>
+<li class="chapter" data-level="3.4" data-path="week-3.html"><a href="week-3.html#textcharacter-data"><i class="fa fa-check"></i><b>3.4</b> Text/Character Data</a></li>
+<li class="chapter" data-level="3.5" data-path="week-3.html"><a href="week-3.html#logical-data"><i class="fa fa-check"></i><b>3.5</b> Logical Data</a></li>
+<li class="chapter" data-level="3.6" data-path="week-3.html"><a href="week-3.html#variable-classes"><i class="fa fa-check"></i><b>3.6</b> Variable Classes</a></li>
+<li class="chapter" data-level="3.7" data-path="week-3.html"><a href="week-3.html#factors"><i class="fa fa-check"></i><b>3.7</b> Factors</a></li>
+<li class="chapter" data-level="3.8" data-path="week-3.html"><a href="week-3.html#lists-1"><i class="fa fa-check"></i><b>3.8</b> Lists</a></li>
+<li class="chapter" data-level="3.9" data-path="week-3.html"><a href="week-3.html#practice.rmd-solutions"><i class="fa fa-check"></i><b>3.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="week-3.html"><a href="week-3.html#exercise-1-1"><i class="fa fa-check"></i><b>3.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.9.2" data-path="week-3.html"><a href="week-3.html#exercise-2-1"><i class="fa fa-check"></i><b>3.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.9.3" data-path="week-3.html"><a href="week-3.html#exercise-3"><i class="fa fa-check"></i><b>3.9.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>4</b> Week 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="week-4.html"><a href="week-4.html#introduction-to-plots-geoms-ggplot"><i class="fa fa-check"></i><b>4.1</b> Introduction to plots &amp; geoms (ggplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="week-4.html"><a href="week-4.html#visualisations"><i class="fa fa-check"></i><b>4.2</b> Visualisations</a></li>
+<li class="chapter" data-level="4.3" data-path="week-4.html"><a href="week-4.html#get-our-data-sorted"><i class="fa fa-check"></i><b>4.3</b> Get our data sorted</a></li>
+<li class="chapter" data-level="4.4" data-path="week-4.html"><a href="week-4.html#numerical-data"><i class="fa fa-check"></i><b>4.4</b> Numerical data</a></li>
+<li class="chapter" data-level="4.5" data-path="week-4.html"><a href="week-4.html#simple-one-variable-plot-using-ggplot"><i class="fa fa-check"></i><b>4.5</b> Simple one-variable plot using ggplot()</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="week-4.html"><a href="week-4.html#continuous-variable"><i class="fa fa-check"></i><b>4.5.1</b> Continuous variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="week-4.html"><a href="week-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.6</b> Categorical variables</a></li>
+<li class="chapter" data-level="4.7" data-path="week-4.html"><a href="week-4.html#continuous-variables-grouped-by-a-categorical-one"><i class="fa fa-check"></i><b>4.7</b> Continuous variables grouped by a categorical one</a></li>
+<li class="chapter" data-level="4.8" data-path="week-4.html"><a href="week-4.html#even-more-advanced"><i class="fa fa-check"></i><b>4.8</b> Even more advanced</a></li>
+<li class="chapter" data-level="4.9" data-path="week-4.html"><a href="week-4.html#practice.rmd-solutions-1"><i class="fa fa-check"></i><b>4.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="week-4.html"><a href="week-4.html#exercise-1-2"><i class="fa fa-check"></i><b>4.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="4.9.2" data-path="week-4.html"><a href="week-4.html#exercise-2-2"><i class="fa fa-check"></i><b>4.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.9.3" data-path="week-4.html"><a href="week-4.html#exercise-3---advanced"><i class="fa fa-check"></i><b>4.9.3</b> Exercise 3 - Advanced</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>5</b> Week 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="week-5.html"><a href="week-5.html#central-tendency-and-variability"><i class="fa fa-check"></i><b>5.1</b> Central Tendency and Variability</a></li>
+<li class="chapter" data-level="5.2" data-path="week-5.html"><a href="week-5.html#load-all-the-necessary-packages"><i class="fa fa-check"></i><b>5.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="5.3" data-path="week-5.html"><a href="week-5.html#descriptive-statistics"><i class="fa fa-check"></i><b>5.3</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="5.4" data-path="week-5.html"><a href="week-5.html#central-tendency-variability"><i class="fa fa-check"></i><b>5.4</b> Central tendency &amp; variability</a></li>
+<li class="chapter" data-level="5.5" data-path="week-5.html"><a href="week-5.html#mean-and-median"><i class="fa fa-check"></i><b>5.5</b> Mean and median</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="week-5.html"><a href="week-5.html#reading-data-in"><i class="fa fa-check"></i><b>5.5.1</b> Reading data in</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="week-5.html"><a href="week-5.html#using-piping-operator-for-descriptive-statistics"><i class="fa fa-check"></i><b>5.6</b> Using piping operator for descriptive statistics</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="week-5.html"><a href="week-5.html#mean"><i class="fa fa-check"></i><b>5.6.1</b> Mean</a></li>
+<li class="chapter" data-level="5.6.2" data-path="week-5.html"><a href="week-5.html#median"><i class="fa fa-check"></i><b>5.6.2</b> Median</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="week-5.html"><a href="week-5.html#standard-deviation"><i class="fa fa-check"></i><b>5.7</b> Standard deviation</a></li>
+<li class="chapter" data-level="5.8" data-path="week-5.html"><a href="week-5.html#visualise-your-data"><i class="fa fa-check"></i><b>5.8</b> Visualise your data</a></li>
+<li class="chapter" data-level="5.9" data-path="week-5.html"><a href="week-5.html#practice.rmd-solutions-2"><i class="fa fa-check"></i><b>5.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="week-5.html"><a href="week-5.html#income-distribution-example"><i class="fa fa-check"></i><b>5.9.1</b> Income Distribution Example</a></li>
+<li class="chapter" data-level="5.9.2" data-path="week-5.html"><a href="week-5.html#visualisations-1"><i class="fa fa-check"></i><b>5.9.2</b> Visualisations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>6</b> Week 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="week-6.html"><a href="week-6.html#plotting-functions-and-simple-data-transformation"><i class="fa fa-check"></i><b>6.1</b> Plotting Functions and Simple Data Transformation</a></li>
+<li class="chapter" data-level="6.2" data-path="week-6.html"><a href="week-6.html#load-all-the-necessary-packages-1"><i class="fa fa-check"></i><b>6.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="6.3" data-path="week-6.html"><a href="week-6.html#part-1-hand-plotting-functions"><i class="fa fa-check"></i><b>6.3</b> Part 1: Hand plotting functions</a></li>
+<li class="chapter" data-level="6.4" data-path="week-6.html"><a href="week-6.html#basics"><i class="fa fa-check"></i><b>6.4</b> Basics</a></li>
+<li class="chapter" data-level="6.5" data-path="week-6.html"><a href="week-6.html#linear-functions"><i class="fa fa-check"></i><b>6.5</b> Linear functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="week-6.html"><a href="week-6.html#tree-height-example"><i class="fa fa-check"></i><b>6.5.1</b> Tree height example</a></li>
+<li class="chapter" data-level="6.5.2" data-path="week-6.html"><a href="week-6.html#non-linear-functions-first-order-polynomials"><i class="fa fa-check"></i><b>6.5.2</b> Non-linear functions (first order polynomials)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="week-6.html"><a href="week-6.html#practice-plotting"><i class="fa fa-check"></i><b>6.6</b> Practice plotting</a></li>
+<li class="chapter" data-level="6.7" data-path="week-6.html"><a href="week-6.html#part-2-introduction-to-data-transformation"><i class="fa fa-check"></i><b>6.7</b> Part 2: Introduction to Data Transformation</a></li>
+<li class="chapter" data-level="6.8" data-path="week-6.html"><a href="week-6.html#renaming"><i class="fa fa-check"></i><b>6.8</b> Renaming</a></li>
+<li class="chapter" data-level="6.9" data-path="week-6.html"><a href="week-6.html#adding-new-variables"><i class="fa fa-check"></i><b>6.9</b> Adding new variables</a></li>
+<li class="chapter" data-level="6.10" data-path="week-6.html"><a href="week-6.html#transformation-and-skewness"><i class="fa fa-check"></i><b>6.10</b> Transformation and skewness</a></li>
+<li class="chapter" data-level="6.11" data-path="week-6.html"><a href="week-6.html#mean-centering"><i class="fa fa-check"></i><b>6.11</b> Mean Centering</a></li>
+<li class="chapter" data-level="6.12" data-path="week-6.html"><a href="week-6.html#standardisation"><i class="fa fa-check"></i><b>6.12</b> Standardisation</a></li>
+<li class="chapter" data-level="6.13" data-path="week-6.html"><a href="week-6.html#practice.rmd-solutions-3"><i class="fa fa-check"></i><b>6.13</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>7</b> Week 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="week-7.html"><a href="week-7.html#reading-in-data-merge-and-more-r-practice"><i class="fa fa-check"></i><b>7.1</b> Reading in Data, Merge and More R Practice</a></li>
+<li class="chapter" data-level="7.2" data-path="week-7.html"><a href="week-7.html#dataset-1-.csv"><i class="fa fa-check"></i><b>7.2</b> Dataset 1 (.csv)</a></li>
+<li class="chapter" data-level="7.3" data-path="week-7.html"><a href="week-7.html#dataset-2-.txt"><i class="fa fa-check"></i><b>7.3</b> Dataset 2 (.txt)</a></li>
+<li class="chapter" data-level="7.4" data-path="week-7.html"><a href="week-7.html#dataset-3-.sav-and-.dta"><i class="fa fa-check"></i><b>7.4</b> Dataset 3 (.sav and .dta)</a></li>
+<li class="chapter" data-level="7.5" data-path="week-7.html"><a href="week-7.html#merging-datasets-together"><i class="fa fa-check"></i><b>7.5</b> Merging datasets together</a></li>
+<li class="chapter" data-level="7.6" data-path="week-7.html"><a href="week-7.html#sorting-and-arrange"><i class="fa fa-check"></i><b>7.6</b> Sorting and arrange()</a></li>
+<li class="chapter" data-level="7.7" data-path="week-7.html"><a href="week-7.html#data-description"><i class="fa fa-check"></i><b>7.7</b> Data description</a></li>
+<li class="chapter" data-level="7.8" data-path="week-7.html"><a href="week-7.html#using-filter"><i class="fa fa-check"></i><b>7.8</b> Using filter()</a></li>
+<li class="chapter" data-level="7.9" data-path="week-7.html"><a href="week-7.html#visualisations-2"><i class="fa fa-check"></i><b>7.9</b> Visualisations</a></li>
+<li class="chapter" data-level="7.10" data-path="week-7.html"><a href="week-7.html#save-the-file-in-your-folder"><i class="fa fa-check"></i><b>7.10</b> Save the file in your folder</a></li>
+<li class="chapter" data-level="7.11" data-path="week-7.html"><a href="week-7.html#practice.rmd-solutions-4"><i class="fa fa-check"></i><b>7.11</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="week-8.html"><a href="week-8.html"><i class="fa fa-check"></i><b>8</b> Week 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="week-8.html"><a href="week-8.html#introduction-to-probability"><i class="fa fa-check"></i><b>8.1</b> Introduction to Probability</a></li>
+<li class="chapter" data-level="8.2" data-path="week-8.html"><a href="week-8.html#example-1-hot-hand"><i class="fa fa-check"></i><b>8.2</b> Example 1 (hot hand)</a></li>
+<li class="chapter" data-level="8.3" data-path="week-8.html"><a href="week-8.html#example-2-coin-toss"><i class="fa fa-check"></i><b>8.3</b> Example 2 (coin toss)</a></li>
+<li class="chapter" data-level="8.4" data-path="week-8.html"><a href="week-8.html#example-3-independent-shooter"><i class="fa fa-check"></i><b>8.4</b> Example 3 (Independent shooter)</a></li>
+<li class="chapter" data-level="8.5" data-path="week-8.html"><a href="week-8.html#practice-rmd.-solutions"><i class="fa fa-check"></i><b>8.5</b> Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.-jones-and-mr.-smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
+<li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
+<li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
+<li class="chapter" data-level="8.6.5" data-path="week-8.html"><a href="week-8.html#answers-1"><i class="fa fa-check"></i><b>8.6.5</b> Answers</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="week-9.html"><a href="week-9.html"><i class="fa fa-check"></i><b>9</b> Week 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="week-9.html"><a href="week-9.html#introduction-to-probability-distributions-and-revision"><i class="fa fa-check"></i><b>9.1</b> Introduction to Probability Distributions and Revision</a></li>
+<li class="chapter" data-level="9.2" data-path="week-9.html"><a href="week-9.html#discrete-example-guessing-homework-answers"><i class="fa fa-check"></i><b>9.2</b> Discrete example (guessing homework answers)</a></li>
+<li class="chapter" data-level="9.3" data-path="week-9.html"><a href="week-9.html#generate-a-homework-attempt"><i class="fa fa-check"></i><b>9.3</b> Generate a homework attempt</a></li>
+<li class="chapter" data-level="9.4" data-path="week-9.html"><a href="week-9.html#changing-the-probability-truefalse"><i class="fa fa-check"></i><b>9.4</b> Changing the probability (TRUE/FALSE)</a></li>
+<li class="chapter" data-level="9.5" data-path="week-9.html"><a href="week-9.html#studying-the-distribution"><i class="fa fa-check"></i><b>9.5</b> Studying the distribution</a></li>
+<li class="chapter" data-level="9.6" data-path="week-9.html"><a href="week-9.html#cumulative-probability-advanced"><i class="fa fa-check"></i><b>9.6</b> Cumulative Probability (Advanced)</a></li>
+<li class="chapter" data-level="9.7" data-path="week-9.html"><a href="week-9.html#revision-practice-rmd.-solutions"><i class="fa fa-check"></i><b>9.7</b> Revision Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="week-9.html"><a href="week-9.html#provide-descriptive-statistics-for-age-and-memory-score-variables"><i class="fa fa-check"></i><b>9.7.1</b> Provide descriptive statistics for age and memory score variables</a></li>
+<li class="chapter" data-level="9.7.2" data-path="week-9.html"><a href="week-9.html#descriptives-by-groups"><i class="fa fa-check"></i><b>9.7.2</b> Descriptives by groups</a></li>
+<li class="chapter" data-level="9.7.3" data-path="week-9.html"><a href="week-9.html#visualise"><i class="fa fa-check"></i><b>9.7.3</b> Visualise</a></li>
+<li class="chapter" data-level="9.7.4" data-path="week-9.html"><a href="week-9.html#visualise-a-subset"><i class="fa fa-check"></i><b>9.7.4</b> Visualise a subset</a></li>
+<li class="chapter" data-level="9.7.5" data-path="week-9.html"><a href="week-9.html#variable-by-a-group"><i class="fa fa-check"></i><b>9.7.5</b> Variable by a group</a></li>
+<li class="chapter" data-level="9.7.6" data-path="week-9.html"><a href="week-9.html#create-a-new-variable-using-mutate"><i class="fa fa-check"></i><b>9.7.6</b> Create a new variable using mutate()</a></li>
+<li class="chapter" data-level="9.7.7" data-path="week-9.html"><a href="week-9.html#subset-observations-using-filter"><i class="fa fa-check"></i><b>9.7.7</b> Subset observations using filter()</a></li>
+<li class="chapter" data-level="9.7.8" data-path="week-9.html"><a href="week-9.html#sort-via-arrange"><i class="fa fa-check"></i><b>9.7.8</b> Sort via arrange()</a></li>
+<li class="chapter" data-level="9.7.9" data-path="week-9.html"><a href="week-9.html#lets-do-some-specific-count-using-filter"><i class="fa fa-check"></i><b>9.7.9</b> Let’s do some specific count() using filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="week-9.html"><a href="week-9.html#extra-probability-practice"><i class="fa fa-check"></i><b>9.8</b> Extra Probability Practice</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="week-9.html"><a href="week-9.html#truefalse-questions"><i class="fa fa-check"></i><b>9.8.1</b> TRUE/FALSE questions</a></li>
+<li class="chapter" data-level="9.8.2" data-path="week-9.html"><a href="week-9.html#count-the-occurencies"><i class="fa fa-check"></i><b>9.8.2</b> Count the occurencies</a></li>
+<li class="chapter" data-level="9.8.3" data-path="week-9.html"><a href="week-9.html#plot"><i class="fa fa-check"></i><b>9.8.3</b> Plot</a></li>
+<li class="chapter" data-level="9.8.4" data-path="week-9.html"><a href="week-9.html#use-dbinom-to-study-the-probability"><i class="fa fa-check"></i><b>9.8.4</b> Use dbinom() to study the probability</a></li>
+<li class="chapter" data-level="9.8.5" data-path="week-9.html"><a href="week-9.html#less-than-five-or-more-than-five"><i class="fa fa-check"></i><b>9.8.5</b> Less than five or more than five?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-10-lab-test.html"><a href="week-10-lab-test.html"><i class="fa fa-check"></i><b>10</b> Week 10: Lab test</a></li>
+<li class="chapter" data-level="11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html"><i class="fa fa-check"></i><b>11</b> Sampling distributions</a><ul>
+<li class="chapter" data-level="11.1" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#recap"><i class="fa fa-check"></i><b>11.1</b> Recap</a></li>
+<li class="chapter" data-level="11.2" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#population-sample"><i class="fa fa-check"></i><b>11.2</b> Population vs sample</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#parameter-statistic"><i class="fa fa-check"></i><b>11.3</b> Population parameter vs sample statistic</a></li>
+<li class="chapter" data-level="11.4" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sec-sampling-distributions"><i class="fa fa-check"></i><b>11.4</b> Sampling distributions</a></li>
+<li class="chapter" data-level="11.5" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#standard-error"><i class="fa fa-check"></i><b>11.5</b> The standard error of a statistic</a></li>
+<li class="chapter" data-level="11.6" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sample-size-standard-error"><i class="fa fa-check"></i><b>11.6</b> The effect of sample size on the sampling distribution</a></li>
+<li class="chapter" data-level="11.7" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#take-home-message"><i class="fa fa-check"></i><b>11.7</b> Take-home message</a></li>
+<li class="chapter" data-level="11.8" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#lab-hollywood-movies"><i class="fa fa-check"></i><b>11.8</b> Lab: Hollywood movies</a></li>
+<li class="chapter" data-level="11.9" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#summary"><i class="fa fa-check"></i><b>11.9</b> Summary</a></li>
+<li class="chapter" data-level="11.10" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#glossary"><i class="fa fa-check"></i><b>11.10</b> Glossary</a></li>
+<li class="chapter" data-level="11.11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#references"><i class="fa fa-check"></i><b>11.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html"><i class="fa fa-check"></i><b>12</b> Bootstrapping and Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#recap-1"><i class="fa fa-check"></i><b>12.1</b> Recap</a></li>
+<li class="chapter" data-level="12.2" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#from-sampling-to-resampling"><i class="fa fa-check"></i><b>12.2</b> From Sampling to Resampling</a></li>
+<li class="chapter" data-level="12.3" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#getting-to-the-bootstrap-distribution"><i class="fa fa-check"></i><b>12.3</b> Getting to the bootstrap distribution</a></li>
+<li class="chapter" data-level="12.4" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#more-generally"><i class="fa fa-check"></i><b>12.4</b> More generally…</a></li>
+<li class="chapter" data-level="12.5" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#confidence-intervals"><i class="fa fa-check"></i><b>12.5</b> Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#calculating-confidence-intervals-using-a-bootstrap-standard-error"><i class="fa fa-check"></i><b>12.5.1</b> Calculating confidence intervals using a bootstrap standard error</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#summary-1"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+<li class="chapter" data-level="12.7" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#take-home-message-1"><i class="fa fa-check"></i><b>12.7</b> Take-home message</a></li>
+<li class="chapter" data-level="12.8" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#lab"><i class="fa fa-check"></i><b>12.8</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-1-hollywood-movies"><i class="fa fa-check"></i>Exercise 1: Hollywood Movies</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-2-nfl-players"><i class="fa fa-check"></i>Exercise 2: NFL Players</a></li>
+</ul></li>
+<li class="chapter" data-level="12.9" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#glossary-1"><i class="fa fa-check"></i><b>12.9</b> Glossary</a></li>
+<li class="chapter" data-level="12.10" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#references-1"><i class="fa fa-check"></i><b>12.10</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html"><i class="fa fa-check"></i><b>13</b> Testing hypotheses</a><ul>
+<li class="chapter" data-level="13.1" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#recap-2"><i class="fa fa-check"></i><b>13.1</b> Recap</a></li>
+<li class="chapter" data-level="13.2" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#walkthrough"><i class="fa fa-check"></i><b>13.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#extrasensory-perception-esp"><i class="fa fa-check"></i>Extrasensory perception (ESP)</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-esp-results"><i class="fa fa-check"></i>Example 1: ESP experimental results</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-in-class"><i class="fa fa-check"></i>Example 2: In-class activity</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-random-chance-model"><i class="fa fa-check"></i>The random chance model</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-alternative-explanation"><i class="fa fa-check"></i>The alternative explanation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-test"><i class="fa fa-check"></i>Statistical test</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#understanding-statistical-evidence"><i class="fa fa-check"></i>Understanding statistical evidence</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-hypotheses"><i class="fa fa-check"></i>Statistical hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-significance"><i class="fa fa-check"></i>Statistical significance</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-distribution"><i class="fa fa-check"></i>Null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#making-a-formal-decision"><i class="fa fa-check"></i>Making a formal decision</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#summary-2"><i class="fa fa-check"></i><b>13.3</b> Summary</a></li>
+<li class="chapter" data-level="13.4" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#lab-1"><i class="fa fa-check"></i><b>13.4</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#required-packages"><i class="fa fa-check"></i>Required packages</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#importing-the-data"><i class="fa fa-check"></i>Importing the data</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#data-inspection"><i class="fa fa-check"></i>Data inspection</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#sample-average-and-standard-deviation"><i class="fa fa-check"></i>Sample average and standard deviation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-and-alternative-hypothesis"><i class="fa fa-check"></i>Null and alternative hypothesis</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#bootstrap-distribution-and-null-distribution"><i class="fa fa-check"></i>Bootstrap distribution and null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#visualise-the-observed-statistic-on-the-null-distribution"><i class="fa fa-check"></i>Visualise the observed statistic on the null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value-2"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#interpreting-the-p-value"><i class="fa fa-check"></i>Interpreting the p-value</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#glossary-2"><i class="fa fa-check"></i><b>13.5</b> Glossary</a></li>
+<li class="chapter" data-level="13.6" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#references-2"><i class="fa fa-check"></i><b>13.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="chap-typeerror.html"><a href="chap-typeerror.html"><i class="fa fa-check"></i><b>14</b> Type I, Type II errors and Power</a><ul>
+<li class="chapter" data-level="14.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overview-of-last-week"><i class="fa fa-check"></i><b>14.1</b> Overview of last week</a></li>
+<li class="chapter" data-level="14.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#walkthrough-1"><i class="fa fa-check"></i><b>14.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-1-coin-flip"><i class="fa fa-check"></i>Example 1: Coin flip</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#an-analogy-in-law"><i class="fa fa-check"></i>An analogy in law</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#two-different-types-of-errors"><i class="fa fa-check"></i>Two different types of errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-i-errors"><i class="fa fa-check"></i>Type I errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors-and-power"><i class="fa fa-check"></i>Type II Errors and Power</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2-a-biased-coin"><i class="fa fa-check"></i>Example 2: A biased coin</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overlapping-distributions"><i class="fa fa-check"></i>Overlapping distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#summary-3"><i class="fa fa-check"></i><b>14.3</b> Summary</a></li>
+<li class="chapter" data-level="14.4" data-path="chap-typeerror.html"><a href="chap-typeerror.html#lab-2"><i class="fa fa-check"></i><b>14.4</b> Lab</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-rock-paper-scissors"><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Rock Paper Scissors!</a></li>
+<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Calculating power for a different coin.</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="chap-typeerror.html"><a href="chap-typeerror.html#extra-exercises"><i class="fa fa-check"></i><b>14.5</b> Extra Exercises</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-3-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.5.1</b> Exercise 3: Sample size (number of flips) and power</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="chap-typeerror.html"><a href="chap-typeerror.html#glossary-3"><i class="fa fa-check"></i><b>14.6</b> Glossary</a></li>
+<li class="chapter" data-level="14.7" data-path="chap-typeerror.html"><a href="chap-typeerror.html#references-3"><i class="fa fa-check"></i><b>14.7</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="chap-normal.html"><a href="chap-normal.html"><i class="fa fa-check"></i><b>15</b> Normal distribution &amp; probability</a><ul>
+<li class="chapter" data-level="15.1" data-path="chap-normal.html"><a href="chap-normal.html#recap-3"><i class="fa fa-check"></i><b>15.1</b> Recap</a></li>
+<li class="chapter" data-level="15.2" data-path="chap-normal.html"><a href="chap-normal.html#walkthrough-2"><i class="fa fa-check"></i><b>15.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="chap-normal.html"><a href="chap-normal.html#from-histograms-to-normal-curves"><i class="fa fa-check"></i><b>15.2.1</b> From histograms to normal curves</a></li>
+<li class="chapter" data-level="15.2.2" data-path="chap-normal.html"><a href="chap-normal.html#sec-area-and-prob"><i class="fa fa-check"></i><b>15.2.2</b> The relation between area and probability</a></li>
+<li class="chapter" data-level="15.2.3" data-path="chap-normal.html"><a href="chap-normal.html#probabilities-for-normally-distributed-random-variables"><i class="fa fa-check"></i><b>15.2.3</b> Probabilities for normally distributed random variables</a></li>
+<li class="chapter" data-level="15.2.4" data-path="chap-normal.html"><a href="chap-normal.html#z-scores"><i class="fa fa-check"></i><b>15.2.4</b> Z-scores</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="chap-normal.html"><a href="chap-normal.html#summary-4"><i class="fa fa-check"></i><b>15.3</b> Summary</a></li>
+<li class="chapter" data-level="15.4" data-path="chap-normal.html"><a href="chap-normal.html#lab-3"><i class="fa fa-check"></i><b>15.4</b> Lab</a></li>
+<li class="chapter" data-level="15.5" data-path="chap-normal.html"><a href="chap-normal.html#glossary-4"><i class="fa fa-check"></i><b>15.5</b> Glossary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html"><i class="fa fa-check"></i><b>16</b> One Sample Mean Test</a><ul>
+<li class="chapter" data-level="16.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#recap-4"><i class="fa fa-check"></i><b>16.1</b> Recap</a></li>
+<li class="chapter" data-level="16.2" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#where-we-are-now"><i class="fa fa-check"></i><b>16.2</b> Where we are now</a></li>
+<li class="chapter" data-level="16.3" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#where-we-are-going"><i class="fa fa-check"></i><b>16.3</b> Where we are going</a></li>
+<li class="chapter" data-level="16.4" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#one-sample-mean-test"><i class="fa fa-check"></i><b>16.4</b> One sample mean test</a><ul>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#example-questions"><i class="fa fa-check"></i>Example questions</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#hypotheses"><i class="fa fa-check"></i>Hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#formula"><i class="fa fa-check"></i>Formula</a></li>
+<li class="chapter" data-level="16.4.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#t-distributions"><i class="fa fa-check"></i><b>16.4.1</b> <span class="math inline">\(t\)</span>-distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#critical-values-significance"><i class="fa fa-check"></i>Critical values &amp; significance</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#walkthrough---tempo-of-rock-music-on-spotify"><i class="fa fa-check"></i><b>16.5</b> Walkthrough - Tempo of rock music on spotify</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#all-in-one-line-of-code"><i class="fa fa-check"></i>ALL IN ONE LINE OF CODE!</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#assumptions"><i class="fa fa-check"></i>Assumptions</a></li>
+<li class="chapter" data-level="16.6" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#summary-5"><i class="fa fa-check"></i><b>16.6</b> Summary</a></li>
+<li class="chapter" data-level="16.7" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#lab-4"><i class="fa fa-check"></i><b>16.7</b> Lab</a><ul>
+<li class="chapter" data-level="16.7.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#pets-weights"><i class="fa fa-check"></i><b>16.7.1</b> Pets’ weights</a></li>
+<li class="chapter" data-level="16.7.2" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#procrastination-scores"><i class="fa fa-check"></i><b>16.7.2</b> Procrastination scores</a></li>
+<li class="chapter" data-level="16.7.3" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#cat-weights"><i class="fa fa-check"></i><b>16.7.3</b> Cat weights!</a></li>
+<li class="chapter" data-level="16.7.4" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#glossary-5"><i class="fa fa-check"></i><b>16.7.4</b> Glossary</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology in R (dapR1) - Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chap-one-mean-test" class="section level1">
+<h1><span class="header-section-number">Chapter 16</span> One Sample Mean Test</h1>
+<div class="lo">
+<h4 id="instructions-5" class="unnumbered">Instructions</h4>
+<ul>
+<li>In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.</li>
+<li>The Rmarkdown file for this week is <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_16_practice.Rmd">here</a>.</li>
+</ul>
+<h4 id="learning-outcomes-5" class="unnumbered">Learning outcomes</h4>
+<p><strong>LO1.</strong> Understand the t-test for one mean.</p>
+<p><strong>LO2.</strong> Understand the t distribution and the concept of degrees of freedom.</p>
+<p><strong>LO3.</strong> Understand how to assess normality.</p>
+<!-- #### Reading {-} -->
+</div>
+<div id="recap-4" class="section level2">
+<h2><span class="header-section-number">16.1</span> Recap</h2>
+<p>Over the last 5 weeks, we have started to look at how we can use a sample from a population to draw infereces about the population.<br />
+<br><br />
+Some key things which we have learned:</p>
+<div class="noteBox">
+<h4 id="week-11" class="unnumbered">Week 11</h4>
+<ul>
+<li>Distinction between <strong>population</strong> and <strong>sample</strong>.<br />
+</li>
+<li>Use of sample statistics to draw infereces about population parameters.<br />
+</li>
+<li><strong>Sampling variability</strong> leads a statistic to vary from sample to sample.</li>
+<li>The <strong>sampling distribution</strong> of a statistic is the distribution of the values that a statistic takes for <em>all possible samples of the same size</em> from the same population.<br />
+</li>
+<li>To quantify the accuracy of our statistic, we calculate the standard deviation of its sampling distribution. This we call the <strong>standard error</strong> of the statistic.</li>
+</ul>
+</div>
+<hr />
+<div class="noteBox">
+<h4 id="week-12" class="unnumbered">Week 12</h4>
+<ul>
+<li>In practice we cannot take many many samples in order to build up a picture of the sampling distribution of a statistic.<br />
+</li>
+<li>We can approximate this process by <strong>bootstrap resampling</strong> our original sample (repeated random sampling <em>with replacement</em> from the original sample, <em>using the same sample size.</em>).</li>
+</ul>
+</div>
+<hr />
+<div class="noteBox">
+<h4 id="weeks-13-and-14" class="unnumbered">Weeks 13 and 14</h4>
+<ul>
+<li>Introduced hypothesis testing, statistical significance and statistical power.</li>
+<li>These concepts relied on us having some measure of sampling variability.</li>
+<li>In order to test hypotheses or construct confidence intervals, we <em>simulated</em> sampling distributions under different hypothetical parameters, against which we could then compare an observed statistic.</li>
+</ul>
+</div>
+<hr />
+<div class="noteBox">
+<h4 id="week-15" class="unnumbered">Week 15</h4>
+<ul>
+<li>Things got a bit abstract.<br />
+</li>
+<li>Constructing a sampling distribution ourselves requires simulate 1000’s of samples (only possible with a computer).<br />
+</li>
+<li>We can also work with a <em>theoretical</em> sampling distribution.</li>
+<li>If we <em>assume</em> that the sampling distribution is <strong>normal</strong> (symmetric and bell-shaped), we can approximate the standard error using a formula: <span class="math inline">\(SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}\)</span></li>
+</ul>
+</div>
+</div>
+<div id="where-we-are-now" class="section level2">
+<h2><span class="header-section-number">16.2</span> Where we are now</h2>
+<div id="two-ways-of-estimating-the-standard-error" class="section level4 unnumbered">
+<h4>Two ways of estimating the standard error</h4>
+<p><img src="images/bootstrapvsformula.png" width="1200px" /></p>
+</div>
+</div>
+<div id="where-we-are-going" class="section level2">
+<h2><span class="header-section-number">16.3</span> Where we are going</h2>
+<p>For the next couple of weeks, we are going to learn about some specific statistical tests we can perform, when we would use them, how to calculate them, and what assumptions we make when we use them.<br />
+We are going to focus on the theoretical approach, and use the formula for the standard error, rather than bootstrapping.</p>
+<p>This week, we’re going to look at the <em>one sample mean test</em>.</p>
+</div>
+<div id="one-sample-mean-test" class="section level2">
+<h2><span class="header-section-number">16.4</span> One sample mean test</h2>
+<p>The “one sample mean test” does pretty much what it says - if you have one sample and you have a mean, you can perform a statistical test in order to evaluate how likely it is that the population mean (which the sample mean is your estimate of) is equal to a specific value.</p>
+<div id="example-questions" class="section level3 unnumbered">
+<h3>Example questions</h3>
+<p>Questions which can be answered by a one sample mean test often take the form:</p>
+<ul>
+<li>Is the average weight of a dog greater than 20kg?<br />
+</li>
+<li>Is the mean body temperature not equal to 37 degrees C?<br />
+</li>
+<li>On the Beck Depression Inventory (BDI), a score of &gt;25 is considered clinical diagnosis of depression. Is the average score of our population of interest (e.g., people suffering from a specific disease) significantly above this cutoff?</li>
+</ul>
+</div>
+<div id="hypotheses" class="section level3 unnumbered">
+<h3>Hypotheses</h3>
+<p><strong>Null hypothesis:</strong></p>
+<ul>
+<li>The population mean (<span class="math inline">\(\mu\)</span>) is equal to some pre-specified number (denoted <span class="math inline">\(\mu_{0}\)</span>).
+<ul>
+<li><span class="math inline">\(H_0: \mu = \mu_{0}\)</span></li>
+</ul></li>
+</ul>
+<p><strong>Alternative hypothesis:</strong></p>
+<ul>
+<li>The population mean (<span class="math inline">\(\mu\)</span>) is not equal to/is less than/is greater than some pre-specified number (denoted <span class="math inline">\(\mu_{0}\)</span>).
+<ul>
+<li><span class="math inline">\(H_1: \mu \neq \mu_{0}\)</span><br />
+</li>
+<li><span class="math inline">\(H_1: \mu &gt; \mu_{0}\)</span><br />
+</li>
+<li><span class="math inline">\(H_1: \mu &lt; \mu_{0}\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div id="formula" class="section level3 unnumbered">
+<h3>Formula</h3>
+<div id="standardized-statistic-z" class="section level4 unnumbered">
+<h4>Standardized statistic <span class="math inline">\((z)\)</span></h4>
+<p>Recall that in <a href="chap-hyp-test.html#chap-hyp-test">Week 13</a>, we introduced the concept of a <strong>standardized statistic</strong>, typically denoted by <span class="math inline">\(z\)</span>.
+This measures how many standard deviations away from the mean of the null distribution the observed statistic is:</p>
+<p><span class="math display">\[
+\textrm{standardized statistic} = z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}
+\]</span></p>
+<p>We also saw how, assuming the null hypothesis to be true, if we were to draw multiple random samples of the same size from the same population and perform the same calculation of a standardized <span class="math inline">\(z\)</span>-statistic for each sample, the values we would obtain would follow a normal distribution:</p>
+<p><em><strong>Reminder:</strong> The sampling distribution is the distribution of the values that a statistic takes on different samples of the same size and from the same population.</em></p>
+<p><img src="bookdown-demo_files/figure-html/w16-standardized-statistic-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>When we introduced the notion of a standardized statistic in <a href="chap-hyp-test.html#making-a-formal-decision">Week 13</a>, we had simulated the null sampling distribution by constructing repeated random samples and calculating the statistic for each one. This allowed us to see how these statistics would vary due to random sampling, assuming the null hypothesis to be true.
+We could quantify this directly by calculating the standard deviation of the simulated null distribution - the standard error.</p>
+<p><em><strong>Reminder:</strong> The standard deviation of the sampling distribution of a statistic (e.g. the mean) is also known as the standard error (SE) of the statistic.</em></p>
+<p>When we have not simulated a sampling distribution for a statistic, we can assume that is symmetric and bell-shaped (or ‘normal’), and we can calculate the standard error of the statistic (i.e., the standard deviation of the sampling distribution), for a sample of size <span class="math inline">\(n\)</span> using the formula: <span class="math inline">\(SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}\)</span>.</p>
+<p>So our formula for the standardized statistic becomes:</p>
+<p><span class="math display">\[
+z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}} = \frac{\bar{x} - \mu_{0}}{\sigma/\sqrt{n}}
+\]</span></p>
+</div>
+<div id="standardized-statistic-t" class="section level4 unnumbered">
+<h4>Standardized statistic (<span class="math inline">\(t\)</span>)</h4>
+<p>In the formula for <span class="math inline">\(z\)</span> above, <span class="math inline">\(\sigma\)</span> denotes the population standard deviation. But to calculate this we need to have data on the whole population.</p>
+<p>When the population standard deviation (<span class="math inline">\(\sigma\)</span>) is <em>unknown</em>, we estimate it using the sample standard deviation (<span class="math inline">\(s\)</span>):</p>
+<p><span class="math display">\[ 
+t = \frac{\bar{x} - \mu_{0}}{s/\sqrt{n}}
+\]</span></p>
+<p>Note that when we use the sample standard deviation <span class="math inline">\(s\)</span> in this formula, the standardized statistic we calculate gets denoted as <span class="math inline">\(t\)</span>, rather than <span class="math inline">\(z\)</span>.</p>
+<p>If we were to draw multiple random samples of the same size from the same population, and perform the same calculation of a <span class="math inline">\(t\)</span>-value for each sample, the values we would obtain would follow a <span class="math inline">\(t\)</span>-distribution.</p>
+</div>
+</div>
+<div id="t-distributions" class="section level3">
+<h3><span class="header-section-number">16.4.1</span> <span class="math inline">\(t\)</span>-distributions</h3>
+<p>The particular shape of the <span class="math inline">\(t\)</span>-distribution is determined by the <strong>degrees of freedom</strong>.<br />
+By ‘degrees of freedom’ we refer to the number of independent observations in a set of data.</p>
+<p>When we are estimating a mean from a single sample, the degrees of freedom is equal to the sample size minus one.<br />
+This means that the sampling distribution of <span class="math inline">\(t\)</span>-statistics from samples of size 10, would follow a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(10-1\)</span> degrees of freedom.</p>
+<div class="red">
+<h5 id="degrees-of-freedom-df" class="unnumbered">Degrees of freedom (df)</h5>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Suppose we have four unkown numbers (<span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>) which <em>must</em> have a mean of 5.</p>
+<p>Do the following, <em>in order:</em></p>
+<ol style="list-style-type: decimal">
+<li>Choose a value for <span class="math inline">\(a\)</span>.</li>
+<li>Choose a value for <span class="math inline">\(b\)</span>.</li>
+<li>Choose a value for <span class="math inline">\(c\)</span>.</li>
+<li>Can you choose a value for <span class="math inline">\(d\)</span> while ensuring the mean of the four numbers you have chosen is 5?</li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-338" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-338&#39;, &#39;sol-start-338&#39;)"></span>
+</p>
+<div id="sol-body-338" class="solution-body" style="display: none;">
+<p>You a free to choose anything you like for <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(c\)</span>.<br />
+But once those are fixed, you have no freedom to choose <span class="math inline">\(d\)</span>.</p>
+<p>Example:</p>
+<ul>
+<li><span class="math inline">\(a\)</span> = 1<br />
+</li>
+<li><span class="math inline">\(b\)</span> = 2<br />
+</li>
+<li><span class="math inline">\(c\)</span> = 3</li>
+</ul>
+<p>We know that <span class="math inline">\(\frac{1+2+3+d}{4} = 5\)</span>
+So there is only one possible value for <span class="math inline">\(d\)</span>:<br />
+<span class="math inline">\(\frac{1+2+3+d}{4} = 5\)</span><br />
+<span class="math inline">\(1+2+3+d = 5*4\)</span><br />
+<span class="math inline">\(1+2+3+d = 20\)</span><br />
+<span class="math inline">\(d = 20-3-2-1\)</span><br />
+<span class="math inline">\(d = 14\)</span></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<p>You can see the <span class="math inline">\(t\)</span>-distribution for different degrees of freedom below.<br />
+Notice that as the degrees of freedom (<span class="math inline">\(\nu\)</span> in the plot below) gets bigger (so as <span class="math inline">\(n\)</span> gets bigger), the more the <span class="math inline">\(t\)</span>-distibution fits a normal distribution.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Student_t_pdf.svg/1024px-Student_t_pdf.svg.png" />
+(Source: <a href="https://en.wikipedia.org/wiki/Student%27s_t-distribution" class="uri">https://en.wikipedia.org/wiki/Student%27s_t-distribution</a>)</p>
+</div>
+<div id="critical-values-significance" class="section level3 unnumbered">
+<h3>Critical values &amp; significance</h3>
+<p>In order to test the significance of a given <span class="math inline">\(t\)</span>-statistic, we therefore need to assess the probability of obtaining our <span class="math inline">\(t\)</span>-statistic (or one at least as extreme) against a <span class="math inline">\(t\)</span>-distribution with degrees of freedom <span class="math inline">\(n-1\)</span>.</p>
+<p>We can do this in <code>R</code> using the <code>pt()</code> function with <code>pt(x, df)</code>.<br />
+Remember that last week we used the function <code>pnorm(x, mean, sd)</code> to compute the area to the left of <code>x</code> in a normal curve centred at <code>mean</code> and having standard deviation <code>sd</code>.<br />
+Similarly, <code>pt(x, df)</code> computes the area to the left of <code>x</code> in a <span class="math inline">\(t\)</span>-distribution curve with degrees of freedom <code>df</code>.</p>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>Looking at the plot above, for a <span class="math inline">\(t\)</span>-distribution with degrees of freedom of 5 (the blue line), what proportion of the curve is to the left of -2?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution
+</p>
+<div class="solution-body">
+<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb710-1" title="1"><span class="kw">pt</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
+<pre><code>## [1] 0.05096974</code></pre>
+<p>From this, we can say that assuming the null hypothesis to be true, the probability of obtaining a <span class="math inline">\(t\)</span>-statistic with 5 degrees of freedom of <span class="math inline">\(\leq -2\)</span> is 0.051.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>We can also find the critical values of a <span class="math inline">\(t\)</span>-distribution using the function <code>qt(p, df)</code>. This will return the values of <span class="math inline">\(t\)</span> for which <span class="math inline">\(p\)</span>% of the distribution lies to the left.</p>
+<p>This way, we can find the values of <span class="math inline">\(t\)</span> at which we will reject the null hypothesis (for a given <span class="math inline">\(\alpha\)</span> level).</p>
+<div class="question">
+<p class="question-begin">
+► Question
+</p>
+<div class="question-body">
+<p>At what value of <span class="math inline">\(t\)</span> does 5% of the <span class="math inline">\(t\)</span>-distribution with 5 degrees of freedom lie to the left?<br />
+At what value<strong>s</strong> of <span class="math inline">\(t\)</span> do 5% of the <span class="math inline">\(t\)</span>-distribution with 5 degrees of freedom lie in either tail?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution
+</p>
+<div class="solution-body">
+<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb712-1" title="1"><span class="kw">qt</span>(.<span class="dv">05</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
+<pre><code>## [1] -2.015048</code></pre>
+<p>If we perform a one-tailed test of <span class="math inline">\(\mu &lt; \mu_{0}\)</span> on a sample of 6 (so our degrees of freedom is 5), we will reject the null hypothesis (<span class="math inline">\(\mu = \mu_{0}\)</span>) if our corresponding <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(\leq -2.015\)</span>.</p>
+<div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb714-1" title="1"><span class="kw">qt</span>(.<span class="dv">025</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
+<pre><code>## [1] -2.570582</code></pre>
+<div class="sourceCode" id="cb716"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb716-1" title="1"><span class="kw">qt</span>(.<span class="dv">975</span>, <span class="dt">df =</span> <span class="dv">5</span>) </a></code></pre></div>
+<pre><code>## [1] 2.570582</code></pre>
+<div class="sourceCode" id="cb718"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb718-1" title="1"><span class="co"># remember that the t-distribution is symmetric and centered on 0! </span></a></code></pre></div>
+<p>If we perform a <em>two</em>-tailed test of <span class="math inline">\(\mu \neq \mu_{0}\)</span> on a sample of 6, we will reject the null hypothesis (<span class="math inline">\(\mu = \mu_{0}\)</span>) if the <strong>absolute magnitude</strong> of our corresponding <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(\geq 2.571\)</span>.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+</div>
+</div>
+<div id="walkthrough---tempo-of-rock-music-on-spotify" class="section level2">
+<h2><span class="header-section-number">16.5</span> Walkthrough - Tempo of rock music on spotify</h2>
+<div class="red">
+<h4 id="research-question-1" class="unnumbered">Research Question</h4>
+<p>The average tempo of music classified as “rock” by Spotify is greater than 125 beats per minute (BPM).</p>
+</div>
+<div class="question">
+<p class="question-begin">
+► Step 1 - Hypotheses
+</p>
+<div class="question-body">
+<p>Write out the null and alternative hypotheses, and specify our <span class="math inline">\(\alpha\)</span> level.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-341" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-341&#39;, &#39;sol-start-341&#39;)"></span>
+</p>
+<div id="sol-body-341" class="solution-body" style="display: none;">
+<p>Null hypothesis (<span class="math inline">\(H_0\)</span>):<br />
+<span class="math inline">\(\mu = 125\)</span></p>
+<p>Alternative hypothesis (<span class="math inline">\(H_1\)</span>):<br />
+<span class="math inline">\(\mu &gt; 125\)</span></p>
+<p>We will use <span class="math inline">\(\alpha = 0.05\)</span></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Step 2 - Data
+</p>
+<div class="question-body">
+<p>Get the data!</p>
+<p>Our hypothesis is about <span class="math inline">\(\mu\)</span>, the mean of <em>all</em> rock songs on spotify.
+To investigate this, we have a sample of 200 rock songs from spotify, available at <a href="https://edin.ac/2wC5rz3">https://edin.ac/2wC5rz3</a></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-342" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-342&#39;, &#39;sol-start-342&#39;)"></span>
+</p>
+<div id="sol-body-342" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb719-1" title="1">spotify_songs &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wC5rz3&quot;</span>)</a>
+<a class="sourceLine" id="cb719-2" title="2"></a>
+<a class="sourceLine" id="cb719-3" title="3"><span class="kw">summary</span>(spotify_songs)</a></code></pre></div>
+<pre><code>##    track_id          track_name        track_artist       playlist_genre     track_popularity
+##  Length:200         Length:200         Length:200         Length:200         Min.   : 0.00   
+##  Class :character   Class :character   Class :character   Class :character   1st Qu.:19.75   
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median :48.00   
+##                                                                              Mean   :41.67   
+##                                                                              3rd Qu.:62.00   
+##                                                                              Max.   :85.00   
+##      tempo         duration_ms    
+##  Min.   : 74.07   Min.   :139600  
+##  1st Qu.:110.78   1st Qu.:204730  
+##  Median :125.41   Median :242027  
+##  Mean   :128.94   Mean   :256804  
+##  3rd Qu.:146.88   3rd Qu.:289960  
+##  Max.   :200.08   Max.   :510933</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Step 3 - Sample mean
+</p>
+<div class="question-body">
+<p>Which line of code will give us our sample statistic?</p>
+<ol style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb721"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb721-1" title="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb721-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(tempo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb721-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb721-4" title="4">    <span class="dt">xbar =</span> <span class="kw">mean</span>(rock)</a>
+<a class="sourceLine" id="cb721-5" title="5">  )</a></code></pre></div>
+<ol start="2" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb722-1" title="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb722-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb722-3" title="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo)</a>
+<a class="sourceLine" id="cb722-4" title="4">  )</a></code></pre></div>
+<ol start="3" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb723"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb723-1" title="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb723-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(rock) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb723-3" title="3"><span class="st">  </span><span class="kw">count</span>(tempo)</a></code></pre></div>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-343" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-343&#39;, &#39;sol-start-343&#39;)"></span>
+</p>
+<div id="sol-body-343" class="solution-body" style="display: none;">
+<p>Note that the entire sample contains only rock songs, so we can simply find the mean of the <code>tempo</code> variable.</p>
+<ol start="2" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb724-1" title="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb724-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb724-3" title="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo)</a>
+<a class="sourceLine" id="cb724-4" title="4">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##    xbar
+##   &lt;dbl&gt;
+## 1  129.</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Step 4 - Sample sd
+</p>
+<div class="question-body">
+<p>Do we know the population standard deviation (<span class="math inline">\(\sigma\)</span>)? That is, do we know the standard deviation of tempos of <em>all</em> rock songs on spotify?</p>
+<p>No, so we estimate it with the sample standard deviation (<span class="math inline">\(s\)</span>).<br />
+Calculate this now.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-344" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-344&#39;, &#39;sol-start-344&#39;)"></span>
+</p>
+<div id="sol-body-344" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb726-1" title="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb726-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb726-3" title="3">    <span class="dt">s =</span> <span class="kw">sd</span>(tempo)</a>
+<a class="sourceLine" id="cb726-4" title="4">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##       s
+##   &lt;dbl&gt;
+## 1  26.5</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Step 5 - Calculate t
+</p>
+<div class="question-body">
+<p>Fill in the blanks:<br />
+<span class="math display">\[
+\begin{aligned}
+\bar{x}  &amp;= \ ? \\
+\mu_{0}  &amp;= \ ? \\
+s  &amp;= \ ? \\
+n  &amp;= \ ? \\
+SE(\bar{x}) &amp;= \ ?
+\end{aligned}
+\]</span>
+and write out the <span class="math inline">\(t\)</span>-statistic:
+<span class="math display">\[
+t_{obs} \qquad = \qquad \frac{? \qquad - \qquad ?}{?}
+\]</span></p>
+<p>Finally, calculate your <span class="math inline">\(t\)</span>-statistic in <code>R</code>.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-345" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-345&#39;, &#39;sol-start-345&#39;)"></span>
+</p>
+<div id="sol-body-345" class="solution-body" style="display: none;">
+<p>Fill in the blanks:<br />
+<span class="math display">\[
+\begin{aligned}
+\bar{x} &amp;= \  128.9\\
+\mu_{0} &amp;= \  125\\
+s &amp;= \  26.5\\
+n &amp;= \  200\\
+SE(\bar{x}) &amp;= 26.5 / \sqrt{200}
+\end{aligned}
+\]</span>
+and write out the <span class="math inline">\(t\)</span>-statistic:
+<span class="math display">\[
+t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
+\]</span></p>
+<p>We can do this quickly using <code>R</code> just like a calculator:</p>
+<div class="sourceCode" id="cb728"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb728-1" title="1">t_obs =<span class="st"> </span>(<span class="fl">128.9</span> <span class="op">-</span><span class="st"> </span><span class="dv">125</span>) <span class="op">/</span><span class="st"> </span>(<span class="fl">26.5</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">200</span>))</a>
+<a class="sourceLine" id="cb728-2" title="2">t_obs</a></code></pre></div>
+<pre><code>## [1] 2.081295</code></pre>
+<div class="noteBox">
+<h4 id="new-r-stuff" class="unnumbered">New R stuff!</h4>
+<p>Going back to the start, we can use our skills with <code>summarise()</code> to calculate all the terms we need for our <span class="math inline">\(t\)</span>-statistic:</p>
+<div class="sourceCode" id="cb730"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb730-1" title="1">terms &lt;-<span class="st"> </span>spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb730-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb730-3" title="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo),</a>
+<a class="sourceLine" id="cb730-4" title="4">    <span class="dt">s =</span> <span class="kw">sd</span>(tempo),</a>
+<a class="sourceLine" id="cb730-5" title="5">    <span class="dt">mu_0 =</span> <span class="dv">125</span>,</a>
+<a class="sourceLine" id="cb730-6" title="6">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb730-7" title="7">  )</a>
+<a class="sourceLine" id="cb730-8" title="8"></a>
+<a class="sourceLine" id="cb730-9" title="9">terms</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##    xbar     s  mu_0     n
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+## 1  129.  26.5   125   200</code></pre>
+<p>And then we can plug in these numbers to our equation.</p>
+<p><strong>We now introduce a new technique: the <code>$</code> operator. This is similar to the <code>pull()</code> function we previously used, as it pulls out the column from a tibble.</strong></p>
+<div class="sourceCode" id="cb732"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb732-1" title="1">(terms<span class="op">$</span>xbar <span class="op">-</span><span class="st"> </span>terms<span class="op">$</span>mu_<span class="dv">0</span>) <span class="op">/</span><span class="st"> </span>(terms<span class="op">$</span>s <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(terms<span class="op">$</span>n))</a></code></pre></div>
+<pre><code>## [1] 2.099549</code></pre>
+</div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Step 6 - Critical t value
+</p>
+<div class="question-body">
+<p>Using the <code>qt()</code> function, calculate the critical value for <span class="math inline">\(\alpha\)</span> = 0.05. This is the smallest <em>absolute</em> value of <span class="math inline">\(t\)</span> at which you will reject the null hypothesis.</p>
+<ul>
+<li>You’ll need to work out the degrees of freedom<br />
+</li>
+<li>You’ll also need to think about whether we are performing a two-tailed test or a one-tailed test. If a two-tailed test, then remember that the <span class="math inline">\(\alpha\)</span> is split between the two tails (and so we would reject anything in the most extreme 2.5%)</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-346" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-346&#39;, &#39;sol-start-346&#39;)"></span>
+</p>
+<div id="sol-body-346" class="solution-body" style="display: none;">
+<p>The degrees of freedom are <span class="math inline">\(n-1 = 200-1 = 199\)</span></p>
+<p>We’re performing a one-tailed test here because our alternative hypothesis (<span class="math inline">\(H_1\)</span>) is that the mean tempo is &gt; 125.</p>
+<p>So we will reject a <span class="math inline">\(t\)</span>-statistic which falls in the upper 5% of the distribution.</p>
+<!-- Note that while we are interested in the top 5%, we are assuming a completely symmetric distribution, centered on 0, so the following two commands return the same (apart from the +/-) -->
+<div class="sourceCode" id="cb734"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb734-1" title="1"><span class="kw">qt</span>(.<span class="dv">95</span>, <span class="dt">df =</span> <span class="dv">199</span>) <span class="co"># 5% to the right</span></a></code></pre></div>
+<pre><code>## [1] 1.652547</code></pre>
+<p>We will reject a <span class="math inline">\(t\)</span>-statistic which is greater (in magnitude) than 1.65.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Step 7 - Probability of observed t-statistic
+</p>
+<div class="question-body">
+<p>We have our observed <span class="math inline">\(t\)</span>-statistic of 2.1. We know that this is greater than the critical value of 1.65.</p>
+<p>What is the probability of obtaining a <span class="math inline">\(t\)</span>-statistic at least as extreme as 2.1, assuming the null hypothesis to be true? In other words, what is the p-value?</p>
+<p>Things you’ll need to work out:</p>
+<ul>
+<li>Do we want the area under the curve which is to the <em>left</em> or to the <em>right</em> of <span class="math inline">\(t = 2.1\)</span>? Remember that the total area under probability curves such as the normal and the <span class="math inline">\(t\)</span> is always equal to 1, so <strong>area to the right = 1 - area to the left</strong>.</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-347" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-347&#39;, &#39;sol-start-347&#39;)"></span>
+</p>
+<div id="sol-body-347" class="solution-body" style="display: none;">
+<p>The degrees of freedom is <span class="math inline">\(n-1 = 200-1 = 199\)</span></p>
+<p>We want to look at the area to the <em>right</em>, because we are testing whether 128.9 (our sample mean) is significantly <em>greater than</em> 125 (our null hypothesis mean).</p>
+<div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb736-1" title="1">pvalue =<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="fl">2.1</span>, <span class="dt">df =</span> <span class="dv">199</span>)</a>
+<a class="sourceLine" id="cb736-2" title="2"></a>
+<a class="sourceLine" id="cb736-3" title="3">pvalue</a></code></pre></div>
+<pre><code>## [1] 0.01849448</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="all-in-one-line-of-code" class="section level2 unnumbered">
+<h2>ALL IN ONE LINE OF CODE!</h2>
+<p>Now that we’ve gone through all that, you’ll be happy to know that we can do all of what we just did above (and more!) using just one simple function in <code>R</code>, called <code>t.test()</code>.</p>
+<p>The <code>t.test()</code> function takes several arguments, but for the current purposes, we are interested in <code>t.test(x, mu, alternative)</code>.</p>
+<ul>
+<li><code>x</code> is the data<br />
+</li>
+<li><code>mu</code> is the hypothesized value of the mean in <span class="math inline">\(H_0\)</span><br />
+</li>
+<li><code>alternative</code> is either <code>"two.sided"</code> (default), <code>"less"</code>, or <code>"greater"</code>, and specifies the direction of the alternative hypothesis.</li>
+</ul>
+<p><em>Note</em> again that we can use the <code>pull()</code> and <code>%&gt;%</code>:</p>
+<div class="sourceCode" id="cb738"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb738-1" title="1">spotify_songs <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb738-2" title="2"><span class="st">   </span><span class="kw">pull</span>(tempo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb738-3" title="3"><span class="st">   </span><span class="kw">t.test</span>(<span class="dt">mu =</span> <span class="dv">125</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
+<p>or we can use our new friend, the <code>$</code> operator:</p>
+<div class="sourceCode" id="cb739"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb739-1" title="1"><span class="kw">t.test</span>(<span class="dt">x =</span> spotify_songs<span class="op">$</span>tempo, <span class="dt">mu =</span> <span class="dv">125</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  spotify_songs$tempo
+## t = 2.0995, df = 199, p-value = 0.01851
+## alternative hypothesis: true mean is greater than 125
+## 95 percent confidence interval:
+##  125.8378      Inf
+## sample estimates:
+## mean of x 
+##  128.9353</code></pre>
+<p>Hooray!! We can see this gives us the same results - it shows us the mean of our sample (128.9353), it writes out our alternative hypothesis for us, and returns our <span class="math inline">\(t\)</span> value of 2.0995 and our p-value of 0.0185.</p>
+<p>Additionally, it even gives us some 95% confidence intervals for the population mean!</p>
+</div>
+<div id="assumptions" class="section level2 unnumbered">
+<h2>Assumptions</h2>
+<p>One last important thing to note is that when we perform a one sample mean tests, we assume a few basic things:</p>
+<ol style="list-style-type: decimal">
+<li>The data are continuous (not discrete);</li>
+<li>The data are normally distributed <strong>OR</strong> the sample size is large enough (rule-of-thumb <span class="math inline">\(n\)</span> = 20) and the data are not strongly skewed;</li>
+<li>The data are randomly sampled from a population.</li>
+</ol>
+<p>If any of these assumptions are not met, the results of the test are unreliable.</p>
+<p>We can assess whether a set of numbers are normally distributed (assumption 2, above) by:</p>
+<div class="solution">
+<p class="solution-begin">
+Producing an appropriate plot<span id="sol-start-348" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-348&#39;, &#39;sol-start-348&#39;)"></span>
+</p>
+<div id="sol-body-348" class="solution-body" style="display: none;">
+<p>Plots such as the histogram, or density plots, showing us the shape of our distribution:</p>
+<div class="sourceCode" id="cb741"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb741-1" title="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">x=</span>tempo))<span class="op">+</span></a>
+<a class="sourceLine" id="cb741-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb741-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Histogram&quot;</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-472-1.png" width="672" /></p>
+<div class="sourceCode" id="cb743"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb743-1" title="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">x=</span>tempo))<span class="op">+</span></a>
+<a class="sourceLine" id="cb743-2" title="2"><span class="st">  </span><span class="kw">geom_density</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb743-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Density plot&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-472-2.png" width="672" /></p>
+<p>We can also use a plot called a QQplot, which orders the data and plots it against the equivalent quantile of the normal distribution:</p>
+<div class="sourceCode" id="cb744"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb744-1" title="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">sample =</span> tempo))<span class="op">+</span></a>
+<a class="sourceLine" id="cb744-2" title="2"><span class="st">  </span><span class="kw">geom_qq</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb744-3" title="3"><span class="st">  </span><span class="kw">stat_qq_line</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb744-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;QQplot&quot;</span>, <span class="dt">subtitle=</span><span class="st">&quot;The closer the data fit to the line the more normally distributed they are.&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-473-1.png" width="672" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+Conducting a test of normality<span id="sol-start-349" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-349&#39;, &#39;sol-start-349&#39;)"></span>
+</p>
+<div id="sol-body-349" class="solution-body" style="display: none;">
+<p>We can also conduct a formal hypothesis test for normality, such as the Shapiro-Wilk test.</p>
+<p>The null hypothesis of the Shapiro-Wilk test is that the sample came from a population that is normally distributed.<br />
+The alternative hypothesis is that the sample came from a population that is <em>not</em> normally distributed.</p>
+<p>The test returns a test statistic W, and a p-value.<br />
+The p-value corresponds to the probability of observing data of this shape of distribution, assuming the data are drawn from a normally distributed population (i.e., assuming the null hypothesis to be true).</p>
+<p>In R:</p>
+<div class="sourceCode" id="cb745"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb745-1" title="1"><span class="kw">shapiro.test</span>(spotify_songs<span class="op">$</span>tempo)</a></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  spotify_songs$tempo
+## W = 0.9868, p-value = 0.05945</code></pre>
+<p>The p-value here is 0.059, which is greater than <span class="math inline">\(\alpha = 0.05\)</span>. We therefore fail to reject the null hypothesis of the Shapiro-Wilk test that the sample came from a population that is normally distributed.</p>
+<p>So our assumption for the one sample mean test holds!</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="summary-5" class="section level2">
+<h2><span class="header-section-number">16.6</span> Summary</h2>
+<ul>
+<li>A standardised statistic is the relative location of a statistic to the mean of the null distribution, in terms of standard deviations.<br />
+</li>
+<li>When we do not know the population standard deviation (<span class="math inline">\(\sigma\)</span>), we compute the standardised <span class="math inline">\(t\)</span>-statistic using the formula <span class="math inline">\(t = \frac{\bar{x} - \mu_{0}}{s/\sqrt{n}}\)</span>.<br />
+</li>
+<li>The sampling distribution of <span class="math inline">\(t\)</span> follows a <span class="math inline">\(t\)</span>-distribution.</li>
+<li>The shape of the <span class="math inline">\(t\)</span>-distribution varies depending upon the <em>degrees of freedom</em> (the number of independent observations free to vary - for a one sample mean test, this is <span class="math inline">\(n-1\)</span>).</li>
+<li>To assess the statistical significance of an observed <span class="math inline">\(t\)</span>-statistic, we compute the critical values for a <span class="math inline">\(t\)</span>-distribution with the appropriate degrees of freedom. If our observed <span class="math inline">\(t\)</span> is farther away from 0 than our critical value, we have reason to reject the null.<br />
+</li>
+<li>To calculate the p-value for a given <span class="math inline">\(t\)</span>, we compute the area of the <span class="math inline">\(t\)</span>-distribution curve to the left/right of <span class="math inline">\(t\)</span> (depending on whether our hypothesis is one or two-tailed).</li>
+<li>We need to make sure we assess whether our data violates the assumptions for our test (for instance by using <code>shapiro.test()</code> to test whether our data come from a normally distributed population).</li>
+</ul>
+</div>
+<div id="lab-4" class="section level2">
+<h2><span class="header-section-number">16.7</span> Lab</h2>
+<p><em>Please attempt the questions <strong>before</strong> looking at the solutions. Copy &amp; pasting the solutions will not help with learning!</em></p>
+<div id="pets-weights" class="section level3">
+<h3><span class="header-section-number">16.7.1</span> Pets’ weights</h3>
+<p>Data for a sample of 2000 licensed pets from the city of Seattle, USA, can be found at the following url: <a href="https://edin.ac/2VfPzg7">https://edin.ac/2VfPzg7</a>.<br />
+It contains information on the license numbers, issue date and zip-code, as well as data on the species, breeds and weights (in kg) of each pet.<br />
+We are interested in whether the average weight of a dog is different from 20kg.</p>
+<ul>
+<li>Null hypothesis, <span class="math inline">\(H_0: \mu = 20\)</span><br />
+</li>
+<li>Alternative hypothesis, <span class="math inline">\(H_1: \mu \neq 20\)</span></li>
+</ul>
+<div class="question">
+<p class="question-begin">
+► Question 1
+</p>
+<div class="question-body">
+<p>Read in the data from the url using <code>read_csv()</code>.<br />
+Make sure to <em>assign</em> it as an object, using <code>[yourdataname] &lt;- read_csv(...)</code> (choose your own name for the data).</p>
+<p>Use <code>summary()</code> to have a look at your data.<br />
+Which variables are you going to need for our analysis?<br />
+Does anything jump out as relevant?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-350" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-350&#39;, &#39;sol-start-350&#39;)"></span>
+</p>
+<div id="sol-body-350" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb747"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb747-1" title="1">pets &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2VfPzg7&quot;</span>)</a></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   license_issue_date = col_character(),
+##   license_number = col_character(),
+##   animals_name = col_character(),
+##   species = col_character(),
+##   primary_breed = col_character(),
+##   secondary_breed = col_character(),
+##   zip_code = col_character(),
+##   weight_kg = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb749"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb749-1" title="1"><span class="kw">summary</span>(pets)</a></code></pre></div>
+<pre><code>##  license_issue_date license_number     animals_name         species          primary_breed     
+##  Length:2000        Length:2000        Length:2000        Length:2000        Length:2000       
+##  Class :character   Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                                                
+##                                                                                                
+##                                                                                                
+##                                                                                                
+##  secondary_breed      zip_code           weight_kg       
+##  Length:2000        Length:2000        Min.   :  0.3941  
+##  Class :character   Class :character   1st Qu.:  4.6970  
+##  Mode  :character   Mode  :character   Median : 16.3954  
+##                                        Mean   : 15.2411  
+##                                        3rd Qu.: 22.4816  
+##                                        Max.   :103.4838  
+##                                        NA&#39;s   :15</code></pre>
+<p>We’re going to need the <code>weight_kg</code> variable. Notice that there are some missing values (you can see that there are 15 <code>NA</code>’s). We will need to decide what to do with them.</p>
+<p>Also, there are some cats in our data as well as the dogs which we are interested in. There are even a couple of goats! We will want to get rid of them..</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 2
+</p>
+<div class="question-body">
+<p>Some of the 2000 pets are not the ones of interest (they aren’t dogs).</p>
+<p>Create a new dataset and call it <code>dogs</code>, which only has the dogs in it.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-351" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-351&#39;, &#39;sol-start-351&#39;)"></span>
+</p>
+<div id="sol-body-351" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb751"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb751-1" title="1">dogs &lt;-<span class="st"> </span>pets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Dog&quot;</span>)</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 3
+</p>
+<div class="question-body">
+<p>What does the following command appear to do, and how?</p>
+<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" title="1">dogs &lt;-<span class="st"> </span>dogs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(weight_kg))</a></code></pre></div>
+<p><em>Tip:</em> look at the help documentation for <code>is.na</code> (search in the bottom right window of Rstudio, or type <code>?is.na</code>)</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-352" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-352&#39;, &#39;sol-start-352&#39;)"></span>
+</p>
+<div id="sol-body-352" class="solution-body" style="display: none;">
+<p>It takes the <code>dogs</code> dataset, and it filters so that it will keep any rows where <code>!is.na(weight_kg)</code> is TRUE.<br />
+The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> is an <code>NA</code> and FALSE otherwise.</p>
+<p>The <code>!</code> before it flips the TRUEs and FALSEs, so that we have TRUE wherever <code>weight_kg</code> is a value other than <code>NA</code>, and FALSE if it <em>is</em> <code>NA</code>.</p>
+<p>You can read it as “keep all rows where there isn’t an NA in the <code>weight_kg</code> variable”.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 4
+</p>
+<div class="question-body">
+<p>Using <code>summarise()</code>, calculate <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span> and <span class="math inline">\(n\)</span>.</p>
+<p>What is <span class="math inline">\(\mu_{0}\)</span>, and what are our degrees of freedom (<span class="math inline">\(df\)</span>)?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-353" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-353&#39;, &#39;sol-start-353&#39;)"></span>
+</p>
+<div id="sol-body-353" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb753"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb753-1" title="1">dogstats &lt;-<span class="st"> </span>dogs <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb753-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb753-3" title="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(weight_kg),</a>
+<a class="sourceLine" id="cb753-4" title="4">    <span class="dt">s =</span> <span class="kw">sd</span>(weight_kg),</a>
+<a class="sourceLine" id="cb753-5" title="5">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb753-6" title="6">  )</a>
+<a class="sourceLine" id="cb753-7" title="7">dogstats</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##    xbar     s     n
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+## 1  20.4  6.23  1333</code></pre>
+<p><span class="math inline">\(\mu_{0}\)</span> is 20kg, and our degrees of freedom is <span class="math inline">\(n-1\)</span>, which is <span class="math inline">\(1333-1 = 1332\)</span>.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 5
+</p>
+<div class="question-body">
+<p>Calculate the standardised statistic <span class="math inline">\(t\)</span>, using <code>$</code> to access the numbers you just calculated above.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-354" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-354&#39;, &#39;sol-start-354&#39;)"></span>
+</p>
+<div id="sol-body-354" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb755"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb755-1" title="1">t_obs =<span class="st"> </span>(dogstats<span class="op">$</span>xbar <span class="op">-</span><span class="st"> </span><span class="dv">20</span>) <span class="op">/</span><span class="st"> </span>(dogstats<span class="op">$</span>s <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(dogstats<span class="op">$</span>n))</a>
+<a class="sourceLine" id="cb755-2" title="2">t_obs</a></code></pre></div>
+<pre><code>## [1] 2.202048</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 6
+</p>
+<div class="question-body">
+<p>Calculate the p-value using <code>pt()</code>.</p>
+<ul>
+<li>Our degrees of freedom are <span class="math inline">\(n-1\)</span><br />
+</li>
+<li>Remember that the total area under a probability curve is equal to 1. <code>pt()</code> gives us the area to the <em>left</em>, but we want the area in the smaller tail (if <span class="math inline">\(\bar{x}\)</span> is greater than <span class="math inline">\(\mu_{0}\)</span>, we want the area to the <em>right</em> of <span class="math inline">\(t_{obs}\)</span> (see <a href="chap-normal.html#chap-normal">Week 15</a>).<br />
+</li>
+<li>Is our hypothesis one- or two-sided? If it is two-sided, what do we need to do to get our p-value?</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-355" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-355&#39;, &#39;sol-start-355&#39;)"></span>
+</p>
+<div id="sol-body-355" class="solution-body" style="display: none;">
+<p>Our sample statistic (<span class="math inline">\(\bar{x}\)</span> = 20.376kg) is greater than the hypothesised mean (<span class="math inline">\(\mu_{0}\)</span> = 20kg), so we want the area to the <em>right</em>.</p>
+<p><em><strong>Reminder:</strong> For a probability distribution, the area under the curve to the right of x is 1 minus the area to the left. This is equivalent to saying that the probability of observing a value greater than x is 1 minus the probability of observing a value less than x.</em></p>
+<div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb757-1" title="1">p_righttail =<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_obs, <span class="dt">df =</span> <span class="dv">1332</span>)</a></code></pre></div>
+<p>Because our alternative hypothesis is two-tailed (<span class="math inline">\(H_1: \mu \neq 20\)</span>), we will reject the null hypothesis for extreme <span class="math inline">\(t\)</span>-statistics <em>in either direction</em>. So we are calculating the probability of observing a value at least as extreme in either direction, and must multiply the one tail by 2.</p>
+<div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb758-1" title="1">p2tail =<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>p_righttail</a>
+<a class="sourceLine" id="cb758-2" title="2"></a>
+<a class="sourceLine" id="cb758-3" title="3">p2tail</a></code></pre></div>
+<pre><code>## [1] 0.02783276</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 7
+</p>
+<div class="question-body">
+<p>Finally, use the <code>t.test()</code> function.<br />
+Check that the results match the ones you just calculated.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-356" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-356&#39;, &#39;sol-start-356&#39;)"></span>
+</p>
+<div id="sol-body-356" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb760-1" title="1"><span class="kw">t.test</span>(<span class="dt">x =</span> dogs<span class="op">$</span>weight_kg, <span class="dt">mu =</span> <span class="dv">20</span>, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</a></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  dogs$weight_kg
+## t = 2.202, df = 1332, p-value = 0.02783
+## alternative hypothesis: true mean is not equal to 20
+## 95 percent confidence interval:
+##  20.04104 20.71104
+## sample estimates:
+## mean of x 
+##  20.37604</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Look at all the funny names!<span id="sol-start-357" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-357&#39;, &#39;sol-start-357&#39;)"></span>
+</p>
+<div id="sol-body-357" class="solution-body" style="display: none;">
+<p>For fun, take a look at some of the names of pets in the dataset. This is actually real data, apart from the <code>weights_kg</code> variable.</p>
+<p>You can see a humerous visualisation of some of the more unusual names for pets below:
+<img src="https://pbs.twimg.com/media/D2r1WLAWoAIG25x?format=jpg&amp;name=4096x4096" />
+(Pet names in Seattle, from <span class="citation">[@W_R_Chase]</span>(<a href="https://twitter.com/W_R_Chase" class="uri">https://twitter.com/W_R_Chase</a>))</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="procrastination-scores" class="section level3">
+<h3><span class="header-section-number">16.7.2</span> Procrastination scores</h3>
+<p>The Procrastination Assessment Scale for Students (PASS) was designed to assess how individuals approach decision situations, specifically the tendency of individuals to postpone decisions (see <a href="http://dx.doi.org/10.1037/0022-0167.31.4.503">Solomon &amp; Rothblum, 1984</a>).</p>
+<p>The PASS assesses the prevalence of procrastination in six areas: writing a paper; studying for an exam; keeping up with reading; administrative tasks; attending meetings; and performing general tasks.
+For a measure of total endorsement of procrastination, responses to 18 questions (each measured on a 1-5 scale) are summed together, providing a single score for each participant (range 0 to 90).
+The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
+<div class="red">
+<h4 id="research-question-2" class="unnumbered">Research Question</h4>
+<p>Do Edinburgh University students report endorsing procrastination to less than the norm of 33?</p>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question 8
+</p>
+<div class="question-body">
+<p>Read in the data (a .csv is at <a href="https://edin.ac/2wJgYwL">https://edin.ac/2wJgYwL</a>), produce some descriptive statistics, and conduct a one sample mean test to evaluate whether Edinburgh University students’ average score on the PASS is not equal to 33.</p>
+<ul>
+<li>Remember about the assumptions of your test!</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-358" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-358&#39;, &#39;sol-start-358&#39;)"></span>
+</p>
+<div id="sol-body-358" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb762"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb762-1" title="1">pass_scores &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wJgYwL&quot;</span>) </a></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   sid = col_character(),
+##   school = col_character(),
+##   PASS = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb764"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb764-1" title="1"><span class="kw">shapiro.test</span>(pass_scores<span class="op">$</span>PASS)</a></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  pass_scores$PASS
+## W = 0.93617, p-value = 0.2028</code></pre>
+<div class="sourceCode" id="cb766"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb766-1" title="1"><span class="kw">t.test</span>(pass_scores<span class="op">$</span>PASS, <span class="dt">mu =</span> <span class="dv">33</span>, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</a></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  pass_scores$PASS
+## t = -3.1073, df = 19, p-value = 0.0029
+## alternative hypothesis: true mean is less than 33
+## 95 percent confidence interval:
+##     -Inf 31.9799
+## sample estimates:
+## mean of x 
+##      30.7</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question 9
+</p>
+<div class="question-body">
+<p>Write up the results from Question 8.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-359" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-359&#39;, &#39;sol-start-359&#39;)"></span>
+</p>
+<div id="sol-body-359" class="solution-body" style="display: none;">
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="cat-weights" class="section level3">
+<h3><span class="header-section-number">16.7.3</span> Cat weights!</h3>
+<div class="question">
+<p class="question-begin">
+► Question 10
+</p>
+<div class="question-body">
+<p><em><strong>Without looking</strong> at the data</em>(and without googling either), do you think that the average weight of a pet cat more than/less than/equal to 4.5kg?</p>
+<p>Write out your null and alternative hypotheses, and conduct the appropriate test.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-360" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-360&#39;, &#39;sol-start-360&#39;)"></span>
+</p>
+<div id="sol-body-360" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb768-1" title="1">cats &lt;-<span class="st"> </span>pets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Cat&quot;</span>, <span class="op">!</span><span class="kw">is.na</span>(weight_kg))</a>
+<a class="sourceLine" id="cb768-2" title="2"></a>
+<a class="sourceLine" id="cb768-3" title="3"><span class="kw">shapiro.test</span>(cats<span class="op">$</span>weight_kg)</a></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  cats$weight_kg
+## W = 0.99825, p-value = 0.7611</code></pre>
+<div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb770-1" title="1"><span class="kw">qqnorm</span>(cats<span class="op">$</span>weight_kg)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-484-1.png" width="672" /></p>
+<div class="sourceCode" id="cb771"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb771-1" title="1"><span class="kw">t.test</span>(cats<span class="op">$</span>weight_kg, <span class="dt">mu=</span><span class="fl">4.5</span>, <span class="dt">alternative=</span><span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  cats$weight_kg
+## t = -1.2444, df = 649, p-value = 0.8931
+## alternative hypothesis: true mean is greater than 4.5
+## 95 percent confidence interval:
+##  4.463972      Inf
+## sample estimates:
+## mean of x 
+##  4.484496</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="glossary-5" class="section level3">
+<h3><span class="header-section-number">16.7.4</span> Glossary</h3>
+<ul>
+<li>degrees of freedom</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chap-normal.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

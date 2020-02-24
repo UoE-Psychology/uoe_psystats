@@ -93,7 +93,7 @@ This week, we're going to look at the *one sample mean test*.
 
 The "one sample mean test" does pretty much what it says - if you have one sample and you have a mean, you can perform a statistical test in order to evaluate how likely it is that the population mean (which the sample mean is your estimate of) is equal to a specific value.  
 
-### Example questions
+### Example questions {-}
 
 Questions which can be answered by a one sample mean test often take the form:  
 
@@ -101,7 +101,7 @@ Questions which can be answered by a one sample mean test often take the form:
 + Is the mean body temperature not equal to 37 degrees C?  
 + On the Beck Depression Inventory (BDI), a score of >25 is considered clinical diagnosis of depression. Is the average score of our population of interest (e.g., people suffering from a specific disease) significantly above this cutoff?  
 
-### Hypotheses  
+### Hypotheses {-}  
 
 **Null hypothesis:**  
 
@@ -115,9 +115,9 @@ Questions which can be answered by a one sample mean test often take the form:
   + $H_1: \mu > \mu_{0}$  
   + $H_1: \mu < \mu_{0}$  
 
-### Formula  
+### Formula {-}  
 
-#### Standardized statistic $(z)$
+#### Standardized statistic $(z)$ {-}
 
 Recall that in [Week 13](#chap-hyp-test), we introduced the concept of a **standardized statistic**, typically denoted by $z$.
 This measures how many standard deviations away from the mean of the null distribution the observed statistic is: 
@@ -167,7 +167,7 @@ z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{stand
 $$
 
 
-#### Standardized statistic ($t$)
+#### Standardized statistic ($t$) {-}
 
 In the formula for $z$ above, $\sigma$ denotes the population standard deviation. But to calculate this we need to have data on the whole population.  
   
@@ -230,7 +230,7 @@ Notice that as the degrees of freedom ($\nu$ in the plot below) gets bigger (so 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Student_t_pdf.svg/1024px-Student_t_pdf.svg.png)
 (Source: https://en.wikipedia.org/wiki/Student%27s_t-distribution)
 
-### Significance of $t$
+### Critical values & significance {-}
 
 In order to test the significance of a given $t$-statistic, we therefore need to assess the probability of obtaining our $t$-statistic (or one at least as extreme) against a $t$-distribution with degrees of freedom $n-1$.   
 
@@ -241,7 +241,7 @@ Similarly, `pt(x, df)` computes the area to the left of `x` in a $t$-distributio
 `r msmbstyle::question_begin()`
 Looking at the plot above, for a $t$-distribution with degrees of freedom of 5 (the blue line), what proportion of the curve is to the left of -2?  
 `r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=FALSE,toggle=FALSE)`
 ```{r}
 pt(-2, df = 5)
 ```
@@ -252,11 +252,12 @@ From this, we can say that assuming the null hypothesis to be true, the probabil
 We can also find the critical values of a $t$-distribution using the function `qt(p, df)`. This will return the values of $t$ for which $p$% of the distribution lies to the left.  
 
 This way, we can find the values of $t$ at which we will reject the null hypothesis (for a given $\alpha$ level).
+
 `r msmbstyle::question_begin()`
 At what value of $t$ does 5% of the $t$-distribution with 5 degrees of freedom lie to the left?  
 At what value**s** of $t$ do 5% of the $t$-distribution with 5 degrees of freedom lie in either tail?
 `r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=FALSE,toggle=FALSE)`
 ```{r}
 qt(.05, df = 5)
 ```
@@ -274,7 +275,7 @@ If we perform a *two*-tailed test of $\mu \neq \mu_{0}$ on a sample of 6, we wil
 
 <hr />
 
-## Example 1 - Tempo of rock music
+## Walkthrough - Tempo of rock music on spotify  
 
 <div class="red">
 #### Research Question {-}
@@ -296,6 +297,8 @@ $\mu > 125$
 We will use $\alpha = 0.05$  
 `r msmbstyle::solution_end()`
 
+<hr />
+
 `r msmbstyle::question_begin(header = "&#x25BA; Step 2 - Data")`
 Get the data!  
 
@@ -311,8 +314,7 @@ summary(spotify_songs)
 ```
 `r msmbstyle::solution_end()`
 
-
-
+<hr />
 
 `r msmbstyle::question_begin(header = "&#x25BA; Step 3 - Sample mean")`
 Which line of code will give us our sample statistic?  
@@ -353,6 +355,8 @@ spotify_songs %>%
 ```
 `r msmbstyle::solution_end()`
 
+<hr />
+
 `r msmbstyle::question_begin(header = "&#x25BA; Step 4 - Sample sd")`
 Do we know the population standard deviation ($\sigma$)? That is, do we know the standard deviation of tempos of *all* rock songs on spotify?  
 
@@ -367,6 +371,8 @@ spotify_songs %>%
   )
 ```
 `r msmbstyle::solution_end()`
+
+<hr />
 
 `r msmbstyle::question_begin(header = "&#x25BA; Step 5 - Calculate t")`
 Fill in the blanks:  
@@ -436,6 +442,8 @@ And then we can plug in these numbers to our equation.
 
 `r msmbstyle::solution_end()`
 
+<hr />
+
 `r msmbstyle::question_begin(header = "&#x25BA; Step 6 - Critical t value")`
 Using the `qt()` function, calculate the critical value for $\alpha$ = 0.05. This is the smallest *absolute* value of $t$ at which you will reject the null hypothesis.  
 
@@ -457,6 +465,7 @@ qt(.95, df = 199) # 5% to the right
 We will reject a $t$-statistic which is greater (in magnitude) than 1.65.  
 `r msmbstyle::solution_end()`
 
+<hr />
 
 `r msmbstyle::question_begin(header = "&#x25BA; Step 7 - Probability of observed t-statistic")`
 We have our observed $t$-statistic of 2.1. We know that this is greater than the critical value of 1.65.  
@@ -479,7 +488,7 @@ pvalue
 ```
 `r msmbstyle::solution_end()`
 
-### ALL IN ONE LINE OF CODE! {-}
+## ALL IN ONE LINE OF CODE! {-}
 
 Now that we've gone through all that, you'll be happy to know that we can do all of what we just did above (and more!) using just one simple function in `R`, called `t.test()`.  
   
@@ -508,7 +517,7 @@ Hooray!! We can see this gives us the same results - it shows us the mean of our
 
 Additionally, it even gives us some 95% confidence intervals for the population mean!  
 
-### Assumptions {-}  
+## Assumptions {-}  
 
 One last important thing to note is that when we perform a one sample mean tests, we assume a few basic things:
 
@@ -738,18 +747,18 @@ Do Edinburgh University students report endorsing procrastination to less than t
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 8")`  
-Read in the data, produce some descriptive statistics, and conduct a one sample mean test to evaluate whether Edinburgh University students' average score on the PASS is not equal to 33.  
+Read in the data (a .csv is at [https://edin.ac/2wJgYwL](https://edin.ac/2wJgYwL)), produce some descriptive statistics, and conduct a one sample mean test to evaluate whether Edinburgh University students' average score on the PASS is not equal to 33.  
 
 + Remember about the assumptions of your test!  
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 
-```{r, eval=FALSE}
-pass_scores <- read_csv("") 
+```{r}
+pass_scores <- read_csv("https://edin.ac/2wJgYwL") 
 
-shapiro.test(pass_scores$total_PASS)
+shapiro.test(pass_scores$PASS)
 
-t.test(pass_scores$total_PASS, mu = 33)
+t.test(pass_scores$PASS, mu = 33, alternative = "less")
 ```
 `r msmbstyle::solution_end()`
 
