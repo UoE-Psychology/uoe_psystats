@@ -435,10 +435,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#example-questions"><i class="fa fa-check"></i>Example questions</a></li>
 <li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#hypotheses"><i class="fa fa-check"></i>Hypotheses</a></li>
 <li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#formula"><i class="fa fa-check"></i>Formula</a></li>
-<li class="chapter" data-level="16.4.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#t-distributions"><i class="fa fa-check"></i><b>16.4.1</b> <span class="math inline">\(t\)</span>-distributions</a></li>
+<li><a href="chap-one-mean-test.html#t-distributions"><span class="math inline">\(t\)</span>-distributions</a></li>
 <li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#critical-values-significance"><i class="fa fa-check"></i>Critical values &amp; significance</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#walkthrough---tempo-of-rock-music-on-spotify"><i class="fa fa-check"></i><b>16.5</b> Walkthrough - Tempo of rock music on spotify</a></li>
+<li class="chapter" data-level="16.5" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#walkthrough---tempo-of-rock-music-on-spotify"><i class="fa fa-check"></i><b>16.5</b> Walkthrough - Tempo of rock music on Spotify</a></li>
 <li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#all-in-one-line-of-code"><i class="fa fa-check"></i>ALL IN ONE LINE OF CODE!</a></li>
 <li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#assumptions"><i class="fa fa-check"></i>Assumptions</a></li>
 <li class="chapter" data-level="16.6" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#summary-5"><i class="fa fa-check"></i><b>16.6</b> Summary</a></li>
@@ -485,7 +485,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="recap-4" class="section level2">
 <h2><span class="header-section-number">16.1</span> Recap</h2>
-<p>Over the last 5 weeks, we have started to look at how we can use a sample from a population to draw infereces about the population.<br />
+<p>Over the last 5 weeks, we have started to look at how we can use a sample from a population to draw inferences about the population.<br />
 <br><br />
 Some key things which we have learned:</p>
 <div class="noteBox">
@@ -505,7 +505,7 @@ Some key things which we have learned:</p>
 <div class="noteBox">
 <h4 id="week-12" class="unnumbered">Week 12</h4>
 <ul>
-<li>In practice we cannot take many many samples in order to build up a picture of the sampling distribution of a statistic.<br />
+<li>In practice we cannot take lots and lots of samples in order to build up a picture of the sampling distribution of a statistic.<br />
 </li>
 <li>We can approximate this process by <strong>bootstrap resampling</strong> our original sample (repeated random sampling <em>with replacement</em> from the original sample, <em>using the same sample size.</em>).</li>
 </ul>
@@ -517,6 +517,10 @@ Some key things which we have learned:</p>
 <li>Introduced hypothesis testing, statistical significance and statistical power.</li>
 <li>These concepts relied on us having some measure of sampling variability.</li>
 <li>In order to test hypotheses or construct confidence intervals, we <em>simulated</em> sampling distributions under different hypothetical parameters, against which we could then compare an observed statistic.</li>
+<li>We also introduced the concept of a <strong>standardised statistic</strong>, typically denoted by <span class="math inline">\(z\)</span>.
+This measures how many standard deviations away from the mean of the null distribution the observed statistic is.<br />
+</li>
+<li><span class="math inline">\(\textrm{standardised statistic} = z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}\)</span></li>
 </ul>
 </div>
 <hr />
@@ -556,64 +560,78 @@ We are going to focus on the theoretical approach, and use the formula for the s
 </li>
 <li>Is the mean body temperature not equal to 37 degrees C?<br />
 </li>
-<li>On the Beck Depression Inventory (BDI), a score of &gt;25 is considered clinical diagnosis of depression. Is the average score of our population of interest (e.g., people suffering from a specific disease) significantly above this cutoff?</li>
+<li>On the Beck Depression Inventory (BDI), a score of &gt;25 is considered clinical diagnosis of depression. Is the average score of our population of interest (for instance, people with a specific disease) significantly above this cutoff?</li>
 </ul>
 </div>
 <div id="hypotheses" class="section level3 unnumbered">
 <h3>Hypotheses</h3>
 <p><strong>Null hypothesis:</strong></p>
 <ul>
-<li>The population mean (<span class="math inline">\(\mu\)</span>) is equal to some pre-specified number (denoted <span class="math inline">\(\mu_{0}\)</span>).
+<li>The population mean (<span class="math inline">\(\mu_1\)</span>) is equal to some pre-specified number (<span class="math inline">\(\mu_{0}\)</span>).
 <ul>
-<li><span class="math inline">\(H_0: \mu = \mu_{0}\)</span></li>
+<li><span class="math inline">\(H_0: \mu_1 = \mu_{0}\)</span><br />
+(<em>Note</em> that this is the same as <span class="math inline">\(\mu_1 - \mu_{0} = 0\)</span>)</li>
 </ul></li>
 </ul>
 <p><strong>Alternative hypothesis:</strong></p>
 <ul>
-<li>The population mean (<span class="math inline">\(\mu\)</span>) is not equal to/is less than/is greater than some pre-specified number (denoted <span class="math inline">\(\mu_{0}\)</span>).
+<li>The population mean (<span class="math inline">\(\mu_1\)</span>) is not equal to/is less than/is greater than some pre-specified number (<span class="math inline">\(\mu_{0}\)</span>).
 <ul>
-<li><span class="math inline">\(H_1: \mu \neq \mu_{0}\)</span><br />
+<li><span class="math inline">\(H_1: \mu_1 \neq \mu_{0}\)</span><br />
 </li>
-<li><span class="math inline">\(H_1: \mu &gt; \mu_{0}\)</span><br />
+<li><span class="math inline">\(H_1: \mu_1 &gt; \mu_{0}\)</span><br />
 </li>
-<li><span class="math inline">\(H_1: \mu &lt; \mu_{0}\)</span></li>
+<li><span class="math inline">\(H_1: \mu_1 &lt; \mu_{0}\)</span></li>
 </ul></li>
 </ul>
 </div>
 <div id="formula" class="section level3 unnumbered">
 <h3>Formula</h3>
-<div id="standardized-statistic-z" class="section level4 unnumbered">
-<h4>Standardized statistic <span class="math inline">\((z)\)</span></h4>
-<p>Recall that in <a href="chap-hyp-test.html#chap-hyp-test">Week 13</a>, we introduced the concept of a <strong>standardized statistic</strong>, typically denoted by <span class="math inline">\(z\)</span>.
-This measures how many standard deviations away from the mean of the null distribution the observed statistic is:</p>
-<p><span class="math display">\[
-\textrm{standardized statistic} = z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}
-\]</span></p>
-<p>We also saw how, assuming the null hypothesis to be true, if we were to draw multiple random samples of the same size from the same population and perform the same calculation of a standardized <span class="math inline">\(z\)</span>-statistic for each sample, the values we would obtain would follow a normal distribution:</p>
-<p><em><strong>Reminder:</strong> The sampling distribution is the distribution of the values that a statistic takes on different samples of the same size and from the same population.</em></p>
-<p><img src="bookdown-demo_files/figure-html/w16-standardized-statistic-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>When we introduced the notion of a standardized statistic in <a href="chap-hyp-test.html#making-a-formal-decision">Week 13</a>, we had simulated the null sampling distribution by constructing repeated random samples and calculating the statistic for each one. This allowed us to see how these statistics would vary due to random sampling, assuming the null hypothesis to be true.
-We could quantify this directly by calculating the standard deviation of the simulated null distribution - the standard error.</p>
+<div id="standardised-statistic-z" class="section level4 unnumbered">
+<h4>Standardised statistic <span class="math inline">\((z)\)</span></h4>
+<!-- Recall that in [Week 13](#chap-hyp-test),  -->
+<!-- ```{r w16-standardised-statistic, fig.height=3, echo=FALSE, fig.align='center'} -->
+<!-- xg = seq(-4, 4, by = 0.001) -->
+<!-- yg = dnorm(xg) -->
+<!-- dfg = tibble(xg, yg) -->
+<!-- ggplot(dfg, aes(x = xg, y = yg, ymin = 0, ymax = yg)) + -->
+<!--   geom_line() + -->
+<!--   geom_ribbon(fill = 'lightyellow') +  -->
+<!--   geom_ribbon(data=subset(dfg, xg<0.01 & xg>-0.01), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg<3.01 & xg>2.99), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg > -3.01 & xg < -2.99), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg<2.01 & xg>1.99), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg > -2.01 & xg < -1.99), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg<1.51 & xg>1.49), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg > -1.51 & xg < -1.49), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   theme_minimal(base_size = 15) + -->
+<!--   scale_x_continuous(breaks = c(-3, -2, -1.5, 0, 1.5, 2, 3)) + -->
+<!--   scale_y_continuous(breaks = NULL) + -->
+<!--   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + -->
+<!--   labs(x = NULL, y = NULL) -->
+<!-- ``` -->
+<!-- _**Reminder:** The sampling distribution is the distribution of the values that a statistic takes on different samples of the same size and from the same population._   -->
+<p>When we introduced the notion of a standardised statistic in <a href="chap-hyp-test.html#making-a-formal-decision">Week 13</a>, we had simulated the null sampling distribution by constructing repeated random samples and calculating a statistic for each one. This allowed us to see how these statistics would vary due to random sampling, assuming the null hypothesis to be true. We could quantify this directly by calculating the standard deviation of the simulated null distribution - the standard error.</p>
 <p><em><strong>Reminder:</strong> The standard deviation of the sampling distribution of a statistic (e.g. the mean) is also known as the standard error (SE) of the statistic.</em></p>
-<p>When we have not simulated a sampling distribution for a statistic, we can assume that is symmetric and bell-shaped (or ‘normal’), and we can calculate the standard error of the statistic (i.e., the standard deviation of the sampling distribution), for a sample of size <span class="math inline">\(n\)</span> using the formula: <span class="math inline">\(SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}\)</span>.</p>
-<p>So our formula for the standardized statistic becomes:</p>
-<p><span class="math display">\[
-z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}} = \frac{\bar{x} - \mu_{0}}{\sigma/\sqrt{n}}
+<p>Using our theoretical approach to approximating the standard error, we can calculate the standard error of the statistic, for a sample of size <span class="math inline">\(n\)</span> using the formula: <span class="math inline">\(SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}\)</span>.<br />
+Including this in our formula for the standardised statistic becomes:<br />
+<span class="math display">\[
+z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}} =  \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\sigma/\sqrt{n}} = \frac{\bar{x} - \mu_{0}}{\sigma/\sqrt{n}}
 \]</span></p>
 </div>
-<div id="standardized-statistic-t" class="section level4 unnumbered">
-<h4>Standardized statistic (<span class="math inline">\(t\)</span>)</h4>
+<div id="standardised-statistic-t" class="section level4 unnumbered">
+<h4>Standardised statistic (<span class="math inline">\(t\)</span>)</h4>
 <p>In the formula for <span class="math inline">\(z\)</span> above, <span class="math inline">\(\sigma\)</span> denotes the population standard deviation. But to calculate this we need to have data on the whole population.</p>
 <p>When the population standard deviation (<span class="math inline">\(\sigma\)</span>) is <em>unknown</em>, we estimate it using the sample standard deviation (<span class="math inline">\(s\)</span>):</p>
 <p><span class="math display">\[ 
 t = \frac{\bar{x} - \mu_{0}}{s/\sqrt{n}}
 \]</span></p>
-<p>Note that when we use the sample standard deviation <span class="math inline">\(s\)</span> in this formula, the standardized statistic we calculate gets denoted as <span class="math inline">\(t\)</span>, rather than <span class="math inline">\(z\)</span>.</p>
-<p>If we were to draw multiple random samples of the same size from the same population, and perform the same calculation of a <span class="math inline">\(t\)</span>-value for each sample, the values we would obtain would follow a <span class="math inline">\(t\)</span>-distribution.</p>
+<p>Note that when we use the sample standard deviation <span class="math inline">\(s\)</span> in this formula, the standardised statistic we calculate gets denoted as <span class="math inline">\(t\)</span>, rather than <span class="math inline">\(z\)</span>.</p>
+<p>If we were to draw multiple random samples of the same size from the same population, and perform the same calculation of a <span class="math inline">\(t\)</span>-value for each sample, then the values we would obtain would follow a <span class="math inline">\(t\)</span>-distribution.</p>
 </div>
 </div>
-<div id="t-distributions" class="section level3">
-<h3><span class="header-section-number">16.4.1</span> <span class="math inline">\(t\)</span>-distributions</h3>
+<div id="t-distributions" class="section level3 unnumbered">
+<h3><span class="math inline">\(t\)</span>-distributions</h3>
 <p>The particular shape of the <span class="math inline">\(t\)</span>-distribution is determined by the <strong>degrees of freedom</strong>.<br />
 By ‘degrees of freedom’ we refer to the number of independent observations in a set of data.</p>
 <p>When we are estimating a mean from a single sample, the degrees of freedom is equal to the sample size minus one.<br />
@@ -640,9 +658,9 @@ This means that the sampling distribution of <span class="math inline">\(t\)</sp
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-338" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-338&#39;, &#39;sol-start-338&#39;)"></span>
+► Solution<span id="sol-start-656" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-656&#39;, &#39;sol-start-656&#39;)"></span>
 </p>
-<div id="sol-body-338" class="solution-body" style="display: none;">
+<div id="sol-body-656" class="solution-body" style="display: none;">
 <p>You a free to choose anything you like for <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(c\)</span>.<br />
 But once those are fixed, you have no freedom to choose <span class="math inline">\(d\)</span>.</p>
 <p>Example:</p>
@@ -722,13 +740,13 @@ At what value<strong>s</strong> of <span class="math inline">\(t\)</span> do 5% 
 <div class="solution-body">
 <div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb712-1" title="1"><span class="kw">qt</span>(.<span class="dv">05</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] -2.015048</code></pre>
-<p>If we perform a one-tailed test of <span class="math inline">\(\mu &lt; \mu_{0}\)</span> on a sample of 6 (so our degrees of freedom is 5), we will reject the null hypothesis (<span class="math inline">\(\mu = \mu_{0}\)</span>) if our corresponding <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(\leq -2.015\)</span>.</p>
+<p>If we perform a one-tailed test of <span class="math inline">\(\mu_1 &lt; \mu_{0}\)</span> on a sample of 6 (so our degrees of freedom is 5), we will reject the null hypothesis (<span class="math inline">\(\mu_1 = \mu_{0}\)</span>) if our corresponding <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(\leq -2.015\)</span>.</p>
 <div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb714-1" title="1"><span class="kw">qt</span>(.<span class="dv">025</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] -2.570582</code></pre>
 <div class="sourceCode" id="cb716"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb716-1" title="1"><span class="kw">qt</span>(.<span class="dv">975</span>, <span class="dt">df =</span> <span class="dv">5</span>) </a></code></pre></div>
 <pre><code>## [1] 2.570582</code></pre>
-<div class="sourceCode" id="cb718"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb718-1" title="1"><span class="co"># remember that the t-distribution is symmetric and centered on 0! </span></a></code></pre></div>
-<p>If we perform a <em>two</em>-tailed test of <span class="math inline">\(\mu \neq \mu_{0}\)</span> on a sample of 6, we will reject the null hypothesis (<span class="math inline">\(\mu = \mu_{0}\)</span>) if the <strong>absolute magnitude</strong> of our corresponding <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(\geq 2.571\)</span>.</p>
+<div class="sourceCode" id="cb718"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb718-1" title="1"><span class="co"># remember that the t-distribution is symmetric and centred on 0! </span></a></code></pre></div>
+<p>If we perform a <em>two</em>-tailed test of <span class="math inline">\(\mu_1 \neq \mu_{0}\)</span> on a sample of 6, we will reject the null hypothesis (<span class="math inline">\(\mu_1 = \mu_{0}\)</span>) if the <strong>absolute magnitude</strong> of our corresponding <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(\geq 2.571\)</span>.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -738,10 +756,10 @@ At what value<strong>s</strong> of <span class="math inline">\(t\)</span> do 5% 
 </div>
 </div>
 <div id="walkthrough---tempo-of-rock-music-on-spotify" class="section level2">
-<h2><span class="header-section-number">16.5</span> Walkthrough - Tempo of rock music on spotify</h2>
+<h2><span class="header-section-number">16.5</span> Walkthrough - Tempo of rock music on Spotify</h2>
 <div class="red">
 <h4 id="research-question-1" class="unnumbered">Research Question</h4>
-<p>The average tempo of music classified as “rock” by Spotify is greater than 125 beats per minute (BPM).</p>
+<p>Is the average tempo of music classified as “rock” by Spotify greater than 125 beats per minute (BPM).</p>
 </div>
 <div class="question">
 <p class="question-begin">
@@ -756,13 +774,13 @@ At what value<strong>s</strong> of <span class="math inline">\(t\)</span> do 5% 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-341" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-341&#39;, &#39;sol-start-341&#39;)"></span>
+► Solution<span id="sol-start-659" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-659&#39;, &#39;sol-start-659&#39;)"></span>
 </p>
-<div id="sol-body-341" class="solution-body" style="display: none;">
+<div id="sol-body-659" class="solution-body" style="display: none;">
 <p>Null hypothesis (<span class="math inline">\(H_0\)</span>):<br />
-<span class="math inline">\(\mu = 125\)</span></p>
+<span class="math inline">\(\mu_1 = 125\)</span></p>
 <p>Alternative hypothesis (<span class="math inline">\(H_1\)</span>):<br />
-<span class="math inline">\(\mu &gt; 125\)</span></p>
+<span class="math inline">\(\mu_1 &gt; 125\)</span></p>
 <p>We will use <span class="math inline">\(\alpha = 0.05\)</span></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -776,8 +794,8 @@ At what value<strong>s</strong> of <span class="math inline">\(t\)</span> do 5% 
 </p>
 <div class="question-body">
 <p>Get the data!</p>
-<p>Our hypothesis is about <span class="math inline">\(\mu\)</span>, the mean of <em>all</em> rock songs on spotify.
-To investigate this, we have a sample of 200 rock songs from spotify, available at <a href="https://edin.ac/2wC5rz3">https://edin.ac/2wC5rz3</a></p>
+<p>Our hypothesis is about <span class="math inline">\(\mu_1\)</span>, the mean of <em>all</em> rock songs on Spotify.
+To investigate this, we have a sample of 200 rock songs from Spotify, available at <a href="https://edin.ac/2wC5rz3">https://edin.ac/2wC5rz3</a></p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -785,9 +803,9 @@ To investigate this, we have a sample of 200 rock songs from spotify, available 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-342" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-342&#39;, &#39;sol-start-342&#39;)"></span>
+► Solution<span id="sol-start-660" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-660&#39;, &#39;sol-start-660&#39;)"></span>
 </p>
-<div id="sol-body-342" class="solution-body" style="display: none;">
+<div id="sol-body-660" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb719-1" title="1">spotify_songs &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wC5rz3&quot;</span>)</a>
 <a class="sourceLine" id="cb719-2" title="2"></a>
 <a class="sourceLine" id="cb719-3" title="3"><span class="kw">summary</span>(spotify_songs)</a></code></pre></div>
@@ -845,9 +863,9 @@ To investigate this, we have a sample of 200 rock songs from spotify, available 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-343" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-343&#39;, &#39;sol-start-343&#39;)"></span>
+► Solution<span id="sol-start-661" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-661&#39;, &#39;sol-start-661&#39;)"></span>
 </p>
-<div id="sol-body-343" class="solution-body" style="display: none;">
+<div id="sol-body-661" class="solution-body" style="display: none;">
 <p>Note that the entire sample contains only rock songs, so we can simply find the mean of the <code>tempo</code> variable.</p>
 <ol start="2" style="list-style-type: upper-alpha">
 <li></li>
@@ -871,7 +889,7 @@ To investigate this, we have a sample of 200 rock songs from spotify, available 
 ► Step 4 - Sample sd
 </p>
 <div class="question-body">
-<p>Do we know the population standard deviation (<span class="math inline">\(\sigma\)</span>)? That is, do we know the standard deviation of tempos of <em>all</em> rock songs on spotify?</p>
+<p>Do we know the population standard deviation (<span class="math inline">\(\sigma\)</span>)? That is, do we know the standard deviation of tempos of <em>all</em> rock songs on Spotify?</p>
 <p>No, so we estimate it with the sample standard deviation (<span class="math inline">\(s\)</span>).<br />
 Calculate this now.</p>
 <p class="question-end">
@@ -881,9 +899,9 @@ Calculate this now.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-344" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-344&#39;, &#39;sol-start-344&#39;)"></span>
+► Solution<span id="sol-start-662" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-662&#39;, &#39;sol-start-662&#39;)"></span>
 </p>
-<div id="sol-body-344" class="solution-body" style="display: none;">
+<div id="sol-body-662" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb726-1" title="1">spotify_songs <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb726-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
 <a class="sourceLine" id="cb726-3" title="3">    <span class="dt">s =</span> <span class="kw">sd</span>(tempo)</a>
@@ -925,9 +943,9 @@ t_{obs} \qquad = \qquad \frac{? \qquad - \qquad ?}{?}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-345" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-345&#39;, &#39;sol-start-345&#39;)"></span>
+► Solution<span id="sol-start-663" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-663&#39;, &#39;sol-start-663&#39;)"></span>
 </p>
-<div id="sol-body-345" class="solution-body" style="display: none;">
+<div id="sol-body-663" class="solution-body" style="display: none;">
 <p>Fill in the blanks:<br />
 <span class="math display">\[
 \begin{aligned}
@@ -991,9 +1009,9 @@ t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-346" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-346&#39;, &#39;sol-start-346&#39;)"></span>
+► Solution<span id="sol-start-664" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-664&#39;, &#39;sol-start-664&#39;)"></span>
 </p>
-<div id="sol-body-346" class="solution-body" style="display: none;">
+<div id="sol-body-664" class="solution-body" style="display: none;">
 <p>The degrees of freedom are <span class="math inline">\(n-1 = 200-1 = 199\)</span></p>
 <p>We’re performing a one-tailed test here because our alternative hypothesis (<span class="math inline">\(H_1\)</span>) is that the mean tempo is &gt; 125.</p>
 <p>So we will reject a <span class="math inline">\(t\)</span>-statistic which falls in the upper 5% of the distribution.</p>
@@ -1025,9 +1043,9 @@ t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-347" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-347&#39;, &#39;sol-start-347&#39;)"></span>
+► Solution<span id="sol-start-665" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-665&#39;, &#39;sol-start-665&#39;)"></span>
 </p>
-<div id="sol-body-347" class="solution-body" style="display: none;">
+<div id="sol-body-665" class="solution-body" style="display: none;">
 <p>The degrees of freedom is <span class="math inline">\(n-1 = 200-1 = 199\)</span></p>
 <p>We want to look at the area to the <em>right</em>, because we are testing whether 128.9 (our sample mean) is significantly <em>greater than</em> 125 (our null hypothesis mean).</p>
 <div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb736-1" title="1">pvalue =<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="fl">2.1</span>, <span class="dt">df =</span> <span class="dv">199</span>)</a>
@@ -1083,9 +1101,9 @@ t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 <p>We can assess whether a set of numbers are normally distributed (assumption 2, above) by:</p>
 <div class="solution">
 <p class="solution-begin">
-Producing an appropriate plot<span id="sol-start-348" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-348&#39;, &#39;sol-start-348&#39;)"></span>
+Producing an appropriate plot<span id="sol-start-666" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-666&#39;, &#39;sol-start-666&#39;)"></span>
 </p>
-<div id="sol-body-348" class="solution-body" style="display: none;">
+<div id="sol-body-666" class="solution-body" style="display: none;">
 <p>Plots such as the histogram, or density plots, showing us the shape of our distribution:</p>
 <div class="sourceCode" id="cb741"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb741-1" title="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">x=</span>tempo))<span class="op">+</span></a>
 <a class="sourceLine" id="cb741-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>()<span class="op">+</span></a>
@@ -1096,7 +1114,7 @@ Producing an appropriate plot<span id="sol-start-348" class="fa fa-plus-square s
 <a class="sourceLine" id="cb743-2" title="2"><span class="st">  </span><span class="kw">geom_density</span>()<span class="op">+</span></a>
 <a class="sourceLine" id="cb743-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Density plot&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-472-2.png" width="672" /></p>
-<p>We can also use a plot called a QQplot, which orders the data and plots it against the equivalent quantile of the normal distribution:</p>
+<p>We can also use a plot called a QQplot (Quantile-Quantile plot), which orders the data and plots it against the equivalent quantile of the normal distribution:</p>
 <div class="sourceCode" id="cb744"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb744-1" title="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">sample =</span> tempo))<span class="op">+</span></a>
 <a class="sourceLine" id="cb744-2" title="2"><span class="st">  </span><span class="kw">geom_qq</span>()<span class="op">+</span></a>
 <a class="sourceLine" id="cb744-3" title="3"><span class="st">  </span><span class="kw">stat_qq_line</span>()<span class="op">+</span></a>
@@ -1109,9 +1127,9 @@ Producing an appropriate plot<span id="sol-start-348" class="fa fa-plus-square s
 </div>
 <div class="solution">
 <p class="solution-begin">
-Conducting a test of normality<span id="sol-start-349" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-349&#39;, &#39;sol-start-349&#39;)"></span>
+Conducting a test of normality<span id="sol-start-667" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-667&#39;, &#39;sol-start-667&#39;)"></span>
 </p>
-<div id="sol-body-349" class="solution-body" style="display: none;">
+<div id="sol-body-667" class="solution-body" style="display: none;">
 <p>We can also conduct a formal hypothesis test for normality, such as the Shapiro-Wilk test.</p>
 <p>The null hypothesis of the Shapiro-Wilk test is that the sample came from a population that is normally distributed.<br />
 The alternative hypothesis is that the sample came from a population that is <em>not</em> normally distributed.</p>
@@ -1156,9 +1174,9 @@ The p-value corresponds to the probability of observing data of this shape of di
 It contains information on the license numbers, issue date and zip-code, as well as data on the species, breeds and weights (in kg) of each pet.<br />
 We are interested in whether the average weight of a dog is different from 20kg.</p>
 <ul>
-<li>Null hypothesis, <span class="math inline">\(H_0: \mu = 20\)</span><br />
+<li>Null hypothesis, <span class="math inline">\(H_0: \mu_1 = 20\)</span><br />
 </li>
-<li>Alternative hypothesis, <span class="math inline">\(H_1: \mu \neq 20\)</span></li>
+<li>Alternative hypothesis, <span class="math inline">\(H_1: \mu_1 \neq 20\)</span></li>
 </ul>
 <div class="question">
 <p class="question-begin">
@@ -1177,9 +1195,9 @@ Does anything jump out as relevant?</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-350" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-350&#39;, &#39;sol-start-350&#39;)"></span>
+► Solution<span id="sol-start-668" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-668&#39;, &#39;sol-start-668&#39;)"></span>
 </p>
-<div id="sol-body-350" class="solution-body" style="display: none;">
+<div id="sol-body-668" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb747"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb747-1" title="1">pets &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2VfPzg7&quot;</span>)</a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -1231,9 +1249,9 @@ Does anything jump out as relevant?</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-351" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-351&#39;, &#39;sol-start-351&#39;)"></span>
+► Solution<span id="sol-start-669" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-669&#39;, &#39;sol-start-669&#39;)"></span>
 </p>
-<div id="sol-body-351" class="solution-body" style="display: none;">
+<div id="sol-body-669" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb751"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb751-1" title="1">dogs &lt;-<span class="st"> </span>pets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Dog&quot;</span>)</a></code></pre></div>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1256,9 +1274,9 @@ Does anything jump out as relevant?</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-352" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-352&#39;, &#39;sol-start-352&#39;)"></span>
+► Solution<span id="sol-start-670" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-670&#39;, &#39;sol-start-670&#39;)"></span>
 </p>
-<div id="sol-body-352" class="solution-body" style="display: none;">
+<div id="sol-body-670" class="solution-body" style="display: none;">
 <p>It takes the <code>dogs</code> dataset, and it filters so that it will keep any rows where <code>!is.na(weight_kg)</code> is TRUE.<br />
 The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> is an <code>NA</code> and FALSE otherwise.</p>
 <p>The <code>!</code> before it flips the TRUEs and FALSEs, so that we have TRUE wherever <code>weight_kg</code> is a value other than <code>NA</code>, and FALSE if it <em>is</em> <code>NA</code>.</p>
@@ -1283,9 +1301,9 @@ The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> i
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-353" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-353&#39;, &#39;sol-start-353&#39;)"></span>
+► Solution<span id="sol-start-671" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-671&#39;, &#39;sol-start-671&#39;)"></span>
 </p>
-<div id="sol-body-353" class="solution-body" style="display: none;">
+<div id="sol-body-671" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb753"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb753-1" title="1">dogstats &lt;-<span class="st"> </span>dogs <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb753-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
 <a class="sourceLine" id="cb753-3" title="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(weight_kg),</a>
@@ -1317,9 +1335,9 @@ The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> i
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-354" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-354&#39;, &#39;sol-start-354&#39;)"></span>
+► Solution<span id="sol-start-672" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-672&#39;, &#39;sol-start-672&#39;)"></span>
 </p>
-<div id="sol-body-354" class="solution-body" style="display: none;">
+<div id="sol-body-672" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb755"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb755-1" title="1">t_obs =<span class="st"> </span>(dogstats<span class="op">$</span>xbar <span class="op">-</span><span class="st"> </span><span class="dv">20</span>) <span class="op">/</span><span class="st"> </span>(dogstats<span class="op">$</span>s <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(dogstats<span class="op">$</span>n))</a>
 <a class="sourceLine" id="cb755-2" title="2">t_obs</a></code></pre></div>
 <pre><code>## [1] 2.202048</code></pre>
@@ -1349,13 +1367,13 @@ The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> i
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-355" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-355&#39;, &#39;sol-start-355&#39;)"></span>
+► Solution<span id="sol-start-673" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-673&#39;, &#39;sol-start-673&#39;)"></span>
 </p>
-<div id="sol-body-355" class="solution-body" style="display: none;">
+<div id="sol-body-673" class="solution-body" style="display: none;">
 <p>Our sample statistic (<span class="math inline">\(\bar{x}\)</span> = 20.376kg) is greater than the hypothesised mean (<span class="math inline">\(\mu_{0}\)</span> = 20kg), so we want the area to the <em>right</em>.</p>
 <p><em><strong>Reminder:</strong> For a probability distribution, the area under the curve to the right of x is 1 minus the area to the left. This is equivalent to saying that the probability of observing a value greater than x is 1 minus the probability of observing a value less than x.</em></p>
 <div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb757-1" title="1">p_righttail =<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_obs, <span class="dt">df =</span> <span class="dv">1332</span>)</a></code></pre></div>
-<p>Because our alternative hypothesis is two-tailed (<span class="math inline">\(H_1: \mu \neq 20\)</span>), we will reject the null hypothesis for extreme <span class="math inline">\(t\)</span>-statistics <em>in either direction</em>. So we are calculating the probability of observing a value at least as extreme in either direction, and must multiply the one tail by 2.</p>
+<p>Because our alternative hypothesis is two-tailed (<span class="math inline">\(H_1: \mu_1 \neq 20\)</span>), we will reject the null hypothesis for extreme <span class="math inline">\(t\)</span>-statistics <em>in either direction</em>. So we are calculating the probability of observing a value at least as extreme in either direction, and must multiply the one tail by 2.</p>
 <div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb758-1" title="1">p2tail =<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>p_righttail</a>
 <a class="sourceLine" id="cb758-2" title="2"></a>
 <a class="sourceLine" id="cb758-3" title="3">p2tail</a></code></pre></div>
@@ -1380,9 +1398,9 @@ Check that the results match the ones you just calculated.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-356" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-356&#39;, &#39;sol-start-356&#39;)"></span>
+► Solution<span id="sol-start-674" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-674&#39;, &#39;sol-start-674&#39;)"></span>
 </p>
-<div id="sol-body-356" class="solution-body" style="display: none;">
+<div id="sol-body-674" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb760-1" title="1"><span class="kw">t.test</span>(<span class="dt">x =</span> dogs<span class="op">$</span>weight_kg, <span class="dt">mu =</span> <span class="dv">20</span>, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
@@ -1402,9 +1420,9 @@ Check that the results match the ones you just calculated.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Look at all the funny names!<span id="sol-start-357" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-357&#39;, &#39;sol-start-357&#39;)"></span>
+► Look at all the funny names!<span id="sol-start-675" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-675&#39;, &#39;sol-start-675&#39;)"></span>
 </p>
-<div id="sol-body-357" class="solution-body" style="display: none;">
+<div id="sol-body-675" class="solution-body" style="display: none;">
 <p>For fun, take a look at some of the names of pets in the dataset. This is actually real data, apart from the <code>weights_kg</code> variable.</p>
 <p>You can see a humerous visualisation of some of the more unusual names for pets below:
 <img src="https://pbs.twimg.com/media/D2r1WLAWoAIG25x?format=jpg&amp;name=4096x4096" />
@@ -1441,9 +1459,9 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-358" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-358&#39;, &#39;sol-start-358&#39;)"></span>
+► Solution<span id="sol-start-676" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-676&#39;, &#39;sol-start-676&#39;)"></span>
 </p>
-<div id="sol-body-358" class="solution-body" style="display: none;">
+<div id="sol-body-676" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb762"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb762-1" title="1">pass_scores &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wJgYwL&quot;</span>) </a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -1480,6 +1498,7 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 </p>
 <div class="question-body">
 <p>Write up the results from Question 8.</p>
+<p><em>Hint:</em> See the lecture slides!</p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1487,9 +1506,11 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-359" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-359&#39;, &#39;sol-start-359&#39;)"></span>
+► Solution<span id="sol-start-677" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-677&#39;, &#39;sol-start-677&#39;)"></span>
 </p>
-<div id="sol-body-359" class="solution-body" style="display: none;">
+<div id="sol-body-677" class="solution-body" style="display: none;">
+<p>A one-sided one-sample t-test was conducted in order to determine if the average score on the Procrastination Assessment Scale for Students (PASS) for a sample of 20 students at Edinburgh University was significantly (<span class="math inline">\(\alpha = .05\)</span>) lower than the average score obtained during development of the PASS.</p>
+<p>Edinburgh University students scored lower (Mean=30.7, SD=3.31) than the score reported by the authors of the PASS (Mean = 33). This difference was statistically significant (t(19)=-3.11, p &lt; .05, one-tailed).</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1512,9 +1533,9 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-360" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-360&#39;, &#39;sol-start-360&#39;)"></span>
+► Solution<span id="sol-start-678" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-678&#39;, &#39;sol-start-678&#39;)"></span>
 </p>
-<div id="sol-body-360" class="solution-body" style="display: none;">
+<div id="sol-body-678" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb768-1" title="1">cats &lt;-<span class="st"> </span>pets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Cat&quot;</span>, <span class="op">!</span><span class="kw">is.na</span>(weight_kg))</a>
 <a class="sourceLine" id="cb768-2" title="2"></a>
 <a class="sourceLine" id="cb768-3" title="3"><span class="kw">shapiro.test</span>(cats<span class="op">$</span>weight_kg)</a></code></pre></div>
@@ -1524,7 +1545,7 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 ## data:  cats$weight_kg
 ## W = 0.99825, p-value = 0.7611</code></pre>
 <div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb770-1" title="1"><span class="kw">qqnorm</span>(cats<span class="op">$</span>weight_kg)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-484-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-485-1.png" width="672" /></p>
 <div class="sourceCode" id="cb771"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb771-1" title="1"><span class="kw">t.test</span>(cats<span class="op">$</span>weight_kg, <span class="dt">mu=</span><span class="fl">4.5</span>, <span class="dt">alternative=</span><span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
@@ -1546,8 +1567,17 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 <div id="glossary-5" class="section level3">
 <h3><span class="header-section-number">16.7.4</span> Glossary</h3>
 <ul>
-<li>degrees of freedom</li>
+<li><em>Degrees of freedom.</em> The number of independent observations in a set of data. Often the total number of datapoints (<span class="math inline">\(n\)</span>) minus the number of parameters being estimated.<br />
+</li>
+<li><em>One-sample t-test/One-sample mean test.</em> Compare the mean in a sample to a known (or hypothesised) mean.<br />
+</li>
+<li><em>Assumptions.</em> Requirements of the data in order to ensure that our test is appropriate.<br />
+</li>
+<li><em>Shapiro-Wilks.</em> Tests whether sample is drawn from a population which is normally distributed.<br />
+</li>
+<li><em>QQplot/Quantile-Quantile plot.</em> Displays the quantiles of the sample against the quantiles of a normal distribution. If the data points fall on the diagonal line, the sample is normally distributed.</li>
 </ul>
+<p>One-sample t-tests .</p>
 
 </div>
 </div>

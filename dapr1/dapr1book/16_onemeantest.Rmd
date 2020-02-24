@@ -32,7 +32,7 @@ library(tidyverse)
 
 ## Recap
 
-Over the last 5 weeks, we have started to look at how we can use a sample from a population to draw infereces about the population.  
+Over the last 5 weeks, we have started to look at how we can use a sample from a population to draw inferences about the population.  
 <br>  
 Some key things which we have learned:  
 
@@ -50,7 +50,7 @@ Some key things which we have learned:
 <div class="noteBox"> 
 #### Week 12 {-}  
 
-+ In practice we cannot take many many samples in order to build up a picture of the sampling distribution of a statistic.  
++ In practice we cannot take lots and lots of samples in order to build up a picture of the sampling distribution of a statistic.  
 + We can approximate this process by **bootstrap resampling** our original sample (repeated random sampling *with replacement* from the original sample, *using the same sample size.*).  
   
 </div>
@@ -60,8 +60,11 @@ Some key things which we have learned:
 
 + Introduced hypothesis testing, statistical significance and statistical power. 
 + These concepts relied on us having some measure of sampling variability. 
-+ In order to test hypotheses or construct confidence intervals, we *simulated* sampling distributions under different hypothetical parameters, against which we could then compare an observed statistic.  
-  
++ In order to test hypotheses or construct confidence intervals, we *simulated* sampling distributions under different hypothetical parameters, against which we could then compare an observed statistic. 
++ We also introduced the concept of a **standardised statistic**, typically denoted by $z$.
+This measures how many standard deviations away from the mean of the null distribution the observed statistic is.  
++ $\textrm{standardised statistic} = z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}$  
+
 </div>
 <hr />  
 <div class="noteBox"> 
@@ -99,75 +102,65 @@ Questions which can be answered by a one sample mean test often take the form:
 
 + Is the average weight of a dog greater than 20kg?  
 + Is the mean body temperature not equal to 37 degrees C?  
-+ On the Beck Depression Inventory (BDI), a score of >25 is considered clinical diagnosis of depression. Is the average score of our population of interest (e.g., people suffering from a specific disease) significantly above this cutoff?  
++ On the Beck Depression Inventory (BDI), a score of >25 is considered clinical diagnosis of depression. Is the average score of our population of interest (for instance, people with a specific disease) significantly above this cutoff?  
 
 ### Hypotheses {-}  
 
 **Null hypothesis:**  
 
-+ The population mean ($\mu$) is equal to some pre-specified number (denoted $\mu_{0}$).  
-  + $H_0: \mu = \mu_{0}$  
++ The population mean ($\mu_1$) is equal to some pre-specified number ($\mu_{0}$).  
+  + $H_0: \mu_1 = \mu_{0}$  
+  (*Note* that this is the same as $\mu_1 - \mu_{0} = 0$)  
 
 **Alternative hypothesis:** 
 
-+ The population mean ($\mu$) is not equal to/is less than/is greater than some pre-specified number (denoted $\mu_{0}$).  
-  + $H_1: \mu \neq \mu_{0}$  
-  + $H_1: \mu > \mu_{0}$  
-  + $H_1: \mu < \mu_{0}$  
++ The population mean ($\mu_1$) is not equal to/is less than/is greater than some pre-specified number ($\mu_{0}$).  
+  + $H_1: \mu_1 \neq \mu_{0}$  
+  + $H_1: \mu_1 > \mu_{0}$  
+  + $H_1: \mu_1 < \mu_{0}$  
 
 ### Formula {-}  
 
-#### Standardized statistic $(z)$ {-}
+#### Standardised statistic $(z)$ {-}
 
-Recall that in [Week 13](#chap-hyp-test), we introduced the concept of a **standardized statistic**, typically denoted by $z$.
-This measures how many standard deviations away from the mean of the null distribution the observed statistic is: 
+<!-- Recall that in [Week 13](#chap-hyp-test),  -->
 
-$$
-\textrm{standardized statistic} = z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}}
-$$
+<!-- ```{r w16-standardised-statistic, fig.height=3, echo=FALSE, fig.align='center'} -->
+<!-- xg = seq(-4, 4, by = 0.001) -->
+<!-- yg = dnorm(xg) -->
+<!-- dfg = tibble(xg, yg) -->
 
-We also saw how, assuming the null hypothesis to be true, if we were to draw multiple random samples of the same size from the same population and perform the same calculation of a standardized $z$-statistic for each sample, the values we would obtain would follow a normal distribution: 
+<!-- ggplot(dfg, aes(x = xg, y = yg, ymin = 0, ymax = yg)) + -->
+<!--   geom_line() + -->
+<!--   geom_ribbon(fill = 'lightyellow') +  -->
+<!--   geom_ribbon(data=subset(dfg, xg<0.01 & xg>-0.01), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg<3.01 & xg>2.99), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg > -3.01 & xg < -2.99), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg<2.01 & xg>1.99), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg > -2.01 & xg < -1.99), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg<1.51 & xg>1.49), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   geom_ribbon(data=subset(dfg, xg > -1.51 & xg < -1.49), aes(ymax=yg), ymin=0, fill="darkblue") + -->
+<!--   theme_minimal(base_size = 15) + -->
+<!--   scale_x_continuous(breaks = c(-3, -2, -1.5, 0, 1.5, 2, 3)) + -->
+<!--   scale_y_continuous(breaks = NULL) + -->
+<!--   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + -->
+<!--   labs(x = NULL, y = NULL) -->
+<!-- ``` -->
 
-_**Reminder:** The sampling distribution is the distribution of the values that a statistic takes on different samples of the same size and from the same population._  
+<!-- _**Reminder:** The sampling distribution is the distribution of the values that a statistic takes on different samples of the same size and from the same population._   -->
 
-```{r w16-standardized-statistic, fig.height=3, echo=FALSE, fig.align='center'}
-xg = seq(-4, 4, by = 0.001)
-yg = dnorm(xg)
-dfg = tibble(xg, yg)
-
-ggplot(dfg, aes(x = xg, y = yg, ymin = 0, ymax = yg)) +
-  geom_line() +
-  geom_ribbon(fill = 'lightyellow') + 
-  geom_ribbon(data=subset(dfg, xg<0.01 & xg>-0.01), aes(ymax=yg), ymin=0, fill="darkblue") +
-  geom_ribbon(data=subset(dfg, xg<3.01 & xg>2.99), aes(ymax=yg), ymin=0, fill="darkblue") +
-  geom_ribbon(data=subset(dfg, xg > -3.01 & xg < -2.99), aes(ymax=yg), ymin=0, fill="darkblue") +
-  geom_ribbon(data=subset(dfg, xg<2.01 & xg>1.99), aes(ymax=yg), ymin=0, fill="darkblue") +
-  geom_ribbon(data=subset(dfg, xg > -2.01 & xg < -1.99), aes(ymax=yg), ymin=0, fill="darkblue") +
-  geom_ribbon(data=subset(dfg, xg<1.51 & xg>1.49), aes(ymax=yg), ymin=0, fill="darkblue") +
-  geom_ribbon(data=subset(dfg, xg > -1.51 & xg < -1.49), aes(ymax=yg), ymin=0, fill="darkblue") +
-  theme_minimal(base_size = 15) +
-  scale_x_continuous(breaks = c(-3, -2, -1.5, 0, 1.5, 2, 3)) +
-  scale_y_continuous(breaks = NULL) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  labs(x = NULL, y = NULL)
-```
-
-
-When we introduced the notion of a standardized statistic in [Week 13](#making-a-formal-decision), we had simulated the null sampling distribution by constructing repeated random samples and calculating the statistic for each one. This allowed us to see how these statistics would vary due to random sampling, assuming the null hypothesis to be true. 
-We could quantify this directly by calculating the standard deviation of the simulated null distribution - the standard error.  
+When we introduced the notion of a standardised statistic in [Week 13](#making-a-formal-decision), we had simulated the null sampling distribution by constructing repeated random samples and calculating a statistic for each one. This allowed us to see how these statistics would vary due to random sampling, assuming the null hypothesis to be true. We could quantify this directly by calculating the standard deviation of the simulated null distribution - the standard error.  
 
 _**Reminder:** The standard deviation of the sampling distribution of a statistic (e.g. the mean) is also known as the standard error (SE) of the statistic._
 
-When we have not simulated a sampling distribution for a statistic, we can assume that is symmetric and bell-shaped (or 'normal'), and we can calculate the standard error of the statistic (i.e., the standard deviation of the sampling distribution), for a sample of size $n$ using the formula: $SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$.  
-
-So our formula for the standardized statistic becomes:  
-
+Using our theoretical approach to approximating the standard error, we can calculate the standard error of the statistic, for a sample of size $n$ using the formula: $SE(\bar{x}) = \frac{\sigma}{\sqrt{n}}$.  
+Including this in our formula for the standardised statistic becomes:  
 $$
-z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}} = \frac{\bar{x} - \mu_{0}}{\sigma/\sqrt{n}}
+z = \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\textrm{standard deviation of null distribution}} =  \frac{\textrm{statistic} - \textrm{mean of null distribution}}{\sigma/\sqrt{n}} = \frac{\bar{x} - \mu_{0}}{\sigma/\sqrt{n}}
 $$
 
 
-#### Standardized statistic ($t$) {-}
+#### Standardised statistic ($t$) {-}
 
 In the formula for $z$ above, $\sigma$ denotes the population standard deviation. But to calculate this we need to have data on the whole population.  
   
@@ -177,11 +170,11 @@ $$
 t = \frac{\bar{x} - \mu_{0}}{s/\sqrt{n}}
 $$
 
-Note that when we use the sample standard deviation $s$ in this formula, the standardized statistic we calculate gets denoted as $t$, rather than $z$.   
+Note that when we use the sample standard deviation $s$ in this formula, the standardised statistic we calculate gets denoted as $t$, rather than $z$.   
   
-If we were to draw multiple random samples of the same size from the same population, and perform the same calculation of a $t$-value for each sample, the values we would obtain would follow a $t$-distribution.  
+If we were to draw multiple random samples of the same size from the same population, and perform the same calculation of a $t$-value for each sample, then the values we would obtain would follow a $t$-distribution.  
   
-### $t$-distributions 
+### $t$-distributions {-}
 
 The particular shape of the $t$-distribution is determined by the **degrees of freedom**.   
 By 'degrees of freedom' we refer to the number of independent observations in a set of data. 
@@ -189,7 +182,7 @@ By 'degrees of freedom' we refer to the number of independent observations in a 
 When we are estimating a mean from a single sample, the degrees of freedom is equal to the sample size minus one.  
 This means that the sampling distribution of $t$-statistics from samples of size 10, would follow a $t$-distribution with $10-1$ degrees of freedom.  
   
-  
+
 <div class="red">
 ##### Degrees of freedom (df) {-}
 
@@ -262,25 +255,25 @@ At what value**s** of $t$ do 5% of the $t$-distribution with 5 degrees of freedo
 qt(.05, df = 5)
 ```
 
-If we perform a one-tailed test of $\mu < \mu_{0}$ on a sample of 6 (so our degrees of freedom is 5), we will reject the null hypothesis ($\mu = \mu_{0}$) if our corresponding $t$-statistic is $\leq -2.015$.  
+If we perform a one-tailed test of $\mu_1 < \mu_{0}$ on a sample of 6 (so our degrees of freedom is 5), we will reject the null hypothesis ($\mu_1 = \mu_{0}$) if our corresponding $t$-statistic is $\leq -2.015$.  
 
 ```{r}
 qt(.025, df = 5)
 qt(.975, df = 5) 
-# remember that the t-distribution is symmetric and centered on 0! 
+# remember that the t-distribution is symmetric and centred on 0! 
 ```
-If we perform a *two*-tailed test of $\mu \neq \mu_{0}$ on a sample of 6, we will reject the null hypothesis ($\mu = \mu_{0}$) if the **absolute magnitude** of our corresponding $t$-statistic is $\geq 2.571$.  
+If we perform a *two*-tailed test of $\mu_1 \neq \mu_{0}$ on a sample of 6, we will reject the null hypothesis ($\mu_1 = \mu_{0}$) if the **absolute magnitude** of our corresponding $t$-statistic is $\geq 2.571$.  
 
 `r msmbstyle::solution_end()`
 
 <hr />
 
-## Walkthrough - Tempo of rock music on spotify  
+## Walkthrough - Tempo of rock music on Spotify  
 
 <div class="red">
 #### Research Question {-}
 
-The average tempo of music classified as "rock" by Spotify is greater than 125 beats per minute (BPM).  
+Is the average tempo of music classified as "rock" by Spotify greater than 125 beats per minute (BPM).  
 </div>
 
 `r msmbstyle::question_begin(header = "&#x25BA; Step 1 - Hypotheses")`
@@ -289,10 +282,10 @@ Write out the null and alternative hypotheses, and specify our $\alpha$ level.
 
 `r msmbstyle::solution_begin(hidden=FALSE)`
 Null hypothesis ($H_0$):   
-$\mu = 125$  
+$\mu_1 = 125$  
   
 Alternative hypothesis ($H_1$):   
-$\mu > 125$  
+$\mu_1 > 125$  
 
 We will use $\alpha = 0.05$  
 `r msmbstyle::solution_end()`
@@ -302,8 +295,8 @@ We will use $\alpha = 0.05$
 `r msmbstyle::question_begin(header = "&#x25BA; Step 2 - Data")`
 Get the data!  
 
-Our hypothesis is about $\mu$, the mean of *all* rock songs on spotify. 
-To investigate this, we have a sample of 200 rock songs from spotify, available at [https://edin.ac/2wC5rz3](https://edin.ac/2wC5rz3)
+Our hypothesis is about $\mu_1$, the mean of *all* rock songs on Spotify. 
+To investigate this, we have a sample of 200 rock songs from Spotify, available at [https://edin.ac/2wC5rz3](https://edin.ac/2wC5rz3)
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden=FALSE)`
@@ -358,7 +351,7 @@ spotify_songs %>%
 <hr />
 
 `r msmbstyle::question_begin(header = "&#x25BA; Step 4 - Sample sd")`
-Do we know the population standard deviation ($\sigma$)? That is, do we know the standard deviation of tempos of *all* rock songs on spotify?  
+Do we know the population standard deviation ($\sigma$)? That is, do we know the standard deviation of tempos of *all* rock songs on Spotify?  
 
 No, so we estimate it with the sample standard deviation ($s$).  
 Calculate this now. 
@@ -542,7 +535,7 @@ ggplot(spotify_songs, aes(x=tempo))+
   labs(title="Density plot")
 ```
 
-We can also use a plot called a QQplot, which orders the data and plots it against the equivalent quantile of the normal distribution: 
+We can also use a plot called a QQplot (Quantile-Quantile plot), which orders the data and plots it against the equivalent quantile of the normal distribution: 
 ```{r}
 ggplot(spotify_songs, aes(sample = tempo))+
   geom_qq()+
@@ -591,8 +584,8 @@ Data for a sample of 2000 licensed pets from the city of Seattle, USA, can be fo
 It contains information on the license numbers, issue date and zip-code, as well as data on the species, breeds and weights (in kg) of each pet.  
 We are interested in whether the average weight of a dog is different from 20kg.  
   
-+ Null hypothesis, $H_0: \mu = 20$  
-+ Alternative hypothesis, $H_1: \mu \neq 20$  
++ Null hypothesis, $H_0: \mu_1 = 20$  
++ Alternative hypothesis, $H_1: \mu_1 \neq 20$  
   
 `r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
 Read in the data from the url using `read_csv()`.  
@@ -701,7 +694,7 @@ p_righttail = 1 - pt(t_obs, df = 1332)
 
 ```
 
-Because our alternative hypothesis is two-tailed ($H_1: \mu \neq 20$), we will reject the null hypothesis for extreme $t$-statistics *in either direction*. So we are calculating the probability of observing a value at least as extreme in either direction, and must multiply the one tail by 2. 
+Because our alternative hypothesis is two-tailed ($H_1: \mu_1 \neq 20$), we will reject the null hypothesis for extreme $t$-statistics *in either direction*. So we are calculating the probability of observing a value at least as extreme in either direction, and must multiply the one tail by 2. 
 ```{r}
 p2tail = 2 * p_righttail
 
@@ -764,10 +757,17 @@ t.test(pass_scores$PASS, mu = 33, alternative = "less")
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
-Write up the results from Question 8.
+Write up the results from Question 8.  
+  
+*Hint:* See the lecture slides!
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
+```{r include=FALSE}
+res2<-t.test(pass_scores$PASS, mu = 33, alternative = "less")
+```
+A one-sided one-sample t-test was conducted in order to determine if the average score on the Procrastination Assessment Scale for Students (PASS) for a sample of `r nrow(pass_scores)` students at Edinburgh University was significantly ($\alpha = .05$) lower than the average score obtained during development of the PASS. 
 
+Edinburgh University students scored lower (Mean=`r mean(pass_scores$PASS) %>% round(2)`, SD=`r sd(pass_scores$PASS) %>% round(2)`) than the score reported by the authors of the PASS (Mean = 33). This difference was statistically significant (t(`r nrow(pass_scores)-1`)=`r res2$statistic %>% round(2)`, p < .05, one-tailed).  
 `r msmbstyle::solution_end()`
 
 
@@ -797,4 +797,10 @@ t.test(cats$weight_kg, mu=4.5, alternative="greater")
 
 ### Glossary  
 
-- degrees of freedom
+- _Degrees of freedom._ The number of independent observations in a set of data. Often the total number of datapoints ($n$) minus the number of parameters being estimated.  
+- _One-sample t-test/One-sample mean test._ Compare the mean in a sample to a known (or hypothesised) mean.  
+- _Assumptions._ Requirements of the data in order to ensure that our test is appropriate.  
+- _Shapiro-Wilks._ Tests whether sample is drawn from a population which is normally distributed.  
+- _QQplot/Quantile-Quantile plot._ Displays the quantiles of the sample against the quantiles of a normal distribution. If the data points fall on the diagonal line, the sample is normally distributed.  
+
+One-sample t-tests  .
