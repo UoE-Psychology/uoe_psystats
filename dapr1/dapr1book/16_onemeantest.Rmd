@@ -251,7 +251,7 @@ From this, we can say that assuming the null hypothesis to be true, the probabil
 
 We can also find the critical values of a $t$-distribution using the function `qt(p, df)`. This will return the values of $t$ for which $p$% of the distribution lies to the left.  
 
-This way, we can find the values of $t$ at which we will reject the null hypothesis at $\alpha = 0.05$. 
+This way, we can find the values of $t$ at which we will reject the null hypothesis (for a given $\alpha$ level).
 `r msmbstyle::question_begin()`
 At what value of $t$ does 5% of the $t$-distribution with 5 degrees of freedom lie to the left?  
 At what value**s** of $t$ do 5% of the $t$-distribution with 5 degrees of freedom lie in either tail?
@@ -261,7 +261,7 @@ At what value**s** of $t$ do 5% of the $t$-distribution with 5 degrees of freedo
 qt(.05, df = 5)
 ```
 
-If we perform a one-tailed test of $\mu < \mu_{0}$ on a sample of 6, we will reject the null hypothesis ($\mu = \mu_{0}$) if our corresponding $t$-statistic is $\leq -2.015$.  
+If we perform a one-tailed test of $\mu < \mu_{0}$ on a sample of 6 (so our degrees of freedom is 5), we will reject the null hypothesis ($\mu = \mu_{0}$) if our corresponding $t$-statistic is $\leq -2.015$.  
 
 ```{r}
 qt(.025, df = 5)
@@ -282,23 +282,39 @@ If we perform a *two*-tailed test of $\mu \neq \mu_{0}$ on a sample of 6, we wil
 The average tempo of music classified as "rock" by Spotify is greater than 125 beats per minute (BPM).  
 </div>
 
+`r msmbstyle::question_begin(header = "&#x25BA; Step 1 - Hypotheses")`
+Write out the null and alternative hypotheses, and specify our $\alpha$ level.  
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=FALSE)`
 Null hypothesis ($H_0$):   
 $\mu = 125$  
   
 Alternative hypothesis ($H_1$):   
 $\mu > 125$  
-  
-Our hypothesis is about $\mu$, the mean of *all* rock songs on spotify. 
-To investigate this, we have a sample of 200 rock songs from spotify: 
 
+We will use $\alpha = 0.05$  
+`r msmbstyle::solution_end()`
+
+`r msmbstyle::question_begin(header = "&#x25BA; Step 2 - Data")`
+Get the data!  
+
+Our hypothesis is about $\mu$, the mean of *all* rock songs on spotify. 
+To investigate this, we have a sample of 200 rock songs from spotify, available at [https://edin.ac/2wC5rz3](https://edin.ac/2wC5rz3)
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden=FALSE)`
 ```{r message=FALSE}
 spotify_songs <- read_csv("https://edin.ac/2wC5rz3")
 
 summary(spotify_songs)
 ```
+`r msmbstyle::solution_end()`
 
 
-`r msmbstyle::question_begin()`
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Step 3 - Sample mean")`
 Which line of code will give us our sample statistic?  
 
 A.
@@ -337,12 +353,13 @@ spotify_songs %>%
 ```
 `r msmbstyle::solution_end()`
 
+`r msmbstyle::question_begin(header = "&#x25BA; Step 4 - Sample sd")`
+Do we know the population standard deviation ($\sigma$)? That is, do we know the standard deviation of tempos of *all* rock songs on spotify?  
 
-`r msmbstyle::question_begin()`
-Do we know the population standard deviation ($\sigma$)? That is, do we know the standard deviation of tempos of *all* rock songs on spotify? 
+No, so we estimate it with the sample standard deviation ($s$).  
+Calculate this now. 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
-No, so we estimate it with the sample standard deviation ($s$).
 ```{r}
 spotify_songs %>%
   summarise(
@@ -351,9 +368,7 @@ spotify_songs %>%
 ```
 `r msmbstyle::solution_end()`
 
-### Calculating $t$ 
-
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Step 5 - Calculate t")`
 Fill in the blanks:  
 $$
 \begin{aligned}
@@ -368,6 +383,8 @@ and write out the $t$-statistic:
 $$
 t_{obs} \qquad = \qquad \frac{? \qquad - \qquad ?}{?}
 $$
+  
+Finally, calculate your $t$-statistic in `R`.  
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 Fill in the blanks:  
@@ -384,7 +401,6 @@ and write out the $t$-statistic:
 $$
 t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 $$
-`r msmbstyle::solution_end()`
 
 We can do this quickly using `R` just like a calculator:
 ```{r}
@@ -392,13 +408,16 @@ t_obs = (128.9 - 125) / (26.5 / sqrt(200))
 t_obs
 ```
 
-Or, going back to the start, we can use our skills with `summarise()` to calculate all the terms we need for our $t$-statistic: 
+<div class="noteBox">  
+#### New R stuff! {-}
+
+Going back to the start, we can use our skills with `summarise()` to calculate all the terms we need for our $t$-statistic: 
 ```{r}
 terms <- spotify_songs %>%
   summarise(
     xbar = mean(tempo),
     s = sd(tempo),
-    mu_h0 = 125,
+    mu_0 = 125,
     n = n()
   )
 
@@ -407,20 +426,17 @@ terms
 
 And then we can plug in these numbers to our equation.    
 
-<div class="red">
-#### Note {-}
-
-We now introduce a new technique: the `$` operator. This is similar to the `pull()` function we previously used, as it pulls out the column from a tibble.
-</div>
+**We now introduce a new technique: the `$` operator. This is similar to the `pull()` function we previously used, as it pulls out the column from a tibble.**
 
 ```{r}
-(terms$xbar - terms$mu_h0) / (terms$s / sqrt(terms$n))
+(terms$xbar - terms$mu_0) / (terms$s / sqrt(terms$n))
 ```
 
+</div>
 
-### Test the significance of $t$  
+`r msmbstyle::solution_end()`
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Step 6 - Critical t value")`
 Using the `qt()` function, calculate the critical value for $\alpha$ = 0.05. This is the smallest *absolute* value of $t$ at which you will reject the null hypothesis.  
 
 + You'll need to work out the degrees of freedom  
@@ -438,12 +454,11 @@ So we will reject a $t$-statistic which falls in the upper 5% of the distributio
 ```{r}
 qt(.95, df = 199) # 5% to the right
 ```
-
-We will reject a $t$-statistic which is greater (in magnitude) than 1.65.
+We will reject a $t$-statistic which is greater (in magnitude) than 1.65.  
 `r msmbstyle::solution_end()`
 
 
-`r msmbstyle::question_begin()`
+`r msmbstyle::question_begin(header = "&#x25BA; Step 7 - Probability of observed t-statistic")`
 We have our observed $t$-statistic of 2.1. We know that this is greater than the critical value of 1.65.  
 
 What is the probability of obtaining a $t$-statistic at least as extreme as 2.1, assuming the null hypothesis to be true? In other words, what is the p-value?
@@ -561,7 +576,7 @@ So our assumption for the one sample mean test holds!
 _Please attempt the questions **before** looking at the solutions. Copy & pasting the solutions will not help with learning!_  
   
   
-### Pets' weights  
+### Pets' weights   
 
 Data for a sample of 2000 licensed pets from the city of Seattle, USA, can be found at the following url: [https://edin.ac/2VfPzg7](https://edin.ac/2VfPzg7).  
 It contains information on the license numbers, issue date and zip-code, as well as data on the species, breeds and weights (in kg) of each pet.  
@@ -611,6 +626,8 @@ What does the following command appear to do, and how?
 ```{r}
 dogs <- dogs %>% filter(!is.na(weight_kg))
 ```
+  
+*Tip:* look at the help documentation for `is.na` (search in the bottom right window of Rstudio, or type `?is.na`)
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 
@@ -704,7 +721,7 @@ You can see a humerous visualisation of some of the more unusual names for pets 
 (Pet names in Seattle, from [@W_R_Chase](https://twitter.com/W_R_Chase))
 `r msmbstyle::solution_end()`
 
-### Procrastination scores {-}  
+### Procrastination scores  
 
 The Procrastination Assessment Scale for Students (PASS) was designed to assess how individuals approach decision situations, specifically the tendency of individuals to postpone decisions (see [Solomon & Rothblum, 1984](http://dx.doi.org/10.1037/0022-0167.31.4.503)).  
 
@@ -715,16 +732,15 @@ The mean score from Solomon & Rothblum, 1984 was 33.
 <div class="red">
 #### Research Question {-}
 
-30 students from Edinburgh University have completed the PASS.  
-Is the mean score different to 33?  
+Do Edinburgh University students report endorsing procrastination to less than the norm of 33?  
 
 </div>
 
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question 8")`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 8")`  
 Read in the data, produce some descriptive statistics, and conduct a one sample mean test to evaluate whether Edinburgh University students' average score on the PASS is not equal to 33.  
 
-+ Remember to check the assumptions of your test!
++ Remember about the assumptions of your test!  
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden=FALSE)`
 
@@ -746,7 +762,7 @@ Write up the results from Question 8.
 `r msmbstyle::solution_end()`
 
 
-### Cat weights! {-}  
+### Cat weights!    
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 10")`

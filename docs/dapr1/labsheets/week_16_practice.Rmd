@@ -1,0 +1,281 @@
+---
+title: "Week 16"
+output: html_document
+---
+
+# Walkthrough questions  
+
+## Step.1 Write out the null and alternative hypotheses, and specify our $\alpha$ level.  
+
+Null hypothesis ($H_0$):   
+$\mu = 125$  
+  
+Alternative hypothesis ($H_1$):   
+$\mu > 125$  
+
+We will use $\alpha = 0.05$  
+
+## Step.2 Get the data!  
+
+We have a sample of 200 rock songs from spotify, available at [https://edin.ac/2wC5rz3](https://edin.ac/2wC5rz3)
+
+```{r message=FALSE}
+spotify_songs <- read_csv("https://edin.ac/2wC5rz3")
+
+summary(spotify_songs)
+```
+
+## Step.3 Calculate sample mean
+
+```{r}
+spotify_songs %>%
+  summarise(
+    xbar = mean(tempo)
+  )
+```
+
+
+## Step.4 Calculate sample sd
+
+In order to calculate the standard error of the mean, we estimate the population standard deviation ($\sigma$) with the sample standard deviation ($s$).  
+
+```{r}
+spotify_songs %>%
+  summarise(
+    s = sd(tempo)
+  )
+```
+
+## Step.5 Calculating t
+
+Fill in the blanks:  
+$\bar{x}$ = ?
+$\mu_0$ = ?
+$s$ = ?
+$n$ = ?
+$SE(\bar{x})$ = ? 
+
+t = ? + ? / ?  
+
+Finally, calculate your t-statistic in R.  
+
+```{r}
+t_obs = (128.9 - 125) / (26.5 / sqrt(200))
+t_obs
+```
+
+## New R stuff!  
+
+Going back to the start, we can use our skills with summarise() to calculate all the terms we need for our $t$-statistic: 
+```{r}
+terms <- spotify_songs %>%
+  summarise(
+    xbar = mean(tempo),
+    s = sd(tempo),
+    mu_0 = 125,
+    n = n()
+  )
+
+terms
+```
+
+And then we can plug in these numbers to our equation.    
+
+We now introduce a new technique: the `$` operator. This is similar to the `pull()` function we previously used, as it pulls out the column from a tibble.
+
+```{r}
+(terms$xbar - terms$mu_0) / (terms$s / sqrt(terms$n))
+```
+
+
+## Step.6 Critical t values
+
+Using the `qt()` function, calculate the critical value for $\alpha$ = 0.05. This is the smallest *absolute* value of $t$ at which you will reject the null hypothesis.  
+
++ You'll need to work out the degrees of freedom  
++ You'll also need to think about whether we are performing a two-tailed test or a one-tailed test. If a two-tailed test, then remember that the $\alpha$ is split between the two tails (and so we would reject anything in the most extreme 2.5%)    
+
+```{r}
+qt(.95, df = 199) # 5% to the right
+```
+
+
+## Step.7 Probability of observed t-statistic  
+
+We have our observed $t$-statistic of 2.1. We know that this is greater than the critical value of 1.65 which means that we have reason to reject the null hypothesis.    
+
+What is the probability of obtaining a $t$-statistic at least as extreme as 2.1, assuming the null hypothesis to be true? In other words, what is the p-value?  
+
+Things you'll need to work out:  
+
++ Do we want the area under the curve which is to the left or to the right of t = 2.1? 
+
+```{r}
+pvalue = 1 - pt(2.1, df = 199)
+
+pvalue
+```
+
+
+# One line of code  
+
+Using our new friend, the `$` operator:
+```{r}
+t.test(x = spotify_songs$tempo, mu = 125, alternative = "greater")
+```
+
+Or, if you prefer:
+```{r}
+spotify_songs %>% 
+   pull(tempo) %>%
+   t.test(mu = 125, alternative = "greater")
+```
+
+
+---
+
+# Lab
+
+## Pets' weights  
+
+Data for a sample of 2000 licensed pets from the city of Seattle, USA, can be found at the following url: [https://edin.ac/2VfPzg7](https://edin.ac/2VfPzg7).  
+It contains information on the license numbers, issue date and zip-code, as well as data on the species, breeds and weights (in kg) of each pet.  
+We are interested in whether the average weight of a dog is different from 20kg.  
+  
++ Null hypothesis, $H_0: \mu = 20$  
++ Alternative hypothesis, $H_1: \mu \neq 20$  
+  
+
+### Question 1  
+
+Read in the data from the url using `read_csv()`.  
+Make sure to *assign* it as an object, using `[yourdataname] <- read_csv(...)` (choose your own name for the data).  
+ 
+Use `summary()` to have a look at your data.  
+Which variables are you going to need for our analysis?  
+Does anything jump out as relevant?  
+
+```{r}
+
+
+
+
+```
+
+
+### Question 2
+
+Some of the 2000 pets are not the ones of interest (they aren't dogs).  
+Create a new dataset and call it `dogs`, which only has the dogs in it.   
+
+```{r}
+
+
+
+```
+
+
+### Question 3
+
+What does the following command appear to do, and how?  
+```{r}
+dogs <- dogs %>% filter(!is.na(weight_kg))
+```
+
+### Question 4  
+Using `summarise()`, calculate $\bar{x}$, $s$ and $n$.  
+  
+What is $\mu_{0}$, and what are our degrees of freedom ($df$)?  
+
+```{r}
+
+
+
+```
+
+
+### Question 5
+
+Calculate the standardised statistic $t$, using `$` to access the numbers you just calculated above.
+
+```{r}
+
+
+
+```
+
+### Question 6
+
+Calculate the p-value using `pt()`.  
+
+```{r}
+
+
+
+```
+
+
+### Question 7  
+
+Finally, use the `t.test()` function.  
+Check that the results match the ones you just calculated.  
+
+```{r}
+
+
+
+```
+
+
+## Procrastination scores
+
+The Procrastination Assessment Scale for Students (PASS) was designed to assess how individuals approach decision situations, specifically the tendency of individuals to postpone decisions (see [Solomon & Rothblum, 1984](http://dx.doi.org/10.1037/0022-0167.31.4.503)).  
+
+The PASS assesses the prevalence of procrastination in six areas: writing a paper; studying for an exam; keeping up with reading; administrative tasks; attending meetings; and performing general tasks. 
+For a measure of total endorsement of procrastination, responses to 18 questions (each measured on a 1-5 scale) are summed together, providing a single score for each participant (range 0 to 90). 
+The mean score from Solomon & Rothblum, 1984 was 33. 
+
+Do Edinburgh University students report endorsing procrastination to less than the norm of 33?  
+
+### Question 8  
+Read in the data, produce some descriptive statistics, and conduct a one sample mean test to evaluate whether Edinburgh University students' average score on the PASS is not equal to 33.  
+
++ Remember about assumptions of your test!  
+
+```{r, eval=FALSE}
+
+
+
+```
+
+### Question 9  
+
+Write up the results from Question 8.
+
+
+
+
+
+
+
+## Cat weights! 
+
+### Question 10
+Without looking at the data (and without googling either), do you think that the average weight of a pet cat more than/less than/equal to 4.5kg?   
+
+Write out your null and alternative hypotheses, and conduct the appropriate test.    
+
+Null hypothesis: ?
+
+Alternative hypothesis: ?
+
+```{r}
+
+
+
+
+```
+
+
+
+
