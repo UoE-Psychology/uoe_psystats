@@ -1,5 +1,5 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=FALSE
+HIDDEN_SOLS=TRUE
 set.seed(15732)
 ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 
@@ -280,7 +280,7 @@ Is the average tempo of music classified as "rock" by Spotify greater than 125 b
 Write out the null and alternative hypotheses, and specify our $\alpha$ level.  
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 Null hypothesis ($H_0$):   
 $\mu_1 = 125$  
   
@@ -299,7 +299,7 @@ Our hypothesis is about $\mu_1$, the mean of *all* rock songs on Spotify.
 To investigate this, we have a sample of 200 rock songs from Spotify, available at [https://edin.ac/2wC5rz3](https://edin.ac/2wC5rz3)
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r message=FALSE}
 spotify_songs <- read_csv("https://edin.ac/2wC5rz3")
 
@@ -336,7 +336,7 @@ spotify_songs %>%
   count(tempo)
 ```
 `r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 Note that the entire sample contains only rock songs, so we can simply find the mean of the `tempo` variable. 
 
 B.
@@ -356,7 +356,7 @@ Do we know the population standard deviation ($\sigma$)? That is, do we know the
 No, so we estimate it with the sample standard deviation ($s$).  
 Calculate this now. 
 `r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r}
 spotify_songs %>%
   summarise(
@@ -385,7 +385,7 @@ $$
   
 Finally, calculate your $t$-statistic in `R`.  
 `r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 Fill in the blanks:  
 $$
 \begin{aligned}
@@ -406,7 +406,9 @@ We can do this quickly using `R` just like a calculator:
 t_obs = (128.9 - 125) / (26.5 / sqrt(200))
 t_obs
 ```
+`r msmbstyle::solution_end()`
 
+`r msmbstyle::solution_begin(header = "&#x25BA; New R stuff!",  hidden=FALSE)`
 <div class="noteBox">  
 #### New R stuff! {-}
 
@@ -443,7 +445,7 @@ Using the `qt()` function, calculate the critical value for $\alpha$ = 0.05. Thi
 + You'll need to work out the degrees of freedom  
 + You'll also need to think about whether we are performing a two-tailed test or a one-tailed test. If a two-tailed test, then remember that the $\alpha$ is split between the two tails (and so we would reject anything in the most extreme 2.5%)    
 `r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 The degrees of freedom are $n-1 = 200-1 = 199$  
   
 We're performing a one-tailed test here because our alternative hypothesis ($H_1$) is that the mean tempo is > 125.  
@@ -470,7 +472,7 @@ Things you'll need to work out:
 + Do we want the area under the curve which is to the *left* or to the *right* of $t = 2.1$? Remember that the total area under probability curves such as the normal and the $t$ is always equal to 1, so **area to the right = 1 - area to the left**.  
 
 `r msmbstyle::question_end()`
-`r msmbstyle::solution_begin(hidden=FALSE)`
+`r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 The degrees of freedom is $n-1 = 200-1 = 199$  
 
 We want to look at the area to the *right*, because we are testing whether 128.9 (our sample mean) is significantly *greater than* 125 (our null hypothesis mean).  
