@@ -32,6 +32,47 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 - ???
 
 
+## Key terminology
+
+<div class="def">
+#### Units and variables {-}
+
+The entities about which data are collected are called __observational units__.
+
+The number of observational units in the study is known as the __sample size__, denoted by $n$.
+
+A __variable__ is any characteristic that varies from observational unit to observational unit.
+
+#### Categorical and quantitative variables {-}
+
+Variables are either __categorical__ or __quantitative__:
+
+- A __categorical variable__ divides the units into groups, placing each unit into exactly one of two or more categories (e.g., a factor).
+- A __quantitative variable__ measures a numerical quantity for each case.
+Numerical operations like adding and averaging make sense only for quantitative variables.
+
+A special kind of categorical variable is a __binary variable__, for which only two possible categories exist.
+
+_Note: One simple way to distinguish between categorical and quantitative variables is to ask yourself if it makes sense to take an average of the values._
+
+#### Explanatory and response variables {-}
+
+If we are using one variable to help us understand or predict values of another variable, we call the former the __explanatory variable__ and the latter the __response variable__.
+
+#### Observational studies vs randomized experiments {-}
+
+An __observational study__ is a study in which the researcher does manipulate the value of any variable, but simply observes the values as they naturally	exist.
+
+A __randomized experiment__ is a study in which the researcher determines __at random__ the explanatory variable for each unit, before the response variable is measured.
+
+#### Long vs wide data format {-}
+
+Data are in **long** format if each column represents a different variable (e.g., year, sex or assigned task).
+
+Data are in **wide** format if each column represents a different group (e.g., task 1 and task 2).
+
+</div>
+
 
 ## Walkthrough
 
@@ -48,45 +89,24 @@ The interviewer was asked to record how many names were mentioned, along with th
 Suppose you now want to examine whether mean and women differ with regard to the number of names they tend to mention.
 For simplicity, we will refer to the people with whom you talk about important personal matters as "close friends".
 
-
-<div class="def">
-#### Key terminology {-}
-The __observational units__ are the subjects or objects on whom data are recorded.
-
-The number of observational units in the study is known as the __sample size__, and it is typically denoted by $n$.
-
-A __variable__ is any characteristic that varies from observational unit to observational unit.
-
-</div>
+---
 
 `r msmbstyle::question_begin()`
-Identify the observational units.
+Identify the observational units in this study.
 `r msmbstyle::question_end()`
 
 
-<div class="def">
-#### Categorical and quantitative variables {-}
-Variables are either categorical or quantitative:
+`r msmbstyle::solution_begin()`
+The observational units are the sampled adult Americans participating in the 2004 General Social Survey (GSS).
+`r msmbstyle::solution_end()`
 
-- A __categorical variable__ divides the units into groups, placing each unit into exactly one of two or more categories (e.g., a factor).
-- A __quantitative variable__ measures a numerical quantity for each case.
-Numerical operations like adding and averaging make sense only for quantitative variables.
-</div>
-
-
-<div class="def">
-#### Explanatory and response variables {-}
-
-If we are using one variable to help us understand or predict values of another variable, we call the former the __explanatory variable__ and the latter the __response variable__.
-</div>
+---
 
 
 `r msmbstyle::question_begin()`
-Identify the variables recorded for this study.
-
-Classify each variabile either as categorical (also binary) or quantitative.
-
-Also identify each variable's role: explanatory or response.
+- Identify the recorded variables in this study.
+- Classify each variabile either as categorical (also binary) or quantitative.
+- Identify each variable's role: explanatory or response.
 
 
 | Variable's name | Type             | Role             |
@@ -97,79 +117,134 @@ Also identify each variable's role: explanatory or response.
 
 `r msmbstyle::question_end()`
 
+
 `r msmbstyle::solution_begin()`
+The recorded variables are the sex of the participant and the number of names given by the participant. The former is categorical and binary, while the latter is a numerical value that varies from participant to participant. We are interested in how the number of names tends to vary with the sex of the participant. For this reason, sex is the explanatory variable, while number of close friends in the response variable.
 
+| Variable's name         | Type                        | Role             |
+|:------------------------|:---------------------------:|:----------------:|
+| Sex                     | Categorical and binary [^1] | Explanatory      |
+| Number of close friends | Quantitative                | Response         |
 
-| Variable's name         | Type                 | Role             |
-|:------------------------|:--------------------:|:----------------:|
-| Sex                     | Categorical (binary) | Explanatory      |
-| Number of close friends | Quantitative         | Response         |
-
-_**Note**: This survey was conducted in the US in the year 2004. We are merely analysing the data that were collected in that survey as it is an interesting and extensive dataset. The fact that we are presenting this study as an in-class example is not an endorsement to the view that Gender is a binary variable. Gender, **in that specific survey**, was recorded either as Male or Female and we are merely analysing the available open-source data._
+[^1]: **Note**: This survey was conducted in the US in the year 2004. We are merely analysing the data that were collected in that survey as it is an extensive and interesting dataset.
+The fact that we are presenting this study as an in-class example is not an endorsement to the view that gender is a binary variable. 
+**In that specific survey**, the recorded values of the variable Sex were `female` and `male`, and we are merely analysing the available open-source data collected by the US officials.
 
 `r msmbstyle::solution_end()`
 
 
-<div class="def">
-#### Observational study vs randomized experiment {-}
+---
 
-An __observational study__ is a study in which the researcher does not actively control the value of any variable, but simply observes the values as they naturally	exist.
-
-A __randomized experiment__ is a study in which the researcher determines __at random__ the explanatory variable for each unit, before the response variable is measured.
-</div>
 
 `r msmbstyle::question_begin()`
 Did the study make use of random assignment, random sampling, both or neither?
 `r msmbstyle::question_end()`
 
+`r msmbstyle::solution_begin()`
+This study only involved random sampling of the units from the population of adult Americans in 2004.
+`r msmbstyle::solution_end()`
+
+---
 
 `r msmbstyle::question_begin()`
 Is this an observational study or an experiment? Explain why.
 `r msmbstyle::question_end()`
 
+`r msmbstyle::solution_begin()`
+This is an observational study as the researchers limited themselves to merely record the observed values that naturally occur.
+The researchers did not perform any manipulation of the variables, such as random assignment of the units to groups. If this were the case, we would be analysing data from a randomised experiment.
+`r msmbstyle::solution_end()`
+
+
+---
 
 `r msmbstyle::question_begin()`
 State, in words, the null and alternative hypotheses to test whether American men and women tend to differ with regard to the average number of close friends they mention.
 `r msmbstyle::question_end()`
 
+`r msmbstyle::solution_begin()`
+The null hypothesis is that there is no difference in the average reported number of close friends between females and males.
+The alternative hypothesis is that there is a difference in the average reported number of close friends between females and males.
+`r msmbstyle::solution_end()`
+
+---
+
+
 `r msmbstyle::question_begin()`
 Define the parameters of interest in this study, and identify the appropriate symbols for them.
 `r msmbstyle::question_end()`
 
+`r msmbstyle::solution_begin()`
+- $\mu_f$: mean number of close friends reported by females
+- $\mu_m$: mean number of close friends reported by males
+`r msmbstyle::solution_end()`
+
+---
 
 `r msmbstyle::question_begin()`
 State the null and alternative hypotheses in symbols.
 `r msmbstyle::question_end()`
 
+`r msmbstyle::solution_begin()`
+$$
+H_0 : \mu_f = \mu_m      \qquad \textrm{OR} \qquad     H_0 : \mu_f - \mu_m = 0\\
+H_1 : \mu_f \neq \mu_m   \qquad \textrm{OR} \qquad     H_1 : \mu_f - \mu_m \neq 0
+$$
+`r msmbstyle::solution_end()`
+
+---
 
 `r msmbstyle::question_begin()`
 Explain why the one-sample t-test is not appropriate to answer the research question of this study.
 `r msmbstyle::question_end()`
 
+`r msmbstyle::solution_begin()`
+The one-sample t-test introduced in [Week 16](#todo) tests if the population that the observed sample came from has a hypothesized mean.
+Here, instead, we want to compare the means of two populations (or, if it were a randomized experiment, between two treatment groups).
+`r msmbstyle::solution_end()`
+
+
+---
+
 
 The survey data are stored in the file [`close_friends.txt`](https://raw.githubusercontent.com/UoE-Psychology/uoe_psystats/master/dapr1/dapr1book/data/close_friends.txt).
 
 
+---
+
+
 `r msmbstyle::question_begin()`
-Load the data into R and inspect them. Look at the variable names, the dimensions of the tibble, and the format of the data.
+Load the data into R and inspect it. 
+
+Look at:
+
+- the variable names;
+- the dimensions of the tibble;
+- the format of the data.
+
+Make sure that categorical variables are encoded as factors.
 `r msmbstyle::question_end()`
 
-
-```{r}
+`r msmbstyle::solution_begin()`
+```{r, message=FALSE}
 library(tidyverse)
 
 gss <- read_tsv('https://edin.ac/2vQrCBi', col_names = TRUE)
 
+# inspect the first six rows
 head(gss)
 
+# inspect the number of units and variables
 dim(gss)
 
+# encode Sex as factor
 gss <- gss %>%
   mutate(Sex = factor(Sex))
 
+# check encoding
 head(gss)
 ```
-
+`r msmbstyle::solution_end()`
 
 
 <!-- <div class="def"> -->
@@ -207,28 +282,63 @@ head(gss)
 <!-- ``` -->
 
 
-Before learning a new test procedure, start by performing an exploratory analysis of the data.
+---
+
+Before learning a new test procedure, we start by performing an exploratory analysis of the data.
+
+---
 
 `r msmbstyle::question_begin()`
 Summarise the survey by showing the counts of the number of close friends by sex.
 `r msmbstyle::question_end()`
 
+`r msmbstyle::solution_begin()`
+```{r}
+counts <- gss %>% 
+  group_by(Sex, NumberCloseFriends) %>% 
+  summarise(count = n())
+
+counts
+```
+
+or
 
 ```{r}
 addmargins(xtabs(~ Sex + NumberCloseFriends, data = gss), margin = 2)
 ```
+`r msmbstyle::solution_end()`
 
+---
+
+`r msmbstyle::question_begin()`
+Is the counts table in wide or long format?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin()`
+The counts table is in long format. We can convert it to a wide format as follows:
+```{r}
+counts <- counts %>%
+  pivot_wider(names_from = Sex, values_from = count, names_prefix = 'count_')
+
+counts
+```
+`r msmbstyle::solution_end()`
+
+---
 
 `r msmbstyle::question_begin()`
 Plot the distribution of the number of reported close friends for males and females.
 `r msmbstyle::question_end()`
 
-```{r}
+`r msmbstyle::solution_begin()`
+```{r, fig.align='center'}
 ggplot(gss, aes(x = NumberCloseFriends, fill = Sex)) +
   geom_histogram(binwidth = 1, color = 'white') +
   facet_grid(cols = vars(Sex))
 ```
+`r msmbstyle::solution_end()`
 
+---
 
 `r msmbstyle::question_begin()`
 Compute descriptive summaries of the number of close friends reported for each sex.
