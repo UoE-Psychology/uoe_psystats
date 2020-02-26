@@ -153,7 +153,8 @@ The factor loadings are provided in Table \@ref(tab:loading-table)^[You should p
 ```{r loading-table, echo=FALSE}
 loadings = unclass(conduct_efa$loadings)
 loadings = round(loadings, 3)
-loadings[abs(loadings) < 0.3] = 0
+loadings[abs(loadings) < 0.3] = NA
+options(knitr.kable.NA = '')
 knitr::kable(loadings, digits = 2, caption = "Factor loadings.")
 ```
 `r msmbstyle::solution_end()`
