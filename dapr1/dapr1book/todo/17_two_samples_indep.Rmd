@@ -5,7 +5,7 @@ set.seed(15732)
 ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 ```
 
-# Two means test (independent samples) {#two-indep-samples}
+# Comparing two means (independent samples) {#two-indep-samples}
 
 
 <div class="lo">
@@ -22,15 +22,46 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 **LO2.** Understand how to calculate a two-sample t-interval and interpret the results.
 
 **LO3.** Being able to check the technical conditions for applying the t-procedures.
-
 </div>
 
 
 ## Recap
 
-- ???
+Last week you explored how to draw conclusions about population parameters on the basis of sample statistics.
+In particular, given a random sample of size $n$ from a population, you tested if the population mean was equal to some hypothesized value.
 
-- ???
+Let the sample mean be $\bar{x}$. We test if the sample was taken from a population with mean $\mu_0$ by comparing the observed $t$-statistic
+<center>
+$$
+t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}
+$$
+</center>
+with:
+
+- __for one-sided hypotheses__, the critical value of level $\alpha$ from a $t$-distribution with $n-1$ degrees of freedom
+<center>
+$$
+t^*_\textrm{df} = \texttt{qt(p = 1 - alpha, df = n-1)}
+$$
+</center>
+
+- __for two-sided hypotheses__, the critical value of level $\frac{\alpha}{2}$ from a $t$-distribution with $n-1$ degrees of freedom
+<center>
+$$
+t^*_\textrm{df} = \texttt{qt(p = 1 - alpha/2, df = n-1)}
+$$
+</center>
+
+We reject the null hypothesis if the observed $t$-statistic is, __in absolute value__, as extreme or more extreme than the critical value:
+
+<center>
+__Reject $H_0$ if__ $|t| \geq t^*_\textrm{df}$
+</center>
+<br>
+
+The above procedure applies when testing a single parameter (a proportion or a mean) from a single population.
+
+Today you will explore and apply inference procedures for comparing parameters between two populations or treatment groups.
 
 
 ## Key terminology
@@ -38,17 +69,20 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 <div class="def">
 #### Units and variables {-}
 
-The individual entities on which data are collected are called __observational units__ or __cases__.
+The individual entities on which data are collected are called __observational units__.
 
-The number of observational units in the study is known as the __sample size__, denoted by $n$.
+The number of observational units in the study is known as the __sample size__, as is typically denoted by $n$.
 
 A __variable__ is any characteristic that varies from observational unit to observational unit.
+
 
 #### Categorical and quantitative variables {-}
 
 Variables are either __categorical__ or __quantitative__:
 
-- A __categorical variable__ divides the units into groups, placing each unit into exactly one of two or more categories (e.g., a factor).
+- A __categorical variable__ divides the units into groups, placing each unit into exactly one of two or more categories. 
+_Technology typ: In R, a categorical variable should be a `factor`._
+
 - A __quantitative variable__ measures a numerical quantity for each case.
 Numerical operations like adding and averaging make sense only for quantitative variables.
 
@@ -56,9 +90,11 @@ A special kind of categorical variable is a __binary variable__, for which only 
 
 _Note: One simple way to distinguish between categorical and quantitative variables is to ask yourself if it makes sense to take an average of the values._
 
+
 #### Explanatory and response variables {-}
 
 If we are using one variable to help us understand or predict values of another variable, we call the former the __explanatory variable__ and the latter the __response variable__.
+
 
 #### Observational studies vs randomized experiments {-}
 
@@ -66,12 +102,12 @@ An __observational study__ is a study in which the researcher does manipulate th
 
 A __randomized experiment__ is a study in which the researcher determines __at random__ the explanatory variable for each unit, before the response variable is measured.
 
-#### Long vs wide data format {-}
 
-Data are in **long** format if each column represents a different variable (e.g., year, sex or assigned task).
+<!-- #### Long vs wide data format {-} -->
 
-Data are in **wide** format if each column represents a different group (e.g., task 1 and task 2).
+<!-- Data are in **long** format if each column represents a different variable (e.g., year, sex or assigned task). -->
 
+<!-- Data are in **wide** format if each column represents a different group (e.g., task 1 and task 2). -->
 </div>
 
 
@@ -98,7 +134,7 @@ Identify the observational units in this study.
 
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-The observational units are the sampled adult Americans participating in the 2004 General Social Survey (GSS).
+The observational units are the sampled adult Americans taking part in the 2004 General Social Survey (GSS).
 `r msmbstyle::solution_end()`
 
 ---
@@ -120,16 +156,16 @@ The observational units are the sampled adult Americans participating in the 200
 
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-The recorded variables are the sex of the participant and the number of names given by the participant. The former is categorical and binary, while the latter is a numerical value that varies from participant to participant. We are interested in how the number of names tends to vary with the sex of the participant. For this reason, sex is the explanatory variable, while number of close friends in the response variable.
+The recorded variables are the sex of the participant and the number of names given by the participant. 
+The former is categorical and binary^[**Note**: The extensive and open-source data from this specific survey, which was conducted in the US in the year 2004, only has two observed values in the column sex: female and male. 
+As the data recorded by the US officials present only two categories in the column sex, in this data the variable sex is categorical and binary.], while the latter is a numerical value that varies from participant to participant. 
+We are interested in how the number of mentioned names tends to vary with the sex of the participant. 
+For this reason, sex is the explanatory variable, while number of close friends in the response variable.
 
 | Variable's name         | Type                        | Role             |
 |:------------------------|:---------------------------:|:----------------:|
-| Sex                     | Categorical and binary [^1] | Explanatory      |
+| Sex                     | Categorical and binary      | Explanatory      |
 | Number of close friends | Quantitative                | Response         |
-
-[^1]: **Note**: This survey was conducted in the US in the year 2004. We are merely analysing the data that were collected in that survey as it is an extensive and interesting dataset.
-The fact that we are presenting this study as an in-class example is not an endorsement to the view that gender is a binary variable. 
-**In that specific survey**, the recorded values of the variable Sex were `female` and `male`, and we are merely analysing the available open-source data collected by the US officials.
 
 `r msmbstyle::solution_end()`
 
@@ -501,3 +537,6 @@ Furthemore, we assume we know the standard deviation of the two populations, $\s
 - Mehta, R., & Zhu, R. J. (2009). Blue or red? Exploring the effect of color on cognitive task performances. Science, 323(5918), 1226-1229.
 
 
+_Material adapted from:_
+
+Rossman, A. J., & Chance, B. L. (2011). _Workshop statistics: discovery with data._ John Wiley & Sons.
