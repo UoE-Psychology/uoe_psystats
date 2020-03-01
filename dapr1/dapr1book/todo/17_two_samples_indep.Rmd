@@ -113,9 +113,6 @@ A __randomized experiment__ is a study in which the researcher determines __at r
 
 ## Walkthrough
 
-
-### Activity 1: Close friends {-}
-
 In today's in-class activity we will use data from the General Social Survey conducted in the US in 2004.
 One of the questions asked to a random sample of adult Americans in the 2004 General Social Survey (GSS) was:
 
@@ -123,8 +120,15 @@ One of the questions asked to a random sample of adult Americans in the 2004 Gen
 
 The interviewer was asked to record how many names were mentioned, along with the person's sex.
 
-Suppose you now want to examine whether mean and women differ with regard to the number of names they tend to mention.
+How many names would you mention if you had to answer this question?
+How do you expect the responses to differ between men and women? Do you expect women to mention more names than men, or vice-versa, or perhaps the number of names to be similar between men and women?
+
+In today's lab, you will explore whether men and women differ with regard to the number of names they tend to mention.
 For simplicity, we will refer to the people with whom you talk about important personal matters as "close friends".
+
+The survey data are stored in the file [`close_friends.txt`](https://raw.githubusercontent.com/UoE-Psychology/uoe_psystats/master/dapr1/dapr1book/data/close_friends.txt).
+
+Before learning a new test procedure to assess a potential difference in the centre of a quantitative variable between two independent groups, it is good practice to display, explore and summarise the data.
 
 ---
 
@@ -178,7 +182,7 @@ Did the study make use of random assignment, random sampling, both or neither?
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-This study only involved random sampling of the units from the population of adult Americans in 2004.
+This study only involved random sampling of observational units from the population of adult Americans in 2004.
 `r msmbstyle::solution_end()`
 
 ---
@@ -188,32 +192,35 @@ Is this an observational study or an experiment? Explain why.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-This is an observational study as the researchers limited themselves to merely record the observed values that naturally occur.
-The researchers did not perform any manipulation of the variables, such as random assignment of the units to groups. If this were the case, we would be analysing data from a randomised experiment.
+This is an observational study as the researchers limited themselves to record the observed values that naturally occur.
+The researchers did not perform any manipulation of the variables, such as random assignment of observational units to groups. If this were the case, we would be analysing data from a randomised experiment.
 `r msmbstyle::solution_end()`
 
 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
-State, in words, the null and alternative hypotheses to test whether American men and women tend to differ with regard to the average number of close friends they mention.
+State, in words, the null and alternative hypotheses to test whether the sample data provide evidence that American males and females tend to differ with regard to the average number of close friends they mention.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-The null hypothesis is that there is no difference in the average reported number of close friends between females and males.
-The alternative hypothesis is that there is a difference in the average reported number of close friends between females and males.
+The null hypothesis is that the population mean number of close friends is the same for adult American males as for females.
+In other words, the null hypothesis states that there is no difference in the population mean number of close friends between males and females.
+
+The alternative hypothesis is that the population mean number of close friends is not the same for males as for females. 
+In other words, the alternative hypothesis states that there is a difference in the population mean number of close friends between males and females.
 `r msmbstyle::solution_end()`
 
 ---
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
-Define the parameters of interest in this study, and identify the appropriate symbols for them.
+Define the parameters of interest in this study, and identify appropriate symbols for them.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-- $\mu_f$: mean number of close friends reported by females
-- $\mu_m$: mean number of close friends reported by males
+- $\mu_f$: population mean number of close friends mentioned by adult American females
+- $\mu_m$: population mean number of close friends mentioned by adult American males
 `r msmbstyle::solution_end()`
 
 ---
@@ -244,22 +251,14 @@ Here, instead, we want to compare the means of two populations (or, if it were a
 ---
 
 
-The survey data are stored in the file [`close_friends.txt`](https://raw.githubusercontent.com/UoE-Psychology/uoe_psystats/master/dapr1/dapr1book/data/close_friends.txt).
-
-
----
-
-
 `r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
 Load the data into R and inspect it. 
 
-Look at:
+Pay particular attention to:
 
 - the variable names;
 - the dimensions of the tibble;
-- the format of the data.
-
-Make sure that categorical variables are encoded as factors.
+- the format of the data (i.e., make sure that variables are correctly encoded)
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
@@ -267,14 +266,20 @@ Make sure that categorical variables are encoded as factors.
 library(tidyverse)
 
 gss <- read_tsv('https://edin.ac/2vQrCBi', col_names = TRUE)
+```
 
-# inspect the first six rows
+Inspect the names of the variables and the first six rows
+```{r}
 head(gss)
+```
 
-# inspect the number of units and variables
+Check the number of observational units and variables
+```{r}
 dim(gss)
+```
 
-# encode Sex as factor
+The tibble says that Sex is of class `chr`, character. As Sex is a categorical variable, we will encode it as a factor:
+```{r}
 gss <- gss %>%
   mutate(Sex = factor(Sex))
 
@@ -321,117 +326,185 @@ head(gss)
 
 ---
 
-Before learning a new test procedure, we start by performing an exploratory analysis of the data.
-
----
-
 `r msmbstyle::question_begin(header = "&#x25BA; Question 10")`
-Summarise the survey by showing the counts of the number of close friends by sex.
+Summarise the survey responses by showing the counts of the number of close friends by sex.
+
+Try sketching by hand histograms showing, for each sex, the frequency of each reported number of close friends.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Create a two-way frequency table of the participants' responses by sex:
 ```{r}
-counts <- gss %>% 
-  group_by(Sex, NumberCloseFriends) %>% 
-  summarise(count = n())
-
-counts
+tally <- xtabs(~ Sex + NumberCloseFriends, data = gss)
+tally
 ```
 
-or
-
+Add the totals for each sex:
 ```{r}
-addmargins(xtabs(~ Sex + NumberCloseFriends, data = gss), margin = 2)
+tally <- addmargins(tally, margin = 2)
+tally
 ```
+
+Here, `margin = 1` calculates the totals over the rows, while `margin = 2` calculates the totals over the columns.
 `r msmbstyle::solution_end()`
 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 11")`
-Is the counts table in wide or long format?
+Report a table of descriptive summaries by sex.
+
+Report the sample size, mean, SD, minimum, lower quartile, median, upper quartile, and maximum for each sex.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-The counts table is in long format. We can convert it to a wide format as follows:
-```{r}
-counts <- counts %>%
-  pivot_wider(names_from = Sex, values_from = count, names_prefix = 'count_')
+When comparing a quantitative response variable between two independent groups, encoded in a categorical variable, we could report:
 
-counts
+- sample size
+- mean
+- SD
+- minimum
+- lower quartile
+- median
+- upper quartile
+- maximum
+
+The median is the value such that 50% of the data lies below and 50% of the data lies above that value.
+
+The median cuts the data into two parts: part to the left of the median and part to the right of the median. 
+The median of left part is known as the lower quartile, and represents the value for which 25% of the data lie below that value.
+The median of right part is known as the upper quartile, and represents the value for which 25% of the data lie above that value.
+
+The interquartile range (IQR) is simply the difference between the upper quartile and the lower quartile, and represents the width of the interval containing the middle 50% of all observations.
+
+The minimum, lower quartile, median, upper quartile, and maximum jointly form the so-called __five-number summary__ of the distribution of a quantitative variable.
+
+```{r}
+descr_stats <- gss %>%
+  group_by(Sex) %>%
+  summarise(
+    SampleSize = n(),
+    Mean = mean(NumberCloseFriends),
+    SD = sd(NumberCloseFriends), 
+    Minimum = min(NumberCloseFriends),
+    LowerQuartile = quantile(NumberCloseFriends, p = 0.25),
+    Median = median(NumberCloseFriends),
+    UpperQuartile = quantile(NumberCloseFriends, p = 0.75),
+    Maximum = max(NumberCloseFriends)
+  )
+descr_stats
 ```
+
+You can use the function `kable` to nicely format the above table compute above for HTML webpages: 
+```{r echo=FALSE}
+knitr::kable(descr_stats, digits = 2) %>% 
+  kableExtra::kable_styling(font_size = 12)
+```
+
 `r msmbstyle::solution_end()`
 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 12")`
-Plot the distribution of the number of reported close friends for males and females.
+Are the descriptive summaries from the previous question parameters or statistics? Explain why.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-```{r, fig.align='center'}
-ggplot(gss, aes(x = NumberCloseFriends, fill = Sex)) +
-  geom_histogram(binwidth = 1, color = 'white') +
-  facet_grid(cols = vars(Sex))
-```
+The values in the above table are statistics. They are numerical quantities computed on observational units which represent a random sample from the population of adult Americans in 2004.
 `r msmbstyle::solution_end()`
 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 13")`
-Compute descriptive summaries of the number of close friends reported for each sex.
-
-Report the sample size, sample mean, sample SD, minimum, median, interquartile range, and maximum for each sex.
+Produce a visual display of your summary statistics.
 `r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+A visual display of the five-number summary is given by the boxplot. This is typicall a very good visualisation when your data involve a quantitative response variable and a categorical explanatory variable.
 
 ```{r}
-gss %>%
-  group_by(Sex) %>%
-  summarise(SampleSize = length(NumberCloseFriends), 
-            Mean = mean(NumberCloseFriends),
-            SD = sd(NumberCloseFriends),
-            Minimum = min(NumberCloseFriends),
-            Median = median(NumberCloseFriends),
-            IQR = IQR(NumberCloseFriends),
-            Maximum = max(NumberCloseFriends))
-
-ggplot(gss, aes(x = Sex, y = NumberCloseFriends, fill = Sex)) +
-  geom_boxplot()
+ggplot(gss, aes(x = Sex, y = NumberCloseFriends)) +
+  geom_boxplot(color = 'darkorange') +
+  theme_classic() +
+  coord_flip()
 ```
-
-
-
-`r msmbstyle::question_begin(header = "&#x25BA; Question 14")`
-Are the computed summaries from the previous question parameters or statistics? Explain why.
-`r msmbstyle::question_end()`
-
-
-
-
-
-`r msmbstyle::question_begin(header = "&#x25BA; Question 15")`
-Comment on any differences that you observe in the distribution of the reported number of close friends between males and females.
-`r msmbstyle::question_end()`
-
-
-
-`r msmbstyle::question_begin(header = "&#x25BA; Question 16")`
-Do you think it could be possible to obtain sample means this far apart even if the population means were equal? Explain why.
-`r msmbstyle::question_end()`
-
-
+`r msmbstyle::solution_end()`
 
 ---
 
-Because of sampling variability, we can not conclude that, because the sample means differ, the means of the two populations must differ too.
+`r msmbstyle::question_begin(header = "&#x25BA; Question 14")`
+Visualise the distribution of the number of close friends by sex.
+`r msmbstyle::question_end()`
 
-We must resort to a principled way to test that, and we have already learned that we use statistical hypothesis testing to test if a sample result (in our case, the observed difference in sample mean number of close friends) is significant in the sense of beingly unlikely to have occurred by chance (from random sampling) alone.
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Separate plots:
+```{r, fig.heigh = 5, fig.width = 9, fig.align='center'}
+ggplot(gss, aes(x = NumberCloseFriends, fill = Sex)) +
+  geom_histogram(binwidth = 1, color = 'white') +
+  facet_grid(cols = vars(Sex))
+```
+
+Proportions:
+```{r}
+ggplot(gss, aes(x = NumberCloseFriends, fill = Sex)) +
+  geom_histogram(binwidth = 1, color = 'white', position = 'fill') +
+  labs(y = 'proportion')
+```
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 15")`
+Comment on what the histograms reveal about the shapes of the distributions.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+The distribution of number of close friends for both males and females appears to be skewed to the right.
+
+The variability in the number of mentioned names seems to be similar across males and females.
+
+The sample mean number of mentioned names seems to be slightly higher for females than males.
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 16")`
+Report the sample mean and sample standard deviation of the number of close friends for each sex using appropriate symbols.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+The sample mean number of close friends for females is $\bar{x}_f$ = `r descr_stats %>% filter(Sex == 'female') %>% select(Mean) %>% pull() %>% round(2)`, with standard deviation $s_f$ = `r descr_stats %>% filter(Sex == 'female') %>% select(SD) %>% pull() %>% round(2)` friends.
+
+For males, the sample mean number of close friends is $\bar{x}_m$ = `r descr_stats %>% filter(Sex == 'male') %>% select(Mean) %>% pull() %>% round(2)`, with standard deviation $s_m$ = `r descr_stats %>% filter(Sex == 'male') %>% select(SD) %>% pull() %>% round(2)` friends.
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 17")`
+Compute the difference in the sample mean number of close friends for females and males.
+
+Do you think it could be possible to obtain sample means this far apart even if the population means were actually equal? Explain why.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+
+The difference in sample means is $\bar{x}_f - \bar{x}_m$ = `r (descr_stats %>% filter(Sex == 'female') %>% select(Mean) %>% pull() - descr_stats %>% filter(Sex == 'male') %>% select(Mean) %>% pull()) %>% round(2)`.
+`r msmbstyle::solution_end()`
+
+Because of sampling variability, we can not conclude that, because simply the sample means differ, the means of the two populations must differ too.
+
+We must resort to a principled framework to test that, and we have already learned to use statistical hypothesis testing in order to assess if sample results (in our case, the observed difference in sample mean number of close friends) are significant in the sense of beingly unlikely to have occurred by chance (from random sampling) alone.
 
 __Estimating the magnitude of the difference in population means.__
 
 How can we estimate the magnitude of the difference in population means? By using a confidence interval for the difference in means!
 
 
+---
 
+<div class="red">
+
+
+</div>
 
 
 ---
@@ -440,13 +513,12 @@ How can we estimate the magnitude of the difference in population means? By usin
 ### Example 2
 
 ```{r}
-rm(list = ls())
 library(tidyverse)
 
-soupdata = read_tsv("https://statweb.calpoly.edu/bchance/stat302/data/SoupBowl.txt", )
+soupdata <- read_tsv("https://statweb.calpoly.edu/bchance/stat302/data/SoupBowl.txt", )
 soupdata
 
-soupdata = soupdata %>%
+soupdata <- soupdata %>%
   mutate(group = factor(group)) %>%
   mutate(group = relevel(group, ref = 'secret'))
 
@@ -458,76 +530,6 @@ t.test(ounces ~ group, data = soupdata, var.equal=TRUE)
 ```
 
 
----
-
-
-### Example 1: Does color affect creativity and cognitive tasks? {-}
-
-Researchers [Mehta & Zhu (2009)](#w17-references) reported an interesting study evaluating the effect of color on cognitive tasks and creativity.
-
-The two researchers randomly allocated subjects to either a room with a red or blue background.
-All subjects were asked to generate as many creative uses for a brick as they could think of within 1 minute.
-The quality of their responses was scored by a panel of judges, leading to the following scores of creativity:
-
-|                 |                                        |
-|:----------------|:--------------------------------------:|
-| Red background  | $n = 35$, $\bar{x} = 3.39$, $s = 0.97$ |
-| Blue background | $n = 36$, $\bar{x} = 3.97$, $s = 0.63$ |
-
-Table: **Creativity scores**
-
-
-
-<!-- |                 |                                         | -->
-<!-- |:----------------|:---------------------------------------:| -->
-<!-- | Red background  | $n = 35$, $\bar{x} = 15.89$, $s = 5.90$ | -->
-<!-- | Blue background | $n = 36$, $\bar{x} = 12.31$, $s = 5.48$ | -->
-
-<!-- Table: **Accuracy scores** -->
-
-The researcher's claim is that "blue enhances performance on creative tasks".
-
-
-We note that
-
-1. the values of the two population standard deviations are not known
-2. the two samples are independent
-3. the samples are simple random samples
-4. satisfied the condition that both samples should have size > 30 or that they come from populations having normal distributions
-
-
-__Step 1. Convert the claim of interest to two competing hypotheses__
-
-The claim is that "blue enhances performance on creative tasks". 
-This can be equivalently stated as: people with a blue background will score on average higher than people with a red background.
-
-
-$$
-H_0 : \mu_R \geq \mu_B \\
-H_1 : \mu_R < \mu_B
-$$
-
-
-### Case 1: Independent samples with $\sigma_1$ and $\sigma_2$ known {-#two-indep-samples-case-1}
-
-In this section we deal with the scenario when we are testing hypotheses about the means of two populations, $\mu_1$ and $\mu_2$.
-The two available samples, one from each population, are assumed to be independent.
-Furthemore, we assume we know the standard deviation of the two populations, $\sigma_1$ and $\sigma_2$.
-
-
-<div class="red">
-#### Requirements {-}
-
-1. Distribution of the population. Either or both:
-  + The two samples come from populations which are normally distributed;
-  + The two sample sizes are both large: $n_1 > 30$ and $n_2 > 30$.
-
-2. The two samples are _independent._
-
-3. Both samples are _simple random samples._
-
-
-</div>
 
 
 
