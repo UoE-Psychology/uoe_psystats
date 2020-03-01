@@ -755,8 +755,8 @@ In order to estimate the magnitude of the difference in the population means we 
 
 ```{r}
 ci <- tibble(
-  LowerCI = (xbar_f - xbar_m) - t_crit * SE,
-  UpperCI = (xbar_f - xbar_m) + t_crit * SE)
+  Lower = (xbar_f - xbar_m) - t_crit * SE,
+  Upper = (xbar_f - xbar_m) + t_crit * SE)
 ci
 ```
 
@@ -912,7 +912,9 @@ For the 20 parties in the no name condition, the sample mean tip was $\bar x_{no
 `r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
 Calculate the test statistic and the $p$-value.
 
-_**Hint:** If you can assume equal variances across the two treatment conditions, the degrees of freedom are $df = n_1 + n_2 - 2$. _
+_**Hint:** As you do not have the party-by-party tipping amounts, but only summary statistics, you can not use the `t.test()` function, which requires the data at the finest level (the observational units)._
+
+_If you can assume equal variances across the two treatment conditions, the degrees of freedom are $df = n_1 + n_2 - 2$._
 
 _If you can not assume equal variances, you must use the Welch t-test. However, this test has a very difficult formula for the degrees of freedom. For our learning purposes, we can use a simplication given by $df = \min(n_1 - 1, n_2 - 1)$. This will be a conservative approximation to Welch's degrees of freedom but it is much easier to remember!_
 `r msmbstyle::question_end()`
@@ -952,6 +954,7 @@ $p$-value:
 1 - pt(t_stat, df = df)
 ```
 
+The $p$-value is <0.0005.
 `r msmbstyle::solution_end()`
 ---
 
@@ -960,6 +963,9 @@ At the significance level $\alpha = 0.05$, what would you conclude?
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+As the p-value is less than 0.05, we reject the null hypothesis that there is no effect of giving her name on the tipping amount.
+
+The sample results provide strong evidence that including the name as part of the customer's greeting tends to lead to higher tips on average.
 `r msmbstyle::solution_end()`
 
 ---
@@ -971,6 +977,11 @@ If yes, check the conditions are met. If not, explain which additional informati
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+We do not have enough information to check whether the validity conditions are met.
+
+We are told that the two-person parties were randomly assigned to either the name condition or no name condition, but the two sample sizes (20 and 20) are not very large, so we should check whether the data came from normal distributions.
+
+However, we only have summary statistics and not the actual tip amounts for each party (experimental unit). We would ask the waitress to provide us the party-by-party tipping amounts in order to check if the populations the samples came from can be assumed to be normal.
 `r msmbstyle::solution_end()`
 
 ---
@@ -982,6 +993,34 @@ Write a sentence or two interpreting what the interval reveals.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+First, we must find the appropriate critical value $t^*_{df}$ (for the desired confidence level) from a $t$-distribution with degrees of freedom given by Welch's method. However, the formula is very complex, so we will use a simpler version $df = \min(n_{name} - 1, n_{no\ name} - 1) = \min(20 - 1, 20 - 1) = 19$.
+
+The critical value for a 95% confidence level is:
+```{r}
+t_crit_ci <- qt(0.975, 19)
+t_crit_ci
+```
+
+
+We can compute a 95% confidence interval for the difference in population means $\mu_{name} - \mu_{no\ name}$ as follows:
+<center>
+$$
+(\bar x_{name} - \bar x_{no\ name}) \pm t^*_{df} \sqrt{\frac{s_{name}^2}{n_{name}} + \frac{s_{no\ name}^2}{n_{no\ name}}} \\
+(5.44 - 3.49) \pm 2.093 \sqrt{\frac{1.75^2}{20} + \frac{1.13^2}{20}}
+$$
+</center>
+
+```{r}
+ci <- tibble(
+  Lower = (xbar_name - xbar_no) - t_crit_ci * sqrt(s_name^2 / 20 + s_no^2 / 20),
+  Upper = (xbar_name - xbar_no) + t_crit_ci * sqrt(s_name^2 / 20 + s_no^2 / 20)
+)
+ci
+```
+
+The 95% confidence interval is [`r ci %>% round(2)`].
+
+We are 95% confident that the waitress would earn, on average, between \$0.98 and \$2.92 more per party with a \$23.21 bill, by including her name as part of the greeting.
 `r msmbstyle::solution_end()`
 
 ---
@@ -993,10 +1032,26 @@ Make sure to also comment on causation and generalisability of your results.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+As the study involved random assignment of the experimental units to the groups, the only difference between the groups was whether the party was given the waitress' name or not.
+As the parties in the name condition tend to give significantly higher tips on average ($p$-value < 0.0005), than the no name condition, we can attribute this difference in means to being told the waitress' name as part of the greeting.
+In other words, we can conclude a causal link between being given the name as part of the greeting and receiving higher tips on average.
+
+However, as the waitress was not blind to the treatment condition, we must be wary to the fact that the waitress could have given better service to the parties who she gave her name to. So the results hold unless the waitress gave better service to the name condition.
+
+Having established that there is a significant difference in means between the two groups, a confidence intervals lets us now to estimate, on average, how much higher the tips will be when giving her name.
+Including her name as part of the greeting to customers, increases the waitress' tips by \$`r ci %>% round(2) %>% pull(Lower)` to \$`r ci %>% round(2) %>% pull(Upper)` per party, on average.
+
+We must be careful when generalising these results to the population, however. As only one particular waitress participated in the study, we don't want to generalise these results to other waitresses.
+Furthermore, we might also avoid generalising these results to other customers different from those who eat Sunday brumnch at Charley Brown's Restaurant in Huntington Beach, California.
+
+Finally, the $p$-values and confidence interval are valid only if the response variable "tipping amount" is normally distributed in the two populations.
 `r msmbstyle::solution_end()`
 
 ---
 
+## Glossary
+
+TODO
 
 
 ## References {#w17-references}
