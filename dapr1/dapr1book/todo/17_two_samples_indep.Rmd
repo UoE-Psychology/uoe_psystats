@@ -502,15 +502,194 @@ How can we estimate the magnitude of the difference in population means? By usin
 ---
 
 <div class="red">
+#### Comparing the means of two independent groups {-}
+
+_Suppose you wish to test for the significance of the difference between two population means denoted $\mu_1$ and $\mu_2$ and, if the difference is signficant, you wish to quantify the magnitude of the difference using a confidence interval._
+
+##### Test of significance  {-}
+
+Null hypothesis: $H_0: \mu_1 = \mu_2$ $\quad$ or $\quad$ $H_0: \mu_1 - \mu_2 = 0$
+
+Alternative hypothesis:
+
+i. $H_1: \mu_1 < \mu_2$ $\quad$ or $\quad$ $H_1: \mu_1 - \mu_2 < 0$
+ii. $H_1: \mu_1 > \mu_2$ $\quad$ or $\quad$ $H_1: \mu_1 - \mu_2 > 0$
+iii. $H_1: \mu_1 \neq \mu_2$ $\quad$ or $\quad$ $H_1: \mu_1 - \mu_2 \neq 0$
 
 
+Test statistic:
+<center>
+$$
+t = \frac{(\bar x_1 - \bar x_2) - 0}{SE(\bar x_1 - \bar x_2)}
+$$
+</center>
+
+Standard error of the difference in means:
+
+- Population variances unknown and not equal:
+<center>
+$$
+SE(\bar x_1 - \bar x_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
+$$
+</center>
+- Population variances unknown and equal:
+<center>
+$$
+SE(\bar x_1 - \bar x_2) = s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \\ 
+s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
+$$
+</center>
+
+$p$-value:
+
+i. $\mathrm{Pr}(T_{df} \leq t)$
+ii. $\mathrm{Pr}(T_{df} \geq t)$
+iii. $2 \times \mathrm{Pr}(T_{df} \leq |t|)$
+
+where $T_{df}$ denotes a $t$-distribution with $df$ degrees of freedom.
+
+##### Confidence interval for $\mu_1 - \mu_2$ {-}
+
+<center>
+$$
+(\bar x_1 - \bar x_2) \pm t^*_{df} \times SE(\bar x_1 - \bar x_2)
+$$
+</center>
+where $t^*_{df}$ denotes the critical value corresponding to a desired $alpha$ level for a $t$-distribution with $df$ degrees of freedom.
+
+
+##### Validity conditions {-}
+
+These above procedures are considered valid if:
+
+- The sample data arise from independent random samples from two populations OR from random assignment of the units to treatment groups.
+- Either the quantitative variable of interest is normally distributed in both populations OR both sample sizes are large (as a convention, $n_1 \geq 20$ and $n_2 \geq 20$) and the sample distributions should not be strongly skewed.
 </div>
 
 
 ---
 
+`r msmbstyle::question_begin(header = "&#x25BA; Question 18")`
+Use the summary statistics computed in Question 11 to calculate the value of the $t$-statistic for testing the hypotheses stated in Question 7.
+`r msmbstyle::question_end()`
 
-### Example 2
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+```{r}
+n_f <- descr_stats %>% filter(Sex == 'female') %>% pull(SampleSize)
+n_m <- descr_stats %>% filter(Sex == 'male') %>% pull(SampleSize)
+
+xbar_f <- descr_stats %>% filter(Sex == 'female') %>% pull(Mean)
+xbar_m <- descr_stats %>% filter(Sex == 'male') %>% pull(Mean)
+
+s_f <- descr_stats %>% filter(Sex == 'female') %>% pull(SD)
+s_m <- descr_stats %>% filter(Sex == 'male') %>% pull(SD)
+```
+
+Can the population variances be assumed equal? We use an hypothesis test which tests
+
+$$
+H_0 : \sigma_f = \sigma_m \\
+H_1 : \sigma_f \neq \sigma_m
+$$
+
+or, equivalently,
+$$
+H_0 : \frac{\sigma_f}{\sigma_m} = 1 \\
+H_1 : \frac{\sigma_f}{\sigma_m} \neq 1
+$$
+
+```{r}
+var.test(NumberCloseFriends ~ Sex, data = gss)
+```
+
+At a significance level of 0.05, the p-value = 0.7937 leads us to not rejecting the null hypothesis of equal variances across the two populations. We then proceed to calculate the standard error of the difference in means using the pooled standard deviation.
+
+```{r}
+# Pooled SD
+s_p <- sqrt(
+  ((n_f - 1) * s_f^2 + (n_m - 1) * s_m^2) / (n_f + n_m - 2)
+)
+
+SE <- s_p * sqrt(1/n_f + 1/n_m)
+
+t_stat <- (xbar_f - xbar_m) / SE
+t_stat
+```
+`r msmbstyle::solution_end()`
+
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 19")`
+Compare the $t$-statistic with the appropriate 5% critical value from a $t$-distribution. Compute the $p$-value and interpret the results.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Critical value:
+```{r}
+t_crit <- qt(0.975, n_m + n_m - 2)
+t_crit
+```
+
+$p$-value:
+```{r}
+p_value <- 1 - pt(t_stat, n_m + n_m - 2)
+p_value
+```
+
+At a 5% significance level, the observed difference in mean number of close friends between adult American females and males is significantly different from 0. 
+
+In other words, an observed difference in sample mean number of close friends of `r (xbar_f - xbar_m) %>% round(2)` is highly unlikely to occur by chance alone.
+
+The sample data provide very strong evidence that, on average, adult American females and males tend to not have the same number of close friends.
+`r msmbstyle::solution_end()`
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 20")`
+State the validity conditions necessary for the two-sample $t$-test to be valid.
+
+Should the strong skewness in the sample distributions cause you any concerns about the validity of your results?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+
+Validity conditions:
+
+- The sample data arise from independent random samples from two populations OR from random assignment of the units to treatment groups.
+- Either the quantitative variable of interest is normally distributed in both populations OR both sample sizes are large (as a convention, $n_1 \geq 20$ and $n_2 \geq 20$) and the sample distributions should not be strongly skewed.
+
+Even though the distribution of number of close friends is clearly skewed, the sample sizes (813 and 654) are quite large.  
+Also, these data were collected from a random sample of adult Americans.  
+Hence, the conditions required for the two-sample t-test results to be valid are satisfied.
+`r msmbstyle::solution_end()`
+
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 21")`
+Now that we have established that there is significant evidence of a difference in the population mean number of close friends between females and males, what is the magnitude of this difference in the population means?
+
+Construct and interpret a 95% confidence interval for the difference in population mean number of close friends between females and males.
+
+Pay particular attention on whether the interval is negative, positive, or contains zero.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+In order to estimate the magnitude of the difference in the population means we can use a confidence interval for the difference in means.
+
+```{r}
+ci <- tibble(
+  LowerCI = (xbar_f - xbar_m) - t_crit * SE,
+  UpperCI = (xbar_f - xbar_m) + t_crit * SE)
+ci
+```
+
+A 95% confidence interval for the difference in the mean number of close friends between females and males is [0.046, 0.41]. 
+
+The confidence interval is entirely positive, supporting our conclusion that females and males differ with regard to average number of close friends.  We are 95% confident that American females have between 0.046 and 0.41 more close friends, on average, than American males do.
+`r msmbstyle::solution_end()`
+
+
+
+
+## Lab
 
 ```{r}
 library(tidyverse)
