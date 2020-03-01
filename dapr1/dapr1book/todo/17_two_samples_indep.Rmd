@@ -12,7 +12,7 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 #### Instructions {-}
   
   - In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.
-- The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_15_practice.Rmd).
+- The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_17_practice.Rmd).
 
 
 #### Learning outcomes {-}
@@ -81,7 +81,7 @@ A __variable__ is any characteristic that varies from observational unit to obse
 Variables are either __categorical__ or __quantitative__:
 
 - A __categorical variable__ divides the units into groups, placing each unit into exactly one of two or more categories. 
-_Technology typ: In R, a categorical variable should be a `factor`._
+_Technology tip: In R, a categorical variable should be a `factor`._
 
 - A __quantitative variable__ measures a numerical quantity for each case.
 Numerical operations like adding and averaging make sense only for quantitative variables.
@@ -93,12 +93,18 @@ _Note: One simple way to distinguish between categorical and quantitative variab
 
 #### Explanatory and response variables {-}
 
-If we are using one variable to help us understand or predict values of another variable, we call the former the __explanatory variable__ and the latter the __response variable__.
+If we are using one variable to help us understand or predict values of another variable, we call the former the __explanatory variable__ and the latter the __response variable__.  
+<div class="noteBox">  
+##### Other names {-}  
 
++ __explanatory variable__ = __independent variable__ = __predictor variable__   
++ __response variable__ = __dependent variable__ = __outcome variable__  
+  
+</div>
 
 #### Observational studies vs randomized experiments {-}
 
-An __observational study__ is a study in which the researcher does manipulate the value of any variable, but simply observes the values as they naturally	exist.
+An __observational study__ is a study in which the researcher does not manipulate the value of any variable, but simply observes the values as they naturally	exist.
 
 A __randomized experiment__ is a study in which the researcher determines __at random__ the explanatory variable for each unit, before the response variable is measured.
 
@@ -128,17 +134,17 @@ For simplicity, we will refer to the people with whom you talk about important p
 
 The survey data are stored in the file [`close_friends.txt`](https://raw.githubusercontent.com/UoE-Psychology/uoe_psystats/master/dapr1/dapr1book/data/close_friends.txt).
 
-Before learning a new test procedure to assess a potential difference in the centre of a quantitative variable between two independent groups, it is good practice to display, explore and summarise the data.
+Before learning a new test procedure to assess a potential difference in the centre of a quantitative variable between two independent groups, it is good practice to display, explore and summarise the data. 
 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
-Identify the observational units in this study.
+Identify the observational units in this study.  
 `r msmbstyle::question_end()`
 
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-The observational units are the sampled adult Americans taking part in the 2004 General Social Survey (GSS).
+The observational units are the sampled adult Americans taking part in the 2004 General Social Survey (GSS).  
 `r msmbstyle::solution_end()`
 
 ---
@@ -146,7 +152,7 @@ The observational units are the sampled adult Americans taking part in the 2004 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
 - Identify the recorded variables in this study.
-- Classify each variabile either as categorical (also binary) or quantitative.
+- Classify each variable either as categorical (also binary) or quantitative.
 - Identify each variable's role: explanatory or response.
 
 
@@ -243,7 +249,7 @@ Explain why the one-sample $t$-test is not appropriate to answer the research qu
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-The one-sample $t$-test introduced in [Week 16](#todo) tests if the population that the observed sample came from has a hypothesized mean.
+The one-sample $t$-test introduced in [Week 16](#chap-one-mean-test) tests if the population that the observed sample came from has a hypothesized mean. 
 Here, instead, we want to compare the means of two populations (or, if it were a randomized experiment, between two treatment groups).
 `r msmbstyle::solution_end()`
 
@@ -419,7 +425,7 @@ Produce a visual display of your summary statistics.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-A visual display of the five-number summary is given by the boxplot. This is typicall a very good visualisation when your data involve a quantitative response variable and a categorical explanatory variable.
+A visual display of the five-number summary is given by the boxplot. This is typically a very good visualisation when your data involve a quantitative response variable and a categorical explanatory variable.
 
 ```{r}
 ggplot(gss, aes(x = Sex, y = NumberCloseFriends)) +
@@ -682,7 +688,7 @@ var.test(NumberCloseFriends ~ Sex, data = gss)
 
 __Step 2.__ According to the previous test, use the appropriate $t$-test using either one of the following code chunks.
 
-i. If you we can not reject the null hypothesis of equal population variances, use a $t$-distribution with $n_1 + n_2 - 2$ degrees of freedom:
+i. If you can not reject the null hypothesis of equal population variances, use a $t$-distribution with $n_1 + n_2 - 2$ degrees of freedom:
 ```{r eval=FALSE}
 t.test(NumberCloseFriends ~ Sex, data = gss, var.equal = TRUE)
 ```
@@ -763,6 +769,7 @@ ci
 A 95% confidence interval for the difference in the mean number of close friends between females and males is [0.046, 0.41]. 
 
 The confidence interval is entirely positive, supporting our conclusion that females and males differ with regard to average number of close friends.  We are 95% confident that American females have between 0.046 and 0.41 more close friends, on average, than American males do.
+<!-- We are 95% confident that the interval of 0.046 to 0.41 contains the true difference between the number of close friends American females have relative to American males. -->
 `r msmbstyle::solution_end()`
 
 ---
@@ -894,9 +901,9 @@ A Type I error is committed when the waitress decides that introducing herself b
 
 A Type II error is commited when the waitress decides that introducing herself by name is not helpful when, in reality, it actually is.
 
-A Type I error means that the waitress spent just a tiny amount of time longer as part of her greeting without getting any extra benefit from it.
+A Type I error means that the waitress will spend just a tiny amount of time longer as part of her greeting without getting any extra benefit from it.
 
-A Type II error means that the waitress did not bother giving customers her name and thus would lose out on a higher tip.
+A Type II error means that the waitress will not bother giving customers her name and thus would lose out on a higher tip.
 
 Clearly, as the burden of adding the name to the introduction is minimal, we consider as more worrying (or worst error) losing out on potential tips. So, in this specific study, a Type II error is of higher concern.
 `r msmbstyle::solution_end()`
@@ -1021,6 +1028,7 @@ ci
 The 95% confidence interval is [`r ci %>% round(2)`].
 
 We are 95% confident that the waitress would earn, on average, between \$0.98 and \$2.92 more per party with a \$23.21 bill, by including her name as part of the greeting.
+<!-- We are 95% confident that the interval between \$0.98 and \$2.92 contains the true amount the waitress would earn, on average, per party with a \$23.21 bill, by including her name as part of the greeting. -->
 `r msmbstyle::solution_end()`
 
 ---
@@ -1033,7 +1041,7 @@ Make sure to also comment on causation and generalisability of your results.
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
 As the study involved random assignment of the experimental units to the groups, the only difference between the groups was whether the party was given the waitress' name or not.
-As the parties in the name condition tend to give significantly higher tips on average ($p$-value < 0.0005), than the no name condition, we can attribute this difference in means to being told the waitress' name as part of the greeting.
+As the parties in the name condition tend to give significantly higher tips on average ($t$ = `r t_stat %>% round(2)`, $p$-value < .0005), than the no name condition, we can attribute this difference in means to being told the waitress' name as part of the greeting.
 In other words, we can conclude a causal link between being given the name as part of the greeting and receiving higher tips on average.
 
 However, as the waitress was not blind to the treatment condition, we must be wary to the fact that the waitress could have given better service to the parties who she gave her name to. So the results hold unless the waitress gave better service to the name condition.

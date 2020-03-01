@@ -6,14 +6,14 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 library(tidyverse)
 ```
 
-# Two means test (paired samples) {#chap-paired-mean-test}
+# Paired T-Test {#chap-paired-mean-test}
 
 
 <div class="lo">
 #### Instructions {-}
   
 - In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.
-- The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_16_practice.Rmd).
+- The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_18_practice.Rmd).
 
 
 #### Learning outcomes {-}
@@ -30,8 +30,21 @@ library(tidyverse)
 
 ## paired t-test  
 
+### Paired data  
+
+*pairs of time points*
+Longitudinal Variables: Same person, same variable, different times
+
+*pairs of variables*
+Within-Person Contrast: Same person, different variables
+
+*pairs of people*
+Dyadic Data: Same variable, different people
+
+
 
 ### Example questions {-}
+
 
 
 ### Hypotheses {-}  
@@ -55,49 +68,45 @@ H1: μd < 0    (lower-tailed)
 **Alternative hypothesis:** 
 
 
-### Paired data  
-
-*pairs of time points*
-Longitudinal Variables: Same person, same variable, different times
-
-*pairs of variables*
-Within-Person Contrast: Same person, different variables
-
-*pairs of people*
-Dyadic Data: Same variable, different people
 
 ### Formula {-}  
 
-start with t statistic formula.
+one sample t test 
+$$
+t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}
+$$
+
+two independent samples t test 
+$$
+t = \frac{\bar{x_1} - \bar{x_2}}{\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}}
+$$
+
+paired samples t test 
+$$
+t = \frac{\bar{d} - 0}{\frac{s_d}{\sqrt{n}}}
+$$
+
+Where $d$ is the difference between pairs $d = x_1 - x_2$,  
+$\bar{d}$ is the mean of the differences,  
+and $s_d$ is the standard deviation of the differences.  
+
+With the one sample t test, the steps we do are:
+
+1. calculate the sample mean
+1. calculate the sample standard deviation 
+1. calculate t
+1. calculate the probability of observing a t statistic at least as extreme assuming the null hypothesis to be true. 
+
+With the paired sample t test, the steps we are:
+
+**0. calculate the difference in pairs**
+1. calculate the sample mean **difference**
+1. calculate the sample standard deviation **of differences**
+1. calculate t
+1. calculate the probability of observing a t statistic at least as extreme assuming the null hypothesis to be true. 
 
 
-https://www.statisticssolutions.com/manova-analysis-paired-sample-t-test/
-
-The procedure for a paired sample t-test can be summed up in four steps. The symbols to be used are defined below:
-
-$D$ = Differences between two paired samples
-$d_i$ = The ith observation in D
-$n$ = The sample size
-$\bar{d}$ = The sample mean of the differences
-$s_d$ = The sample standard deviation of the differences
-$T$ =The critical value of a t-distribution with (n − 1) degrees of freedom
-$t$ = The t-statistic (t-test statistic) for a paired sample t-test
-$p$ = The p-value (probability value) for the t-statistic.
-The four steps are listed below:
-
-1. Calculate the sample mean.
-Undefined control sequence \cfrac
-2. Calculate the sample standard deviation.
-Undefined control sequence \cfrac
-3. Calculate the test statistic.
-Undefined control sequence \cfrac
-4. Calculate the probability of observing the test statistic under the null hypothesis. This value is obtained by comparing t to a t-distribution with (n − 1) degrees of freedom. This can be done by looking up the value in a table, such as those found in many statistical textbooks, or with statistical software for more accurate results.
-p = 2 ⋅ Pr(T > |t|)    (two-tailed)
-p = Pr(T > t)    (upper-tailed)
-p = Pr(T < t)    (lower-tailed)
-determine whether the results provide sufficient evidence to reject the null hypothesis in favor of the alternative hypothesis.
-
-
+and it's that easy! the remainder is the same as we did in [Week 16](#chap-one-mean-test).
 
 
 ## Walkthrough 
@@ -132,6 +141,7 @@ q - run ?t.test. what might be the argument we need to use for this test?
 a - paired = TRUE  
 
 
+
 ## Assumptions {-}  
 
  The dependent variable must be continuous (interval/ratio).
@@ -150,9 +160,57 @@ _Please attempt the questions **before** looking at the solutions. Copy & pastin
 
 
 
-data - happiness in romantic relationships men v women
+data - age differences in heterosexual marriages
+[here](http://www.lock5stat.com/datasets/MarriageAges.txt)
+```{r}
+marriages<-read.table("http://www.lock5stat.com/datasets/MarriageAges.txt", header = TRUE)
+```
 
-data - school students preference for math vs preference for english
+
+q - add new column which is the husband's age minus the wife's age
+```{r}
+marriages <- marriages %>% 
+  mutate(
+    agediff = Husband - Wife
+  )
+
+
+```
+
+
+q - think. if we get a positive t statistic, t>0, what direction is the difference? who tends to be older than who? 
+a - because we did husband minus wife, a positive t statistic indicates men tend to be older than women in heterosexual marriages. 
+
+q - following the procedure we learnt in week 16, calculate the t statistic manually. 
+
+```{r}
+terms <- marriages %>% 
+  summarise(
+    xbar = mean(agediff),
+    s = sd(agediff),
+    mu_0 = 0,
+    n = n()
+  )
+
+t = (terms$xbar - terms$mu_0) / (terms$s / sqrt(terms$n))
+t
+```
+
+
+
+data - school students preference for math vs preference for english  
+
+data - scores pre and post intervention  
+
+data - practice effects. 
+
+
+
+
+
+
+
+
 
 
 
@@ -160,5 +218,3 @@ data - school students preference for math vs preference for english
 
 
 ### Glossary  
-
-
