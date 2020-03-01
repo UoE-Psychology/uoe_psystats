@@ -17,7 +17,7 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 
 #### Learning outcomes {-}
 
-**LO1.** Understand how to perform a two-sample t-test and interpret the results.
+**LO1.** Understand how to perform a two-sample $t$-test and interpret the results.
 
 **LO2.** Understand how to calculate a two-sample t-interval and interpret the results.
 
@@ -239,11 +239,11 @@ $$
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 8")`
-Explain why the one-sample t-test is not appropriate to answer the research question of this study.
+Explain why the one-sample $t$-test is not appropriate to answer the research question of this study.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-The one-sample t-test introduced in [Week 16](#todo) tests if the population that the observed sample came from has a hypothesized mean.
+The one-sample $t$-test introduced in [Week 16](#todo) tests if the population that the observed sample came from has a hypothesized mean.
 Here, instead, we want to compare the means of two populations (or, if it were a randomized experiment, between two treatment groups).
 `r msmbstyle::solution_end()`
 
@@ -492,7 +492,7 @@ The difference in sample means is $\bar{x}_f - \bar{x}_m$ = `r (descr_stats %>% 
 
 ---
 
-Because of sampling variability, we can not conclude that, because simply the sample means differ, the means of the two populations must differ too.
+Because of sampling variability, we can not conclude that, because the sample means differ, the means of the two populations must differ too.
 
 We must resort to a principled framework to test this, and we have already learned to use statistical hypothesis testing in order to assess if sample results (in our case, the observed difference in sample mean number of close friends) are significant in the sense of being unlikely to have occurred by chance (from random sampling) alone.
 
@@ -628,7 +628,9 @@ t_stat
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 19")`
-Compare the $t$-statistic with the appropriate 5% critical value from a $t$-distribution. Compute the $p$-value and interpret the results.
+Compare the $t$-statistic with the appropriate 5% critical value from a $t$-distribution. 
+
+Compute the $p$-value and interpret the results.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
@@ -650,18 +652,78 @@ In other words, an observed difference in sample mean number of close friends of
 
 The sample data provide very strong evidence that, on average, adult American females and males tend to not have the same number of close friends.
 
-
-Verify your results using the built-in R function:
-```{r}
-t.test(NumberCloseFriends ~ Sex, data = gss, var.equal = TRUE)
-```
-
 `r msmbstyle::solution_end()`
 
 ---
 
+<div class="lo">
+#### Technology detour: two-sample $t$-test with built-in functions {-}
+
+In R, we perform a two-sample $t$-test with the function `t.test`. This is the same function you saw to perform a one-sample mean test.
+
+Before applying it though, we need to check with `var.test` whether to assume the population variances to be different or equal.
+
+<br>
+Both R functions require a __formula__ as first argument:
+<center>
+__goal( y ~ x )__
+</center>
+
+where
+
+- __y__ is the response variable
+- __x__ is the explanatory variable
+<br><br>
+
+__Step 1.__ Test for equality of the population variances:
+```{r eval=FALSE}
+var.test(NumberCloseFriends ~ Sex, data = gss)
+```
+
+__Step 2.__ According to the previous test, use the appropriate $t$-test using either one of the following code chunks.
+
+i. If you we can not reject the null hypothesis of equal population variances, use a $t$-distribution with $n_1 + n_2 - 2$ degrees of freedom:
+```{r eval=FALSE}
+t.test(NumberCloseFriends ~ Sex, data = gss, var.equal = TRUE)
+```
+
+ii. If the population variances were not equal, we would have used the Welch-Satterthwaite approximation to the degrees of freedom:
+```{r eval=FALSE}
+# Welch-Satterthwaite approximation
+t.test(NumberCloseFriends ~ Sex, data = gss, var.equal = FALSE)
+
+# If not provided, var.equal = FALSE by default
+t.test(NumberCloseFriends ~ Sex, data = gss)
+```
+</div>
+
+---
+
 `r msmbstyle::question_begin(header = "&#x25BA; Question 20")`
-State the validity conditions necessary for the two-sample $t$-test to be valid.
+Verify your results using the built-in R function `t.test`. 
+
+Before applying it though, you need to check with `var.test` whether the population variances are different or can be assumed to be equal.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+We have already tested before for equality of the population variances:
+```{r}
+var.test(NumberCloseFriends ~ Sex, data = gss)
+```
+
+As we can not reject the null hypothesis of equal variances across the two independent populations, we use a $t$-test with $df = n_1 + n_2 - 2$:
+```{r}
+t.test(NumberCloseFriends ~ Sex, data = gss, var.equal = TRUE)
+```
+`r msmbstyle::solution_end()`
+
+
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 21")`
+State the validity conditions necessary for the two-sample $t$-test results to be valid.
 
 Should the strong skewness in the sample distributions cause you any concerns about the validity of your results?
 `r msmbstyle::question_end()`
@@ -675,12 +737,12 @@ Validity conditions:
 
 Even though the distribution of number of close friends is clearly skewed, the sample sizes (813 and 654) are quite large.  
 Also, these data were collected from a random sample of adult Americans.  
-Hence, the conditions required for the two-sample t-test results to be valid are satisfied.
+Hence, the conditions required for the two-sample $t$-test results to be valid are satisfied.
 `r msmbstyle::solution_end()`
 
 ---
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question 21")`
+`r msmbstyle::question_begin(header = "&#x25BA; Question 22")`
 Now that we have established that there is significant evidence of a difference in the population mean number of close friends between females and males, what is the magnitude of this difference in the population means?
 
 Construct and interpret a 95% confidence interval for the difference in population mean number of close friends between females and males.
@@ -703,6 +765,36 @@ A 95% confidence interval for the difference in the mean number of close friends
 The confidence interval is entirely positive, supporting our conclusion that females and males differ with regard to average number of close friends.  We are 95% confident that American females have between 0.046 and 0.41 more close friends, on average, than American males do.
 `r msmbstyle::solution_end()`
 
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 23")`
+_Causation:_ Do the data provide evidence that how many close friends one has is _caused_ by ones' sex? Explain why.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+No, we can not conclude that the person's sex was responsible for the number of mentioned friends.
+This data was collected as part of an observational study, hence the explanatory variable sex was simply observed in the observational units.
+
+We could have considered a causal link if the observational units were randomly assigned to the groups, but clearly this is not feasible as you can not assign a person to be female or male as part of a survey.
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 24")`
+_Generalisation:_ To which population can the results of this study be applied to? Explain why.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Because the observational units are a random sample from the population of adult Americans in year 2004, we might apply our results to adult American men and women in that year.
+
+We might hesitate in generalising the results to all Americans and to a different year, as younger people were not included in the survey, and because the trend could have changed over time.
+`r msmbstyle::solution_end()`
+
+---
+
+
+
+
 
 
 
@@ -710,15 +802,200 @@ The confidence interval is entirely positive, supporting our conclusion that fem
 
 ## Lab: Does name increase tips?
 
+Can a waitress earn higher tips simply by introducing herself by name when greeting customers?
+How can she investigate this?
 
-Can a waitress earn higher tips simply by introducing themselves by name when greeting customers?
-A study by
+After data are collected, how can she decide if the results provide convincing evidence that giving her name does really lead to higher tips?
+
+And if she decides that introducing herself by name really helps, how can she estimate how much higher will the tips be, on average, when introducing herself by name?
+
+
+Researchers [Garrity and Degelman (1990)](https://doi.org/10.1111/j.1559-1816.1990.tb00405.x) investigated the effect of a server introducing herself by name on restaurant tipping. 
+The study involved forty, 2‐person parties eating a $23.21 fixed-price buffet Sunday brunch at Charley Brown's Restaurant in Huntington Beach, California, on April 10 and 17, 1988. 
+Each two-person party was randomly assigned by the waitress to either a name or a no name introduction condition using a random mechanism. The waitress kept track of the two-person party condition and how much the party tipped at the end of the meal.
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 1")`
+Identify the observational units in this study.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+The observational units are the 2-person parties eating Sunday brunch in that restaurant on April 10 and 17, 1988.
+
+We can also refer to the observational units as __experimental units__ because, as we will see later, they are part of an experiment. 
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 2")`
+Is this an observational study or a randomized experiment? Explain why.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+This study is a randomized experiment. The waitress uses a random mechanism to assign the experimental units (two-person parties) to two conditions (name or no name).
+
+We need to also keep in mind that the waitress was not blind to which condition each party was assigned to and might have inadvertently provided better service to the parties she expected to give her a larger tip.
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 3")`
+What are the explanatory and response variables in this study?
+
+Classify them as either categorical (also binary) and quantitative.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Explanatory variable: condition (name or no name). $\qquad$ Type: categorical and binary.
+
+
+Response variable: tipping amount. $\qquad \qquad \qquad \qquad$ Type: quantitative.
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 4")`
+State, in words and in symbols, the waitress' null and alternative hypotheses.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+The null hypothesis is that there is no effect to the tipping amount from the waitress giving her name as part of the greeting to the customers.
+
+Equivalently, the null hypothesis states that the population mean tip amount is the same whether the waitress introduces herself by name or not.
+
+<br>
+The alternative hypothesis is that there is a positive effect to the tipping amount from the waitress giving her name as part of the greeting to the customers.
+
+Equivalently, the alternative hypothesis states that the population mean tip amount is greater when the waitress introduces herself by name than when she does not.
+
+<br>
+In symbols,
+$$
+H_0 : \mu_{name} = \mu_{no\ name} \\
+H_1 : \mu_{name} > \mu_{no\ name}
+$$
+
+
+
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 5")`
+Comment on what a Type I error and a Type II error would mean in this particular study.
+
+Would you consider on of these two errors to be more worrying than the other? Explain why.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+A Type I error is committed when the waitress decides that introducing herself by name helps when, in reality, it does not.
+
+A Type II error is commited when the waitress decides that introducing herself by name is not helpful when, in reality, it actually is.
+
+A Type I error means that the waitress spent just a tiny amount of time longer as part of her greeting without getting any extra benefit from it.
+
+A Type II error means that the waitress did not bother giving customers her name and thus would lose out on a higher tip.
+
+Clearly, as the burden of adding the name to the introduction is minimal, we consider as more worrying (or worst error) losing out on potential tips. So, in this specific study, a Type II error is of higher concern.
+`r msmbstyle::solution_end()`
+
+---
+
+The sample mean tip for the 20 parties in the name condition was $\bar x_{name}= \$5.44$, with a SD $s_{name} = \$1.75$.
+
+For the 20 parties in the no name condition, the sample mean tip was $\bar x_{no\ name}= \$3.49$, with a SD $s_{no\ name} = \$1.13$.
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 6")`
+Calculate the test statistic and the $p$-value.
+
+_**Hint:** If you can assume equal variances across the two treatment conditions, the degrees of freedom are $df = n_1 + n_2 - 2$. _
+
+_If you can not assume equal variances, you must use the Welch t-test. However, this test has a very difficult formula for the degrees of freedom. For our learning purposes, we can use a simplication given by $df = \min(n_1 - 1, n_2 - 1)$. This will be a conservative approximation to Welch's degrees of freedom but it is much easier to remember!_
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+As we do not have the party-by-party tip amounts, we can not use `var.test` to check for equality of the variances of the two condition groups.
+We must resort to the unequal variances $t$-test, involvong the Welch-Satterthwaite approximation to the degrees of freedom.
 
 ```{r}
-library(tidyverse)
+n_name <- 20
+xbar_name <- 5.44
+s_name <- 1.75
+
+n_no <- 20
+xbar_no <- 3.49
+s_no <- 1.13
+
+SE <- sqrt(s_name^2 / n_name + s_no^2 / n_no)
+t_stat <- (xbar_name - xbar_no) / SE
+t_stat
 ```
 
+Welch's formula for the degrees of freedom is very complicated to remember, so we will approximate it with a more conservative approach: $df = \min(n_1 - 1, n_2 - 1)$.
 
+```{r}
+df <- min(n_name - 1, n_no - 1)
+df
+```
+
+Critical value:
+```{r}
+qt(0.95, df = df)
+```
+
+$p$-value:
+```{r}
+1 - pt(t_stat, df = df)
+```
+
+`r msmbstyle::solution_end()`
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 7")`
+At the significance level $\alpha = 0.05$, what would you conclude?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 8")`
+Does the data summarised in the paper provide enough information to check whether the validity conditions of the two-sample $t$-test are satisfied?
+
+If yes, check the conditions are met. If not, explain which additional information you would need.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 9")`
+Calculate a 95% confidence interval for the difference in population mean tip amount between the name and no name conditions.
+
+Write a sentence or two interpreting what the interval reveals. 
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question 10")`
+Regardless of whether the validity conditions of the $t$-test are met, summarise your conclusions from this test.
+
+Make sure to also comment on causation and generalisability of your results.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_end()`
+
+---
 
 
 
@@ -726,6 +1003,6 @@ library(tidyverse)
 
 - Garrity, K., & Degelman, D. (1990). Effect of server introduction on restaurant tipping. _Journal of Applied Social Psychology, 20_(2), 168-172.
 
-_Material adapted from:_
+Material adapted from:
 
 - Rossman, A. J., & Chance, B. L. (2011). _Workshop statistics: discovery with data._ John Wiley & Sons.
