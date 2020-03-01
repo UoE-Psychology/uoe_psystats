@@ -111,7 +111,7 @@ A __randomized experiment__ is a study in which the researcher determines __at r
 </div>
 
 
-## Walkthrough
+## Walkthrough: Got a friend?
 
 In today's in-class activity we will use data from the General Social Survey conducted in the US in 2004.
 One of the questions asked to a random sample of adult Americans in the 2004 General Social Survey (GSS) was:
@@ -490,14 +490,15 @@ Do you think it could be possible to obtain sample means this far apart even if 
 The difference in sample means is $\bar{x}_f - \bar{x}_m$ = `r (descr_stats %>% filter(Sex == 'female') %>% select(Mean) %>% pull() - descr_stats %>% filter(Sex == 'male') %>% select(Mean) %>% pull()) %>% round(2)`.
 `r msmbstyle::solution_end()`
 
+---
+
 Because of sampling variability, we can not conclude that, because simply the sample means differ, the means of the two populations must differ too.
 
-We must resort to a principled framework to test that, and we have already learned to use statistical hypothesis testing in order to assess if sample results (in our case, the observed difference in sample mean number of close friends) are significant in the sense of beingly unlikely to have occurred by chance (from random sampling) alone.
+We must resort to a principled framework to test this, and we have already learned to use statistical hypothesis testing in order to assess if sample results (in our case, the observed difference in sample mean number of close friends) are significant in the sense of being unlikely to have occurred by chance (from random sampling) alone.
 
 __Estimating the magnitude of the difference in population means.__
 
 How can we estimate the magnitude of the difference in population means? By using a confidence interval for the difference in means!
-
 
 ---
 
@@ -524,21 +525,6 @@ t = \frac{(\bar x_1 - \bar x_2) - 0}{SE(\bar x_1 - \bar x_2)}
 $$
 </center>
 
-Standard error of the difference in means:
-
-- Population variances unknown and not equal:
-<center>
-$$
-SE(\bar x_1 - \bar x_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
-$$
-</center>
-- Population variances unknown and equal:
-<center>
-$$
-SE(\bar x_1 - \bar x_2) = s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \\ 
-s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
-$$
-</center>
 
 $p$-value:
 
@@ -548,6 +534,28 @@ iii. $2 \times \mathrm{Pr}(T_{df} \leq |t|)$
 
 where $T_{df}$ denotes a $t$-distribution with $df$ degrees of freedom.
 
+
+SE and df:
+
+1. Population variances unknown and not equal:
+  + Very difficult degrees of freedom, let R calculate them
+  + Standard error of the difference in means
+<center>
+$$
+SE(\bar x_1 - \bar x_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
+$$
+</center>
+
+2. Population variances unknown and equal:
+  + Degrees of freedom $df = n_1 + n_2 - 2$
+  + Standard error of the difference in means
+<center>
+$$
+SE(\bar x_1 - \bar x_2) = s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \\ 
+s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
+$$
+</center>
+
 ##### Confidence interval for $\mu_1 - \mu_2$ {-}
 
 <center>
@@ -555,7 +563,7 @@ $$
 (\bar x_1 - \bar x_2) \pm t^*_{df} \times SE(\bar x_1 - \bar x_2)
 $$
 </center>
-where $t^*_{df}$ denotes the critical value corresponding to a desired $alpha$ level for a $t$-distribution with $df$ degrees of freedom.
+where $t^*_{df}$ denotes the critical value corresponding to a desired $\alpha$ level for a $t$-distribution with $df$ degrees of freedom.
 
 
 ##### Validity conditions {-}
@@ -617,7 +625,7 @@ t_stat
 ```
 `r msmbstyle::solution_end()`
 
-
+---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 19")`
 Compare the $t$-statistic with the appropriate 5% critical value from a $t$-distribution. Compute the $p$-value and interpret the results.
@@ -632,7 +640,7 @@ t_crit
 
 $p$-value:
 ```{r}
-p_value <- 1 - pt(t_stat, n_m + n_m - 2)
+p_value <- 2 * (1 - pt(abs(t_stat), n_m + n_m - 2))
 p_value
 ```
 
@@ -641,7 +649,16 @@ At a 5% significance level, the observed difference in mean number of close frie
 In other words, an observed difference in sample mean number of close friends of `r (xbar_f - xbar_m) %>% round(2)` is highly unlikely to occur by chance alone.
 
 The sample data provide very strong evidence that, on average, adult American females and males tend to not have the same number of close friends.
+
+
+Verify your results using the built-in R function:
+```{r}
+t.test(NumberCloseFriends ~ Sex, data = gss, var.equal = TRUE)
+```
+
 `r msmbstyle::solution_end()`
+
+---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 20")`
 State the validity conditions necessary for the two-sample $t$-test to be valid.
@@ -661,7 +678,7 @@ Also, these data were collected from a random sample of adult Americans.
 Hence, the conditions required for the two-sample t-test results to be valid are satisfied.
 `r msmbstyle::solution_end()`
 
-
+---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question 21")`
 Now that we have established that there is significant evidence of a difference in the population mean number of close friends between females and males, what is the magnitude of this difference in the population means?
@@ -689,23 +706,16 @@ The confidence interval is entirely positive, supporting our conclusion that fem
 
 
 
-## Lab
+
+
+## Lab: Does name increase tips?
+
+
+Can a waitress earn higher tips simply by introducing themselves by name when greeting customers?
+A study by
 
 ```{r}
 library(tidyverse)
-
-soupdata <- read_tsv("https://statweb.calpoly.edu/bchance/stat302/data/SoupBowl.txt", )
-soupdata
-
-soupdata <- soupdata %>%
-  mutate(group = factor(group)) %>%
-  mutate(group = relevel(group, ref = 'secret'))
-
-soupdata$group
-
-t.test(ounces ~ group, data = soupdata, var.equal=FALSE)
-
-t.test(ounces ~ group, data = soupdata, var.equal=TRUE)
 ```
 
 
@@ -714,10 +724,8 @@ t.test(ounces ~ group, data = soupdata, var.equal=TRUE)
 
 ## References {#w17-references}
 
-- Garrity, K., & Degelman, D. (1990). Effect of server introduction on restaurant tipping 1. Journal of Applied Social Psychology, 20(2), 168-172.
-- Mehta, R., & Zhu, R. J. (2009). Blue or red? Exploring the effect of color on cognitive task performances. Science, 323(5918), 1226-1229.
-
+- Garrity, K., & Degelman, D. (1990). Effect of server introduction on restaurant tipping. _Journal of Applied Social Psychology, 20_(2), 168-172.
 
 _Material adapted from:_
 
-Rossman, A. J., & Chance, B. L. (2011). _Workshop statistics: discovery with data._ John Wiley & Sons.
+- Rossman, A. J., & Chance, B. L. (2011). _Workshop statistics: discovery with data._ John Wiley & Sons.
