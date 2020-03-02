@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 17 Comparing two means (independent samples) | Data Analysis for Psychology in R (dapR1) - Labs</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 17 Comparing two means (independent samples) | Data Analysis for Psychology in R (dapR1) - Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 17 Comparing two means (independent samples) | Data Analysis for Psychology in R (dapR1) - Labs" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chap-one-mean-test.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">DAPR1</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>1</b> Week 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="week-1.html"><a href="week-1.html#introduction-to-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="week-1.html"><a href="week-1.html#install-the-recent-version-of-r-and-r-studio"><i class="fa fa-check"></i><b>1.2</b> Install the recent version of R and R Studio</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1.html"><a href="week-1.html#first-step"><i class="fa fa-check"></i><b>1.2.1</b> First Step</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1.html"><a href="week-1.html#second-step"><i class="fa fa-check"></i><b>1.2.2</b> Second Step</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1.html"><a href="week-1.html#getting-started-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Getting Started in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="week-1.html"><a href="week-1.html#r-as-an-interactive-environment"><i class="fa fa-check"></i><b>1.4</b> R as an interactive environment</a></li>
+<li class="chapter" data-level="1.5" data-path="week-1.html"><a href="week-1.html#check-your-settings"><i class="fa fa-check"></i><b>1.5</b> Check your settings</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="week-1.html"><a href="week-1.html#disable-automatic-saving-of-your-workspace"><i class="fa fa-check"></i><b>1.5.1</b> Disable automatic saving of your workspace</a></li>
+<li class="chapter" data-level="1.5.2" data-path="week-1.html"><a href="week-1.html#adjust-fontscolours-if-you-like"><i class="fa fa-check"></i><b>1.5.2</b> Adjust fonts/colours if you like</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="week-1.html"><a href="week-1.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.6</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="1.7" data-path="week-1.html"><a href="week-1.html#the-console"><i class="fa fa-check"></i><b>1.7</b> The Console</a></li>
+<li class="chapter" data-level="1.8" data-path="week-1.html"><a href="week-1.html#spacing"><i class="fa fa-check"></i><b>1.8</b> Spacing</a></li>
+<li class="chapter" data-level="1.9" data-path="week-1.html"><a href="week-1.html#typos"><i class="fa fa-check"></i><b>1.9</b> Typos</a></li>
+<li class="chapter" data-level="1.10" data-path="week-1.html"><a href="week-1.html#unfinishe.-d"><i class="fa fa-check"></i><b>1.10</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="1.11" data-path="week-1.html"><a href="week-1.html#basic-arithmetic"><i class="fa fa-check"></i><b>1.11</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="1.12" data-path="week-1.html"><a href="week-1.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>1.12</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="1.13" data-path="week-1.html"><a href="week-1.html#r-scripts"><i class="fa fa-check"></i><b>1.13</b> R Scripts</a></li>
+<li class="chapter" data-level="1.14" data-path="week-1.html"><a href="week-1.html#short-example"><i class="fa fa-check"></i><b>1.14</b> Short Example</a></li>
+<li class="chapter" data-level="1.15" data-path="week-1.html"><a href="week-1.html#naming-variables"><i class="fa fa-check"></i><b>1.15</b> Naming variables</a></li>
+<li class="chapter" data-level="1.16" data-path="week-1.html"><a href="week-1.html#now-over-to-you"><i class="fa fa-check"></i><b>1.16</b> Now over to you</a><ul>
+<li class="chapter" data-level="1.16.1" data-path="week-1.html"><a href="week-1.html#exercise-1"><i class="fa fa-check"></i><b>1.16.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="1.16.2" data-path="week-1.html"><a href="week-1.html#exercise-2"><i class="fa fa-check"></i><b>1.16.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="1.17" data-path="week-1.html"><a href="week-1.html#solutions"><i class="fa fa-check"></i><b>1.17</b> Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2</b> Week 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="week-2.html"><a href="week-2.html#introduction-to-rmarkdown"><i class="fa fa-check"></i><b>2.1</b> Introduction to RMarkdown</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html#what-is-r-markdown"><i class="fa fa-check"></i><b>2.2</b> What is R Markdown?</a></li>
+<li class="chapter" data-level="2.3" data-path="week-2.html"><a href="week-2.html#getting-things-ready"><i class="fa fa-check"></i><b>2.3</b> Getting things ready</a></li>
+<li class="chapter" data-level="2.4" data-path="week-2.html"><a href="week-2.html#r-markdown-basics"><i class="fa fa-check"></i><b>2.4</b> R Markdown basics</a></li>
+<li class="chapter" data-level="2.5" data-path="week-2.html"><a href="week-2.html#headings"><i class="fa fa-check"></i><b>2.5</b> Headings</a></li>
+<li class="chapter" data-level="2.6" data-path="week-2.html"><a href="week-2.html#text"><i class="fa fa-check"></i><b>2.6</b> Text</a></li>
+<li class="chapter" data-level="2.7" data-path="week-2.html"><a href="week-2.html#tables"><i class="fa fa-check"></i><b>2.7</b> Tables</a></li>
+<li class="chapter" data-level="2.8" data-path="week-2.html"><a href="week-2.html#lists"><i class="fa fa-check"></i><b>2.8</b> Lists</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="week-2.html"><a href="week-2.html#unordered"><i class="fa fa-check"></i><b>2.8.1</b> Unordered</a></li>
+<li class="chapter" data-level="2.8.2" data-path="week-2.html"><a href="week-2.html#ordered"><i class="fa fa-check"></i><b>2.8.2</b> Ordered</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
+<li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
+<li class="chapter" data-level="3.2" data-path="week-3.html"><a href="week-3.html#get-the-package-first"><i class="fa fa-check"></i><b>3.2</b> Get the package first</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3.html"><a href="week-3.html#numeric-data"><i class="fa fa-check"></i><b>3.3</b> Numeric Data</a></li>
+<li class="chapter" data-level="3.4" data-path="week-3.html"><a href="week-3.html#textcharacter-data"><i class="fa fa-check"></i><b>3.4</b> Text/Character Data</a></li>
+<li class="chapter" data-level="3.5" data-path="week-3.html"><a href="week-3.html#logical-data"><i class="fa fa-check"></i><b>3.5</b> Logical Data</a></li>
+<li class="chapter" data-level="3.6" data-path="week-3.html"><a href="week-3.html#variable-classes"><i class="fa fa-check"></i><b>3.6</b> Variable Classes</a></li>
+<li class="chapter" data-level="3.7" data-path="week-3.html"><a href="week-3.html#factors"><i class="fa fa-check"></i><b>3.7</b> Factors</a></li>
+<li class="chapter" data-level="3.8" data-path="week-3.html"><a href="week-3.html#lists-1"><i class="fa fa-check"></i><b>3.8</b> Lists</a></li>
+<li class="chapter" data-level="3.9" data-path="week-3.html"><a href="week-3.html#practice.rmd-solutions"><i class="fa fa-check"></i><b>3.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="week-3.html"><a href="week-3.html#exercise-1-1"><i class="fa fa-check"></i><b>3.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.9.2" data-path="week-3.html"><a href="week-3.html#exercise-2-1"><i class="fa fa-check"></i><b>3.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.9.3" data-path="week-3.html"><a href="week-3.html#exercise-3"><i class="fa fa-check"></i><b>3.9.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>4</b> Week 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="week-4.html"><a href="week-4.html#introduction-to-plots-geoms-ggplot"><i class="fa fa-check"></i><b>4.1</b> Introduction to plots &amp; geoms (ggplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="week-4.html"><a href="week-4.html#visualisations"><i class="fa fa-check"></i><b>4.2</b> Visualisations</a></li>
+<li class="chapter" data-level="4.3" data-path="week-4.html"><a href="week-4.html#get-our-data-sorted"><i class="fa fa-check"></i><b>4.3</b> Get our data sorted</a></li>
+<li class="chapter" data-level="4.4" data-path="week-4.html"><a href="week-4.html#numerical-data"><i class="fa fa-check"></i><b>4.4</b> Numerical data</a></li>
+<li class="chapter" data-level="4.5" data-path="week-4.html"><a href="week-4.html#simple-one-variable-plot-using-ggplot"><i class="fa fa-check"></i><b>4.5</b> Simple one-variable plot using ggplot()</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="week-4.html"><a href="week-4.html#continuous-variable"><i class="fa fa-check"></i><b>4.5.1</b> Continuous variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="week-4.html"><a href="week-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.6</b> Categorical variables</a></li>
+<li class="chapter" data-level="4.7" data-path="week-4.html"><a href="week-4.html#continuous-variables-grouped-by-a-categorical-one"><i class="fa fa-check"></i><b>4.7</b> Continuous variables grouped by a categorical one</a></li>
+<li class="chapter" data-level="4.8" data-path="week-4.html"><a href="week-4.html#even-more-advanced"><i class="fa fa-check"></i><b>4.8</b> Even more advanced</a></li>
+<li class="chapter" data-level="4.9" data-path="week-4.html"><a href="week-4.html#practice.rmd-solutions-1"><i class="fa fa-check"></i><b>4.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="week-4.html"><a href="week-4.html#exercise-1-2"><i class="fa fa-check"></i><b>4.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="4.9.2" data-path="week-4.html"><a href="week-4.html#exercise-2-2"><i class="fa fa-check"></i><b>4.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.9.3" data-path="week-4.html"><a href="week-4.html#exercise-3---advanced"><i class="fa fa-check"></i><b>4.9.3</b> Exercise 3 - Advanced</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>5</b> Week 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="week-5.html"><a href="week-5.html#central-tendency-and-variability"><i class="fa fa-check"></i><b>5.1</b> Central Tendency and Variability</a></li>
+<li class="chapter" data-level="5.2" data-path="week-5.html"><a href="week-5.html#load-all-the-necessary-packages"><i class="fa fa-check"></i><b>5.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="5.3" data-path="week-5.html"><a href="week-5.html#descriptive-statistics"><i class="fa fa-check"></i><b>5.3</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="5.4" data-path="week-5.html"><a href="week-5.html#central-tendency-variability"><i class="fa fa-check"></i><b>5.4</b> Central tendency &amp; variability</a></li>
+<li class="chapter" data-level="5.5" data-path="week-5.html"><a href="week-5.html#mean-and-median"><i class="fa fa-check"></i><b>5.5</b> Mean and median</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="week-5.html"><a href="week-5.html#reading-data-in"><i class="fa fa-check"></i><b>5.5.1</b> Reading data in</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="week-5.html"><a href="week-5.html#using-piping-operator-for-descriptive-statistics"><i class="fa fa-check"></i><b>5.6</b> Using piping operator for descriptive statistics</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="week-5.html"><a href="week-5.html#mean"><i class="fa fa-check"></i><b>5.6.1</b> Mean</a></li>
+<li class="chapter" data-level="5.6.2" data-path="week-5.html"><a href="week-5.html#median"><i class="fa fa-check"></i><b>5.6.2</b> Median</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="week-5.html"><a href="week-5.html#standard-deviation"><i class="fa fa-check"></i><b>5.7</b> Standard deviation</a></li>
+<li class="chapter" data-level="5.8" data-path="week-5.html"><a href="week-5.html#visualise-your-data"><i class="fa fa-check"></i><b>5.8</b> Visualise your data</a></li>
+<li class="chapter" data-level="5.9" data-path="week-5.html"><a href="week-5.html#practice.rmd-solutions-2"><i class="fa fa-check"></i><b>5.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="week-5.html"><a href="week-5.html#income-distribution-example"><i class="fa fa-check"></i><b>5.9.1</b> Income Distribution Example</a></li>
+<li class="chapter" data-level="5.9.2" data-path="week-5.html"><a href="week-5.html#visualisations-1"><i class="fa fa-check"></i><b>5.9.2</b> Visualisations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>6</b> Week 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="week-6.html"><a href="week-6.html#plotting-functions-and-simple-data-transformation"><i class="fa fa-check"></i><b>6.1</b> Plotting Functions and Simple Data Transformation</a></li>
+<li class="chapter" data-level="6.2" data-path="week-6.html"><a href="week-6.html#load-all-the-necessary-packages-1"><i class="fa fa-check"></i><b>6.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="6.3" data-path="week-6.html"><a href="week-6.html#part-1-hand-plotting-functions"><i class="fa fa-check"></i><b>6.3</b> Part 1: Hand plotting functions</a></li>
+<li class="chapter" data-level="6.4" data-path="week-6.html"><a href="week-6.html#basics"><i class="fa fa-check"></i><b>6.4</b> Basics</a></li>
+<li class="chapter" data-level="6.5" data-path="week-6.html"><a href="week-6.html#linear-functions"><i class="fa fa-check"></i><b>6.5</b> Linear functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="week-6.html"><a href="week-6.html#tree-height-example"><i class="fa fa-check"></i><b>6.5.1</b> Tree height example</a></li>
+<li class="chapter" data-level="6.5.2" data-path="week-6.html"><a href="week-6.html#non-linear-functions-first-order-polynomials"><i class="fa fa-check"></i><b>6.5.2</b> Non-linear functions (first order polynomials)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="week-6.html"><a href="week-6.html#practice-plotting"><i class="fa fa-check"></i><b>6.6</b> Practice plotting</a></li>
+<li class="chapter" data-level="6.7" data-path="week-6.html"><a href="week-6.html#part-2-introduction-to-data-transformation"><i class="fa fa-check"></i><b>6.7</b> Part 2: Introduction to Data Transformation</a></li>
+<li class="chapter" data-level="6.8" data-path="week-6.html"><a href="week-6.html#renaming"><i class="fa fa-check"></i><b>6.8</b> Renaming</a></li>
+<li class="chapter" data-level="6.9" data-path="week-6.html"><a href="week-6.html#adding-new-variables"><i class="fa fa-check"></i><b>6.9</b> Adding new variables</a></li>
+<li class="chapter" data-level="6.10" data-path="week-6.html"><a href="week-6.html#transformation-and-skewness"><i class="fa fa-check"></i><b>6.10</b> Transformation and skewness</a></li>
+<li class="chapter" data-level="6.11" data-path="week-6.html"><a href="week-6.html#mean-centering"><i class="fa fa-check"></i><b>6.11</b> Mean Centering</a></li>
+<li class="chapter" data-level="6.12" data-path="week-6.html"><a href="week-6.html#standardisation"><i class="fa fa-check"></i><b>6.12</b> Standardisation</a></li>
+<li class="chapter" data-level="6.13" data-path="week-6.html"><a href="week-6.html#practice.rmd-solutions-3"><i class="fa fa-check"></i><b>6.13</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>7</b> Week 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="week-7.html"><a href="week-7.html#reading-in-data-merge-and-more-r-practice"><i class="fa fa-check"></i><b>7.1</b> Reading in Data, Merge and More R Practice</a></li>
+<li class="chapter" data-level="7.2" data-path="week-7.html"><a href="week-7.html#dataset-1-.csv"><i class="fa fa-check"></i><b>7.2</b> Dataset 1 (.csv)</a></li>
+<li class="chapter" data-level="7.3" data-path="week-7.html"><a href="week-7.html#dataset-2-.txt"><i class="fa fa-check"></i><b>7.3</b> Dataset 2 (.txt)</a></li>
+<li class="chapter" data-level="7.4" data-path="week-7.html"><a href="week-7.html#dataset-3-.sav-and-.dta"><i class="fa fa-check"></i><b>7.4</b> Dataset 3 (.sav and .dta)</a></li>
+<li class="chapter" data-level="7.5" data-path="week-7.html"><a href="week-7.html#merging-datasets-together"><i class="fa fa-check"></i><b>7.5</b> Merging datasets together</a></li>
+<li class="chapter" data-level="7.6" data-path="week-7.html"><a href="week-7.html#sorting-and-arrange"><i class="fa fa-check"></i><b>7.6</b> Sorting and arrange()</a></li>
+<li class="chapter" data-level="7.7" data-path="week-7.html"><a href="week-7.html#data-description"><i class="fa fa-check"></i><b>7.7</b> Data description</a></li>
+<li class="chapter" data-level="7.8" data-path="week-7.html"><a href="week-7.html#using-filter"><i class="fa fa-check"></i><b>7.8</b> Using filter()</a></li>
+<li class="chapter" data-level="7.9" data-path="week-7.html"><a href="week-7.html#visualisations-2"><i class="fa fa-check"></i><b>7.9</b> Visualisations</a></li>
+<li class="chapter" data-level="7.10" data-path="week-7.html"><a href="week-7.html#save-the-file-in-your-folder"><i class="fa fa-check"></i><b>7.10</b> Save the file in your folder</a></li>
+<li class="chapter" data-level="7.11" data-path="week-7.html"><a href="week-7.html#practice.rmd-solutions-4"><i class="fa fa-check"></i><b>7.11</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="week-8.html"><a href="week-8.html"><i class="fa fa-check"></i><b>8</b> Week 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="week-8.html"><a href="week-8.html#introduction-to-probability"><i class="fa fa-check"></i><b>8.1</b> Introduction to Probability</a></li>
+<li class="chapter" data-level="8.2" data-path="week-8.html"><a href="week-8.html#example-1-hot-hand"><i class="fa fa-check"></i><b>8.2</b> Example 1 (hot hand)</a></li>
+<li class="chapter" data-level="8.3" data-path="week-8.html"><a href="week-8.html#example-2-coin-toss"><i class="fa fa-check"></i><b>8.3</b> Example 2 (coin toss)</a></li>
+<li class="chapter" data-level="8.4" data-path="week-8.html"><a href="week-8.html#example-3-independent-shooter"><i class="fa fa-check"></i><b>8.4</b> Example 3 (Independent shooter)</a></li>
+<li class="chapter" data-level="8.5" data-path="week-8.html"><a href="week-8.html#practice-rmd.-solutions"><i class="fa fa-check"></i><b>8.5</b> Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.-jones-and-mr.-smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
+<li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
+<li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
+<li class="chapter" data-level="8.6.5" data-path="week-8.html"><a href="week-8.html#answers-1"><i class="fa fa-check"></i><b>8.6.5</b> Answers</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="week-9.html"><a href="week-9.html"><i class="fa fa-check"></i><b>9</b> Week 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="week-9.html"><a href="week-9.html#introduction-to-probability-distributions-and-revision"><i class="fa fa-check"></i><b>9.1</b> Introduction to Probability Distributions and Revision</a></li>
+<li class="chapter" data-level="9.2" data-path="week-9.html"><a href="week-9.html#discrete-example-guessing-homework-answers"><i class="fa fa-check"></i><b>9.2</b> Discrete example (guessing homework answers)</a></li>
+<li class="chapter" data-level="9.3" data-path="week-9.html"><a href="week-9.html#generate-a-homework-attempt"><i class="fa fa-check"></i><b>9.3</b> Generate a homework attempt</a></li>
+<li class="chapter" data-level="9.4" data-path="week-9.html"><a href="week-9.html#changing-the-probability-truefalse"><i class="fa fa-check"></i><b>9.4</b> Changing the probability (TRUE/FALSE)</a></li>
+<li class="chapter" data-level="9.5" data-path="week-9.html"><a href="week-9.html#studying-the-distribution"><i class="fa fa-check"></i><b>9.5</b> Studying the distribution</a></li>
+<li class="chapter" data-level="9.6" data-path="week-9.html"><a href="week-9.html#cumulative-probability-advanced"><i class="fa fa-check"></i><b>9.6</b> Cumulative Probability (Advanced)</a></li>
+<li class="chapter" data-level="9.7" data-path="week-9.html"><a href="week-9.html#revision-practice-rmd.-solutions"><i class="fa fa-check"></i><b>9.7</b> Revision Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="week-9.html"><a href="week-9.html#provide-descriptive-statistics-for-age-and-memory-score-variables"><i class="fa fa-check"></i><b>9.7.1</b> Provide descriptive statistics for age and memory score variables</a></li>
+<li class="chapter" data-level="9.7.2" data-path="week-9.html"><a href="week-9.html#descriptives-by-groups"><i class="fa fa-check"></i><b>9.7.2</b> Descriptives by groups</a></li>
+<li class="chapter" data-level="9.7.3" data-path="week-9.html"><a href="week-9.html#visualise"><i class="fa fa-check"></i><b>9.7.3</b> Visualise</a></li>
+<li class="chapter" data-level="9.7.4" data-path="week-9.html"><a href="week-9.html#visualise-a-subset"><i class="fa fa-check"></i><b>9.7.4</b> Visualise a subset</a></li>
+<li class="chapter" data-level="9.7.5" data-path="week-9.html"><a href="week-9.html#variable-by-a-group"><i class="fa fa-check"></i><b>9.7.5</b> Variable by a group</a></li>
+<li class="chapter" data-level="9.7.6" data-path="week-9.html"><a href="week-9.html#create-a-new-variable-using-mutate"><i class="fa fa-check"></i><b>9.7.6</b> Create a new variable using mutate()</a></li>
+<li class="chapter" data-level="9.7.7" data-path="week-9.html"><a href="week-9.html#subset-observations-using-filter"><i class="fa fa-check"></i><b>9.7.7</b> Subset observations using filter()</a></li>
+<li class="chapter" data-level="9.7.8" data-path="week-9.html"><a href="week-9.html#sort-via-arrange"><i class="fa fa-check"></i><b>9.7.8</b> Sort via arrange()</a></li>
+<li class="chapter" data-level="9.7.9" data-path="week-9.html"><a href="week-9.html#lets-do-some-specific-count-using-filter"><i class="fa fa-check"></i><b>9.7.9</b> Let’s do some specific count() using filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="week-9.html"><a href="week-9.html#extra-probability-practice"><i class="fa fa-check"></i><b>9.8</b> Extra Probability Practice</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="week-9.html"><a href="week-9.html#truefalse-questions"><i class="fa fa-check"></i><b>9.8.1</b> TRUE/FALSE questions</a></li>
+<li class="chapter" data-level="9.8.2" data-path="week-9.html"><a href="week-9.html#count-the-occurencies"><i class="fa fa-check"></i><b>9.8.2</b> Count the occurencies</a></li>
+<li class="chapter" data-level="9.8.3" data-path="week-9.html"><a href="week-9.html#plot"><i class="fa fa-check"></i><b>9.8.3</b> Plot</a></li>
+<li class="chapter" data-level="9.8.4" data-path="week-9.html"><a href="week-9.html#use-dbinom-to-study-the-probability"><i class="fa fa-check"></i><b>9.8.4</b> Use dbinom() to study the probability</a></li>
+<li class="chapter" data-level="9.8.5" data-path="week-9.html"><a href="week-9.html#less-than-five-or-more-than-five"><i class="fa fa-check"></i><b>9.8.5</b> Less than five or more than five?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-10-lab-test.html"><a href="week-10-lab-test.html"><i class="fa fa-check"></i><b>10</b> Week 10: Lab test</a></li>
+<li class="chapter" data-level="11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html"><i class="fa fa-check"></i><b>11</b> Sampling distributions</a><ul>
+<li class="chapter" data-level="11.1" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#recap"><i class="fa fa-check"></i><b>11.1</b> Recap</a></li>
+<li class="chapter" data-level="11.2" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#population-sample"><i class="fa fa-check"></i><b>11.2</b> Population vs sample</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#parameter-statistic"><i class="fa fa-check"></i><b>11.3</b> Population parameter vs sample statistic</a></li>
+<li class="chapter" data-level="11.4" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sec-sampling-distributions"><i class="fa fa-check"></i><b>11.4</b> Sampling distributions</a></li>
+<li class="chapter" data-level="11.5" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#standard-error"><i class="fa fa-check"></i><b>11.5</b> The standard error of a statistic</a></li>
+<li class="chapter" data-level="11.6" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sample-size-standard-error"><i class="fa fa-check"></i><b>11.6</b> The effect of sample size on the sampling distribution</a></li>
+<li class="chapter" data-level="11.7" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#take-home-message"><i class="fa fa-check"></i><b>11.7</b> Take-home message</a></li>
+<li class="chapter" data-level="11.8" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#lab-hollywood-movies"><i class="fa fa-check"></i><b>11.8</b> Lab: Hollywood movies</a></li>
+<li class="chapter" data-level="11.9" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#summary"><i class="fa fa-check"></i><b>11.9</b> Summary</a></li>
+<li class="chapter" data-level="11.10" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#glossary"><i class="fa fa-check"></i><b>11.10</b> Glossary</a></li>
+<li class="chapter" data-level="11.11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#references"><i class="fa fa-check"></i><b>11.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html"><i class="fa fa-check"></i><b>12</b> Bootstrapping and Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#recap-1"><i class="fa fa-check"></i><b>12.1</b> Recap</a></li>
+<li class="chapter" data-level="12.2" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#from-sampling-to-resampling"><i class="fa fa-check"></i><b>12.2</b> From Sampling to Resampling</a></li>
+<li class="chapter" data-level="12.3" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#getting-to-the-bootstrap-distribution"><i class="fa fa-check"></i><b>12.3</b> Getting to the bootstrap distribution</a></li>
+<li class="chapter" data-level="12.4" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#more-generally"><i class="fa fa-check"></i><b>12.4</b> More generally…</a></li>
+<li class="chapter" data-level="12.5" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#confidence-intervals"><i class="fa fa-check"></i><b>12.5</b> Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#calculating-confidence-intervals-using-a-bootstrap-standard-error"><i class="fa fa-check"></i><b>12.5.1</b> Calculating confidence intervals using a bootstrap standard error</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#summary-1"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+<li class="chapter" data-level="12.7" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#take-home-message-1"><i class="fa fa-check"></i><b>12.7</b> Take-home message</a></li>
+<li class="chapter" data-level="12.8" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#lab"><i class="fa fa-check"></i><b>12.8</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-1-hollywood-movies"><i class="fa fa-check"></i>Exercise 1: Hollywood Movies</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-2-nfl-players"><i class="fa fa-check"></i>Exercise 2: NFL Players</a></li>
+</ul></li>
+<li class="chapter" data-level="12.9" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#glossary-1"><i class="fa fa-check"></i><b>12.9</b> Glossary</a></li>
+<li class="chapter" data-level="12.10" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#references-1"><i class="fa fa-check"></i><b>12.10</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html"><i class="fa fa-check"></i><b>13</b> Testing hypotheses</a><ul>
+<li class="chapter" data-level="13.1" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#recap-2"><i class="fa fa-check"></i><b>13.1</b> Recap</a></li>
+<li class="chapter" data-level="13.2" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#walkthrough"><i class="fa fa-check"></i><b>13.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#extrasensory-perception-esp"><i class="fa fa-check"></i>Extrasensory perception (ESP)</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-esp-results"><i class="fa fa-check"></i>Example 1: ESP experimental results</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-in-class"><i class="fa fa-check"></i>Example 2: In-class activity</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-random-chance-model"><i class="fa fa-check"></i>The random chance model</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-alternative-explanation"><i class="fa fa-check"></i>The alternative explanation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-test"><i class="fa fa-check"></i>Statistical test</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#understanding-statistical-evidence"><i class="fa fa-check"></i>Understanding statistical evidence</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-hypotheses"><i class="fa fa-check"></i>Statistical hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-significance"><i class="fa fa-check"></i>Statistical significance</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-distribution"><i class="fa fa-check"></i>Null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#making-a-formal-decision"><i class="fa fa-check"></i>Making a formal decision</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#summary-2"><i class="fa fa-check"></i><b>13.3</b> Summary</a></li>
+<li class="chapter" data-level="13.4" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#lab-1"><i class="fa fa-check"></i><b>13.4</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#required-packages"><i class="fa fa-check"></i>Required packages</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#importing-the-data"><i class="fa fa-check"></i>Importing the data</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#data-inspection"><i class="fa fa-check"></i>Data inspection</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#sample-average-and-standard-deviation"><i class="fa fa-check"></i>Sample average and standard deviation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-and-alternative-hypothesis"><i class="fa fa-check"></i>Null and alternative hypothesis</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#bootstrap-distribution-and-null-distribution"><i class="fa fa-check"></i>Bootstrap distribution and null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#visualise-the-observed-statistic-on-the-null-distribution"><i class="fa fa-check"></i>Visualise the observed statistic on the null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value-2"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#interpreting-the-p-value"><i class="fa fa-check"></i>Interpreting the p-value</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#glossary-2"><i class="fa fa-check"></i><b>13.5</b> Glossary</a></li>
+<li class="chapter" data-level="13.6" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#references-2"><i class="fa fa-check"></i><b>13.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="chap-typeerror.html"><a href="chap-typeerror.html"><i class="fa fa-check"></i><b>14</b> Type I, Type II errors and Power</a><ul>
+<li class="chapter" data-level="14.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overview-of-last-week"><i class="fa fa-check"></i><b>14.1</b> Overview of last week</a></li>
+<li class="chapter" data-level="14.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#walkthrough-1"><i class="fa fa-check"></i><b>14.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-1-coin-flip"><i class="fa fa-check"></i>Example 1: Coin flip</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#an-analogy-in-law"><i class="fa fa-check"></i>An analogy in law</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#two-different-types-of-errors"><i class="fa fa-check"></i>Two different types of errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-i-errors"><i class="fa fa-check"></i>Type I errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors-and-power"><i class="fa fa-check"></i>Type II Errors and Power</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2-a-biased-coin"><i class="fa fa-check"></i>Example 2: A biased coin</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overlapping-distributions"><i class="fa fa-check"></i>Overlapping distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#summary-3"><i class="fa fa-check"></i><b>14.3</b> Summary</a></li>
+<li class="chapter" data-level="14.4" data-path="chap-typeerror.html"><a href="chap-typeerror.html#lab-2"><i class="fa fa-check"></i><b>14.4</b> Lab</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-rock-paper-scissors"><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Rock Paper Scissors!</a></li>
+<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Calculating power for a different coin.</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="chap-typeerror.html"><a href="chap-typeerror.html#extra-exercises"><i class="fa fa-check"></i><b>14.5</b> Extra Exercises</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-3-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.5.1</b> Exercise 3: Sample size (number of flips) and power</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="chap-typeerror.html"><a href="chap-typeerror.html#glossary-3"><i class="fa fa-check"></i><b>14.6</b> Glossary</a></li>
+<li class="chapter" data-level="14.7" data-path="chap-typeerror.html"><a href="chap-typeerror.html#references-3"><i class="fa fa-check"></i><b>14.7</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="chap-normal.html"><a href="chap-normal.html"><i class="fa fa-check"></i><b>15</b> Normal distribution &amp; probability</a><ul>
+<li class="chapter" data-level="15.1" data-path="chap-normal.html"><a href="chap-normal.html#recap-3"><i class="fa fa-check"></i><b>15.1</b> Recap</a></li>
+<li class="chapter" data-level="15.2" data-path="chap-normal.html"><a href="chap-normal.html#walkthrough-2"><i class="fa fa-check"></i><b>15.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="chap-normal.html"><a href="chap-normal.html#from-histograms-to-normal-curves"><i class="fa fa-check"></i><b>15.2.1</b> From histograms to normal curves</a></li>
+<li class="chapter" data-level="15.2.2" data-path="chap-normal.html"><a href="chap-normal.html#sec-area-and-prob"><i class="fa fa-check"></i><b>15.2.2</b> The relation between area and probability</a></li>
+<li class="chapter" data-level="15.2.3" data-path="chap-normal.html"><a href="chap-normal.html#probabilities-for-normally-distributed-random-variables"><i class="fa fa-check"></i><b>15.2.3</b> Probabilities for normally distributed random variables</a></li>
+<li class="chapter" data-level="15.2.4" data-path="chap-normal.html"><a href="chap-normal.html#z-scores"><i class="fa fa-check"></i><b>15.2.4</b> Z-scores</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="chap-normal.html"><a href="chap-normal.html#summary-4"><i class="fa fa-check"></i><b>15.3</b> Summary</a></li>
+<li class="chapter" data-level="15.4" data-path="chap-normal.html"><a href="chap-normal.html#lab-3"><i class="fa fa-check"></i><b>15.4</b> Lab</a></li>
+<li class="chapter" data-level="15.5" data-path="chap-normal.html"><a href="chap-normal.html#glossary-4"><i class="fa fa-check"></i><b>15.5</b> Glossary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html"><i class="fa fa-check"></i><b>16</b> One Sample Mean Test</a><ul>
+<li class="chapter" data-level="16.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#recap-4"><i class="fa fa-check"></i><b>16.1</b> Recap</a></li>
+<li class="chapter" data-level="16.2" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#where-we-are-now"><i class="fa fa-check"></i><b>16.2</b> Where we are now</a></li>
+<li class="chapter" data-level="16.3" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#where-we-are-going"><i class="fa fa-check"></i><b>16.3</b> Where we are going</a></li>
+<li class="chapter" data-level="16.4" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#one-sample-mean-test"><i class="fa fa-check"></i><b>16.4</b> One sample mean test</a><ul>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#example-questions"><i class="fa fa-check"></i>Example questions</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#hypotheses"><i class="fa fa-check"></i>Hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#formula"><i class="fa fa-check"></i>Formula</a></li>
+<li><a href="chap-one-mean-test.html#t-distributions"><span class="math inline">\(t\)</span>-distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#critical-values-significance"><i class="fa fa-check"></i>Critical values &amp; significance</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#walkthrough---tempo-of-rock-music-on-spotify"><i class="fa fa-check"></i><b>16.5</b> Walkthrough - Tempo of rock music on Spotify</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#all-in-one-line-of-code"><i class="fa fa-check"></i>ALL IN ONE LINE OF CODE!</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#assumptions"><i class="fa fa-check"></i>Assumptions</a></li>
+<li class="chapter" data-level="16.6" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#summary-5"><i class="fa fa-check"></i><b>16.6</b> Summary</a></li>
+<li class="chapter" data-level="16.7" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#lab-4"><i class="fa fa-check"></i><b>16.7</b> Lab</a><ul>
+<li class="chapter" data-level="16.7.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#pets-weights"><i class="fa fa-check"></i><b>16.7.1</b> Pets’ weights</a></li>
+<li class="chapter" data-level="16.7.2" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#procrastination-scores"><i class="fa fa-check"></i><b>16.7.2</b> Procrastination scores</a></li>
+<li class="chapter" data-level="16.7.3" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#cat-weights"><i class="fa fa-check"></i><b>16.7.3</b> Cat weights!</a></li>
+<li class="chapter" data-level="16.7.4" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#glossary-5"><i class="fa fa-check"></i><b>16.7.4</b> Glossary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="two-indep-samples.html"><a href="two-indep-samples.html"><i class="fa fa-check"></i><b>17</b> Comparing two means (independent samples)</a><ul>
+<li class="chapter" data-level="17.1" data-path="two-indep-samples.html"><a href="two-indep-samples.html#recap-5"><i class="fa fa-check"></i><b>17.1</b> Recap</a></li>
+<li class="chapter" data-level="17.2" data-path="two-indep-samples.html"><a href="two-indep-samples.html#key-terminology"><i class="fa fa-check"></i><b>17.2</b> Key terminology</a></li>
+<li class="chapter" data-level="17.3" data-path="two-indep-samples.html"><a href="two-indep-samples.html#walkthrough-got-a-friend"><i class="fa fa-check"></i><b>17.3</b> Walkthrough: Got a friend?</a></li>
+<li class="chapter" data-level="17.4" data-path="two-indep-samples.html"><a href="two-indep-samples.html#lab-does-name-increase-tips"><i class="fa fa-check"></i><b>17.4</b> Lab: Does name increase tips?</a></li>
+<li class="chapter" data-level="17.5" data-path="two-indep-samples.html"><a href="two-indep-samples.html#glossary-6"><i class="fa fa-check"></i><b>17.5</b> Glossary</a></li>
+<li class="chapter" data-level="17.6" data-path="two-indep-samples.html"><a href="two-indep-samples.html#w17-references"><i class="fa fa-check"></i><b>17.6</b> References</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology in R (dapR1) - Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="two-indep-samples" class="section level1">
+<h1><span class="header-section-number">Chapter 17</span> Comparing two means (independent samples)</h1>
+<div class="lo">
+<h4 id="instructions-6" class="unnumbered">Instructions</h4>
+<ul>
+<li>In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.</li>
+<li>The Rmarkdown file for this week is <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_17_practice.Rmd">here</a>.</li>
+</ul>
+<h4 id="learning-outcomes-6" class="unnumbered">Learning outcomes</h4>
+<p><strong>LO1.</strong> Understand how to perform a two-sample <span class="math inline">\(t\)</span>-test and interpret the results.</p>
+<p><strong>LO2.</strong> Understand how to calculate a two-sample <span class="math inline">\(t\)</span>-interval and interpret the results.</p>
+<p><strong>LO3.</strong> Being able to check the assumptions of <span class="math inline">\(t\)</span>-procedures.</p>
+</div>
+<div id="recap-5" class="section level2">
+<h2><span class="header-section-number">17.1</span> Recap</h2>
+<p>Last week you explored how to draw conclusions about population parameters on the basis of sample statistics.
+In particular, given a random sample of size <span class="math inline">\(n\)</span> from a population, you tested if the population mean was equal to some hypothesized value.</p>
+Let the sample mean be <span class="math inline">\(\bar{x}\)</span>. We test if the sample was taken from a population with mean <span class="math inline">\(\mu_0\)</span> by comparing the observed <span class="math inline">\(t\)</span>-statistic
+<center>
+<span class="math display">\[
+t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}
+\]</span>
+</center>
+<p>with:</p>
+<ul>
+<li><strong>for one-sided hypotheses</strong>, the critical value of level <span class="math inline">\(\alpha\)</span> from a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-1\)</span> degrees of freedom
+<center>
+<span class="math display">\[
+t^*_\textrm{df} = \texttt{qt(p = 1 - alpha, df = n - 1)}
+\]</span>
+</center></li>
+<li><strong>for two-sided hypotheses</strong>, the critical value of level <span class="math inline">\(\frac{\alpha}{2}\)</span> from a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-1\)</span> degrees of freedom
+<center>
+<span class="math display">\[
+t^*_\textrm{df} = \texttt{qt(p = 1 - alpha/2, df = n - 1)}
+\]</span>
+</center></li>
+</ul>
+<p>We reject the null hypothesis if the observed <span class="math inline">\(t\)</span>-statistic is, <strong>in absolute value</strong>, as extreme or more extreme than the critical value:</p>
+<center>
+<strong>Reject <span class="math inline">\(H_0\)</span> if</strong> <span class="math inline">\(|t| \geq t^*_\textrm{df}\)</span>
+</center>
+<p><br></p>
+<p>The above procedure applies when testing a single parameter (a proportion or a mean) from a single population.</p>
+<p>Today you will explore and apply inference procedures for comparing parameters between two populations or treatment groups.</p>
+</div>
+<div id="key-terminology" class="section level2">
+<h2><span class="header-section-number">17.2</span> Key terminology</h2>
+<div class="def">
+<h4 id="units-and-variables" class="unnumbered">Units and variables</h4>
+<p>The individual entities on which data are collected are called <strong>observational units</strong> or <strong>cases</strong>.</p>
+<p>The number of observational units in the study is known as the <strong>sample size</strong>, and is typically denoted by <span class="math inline">\(n\)</span>.</p>
+<p>A <strong>variable</strong> is any characteristic that varies from observational unit to observational unit.</p>
+<h4 id="categorical-and-quantitative-variables" class="unnumbered">Categorical and quantitative variables</h4>
+<p>Variables are either <strong>categorical</strong> or <strong>quantitative</strong>:</p>
+<ul>
+<li><p>A <strong>categorical variable</strong> divides the units into groups, placing each unit into exactly one of two or more categories.
+<em>Technology tip: In R, a categorical variable should be a <code>factor</code>.</em></p></li>
+<li><p>A <strong>quantitative variable</strong> measures a numerical quantity for each case.
+Numerical operations like adding and averaging make sense only for quantitative variables.</p></li>
+</ul>
+<p>A special kind of categorical variable is a <strong>binary variable</strong>, for which only two possible categories exist.</p>
+<p><em>Note: One simple way to distinguish between categorical and quantitative variables is to ask yourself if it makes sense to take an average of the values.</em></p>
+<h4 id="explanatory-and-response-variables" class="unnumbered">Explanatory and response variables</h4>
+<p>If we are using one variable to help us understand or predict values of another variable, we call the former the <strong>explanatory variable</strong> and the latter the <strong>response variable</strong>.</p>
+<div style="margin-left: 2em;">
+<p><em><strong>Other names</strong></em></p>
+<ul>
+<li><em>explanatory variable = independent variable = predictor variable</em><br />
+</li>
+<li><em>response variable = dependent variable = outcome variable</em></li>
+</ul>
+</div>
+<h4 id="observational-studies-vs-randomized-experiments" class="unnumbered">Observational studies vs randomized experiments</h4>
+<p>An <strong>observational study</strong> is a study in which the researcher does not manipulate the value of any variable, but simply observes the values as they naturally exist.</p>
+<p>A <strong>randomized experiment</strong> is a study in which the researcher determines <strong>at random</strong> the explanatory variable for each unit, before the response variable is measured.</p>
+<!-- #### Long vs wide data format {-} -->
+<!-- Data are in **long** format if each column represents a different variable (e.g., year, sex or assigned task). -->
+<!-- Data are in **wide** format if each column represents a different group (e.g., task 1 and task 2). -->
+</div>
+</div>
+<div id="walkthrough-got-a-friend" class="section level2">
+<h2><span class="header-section-number">17.3</span> Walkthrough: Got a friend?</h2>
+<p>In today’s in-class activity we will use data from the General Social Survey conducted in the US in 2004.
+One of the questions asked to a random sample of adult Americans in the 2004 General Social Survey (GSS) was:</p>
+<blockquote>
+<p>“From time to time, most people discuss important matters with other people. Looking back over the last six months — who are the people with whom you discussed matters important to you? Just tell me their first names or initials.”</p>
+</blockquote>
+<p>The interviewer was asked to record how many names were mentioned, along with the person’s sex. For more details, see the <a href="https://gssdataexplorer.norc.org/variables/848/vshow">GSS webpage</a>.</p>
+<p><br>
+<font size="2">
+<em><strong>Note</strong>: This survey was conducted in the US in the year 2004, at which point US officials recorded sex on a binary scale. We are merely analysing the data that were collected in that survey as it is an extensive and open-source dataset. The fact that we are presenting this study as an in-class example is not an endorsement to the view that gender is a binary variable, but reflects the fact that in that survey it was recorded either as male or female.</em>
+</font>
+<br><br></p>
+<ul>
+<li>How many names would you mention if you had to answer this question?</li>
+<li>How do you expect the responses to differ between men and women?</li>
+<li>Do you expect women to mention more names than men, or vice-versa, or perhaps the number of names to be similar between men and women?</li>
+</ul>
+<p>In today’s walkthrough, we will explore whether men and women differ with regard to the number of names they tend to mention when answering this question.
+For simplicity, we will refer to the people with whom you talk about important personal matters as “close friends”.</p>
+<p>The survey data are stored in the file <a href="https://raw.githubusercontent.com/UoE-Psychology/uoe_psystats/master/dapr1/dapr1book/data/close_friends.txt"><code>close_friends.txt</code></a>.</p>
+<p>Before learning a new test procedure to assess a potential difference in the centre of a quantitative variable between two independent groups, it is good practice to display, explore and summarise the data.</p>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.1
+</p>
+<div class="question-body">
+<p>Identify the observational units in this study.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-92" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-92&#39;, &#39;sol-start-92&#39;)"></span>
+</p>
+<div id="sol-body-92" class="solution-body" style="display: none;">
+<p>The observational units are the sampled adult Americans taking part in the 2004 General Social Survey (GSS).</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.2
+</p>
+<div class="question-body">
+<ul>
+<li>Identify the recorded variables in this study.</li>
+<li>Classify each variable either as categorical (also binary) or quantitative.</li>
+<li>Identify each variable’s role: explanatory or response.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable’s name</th>
+<th align="left">Type</th>
+<th align="left">Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">?</td>
+<td align="left">?</td>
+<td align="left">?</td>
+</tr>
+<tr class="even">
+<td align="left">?</td>
+<td align="left">?</td>
+<td align="left">?</td>
+</tr>
+</tbody>
+</table>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-93" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-93&#39;, &#39;sol-start-93&#39;)"></span>
+</p>
+<div id="sol-body-93" class="solution-body" style="display: none;">
+<p>The recorded variables are the sex of the participant and the number of names given by the participant.
+The former is categorical and binary, while the latter is a numerical value that varies from participant to participant.
+We are interested in how the number of mentioned names tends to vary with the sex of the participant.
+For this reason, sex is the explanatory variable, while number of close friends in the response variable.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable’s name</th>
+<th align="left">Type</th>
+<th align="left">Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Sex</td>
+<td align="left">Categorical and binary</td>
+<td align="left">Explanatory</td>
+</tr>
+<tr class="even">
+<td align="left">Number of close friends</td>
+<td align="left">Quantitative</td>
+<td align="left">Response</td>
+</tr>
+</tbody>
+</table>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.3
+</p>
+<div class="question-body">
+<p>Did the study make use of random assignment, random sampling, both or neither?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-94" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-94&#39;, &#39;sol-start-94&#39;)"></span>
+</p>
+<div id="sol-body-94" class="solution-body" style="display: none;">
+<p>This study only involved random sampling of the observational units from the population of adult Americans in 2004.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.4
+</p>
+<div class="question-body">
+<p>Is this an observational study or an experiment? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-95" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-95&#39;, &#39;sol-start-95&#39;)"></span>
+</p>
+<div id="sol-body-95" class="solution-body" style="display: none;">
+<p>This is an observational study as the researchers limited themselves to record the values that naturally occur.
+The researchers did not perform any manipulation of the variables, such as random assignment of observational units to groups. If this were the case, we would be analysing data from a randomised experiment.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.5
+</p>
+<div class="question-body">
+<p>State, in words, the null and alternative hypotheses to test whether the sample data provide evidence that American males and females tend to differ with regard to the average number of close friends they mention.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-96" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-96&#39;, &#39;sol-start-96&#39;)"></span>
+</p>
+<div id="sol-body-96" class="solution-body" style="display: none;">
+<p>The null hypothesis is that the population mean number of close friends is the same for adult American males as for females.
+In other words, the null hypothesis states that there is no difference in the population mean number of close friends between males and females.</p>
+<p>The alternative hypothesis is that the population mean number of close friends is not the same for males as for females.
+In other words, the alternative hypothesis states that there is a difference in the population mean number of close friends between males and females.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.6
+</p>
+<div class="question-body">
+<p>Define the parameters of interest in this study, and identify appropriate symbols for them.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-97" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-97&#39;, &#39;sol-start-97&#39;)"></span>
+</p>
+<div id="sol-body-97" class="solution-body" style="display: none;">
+<ul>
+<li><span class="math inline">\(\mu_f\)</span>: population mean number of close friends mentioned by adult American females</li>
+<li><span class="math inline">\(\mu_m\)</span>: population mean number of close friends mentioned by adult American males</li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.7
+</p>
+<div class="question-body">
+<p>State the null and alternative hypotheses in symbols.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-98" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-98&#39;, &#39;sol-start-98&#39;)"></span>
+</p>
+<div id="sol-body-98" class="solution-body" style="display: none;">
+<p><span class="math display">\[
+H_0 : \mu_f = \mu_m      \qquad \textrm{OR} \qquad     H_0 : \mu_f - \mu_m = 0\\
+H_1 : \mu_f \neq \mu_m   \qquad \textrm{OR} \qquad     H_1 : \mu_f - \mu_m \neq 0
+\]</span></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.8
+</p>
+<div class="question-body">
+<p>Explain why the one-sample <span class="math inline">\(t\)</span>-test is not appropriate to answer the research question of this study.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-99" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-99&#39;, &#39;sol-start-99&#39;)"></span>
+</p>
+<div id="sol-body-99" class="solution-body" style="display: none;">
+<p>The one-sample <span class="math inline">\(t\)</span>-test introduced in <a href="chap-one-mean-test.html#chap-one-mean-test">Week 16</a> tests if the population that the observed sample came from has a hypothesized mean.
+Here, instead, we want to compare the means of two populations (or, if it were a randomized experiment, between two treatment groups).</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.9
+</p>
+<div class="question-body">
+<p>Load the data into R and inspect it.</p>
+<p>Pay particular attention to:</p>
+<ul>
+<li>the variable names;</li>
+<li>the dimensions of the tibble;</li>
+<li>the format of the data (i.e., make sure that variables are correctly encoded).</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-100" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-100&#39;, &#39;sol-start-100&#39;)"></span>
+</p>
+<div id="sol-body-100" class="solution-body" style="display: none;">
+<p>Load the data:</p>
+<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb789-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb789-2" title="2"></a>
+<a class="sourceLine" id="cb789-3" title="3">gss &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2vQrCBi&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Inspect the names of the variables and the first six rows:</p>
+<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb790-1" title="1"><span class="kw">head</span>(gss)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 2
+##   Sex   NumberCloseFriends
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 male                   3
+## 2 male                   0
+## 3 male                   0
+## 4 male                   0
+## 5 male                   2
+## 6 male                   2</code></pre>
+<p>Check the number of observational units and variables:</p>
+<div class="sourceCode" id="cb792"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb792-1" title="1"><span class="kw">dim</span>(gss)</a></code></pre></div>
+<pre><code>## [1] 1467    2</code></pre>
+<p>The tibble says that Sex is of class <code>chr</code> (character). As Sex is a categorical variable, we will encode it as a factor:</p>
+<div class="sourceCode" id="cb794"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb794-1" title="1">gss &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb794-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Sex =</span> <span class="kw">factor</span>(Sex))</a>
+<a class="sourceLine" id="cb794-3" title="3"></a>
+<a class="sourceLine" id="cb794-4" title="4"><span class="co"># check encoding</span></a>
+<a class="sourceLine" id="cb794-5" title="5"><span class="kw">head</span>(gss)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 2
+##   Sex   NumberCloseFriends
+##   &lt;fct&gt;              &lt;dbl&gt;
+## 1 male                   3
+## 2 male                   0
+## 3 male                   0
+## 4 male                   0
+## 5 male                   2
+## 6 male                   2</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<!-- <div class="def"> -->
+<!-- #### Long vs wide format {-} -->
+<!-- Data are in **long** format if each column represents a different variable (e.g., year, sex or assigned task) and they are in **wide** format if each column represents a different group (e.g., task 1 and task 2). -->
+<!-- </div> -->
+<!-- 
+
+<div class = 'question' id=''><p class='question-begin'>&#x25BA; Question</p><div class='question-body'>
+
+ -->
+<!-- Are the data in wide or long format? -->
+<!-- 
+
+<p class="question-end"><span class="fa fa-square-o solution-icon"></span></p></div></div>
+
+ -->
+<!-- We will now convert the data from wide to long format. -->
+<!-- The relevant function is: -->
+<!-- ``` -->
+<!-- pivot_longer(DATA NAME,  -->
+<!--              GROUP COLUMNS,  -->
+<!--              names_to = "NAME OF COLUMN REPRESENTING GROUPS",  -->
+<!--              values_to = "NAME OF VALUES COLUMN") -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- gss_data <- pivot_longer(gss,  -->
+<!--                          1:2, -->
+<!--                          names_to = 'sex', -->
+<!--                          values_to = 'number_close_friends') -->
+<!-- head(gss_data) -->
+<!-- gss_data <- gss_data %>% -->
+<!--   mutate(sex = str_replace(sex, 'CloseFriendsMen', 'male'), -->
+<!--          sex = str_replace(sex, 'CloseFriendsWomen', 'female')) -->
+<!-- head(gss_data) -->
+<!-- ``` -->
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.10
+</p>
+<div class="question-body">
+<p>Summarise the survey responses by showing the counts of the number of close friends by sex.</p>
+<p>Try sketching by hand histograms showing, for each sex, the frequency of each reported number of close friends.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-101" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-101&#39;, &#39;sol-start-101&#39;)"></span>
+</p>
+<div id="sol-body-101" class="solution-body" style="display: none;">
+<p>Create a two-way frequency table of the participants’ responses by sex:</p>
+<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb796-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>NumberCloseFriends, <span class="dt">data =</span> gss)</a>
+<a class="sourceLine" id="cb796-2" title="2">tally</a></code></pre></div>
+<pre><code>##         NumberCloseFriends
+## Sex        0   1   2   3   4   5   6
+##   female 201 146 155 132  86  56  37
+##   male   196 135 108 100  42  40  33</code></pre>
+<p>Add the totals for each sex:</p>
+<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb798-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">addmargins</span>(tally, <span class="dt">margin =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb798-2" title="2">tally</a></code></pre></div>
+<pre><code>##         NumberCloseFriends
+## Sex        0   1   2   3   4   5   6 Sum
+##   female 201 146 155 132  86  56  37 813
+##   male   196 135 108 100  42  40  33 654</code></pre>
+<p>Here, <code>margin = 1</code> calculates the totals over the rows, while <code>margin = 2</code> calculates the totals over the columns.</p>
+<p>The sketch should look something like this:
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-494-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.11
+</p>
+<div class="question-body">
+<p>Report a table of descriptive summaries by sex.</p>
+<p>Include the sample size, mean, SD, minimum, lower quartile, median, upper quartile, and maximum for each sex.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class = "solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-102" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-102&#39;, &#39;sol-start-102&#39;)"></span>
+</p>
+<div class="solution-body" id = "sol-body-102" style="display: none;">
+
+
+<p>When comparing a quantitative response variable between two independent groups, encoded in a categorical variable, we could report:</p>
+<ul>
+<li>sample size</li>
+<li>mean</li>
+<li>SD</li>
+<li>minimum</li>
+<li>lower quartile</li>
+<li>median</li>
+<li>upper quartile</li>
+<li>maximum</li>
+</ul>
+<p>The <strong>median</strong> is the value such that 50% of the data lies below and 50% of the data lies above that value.
+The median cuts the data into two parts: the part to the left of the median and part to the right of the median.</p>
+<p>The median of left part is known as the <strong>lower quartile</strong>, and represents the value for which 25% of the data lie below that value.</p>
+<p>The median of right part is known as the <strong>upper quartile</strong>, and represents the value for which 25% of the data lie above that value.</p>
+<p>The <strong>interquartile range</strong> (IQR) is simply the difference between the upper quartile and the lower quartile, and represents the width of the interval containing the middle 50% of all observations.</p>
+<p>The minimum, lower quartile, median, upper quartile, and maximum jointly form the so-called <strong>five-number summary</strong> of the distribution of a quantitative variable.</p>
+<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb800-1" title="1">descr_stats &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb800-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Sex) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb800-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb800-4" title="4">    <span class="dt">SampleSize =</span> <span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb800-5" title="5">    <span class="dt">Mean =</span> <span class="kw">mean</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb800-6" title="6">    <span class="dt">SD =</span> <span class="kw">sd</span>(NumberCloseFriends), </a>
+<a class="sourceLine" id="cb800-7" title="7">    <span class="dt">Minimum =</span> <span class="kw">min</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb800-8" title="8">    <span class="dt">LowerQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb800-9" title="9">    <span class="dt">Median =</span> <span class="kw">median</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb800-10" title="10">    <span class="dt">UpperQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb800-11" title="11">    <span class="dt">Maximum =</span> <span class="kw">max</span>(NumberCloseFriends)</a>
+<a class="sourceLine" id="cb800-12" title="12">  )</a>
+<a class="sourceLine" id="cb800-13" title="13">descr_stats</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 9
+##   Sex    SampleSize  Mean    SD Minimum LowerQuartile Median UpperQuartile Maximum
+##   &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;
+## 1 female        813  2.09  1.76       0             1      2             3       6
+## 2 male          654  1.86  1.78       0             0      1             3       6</code></pre>
+<p>You can use the function <code>kable</code> to format the above tibble as a nice HTML table:</p>
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Sex
+</th>
+<th style="text-align:right;">
+SampleSize
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+SD
+</th>
+<th style="text-align:right;">
+Minimum
+</th>
+<th style="text-align:right;">
+LowerQuartile
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+UpperQuartile
+</th>
+<th style="text-align:right;">
+Maximum
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+813
+</td>
+<td style="text-align:right;">
+2.09
+</td>
+<td style="text-align:right;">
+1.76
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:right;">
+654
+</td>
+<td style="text-align:right;">
+1.86
+</td>
+<td style="text-align:right;">
+1.78
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+</table>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.12
+</p>
+<div class="question-body">
+<p>Are the descriptive summaries from the previous question parameters or statistics? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-103" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-103&#39;, &#39;sol-start-103&#39;)"></span>
+</p>
+<div id="sol-body-103" class="solution-body" style="display: none;">
+<p>The values in the above table are statistics. They are numerical summaries computed on observational units which represent a random sample from the population of adult Americans in 2004.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.13
+</p>
+<div class="question-body">
+<p>Produce a visual display of the five-number summaries by sex.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-104" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-104&#39;, &#39;sol-start-104&#39;)"></span>
+</p>
+<div id="sol-body-104" class="solution-body" style="display: none;">
+<p>A visual display of the five-number summary is called a <strong>boxplot</strong>. This is typically a very good visualisation when your data involve a quantitative response variable and a categorical explanatory variable.</p>
+<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb802-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> Sex, <span class="dt">y =</span> NumberCloseFriends)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb802-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">color =</span> <span class="st">&#39;darkorange&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb802-3" title="3"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb802-4" title="4"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-497-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.14
+</p>
+<div class="question-body">
+<p>Visualise the distribution of the number of close friends by sex.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-105" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-105&#39;, &#39;sol-start-105&#39;)"></span>
+</p>
+<div id="sol-body-105" class="solution-body" style="display: none;">
+<p>Separate plots:</p>
+<div class="sourceCode" id="cb803"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb803-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb803-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb803-3" title="3"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(Sex))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-498-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Unique plot:</p>
+<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb804-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb804-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">position =</span> <span class="st">&#39;dodge&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-499-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<!-- Proportions: -->
+<!-- ```{r} -->
+<!-- ggplot(gss, aes(x = NumberCloseFriends, fill = Sex)) + -->
+<!--   geom_histogram(binwidth = 1, color = 'white', position = 'fill') + -->
+<!--   labs(y = 'proportion') -->
+<!-- ``` -->
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.15
+</p>
+<div class="question-body">
+<p>Comment on what the histograms reveal about the shapes of the distributions.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-106" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-106&#39;, &#39;sol-start-106&#39;)"></span>
+</p>
+<div id="sol-body-106" class="solution-body" style="display: none;">
+<p>The distribution of number of close friends for both males and females appears to be skewed to the right.</p>
+<p>The variability in the number of close friends seems to be similar across males and females.</p>
+<p>The sample mean number of close friends seems to be slightly higher for females than males.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.16
+</p>
+<div class="question-body">
+<p>Report the sample mean and sample standard deviation of the number of close friends for each sex using appropriate symbols.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-107" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-107&#39;, &#39;sol-start-107&#39;)"></span>
+</p>
+<div id="sol-body-107" class="solution-body" style="display: none;">
+<p>The sample mean number of close friends for females is <span class="math inline">\(\bar{x}_f\)</span> = 2.09, with standard deviation <span class="math inline">\(s_f\)</span> = 1.76 friends.</p>
+<p>For males, the sample mean number of close friends is <span class="math inline">\(\bar{x}_m\)</span> = 1.86, with standard deviation <span class="math inline">\(s_m\)</span> = 1.78 friends.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.17
+</p>
+<div class="question-body">
+<p>Compute the difference in the sample mean number of close friends between females and males.</p>
+<p>Do you think it could be possible to obtain sample means this far apart even if the population means were actually equal? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-108" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-108&#39;, &#39;sol-start-108&#39;)"></span>
+</p>
+<div id="sol-body-108" class="solution-body" style="display: none;">
+<p>The difference in sample means is <span class="math inline">\(\bar{x}_f - \bar{x}_m\)</span> = 0.23.</p>
+<p>Due to sampling variability, we can not conclude that, because the sample means differ, the means of the two populations must differ too.</p>
+<p>We must resort to a principled framework to test this, and we have already learned to use statistical hypothesis testing in order to assess if sample results (in our case, the observed difference in sample mean number of close friends) are significant in the sense of being unlikely to have occurred by chance (from random sampling) alone.</p>
+<p><strong>Estimating the magnitude of the difference in population means.</strong></p>
+<p>How can we estimate the magnitude of the difference in population means? By using a confidence interval for the difference in means!</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="red">
+<h4 id="comparing-the-means-of-two-independent-groups" class="unnumbered">Comparing the means of two independent groups</h4>
+<p>Suppose you wish to test for the significance of the difference between two population means denoted <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> and, if the difference is significant, you wish to quantify the magnitude of the difference using a confidence interval.</p>
+<h5 id="test-of-significance" class="unnumbered">Test of significance</h5>
+<p><em>Null hypothesis:</em></p>
+<p><span class="math inline">\(H_0: \mu_1 = \mu_2\)</span> <span class="math inline">\(\quad\)</span> or <span class="math inline">\(\quad\)</span> <span class="math inline">\(H_0: \mu_1 - \mu_2 = 0\)</span></p>
+<p><em>Alternative hypothesis:</em></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="math inline">\(H_1: \mu_1 &lt; \mu_2\)</span> <span class="math inline">\(\quad\)</span> or <span class="math inline">\(\quad\)</span> <span class="math inline">\(H_1: \mu_1 - \mu_2 &lt; 0\)</span></li>
+<li><span class="math inline">\(H_1: \mu_1 &gt; \mu_2\)</span> <span class="math inline">\(\quad\)</span> or <span class="math inline">\(\quad\)</span> <span class="math inline">\(H_1: \mu_1 - \mu_2 &gt; 0\)</span></li>
+<li><span class="math inline">\(H_1: \mu_1 \neq \mu_2\)</span> <span class="math inline">\(\quad\)</span> or <span class="math inline">\(\quad\)</span> <span class="math inline">\(H_1: \mu_1 - \mu_2 \neq 0\)</span></li>
+</ol>
+<em>Test statistic:</em>
+<center>
+<span class="math display">\[
+t = \frac{\bar x_1 - \bar x_2}{SE(\bar x_1 - \bar x_2)}
+\]</span>
+</center>
+<p><em><span class="math inline">\(p\)</span>-value:</em></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="math inline">\(\mathrm{Pr}(T_\textrm{df} \leq t)\)</span></li>
+<li><span class="math inline">\(\mathrm{Pr}(T_\textrm{df} \geq t)\)</span></li>
+<li><span class="math inline">\(2 \times \mathrm{Pr}(T_\textrm{df} \geq |t|)\)</span></li>
+</ol>
+<p>where <span class="math inline">\(T_\textrm{df}\)</span> denotes a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(\textrm{df}\)</span> degrees of freedom.</p>
+<p><em>SE and df:</em></p>
+<ol style="list-style-type: decimal">
+<li>Population variances unknown and <em>not equal</em>:</li>
+</ol>
+<ul>
+<li>Very difficult degrees of freedom, let the R function <code>t.test</code> calculate them. If you have to do calculations by hand, you could use an approximation given by <span class="math inline">\(\textrm{df} = \min(n_1 - 1, n_2 - 1)\)</span></li>
+<li>Standard error of the difference in means
+<center>
+<span class="math display">\[
+SE(\bar x_1 - \bar x_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
+\]</span>
+</center></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Population variances unknown and <em>equal</em>:</li>
+</ol>
+<ul>
+<li>Degrees of freedom <span class="math inline">\(\textrm{df} = (n_1 - 1) + (n_2 - 1) = n_1 + n_2 - 2\)</span></li>
+<li>Standard error of the difference in means
+<center>
+<span class="math display">\[
+SE(\bar x_1 - \bar x_2) = s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \\ 
+s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
+\]</span>
+</center></li>
+</ul>
+<h5 id="confidence-interval-for-mu_1---mu_2" class="unnumbered">Confidence interval for <span class="math inline">\(\mu_1 - \mu_2\)</span></h5>
+<center>
+<span class="math display">\[
+(\bar x_1 - \bar x_2) \pm t^*_\textrm{df} \times SE(\bar x_1 - \bar x_2)
+\]</span>
+</center>
+<p>where <span class="math inline">\(t^*_\textrm{df}\)</span> denotes the critical value corresponding to a desired <span class="math inline">\(\alpha\)</span> level for a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(\textrm{df}\)</span> degrees of freedom.</p>
+<h5 id="validity-conditions-assumptions" class="unnumbered">Validity conditions (assumptions)</h5>
+<p>These above procedures are considered valid if:</p>
+<ul>
+<li>The sample data arise from independent random samples from two populations OR from random assignment of the units to treatment groups.</li>
+<li>Either the quantitative variable of interest is normally distributed in both populations OR both sample sizes are large (as a convention, <span class="math inline">\(n_1 \geq 20\)</span> and <span class="math inline">\(n_2 \geq 20\)</span>) and the sample distributions should not be strongly skewed.</li>
+</ul>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.18
+</p>
+<div class="question-body">
+<p>Use the summary statistics computed in Question A.11 to calculate the value of the <span class="math inline">\(t\)</span>-statistic for testing the hypotheses stated in Question A.7.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-109" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-109&#39;, &#39;sol-start-109&#39;)"></span>
+</p>
+<div id="sol-body-109" class="solution-body" style="display: none;">
+<p>Let’s extract the relevant statistics from the table of descriptive summaries:</p>
+<div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb805-1" title="1">n_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
+<a class="sourceLine" id="cb805-2" title="2">n_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
+<a class="sourceLine" id="cb805-3" title="3"></a>
+<a class="sourceLine" id="cb805-4" title="4">xbar_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
+<a class="sourceLine" id="cb805-5" title="5">xbar_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
+<a class="sourceLine" id="cb805-6" title="6"></a>
+<a class="sourceLine" id="cb805-7" title="7">s_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a>
+<a class="sourceLine" id="cb805-8" title="8">s_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a></code></pre></div>
+<p><strong>Step 1.</strong> Can the population variances be assumed equal? Test the following hypotheses:</p>
+<p><span class="math display">\[
+H_0 : \sigma_f^2 = \sigma_m^2 \\
+H_1 : \sigma_f^2 \neq \sigma_m^2
+\]</span></p>
+<p>or, equivalently,
+<span class="math display">\[
+H_0 : \frac{\sigma_f^2}{\sigma_m^2} = 1 \\
+H_1 : \frac{\sigma_f^2}{\sigma_m^2} \neq 1
+\]</span></p>
+<p>Use the F-test to test for equality of the population variances:</p>
+<div class="sourceCode" id="cb806"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb806-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<pre><code>## 
+##  F test to compare two variances
+## 
+## data:  NumberCloseFriends by Sex
+## F = 0.98094, num df = 812, denom df = 653, p-value = 0.7937
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.847352 1.134264
+## sample estimates:
+## ratio of variances 
+##          0.9809412</code></pre>
+<p>At a significance level of 0.05, the <span class="math inline">\(p\)</span>-value = 0.79 leads us to not rejecting the null hypothesis of equal variances across the two populations.</p>
+<p><strong>Step 2.</strong> We can now perform the <span class="math inline">\(t\)</span>-test calculations using the appropriate formula for the standard error of the difference in means. As the population variances are assumed equal, we use the formula involving the pooled standard deviation:</p>
+<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb808-1" title="1"><span class="co"># Pooled SD</span></a>
+<a class="sourceLine" id="cb808-2" title="2">s_p &lt;-<span class="st"> </span><span class="kw">sqrt</span>(</a>
+<a class="sourceLine" id="cb808-3" title="3">  ((n_f <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_f<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(n_m <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_m<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb808-4" title="4">)</a>
+<a class="sourceLine" id="cb808-5" title="5"></a>
+<a class="sourceLine" id="cb808-6" title="6">SE &lt;-<span class="st"> </span>s_p <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>n_f <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n_m)</a>
+<a class="sourceLine" id="cb808-7" title="7"></a>
+<a class="sourceLine" id="cb808-8" title="8">t_stat &lt;-<span class="st"> </span>(xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">/</span><span class="st"> </span>SE</a>
+<a class="sourceLine" id="cb808-9" title="9">t_stat</a></code></pre></div>
+<pre><code>## [1] 2.4523</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.19
+</p>
+<div class="question-body">
+<p>Compare the <span class="math inline">\(t\)</span>-statistic with the appropriate 5% critical value from a <span class="math inline">\(t\)</span>-distribution.</p>
+<p>Compute the <span class="math inline">\(p\)</span>-value and interpret the results.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-110" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-110&#39;, &#39;sol-start-110&#39;)"></span>
+</p>
+<div id="sol-body-110" class="solution-body" style="display: none;">
+<p>Critical value:</p>
+<div class="sourceCode" id="cb810"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb810-1" title="1">t_crit &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb810-2" title="2">t_crit</a></code></pre></div>
+<pre><code>## [1] 1.961585</code></pre>
+<p><span class="math inline">\(p\)</span>-value:</p>
+<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb812-1" title="1">p_value &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(t_stat), n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb812-2" title="2">p_value</a></code></pre></div>
+<pre><code>## [1] 0.01431058</code></pre>
+<p>At a 5% significance level, the observed difference in mean number of close friends between adult American females and males is significantly different from 0 (<span class="math inline">\(t(1465) = 2.45\)</span>, <span class="math inline">\(p\)</span>-value <span class="math inline">\(&lt;.05\)</span>, two-tailed).</p>
+<p>In other words, an observed difference in sample mean number of close friends of 0.23 is highly unlikely to occur by chance alone.</p>
+<p>The sample data provide very strong evidence that, on average, adult American females and males tend to not have the same number of close friends.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="lo">
+<h4 id="technology-detour-two-sample-t-test-with-built-in-functions" class="unnumbered">Technology detour: two-sample <span class="math inline">\(t\)</span>-test with built-in functions</h4>
+<p>In R, we perform a two-sample <span class="math inline">\(t\)</span>-test with the function <code>t.test</code>. This is the same function you saw to perform a one-sample mean test.</p>
+<p>Before applying it though, we need to check with <code>var.test</code> whether to assume the population variances to be different or equal.</p>
+<br>
+Both R functions require a <strong>formula</strong> as first argument:
+<center>
+<strong>goal( y ~ x )</strong>
+</center>
+<p>where</p>
+<ul>
+<li><strong>y</strong> is the response variable</li>
+<li><strong>x</strong> is the explanatory variable
+<br><br></li>
+</ul>
+<p><strong>Step 1.</strong> Test for equality of the population variances:</p>
+<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<p><strong>Step 2.</strong> According to the previous test, use the appropriate <span class="math inline">\(t\)</span>-test using either one of the following code chunks.</p>
+<ol style="list-style-type: lower-roman">
+<li>If you can not reject the null hypothesis of equal population variances, use a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n_1 + n_2 - 2\)</span> degrees of freedom:</li>
+</ol>
+<div class="sourceCode" id="cb815"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb815-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<ol start="2" style="list-style-type: lower-roman">
+<li>If the population variances were not equal, we would have used the Welch-Satterthwaite approximation to the degrees of freedom:</li>
+</ol>
+<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb816-1" title="1"><span class="co"># Welch-Satterthwaite approximation</span></a>
+<a class="sourceLine" id="cb816-2" title="2"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb816-3" title="3"></a>
+<a class="sourceLine" id="cb816-4" title="4"><span class="co"># If not provided, var.equal = FALSE by default</span></a>
+<a class="sourceLine" id="cb816-5" title="5"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.20
+</p>
+<div class="question-body">
+<p>Verify your results using the built-in R function <code>t.test</code>.</p>
+<p>Before applying it though, you need to check with <code>var.test</code> whether the population variances are different or can be assumed to be equal.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-111" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-111&#39;, &#39;sol-start-111&#39;)"></span>
+</p>
+<div id="sol-body-111" class="solution-body" style="display: none;">
+<p>We have already tested before for equality of the population variances:</p>
+<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb817-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<pre><code>## 
+##  F test to compare two variances
+## 
+## data:  NumberCloseFriends by Sex
+## F = 0.98094, num df = 812, denom df = 653, p-value = 0.7937
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.847352 1.134264
+## sample estimates:
+## ratio of variances 
+##          0.9809412</code></pre>
+<p>As we can not reject the null hypothesis of equal variances across the two populations, we use a <span class="math inline">\(t\)</span>-test with <span class="math inline">\(\textrm{df} = n_1 + n_2 - 2\)</span>:</p>
+<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb819-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  NumberCloseFriends by Sex
+## t = 2.4523, df = 1465, p-value = 0.01431
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.04556467 0.40984457
+## sample estimates:
+## mean in group female   mean in group male 
+##             2.088561             1.860856</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.21
+</p>
+<div class="question-body">
+<p>State the assumptions of the two-sample <span class="math inline">\(t\)</span>-test.</p>
+<p>Should the strong skewness in the sample distributions cause you any concerns about the validity of your results?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-112" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-112&#39;, &#39;sol-start-112&#39;)"></span>
+</p>
+<div id="sol-body-112" class="solution-body" style="display: none;">
+<p>Assumptions:</p>
+<ul>
+<li>The sample data arise from independent random samples from two populations OR from random assignment of the units to treatment groups.</li>
+<li>Either the quantitative variable of interest is normally distributed in both populations OR both sample sizes are large (as a convention, <span class="math inline">\(n_1 \geq 20\)</span> and <span class="math inline">\(n_2 \geq 20\)</span>) and the sample distributions should not be strongly skewed.</li>
+</ul>
+<p>Checks:</p>
+<ul>
+<li>The data were collected from a random sample of adult Americans.</li>
+<li>Even though the distribution of the number of close friends is clearly skewed, the sample sizes (813 and 654) are quite large.</li>
+</ul>
+<p>Hence, the conditions required for the two-sample <span class="math inline">\(t\)</span>-test results to be valid are satisfied.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.22
+</p>
+<div class="question-body">
+<p>Now that we have established that there is significant evidence of a difference in the population mean number of close friends between females and males, what is the magnitude of this difference in the population means?</p>
+<p>Construct and interpret a 95% confidence interval for the difference in population mean number of close friends between females and males.</p>
+<p>Pay particular attention on whether the interval is negative, positive, or contains zero.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-113" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-113&#39;, &#39;sol-start-113&#39;)"></span>
+</p>
+<div id="sol-body-113" class="solution-body" style="display: none;">
+<p>In order to estimate the magnitude of the difference in the population means we can use a confidence interval for the difference in means.</p>
+<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb821-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb821-2" title="2">  <span class="dt">Lower =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">-</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE,</a>
+<a class="sourceLine" id="cb821-3" title="3">  <span class="dt">Upper =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">+</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE)</a>
+<a class="sourceLine" id="cb821-4" title="4">ci</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##    Lower Upper
+##    &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.0456 0.410</code></pre>
+<p>A 95% confidence interval for the difference in the mean number of close friends between females and males is [0.046, 0.41].</p>
+<p>The confidence interval is entirely positive, supporting our conclusion that females and males tend to differ with regard to the average number of close friends.<br />
+We are 95% confident that American females have between 0.046 and 0.41 more close friends, on average, than American males do.
+<!-- We are 95% confident that the interval of 0.046 to 0.41 contains the true difference between the number of close friends American females have relative to American males. --></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.23
+</p>
+<div class="question-body">
+<p><em>Causation:</em> Do the data provide evidence that how many close friends one has is <em>caused</em> by ones’ sex? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-114" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-114&#39;, &#39;sol-start-114&#39;)"></span>
+</p>
+<div id="sol-body-114" class="solution-body" style="display: none;">
+<p>No, we can not conclude that the person’s sex was responsible for the number of close friends.
+This data was collected as part of an observational study, hence the explanatory variable sex was simply observed in the observational units.</p>
+<!-- We could have considered a causal link if the observational units were randomly assigned to the groups, but clearly this is not feasible as you can not assign a person to be female or male as part of a survey. -->
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.24
+</p>
+<div class="question-body">
+<p><em>Generalisation:</em> To which population can the results of this study be applied to? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-115" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-115&#39;, &#39;sol-start-115&#39;)"></span>
+</p>
+<div id="sol-body-115" class="solution-body" style="display: none;">
+<p>Because the observational units are a random sample from the population of adult Americans in year 2004, we might apply our results to adult American men and women in that year.</p>
+<p>We might hesitate in generalising the results to all Americans and to a different year, as younger people were not included in the survey, and because the trend could have changed over time.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="lab-does-name-increase-tips" class="section level2">
+<h2><span class="header-section-number">17.4</span> Lab: Does name increase tips?</h2>
+<ul>
+<li>Can a waitress earn higher tips simply by introducing herself by name when greeting customers?</li>
+<li>How can she investigate this?</li>
+<li>After data are collected, how can she decide if the results provide convincing evidence that giving her name does really lead to higher tips?</li>
+<li>And if she decides that introducing herself by name really helps, how can she estimate how much higher will the tips be, on average, when introducing herself by name?</li>
+</ul>
+<p>Researchers <a href="https://doi.org/10.1111/j.1559-1816.1990.tb00405.x">Garrity and Degelman (1990)</a> investigated the effect of a server introducing herself by name on restaurant tipping.
+The study involved forty, 2-person parties eating a $23.21 fixed-price buffet Sunday brunch at Charley Brown’s Restaurant in Huntington Beach, California, on April 10 and 17, 1988.
+Each two-person party was randomly assigned by the waitress to either a name or a no name introduction condition using a random mechanism. The waitress kept track of the two-person party condition and how much the party tipped at the end of the meal.</p>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.1
+</p>
+<div class="question-body">
+<p>Identify the observational units in this study.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-116" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-116&#39;, &#39;sol-start-116&#39;)"></span>
+</p>
+<div id="sol-body-116" class="solution-body" style="display: none;">
+<p>The observational units are the 2-person parties eating Sunday brunch in that restaurant on April 10 and 17, 1988.</p>
+<p>We can also refer to the observational units as <strong>experimental units</strong> because, as we will see later, they are part of an experiment.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.2
+</p>
+<div class="question-body">
+<p>Is this an observational study or a randomized experiment? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-117" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-117&#39;, &#39;sol-start-117&#39;)"></span>
+</p>
+<div id="sol-body-117" class="solution-body" style="display: none;">
+<p>This study is a randomized experiment. The waitress uses a random mechanism to assign the experimental units (the two-person parties) either to a name or no name condition.</p>
+<p>We also need to keep in mind that the waitress was not blind to which condition each party was assigned to and might have inadvertently provided better service to the parties she expected to give her a larger tip.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.3
+</p>
+<div class="question-body">
+<p>What are the explanatory and response variables in this study?</p>
+<p>Classify them as either categorical (also binary) or quantitative.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-118" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-118&#39;, &#39;sol-start-118&#39;)"></span>
+</p>
+<div id="sol-body-118" class="solution-body" style="display: none;">
+<p>Explanatory variable: condition (name or no name). <span class="math inline">\(\qquad\)</span> Type: categorical and binary.</p>
+<p>Response variable: tipping amount. <span class="math inline">\(\qquad \qquad \qquad \qquad\)</span> Type: quantitative.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.4
+</p>
+<div class="question-body">
+<p>State, in words and in symbols, the waitress’ null and alternative hypotheses.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-119" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-119&#39;, &#39;sol-start-119&#39;)"></span>
+</p>
+<div id="sol-body-119" class="solution-body" style="display: none;">
+<p>The null hypothesis is that there is no effect on the tipping amount from the waitress giving her name as part of her greeting to the customers.</p>
+<p>Equivalently, the null hypothesis states that the population mean tip amount is the same whether the waitress introduces herself by name or not.</p>
+<p><br>
+The alternative hypothesis is that there is a positive effect on the tipping amount from the waitress giving her name as part of her greeting to the customers.</p>
+<p>Equivalently, the alternative hypothesis states that the population mean tip amount is greater when the waitress introduces herself by name than when she does not.</p>
+<p><br>
+In symbols,
+<span class="math display">\[
+H_0 : \mu_{name} = \mu_{no\ name} \\
+H_1 : \mu_{name} &gt; \mu_{no\ name}
+\]</span></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.5
+</p>
+<div class="question-body">
+<p>Comment on what a Type I error and a Type II error would mean in this particular study.</p>
+<p>Would you consider one of these two errors to be more worrying than the other? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-120" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-120&#39;, &#39;sol-start-120&#39;)"></span>
+</p>
+<div id="sol-body-120" class="solution-body" style="display: none;">
+<p>A Type I error is committed when the waitress decides that introducing herself by name helps when, in reality, it does not.</p>
+<p>A Type II error is committed when the waitress decides that introducing herself by name is not helpful when, in reality, it actually is.</p>
+<p>A Type I error means that the waitress will spend just a tiny amount of time longer as part of her greeting without getting any extra benefit from it.</p>
+<p>A Type II error means that the waitress will not bother giving customers her name and thus would lose out on a higher tip.</p>
+<p>Clearly, as the burden of adding the name to the introduction is minimal, we consider as more worrying (or worst error) losing out on potential tips. So, in this specific study, a Type II error is of higher concern.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<p>The sample mean tip for the 20 parties in the name condition was <span class="math inline">\(\bar x_{name}= \$5.44\)</span>, with a SD <span class="math inline">\(s_{name} = \$1.75\)</span>.</p>
+<p>For the 20 parties in the no name condition, the sample mean tip was <span class="math inline">\(\bar x_{no\ name}= \$3.49\)</span>, with a SD <span class="math inline">\(s_{no\ name} = \$1.13\)</span>.</p>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.6
+</p>
+<div class="question-body">
+<p>Assuming that the population variances are <strong>not</strong> equal, calculate the test statistic and the <span class="math inline">\(p\)</span>-value.</p>
+<p><em><strong>Hint:</strong> As you do not have the party-by-party tipping amounts, but only summary statistics, you can not use the <code>t.test()</code> function, which requires the data at the finest level (the observational units).</em></p>
+<p><em>If you can not assume equal variances, you must use the Welch <span class="math inline">\(t\)</span>-test. However, this test has a very difficult formula for the degrees of freedom. For our learning purposes, we can use a simplification given by <span class="math inline">\(\textrm{df} = \min(n_1 - 1, n_2 - 1)\)</span>. This will be a conservative approximation to Welch’s degrees of freedom but it is much easier to remember!</em></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-121" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-121&#39;, &#39;sol-start-121&#39;)"></span>
+</p>
+<div id="sol-body-121" class="solution-body" style="display: none;">
+<p>The two-sample <span class="math inline">\(t\)</span>-test in the case of unequal population variances involves the Welch-Satterthwaite approximation to the degrees of freedom.</p>
+<p>The <span class="math inline">\(t\)</span>-statistic is:</p>
+<div class="sourceCode" id="cb823"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb823-1" title="1">n_name &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb823-2" title="2">xbar_name &lt;-<span class="st"> </span><span class="fl">5.44</span></a>
+<a class="sourceLine" id="cb823-3" title="3">s_name &lt;-<span class="st"> </span><span class="fl">1.75</span></a>
+<a class="sourceLine" id="cb823-4" title="4"></a>
+<a class="sourceLine" id="cb823-5" title="5">n_no &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb823-6" title="6">xbar_no &lt;-<span class="st"> </span><span class="fl">3.49</span></a>
+<a class="sourceLine" id="cb823-7" title="7">s_no &lt;-<span class="st"> </span><span class="fl">1.13</span></a>
+<a class="sourceLine" id="cb823-8" title="8"></a>
+<a class="sourceLine" id="cb823-9" title="9">SE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_name <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_no)</a>
+<a class="sourceLine" id="cb823-10" title="10">t_stat &lt;-<span class="st"> </span>(xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">/</span><span class="st"> </span>SE</a>
+<a class="sourceLine" id="cb823-11" title="11">t_stat</a></code></pre></div>
+<pre><code>## [1] 4.186343</code></pre>
+<p>Welch’s formula for the degrees of freedom is very complicated to remember, so we will approximate it with a more conservative approach: <span class="math inline">\(\textrm{df} = \min(n_1 - 1, n_2 - 1)\)</span>.</p>
+<div class="sourceCode" id="cb825"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb825-1" title="1">df &lt;-<span class="st"> </span><span class="kw">min</span>(n_name <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, n_no <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb825-2" title="2">df</a></code></pre></div>
+<pre><code>## [1] 19</code></pre>
+<p>Critical value:</p>
+<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb827-1" title="1"><span class="kw">qt</span>(<span class="fl">0.95</span>, <span class="dt">df =</span> df)</a></code></pre></div>
+<pre><code>## [1] 1.729133</code></pre>
+<p><span class="math inline">\(p\)</span>-value:</p>
+<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb829-1" title="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_stat, <span class="dt">df =</span> df)</a></code></pre></div>
+<pre><code>## [1] 0.0002503383</code></pre>
+<p>The <span class="math inline">\(p\)</span>-value is &lt;.0005.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.7
+</p>
+<div class="question-body">
+<p>At the significance level <span class="math inline">\(\alpha = 0.05\)</span>, what would you conclude?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-122" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-122&#39;, &#39;sol-start-122&#39;)"></span>
+</p>
+<div id="sol-body-122" class="solution-body" style="display: none;">
+<p>As the <span class="math inline">\(p\)</span>-value <span class="math inline">\(&lt;.05\)</span>, we reject the null hypothesis that there is no effect of giving her name on the tipping amount.</p>
+<p>The sample results provide strong evidence that including her name as part of the customer’s greeting tends to lead to higher tips on average.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.8
+</p>
+<div class="question-body">
+<p>The paper only reports the sample mean tips and standard deviations for the name and no name conditions.</p>
+<p>Does the paper provide enough information to check whether the validity conditions of the two-sample <span class="math inline">\(t\)</span>-test are satisfied?</p>
+<p>If yes, check that the conditions are met. If not, explain which additional information you would need.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-123" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-123&#39;, &#39;sol-start-123&#39;)"></span>
+</p>
+<div id="sol-body-123" class="solution-body" style="display: none;">
+<p>We do not have enough information to check whether the validity conditions are met.</p>
+<p>We are told that the two-person parties were randomly assigned either to the name or no name condition, but the two sample sizes (20 and 20) are not very large, so we should check whether the data came from normal distributions.</p>
+<p>However, we only have summary statistics and not the actual tip amounts for each party (experimental unit). We would ask the waitress to provide us the party-by-party tipping amounts in order to check if the populations the samples came from can be assumed to be normal.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.9
+</p>
+<div class="question-body">
+<p>Calculate a 95% confidence interval for the difference in population mean tip amount between the name and no name conditions.</p>
+<p>Write a sentence or two interpreting what the interval reveals.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-124" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-124&#39;, &#39;sol-start-124&#39;)"></span>
+</p>
+<div id="sol-body-124" class="solution-body" style="display: none;">
+First, we must find the appropriate critical value <span class="math inline">\(t^*_\textrm{df}\)</span> (for the desired confidence level) from a <span class="math inline">\(t\)</span>-distribution with degrees of freedom given by Welch’s method. However, the formula is very complex, so we will use a simpler version:
+<center>
+<span class="math display">\[
+\textrm{df} = \min(n_{name} - 1, n_{no\ name} - 1) = \min(20 - 1, 20 - 1) = 19
+\]</span>
+</center>
+<p>The critical value for a 95% confidence level is:</p>
+<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" title="1">t_crit_ci &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb831-2" title="2">t_crit_ci</a></code></pre></div>
+<pre><code>## [1] 2.093024</code></pre>
+We compute a 95% confidence interval for the difference in population means, <span class="math inline">\(\mu_{name} - \mu_{no\ name}\)</span>, as follows:
+<center>
+<span class="math display">\[
+(\bar x_{name} - \bar x_{no\ name}) \pm t^*_\textrm{df} \sqrt{\frac{s_{name}^2}{n_{name}} + \frac{s_{no\ name}^2}{n_{no\ name}}} \\
+(5.44 - 3.49) \pm 2.093 \sqrt{\frac{1.75^2}{20} + \frac{1.13^2}{20}}
+\]</span>
+</center>
+<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb833-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb833-2" title="2">  <span class="dt">Lower =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">-</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>),</a>
+<a class="sourceLine" id="cb833-3" title="3">  <span class="dt">Upper =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">+</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb833-4" title="4">)</a>
+<a class="sourceLine" id="cb833-5" title="5">ci</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   Lower Upper
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.975  2.92</code></pre>
+<p>The 95% confidence interval is [0.98, 2.92].</p>
+<p>We are 95% confident that the waitress would earn, on average, between $0.98 and $2.92 more per party with a $23.21 bill, by including her name as part of the greeting.
+<!-- We are 95% confident that the interval between \$0.98 and \$2.92 contains the true amount the waitress would earn, on average, per party with a \$23.21 bill, by including her name as part of the greeting. --></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.10
+</p>
+<div class="question-body">
+<p>Regardless of whether the validity conditions of the <span class="math inline">\(t\)</span>-test are met, summarise your conclusions from this test.</p>
+<p>Make sure to also comment on causation and generalisability of your results.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-125" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-125&#39;, &#39;sol-start-125&#39;)"></span>
+</p>
+<div id="sol-body-125" class="solution-body" style="display: none;">
+<p>The study involved random assignment of the experimental units to the groups, so the only difference between the groups was whether the party was given the waitress’ name or not.
+As the parties in the name condition tend to give significantly higher tips on average than those in the no name condition (<span class="math inline">\(t(19)\)</span> = 4.19, <span class="math inline">\(p\)</span>-value &lt; .0005, one-sided), we can attribute this difference in means to being told the waitress’ name as part of the greeting.
+In other words, we can conclude a causal link between being given the name as part of the greeting and receiving higher tips on average.</p>
+<p>However, as the waitress was not blind to the treatment condition, we must be wary to the fact that the waitress could have given better service to the parties who she gave her name to. So, the results hold unless the waitress gave better service to the name condition.</p>
+<p>Having established that there is a significant difference in means between the two groups, a confidence intervals lets us now to estimate, on average, how much higher the tips will be when giving her name.
+Including her name as part of the greeting to customers increases the waitress’ tips, on average, by $0.98 to $2.92 per party.</p>
+<p>We must be careful when generalising these results to the population. As only one particular waitress participated in the study, we don’t want to generalise these results to other waitresses.
+Furthermore, we might also avoid generalising these results to customers different from those who eat Sunday brunch at Charley Brown’s Restaurant in Huntington Beach, California.</p>
+<p>Finally, the <span class="math inline">\(p\)</span>-values and confidence interval are valid only if the response variable “tipping amount” is normally distributed in the two populations.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="glossary-6" class="section level2">
+<h2><span class="header-section-number">17.5</span> Glossary</h2>
+<ul>
+<li><em>Boxplot.</em> Visual display of the five-number summary for a quantitative variable.</li>
+<li><em>Five-number summary</em>. Minimum, lower quartile, median, upper quartile, maximum.</li>
+<li><em>Lower quartile</em>. The value in the data such that 25% of the data lie below that value.</li>
+<li><em>Upper quartile</em>. The value in the data such that 25% of the data lie above that value.</li>
+<li><em>Assumptions of the two-sample <span class="math inline">\(t\)</span>-test</em>. The data should arise from random sapling from two populations and either the variable is normally distributed in both populations or both sample sizes are large (<span class="math inline">\(n_1 \geq 20\)</span> and <span class="math inline">\(n_2 \geq 20\)</span>) and the sample distributions should not be strongly skewed.</li>
+</ul>
+</div>
+<div id="w17-references" class="section level2">
+<h2><span class="header-section-number">17.6</span> References</h2>
+<ul>
+<li>Garrity, K., &amp; Degelman, D. (1990). Effect of server introduction on restaurant tipping. <em>Journal of Applied Social Psychology, 20</em>(2), 168-172.</li>
+<li>Tintle, N., Chance, B. L., Cobb, G. W., Rossman, A. J., Roy, S., Swanson, T., &amp; VanderStoep, J. (2015). <em>Introduction to statistical investigations.</em> New York: Wiley.</li>
+</ul>
+<p>Material adapted from:</p>
+<ul>
+<li>Rossman, A. J., &amp; Chance, B. L. (2011). <em>Workshop statistics: discovery with data.</em> John Wiley &amp; Sons.</li>
+</ul>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chap-one-mean-test.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
