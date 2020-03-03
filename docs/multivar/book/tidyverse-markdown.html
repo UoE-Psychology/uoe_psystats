@@ -236,7 +236,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html"><i class="fa fa-check"></i><b>8</b> Confirmatory Factor Analysis (CFA)</a><ul>
 <li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#packages-6"><i class="fa fa-check"></i>Packages</a></li>
 <li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#lecture-slides-6"><i class="fa fa-check"></i>Lecture Slides</a></li>
-<li class="chapter" data-level="8.1" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#todays-exercises-1"><i class="fa fa-check"></i><b>8.1</b> Today’s Exercises</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#data"><i class="fa fa-check"></i>Data</a></li>
 <li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#one-factor-model"><i class="fa fa-check"></i>One factor model</a></li>
 <li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#two-factor-model"><i class="fa fa-check"></i>Two factor model</a></li>
 </ul></li>
@@ -318,9 +318,9 @@ The data can be found at <a href="https://edin.ac/2Erg9ZW">https://edin.ac/2Erg9
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-79" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-79&#39;, &#39;sol-start-79&#39;)"></span>
+► Solution<span id="sol-start-1" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-1&#39;, &#39;sol-start-1&#39;)"></span>
 </p>
-<div id="sol-body-79" class="solution-body" style="display: none;">
+<div id="sol-body-1" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2Erg9ZW&quot;</span>))</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">summary</span>(speech_ses)</a></code></pre></div>
@@ -364,15 +364,15 @@ The data can be found at <a href="https://edin.ac/2Erg9ZW">https://edin.ac/2Erg9
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-80" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-80&#39;, &#39;sol-start-80&#39;)"></span>
+► Solution<span id="sol-start-2" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-2&#39;, &#39;sol-start-2&#39;)"></span>
 </p>
-<div id="sol-body-80" class="solution-body" style="display: none;">
+<div id="sol-body-2" class="solution-body" style="display: none;">
 <p>We need to use <code>stat_summary</code> because we want to summarise the y values on our plot into summary value(s) (in the case the mean).
 We could also calculate the mean accuracy for each category first, and <em>then</em> plot them using geom_bar directly, but <code>stat_summary</code> can be pretty useful</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#one way of doing this:</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">ggplot</span>(speech_ses, <span class="kw">aes</span>(<span class="dt">x =</span> Category, <span class="dt">y =</span> Accuracy, <span class="dt">fill =</span> Category)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;bar&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>We should also note that <code>stat_summary(fun.y=mean, geom=&quot;bar&quot;)</code> and <code>geom_bar(stat=&quot;summary&quot;,fun.y=mean)</code> are exactly the same! You could get the same plot using:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">ggplot</span>(speech_ses, <span class="kw">aes</span>(<span class="dt">x =</span> Category, <span class="dt">y =</span> Accuracy, <span class="dt">fill =</span> Category)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;summary&quot;</span>,<span class="dt">fun.y=</span>mean)</a></code></pre></div>
@@ -381,7 +381,7 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 </p>
 </div>
 </div>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 <br>
 <hr />
 <p><br><br></p>
@@ -399,9 +399,9 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 <p>The top three plots (jitter, boxplots and violins) all show <em>all</em> of the data, so we don’t need to use <code>stat_summary</code> for these. However, the bottom two (errorbars and pointranges) require us to summarise the data into means and standard errors, so we need to use <code>stat_summary(fun.data=mean_se)</code>.</p>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-81" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-81&#39;, &#39;sol-start-81&#39;)"></span>
+► Solution<span id="sol-start-3" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-3&#39;, &#39;sol-start-3&#39;)"></span>
 </p>
-<div id="sol-body-81" class="solution-body" style="display: none;">
+<div id="sol-body-3" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># * Boxplot</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">ggplot</span>(speech_ses, <span class="kw">aes</span>(<span class="dt">x =</span> Category, <span class="dt">y =</span> Accuracy, <span class="dt">fill =</span> Category)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a>
@@ -422,7 +422,7 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 </p>
 </div>
 </div>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" width="672" />
 <br>
 <hr />
 <p><br><br></p>
@@ -439,14 +439,14 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-82" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-82&#39;, &#39;sol-start-82&#39;)"></span>
+► Solution<span id="sol-start-4" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-4&#39;, &#39;sol-start-4&#39;)"></span>
 </p>
-<div id="sol-body-82" class="solution-body" style="display: none;">
+<div id="sol-body-4" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">ggplot</span>(speech_ses, <span class="kw">aes</span>(<span class="dt">x =</span> Category, <span class="dt">y =</span> Accuracy, <span class="dt">colour =</span> Category)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width=</span><span class="fl">0.2</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;errorbar&quot;</span>, </a>
 <a class="sourceLine" id="cb6-4" data-line-number="4">               <span class="dt">colour=</span><span class="st">&quot;black&quot;</span>, <span class="dt">width=</span><span class="fl">0.4</span>, <span class="dt">size=</span><span class="fl">1.5</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -469,9 +469,9 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-83" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-83&#39;, &#39;sol-start-83&#39;)"></span>
+► Solution<span id="sol-start-5" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-5&#39;, &#39;sol-start-5&#39;)"></span>
 </p>
-<div id="sol-body-83" class="solution-body" style="display: none;">
+<div id="sol-body-5" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">ggplot</span>(speech_ses, <span class="kw">aes</span>(<span class="dt">x =</span> Category, <span class="dt">y =</span> Accuracy, <span class="dt">colour =</span> Category)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width=</span><span class="fl">0.2</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;errorbar&quot;</span>, </a>
@@ -479,7 +479,7 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="dv">50</span>, <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -506,9 +506,9 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 <p>The data (in .csv format) can be downloaded from <a href="https://edin.ac/2qYA0wr">https://edin.ac/2qYA0wr</a>. You can use <code>read.csv(url(&quot;https://edin.ac/2qYA0wr&quot;))</code> to read it directly into R.</p>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-84" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-84&#39;, &#39;sol-start-84&#39;)"></span>
+► Solution<span id="sol-start-6" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-6&#39;, &#39;sol-start-6&#39;)"></span>
 </p>
-<div id="sol-body-84" class="solution-body" style="display: none;">
+<div id="sol-body-6" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">women_cs&lt;-<span class="kw">read.csv</span>(<span class="kw">url</span>(<span class="st">&quot;https://edin.ac/2qYA0wr&quot;</span>))</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">ggplot</span>(women_cs, <span class="kw">aes</span>(<span class="dt">x=</span>date, <span class="dt">y=</span>pct_women_majors, <span class="dt">color=</span>field))<span class="op">+</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>, <span class="dt">title=</span><span class="st">&quot;What happened to women in computer science?&quot;</span>)<span class="op">+</span></a>
@@ -517,7 +517,7 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">label=</span>scales<span class="op">::</span>percent)<span class="op">+</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>(<span class="dt">base_family=</span><span class="st">&quot;Helvetica&quot;</span>)<span class="op">+</span></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.title=</span><span class="kw">element_blank</span>())</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># If you want to get fancier, and add the labels at the end of the lines, check out the gghighlight package!</span></a></code></pre></div>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -566,9 +566,9 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 <p>Pipes:</p>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-85" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-85&#39;, &#39;sol-start-85&#39;)"></span>
+► Solution<span id="sol-start-7" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-7&#39;, &#39;sol-start-7&#39;)"></span>
 </p>
-<div id="sol-body-85" class="solution-body" style="display: none;">
+<div id="sol-body-7" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="dv">10</span><span class="op">:</span><span class="dv">100</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">log</span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">    </span><span class="kw">diff</span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">    </span><span class="kw">exp</span>() <span class="op">%&gt;%</span></a>
@@ -586,9 +586,9 @@ We could also calculate the mean accuracy for each category first, and <em>then<
 <p>Base R:</p>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-86" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-86&#39;, &#39;sol-start-86&#39;)"></span>
+► Solution<span id="sol-start-8" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-8&#39;, &#39;sol-start-8&#39;)"></span>
 </p>
-<div id="sol-body-86" class="solution-body" style="display: none;">
+<div id="sol-body-8" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">round</span>(pi, <span class="dt">digits=</span><span class="dv">6</span>)</a></code></pre></div>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -653,9 +653,9 @@ You can download the data from <a href="https://edin.ac/34n6AWA">https://edin.ac
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-87" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-87&#39;, &#39;sol-start-87&#39;)"></span>
+► Solution<span id="sol-start-9" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-9&#39;, &#39;sol-start-9&#39;)"></span>
 </p>
-<div id="sol-body-87" class="solution-body" style="display: none;">
+<div id="sol-body-9" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">exam <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(exam) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">M =</span> <span class="kw">mean</span>(scores))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
@@ -685,9 +685,9 @@ You can download the data from <a href="https://edin.ac/34n6AWA">https://edin.ac
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-88" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-88&#39;, &#39;sol-start-88&#39;)"></span>
+► Solution<span id="sol-start-10" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-10&#39;, &#39;sol-start-10&#39;)"></span>
 </p>
-<div id="sol-body-88" class="solution-body" style="display: none;">
+<div id="sol-body-10" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">exam <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(gender<span class="op">==</span><span class="st">&quot;f&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(exam) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -719,9 +719,9 @@ You can download the data from <a href="https://edin.ac/34n6AWA">https://edin.ac
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-89" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-89&#39;, &#39;sol-start-89&#39;)"></span>
+► Solution<span id="sol-start-11" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-11&#39;, &#39;sol-start-11&#39;)"></span>
 </p>
-<div id="sol-body-89" class="solution-body" style="display: none;">
+<div id="sol-body-11" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">exam_m1 &lt;-<span class="st"> </span>exam <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(exam <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, gender <span class="op">==</span><span class="st"> &quot;m&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pass =</span> <span class="kw">ifelse</span>(scores<span class="op">&gt;</span><span class="dv">40</span>,<span class="st">&quot;pass&quot;</span>,<span class="st">&quot;fail&quot;</span>))</a></code></pre></div>
@@ -746,9 +746,9 @@ You can download the data from <a href="https://edin.ac/34n6AWA">https://edin.ac
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-90" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-90&#39;, &#39;sol-start-90&#39;)"></span>
+► Solution<span id="sol-start-12" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-12&#39;, &#39;sol-start-12&#39;)"></span>
 </p>
-<div id="sol-body-90" class="solution-body" style="display: none;">
+<div id="sol-body-12" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">exam <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(exam, gender) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">M =</span> <span class="kw">mean</span>(scores))</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
@@ -807,9 +807,9 @@ You can see it by just typing <code>USArrests</code> in R.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-91" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-91&#39;, &#39;sol-start-91&#39;)"></span>
+► Solution<span id="sol-start-13" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-13&#39;, &#39;sol-start-13&#39;)"></span>
 </p>
-<div id="sol-body-91" class="solution-body" style="display: none;">
+<div id="sol-body-13" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">gather</span>(USArrests, <span class="dt">key=</span><span class="st">&quot;CrimeType&quot;</span>, <span class="dt">value=</span><span class="st">&quot;Rate&quot;</span>, </a>
 <a class="sourceLine" id="cb28-2" data-line-number="2">            Murder, Assault, Rape)</a>
 <a class="sourceLine" id="cb28-3" data-line-number="3"></a>
@@ -837,13 +837,13 @@ You can see it by just typing <code>USArrests</code> in R.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-92" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-92&#39;, &#39;sol-start-92&#39;)"></span>
+► Solution<span id="sol-start-14" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-14&#39;, &#39;sol-start-14&#39;)"></span>
 </p>
-<div id="sol-body-92" class="solution-body" style="display: none;">
+<div id="sol-body-14" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">ggplot</span>(x, <span class="kw">aes</span>(UrbanPop, Rate)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb29-2" data-line-number="2"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>CrimeType, <span class="dt">scales=</span><span class="st">&quot;free&quot;</span>, <span class="dt">nrow=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb29-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -872,9 +872,9 @@ You might have to use <code>as_tibble(ability)</code> or <code>as.data.frame(abi
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-93" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-93&#39;, &#39;sol-start-93&#39;)"></span>
+► Solution<span id="sol-start-15" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-15&#39;, &#39;sol-start-15&#39;)"></span>
 </p>
-<div id="sol-body-93" class="solution-body" style="display: none;">
+<div id="sol-body-15" class="solution-body" style="display: none;">
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">ability &lt;-<span class="st"> </span>psych<span class="op">::</span>ability</a></code></pre></div>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">iq &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(ability) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">  </span><span class="kw">pivot_longer</span>(., <span class="dt">cols=</span><span class="dv">1</span><span class="op">:</span><span class="dv">16</span>, <span class="dt">names_to =</span> <span class="st">&quot;Item&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;Correct&quot;</span>) <span class="op">%&gt;%</span></a>
@@ -883,7 +883,7 @@ You might have to use <code>as_tibble(ability)</code> or <code>as.data.frame(abi
 <a class="sourceLine" id="cb31-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb31-6" data-line-number="6"><span class="kw">ggplot</span>(iq, <span class="kw">aes</span>(Domain, Correct)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb31-7" data-line-number="7"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean, <span class="dt">geom=</span><span class="st">&quot;bar&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>

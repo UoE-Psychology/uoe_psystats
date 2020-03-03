@@ -6,7 +6,7 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 library(tidyverse)
 ```
 
-# Paired T-Test {#chap-paired-mean-test}
+# Paired T-Test {#chap-paired-t-test}
 
 
 <div class="lo">
@@ -18,72 +18,120 @@ library(tidyverse)
 
 #### Learning outcomes {-}
 
-**LO1.** 
+**LO1.** Understand how to perform a paired-sample $t$-test and interpret the results.
 
-**LO2.** 
-
-**LO3.** 
+**LO2.** effect size blah blah
 
 <!-- #### Reading {-} -->
 
 </div>
 
-## paired t-test  
-
-### Paired data  
-
-*pairs of time points*
-Longitudinal Variables: Same person, same variable, different times
-
-*pairs of variables*
-Within-Person Contrast: Same person, different variables
-
-*pairs of people*
-Dyadic Data: Same variable, different people
+## Recap
 
 
 
-### Example questions {-}
 
-
-
-### Hypotheses {-}  
-
-
-• The null hypothesis (H0) assumes that the true mean difference (μd) is equal to zero.
-• The two-tailed alternative hypothesis (H1) assumes that μd is not equal to zero.
-• The upper-tailed alternative hypothesis (H1) assumes that μd is greater than zero.
-• The lower-tailed alternative hypothesis (H1) assumes that μd is less than zero.
-The mathematical representations of the null and alternative hypotheses are defined below:
-
-H0: μd = 0
-H1: μd ≠ 0    (two-tailed)
-H1: μd > 0    (upper-tailed)
-H1: μd < 0    (lower-tailed)
-
-
-**Null hypothesis:**  
-
-
-**Alternative hypothesis:** 
-
-
-
-### Formula {-}  
-
-one sample t test 
+One sample $t$-test [(Week 16)](#)
 $$
-t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}
+t = \frac{\bar{x} - \mu_0}{SE(\bar{x})}, \qquad SE(\bar{x}) = \frac{s}{\sqrt{n}}
 $$
 
-two independent samples t test 
+two independent samples t test (with equal variances)
 $$
-t = \frac{\bar{x_1} - \bar{x_2}}{\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}}
+t = \frac{\bar x_1 - \bar x_2}{SE(\bar x_1 - \bar x_2)}, \qquad SE(\bar{x}_1 - \bar{x}_2) = S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}, \qquad S_p = \sqrt\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
 $$
+
+
+## Paired data  
+
++ __Pairs of time points:__ Same person, same variable, different times  
++ __Pairs of variables:__ Same person, different variables  
++ __Pairs of people:__ Same variable, different people  
+
+
+
+
+
+
+<div class="red">
+#### Comparing the means of two independent groups {-}
+
+<!-- _Suppose you wish to test for the significance of the difference between two population means denoted $\mu_1$ and $\mu_2$ and, if the difference is signficant, you wish to quantify the magnitude of the difference using a confidence interval._ -->
+
+
+##### Test of significance  {-}
+
+Null hypothesis    
+The null hypothesis assumes that the true mean difference ($\mu_d$) is equal to zero.
+
+$H_0: \mu_d = 0$  
+
+Alternative hypothesis.
+The alternative hypothesis assumes that $\mu_d$ is less than/greater than/not equal to zero.  
+
+i. $H_1: \mu_d < 0$  (lower-tailed)
+ii. $H_1: \mu_d > 0$  (lower-tailed)
+iii. $H_1: \mu_d \neq 0$  (two-tailed)
+
+
+Test statistic:
+<center>
+$$
+t = \frac{\bar{d} - 0}{SE(\bar{d})}, \qquad SE(\bar{d})= \frac{s_d}{\sqrt{n}}
+$$
+</center>
+
+
+$p$-value:
+
+i. $\mathrm{Pr}(T_{df} \leq t)$
+ii. $\mathrm{Pr}(T_{df} \geq t)$
+iii. $2 \times \mathrm{Pr}(T_{df} \leq |t|)$
+
+where $T_{df}$ denotes a $t$-distribution with $df$ degrees of freedom.
+
+
+
+</center>
+
+##### Confidence interval for $\mu_d - 0$ {-}
+
+<center>
+$$
+(\bar d) \pm t^*_{df} \times SE(\bar d)
+$$
+</center>
+where $t^*_{df}$ denotes the critical value corresponding to a desired $\alpha$ level for a $t$-distribution with $df$ degrees of freedom.
+
+
+##### Validity conditions {-}
+
+These above procedures are considered valid if:
+
+- The sample data arise from independent random samples from two populations OR from random assignment of the units to treatment groups.
+- Either the quantitative variable of interest is normally distributed in both populations OR both sample sizes are large (as a convention, $n_1 \geq 20$ and $n_2 \geq 20$) and the sample distributions should not be strongly skewed.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 paired samples t test 
 $$
-t = \frac{\bar{d} - 0}{\frac{s_d}{\sqrt{n}}}
+t = \frac{\bar{d} - 0}{\frac{s_d}{\sqrt{n}}} = \frac{\bar{d} - 0}{SE(\bar{d})}
 $$
 
 Where $d$ is the difference between pairs $d = x_1 - x_2$,  
