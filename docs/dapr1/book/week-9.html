@@ -516,13 +516,13 @@ A revision practice .Rmd can be downloaded <a href="https://uoe-psychology.githu
 <a class="sourceLine" id="cb402-2" title="2"><span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># 10 attempts</span></a>
 <a class="sourceLine" id="cb402-3" title="3">       <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># 10 questions)</span></a>
 <a class="sourceLine" id="cb402-4" title="4">       <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Probability that one is correct (1/4)</span></a></code></pre></div>
-<pre><code>##  [1] 1 4 2 1 2 2 1 4 1 3</code></pre>
+<pre><code>##  [1] 3 2 3 2 2 2 3 3 2 1</code></pre>
 <div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" title="1"><span class="co"># We can generate an attempt for 100 questions/trials</span></a>
 <a class="sourceLine" id="cb404-2" title="2"><span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="co"># 100 times of 10</span></a>
 <a class="sourceLine" id="cb404-3" title="3">       <span class="dt">size =</span> <span class="dv">10</span>, </a>
 <a class="sourceLine" id="cb404-4" title="4">       <span class="dt">prob =</span> <span class="fl">0.25</span>) </a></code></pre></div>
-<pre><code>##   [1] 2 2 3 2 1 1 5 1 2 3 1 2 5 1 4 2 1 4 2 2 0 1 3 3 1 4 5 1 1 2 1 2 2 1 0 3 0 5 3 2 1 2 3 4 2 3 3 4 3 4 3 1 1 4 3 2 1 3 3 0 1 3 1 3 3 0 1 1 4 1 4 4 3 2 1 1 1
-##  [78] 1 3 4 4 2 1 3 3 1 2 2 3 3 5 2 3 4 3 3 3 0 2 1</code></pre>
+<pre><code>##   [1] 4 2 1 2 4 2 2 0 1 4 0 3 4 1 4 3 2 1 2 5 5 0 0 1 2 2 3 2 4 1 0 6 1 1 1 3 5 1 2 3 3 4 5 5 1 3 1 0 1 3 2 1 1 0 2 3 2 4 2 4 4 0 2 1 2 0 2 4 3 3 3 3 2 2 2 4 5
+##  [78] 2 2 3 2 2 2 3 0 2 2 3 3 2 1 2 3 2 5 1 3 2 2 2</code></pre>
 <p>Let’s assign it to a tibble so we can calculate the proportions and make a plot.</p>
 <div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" title="1"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb406-2" title="2">homework_guess &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">right_guess =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, </a>
@@ -533,13 +533,13 @@ A revision practice .Rmd can be downloaded <a href="https://uoe-psychology.githu
 <pre><code>## # A tibble: 7 x 2
 ##   right_guess     n
 ##         &lt;int&gt; &lt;int&gt;
-## 1           0     3
-## 2           1    20
-## 3           2    32
-## 4           3    23
-## 5           4    12
-## 6           5     9
-## 7           6     1</code></pre>
+## 1           0     8
+## 2           1    15
+## 3           2    35
+## 4           3    20
+## 5           4    14
+## 6           5     7
+## 7           7     1</code></pre>
 <div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb409-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb409-2" title="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb409-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Right Guess&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Count&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
@@ -572,18 +572,17 @@ A revision practice .Rmd can be downloaded <a href="https://uoe-psychology.githu
 <a class="sourceLine" id="cb414-4" title="4">       <span class="dt">prob =</span> <span class="fl">0.5</span>)) <span class="co"># Note that the probability of getting the right answer has gone up</span></a></code></pre></div>
 <div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb415-1" title="1">homework_guess_true_false <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb415-2" title="2"><span class="st">  </span><span class="kw">count</span>(right_guess)</a></code></pre></div>
-<pre><code>## # A tibble: 9 x 2
+<pre><code>## # A tibble: 8 x 2
 ##   right_guess     n
 ##         &lt;int&gt; &lt;int&gt;
-## 1           1     2
-## 2           2     5
-## 3           3    15
-## 4           4    22
-## 5           5    24
-## 6           6    17
-## 7           7    10
-## 8           8     4
-## 9           9     1</code></pre>
+## 1           2     3
+## 2           3     8
+## 3           4    27
+## 4           5    29
+## 5           6    18
+## 6           7     9
+## 7           8     5
+## 8           9     1</code></pre>
 <p>Your chances are higher! Can you see why?</p>
 <div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> homework_guess_true_false, <span class="kw">aes</span>(<span class="dt">x =</span> right_guess)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb417-2" title="2"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&#39;lightgreen&#39;</span>)  <span class="op">+</span><span class="st">  </span></a>
@@ -1231,18 +1230,17 @@ What if the multiple choice had only two choices for the answer (i.e. TRUE or F
 <h3><span class="header-section-number">9.8.2</span> Count the occurencies</h3>
 <div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb484-1" title="1">homework_guess_true_false <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb484-2" title="2"><span class="st">  </span><span class="kw">count</span>(right_guess)</a></code></pre></div>
-<pre><code>## # A tibble: 9 x 2
+<pre><code>## # A tibble: 8 x 2
 ##   right_guess     n
 ##         &lt;int&gt; &lt;int&gt;
-## 1           1     1
-## 2           2     5
-## 3           3    14
-## 4           4    19
-## 5           5    20
-## 6           6    26
-## 7           7    10
-## 8           8     4
-## 9           9     1</code></pre>
+## 1           1     3
+## 2           2     6
+## 3           3    12
+## 4           4    20
+## 5           5    27
+## 6           6    14
+## 7           7    14
+## 8           8     4</code></pre>
 </div>
 <div id="plot" class="section level3">
 <h3><span class="header-section-number">9.8.3</span> Plot</h3>

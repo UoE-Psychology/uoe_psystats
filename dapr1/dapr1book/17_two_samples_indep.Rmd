@@ -147,7 +147,7 @@ _**Note**: This survey was conducted in the US in the year 2004, at which point 
 In today's walkthrough, we will explore whether men and women differ with regard to the number of names they tend to mention when answering this question.
 For simplicity, we will refer to the people with whom you talk about important personal matters as "close friends".
 
-The survey data are stored in the file [`close_friends.txt`](https://raw.githubusercontent.com/UoE-Psychology/uoe_psystats/master/dapr1/dapr1book/data/close_friends.txt).
+The survey data are stored in the file [`close_friends.txt`](https://edin.ac/2vQrCBi) which has short url `https://edin.ac/2vQrCBi`.
 
 Before learning a new test procedure to assess a potential difference in the centre of a quantitative variable between two independent groups, it is good practice to display, explore and summarise the data. 
 
@@ -158,7 +158,7 @@ Identify the observational units in this study.
 `r msmbstyle::question_end()`
 
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 The observational units are the sampled adult Americans taking part in the 2004 General Social Survey (GSS).  
 `r msmbstyle::solution_end()`
 
@@ -180,7 +180,7 @@ The observational units are the sampled adult Americans taking part in the 2004 
 `r msmbstyle::question_end()`
 
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 The recorded variables are the sex of the participant and the number of names given by the participant. 
 The former is categorical and binary, while the latter is a numerical value that varies from participant to participant. 
 We are interested in how the number of mentioned names tends to vary with the sex of the participant. 
@@ -201,7 +201,7 @@ For this reason, sex is the explanatory variable, while number of close friends 
 Did the study make use of random assignment, random sampling, both or neither?
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 This study only involved random sampling of the observational units from the population of adult Americans in 2004.
 `r msmbstyle::solution_end()`
 
@@ -211,7 +211,7 @@ This study only involved random sampling of the observational units from the pop
 Is this an observational study or an experiment? Explain why.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 This is an observational study as the researchers limited themselves to record the values that naturally occur.
 The researchers did not perform any manipulation of the variables, such as random assignment of observational units to groups. If this were the case, we would be analysing data from a randomised experiment.
 `r msmbstyle::solution_end()`
@@ -223,7 +223,7 @@ The researchers did not perform any manipulation of the variables, such as rando
 State, in words, the null and alternative hypotheses to test whether the sample data provide evidence that American males and females tend to differ with regard to the average number of close friends they mention.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 The null hypothesis is that the population mean number of close friends is the same for adult American males as for females.
 In other words, the null hypothesis states that there is no difference in the population mean number of close friends between males and females.
 
@@ -238,7 +238,7 @@ In other words, the alternative hypothesis states that there is a difference in 
 Define the parameters of interest in this study, and identify appropriate symbols for them.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 - $\mu_f$: population mean number of close friends mentioned by adult American females
 - $\mu_m$: population mean number of close friends mentioned by adult American males
 `r msmbstyle::solution_end()`
@@ -249,7 +249,7 @@ Define the parameters of interest in this study, and identify appropriate symbol
 State the null and alternative hypotheses in symbols.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 $$
 H_0 : \mu_f = \mu_m      \qquad \textrm{OR} \qquad     H_0 : \mu_f - \mu_m = 0\\
 H_1 : \mu_f \neq \mu_m   \qquad \textrm{OR} \qquad     H_1 : \mu_f - \mu_m \neq 0
@@ -262,7 +262,7 @@ $$
 Explain why the one-sample $t$-test is not appropriate to answer the research question of this study.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 The one-sample $t$-test introduced in [Week 16](#chap-one-mean-test) tests if the population that the observed sample came from has a hypothesized mean. 
 Here, instead, we want to compare the means of two populations (or, if it were a randomized experiment, between two treatment groups).
 `r msmbstyle::solution_end()`
@@ -281,7 +281,7 @@ Pay particular attention to:
 - the format of the data (i.e., make sure that variables are correctly encoded).
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 Load the data:
 ```{r, message=FALSE}
 library(tidyverse)
@@ -353,7 +353,7 @@ Summarise the survey responses by showing the counts of the number of close frie
 Try sketching by hand histograms showing, for each sex, the frequency of each reported number of close friends.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 Create a two-way frequency table of the participants' responses by sex:
 ```{r}
 tally <- xtabs(~ Sex + NumberCloseFriends, data = gss)
@@ -388,7 +388,7 @@ Report a table of descriptive summaries by sex.
 Include the sample size, mean, SD, minimum, lower quartile, median, upper quartile, and maximum for each sex.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 When comparing a quantitative response variable between two independent groups, encoded in a categorical variable, we could report:
 
 - sample size
@@ -443,7 +443,7 @@ knitr::kable(descr_stats, "html", digits = 2) %>%
 Are the descriptive summaries from the previous question parameters or statistics? Explain why.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 The values in the above table are statistics. They are numerical summaries computed on observational units which represent a random sample from the population of adult Americans in 2004.
 `r msmbstyle::solution_end()`
 
@@ -453,7 +453,7 @@ The values in the above table are statistics. They are numerical summaries compu
 Produce a visual display of the five-number summaries by sex.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 A visual display of the five-number summary is called a __boxplot__. This is typically a very good visualisation when your data involve a quantitative response variable and a categorical explanatory variable.
 
 ```{r fig.height=4}
@@ -470,7 +470,7 @@ ggplot(gss, aes(x = Sex, y = NumberCloseFriends)) +
 Visualise the distribution of the number of close friends by sex.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 Separate plots:
 ```{r, fig.heigh = 5, fig.width = 9, out.width = '90%'}
 ggplot(gss, aes(x = NumberCloseFriends, fill = Sex)) +
@@ -498,7 +498,7 @@ ggplot(gss, aes(x = NumberCloseFriends, fill = Sex)) +
 Comment on what the histograms reveal about the shapes of the distributions.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 The distribution of number of close friends for both males and females appears to be skewed to the right.
 
 The variability in the number of close friends seems to be similar across males and females.
@@ -512,7 +512,7 @@ The sample mean number of close friends seems to be slightly higher for females 
 Report the sample mean and sample standard deviation of the number of close friends for each sex using appropriate symbols.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 The sample mean number of close friends for females is $\bar{x}_f$ = `r descr_stats %>% filter(Sex == 'female') %>% select(Mean) %>% pull() %>% round(2)`, with standard deviation $s_f$ = `r descr_stats %>% filter(Sex == 'female') %>% select(SD) %>% pull() %>% round(2)` friends.
 
 For males, the sample mean number of close friends is $\bar{x}_m$ = `r descr_stats %>% filter(Sex == 'male') %>% select(Mean) %>% pull() %>% round(2)`, with standard deviation $s_m$ = `r descr_stats %>% filter(Sex == 'male') %>% select(SD) %>% pull() %>% round(2)` friends.
@@ -526,7 +526,7 @@ Compute the difference in the sample mean number of close friends between female
 Do you think it could be possible to obtain sample means this far apart even if the population means were actually equal? Explain why.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 
 The difference in sample means is $\bar{x}_f - \bar{x}_m$ = `r (descr_stats %>% filter(Sex == 'female') %>% select(Mean) %>% pull() - descr_stats %>% filter(Sex == 'male') %>% select(Mean) %>% pull()) %>% round(2)`.
 
@@ -627,7 +627,7 @@ These above procedures are considered valid if:
 Use the summary statistics computed in Question A.11 to calculate the value of the $t$-statistic for testing the hypotheses stated in Question A.7.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 Let's extract the relevant statistics from the table of descriptive summaries:
 ```{r}
 n_f <- descr_stats %>% filter(Sex == 'female') %>% pull(SampleSize)
@@ -684,7 +684,7 @@ Compare the $t$-statistic with the appropriate 5% critical value from a $t$-dist
 Compute the $p$-value and interpret the results.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 Critical value:
 ```{r}
 t_crit <- qt(0.975, n_f + n_m - 2)
@@ -756,7 +756,7 @@ Verify your results using the built-in R function `t.test`.
 Before applying it though, you need to check with `var.test` whether the population variances are different or can be assumed to be equal.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 We have already tested before for equality of the population variances:
 ```{r}
 var.test(NumberCloseFriends ~ Sex, data = gss)
@@ -779,7 +779,7 @@ State the assumptions of the two-sample $t$-test.
 Should the strong skewness in the sample distributions cause you any concerns about the validity of your results?
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 
 Assumptions:
 
@@ -805,7 +805,7 @@ Construct and interpret a 95% confidence interval for the difference in populati
 Pay particular attention on whether the interval is negative, positive, or contains zero.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 In order to estimate the magnitude of the difference in the population means we can use a confidence interval for the difference in means.
 
 ```{r}
@@ -828,7 +828,7 @@ We are 95% confident that American females have between 0.046 and 0.41 more clos
 _Causation:_ Do the data provide evidence that how many close friends one has is _caused_ by ones' sex? Explain why.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 No, we can not conclude that the person's sex was responsible for the number of close friends.
 This data was collected as part of an observational study, hence the explanatory variable sex was simply observed in the observational units.
 
@@ -841,7 +841,7 @@ This data was collected as part of an observational study, hence the explanatory
 _Generalisation:_ To which population can the results of this study be applied to? Explain why.
 `r msmbstyle::question_end()`
 
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 Because the observational units are a random sample from the population of adult Americans in year 2004, we might apply our results to adult American men and women in that year.
 
 We might hesitate in generalising the results to all Americans and to a different year, as younger people were not included in the survey, and because the trend could have changed over time.
@@ -869,6 +869,9 @@ Researchers [Garrity and Degelman (1990)](https://doi.org/10.1111/j.1559-1816.19
 The study involved forty, 2-person parties eating a \$23.21 fixed-price buffet Sunday brunch at Charley Brown's Restaurant in Huntington Beach, California, on April 10 and 17, 1988.
 Each two-person party was randomly assigned by the waitress to either a name or a no name introduction condition using a random mechanism. The waitress kept track of the two-person party condition and how much the party tipped at the end of the meal.
 
+The sample mean tip for the 20 parties in the name condition was $\bar x_{name}= \$5.44$, with a standard deviation $s_{name} = \$1.75$.
+
+For the 20 parties in the no name condition, the sample mean tip was $\bar x_{no\ name}= \$3.49$, with a standard deviation $s_{no\ name} = \$1.13$.
 
 ---
 
@@ -958,11 +961,6 @@ Clearly, as the burden of adding the name to the introduction is minimal, we con
 
 ---
 
-The sample mean tip for the 20 parties in the name condition was $\bar x_{name}= \$5.44$, with a SD $s_{name} = \$1.75$.
-
-For the 20 parties in the no name condition, the sample mean tip was $\bar x_{no\ name}= \$3.49$, with a SD $s_{no\ name} = \$1.13$.
-
----
 
 ```{r echo=FALSE}
 n_name <- 20
