@@ -849,11 +849,11 @@ Here, instead, we want to compare the means of two populations (or, if it were a
 </p>
 <div id="sol-body-100" class="solution-body" style="display: none;">
 <p>Load the data:</p>
-<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb789-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb789-2" title="2"></a>
-<a class="sourceLine" id="cb789-3" title="3">gss &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2vQrCBi&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb787-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb787-2" title="2"></a>
+<a class="sourceLine" id="cb787-3" title="3">gss &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2vQrCBi&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Inspect the names of the variables and the first six rows:</p>
-<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb790-1" title="1"><span class="kw">head</span>(gss)</a></code></pre></div>
+<div class="sourceCode" id="cb788"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb788-1" title="1"><span class="kw">head</span>(gss)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
 ##   Sex   NumberCloseFriends
 ##   &lt;chr&gt;              &lt;dbl&gt;
@@ -864,14 +864,14 @@ Here, instead, we want to compare the means of two populations (or, if it were a
 ## 5 male                   2
 ## 6 male                   2</code></pre>
 <p>Check the number of observational units and variables:</p>
-<div class="sourceCode" id="cb792"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb792-1" title="1"><span class="kw">dim</span>(gss)</a></code></pre></div>
+<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb790-1" title="1"><span class="kw">dim</span>(gss)</a></code></pre></div>
 <pre><code>## [1] 1467    2</code></pre>
 <p>The tibble says that Sex is of class <code>chr</code> (character). As Sex is a categorical variable, we will encode it as a factor:</p>
-<div class="sourceCode" id="cb794"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb794-1" title="1">gss &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb794-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Sex =</span> <span class="kw">factor</span>(Sex))</a>
-<a class="sourceLine" id="cb794-3" title="3"></a>
-<a class="sourceLine" id="cb794-4" title="4"><span class="co"># check encoding</span></a>
-<a class="sourceLine" id="cb794-5" title="5"><span class="kw">head</span>(gss)</a></code></pre></div>
+<div class="sourceCode" id="cb792"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb792-1" title="1">gss &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb792-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Sex =</span> <span class="kw">factor</span>(Sex))</a>
+<a class="sourceLine" id="cb792-3" title="3"></a>
+<a class="sourceLine" id="cb792-4" title="4"><span class="co"># check encoding</span></a>
+<a class="sourceLine" id="cb792-5" title="5"><span class="kw">head</span>(gss)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
 ##   Sex   NumberCloseFriends
 ##   &lt;fct&gt;              &lt;dbl&gt;
@@ -939,15 +939,15 @@ Here, instead, we want to compare the means of two populations (or, if it were a
 </p>
 <div id="sol-body-101" class="solution-body" style="display: none;">
 <p>Create a two-way frequency table of the participants’ responses by sex:</p>
-<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb796-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>NumberCloseFriends, <span class="dt">data =</span> gss)</a>
-<a class="sourceLine" id="cb796-2" title="2">tally</a></code></pre></div>
+<div class="sourceCode" id="cb794"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb794-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>NumberCloseFriends, <span class="dt">data =</span> gss)</a>
+<a class="sourceLine" id="cb794-2" title="2">tally</a></code></pre></div>
 <pre><code>##         NumberCloseFriends
 ## Sex        0   1   2   3   4   5   6
 ##   female 201 146 155 132  86  56  37
 ##   male   196 135 108 100  42  40  33</code></pre>
 <p>Add the totals for each sex:</p>
-<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb798-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">addmargins</span>(tally, <span class="dt">margin =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb798-2" title="2">tally</a></code></pre></div>
+<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb796-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">addmargins</span>(tally, <span class="dt">margin =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb796-2" title="2">tally</a></code></pre></div>
 <pre><code>##         NumberCloseFriends
 ## Sex        0   1   2   3   4   5   6 Sum
 ##   female 201 146 155 132  86  56  37 813
@@ -997,19 +997,19 @@ The median cuts the data into two parts: the part to the left of the median and 
 <p>The median of right part is known as the <strong>upper quartile</strong>, and represents the value for which 25% of the data lie above that value.</p>
 <p>The <strong>interquartile range</strong> (IQR) is simply the difference between the upper quartile and the lower quartile, and represents the width of the interval containing the middle 50% of all observations.</p>
 <p>The minimum, lower quartile, median, upper quartile, and maximum jointly form the so-called <strong>five-number summary</strong> of the distribution of a quantitative variable.</p>
-<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb800-1" title="1">descr_stats &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb800-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Sex) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb800-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb800-4" title="4">    <span class="dt">SampleSize =</span> <span class="kw">n</span>(),</a>
-<a class="sourceLine" id="cb800-5" title="5">    <span class="dt">Mean =</span> <span class="kw">mean</span>(NumberCloseFriends),</a>
-<a class="sourceLine" id="cb800-6" title="6">    <span class="dt">SD =</span> <span class="kw">sd</span>(NumberCloseFriends), </a>
-<a class="sourceLine" id="cb800-7" title="7">    <span class="dt">Minimum =</span> <span class="kw">min</span>(NumberCloseFriends),</a>
-<a class="sourceLine" id="cb800-8" title="8">    <span class="dt">LowerQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb800-9" title="9">    <span class="dt">Median =</span> <span class="kw">median</span>(NumberCloseFriends),</a>
-<a class="sourceLine" id="cb800-10" title="10">    <span class="dt">UpperQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.75</span>),</a>
-<a class="sourceLine" id="cb800-11" title="11">    <span class="dt">Maximum =</span> <span class="kw">max</span>(NumberCloseFriends)</a>
-<a class="sourceLine" id="cb800-12" title="12">  )</a>
-<a class="sourceLine" id="cb800-13" title="13">descr_stats</a></code></pre></div>
+<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb798-1" title="1">descr_stats &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb798-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Sex) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb798-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb798-4" title="4">    <span class="dt">SampleSize =</span> <span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb798-5" title="5">    <span class="dt">Mean =</span> <span class="kw">mean</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb798-6" title="6">    <span class="dt">SD =</span> <span class="kw">sd</span>(NumberCloseFriends), </a>
+<a class="sourceLine" id="cb798-7" title="7">    <span class="dt">Minimum =</span> <span class="kw">min</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb798-8" title="8">    <span class="dt">LowerQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb798-9" title="9">    <span class="dt">Median =</span> <span class="kw">median</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb798-10" title="10">    <span class="dt">UpperQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb798-11" title="11">    <span class="dt">Maximum =</span> <span class="kw">max</span>(NumberCloseFriends)</a>
+<a class="sourceLine" id="cb798-12" title="12">  )</a>
+<a class="sourceLine" id="cb798-13" title="13">descr_stats</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 9
 ##   Sex    SampleSize  Mean    SD Minimum LowerQuartile Median UpperQuartile Maximum
 ##   &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;
@@ -1155,10 +1155,10 @@ male
 </p>
 <div id="sol-body-104" class="solution-body" style="display: none;">
 <p>A visual display of the five-number summary is called a <strong>boxplot</strong>. This is typically a very good visualisation when your data involve a quantitative response variable and a categorical explanatory variable.</p>
-<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb802-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> Sex, <span class="dt">y =</span> NumberCloseFriends)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb802-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">color =</span> <span class="st">&#39;darkorange&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb802-3" title="3"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb802-4" title="4"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb800-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> Sex, <span class="dt">y =</span> NumberCloseFriends)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb800-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">color =</span> <span class="st">&#39;darkorange&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb800-3" title="3"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb800-4" title="4"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-497-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1183,13 +1183,13 @@ male
 </p>
 <div id="sol-body-105" class="solution-body" style="display: none;">
 <p>Separate plots:</p>
-<div class="sourceCode" id="cb803"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb803-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb803-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb803-3" title="3"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(Sex))</a></code></pre></div>
+<div class="sourceCode" id="cb801"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb801-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb801-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb801-3" title="3"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(Sex))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-498-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Unique plot:</p>
-<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb804-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb804-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">position =</span> <span class="st">&#39;dodge&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb802-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb802-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">position =</span> <span class="st">&#39;dodge&#39;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-499-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <!-- Proportions: -->
 <!-- ```{r} -->
@@ -1310,8 +1310,8 @@ t = \frac{\bar x_1 - \bar x_2}{SE(\bar x_1 - \bar x_2)}
 <li>Population variances unknown and <em>not equal</em>:</li>
 </ol>
 <ul>
-<li>Very difficult degrees of freedom, let the R function <code>t.test</code> calculate them. If you have to do calculations by hand, you could use an approximation given by <span class="math inline">\(\textrm{df} = \min(n_1 - 1, n_2 - 1)\)</span></li>
-<li>Standard error of the difference in means
+<li>Very difficult degrees of freedom, let the R function <code>t.test</code> calculate them.</li>
+<li>The standard error of the difference in means is
 <center>
 <span class="math display">\[
 SE(\bar x_1 - \bar x_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
@@ -1322,15 +1322,14 @@ SE(\bar x_1 - \bar x_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
 <li>Population variances unknown and <em>equal</em>:</li>
 </ol>
 <ul>
-<li>Degrees of freedom <span class="math inline">\(\textrm{df} = (n_1 - 1) + (n_2 - 1) = n_1 + n_2 - 2\)</span></li>
-<li>Standard error of the difference in means
-<center>
-<span class="math display">\[
-SE(\bar x_1 - \bar x_2) = s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \\ 
-s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
-\]</span>
-</center></li>
+<li>Degrees of freedom <span class="math inline">\(\textrm{df} = (n_1 - 1) + (n_2 - 1) = n_1 + n_2 - 2\)</span>.</li>
+<li>The standard error of the difference in means is</li>
 </ul>
+<p><span class="math display">\[
+\qquad \qquad 
+SE(\bar x_1 - \bar x_2) = s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}, \quad \textrm{where} \quad
+s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
+\]</span></p>
 <h5 id="confidence-interval-for-mu_1---mu_2" class="unnumbered">Confidence interval for <span class="math inline">\(\mu_1 - \mu_2\)</span></h5>
 <center>
 <span class="math display">\[
@@ -1363,14 +1362,14 @@ s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
 </p>
 <div id="sol-body-109" class="solution-body" style="display: none;">
 <p>Let’s extract the relevant statistics from the table of descriptive summaries:</p>
-<div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb805-1" title="1">n_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
-<a class="sourceLine" id="cb805-2" title="2">n_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
-<a class="sourceLine" id="cb805-3" title="3"></a>
-<a class="sourceLine" id="cb805-4" title="4">xbar_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
-<a class="sourceLine" id="cb805-5" title="5">xbar_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
-<a class="sourceLine" id="cb805-6" title="6"></a>
-<a class="sourceLine" id="cb805-7" title="7">s_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a>
-<a class="sourceLine" id="cb805-8" title="8">s_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a></code></pre></div>
+<div class="sourceCode" id="cb803"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb803-1" title="1">n_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
+<a class="sourceLine" id="cb803-2" title="2">n_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
+<a class="sourceLine" id="cb803-3" title="3"></a>
+<a class="sourceLine" id="cb803-4" title="4">xbar_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
+<a class="sourceLine" id="cb803-5" title="5">xbar_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
+<a class="sourceLine" id="cb803-6" title="6"></a>
+<a class="sourceLine" id="cb803-7" title="7">s_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a>
+<a class="sourceLine" id="cb803-8" title="8">s_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a></code></pre></div>
 <p><strong>Step 1.</strong> Can the population variances be assumed equal? Test the following hypotheses:</p>
 <p><span class="math display">\[
 H_0 : \sigma_f^2 = \sigma_m^2 \\
@@ -1382,7 +1381,7 @@ H_0 : \frac{\sigma_f^2}{\sigma_m^2} = 1 \\
 H_1 : \frac{\sigma_f^2}{\sigma_m^2} \neq 1
 \]</span></p>
 <p>Use the F-test to test for equality of the population variances:</p>
-<div class="sourceCode" id="cb806"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb806-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb804-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
 <pre><code>## 
 ##  F test to compare two variances
 ## 
@@ -1396,15 +1395,15 @@ H_1 : \frac{\sigma_f^2}{\sigma_m^2} \neq 1
 ##          0.9809412</code></pre>
 <p>At a significance level of 0.05, the <span class="math inline">\(p\)</span>-value = 0.79 leads us to not rejecting the null hypothesis of equal variances across the two populations.</p>
 <p><strong>Step 2.</strong> We can now perform the <span class="math inline">\(t\)</span>-test calculations using the appropriate formula for the standard error of the difference in means. As the population variances are assumed equal, we use the formula involving the pooled standard deviation:</p>
-<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb808-1" title="1"><span class="co"># Pooled SD</span></a>
-<a class="sourceLine" id="cb808-2" title="2">s_p &lt;-<span class="st"> </span><span class="kw">sqrt</span>(</a>
-<a class="sourceLine" id="cb808-3" title="3">  ((n_f <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_f<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(n_m <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_m<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb808-4" title="4">)</a>
-<a class="sourceLine" id="cb808-5" title="5"></a>
-<a class="sourceLine" id="cb808-6" title="6">SE &lt;-<span class="st"> </span>s_p <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>n_f <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n_m)</a>
-<a class="sourceLine" id="cb808-7" title="7"></a>
-<a class="sourceLine" id="cb808-8" title="8">t_stat &lt;-<span class="st"> </span>(xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">/</span><span class="st"> </span>SE</a>
-<a class="sourceLine" id="cb808-9" title="9">t_stat</a></code></pre></div>
+<div class="sourceCode" id="cb806"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb806-1" title="1"><span class="co"># Pooled SD</span></a>
+<a class="sourceLine" id="cb806-2" title="2">s_p &lt;-<span class="st"> </span><span class="kw">sqrt</span>(</a>
+<a class="sourceLine" id="cb806-3" title="3">  ((n_f <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_f<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(n_m <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_m<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb806-4" title="4">)</a>
+<a class="sourceLine" id="cb806-5" title="5"></a>
+<a class="sourceLine" id="cb806-6" title="6">SE &lt;-<span class="st"> </span>s_p <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>n_f <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n_m)</a>
+<a class="sourceLine" id="cb806-7" title="7"></a>
+<a class="sourceLine" id="cb806-8" title="8">t_stat &lt;-<span class="st"> </span>(xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">/</span><span class="st"> </span>SE</a>
+<a class="sourceLine" id="cb806-9" title="9">t_stat</a></code></pre></div>
 <pre><code>## [1] 2.4523</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1430,12 +1429,12 @@ H_1 : \frac{\sigma_f^2}{\sigma_m^2} \neq 1
 </p>
 <div id="sol-body-110" class="solution-body" style="display: none;">
 <p>Critical value:</p>
-<div class="sourceCode" id="cb810"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb810-1" title="1">t_crit &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb810-2" title="2">t_crit</a></code></pre></div>
+<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb808-1" title="1">t_crit &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb808-2" title="2">t_crit</a></code></pre></div>
 <pre><code>## [1] 1.961585</code></pre>
 <p><span class="math inline">\(p\)</span>-value:</p>
-<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb812-1" title="1">p_value &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(t_stat), n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb812-2" title="2">p_value</a></code></pre></div>
+<div class="sourceCode" id="cb810"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb810-1" title="1">p_value &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(t_stat), n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb810-2" title="2">p_value</a></code></pre></div>
 <pre><code>## [1] 0.01431058</code></pre>
 <p>At a 5% significance level, the observed difference in mean number of close friends between adult American females and males is significantly different from 0 (<span class="math inline">\(t(1465) = 2.45\)</span>, <span class="math inline">\(p\)</span>-value <span class="math inline">\(&lt;.05\)</span>, two-tailed).</p>
 <p>In other words, an observed difference in sample mean number of close friends of 0.23 is highly unlikely to occur by chance alone.</p>
@@ -1462,20 +1461,20 @@ Both R functions require a <strong>formula</strong> as first argument:
 <br><br></li>
 </ul>
 <p><strong>Step 1.</strong> Test for equality of the population variances:</p>
-<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb812-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
 <p><strong>Step 2.</strong> According to the previous test, use the appropriate <span class="math inline">\(t\)</span>-test using either one of the following code chunks.</p>
 <ol style="list-style-type: lower-roman">
 <li>If you can not reject the null hypothesis of equal population variances, use a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n_1 + n_2 - 2\)</span> degrees of freedom:</li>
 </ol>
-<div class="sourceCode" id="cb815"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb815-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb813"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb813-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <ol start="2" style="list-style-type: lower-roman">
 <li>If the population variances were not equal, we would have used the Welch-Satterthwaite approximation to the degrees of freedom:</li>
 </ol>
-<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb816-1" title="1"><span class="co"># Welch-Satterthwaite approximation</span></a>
-<a class="sourceLine" id="cb816-2" title="2"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb816-3" title="3"></a>
-<a class="sourceLine" id="cb816-4" title="4"><span class="co"># If not provided, var.equal = FALSE by default</span></a>
-<a class="sourceLine" id="cb816-5" title="5"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" title="1"><span class="co"># Welch-Satterthwaite approximation</span></a>
+<a class="sourceLine" id="cb814-2" title="2"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb814-3" title="3"></a>
+<a class="sourceLine" id="cb814-4" title="4"><span class="co"># If not provided, var.equal = FALSE by default</span></a>
+<a class="sourceLine" id="cb814-5" title="5"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
 </div>
 <hr />
 <div class="question">
@@ -1496,7 +1495,7 @@ Both R functions require a <strong>formula</strong> as first argument:
 </p>
 <div id="sol-body-111" class="solution-body" style="display: none;">
 <p>We have already tested before for equality of the population variances:</p>
-<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb817-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<div class="sourceCode" id="cb815"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb815-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
 <pre><code>## 
 ##  F test to compare two variances
 ## 
@@ -1509,7 +1508,7 @@ Both R functions require a <strong>formula</strong> as first argument:
 ## ratio of variances 
 ##          0.9809412</code></pre>
 <p>As we can not reject the null hypothesis of equal variances across the two populations, we use a <span class="math inline">\(t\)</span>-test with <span class="math inline">\(\textrm{df} = n_1 + n_2 - 2\)</span>:</p>
-<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb819-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb817-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
@@ -1580,10 +1579,10 @@ Both R functions require a <strong>formula</strong> as first argument:
 </p>
 <div id="sol-body-113" class="solution-body" style="display: none;">
 <p>In order to estimate the magnitude of the difference in the population means we can use a confidence interval for the difference in means.</p>
-<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb821-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb821-2" title="2">  <span class="dt">Lower =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">-</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE,</a>
-<a class="sourceLine" id="cb821-3" title="3">  <span class="dt">Upper =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">+</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE)</a>
-<a class="sourceLine" id="cb821-4" title="4">ci</a></code></pre></div>
+<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb819-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb819-2" title="2">  <span class="dt">Lower =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">-</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE,</a>
+<a class="sourceLine" id="cb819-3" title="3">  <span class="dt">Upper =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">+</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE)</a>
+<a class="sourceLine" id="cb819-4" title="4">ci</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##    Lower Upper
 ##    &lt;dbl&gt; &lt;dbl&gt;
@@ -1802,8 +1801,8 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 </p>
 <div class="question-body">
 <p>Assuming that the population variances are <strong>not</strong> equal, calculate the test statistic and the <span class="math inline">\(p\)</span>-value.</p>
+<p>For your convenience, we have already calculated the degrees of freedom, which are <span class="math inline">\(\textrm{df} =\)</span> 32.5.</p>
 <p><em><strong>Hint:</strong> As you do not have the party-by-party tipping amounts, but only summary statistics, you can not use the <code>t.test()</code> function, which requires the data at the finest level (the observational units).</em></p>
-<p><em>If you can not assume equal variances, you must use the Welch <span class="math inline">\(t\)</span>-test. However, this test has a very difficult formula for the degrees of freedom. For our learning purposes, we can use a simplification given by <span class="math inline">\(\textrm{df} = \min(n_1 - 1, n_2 - 1)\)</span>. This will be a conservative approximation to Welch’s degrees of freedom but it is much easier to remember!</em></p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1816,28 +1815,26 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 <div id="sol-body-121" class="solution-body" style="display: none;">
 <p>The two-sample <span class="math inline">\(t\)</span>-test in the case of unequal population variances involves the Welch-Satterthwaite approximation to the degrees of freedom.</p>
 <p>The <span class="math inline">\(t\)</span>-statistic is:</p>
-<div class="sourceCode" id="cb823"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb823-1" title="1">n_name &lt;-<span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb823-2" title="2">xbar_name &lt;-<span class="st"> </span><span class="fl">5.44</span></a>
-<a class="sourceLine" id="cb823-3" title="3">s_name &lt;-<span class="st"> </span><span class="fl">1.75</span></a>
-<a class="sourceLine" id="cb823-4" title="4"></a>
-<a class="sourceLine" id="cb823-5" title="5">n_no &lt;-<span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb823-6" title="6">xbar_no &lt;-<span class="st"> </span><span class="fl">3.49</span></a>
-<a class="sourceLine" id="cb823-7" title="7">s_no &lt;-<span class="st"> </span><span class="fl">1.13</span></a>
-<a class="sourceLine" id="cb823-8" title="8"></a>
-<a class="sourceLine" id="cb823-9" title="9">SE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_name <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_no)</a>
-<a class="sourceLine" id="cb823-10" title="10">t_stat &lt;-<span class="st"> </span>(xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">/</span><span class="st"> </span>SE</a>
-<a class="sourceLine" id="cb823-11" title="11">t_stat</a></code></pre></div>
+<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb821-1" title="1">n_name &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb821-2" title="2">xbar_name &lt;-<span class="st"> </span><span class="fl">5.44</span></a>
+<a class="sourceLine" id="cb821-3" title="3">s_name &lt;-<span class="st"> </span><span class="fl">1.75</span></a>
+<a class="sourceLine" id="cb821-4" title="4"></a>
+<a class="sourceLine" id="cb821-5" title="5">n_no &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb821-6" title="6">xbar_no &lt;-<span class="st"> </span><span class="fl">3.49</span></a>
+<a class="sourceLine" id="cb821-7" title="7">s_no &lt;-<span class="st"> </span><span class="fl">1.13</span></a>
+<a class="sourceLine" id="cb821-8" title="8"></a>
+<a class="sourceLine" id="cb821-9" title="9">SE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_name <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_no)</a>
+<a class="sourceLine" id="cb821-10" title="10">t_stat &lt;-<span class="st"> </span>(xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">/</span><span class="st"> </span>SE</a>
+<a class="sourceLine" id="cb821-11" title="11">t_stat</a></code></pre></div>
 <pre><code>## [1] 4.186343</code></pre>
-<p>Welch’s formula for the degrees of freedom is very complicated to remember, so we will approximate it with a more conservative approach: <span class="math inline">\(\textrm{df} = \min(n_1 - 1, n_2 - 1)\)</span>.</p>
-<div class="sourceCode" id="cb825"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb825-1" title="1">df &lt;-<span class="st"> </span><span class="kw">min</span>(n_name <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, n_no <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb825-2" title="2">df</a></code></pre></div>
-<pre><code>## [1] 19</code></pre>
+<p>The question provides us the degrees of freedom calculated using Welch’s formula: <span class="math inline">\(\textrm{df} = 32.5\)</span>.</p>
+<div class="sourceCode" id="cb823"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb823-1" title="1">df &lt;-<span class="st"> </span><span class="fl">32.5</span></a></code></pre></div>
 <p>Critical value:</p>
-<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb827-1" title="1"><span class="kw">qt</span>(<span class="fl">0.95</span>, <span class="dt">df =</span> df)</a></code></pre></div>
-<pre><code>## [1] 1.729133</code></pre>
+<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb824-1" title="1"><span class="kw">qt</span>(<span class="fl">0.95</span>, <span class="dt">df =</span> df)</a></code></pre></div>
+<pre><code>## [1] 1.693112</code></pre>
 <p><span class="math inline">\(p\)</span>-value:</p>
-<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb829-1" title="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_stat, <span class="dt">df =</span> df)</a></code></pre></div>
-<pre><code>## [1] 0.0002503383</code></pre>
+<div class="sourceCode" id="cb826"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb826-1" title="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_stat, <span class="dt">df =</span> df)</a></code></pre></div>
+<pre><code>## [1] 0.0001010876</code></pre>
 <p>The <span class="math inline">\(p\)</span>-value is &lt;.0005.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1901,8 +1898,9 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 ► Question B.9
 </p>
 <div class="question-body">
-<p>Calculate a 95% confidence interval for the difference in population mean tip amount between the name and no name conditions.</p>
+<p>Calculate a 95% confidence interval for the difference in population mean tipping amount between the name and no name conditions.</p>
 <p>Write a sentence or two interpreting what the interval reveals.</p>
+<p><em><strong>Hint</strong>: The degrees of freedom were given in Question B.6.</em></p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1913,35 +1911,30 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 ► Solution<span id="sol-start-124" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-124&#39;, &#39;sol-start-124&#39;)"></span>
 </p>
 <div id="sol-body-124" class="solution-body" style="display: none;">
-First, we must find the appropriate critical value <span class="math inline">\(t^*_\textrm{df}\)</span> (for the desired confidence level) from a <span class="math inline">\(t\)</span>-distribution with degrees of freedom given by Welch’s method. However, the formula is very complex, so we will use a simpler version:
-<center>
-<span class="math display">\[
-\textrm{df} = \min(n_{name} - 1, n_{no\ name} - 1) = \min(20 - 1, 20 - 1) = 19
-\]</span>
-</center>
+<p>First, we must find the appropriate critical value <span class="math inline">\(t^*_\textrm{df}\)</span> (for the desired confidence level) from a <span class="math inline">\(t\)</span>-distribution with degrees of freedom given by Welch’s method (see Question B.6 for the value).</p>
 <p>The critical value for a 95% confidence level is:</p>
-<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" title="1">t_crit_ci &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, <span class="dv">19</span>)</a>
-<a class="sourceLine" id="cb831-2" title="2">t_crit_ci</a></code></pre></div>
-<pre><code>## [1] 2.093024</code></pre>
+<div class="sourceCode" id="cb828"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb828-1" title="1">t_crit_ci &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, df)</a>
+<a class="sourceLine" id="cb828-2" title="2">t_crit_ci</a></code></pre></div>
+<pre><code>## [1] 2.035705</code></pre>
 We compute a 95% confidence interval for the difference in population means, <span class="math inline">\(\mu_{name} - \mu_{no\ name}\)</span>, as follows:
 <center>
 <span class="math display">\[
 (\bar x_{name} - \bar x_{no\ name}) \pm t^*_\textrm{df} \sqrt{\frac{s_{name}^2}{n_{name}} + \frac{s_{no\ name}^2}{n_{no\ name}}} \\
-(5.44 - 3.49) \pm 2.093 \sqrt{\frac{1.75^2}{20} + \frac{1.13^2}{20}}
+(5.44 - 3.49) \pm 2.036 \sqrt{\frac{1.75^2}{20} + \frac{1.13^2}{20}}
 \]</span>
 </center>
-<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb833-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb833-2" title="2">  <span class="dt">Lower =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">-</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>),</a>
-<a class="sourceLine" id="cb833-3" title="3">  <span class="dt">Upper =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">+</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb833-4" title="4">)</a>
-<a class="sourceLine" id="cb833-5" title="5">ci</a></code></pre></div>
+<div class="sourceCode" id="cb830"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb830-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb830-2" title="2">  <span class="dt">Lower =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">-</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>),</a>
+<a class="sourceLine" id="cb830-3" title="3">  <span class="dt">Upper =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">+</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb830-4" title="4">)</a>
+<a class="sourceLine" id="cb830-5" title="5">ci</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   Lower Upper
 ##   &lt;dbl&gt; &lt;dbl&gt;
-## 1 0.975  2.92</code></pre>
-<p>The 95% confidence interval is [0.98, 2.92].</p>
-<p>We are 95% confident that the waitress would earn, on average, between $0.98 and $2.92 more per party with a $23.21 bill, by including her name as part of the greeting.
-<!-- We are 95% confident that the interval between \$0.98 and \$2.92 contains the true amount the waitress would earn, on average, per party with a \$23.21 bill, by including her name as part of the greeting. --></p>
+## 1  1.00  2.90</code></pre>
+<p>The 95% confidence interval is [1, 2.9].</p>
+<p>We are 95% confident that the waitress would earn, on average, between $1 and $2.9 more per party with a $23.21 bill, by including her name as part of the greeting.
+<!-- We are 95% confident that the interval between \$1 and \$2.9 contains the true amount the waitress would earn, on average, per party with a \$23.21 bill, by including her name as part of the greeting. --></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1966,11 +1959,11 @@ We compute a 95% confidence interval for the difference in population means, <sp
 </p>
 <div id="sol-body-125" class="solution-body" style="display: none;">
 <p>The study involved random assignment of the experimental units to the groups, so the only difference between the groups was whether the party was given the waitress’ name or not.
-As the parties in the name condition tend to give significantly higher tips on average than those in the no name condition (<span class="math inline">\(t(19)\)</span> = 4.19, <span class="math inline">\(p\)</span>-value &lt; .0005, one-sided), we can attribute this difference in means to being told the waitress’ name as part of the greeting.
+As the parties in the name condition tend to give significantly higher tips on average than those in the no name condition (<span class="math inline">\(t(32.5)\)</span> = 4.19, <span class="math inline">\(p\)</span>-value &lt; .0005, one-sided), we can attribute this difference in means to being told the waitress’ name as part of the greeting.
 In other words, we can conclude a causal link between being given the name as part of the greeting and receiving higher tips on average.</p>
 <p>However, as the waitress was not blind to the treatment condition, we must be wary to the fact that the waitress could have given better service to the parties who she gave her name to. So, the results hold unless the waitress gave better service to the name condition.</p>
 <p>Having established that there is a significant difference in means between the two groups, a confidence intervals lets us now to estimate, on average, how much higher the tips will be when giving her name.
-Including her name as part of the greeting to customers increases the waitress’ tips, on average, by $0.98 to $2.92 per party.</p>
+Including her name as part of the greeting to customers increases the waitress’ tips, on average, by $1 to $2.9 per party.</p>
 <p>We must be careful when generalising these results to the population. As only one particular waitress participated in the study, we don’t want to generalise these results to other waitresses.
 Furthermore, we might also avoid generalising these results to customers different from those who eat Sunday brunch at Charley Brown’s Restaurant in Huntington Beach, California.</p>
 <p>Finally, the <span class="math inline">\(p\)</span>-values and confidence interval are valid only if the response variable “tipping amount” is normally distributed in the two populations.</p>

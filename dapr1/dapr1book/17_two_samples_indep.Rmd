@@ -582,8 +582,8 @@ where $T_\textrm{df}$ denotes a $t$-distribution with $\textrm{df}$ degrees of f
 _SE and df:_
 
 1. Population variances unknown and _not equal_:
-  + Very difficult degrees of freedom, let the R function `t.test` calculate them. If you have to do calculations by hand, you could use an approximation given by $\textrm{df} = \min(n_1 - 1, n_2 - 1)$
-  + Standard error of the difference in means
+  + Very difficult degrees of freedom, let the R function `t.test` calculate them.
+  + The standard error of the difference in means is
 <center>
 $$
 SE(\bar x_1 - \bar x_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
@@ -591,14 +591,15 @@ $$
 </center>
 
 2. Population variances unknown and _equal_:
-  + Degrees of freedom $\textrm{df} = (n_1 - 1) + (n_2 - 1) = n_1 + n_2 - 2$
-  + Standard error of the difference in means
-<center>
+  + Degrees of freedom $\textrm{df} = (n_1 - 1) + (n_2 - 1) = n_1 + n_2 - 2$.
+  + The standard error of the difference in means is
+
 $$
-SE(\bar x_1 - \bar x_2) = s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \\ 
+\qquad \qquad 
+SE(\bar x_1 - \bar x_2) = s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}, \quad \textrm{where} \quad
 s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
 $$
-</center>
+
 
 
 ##### Confidence interval for $\mu_1 - \mu_2$ {-}
@@ -963,12 +964,27 @@ For the 20 parties in the no name condition, the sample mean tip was $\bar x_{no
 
 ---
 
+```{r echo=FALSE}
+n_name <- 20
+xbar_name <- 5.44
+s_name <- 1.75
+
+n_no <- 20
+xbar_no <- 3.49
+s_no <- 1.13
+
+se1 <- s_name / sqrt(n_name)
+se2 <- s_no / sqrt(n_no)
+welch_df <- (se1^2 + se2^2)^2 / (se1^4 / (n_name - 1) + se2^4 / (n_no - 1))
+welch_df <- round(welch_df, 2)
+```
+
 `r msmbstyle::question_begin(header = "&#x25BA; Question B.6")`
 Assuming that the population variances are __not__ equal, calculate the test statistic and the $p$-value.
 
-_**Hint:** As you do not have the party-by-party tipping amounts, but only summary statistics, you can not use the `t.test()` function, which requires the data at the finest level (the observational units)._
+For your convenience, we have already calculated the degrees of freedom, which are $\textrm{df} =$ `r welch_df`.
 
-_If you can not assume equal variances, you must use the Welch $t$-test. However, this test has a very difficult formula for the degrees of freedom. For our learning purposes, we can use a simplification given by $\textrm{df} = \min(n_1 - 1, n_2 - 1)$. This will be a conservative approximation to Welch's degrees of freedom but it is much easier to remember!_
+_**Hint:** As you do not have the party-by-party tipping amounts, but only summary statistics, you can not use the `t.test()` function, which requires the data at the finest level (the observational units)._
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
@@ -990,11 +1006,9 @@ t_stat <- (xbar_name - xbar_no) / SE
 t_stat
 ```
 
-Welch's formula for the degrees of freedom is very complicated to remember, so we will approximate it with a more conservative approach: $\textrm{df} = \min(n_1 - 1, n_2 - 1)$.
-
+The question provides us the degrees of freedom calculated using Welch's formula: $\textrm{df} = 32.5$.
 ```{r}
-df <- min(n_name - 1, n_no - 1)
-df
+df <- 32.5
 ```
 
 Critical value:
@@ -1042,22 +1056,19 @@ However, we only have summary statistics and not the actual tip amounts for each
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question B.9")`
-Calculate a 95% confidence interval for the difference in population mean tip amount between the name and no name conditions.
+Calculate a 95% confidence interval for the difference in population mean tipping amount between the name and no name conditions.
 
 Write a sentence or two interpreting what the interval reveals. 
+
+_**Hint**: The degrees of freedom were given in Question B.6._
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-First, we must find the appropriate critical value $t^*_\textrm{df}$ (for the desired confidence level) from a $t$-distribution with degrees of freedom given by Welch's method. However, the formula is very complex, so we will use a simpler version:
-<center>
-$$
-\textrm{df} = \min(n_{name} - 1, n_{no\ name} - 1) = \min(20 - 1, 20 - 1) = 19
-$$
-</center>
+First, we must find the appropriate critical value $t^*_\textrm{df}$ (for the desired confidence level) from a $t$-distribution with degrees of freedom given by Welch's method (see Question B.6 for the value).
 
 The critical value for a 95% confidence level is:
 ```{r}
-t_crit_ci <- qt(0.975, 19)
+t_crit_ci <- qt(0.975, df)
 t_crit_ci
 ```
 
@@ -1066,7 +1077,7 @@ We compute a 95% confidence interval for the difference in population means, $\m
 <center>
 $$
 (\bar x_{name} - \bar x_{no\ name}) \pm t^*_\textrm{df} \sqrt{\frac{s_{name}^2}{n_{name}} + \frac{s_{no\ name}^2}{n_{no\ name}}} \\
-(5.44 - 3.49) \pm 2.093 \sqrt{\frac{1.75^2}{20} + \frac{1.13^2}{20}}
+(5.44 - 3.49) \pm 2.036 \sqrt{\frac{1.75^2}{20} + \frac{1.13^2}{20}}
 $$
 </center>
 
@@ -1080,8 +1091,8 @@ ci
 
 The 95% confidence interval is [`r ci %>% round(2)`].
 
-We are 95% confident that the waitress would earn, on average, between \$0.98 and \$2.92 more per party with a \$23.21 bill, by including her name as part of the greeting.
-<!-- We are 95% confident that the interval between \$0.98 and \$2.92 contains the true amount the waitress would earn, on average, per party with a \$23.21 bill, by including her name as part of the greeting. -->
+We are 95% confident that the waitress would earn, on average, between \$1 and \$2.9 more per party with a \$23.21 bill, by including her name as part of the greeting.
+<!-- We are 95% confident that the interval between \$1 and \$2.9 contains the true amount the waitress would earn, on average, per party with a \$23.21 bill, by including her name as part of the greeting. -->
 `r msmbstyle::solution_end()`
 
 ---
@@ -1094,7 +1105,7 @@ Make sure to also comment on causation and generalisability of your results.
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
 The study involved random assignment of the experimental units to the groups, so the only difference between the groups was whether the party was given the waitress' name or not.
-As the parties in the name condition tend to give significantly higher tips on average than those in the no name condition ($t(19)$ = `r t_stat %>% round(2)`, $p$-value < .0005, one-sided), we can attribute this difference in means to being told the waitress' name as part of the greeting.
+As the parties in the name condition tend to give significantly higher tips on average than those in the no name condition ($t(32.5)$ = `r t_stat %>% round(2)`, $p$-value < .0005, one-sided), we can attribute this difference in means to being told the waitress' name as part of the greeting.
 In other words, we can conclude a causal link between being given the name as part of the greeting and receiving higher tips on average.
 
 However, as the waitress was not blind to the treatment condition, we must be wary to the fact that the waitress could have given better service to the parties who she gave her name to. So, the results hold unless the waitress gave better service to the name condition.
