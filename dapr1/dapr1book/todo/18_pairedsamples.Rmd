@@ -26,40 +26,97 @@ library(tidyverse)
 
 </div>
 
-## Recap
+## Recap {-}
 
 
+Last week we extended our understanding of the $t$-test to compare the means of two populations (or the means of two treatment groups, if doing a randomized experiment).  
+We therefore now have the tools to answer questions of the form:  
+  
+1. _is_ [population mean] _different from_ [hypothesised value] _?_ (one sample $t$-test)  
+2. _is_ [population mean 1] _different from_ [population mean 2] _?_ (independent samples $t$-test)  
+2a. _is the mean of_ [variable] _different between_ [group-1 and group-2] _?_ (independent samples $t$-test)  
 
 
-One sample $t$-test [(Week 16)](#)
+#### One sample $t$-test ([Week 16](#chap-one-mean-test)) {-}
+<center>
 $$
 t = \frac{\bar{x} - \mu_0}{SE(\bar{x})}, \qquad SE(\bar{x}) = \frac{s}{\sqrt{n}}
 $$
+</center>
+__Validity conditions:__  
+i. The data are continuous (not discrete).  
+ii. The quantitative variable of interest is normally distributed in the population OR the sample size is large enough (as a convention, $n \geq 20$) and the data are not strongly skewed.  
+iii. The data are randomly sampled from a population.  
 
-two independent samples t test (with equal variances)
+
+---
+
+#### Two independent samples $t$-test (with equal variances) ([Week 17](#two-indep-samples)) {-}  
 $$
 t = \frac{\bar x_1 - \bar x_2}{SE(\bar x_1 - \bar x_2)}, \qquad SE(\bar{x}_1 - \bar{x}_2) = S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}, \qquad S_p = \sqrt\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
 $$
+__Validity conditions:__  
+i. The data are continuous (not discrete).  
+ii. The quantitative variable of interest is normally distributed in both populations OR both sample sizes are large (as a convention, $n_1 \geq 20$ and $n_2 \geq 20$) and the sample distributions should not be strongly skewed.  
+iii. Independence of observations within and across groups.  
+iv. Homogeneity of variance across groups.  
+
+We also learnt that when the response variable does __not__ have equal variance across groups, we could use the Welch-Satterthwaite approximation to the degrees of freedom, and set `var.equal=FALSE` in the `t.test()` function.  
 
 
-## Paired data  
+## Paired $t$-test {-}
 
-+ __Pairs of time points:__ Same person, same variable, different times  
-+ __Pairs of variables:__ Same person, different variables  
-+ __Pairs of people:__ Same variable, different people  
-
-
+The last $t$-test we are going to learn about is the paired $t$-test, or 'dependent samples $t$-test'. 
+Recall that last week we were concerned with evaluating the differences in means between two groups, and one of our assumptions in conducting our test was that the two groups were independent.  
+However, we are often interested in asking whether there is a difference in means between two groups which are _dependent_.  
 
 
+We say that two sets of observations $A$ and $B$ are _dependent_ when there is some pairing in the sets, such that $A_1$ is linked to $B_1$ in the same way that $A_2$ is linked to $B_2$, and so on.
 
+<div class="noteBox">
+__Pairs of time points:__ Same person, same variable, different times  
+```{r echo=FALSE}
+tibble(
+  subject = c("sub1","sub2","..."),
+  time_1 = c(25, 18, "..."),
+  time_2 = c(25, 19, "...")
+) %>% knitr::kable()
+```
+__Pairs of variables:__ Same person, different variables  
+```{r echo=FALSE}
+tibble(
+  subject = c("sub1","sub2","..."),
+  maths_test = c(42, 46, "..."),
+  english_test = c(38, 40, "...")
+) %>% knitr::kable()
+```
+__Pairs of people:__ Same variable, different individual from a dyad (pair of people)
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Do employees work different amount of hours to their bosses?  
++ Same variable: hours per day  
++ Different person: employee vs boss  
+```{r echo=FALSE}
+tibble(
+  pair = c("pair1","pair2","..."),
+  line_manager_hours = c(10, 8, "..."),
+  employee_hours = c(9, 9, "...")
+) %>% knitr::kable()
+```
+`r msmbstyle::solution_end()`
+
+
+</div>
 
 <div class="red">
-#### Comparing the means of two independent groups {-}
+#### Comparing the means of two dependent groups {-}
 
-<!-- _Suppose you wish to test for the significance of the difference between two population means denoted $\mu_1$ and $\mu_2$ and, if the difference is signficant, you wish to quantify the magnitude of the difference using a confidence interval._ -->
+Suppose you wish to determine whether the mean difference between two dependent sets of observations is zero, and if the difference is significant, you wish to quantify the magnitude of the difference using a confidence interval.  
+
+ 
 
 
 ##### Test of significance  {-}
+
 
 Null hypothesis    
 The null hypothesis assumes that the true mean difference ($\mu_d$) is equal to zero.
@@ -110,6 +167,7 @@ These above procedures are considered valid if:
 
 - The sample data arise from independent random samples from two populations OR from random assignment of the units to treatment groups.
 - Either the quantitative variable of interest is normally distributed in both populations OR both sample sizes are large (as a convention, $n_1 \geq 20$ and $n_2 \geq 20$) and the sample distributions should not be strongly skewed.
+
 </div>
 
 
