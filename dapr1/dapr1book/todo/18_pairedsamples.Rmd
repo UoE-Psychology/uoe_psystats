@@ -1,5 +1,6 @@
 ```{r, echo=FALSE}
 HIDDEN_SOLS=TRUE
+TOGGLE=TRUE
 set.seed(15732)
 ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 
@@ -36,6 +37,7 @@ We therefore now have the tools to answer questions of the form:
 2. _is_ [population mean 1] _different from_ [population mean 2] _?_ (independent samples $t$-test)  
 2a. _is the mean of_ [variable] _different between_ [group-1 and group-2] _?_ (independent samples $t$-test)  
 
+---
 
 #### One sample $t$-test ([Week 16](#chap-one-mean-test)) {-}
 <center>
@@ -75,6 +77,11 @@ We say that two sets of observations $A$ and $B$ are _dependent_ when there is s
 
 <div class="noteBox">
 __Pairs of time points:__ Same person, same variable, different times  
+`r msmbstyle::solution_begin(header = "&#x25BA; Example", hidden = FALSE, toggle = TOGGLE)`
+Do peoples' scores differ between timepoint one and timepoint two?  
+
++ Same participants and same test administered at multiple timepoints   
+
 ```{r echo=FALSE}
 tibble(
   subject = c("sub1","sub2","..."),
@@ -82,7 +89,13 @@ tibble(
   time_2 = c(25, 19, "...")
 ) %>% knitr::kable()
 ```
+`r msmbstyle::solution_end()`
 __Pairs of variables:__ Same person, different variables  
+`r msmbstyle::solution_begin(header = "&#x25BA; Example", hidden = FALSE, toggle = TOGGLE)` 
+Do peoples' scores on maths tests differ from their scores on english tests?  
+
++ Same people taking both tests and producing a score on maths and score on english   
+  
 ```{r echo=FALSE}
 tibble(
   subject = c("sub1","sub2","..."),
@@ -90,11 +103,13 @@ tibble(
   english_test = c(38, 40, "...")
 ) %>% knitr::kable()
 ```
+`r msmbstyle::solution_end()`
 __Pairs of people:__ Same variable, different individual from a dyad (pair of people)
-`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+`r msmbstyle::solution_begin(header = "&#x25BA; Example", hidden = FALSE, toggle = TOGGLE)`
 Do employees work different amount of hours to their bosses?  
-+ Same variable: hours per day  
-+ Different person: employee vs boss  
+  
++ Same variable (hours worked per day) collected from each person in pairs of people (i.e., each employee and their respective bosses).  
+
 ```{r echo=FALSE}
 tibble(
   pair = c("pair1","pair2","..."),
@@ -103,18 +118,19 @@ tibble(
 ) %>% knitr::kable()
 ```
 `r msmbstyle::solution_end()`
-
-
 </div>
 
+**THE PAIRED T-TEST IS JUST THE 
+
+
+
+
 <div class="red">
-#### Comparing the means of two dependent groups {-}
+#### Comparing the means of two dependent groups (paired $t$-test) {-}
 
 Suppose you wish to determine whether the mean difference between two dependent sets of observations is zero, and if the difference is significant, you wish to quantify the magnitude of the difference using a confidence interval.  
 
  
-
-
 ##### Test of significance  {-}
 
 
