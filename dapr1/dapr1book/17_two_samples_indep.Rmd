@@ -1,5 +1,5 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=TRUE
+HIDDEN_SOLS=FALSE
 TOGGLE=TRUE
 set.seed(15732)
 ggplot2::theme_set(ggplot2::theme_gray(base_size=15))
@@ -428,12 +428,16 @@ descr_stats
 ```
 
 
-You can use the function `kable` to format the above tibble as a nice HTML table: 
+To format the above tibble as a nice HTML table, you can use the function `kable` from the package `knitr`:
+```{r}
+knitr::kable(descr_stats, "html", digits = 2)
+```
 
 ```{r echo=FALSE}
-knitr::kable(descr_stats, "html", digits = 2) %>% 
-  kableExtra::kable_styling(font_size = 12, full_width=TRUE)
+# knitr::kable(descr_stats, "html", digits = 2) %>%
+#   kableExtra::kable_styling(font_size = 12, full_width=TRUE)
 ```
+
 
 `r msmbstyle::solution_end()`
 
@@ -1125,7 +1129,7 @@ Finally, the $p$-values and confidence interval are valid only if the response v
 - _Five-number summary_. Minimum, lower quartile, median, upper quartile, maximum.
 - _Lower quartile_. The value in the data such that 25% of the data lie below that value.
 - _Upper quartile_. The value in the data such that 25% of the data lie above that value.
-- _Assumptions of the two-sample $t$-test_. The data should arise from random sapling from two populations and either the variable is normally distributed in both populations or both sample sizes are large ($n_1 \geq 20$ and $n_2 \geq 20$) and the sample distributions should not be strongly skewed.
+- _Assumptions of the two-sample $t$-test_. The data should arise from random sampling from two populations and either the variable is normally distributed in both populations or both sample sizes are large ($n_1 \geq 20$ and $n_2 \geq 20$) and the sample distributions should not be strongly skewed.
 
 
 ## References {#w17-references}
