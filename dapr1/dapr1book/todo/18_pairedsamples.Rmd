@@ -33,9 +33,9 @@ library(tidyverse)
 Last week we extended our understanding of the $t$-test to compare the means of two populations (or the means of two treatment groups, if doing a randomized experiment).  
 We therefore now have the tools to answer questions of the form:  
   
-1. _is_ [population mean] _different from_ [hypothesised value] _?_ (one sample $t$-test)  
+1. _is_ [population mean] _different from_ [hypothesized value] _?_ (one sample $t$-test)  
 2. _is_ [population mean 1] _different from_ [population mean 2] _?_ (independent samples $t$-test)  
-2a. _is the mean of_ [variable] _different between_ [group-1 and group-2] _?_ (independent samples $t$-test)  
+2a. _is the mean of_ [variable] _different between_ [group-1] and [group-2] _?_ (independent samples $t$-test)  
 
 ---
 
@@ -93,9 +93,9 @@ tibble(
 `r msmbstyle::solution_end()`
 __Pairs of variables:__ Same person, different variables  
 `r msmbstyle::solution_begin(header = "&#x25BA; Example", hidden = FALSE, toggle = TOGGLE)` 
-Do peoples' scores on maths tests differ from their scores on english tests?  
+Do peoples' scores on maths tests differ from their scores on English tests?  
 
-+ Same people taking both tests and producing a score on maths and score on english   
++ Same people taking both tests and producing a score on maths and score on English   
   
 ```{r echo=FALSE}
 tibble(
@@ -140,9 +140,13 @@ __Alternative hypothesis:__
 The alternative hypothesis assumes that $\mu_d$ is less than/greater than/not equal to zero.  
 
 <center>
-$H_1: \mu_d < 0$  
-$H_1: \mu_d > 0$  
-$H_1: \mu_d \neq 0$  
+$$
+\begin{matrix}
+i.   & H_1: \mu_d < 0 \\
+ii.  & H_1: \mu_d > 0 \\
+iii. & H_1: \mu_d \neq 0
+\end{matrix}
+$$
 </center>
 
 __Test statistic:__
@@ -155,9 +159,13 @@ $$
 __$p$-value:__
 
 <center>
-$\mathrm{Pr}(T_{df} \leq t)$
-$\mathrm{Pr}(T_{df} \geq t)$
-$2 \times \mathrm{Pr}(T_{df} \leq |t|)$
+$$
+\begin{matrix}
+i.   & \mathrm{Pr}(T_{df} \leq t) \\
+ii.  & \mathrm{Pr}(T_{df} \geq t) \\
+iii. & 2 \times \mathrm{Pr}(T_{df} \leq |t|)
+\end{matrix}
+$$
 </center>
 where $T_{df}$ denotes a $t$-distribution with $df$ degrees of freedom.
 
@@ -320,6 +328,7 @@ acedata %>% pivot_longer(ace_60:ace_70, names_to = "age", values_to="ace_score")
   head %>% 
   rbind(.,"...") %>% knitr::kable()
 ```
+
 To this (*wide* format):
 ```{r echo=FALSE}
 head(acedata) %>% select(-diff_score) %>% rbind(.,"...") %>% knitr::kable()
@@ -532,7 +541,7 @@ All 60 participants are followed up one month later, and the average number of c
 
 1. At point of recruitment, did the 60 participants smoke more or less than 20 cigarettes per day?  
 2. Calculate the average number of cigarettes smoked per day at both time-points for each group. 
-3. Did the average number of cigarettes smoked per day differ between the groups at the inital recruitment?  
+3. Did the average number of cigarettes smoked per day differ between the groups at the initial recruitment?  
 4. Did the group given the app change their smoking habits from the immediate to one month follow up? If so, was it a big change? (e.g, calculate the effect size).    
 
 </div>
@@ -553,7 +562,7 @@ This requires various things you have learned over the entire course, to do with
 `r msmbstyle::solution_begin(header = "&#x25BA; C1", hidden = HIDDEN_SOLS, toggle = TOGGLE)`
 1. At point of recruitment, did the 60 participants smoke more or less than 20 cigarettes per day?  
 
-This is asking whether the mean number of cigarettes per day is different to 20. So we are asking whether a mean is different from an hypothesised number - this is a one sample $t$-test!  
+This is asking whether the mean number of cigarettes per day is different to 20. So we are asking whether a mean is different from an hypothesized number - this is a one sample $t$-test!  
 
 First, lets check our assumptions. Our $n \geq 20$, but let's check normality anyway:  
 ```{r}
@@ -584,7 +593,7 @@ cbtsmoke %>%
 
 
 `r msmbstyle::solution_begin(header = "&#x25BA; C3", hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-3. Did the average number of cigarettes smoked per day differ between the groups at the inital recruitment?  
+3. Did the average number of cigarettes smoked per day differ between the groups at the initial recruitment?  
 
 The two sets of observations (from the different groups) are independent, so we are going to conduct an independent samples $t$-test.  
 
@@ -634,7 +643,7 @@ and run the same test using:
 t.test(appgroupsmoke$change, mu = 0)
 ```
 
-To calculate Cohen's $D$, we use the mean difference ($\bar d$) divided by the standard deivation of the differences ($s_d$): 
+To calculate Cohen's $D$, we use the mean difference ($\bar d$) divided by the standard deviation of the differences ($s_d$): 
 
 ```{r}
 appgroupsmoke %>%
