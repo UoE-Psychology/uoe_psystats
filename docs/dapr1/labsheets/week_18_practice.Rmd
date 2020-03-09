@@ -1,0 +1,114 @@
+---
+title: "Week 17: Two-sample t-test (independent samples)"
+output: html_document
+---
+
+
+
+# Change in score on the ACE-III
+
+Addenbrooke's Cognitive Examination-III (ACE-III) is a brief cognitive test that assesses five cognitive domains: attention, memory, verbal fluency, language and visuospatial abilities. The total score is 100 with higher scores indicating better cognitive functioning.  
+A research project is examining changes in cognitive functioning with age, and administers the ACE-III to a set of participants at age 60, then again at age 70.  
+
+## A.1 How is the data from this study paired?
+
+
+...
+
+
+## A.2 Write out the null and alternative hypotheses in words, and using the appropriate symbols.  
+
+
+... 
+
+
+## A.3 Read in the data, and make a new column of the difference in scores for each pair.   
+
+The data is available as a **.csv** from [https://edin.ac/2Tz1cNH](https://edin.ac/2Tz1cNH). 
+
+
+...
+
+
+## A.4 Perform a one-sample $t$-test to see whether the mean difference score is equal to 0.
+
+
+...
+
+## A.5 The code below produces a visualisation of the scores on the ACE-III at ages 60 and 70. 
+ 
+```{r eval=FALSE}
+ggplot(data = ace_iii, aes(x = age, y = score)) +
+  geom_boxplot()
+```
+
+1. Based on what we found out when we conducted our $t$-test, sketch what you think the code will produce.  
+2. What does the data `ace_iii` need to look like for this to work?  
+
+
+... 
+
+
+## A.7 Calculate the effect size for the mean difference in scores on the ACE-III from age 60 to 70.
+
+
+
+...
+
+
+# Age differences in heterosexual marriages
+
+Is there an age difference in heterosexual married couples? (and in what direction?)  
+
+Data on the ages of both brides and grooms at point of marriage:  
+```{r echo=TRUE, message=FALSE}
+marriages<-read_csv("https://edin.ac/2TBoZMY")
+```
+
+
+## B.1 Add new column which is the husband's age minus the wife's age.  
+
+As we plan on conducting a test on these differences, what assumptions are we making about them, and how can we check whether those assumptions hold?  
+
+
+...
+
+## B.2 Think carefully..
+If we are about to conduct a t-test on the difference scores we just calculated, what will the results mean?  If we get a positive t-statistic ($t > 0$), in what direction is the difference? Who will it mean tends to be older than whom?  
+
+
+...
+
+## B.3 
+1. Conduct a one sample $t$-test that the age differences are not equal to 0.  
+2. Using the `paired = TRUE` argument of `t.test()`, conduct the same test on the ages themselves (rather than the differences).
+3. Check that the results from 1 and 2 match. 
+
+
+...
+
+## B.4 Calculate Cohen's $D$.
+
+
+...
+
+## C: Smoking interventions  
+
+A researcher has developed a cognitive behavioural therapy (CBT) based smartphone app, and is testing how effective it is in helping people to stop smoking.  
+They recruit 60 participants who are trying to quit smoking, and over a week record the average number of cigarettes smoked per day for each participant. 
+Thirty participants are given the app, and asked that every time they feel like smoking they open the app on their phone and complete one five-minute task. 
+All 60 participants are followed up one month later, and the average number of cigarettes smoked per day (over a week) is recorded.  
+
+1. At point of recruitment, did the 60 participants smoke more or less than 20 cigarettes per day?  
+2. Calculate the average number of cigarettes smoked per day at both time-points for each group. 
+3. Did the average number of cigarettes smoked per day differ between the groups at the initial recruitment?  
+4. Did the group given the app change their smoking habits from the immediate to one month follow up? If so, was it a big change? (e.g, calculate the effect size).    
+
+The data (**.csv**) is available at [https://edin.ac/2vRr3r9](https://edin.ac/2vRr3r9).  
+
+
+
+
+
+
+

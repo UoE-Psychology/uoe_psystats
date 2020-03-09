@@ -279,16 +279,77 @@ t_stat = (aceterms$dbar - 0)/(aceterms$s_d / sqrt(aceterms$n))
 t_stat
 ```
 Calculate the p-value: $2 \times \mathrm{Pr}(T_{df} \geq |t|)$:
+
+```{r echo=FALSE}
+p = pt(abs(t_stat), df = 24)
+ggplot(NULL, aes(x = c(-6,6))) +
+  stat_function(fun=dt,
+                geom = "line",
+                args = list(df=24)) +
+  stat_function(fun = dt, 
+                geom = "area",
+                xlim = c(abs(t_stat), -6),
+                alpha=.25,
+                fill = "blue",
+                args = list(df=24)) +
+  geom_vline(xintercept = abs(t_stat), col="red") +
+  xlab("t") +
+  scale_y_continuous(NULL, breaks=NULL)+
+  theme_classic()+
+  ggtitle(paste0("pt(|t|, df = 24)   =   ",round(p,2))) -> p1
+
+
+p = 1-pt(abs(t_stat), df = 24)
+
+ggplot(NULL, aes(x = c(-6,6))) +
+  stat_function(fun=dt,
+                geom = "line",
+                args = list(df=24)) +
+  stat_function(fun = dt, 
+                geom = "area",
+                xlim = c(abs(t_stat), 6),
+                alpha=.25,
+                fill = "blue",
+                args = list(df=24)) +
+  geom_vline(xintercept = abs(t_stat), col="red") +
+  xlab("t") +
+  scale_y_continuous(NULL, breaks=NULL)+
+  theme_classic()+
+  ggtitle(paste0("1 - pt(|t|, df = 24)   =   ",round(p,2)))->p2
+
+p = 2 * (1 - pt(abs(t_stat), df = 24))
+
+ggplot(NULL, aes(x = c(-6,6))) +
+  stat_function(fun=dt,
+                geom = "line",
+                args = list(df=24)) +
+  stat_function(fun = dt, 
+                geom = "area",
+                xlim = c(abs(t_stat), 6),
+                alpha=.25,
+                fill = "blue",
+                args = list(df=24)) +
+    stat_function(fun = dt, 
+                geom = "area",
+                xlim = c(t_stat, -6),
+                alpha=.25,
+                fill = "blue",
+                args = list(df=24)) +
+  geom_vline(xintercept = abs(t_stat), col="red") +
+  xlab("t") +
+  scale_y_continuous(NULL, breaks=NULL)+
+  theme_classic()+
+  ggtitle(paste0("2*(1 - pt(|t|, df = 24))   =   ",round(p,2)))-> p3
+
+library(patchwork)
+p1 / p2 / p3
+
+```
+
 ```{r}
-# this is the probability of a t-statistic LESS THAN or equal to the abs(t)
-pt(abs(t_stat), df = 24)
-
-# So this is the probability of a t-statistic GREATER THAN or equal to the abs(t)
-1 - pt(abs(t_stat), df = 24)
-
-# And we will reject an t-statistic in either direction (in either tail), so we multiply by two.
 2 * (1 - pt(abs(t_stat), df = 24))
 ```
+
 Compute the confidence interval: 
 <center>
 $$
@@ -301,14 +362,44 @@ aceterms$dbar
 
 #And we can calculate the SE(dbar)
 aceterms$s_d / sqrt(aceterms$n)
+```
 
-#we need to know the critical value of t, for our desired alpha, with our df of 24
-qt(0.95, df = 24)
+
+We need to know the critical values of $t$, for our desired $\alpha$, with our $df=24$. 
+
+```{r echo=FALSE, fig.width=4, fig.height=4}
+ggplot(NULL, aes(x = c(-6,6))) +
+  stat_function(fun=dt,
+                geom = "line",
+                args = list(df=24)) +
+  stat_function(fun = dt, 
+                geom = "area",
+                xlim = c(qt(.975, df=24), 6),
+                alpha=.25,
+                fill = "blue",
+                args = list(df=24)) +
+    stat_function(fun = dt, 
+                geom = "area",
+                xlim = c(qt(.025, df=24), -6),
+                alpha=.25,
+                fill = "blue",
+                args = list(df=24)) +
+  xlab("t") +
+  scale_x_continuous(breaks=c(-6,-3,qt(.025, df=24), 0, qt(.975, df=24), 3, 6), labels=c("-6","-3","?","0","?","3","6"))+
+  scale_y_continuous(NULL, breaks=NULL)+
+  theme_classic()+
+  ggtitle("t-distribution (df=24)")
+```
+
+```{r}
+crit_t = qt(.975, df = 24)
+
+crit_t
 
 # lower interval
-aceterms$dbar - ( qt(0.975, df = 24) * (aceterms$s_d / sqrt(aceterms$n)))
+aceterms$dbar - ( crit_t * (aceterms$s_d / sqrt(aceterms$n)))
 # upper interval
-aceterms$dbar + ( qt(0.975, df = 24) * (aceterms$s_d / sqrt(aceterms$n)))
+aceterms$dbar + ( crit_t * (aceterms$s_d / sqrt(aceterms$n)))
 ```
 
 Or all using `t.test()` function:
@@ -316,10 +407,26 @@ Or all using `t.test()` function:
 t.test(acedata$diff_score, mu = 0)
 ```
 Or, equivalently:
-```{r eval=FALSE}
+```{r}
 t.test(acedata$ace_70, acedata$ace_60, paired = TRUE)
 ```
 `r msmbstyle::solution_end()`
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.5")`
+Provide a write-up of the results. 
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
+```{r echo=FALSE, include=FALSE}
+res<-t.test(acedata$ace_70, acedata$ace_60, paired = TRUE)
+ci=list(l=aceterms$dbar - ( crit_t * (aceterms$s_d / sqrt(aceterms$n))) %>% round(2),
+     u=aceterms$dbar + ( crit_t * (aceterms$s_d / sqrt(aceterms$n))) %>% round(2))
+```
+
+A paired-sample $t$-test was conducted in order to determine if a statistically significant ($\alpha$ = .05) mean change in cognitive functioning (as measured using the total scores on the ACE-III) was present between the ages of 60 and 70, in a sample of 25 participants. 
+The mean difference in score on the ACE-III from age 60 to age 70 was `r res$estimate` (95% CI=(`r ci$l` - `r ci$u`). The difference was statistically significant ($t$(`r res$parameter`)= `r round(res$statistic,2)`, $p$ < . 05, two-tailed). Thus, we reject the null hypothesis of no difference.
+`r msmbstyle::solution_end()`
+
 
 ### Data organisation - reshaping {-}
 
@@ -339,6 +446,11 @@ head(acedata) %>% select(-diff_score) %>% rbind(.,"...") %>% knitr::kable()
 #### New R stuff! {-}  
 
 We can reshape datasets using the functions `pivot_longer()` and `pivot_wider()`, which we mentioned briefly in the lecture.  
+
+![](https://www.fromthebottomoftheheap.net/assets/img/posts/tidyr-longer-wider.gif)
+
+(source: [https://www.fromthebottomoftheheap.net/2019/10/25/pivoting-tidily/](https://www.fromthebottomoftheheap.net/2019/10/25/pivoting-tidily/))
+
 
 Recall that our data was *wide*:
 ```{r}
@@ -369,7 +481,7 @@ acedata_long %>%
   pivot_wider(names_from = age, values_from = ace_score)
 ```
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question A.5")`
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.6")`
 The code below produces a visualisation of the scores on the ACE-III at ages 60 and 70. 
  
 ```{r eval=FALSE}
@@ -419,7 +531,7 @@ We also learned in the lecture about Cohen's $D$ - a means of reporting a standa
 
 
 
-`r msmbstyle::question_begin(header = "&#x25BA; Question A.6")`
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.7")`
 Calculate the effect size for the mean difference in scores on the ACE-III from age 60 to 70.
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
@@ -657,7 +769,3 @@ d = abs(-5.1) / 4.8
 d
 ```
 `r msmbstyle::solution_end()`
-
-
-
-### Glossary  
