@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 17 Comparing two means (independent samples) | Data Analysis for Psychology in R (dapR1) - Labs</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 17 Comparing two means (independent samples) | Data Analysis for Psychology in R (dapR1) - Labs" />
   <meta property="og:type" content="book" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="chap-one-mean-test.html"/>
-
+<link rel="next" href="chap-paired-t-test.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -457,6 +457,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.5" data-path="two-indep-samples.html"><a href="two-indep-samples.html#glossary-6"><i class="fa fa-check"></i><b>17.5</b> Glossary</a></li>
 <li class="chapter" data-level="17.6" data-path="two-indep-samples.html"><a href="two-indep-samples.html#w17-references"><i class="fa fa-check"></i><b>17.6</b> References</a></li>
 </ul></li>
+<li class="chapter" data-level="18" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html"><i class="fa fa-check"></i><b>18</b> Paired T-Test</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#recap-6"><i class="fa fa-check"></i>Recap</a></li>
+<li><a href="chap-paired-t-test.html#paired-t-test">Paired <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="18.1" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#walkthrough-3"><i class="fa fa-check"></i><b>18.1</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#change-in-score-on-the-ace-iii"><i class="fa fa-check"></i>Change in score on the ACE-III</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#data-organisation---reshaping"><i class="fa fa-check"></i>Data organisation - reshaping</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#effect-sizes"><i class="fa fa-check"></i>Effect sizes</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#summary-6"><i class="fa fa-check"></i><b>18.2</b> Summary</a></li>
+<li class="chapter" data-level="18.3" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#lab-5"><i class="fa fa-check"></i><b>18.3</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#age-differences-in-heterosexual-marriages"><i class="fa fa-check"></i>Age differences in heterosexual marriages</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#smoking-interventions"><i class="fa fa-check"></i>Smoking interventions</a></li>
+<li class="chapter" data-level="18.3.1" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#glossary-7"><i class="fa fa-check"></i><b>18.3.1</b> Glossary</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -568,7 +583,7 @@ One of the questions asked to a random sample of adult Americans in the 2004 Gen
 <p>The interviewer was asked to record how many names were mentioned, along with the person’s sex. For more details, see the <a href="https://gssdataexplorer.norc.org/variables/848/vshow">GSS webpage</a>.</p>
 <p><br>
 <font size="2">
-<em><strong>Note</strong>: This survey was conducted in the US in the year 2004, at which point US officials recorded sex on a binary scale. We are merely analysing the data that were collected in that survey as it is an extensive and open-source dataset. The fact that we are presenting this study as an in-class example is not an endorsement to the view that gender is a binary variable, but reflects the fact that in that survey it was recorded either as male or female.</em>
+<em><strong>Note</strong>: This survey was conducted in the US in the year 2004, at which point US officials recorded sex on a binary scale. We are merely analysing the data that were collected in that survey as it is an extensive and open-source dataset. The fact that we are presenting this study as an in-class example is not an endorsement to the view that gender is a binary variable.</em>
 </font>
 <br><br></p>
 <ul>
@@ -594,9 +609,9 @@ For simplicity, we will refer to the people with whom you talk about important p
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-92" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-92&#39;, &#39;sol-start-92&#39;)"></span>
+► Solution<span id="sol-start-933" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-933&#39;, &#39;sol-start-933&#39;)"></span>
 </p>
-<div id="sol-body-92" class="solution-body" style="display: none;">
+<div id="sol-body-933" class="solution-body" style="display: none;">
 <p>The observational units are the sampled adult Americans taking part in the 2004 General Social Survey (GSS).</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -642,9 +657,9 @@ For simplicity, we will refer to the people with whom you talk about important p
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-93" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-93&#39;, &#39;sol-start-93&#39;)"></span>
+► Solution<span id="sol-start-934" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-934&#39;, &#39;sol-start-934&#39;)"></span>
 </p>
-<div id="sol-body-93" class="solution-body" style="display: none;">
+<div id="sol-body-934" class="solution-body" style="display: none;">
 <p>The recorded variables are the sex of the participant and the number of names given by the participant.
 The former is categorical and binary, while the latter is a numerical value that varies from participant to participant.
 We are interested in how the number of mentioned names tends to vary with the sex of the participant.
@@ -689,9 +704,9 @@ For this reason, sex is the explanatory variable, while number of close friends 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-94" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-94&#39;, &#39;sol-start-94&#39;)"></span>
+► Solution<span id="sol-start-935" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-935&#39;, &#39;sol-start-935&#39;)"></span>
 </p>
-<div id="sol-body-94" class="solution-body" style="display: none;">
+<div id="sol-body-935" class="solution-body" style="display: none;">
 <p>This study only involved random sampling of the observational units from the population of adult Americans in 2004.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -712,9 +727,9 @@ For this reason, sex is the explanatory variable, while number of close friends 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-95" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-95&#39;, &#39;sol-start-95&#39;)"></span>
+► Solution<span id="sol-start-936" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-936&#39;, &#39;sol-start-936&#39;)"></span>
 </p>
-<div id="sol-body-95" class="solution-body" style="display: none;">
+<div id="sol-body-936" class="solution-body" style="display: none;">
 <p>This is an observational study as the researchers limited themselves to record the values that naturally occur.
 The researchers did not perform any manipulation of the variables, such as random assignment of observational units to groups. If this were the case, we would be analysing data from a randomised experiment.</p>
 <p class="solution-end">
@@ -736,9 +751,9 @@ The researchers did not perform any manipulation of the variables, such as rando
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-96" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-96&#39;, &#39;sol-start-96&#39;)"></span>
+► Solution<span id="sol-start-937" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-937&#39;, &#39;sol-start-937&#39;)"></span>
 </p>
-<div id="sol-body-96" class="solution-body" style="display: none;">
+<div id="sol-body-937" class="solution-body" style="display: none;">
 <p>The null hypothesis is that the population mean number of close friends is the same for adult American males as for females.
 In other words, the null hypothesis states that there is no difference in the population mean number of close friends between males and females.</p>
 <p>The alternative hypothesis is that the population mean number of close friends is not the same for males as for females.
@@ -762,9 +777,9 @@ In other words, the alternative hypothesis states that there is a difference in 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-97" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-97&#39;, &#39;sol-start-97&#39;)"></span>
+► Solution<span id="sol-start-938" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-938&#39;, &#39;sol-start-938&#39;)"></span>
 </p>
-<div id="sol-body-97" class="solution-body" style="display: none;">
+<div id="sol-body-938" class="solution-body" style="display: none;">
 <ul>
 <li><span class="math inline">\(\mu_f\)</span>: population mean number of close friends mentioned by adult American females</li>
 <li><span class="math inline">\(\mu_m\)</span>: population mean number of close friends mentioned by adult American males</li>
@@ -788,9 +803,9 @@ In other words, the alternative hypothesis states that there is a difference in 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-98" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-98&#39;, &#39;sol-start-98&#39;)"></span>
+► Solution<span id="sol-start-939" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-939&#39;, &#39;sol-start-939&#39;)"></span>
 </p>
-<div id="sol-body-98" class="solution-body" style="display: none;">
+<div id="sol-body-939" class="solution-body" style="display: none;">
 <p><span class="math display">\[
 H_0 : \mu_f = \mu_m      \qquad \textrm{OR} \qquad     H_0 : \mu_f - \mu_m = 0\\
 H_1 : \mu_f \neq \mu_m   \qquad \textrm{OR} \qquad     H_1 : \mu_f - \mu_m \neq 0
@@ -814,9 +829,9 @@ H_1 : \mu_f \neq \mu_m   \qquad \textrm{OR} \qquad     H_1 : \mu_f - \mu_m \neq 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-99" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-99&#39;, &#39;sol-start-99&#39;)"></span>
+► Solution<span id="sol-start-940" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-940&#39;, &#39;sol-start-940&#39;)"></span>
 </p>
-<div id="sol-body-99" class="solution-body" style="display: none;">
+<div id="sol-body-940" class="solution-body" style="display: none;">
 <p>The one-sample <span class="math inline">\(t\)</span>-test introduced in <a href="chap-one-mean-test.html#chap-one-mean-test">Week 16</a> tests if the population that the observed sample came from has a hypothesized mean.
 Here, instead, we want to compare the means of two populations (or, if it were a randomized experiment, between two treatment groups).</p>
 <p class="solution-end">
@@ -844,15 +859,15 @@ Here, instead, we want to compare the means of two populations (or, if it were a
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-100" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-100&#39;, &#39;sol-start-100&#39;)"></span>
+► Solution<span id="sol-start-941" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-941&#39;, &#39;sol-start-941&#39;)"></span>
 </p>
-<div id="sol-body-100" class="solution-body" style="display: none;">
+<div id="sol-body-941" class="solution-body" style="display: none;">
 <p>Load the data:</p>
-<div class="sourceCode" id="cb791"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb791-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb791-2" title="2"></a>
-<a class="sourceLine" id="cb791-3" title="3">gss &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2vQrCBi&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb774-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb774-2" title="2"></a>
+<a class="sourceLine" id="cb774-3" title="3">gss &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2vQrCBi&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Inspect the names of the variables and the first six rows:</p>
-<div class="sourceCode" id="cb792"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb792-1" title="1"><span class="kw">head</span>(gss)</a></code></pre></div>
+<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb775-1" title="1"><span class="kw">head</span>(gss)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
 ##   Sex   NumberCloseFriends
 ##   &lt;chr&gt;              &lt;dbl&gt;
@@ -863,14 +878,14 @@ Here, instead, we want to compare the means of two populations (or, if it were a
 ## 5 male                   2
 ## 6 male                   2</code></pre>
 <p>Check the number of observational units and variables:</p>
-<div class="sourceCode" id="cb794"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb794-1" title="1"><span class="kw">dim</span>(gss)</a></code></pre></div>
+<div class="sourceCode" id="cb777"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb777-1" title="1"><span class="kw">dim</span>(gss)</a></code></pre></div>
 <pre><code>## [1] 1467    2</code></pre>
 <p>The tibble says that Sex is of class <code>chr</code> (character). As Sex is a categorical variable, we will encode it as a factor:</p>
-<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb796-1" title="1">gss &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb796-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Sex =</span> <span class="kw">factor</span>(Sex))</a>
-<a class="sourceLine" id="cb796-3" title="3"></a>
-<a class="sourceLine" id="cb796-4" title="4"><span class="co"># check encoding</span></a>
-<a class="sourceLine" id="cb796-5" title="5"><span class="kw">head</span>(gss)</a></code></pre></div>
+<div class="sourceCode" id="cb779"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb779-1" title="1">gss &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb779-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Sex =</span> <span class="kw">factor</span>(Sex))</a>
+<a class="sourceLine" id="cb779-3" title="3"></a>
+<a class="sourceLine" id="cb779-4" title="4"><span class="co"># check encoding</span></a>
+<a class="sourceLine" id="cb779-5" title="5"><span class="kw">head</span>(gss)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
 ##   Sex   NumberCloseFriends
 ##   &lt;fct&gt;              &lt;dbl&gt;
@@ -934,19 +949,19 @@ Here, instead, we want to compare the means of two populations (or, if it were a
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-101" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-101&#39;, &#39;sol-start-101&#39;)"></span>
+► Solution<span id="sol-start-942" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-942&#39;, &#39;sol-start-942&#39;)"></span>
 </p>
-<div id="sol-body-101" class="solution-body" style="display: none;">
+<div id="sol-body-942" class="solution-body" style="display: none;">
 <p>Create a two-way frequency table of the participants’ responses by sex:</p>
-<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb798-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>NumberCloseFriends, <span class="dt">data =</span> gss)</a>
-<a class="sourceLine" id="cb798-2" title="2">tally</a></code></pre></div>
+<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb781-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span>NumberCloseFriends, <span class="dt">data =</span> gss)</a>
+<a class="sourceLine" id="cb781-2" title="2">tally</a></code></pre></div>
 <pre><code>##         NumberCloseFriends
 ## Sex        0   1   2   3   4   5   6
 ##   female 201 146 155 132  86  56  37
 ##   male   196 135 108 100  42  40  33</code></pre>
 <p>Add the totals for each sex:</p>
-<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb800-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">addmargins</span>(tally, <span class="dt">margin =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb800-2" title="2">tally</a></code></pre></div>
+<div class="sourceCode" id="cb783"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb783-1" title="1">tally &lt;-<span class="st"> </span><span class="kw">addmargins</span>(tally, <span class="dt">margin =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb783-2" title="2">tally</a></code></pre></div>
 <pre><code>##         NumberCloseFriends
 ## Sex        0   1   2   3   4   5   6 Sum
 ##   female 201 146 155 132  86  56  37 813
@@ -974,9 +989,9 @@ Here, instead, we want to compare the means of two populations (or, if it were a
 </div>
 <div class = "solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-102" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-102&#39;, &#39;sol-start-102&#39;)"></span>
+► Solution<span id="sol-start-943" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-943&#39;, &#39;sol-start-943&#39;)"></span>
 </p>
-<div class="solution-body" id = "sol-body-102" style="display: none;">
+<div class="solution-body" id = "sol-body-943" style="display: none;">
 
 
 <p>When comparing a quantitative response variable between two independent groups, encoded in a categorical variable, we could report:</p>
@@ -996,26 +1011,26 @@ The median cuts the data into two parts: the part to the left of the median and 
 <p>The median of right part is known as the <strong>upper quartile</strong>, and represents the value for which 25% of the data lie above that value.</p>
 <p>The <strong>interquartile range</strong> (IQR) is simply the difference between the upper quartile and the lower quartile, and represents the width of the interval containing the middle 50% of all observations.</p>
 <p>The minimum, lower quartile, median, upper quartile, and maximum jointly form the so-called <strong>five-number summary</strong> of the distribution of a quantitative variable.</p>
-<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb802-1" title="1">descr_stats &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb802-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Sex) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb802-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb802-4" title="4">    <span class="dt">SampleSize =</span> <span class="kw">n</span>(),</a>
-<a class="sourceLine" id="cb802-5" title="5">    <span class="dt">Mean =</span> <span class="kw">mean</span>(NumberCloseFriends),</a>
-<a class="sourceLine" id="cb802-6" title="6">    <span class="dt">SD =</span> <span class="kw">sd</span>(NumberCloseFriends), </a>
-<a class="sourceLine" id="cb802-7" title="7">    <span class="dt">Minimum =</span> <span class="kw">min</span>(NumberCloseFriends),</a>
-<a class="sourceLine" id="cb802-8" title="8">    <span class="dt">LowerQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb802-9" title="9">    <span class="dt">Median =</span> <span class="kw">median</span>(NumberCloseFriends),</a>
-<a class="sourceLine" id="cb802-10" title="10">    <span class="dt">UpperQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.75</span>),</a>
-<a class="sourceLine" id="cb802-11" title="11">    <span class="dt">Maximum =</span> <span class="kw">max</span>(NumberCloseFriends)</a>
-<a class="sourceLine" id="cb802-12" title="12">  )</a>
-<a class="sourceLine" id="cb802-13" title="13">descr_stats</a></code></pre></div>
+<div class="sourceCode" id="cb785"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb785-1" title="1">descr_stats &lt;-<span class="st"> </span>gss <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb785-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Sex) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb785-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb785-4" title="4">    <span class="dt">SampleSize =</span> <span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb785-5" title="5">    <span class="dt">Mean =</span> <span class="kw">mean</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb785-6" title="6">    <span class="dt">SD =</span> <span class="kw">sd</span>(NumberCloseFriends), </a>
+<a class="sourceLine" id="cb785-7" title="7">    <span class="dt">Minimum =</span> <span class="kw">min</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb785-8" title="8">    <span class="dt">LowerQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb785-9" title="9">    <span class="dt">Median =</span> <span class="kw">median</span>(NumberCloseFriends),</a>
+<a class="sourceLine" id="cb785-10" title="10">    <span class="dt">UpperQuartile =</span> <span class="kw">quantile</span>(NumberCloseFriends, <span class="dt">p =</span> <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb785-11" title="11">    <span class="dt">Maximum =</span> <span class="kw">max</span>(NumberCloseFriends)</a>
+<a class="sourceLine" id="cb785-12" title="12">  )</a>
+<a class="sourceLine" id="cb785-13" title="13">descr_stats</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 9
 ##   Sex    SampleSize  Mean    SD Minimum LowerQuartile Median UpperQuartile Maximum
 ##   &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;
 ## 1 female        813  2.09  1.76       0             1      2             3       6
 ## 2 male          654  1.86  1.78       0             0      1             3       6</code></pre>
 <p>To format the above tibble as a nice HTML table, you can use the function <code>kable</code> from the package <code>knitr</code>:</p>
-<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb804-1" title="1">knitr<span class="op">::</span><span class="kw">kable</span>(descr_stats, <span class="st">&quot;html&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb787-1" title="1">knitr<span class="op">::</span><span class="kw">kable</span>(descr_stats, <span class="st">&quot;html&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</a></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1128,9 +1143,9 @@ male
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-103" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-103&#39;, &#39;sol-start-103&#39;)"></span>
+► Solution<span id="sol-start-944" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-944&#39;, &#39;sol-start-944&#39;)"></span>
 </p>
-<div id="sol-body-103" class="solution-body" style="display: none;">
+<div id="sol-body-944" class="solution-body" style="display: none;">
 <p>The values in the above table are statistics. They are numerical summaries computed on observational units which represent a random sample from the population of adult Americans in 2004.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1151,14 +1166,14 @@ male
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-104" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-104&#39;, &#39;sol-start-104&#39;)"></span>
+► Solution<span id="sol-start-945" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-945&#39;, &#39;sol-start-945&#39;)"></span>
 </p>
-<div id="sol-body-104" class="solution-body" style="display: none;">
+<div id="sol-body-945" class="solution-body" style="display: none;">
 <p>A visual display of the five-number summary is called a <strong>boxplot</strong>. This is typically a very good visualisation when your data involve a quantitative response variable and a categorical explanatory variable.</p>
-<div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb805-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> Sex, <span class="dt">y =</span> NumberCloseFriends)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb805-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">color =</span> <span class="st">&#39;darkorange&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb805-3" title="3"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb805-4" title="4"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb788"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb788-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> Sex, <span class="dt">y =</span> NumberCloseFriends)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb788-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">color =</span> <span class="st">&#39;darkorange&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb788-3" title="3"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb788-4" title="4"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-498-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1179,17 +1194,17 @@ male
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-105" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-105&#39;, &#39;sol-start-105&#39;)"></span>
+► Solution<span id="sol-start-946" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-946&#39;, &#39;sol-start-946&#39;)"></span>
 </p>
-<div id="sol-body-105" class="solution-body" style="display: none;">
+<div id="sol-body-946" class="solution-body" style="display: none;">
 <p>Separate plots:</p>
-<div class="sourceCode" id="cb806"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb806-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb806-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb806-3" title="3"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(Sex))</a></code></pre></div>
+<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb789-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb789-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb789-3" title="3"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(Sex))</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-499-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Unique plot:</p>
-<div class="sourceCode" id="cb807"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb807-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb807-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">position =</span> <span class="st">&#39;dodge&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb790-1" title="1"><span class="kw">ggplot</span>(gss, <span class="kw">aes</span>(<span class="dt">x =</span> NumberCloseFriends, <span class="dt">fill =</span> Sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb790-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">position =</span> <span class="st">&#39;dodge&#39;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-500-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <!-- Proportions: -->
 <!-- ```{r} -->
@@ -1216,9 +1231,9 @@ male
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-106" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-106&#39;, &#39;sol-start-106&#39;)"></span>
+► Solution<span id="sol-start-947" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-947&#39;, &#39;sol-start-947&#39;)"></span>
 </p>
-<div id="sol-body-106" class="solution-body" style="display: none;">
+<div id="sol-body-947" class="solution-body" style="display: none;">
 <p>The distribution of number of close friends for both males and females appears to be skewed to the right.</p>
 <p>The variability in the number of close friends seems to be similar across males and females.</p>
 <p>The sample mean number of close friends seems to be slightly higher for females than males.</p>
@@ -1241,9 +1256,9 @@ male
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-107" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-107&#39;, &#39;sol-start-107&#39;)"></span>
+► Solution<span id="sol-start-948" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-948&#39;, &#39;sol-start-948&#39;)"></span>
 </p>
-<div id="sol-body-107" class="solution-body" style="display: none;">
+<div id="sol-body-948" class="solution-body" style="display: none;">
 <p>The sample mean number of close friends for females is <span class="math inline">\(\bar{x}_f\)</span> = 2.09, with standard deviation <span class="math inline">\(s_f\)</span> = 1.76 friends.</p>
 <p>For males, the sample mean number of close friends is <span class="math inline">\(\bar{x}_m\)</span> = 1.86, with standard deviation <span class="math inline">\(s_m\)</span> = 1.78 friends.</p>
 <p class="solution-end">
@@ -1266,9 +1281,9 @@ male
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-108" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-108&#39;, &#39;sol-start-108&#39;)"></span>
+► Solution<span id="sol-start-949" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-949&#39;, &#39;sol-start-949&#39;)"></span>
 </p>
-<div id="sol-body-108" class="solution-body" style="display: none;">
+<div id="sol-body-949" class="solution-body" style="display: none;">
 <p>The difference in sample means is <span class="math inline">\(\bar{x}_f - \bar{x}_m\)</span> = 0.23.</p>
 <p>Due to sampling variability, we can not conclude that, because the sample means differ, the means of the two populations must differ too.</p>
 <p>We must resort to a principled framework to test this, and we have already learned to use statistical hypothesis testing in order to assess if sample results (in our case, the observed difference in sample mean number of close friends) are significant in the sense of being unlikely to have occurred by chance (from random sampling) alone.</p>
@@ -1358,18 +1373,18 @@ s_p = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-109" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-109&#39;, &#39;sol-start-109&#39;)"></span>
+► Solution<span id="sol-start-950" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-950&#39;, &#39;sol-start-950&#39;)"></span>
 </p>
-<div id="sol-body-109" class="solution-body" style="display: none;">
+<div id="sol-body-950" class="solution-body" style="display: none;">
 <p>Let’s extract the relevant statistics from the table of descriptive summaries:</p>
-<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb808-1" title="1">n_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
-<a class="sourceLine" id="cb808-2" title="2">n_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
-<a class="sourceLine" id="cb808-3" title="3"></a>
-<a class="sourceLine" id="cb808-4" title="4">xbar_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
-<a class="sourceLine" id="cb808-5" title="5">xbar_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
-<a class="sourceLine" id="cb808-6" title="6"></a>
-<a class="sourceLine" id="cb808-7" title="7">s_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a>
-<a class="sourceLine" id="cb808-8" title="8">s_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a></code></pre></div>
+<div class="sourceCode" id="cb791"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb791-1" title="1">n_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
+<a class="sourceLine" id="cb791-2" title="2">n_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SampleSize)</a>
+<a class="sourceLine" id="cb791-3" title="3"></a>
+<a class="sourceLine" id="cb791-4" title="4">xbar_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
+<a class="sourceLine" id="cb791-5" title="5">xbar_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Mean)</a>
+<a class="sourceLine" id="cb791-6" title="6"></a>
+<a class="sourceLine" id="cb791-7" title="7">s_f &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a>
+<a class="sourceLine" id="cb791-8" title="8">s_m &lt;-<span class="st"> </span>descr_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(SD)</a></code></pre></div>
 <p><strong>Step 1.</strong> Can the population variances be assumed equal? Test the following hypotheses:</p>
 <p><span class="math display">\[
 H_0 : \sigma_f^2 = \sigma_m^2 \\
@@ -1381,7 +1396,7 @@ H_0 : \frac{\sigma_f^2}{\sigma_m^2} = 1 \\
 H_1 : \frac{\sigma_f^2}{\sigma_m^2} \neq 1
 \]</span></p>
 <p>Use the F-test to test for equality of the population variances:</p>
-<div class="sourceCode" id="cb809"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb809-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<div class="sourceCode" id="cb792"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb792-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
 <pre><code>## 
 ##  F test to compare two variances
 ## 
@@ -1395,15 +1410,15 @@ H_1 : \frac{\sigma_f^2}{\sigma_m^2} \neq 1
 ##          0.9809412</code></pre>
 <p>At a significance level of 0.05, the <span class="math inline">\(p\)</span>-value = 0.79 leads us to not rejecting the null hypothesis of equal variances across the two populations.</p>
 <p><strong>Step 2.</strong> We can now perform the <span class="math inline">\(t\)</span>-test calculations using the appropriate formula for the standard error of the difference in means. As the population variances are assumed equal, we use the formula involving the pooled standard deviation:</p>
-<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb811-1" title="1"><span class="co"># Pooled SD</span></a>
-<a class="sourceLine" id="cb811-2" title="2">s_p &lt;-<span class="st"> </span><span class="kw">sqrt</span>(</a>
-<a class="sourceLine" id="cb811-3" title="3">  ((n_f <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_f<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(n_m <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_m<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb811-4" title="4">)</a>
-<a class="sourceLine" id="cb811-5" title="5"></a>
-<a class="sourceLine" id="cb811-6" title="6">SE &lt;-<span class="st"> </span>s_p <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>n_f <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n_m)</a>
-<a class="sourceLine" id="cb811-7" title="7"></a>
-<a class="sourceLine" id="cb811-8" title="8">t_stat &lt;-<span class="st"> </span>(xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">/</span><span class="st"> </span>SE</a>
-<a class="sourceLine" id="cb811-9" title="9">t_stat</a></code></pre></div>
+<div class="sourceCode" id="cb794"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb794-1" title="1"><span class="co"># Pooled SD</span></a>
+<a class="sourceLine" id="cb794-2" title="2">s_p &lt;-<span class="st"> </span><span class="kw">sqrt</span>(</a>
+<a class="sourceLine" id="cb794-3" title="3">  ((n_f <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_f<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(n_m <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>s_m<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb794-4" title="4">)</a>
+<a class="sourceLine" id="cb794-5" title="5"></a>
+<a class="sourceLine" id="cb794-6" title="6">SE &lt;-<span class="st"> </span>s_p <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>n_f <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n_m)</a>
+<a class="sourceLine" id="cb794-7" title="7"></a>
+<a class="sourceLine" id="cb794-8" title="8">t_stat &lt;-<span class="st"> </span>(xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">/</span><span class="st"> </span>SE</a>
+<a class="sourceLine" id="cb794-9" title="9">t_stat</a></code></pre></div>
 <pre><code>## [1] 2.4523</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1425,16 +1440,16 @@ H_1 : \frac{\sigma_f^2}{\sigma_m^2} \neq 1
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-110" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-110&#39;, &#39;sol-start-110&#39;)"></span>
+► Solution<span id="sol-start-951" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-951&#39;, &#39;sol-start-951&#39;)"></span>
 </p>
-<div id="sol-body-110" class="solution-body" style="display: none;">
+<div id="sol-body-951" class="solution-body" style="display: none;">
 <p>Critical value:</p>
-<div class="sourceCode" id="cb813"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb813-1" title="1">t_crit &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb813-2" title="2">t_crit</a></code></pre></div>
+<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb796-1" title="1">t_crit &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb796-2" title="2">t_crit</a></code></pre></div>
 <pre><code>## [1] 1.961585</code></pre>
 <p><span class="math inline">\(p\)</span>-value:</p>
-<div class="sourceCode" id="cb815"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb815-1" title="1">p_value &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(t_stat), n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb815-2" title="2">p_value</a></code></pre></div>
+<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb798-1" title="1">p_value &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(t_stat), n_f <span class="op">+</span><span class="st"> </span>n_m <span class="op">-</span><span class="st"> </span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb798-2" title="2">p_value</a></code></pre></div>
 <pre><code>## [1] 0.01431058</code></pre>
 <p>At a 5% significance level, the observed difference in mean number of close friends between adult American females and males is significantly different from 0 (<span class="math inline">\(t(1465) = 2.45\)</span>, <span class="math inline">\(p\)</span>-value <span class="math inline">\(&lt;.05\)</span>, two-tailed).</p>
 <p>In other words, an observed difference in sample mean number of close friends of 0.23 is highly unlikely to occur by chance alone.</p>
@@ -1461,20 +1476,20 @@ Both R functions require a <strong>formula</strong> as first argument:
 <br><br></li>
 </ul>
 <p><strong>Step 1.</strong> Test for equality of the population variances:</p>
-<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb817-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb800-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
 <p><strong>Step 2.</strong> According to the previous test, use the appropriate <span class="math inline">\(t\)</span>-test using either one of the following code chunks.</p>
 <ol style="list-style-type: lower-roman">
 <li>If you can not reject the null hypothesis of equal population variances, use a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n_1 + n_2 - 2\)</span> degrees of freedom:</li>
 </ol>
-<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb818-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb801"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb801-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <ol start="2" style="list-style-type: lower-roman">
 <li>If the population variances were not equal, we would have used the Welch-Satterthwaite approximation to the degrees of freedom:</li>
 </ol>
-<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb819-1" title="1"><span class="co"># Welch-Satterthwaite approximation</span></a>
-<a class="sourceLine" id="cb819-2" title="2"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb819-3" title="3"></a>
-<a class="sourceLine" id="cb819-4" title="4"><span class="co"># If not provided, var.equal = FALSE by default</span></a>
-<a class="sourceLine" id="cb819-5" title="5"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb802-1" title="1"><span class="co"># Welch-Satterthwaite approximation</span></a>
+<a class="sourceLine" id="cb802-2" title="2"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb802-3" title="3"></a>
+<a class="sourceLine" id="cb802-4" title="4"><span class="co"># If not provided, var.equal = FALSE by default</span></a>
+<a class="sourceLine" id="cb802-5" title="5"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
 </div>
 <hr />
 <div class="question">
@@ -1491,11 +1506,11 @@ Both R functions require a <strong>formula</strong> as first argument:
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-111" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-111&#39;, &#39;sol-start-111&#39;)"></span>
+► Solution<span id="sol-start-952" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-952&#39;, &#39;sol-start-952&#39;)"></span>
 </p>
-<div id="sol-body-111" class="solution-body" style="display: none;">
+<div id="sol-body-952" class="solution-body" style="display: none;">
 <p>We have already tested before for equality of the population variances:</p>
-<div class="sourceCode" id="cb820"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb820-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
+<div class="sourceCode" id="cb803"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb803-1" title="1"><span class="kw">var.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss)</a></code></pre></div>
 <pre><code>## 
 ##  F test to compare two variances
 ## 
@@ -1508,7 +1523,7 @@ Both R functions require a <strong>formula</strong> as first argument:
 ## ratio of variances 
 ##          0.9809412</code></pre>
 <p>As we can not reject the null hypothesis of equal variances across the two populations, we use a <span class="math inline">\(t\)</span>-test with <span class="math inline">\(\textrm{df} = n_1 + n_2 - 2\)</span>:</p>
-<div class="sourceCode" id="cb822"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb822-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb805-1" title="1"><span class="kw">t.test</span>(NumberCloseFriends <span class="op">~</span><span class="st"> </span>Sex, <span class="dt">data =</span> gss, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
@@ -1540,9 +1555,9 @@ Both R functions require a <strong>formula</strong> as first argument:
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-112" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-112&#39;, &#39;sol-start-112&#39;)"></span>
+► Solution<span id="sol-start-953" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-953&#39;, &#39;sol-start-953&#39;)"></span>
 </p>
-<div id="sol-body-112" class="solution-body" style="display: none;">
+<div id="sol-body-953" class="solution-body" style="display: none;">
 <p>Assumptions:</p>
 <ul>
 <li>The sample data arise from independent random samples from two populations OR from random assignment of the units to treatment groups.</li>
@@ -1575,14 +1590,14 @@ Both R functions require a <strong>formula</strong> as first argument:
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-113" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-113&#39;, &#39;sol-start-113&#39;)"></span>
+► Solution<span id="sol-start-954" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-954&#39;, &#39;sol-start-954&#39;)"></span>
 </p>
-<div id="sol-body-113" class="solution-body" style="display: none;">
+<div id="sol-body-954" class="solution-body" style="display: none;">
 <p>In order to estimate the magnitude of the difference in the population means we can use a confidence interval for the difference in means.</p>
-<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb824-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb824-2" title="2">  <span class="dt">Lower =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">-</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE,</a>
-<a class="sourceLine" id="cb824-3" title="3">  <span class="dt">Upper =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">+</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE)</a>
-<a class="sourceLine" id="cb824-4" title="4">ci</a></code></pre></div>
+<div class="sourceCode" id="cb807"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb807-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb807-2" title="2">  <span class="dt">Lower =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">-</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE,</a>
+<a class="sourceLine" id="cb807-3" title="3">  <span class="dt">Upper =</span> (xbar_f <span class="op">-</span><span class="st"> </span>xbar_m) <span class="op">+</span><span class="st"> </span>t_crit <span class="op">*</span><span class="st"> </span>SE)</a>
+<a class="sourceLine" id="cb807-4" title="4">ci</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##    Lower Upper
 ##    &lt;dbl&gt; &lt;dbl&gt;
@@ -1610,9 +1625,9 @@ We are 95% confident that American females have between 0.046 and 0.41 more clos
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-114" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-114&#39;, &#39;sol-start-114&#39;)"></span>
+► Solution<span id="sol-start-955" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-955&#39;, &#39;sol-start-955&#39;)"></span>
 </p>
-<div id="sol-body-114" class="solution-body" style="display: none;">
+<div id="sol-body-955" class="solution-body" style="display: none;">
 <p>No, we can not conclude that the person’s sex was responsible for the number of close friends.
 This data was collected as part of an observational study, hence the explanatory variable sex was simply observed in the observational units.</p>
 <!-- We could have considered a causal link if the observational units were randomly assigned to the groups, but clearly this is not feasible as you can not assign a person to be female or male as part of a survey. -->
@@ -1635,9 +1650,9 @@ This data was collected as part of an observational study, hence the explanatory
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-115" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-115&#39;, &#39;sol-start-115&#39;)"></span>
+► Solution<span id="sol-start-956" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-956&#39;, &#39;sol-start-956&#39;)"></span>
 </p>
-<div id="sol-body-115" class="solution-body" style="display: none;">
+<div id="sol-body-956" class="solution-body" style="display: none;">
 <p>Because the observational units are a random sample from the population of adult Americans in year 2004, we might apply our results to adult American men and women in that year.</p>
 <p>We might hesitate in generalising the results to all Americans and to a different year, as younger people were not included in the survey, and because the trend could have changed over time.</p>
 <p class="solution-end">
@@ -1673,9 +1688,9 @@ Each two-person party was randomly assigned by the waitress to either a name or 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-116" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-116&#39;, &#39;sol-start-116&#39;)"></span>
+► Solution<span id="sol-start-957" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-957&#39;, &#39;sol-start-957&#39;)"></span>
 </p>
-<div id="sol-body-116" class="solution-body" style="display: none;">
+<div id="sol-body-957" class="solution-body" style="display: none;">
 <p>The observational units are the 2-person parties eating Sunday brunch in that restaurant on April 10 and 17, 1988.</p>
 <p>We can also refer to the observational units as <strong>experimental units</strong> because, as we will see later, they are part of an experiment.</p>
 <p class="solution-end">
@@ -1697,9 +1712,9 @@ Each two-person party was randomly assigned by the waitress to either a name or 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-117" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-117&#39;, &#39;sol-start-117&#39;)"></span>
+► Solution<span id="sol-start-958" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-958&#39;, &#39;sol-start-958&#39;)"></span>
 </p>
-<div id="sol-body-117" class="solution-body" style="display: none;">
+<div id="sol-body-958" class="solution-body" style="display: none;">
 <p>This study is a randomized experiment. The waitress uses a random mechanism to assign the experimental units (the two-person parties) either to a name or no name condition.</p>
 <p>We also need to keep in mind that the waitress was not blind to which condition each party was assigned to and might have inadvertently provided better service to the parties she expected to give her a larger tip.</p>
 <p class="solution-end">
@@ -1722,9 +1737,9 @@ Each two-person party was randomly assigned by the waitress to either a name or 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-118" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-118&#39;, &#39;sol-start-118&#39;)"></span>
+► Solution<span id="sol-start-959" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-959&#39;, &#39;sol-start-959&#39;)"></span>
 </p>
-<div id="sol-body-118" class="solution-body" style="display: none;">
+<div id="sol-body-959" class="solution-body" style="display: none;">
 <p>Explanatory variable: condition (name or no name). <span class="math inline">\(\qquad\)</span> Type: categorical and binary.</p>
 <p>Response variable: tipping amount. <span class="math inline">\(\qquad \qquad \qquad \qquad\)</span> Type: quantitative.</p>
 <p class="solution-end">
@@ -1746,9 +1761,9 @@ Each two-person party was randomly assigned by the waitress to either a name or 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-119" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-119&#39;, &#39;sol-start-119&#39;)"></span>
+► Solution<span id="sol-start-960" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-960&#39;, &#39;sol-start-960&#39;)"></span>
 </p>
-<div id="sol-body-119" class="solution-body" style="display: none;">
+<div id="sol-body-960" class="solution-body" style="display: none;">
 <p>The null hypothesis is that there is no effect on the tipping amount from the waitress giving her name as part of her greeting to the customers.</p>
 <p>Equivalently, the null hypothesis states that the population mean tip amount is the same whether the waitress introduces herself by name or not.</p>
 <p><br>
@@ -1780,9 +1795,9 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-120" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-120&#39;, &#39;sol-start-120&#39;)"></span>
+► Solution<span id="sol-start-961" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-961&#39;, &#39;sol-start-961&#39;)"></span>
 </p>
-<div id="sol-body-120" class="solution-body" style="display: none;">
+<div id="sol-body-961" class="solution-body" style="display: none;">
 <p>A Type I error is committed when the waitress decides that introducing herself by name helps when, in reality, it does not.</p>
 <p>A Type II error is committed when the waitress decides that introducing herself by name is not helpful when, in reality, it actually is.</p>
 <p>A Type I error means that the waitress will spend just a tiny amount of time longer as part of her greeting without getting any extra benefit from it.</p>
@@ -1809,30 +1824,30 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-121" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-121&#39;, &#39;sol-start-121&#39;)"></span>
+► Solution<span id="sol-start-962" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-962&#39;, &#39;sol-start-962&#39;)"></span>
 </p>
-<div id="sol-body-121" class="solution-body" style="display: none;">
+<div id="sol-body-962" class="solution-body" style="display: none;">
 <p>The two-sample <span class="math inline">\(t\)</span>-test in the case of unequal population variances involves the Welch-Satterthwaite approximation to the degrees of freedom.</p>
 <p>The <span class="math inline">\(t\)</span>-statistic is:</p>
-<div class="sourceCode" id="cb826"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb826-1" title="1">n_name &lt;-<span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb826-2" title="2">xbar_name &lt;-<span class="st"> </span><span class="fl">5.44</span></a>
-<a class="sourceLine" id="cb826-3" title="3">s_name &lt;-<span class="st"> </span><span class="fl">1.75</span></a>
-<a class="sourceLine" id="cb826-4" title="4"></a>
-<a class="sourceLine" id="cb826-5" title="5">n_no &lt;-<span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb826-6" title="6">xbar_no &lt;-<span class="st"> </span><span class="fl">3.49</span></a>
-<a class="sourceLine" id="cb826-7" title="7">s_no &lt;-<span class="st"> </span><span class="fl">1.13</span></a>
-<a class="sourceLine" id="cb826-8" title="8"></a>
-<a class="sourceLine" id="cb826-9" title="9">SE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_name <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_no)</a>
-<a class="sourceLine" id="cb826-10" title="10">t_stat &lt;-<span class="st"> </span>(xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">/</span><span class="st"> </span>SE</a>
-<a class="sourceLine" id="cb826-11" title="11">t_stat</a></code></pre></div>
+<div class="sourceCode" id="cb809"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb809-1" title="1">n_name &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb809-2" title="2">xbar_name &lt;-<span class="st"> </span><span class="fl">5.44</span></a>
+<a class="sourceLine" id="cb809-3" title="3">s_name &lt;-<span class="st"> </span><span class="fl">1.75</span></a>
+<a class="sourceLine" id="cb809-4" title="4"></a>
+<a class="sourceLine" id="cb809-5" title="5">n_no &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb809-6" title="6">xbar_no &lt;-<span class="st"> </span><span class="fl">3.49</span></a>
+<a class="sourceLine" id="cb809-7" title="7">s_no &lt;-<span class="st"> </span><span class="fl">1.13</span></a>
+<a class="sourceLine" id="cb809-8" title="8"></a>
+<a class="sourceLine" id="cb809-9" title="9">SE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_name <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>n_no)</a>
+<a class="sourceLine" id="cb809-10" title="10">t_stat &lt;-<span class="st"> </span>(xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">/</span><span class="st"> </span>SE</a>
+<a class="sourceLine" id="cb809-11" title="11">t_stat</a></code></pre></div>
 <pre><code>## [1] 4.186343</code></pre>
 <p>The question provides us the degrees of freedom calculated using Welch’s formula: <span class="math inline">\(\textrm{df} = 32.5\)</span>.</p>
-<div class="sourceCode" id="cb828"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb828-1" title="1">df &lt;-<span class="st"> </span><span class="fl">32.5</span></a></code></pre></div>
+<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb811-1" title="1">df &lt;-<span class="st"> </span><span class="fl">32.5</span></a></code></pre></div>
 <p>Critical value:</p>
-<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb829-1" title="1"><span class="kw">qt</span>(<span class="fl">0.95</span>, <span class="dt">df =</span> df)</a></code></pre></div>
+<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb812-1" title="1"><span class="kw">qt</span>(<span class="fl">0.95</span>, <span class="dt">df =</span> df)</a></code></pre></div>
 <pre><code>## [1] 1.693112</code></pre>
 <p><span class="math inline">\(p\)</span>-value:</p>
-<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" title="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_stat, <span class="dt">df =</span> df)</a></code></pre></div>
+<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" title="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_stat, <span class="dt">df =</span> df)</a></code></pre></div>
 <pre><code>## [1] 0.0001010876</code></pre>
 <p>The <span class="math inline">\(p\)</span>-value is &lt;.0005.</p>
 <p class="solution-end">
@@ -1854,9 +1869,9 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-122" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-122&#39;, &#39;sol-start-122&#39;)"></span>
+► Solution<span id="sol-start-963" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-963&#39;, &#39;sol-start-963&#39;)"></span>
 </p>
-<div id="sol-body-122" class="solution-body" style="display: none;">
+<div id="sol-body-963" class="solution-body" style="display: none;">
 <p>As the <span class="math inline">\(p\)</span>-value <span class="math inline">\(&lt;.05\)</span>, we reject the null hypothesis that there is no effect of giving her name on the tipping amount.</p>
 <p>The sample results provide strong evidence that including her name as part of the customer’s greeting tends to lead to higher tips on average.</p>
 <p class="solution-end">
@@ -1880,9 +1895,9 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-123" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-123&#39;, &#39;sol-start-123&#39;)"></span>
+► Solution<span id="sol-start-964" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-964&#39;, &#39;sol-start-964&#39;)"></span>
 </p>
-<div id="sol-body-123" class="solution-body" style="display: none;">
+<div id="sol-body-964" class="solution-body" style="display: none;">
 <p>We do not have enough information to check whether the validity conditions are met.</p>
 <p>We are told that the two-person parties were randomly assigned either to the name or no name condition, but the two sample sizes (20 and 20) are not very large, so we should check whether the data came from normal distributions.</p>
 <p>However, we only have summary statistics and not the actual tip amounts for each party (experimental unit). We would ask the waitress to provide us the party-by-party tipping amounts in order to check if the populations the samples came from can be assumed to be normal.</p>
@@ -1907,13 +1922,13 @@ H_1 : \mu_{name} &gt; \mu_{no\ name}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-124" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-124&#39;, &#39;sol-start-124&#39;)"></span>
+► Solution<span id="sol-start-965" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-965&#39;, &#39;sol-start-965&#39;)"></span>
 </p>
-<div id="sol-body-124" class="solution-body" style="display: none;">
+<div id="sol-body-965" class="solution-body" style="display: none;">
 <p>First, we must find the appropriate critical value <span class="math inline">\(t^*_\textrm{df}\)</span> (for the desired confidence level) from a <span class="math inline">\(t\)</span>-distribution with degrees of freedom given by Welch’s method (see Question B.6 for the value).</p>
 <p>The critical value for a 95% confidence level is:</p>
-<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb833-1" title="1">t_crit_ci &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, df)</a>
-<a class="sourceLine" id="cb833-2" title="2">t_crit_ci</a></code></pre></div>
+<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb816-1" title="1">t_crit_ci &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, df)</a>
+<a class="sourceLine" id="cb816-2" title="2">t_crit_ci</a></code></pre></div>
 <pre><code>## [1] 2.035705</code></pre>
 We compute a 95% confidence interval for the difference in population means, <span class="math inline">\(\mu_{name} - \mu_{no\ name}\)</span>, as follows:
 <center>
@@ -1922,11 +1937,11 @@ We compute a 95% confidence interval for the difference in population means, <sp
 (5.44 - 3.49) \pm 2.036 \sqrt{\frac{1.75^2}{20} + \frac{1.13^2}{20}}
 \]</span>
 </center>
-<div class="sourceCode" id="cb835"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb835-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb835-2" title="2">  <span class="dt">Lower =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">-</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>),</a>
-<a class="sourceLine" id="cb835-3" title="3">  <span class="dt">Upper =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">+</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb835-4" title="4">)</a>
-<a class="sourceLine" id="cb835-5" title="5">ci</a></code></pre></div>
+<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb818-1" title="1">ci &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb818-2" title="2">  <span class="dt">Lower =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">-</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>),</a>
+<a class="sourceLine" id="cb818-3" title="3">  <span class="dt">Upper =</span> (xbar_name <span class="op">-</span><span class="st"> </span>xbar_no) <span class="op">+</span><span class="st"> </span>t_crit_ci <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(s_name<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">+</span><span class="st"> </span>s_no<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span><span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb818-4" title="4">)</a>
+<a class="sourceLine" id="cb818-5" title="5">ci</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   Lower Upper
 ##   &lt;dbl&gt; &lt;dbl&gt;
@@ -1954,9 +1969,9 @@ We compute a 95% confidence interval for the difference in population means, <sp
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-125" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-125&#39;, &#39;sol-start-125&#39;)"></span>
+► Solution<span id="sol-start-966" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-966&#39;, &#39;sol-start-966&#39;)"></span>
 </p>
-<div id="sol-body-125" class="solution-body" style="display: none;">
+<div id="sol-body-966" class="solution-body" style="display: none;">
 <p>The study involved random assignment of the experimental units to the groups, so the only difference between the groups was whether the party was given the waitress’ name or not.
 As the parties in the name condition tend to give significantly higher tips on average than those in the no name condition (<span class="math inline">\(t(32.5)\)</span> = 4.19, <span class="math inline">\(p\)</span>-value &lt; .0005, one-sided), we can attribute this difference in means to being told the waitress’ name as part of the greeting.
 In other words, we can conclude a causal link between being given the name as part of the greeting and receiving higher tips on average.</p>
@@ -1995,23 +2010,13 @@ Furthermore, we might also avoid generalising these results to customers differe
 
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="chap-one-mean-test.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="chap-one-mean-test.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chap-paired-t-test.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Week 6 | Data Analysis for Psychology in R (dapR1) - Labs</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Week 6 | Data Analysis for Psychology in R (dapR1) - Labs" />
   <meta property="og:type" content="book" />
@@ -457,6 +457,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.5" data-path="two-indep-samples.html"><a href="two-indep-samples.html#glossary-6"><i class="fa fa-check"></i><b>17.5</b> Glossary</a></li>
 <li class="chapter" data-level="17.6" data-path="two-indep-samples.html"><a href="two-indep-samples.html#w17-references"><i class="fa fa-check"></i><b>17.6</b> References</a></li>
 </ul></li>
+<li class="chapter" data-level="18" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html"><i class="fa fa-check"></i><b>18</b> Paired T-Test</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#recap-6"><i class="fa fa-check"></i>Recap</a></li>
+<li><a href="chap-paired-t-test.html#paired-t-test">Paired <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="18.1" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#walkthrough-3"><i class="fa fa-check"></i><b>18.1</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#change-in-score-on-the-ace-iii"><i class="fa fa-check"></i>Change in score on the ACE-III</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#data-organisation---reshaping"><i class="fa fa-check"></i>Data organisation - reshaping</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#effect-sizes"><i class="fa fa-check"></i>Effect sizes</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#summary-6"><i class="fa fa-check"></i><b>18.2</b> Summary</a></li>
+<li class="chapter" data-level="18.3" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#lab-5"><i class="fa fa-check"></i><b>18.3</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#age-differences-in-heterosexual-marriages"><i class="fa fa-check"></i>Age differences in heterosexual marriages</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#smoking-interventions"><i class="fa fa-check"></i>Smoking interventions</a></li>
+<li class="chapter" data-level="18.3.1" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#glossary-7"><i class="fa fa-check"></i><b>18.3.1</b> Glossary</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -487,7 +502,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="load-all-the-necessary-packages-1" class="section level2">
 <h2><span class="header-section-number">6.2</span> Load all the necessary packages</h2>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" title="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" title="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 </div>
 <div id="part-1-hand-plotting-functions" class="section level2">
 <h2><span class="header-section-number">6.3</span> Part 1: Hand plotting functions</h2>
@@ -509,12 +524,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>As the time passes, the tree height is increasing.
 Here <strong>Time</strong> will be our <span class="math inline">\(x\)</span> - <strong>an independent variable</strong> and (<strong>Tree height</strong>) will be <strong>a dependent variable</strong>. In other words, <strong>Tree height</strong> will be our <span class="math inline">\(y\)</span> - it depends on x (<strong>Time</strong>).</p>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-150-1.png" width="672" /></p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb245-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> tree, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb245-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb245-3" title="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb245-4" title="4"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time (years)&quot;</span>) <span class="op">+</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb245-5" title="5"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Tree Height (cm)&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb245-6" title="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Tree height&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> tree, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb231-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb231-3" title="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb231-4" title="4"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time (years)&quot;</span>) <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb231-5" title="5"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Tree Height (cm)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb231-6" title="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Tree height&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-151-1.png" width="672" /></p>
 <p>Note that the height is affected by <strong>Time</strong> but <strong>Time</strong> is not affected by <strong>Tree Height</strong>. Hence the relationship. Your choice of what goes where in your graph depends largely on the assumption about the process you are studying.</p>
 <p>If we were to fit a model to this data the function we would use is:</p>
@@ -580,20 +595,20 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
     \]</span></p>
 <p>We are keen to provide visualisations for various functions of <strong>x</strong> that can be expressed via <span class="math inline">\(f(x) = y\)</span></p>
 <p>To plot the following function <span class="math display">\[y=x\]</span> we can frist create a mini data that will have our <span class="math inline">\(x\)</span> and the function we want to apply to the vector of <span class="math inline">\(x\)</span>.</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" title="1"><span class="co"># Assign x and y</span></a>
-<a class="sourceLine" id="cb246-2" title="2">data_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">22</span>),</a>
-<a class="sourceLine" id="cb246-3" title="3">               <span class="dt">y =</span> x)</a>
-<a class="sourceLine" id="cb246-4" title="4"></a>
-<a class="sourceLine" id="cb246-5" title="5"><span class="co"># Plot</span></a>
-<a class="sourceLine" id="cb246-6" title="6"><span class="kw">ggplot</span>(<span class="dt">data =</span> data_<span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb246-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb246-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb246-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="op">+</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb246-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;y = x&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb246-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Plot of y = x&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" title="1"><span class="co"># Assign x and y</span></a>
+<a class="sourceLine" id="cb232-2" title="2">data_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">22</span>),</a>
+<a class="sourceLine" id="cb232-3" title="3">               <span class="dt">y =</span> x)</a>
+<a class="sourceLine" id="cb232-4" title="4"></a>
+<a class="sourceLine" id="cb232-5" title="5"><span class="co"># Plot</span></a>
+<a class="sourceLine" id="cb232-6" title="6"><span class="kw">ggplot</span>(<span class="dt">data =</span> data_<span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb232-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb232-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb232-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb232-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;y = x&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb232-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Plot of y = x&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-153-1.png" width="672" /></p>
 <p>Note the response in <span class="math inline">\(y\)</span> for each value of <span class="math inline">\(x\)</span>. You can check the result in R too by running <code>data</code>.</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb247-1" title="1">data_<span class="dv">1</span></a></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" title="1">data_<span class="dv">1</span></a></code></pre></div>
 <pre><code>## # A tibble: 8 x 2
 ##       x     y
 ##   &lt;dbl&gt; &lt;dbl&gt;
@@ -606,19 +621,19 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
 ## 7    18    18
 ## 8    22    22</code></pre>
 <p>Now try with: <span class="math display">\[y=x-3x\]</span></p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb249-1" title="1"><span class="co"># Assign x and y</span></a>
-<a class="sourceLine" id="cb249-2" title="2">data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">22</span>),</a>
-<a class="sourceLine" id="cb249-3" title="3">               <span class="dt">y =</span> x<span class="dv">-3</span><span class="op">*</span>x)</a>
-<a class="sourceLine" id="cb249-4" title="4"></a>
-<a class="sourceLine" id="cb249-5" title="5"><span class="co"># Plot</span></a>
-<a class="sourceLine" id="cb249-6" title="6"><span class="kw">ggplot</span>(<span class="dt">data =</span> data_<span class="dv">2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb249-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb249-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb249-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb249-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;y = x - 3x&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb249-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Plot of y = x - 3x&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" title="1"><span class="co"># Assign x and y</span></a>
+<a class="sourceLine" id="cb235-2" title="2">data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">22</span>),</a>
+<a class="sourceLine" id="cb235-3" title="3">               <span class="dt">y =</span> x<span class="dv">-3</span><span class="op">*</span>x)</a>
+<a class="sourceLine" id="cb235-4" title="4"></a>
+<a class="sourceLine" id="cb235-5" title="5"><span class="co"># Plot</span></a>
+<a class="sourceLine" id="cb235-6" title="6"><span class="kw">ggplot</span>(<span class="dt">data =</span> data_<span class="dv">2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb235-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb235-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb235-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb235-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;y = x - 3x&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb235-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Plot of y = x - 3x&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-155-1.png" width="672" /></p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb250-1" title="1">data_<span class="dv">2</span></a></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" title="1">data_<span class="dv">2</span></a></code></pre></div>
 <pre><code>## # A tibble: 8 x 2
 ##       x     y
 ##   &lt;dbl&gt; &lt;dbl&gt;
@@ -631,19 +646,19 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
 ## 7    18   -36
 ## 8    22   -44</code></pre>
 <p>Now try with: <span class="math display">\[y=(x+3)^2\]</span></p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb252-1" title="1"><span class="co"># Assign x and y</span></a>
-<a class="sourceLine" id="cb252-2" title="2">data_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">22</span>),</a>
-<a class="sourceLine" id="cb252-3" title="3">               <span class="dt">y =</span> (x <span class="op">+</span><span class="st"> </span><span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb252-4" title="4"></a>
-<a class="sourceLine" id="cb252-5" title="5"><span class="co"># Plot</span></a>
-<a class="sourceLine" id="cb252-6" title="6"><span class="kw">ggplot</span>(<span class="dt">data =</span> data_<span class="dv">3</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb252-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb252-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb252-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb252-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;y = (x + 3)^2&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb252-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Plot of y = (x + 3)^2&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" title="1"><span class="co"># Assign x and y</span></a>
+<a class="sourceLine" id="cb238-2" title="2">data_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">22</span>),</a>
+<a class="sourceLine" id="cb238-3" title="3">               <span class="dt">y =</span> (x <span class="op">+</span><span class="st"> </span><span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb238-4" title="4"></a>
+<a class="sourceLine" id="cb238-5" title="5"><span class="co"># Plot</span></a>
+<a class="sourceLine" id="cb238-6" title="6"><span class="kw">ggplot</span>(<span class="dt">data =</span> data_<span class="dv">3</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb238-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb238-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb238-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb238-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;y = (x + 3)^2&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb238-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Plot of y = (x + 3)^2&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-157-1.png" width="672" /></p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" title="1">data_<span class="dv">3</span></a></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb239-1" title="1">data_<span class="dv">3</span></a></code></pre></div>
 <pre><code>## # A tibble: 8 x 2
 ##       x     y
 ##   &lt;dbl&gt; &lt;dbl&gt;
@@ -656,19 +671,19 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
 ## 7    18   441
 ## 8    22   625</code></pre>
 <p>Finally, try with: <span class="math display">\[y=log(x)\]</span></p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" title="1"><span class="co"># Assign x and y</span></a>
-<a class="sourceLine" id="cb255-2" title="2">data_<span class="dv">4</span>&lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">22</span>),</a>
-<a class="sourceLine" id="cb255-3" title="3">               <span class="dt">y =</span> <span class="kw">log</span>(x))</a>
-<a class="sourceLine" id="cb255-4" title="4"></a>
-<a class="sourceLine" id="cb255-5" title="5"><span class="co"># Plot</span></a>
-<a class="sourceLine" id="cb255-6" title="6"><span class="kw">ggplot</span>(<span class="dt">data =</span> data_<span class="dv">4</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;y = log(x)&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Plot of y = log(x)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb241-1" title="1"><span class="co"># Assign x and y</span></a>
+<a class="sourceLine" id="cb241-2" title="2">data_<span class="dv">4</span>&lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>,<span class="dv">22</span>),</a>
+<a class="sourceLine" id="cb241-3" title="3">               <span class="dt">y =</span> <span class="kw">log</span>(x))</a>
+<a class="sourceLine" id="cb241-4" title="4"></a>
+<a class="sourceLine" id="cb241-5" title="5"><span class="co"># Plot</span></a>
+<a class="sourceLine" id="cb241-6" title="6"><span class="kw">ggplot</span>(<span class="dt">data =</span> data_<span class="dv">4</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb241-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb241-8" title="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb241-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb241-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;y = log(x)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb241-11" title="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Plot of y = log(x)&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-159-1.png" width="672" /></p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" title="1">data_<span class="dv">4</span></a></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" title="1">data_<span class="dv">4</span></a></code></pre></div>
 <pre><code>## # A tibble: 8 x 2
 ##       x     y
 ##   &lt;dbl&gt; &lt;dbl&gt;
@@ -685,104 +700,104 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
 <h2><span class="header-section-number">6.7</span> Part 2: Introduction to Data Transformation</h2>
 <p>This week we will walk you through examples of various data transformations you can do using <code>tidyverse</code>. When working with real data you often may be interested to apply various transformations to your variable to change or/and adjust the scale of your data or for many other purposes. We will use the datasets from <strong>Week 5</strong> and will focus on understanding <code>mutate()</code> function. We will further discuss how variable transformations can address the skewness in your variable distributions - if this may seem a bit confusing at this stage, bear with us - we will get back to it soon enough.</p>
 <p>Let’s start by loading <code>tidyverse</code>.</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" title="1"><span class="co"># Load tidyverse</span></a>
-<a class="sourceLine" id="cb258-2" title="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" title="1"><span class="co"># Load tidyverse</span></a>
+<a class="sourceLine" id="cb244-2" title="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 <p>And the data from last week - <code>edinburgh_delays</code>.</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb259-1" title="1"><span class="co"># Load the data</span></a>
-<a class="sourceLine" id="cb259-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;edinburgh_delays.csv&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb245-1" title="1"><span class="co"># Load the data</span></a>
+<a class="sourceLine" id="cb245-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;edinburgh_delays.csv&#39;</span>)</a></code></pre></div>
 <p>Whilst we are here let us provide a quick data decscription:</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb260-1" title="1"><span class="co"># Quick description</span></a>
-<a class="sourceLine" id="cb260-2" title="2">edinburgh_delays <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb260-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb260-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(delay_time),</a>
-<a class="sourceLine" id="cb260-5" title="5">            <span class="dt">median =</span> <span class="kw">median</span>(delay_time),</a>
-<a class="sourceLine" id="cb260-6" title="6">            <span class="dt">sd =</span> <span class="kw">sd</span>(delay_time))</a></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" title="1"><span class="co"># Quick description</span></a>
+<a class="sourceLine" id="cb246-2" title="2">edinburgh_delays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb246-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb246-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(delay_time),</a>
+<a class="sourceLine" id="cb246-5" title="5">            <span class="dt">median =</span> <span class="kw">median</span>(delay_time),</a>
+<a class="sourceLine" id="cb246-6" title="6">            <span class="dt">sd =</span> <span class="kw">sd</span>(delay_time))</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 4
 ##   day            mean median    sd
 ##   &lt;fct&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
 ## 1 average day    15.3   15.5  3.85
 ## 2 christmas eve  40.2   26   37.4</code></pre>
 <p>From last week remember that Christmas Eve delay times were slighly skewed as we had some very extreme delays which have affected the shape of our histogram.</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb262-1" title="1"><span class="co"># Visualise the data using a histogram by day (average day)</span></a>
-<a class="sourceLine" id="cb262-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb262-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span><span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span><span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb262-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb262-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb262-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb262-7" title="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb248-1" title="1"><span class="co"># Visualise the data using a histogram by day (average day)</span></a>
+<a class="sourceLine" id="cb248-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb248-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span><span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span><span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb248-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb248-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb248-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb248-7" title="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-165-1.png" width="672" /></p>
 <p>And for Christmas Eve too:</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb264-1" title="1"><span class="co"># Visualise the data using a histogram by day (christmas eve)</span></a>
-<a class="sourceLine" id="cb264-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb264-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span><span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span><span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb264-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb264-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb264-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb264-7" title="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb250-1" title="1"><span class="co"># Visualise the data using a histogram by day (christmas eve)</span></a>
+<a class="sourceLine" id="cb250-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb250-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span><span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span><span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb250-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb250-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb250-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb250-7" title="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-166-1.png" width="672" /></p>
 </div>
 <div id="renaming" class="section level2">
 <h2><span class="header-section-number">6.8</span> Renaming</h2>
 <p>Now we not only want to specify that delay time is measured in minutes but we also want to add an extra variable that will provide us with an idea of the delay time in hours.</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb266-1" title="1"><span class="co"># Rename variable time as delay_min</span></a>
-<a class="sourceLine" id="cb266-2" title="2">edinburgh_delays &lt;-<span class="kw">rename</span>(edinburgh_delays, <span class="dt">delay_min =</span> delay_time)</a></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb252-1" title="1"><span class="co"># Rename variable time as delay_min</span></a>
+<a class="sourceLine" id="cb252-2" title="2">edinburgh_delays &lt;-<span class="kw">rename</span>(edinburgh_delays, <span class="dt">delay_min =</span> delay_time)</a></code></pre></div>
 </div>
 <div id="adding-new-variables" class="section level2">
 <h2><span class="header-section-number">6.9</span> Adding new variables</h2>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb267-1" title="1"><span class="co"># Change time into hours</span></a>
-<a class="sourceLine" id="cb267-2" title="2"> edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays, <span class="co"># Note how we use mutate()</span></a>
-<a class="sourceLine" id="cb267-3" title="3">      <span class="dt">delay_hours =</span> delay_min <span class="op">/</span><span class="st"> </span><span class="dv">60</span>) <span class="co"># We want to divide minutes by 60 to get the number of hours</span></a></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" title="1"><span class="co"># Change time into hours</span></a>
+<a class="sourceLine" id="cb253-2" title="2"> edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays, <span class="co"># Note how we use mutate()</span></a>
+<a class="sourceLine" id="cb253-3" title="3">      <span class="dt">delay_hours =</span> delay_min <span class="op">/</span><span class="st"> </span><span class="dv">60</span>) <span class="co"># We want to divide minutes by 60 to get the number of hours</span></a></code></pre></div>
 </div>
 <div id="transformation-and-skewness" class="section level2">
 <h2><span class="header-section-number">6.10</span> Transformation and skewness</h2>
 <p>Now, look back at your histograms for both Christmas Eve and Average Day. Whilst the shape of the Average Day distribution may look quite symmetrical, we may want to address the skewness in the Christmas Eve shape. There are two common ways to do this: taking the log() of the variable or taking the sqrt(). Let us see what these will do in action:</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb268-1" title="1"><span class="co"># Transform using log </span></a>
-<a class="sourceLine" id="cb268-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays,</a>
-<a class="sourceLine" id="cb268-3" title="3">                           <span class="dt">log_time =</span> <span class="kw">log</span>(delay_min))</a></code></pre></div>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" title="1"><span class="co"># Transform using sqrt </span></a>
-<a class="sourceLine" id="cb269-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays,</a>
-<a class="sourceLine" id="cb269-3" title="3">                           <span class="dt">sqrt_time =</span> <span class="kw">sqrt</span>(delay_min))</a></code></pre></div>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" title="1"> <span class="co"># Visualise the data using a histogram by day (Christmas Eve) now with log transformation</span></a>
-<a class="sourceLine" id="cb270-2" title="2"> <span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> log_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb270-3" title="3"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb270-4" title="4"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(log_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb270-5" title="5"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(log_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb270-6" title="6"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (log(min))&#39;</span>,<span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Log of Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb270-7" title="7"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" title="1"><span class="co"># Transform using log </span></a>
+<a class="sourceLine" id="cb254-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays,</a>
+<a class="sourceLine" id="cb254-3" title="3">                           <span class="dt">log_time =</span> <span class="kw">log</span>(delay_min))</a></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" title="1"><span class="co"># Transform using sqrt </span></a>
+<a class="sourceLine" id="cb255-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays,</a>
+<a class="sourceLine" id="cb255-3" title="3">                           <span class="dt">sqrt_time =</span> <span class="kw">sqrt</span>(delay_min))</a></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" title="1"> <span class="co"># Visualise the data using a histogram by day (Christmas Eve) now with log transformation</span></a>
+<a class="sourceLine" id="cb256-2" title="2"> <span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> log_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb256-3" title="3"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb256-4" title="4"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(log_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb256-5" title="5"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(log_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb256-6" title="6"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (log(min))&#39;</span>,<span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Log of Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb256-7" title="7"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-171-1.png" width="672" /></p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" title="1"> <span class="co"># Visualise the data using a histogram by day (Christmas Eve) now with sqrt transformation</span></a>
-<a class="sourceLine" id="cb272-2" title="2"> <span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> sqrt_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb272-3" title="3"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb272-4" title="4"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(sqrt_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb272-5" title="5"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(sqrt_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb272-6" title="6"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (sqrt(min))&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Sqrt of Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb272-7" title="7"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" title="1"> <span class="co"># Visualise the data using a histogram by day (Christmas Eve) now with sqrt transformation</span></a>
+<a class="sourceLine" id="cb258-2" title="2"> <span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> sqrt_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb258-3" title="3"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb258-4" title="4"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(sqrt_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb258-5" title="5"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(sqrt_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb258-6" title="6"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (sqrt(min))&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Sqrt of Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb258-7" title="7"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-172-1.png" width="672" /></p>
 <p>Log is much more effective in dealing with skewness but from these plots it might be hard to tell. Focus on how close the mean and median values are. Let us compare the real values with the log now - we can use a <code>cowplot</code>. Please note how we first assign our plots to objects which we then plot.</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" title="1"><span class="co"># Put side-by-side to compare</span></a>
-<a class="sourceLine" id="cb274-2" title="2"><span class="kw">library</span>(cowplot)</a>
-<a class="sourceLine" id="cb274-3" title="3"></a>
-<a class="sourceLine" id="cb274-4" title="4"><span class="co"># Original data plot</span></a>
-<a class="sourceLine" id="cb274-5" title="5">plot_original &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_min)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb274-6" title="6"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb274-7" title="7"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_min)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb274-8" title="8"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_min)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb274-9" title="9"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min) &#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Christmas Eve) &#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb274-10" title="10"><span class="st">   </span><span class="kw">theme_minimal</span>()</a>
-<a class="sourceLine" id="cb274-11" title="11"> </a>
-<a class="sourceLine" id="cb274-12" title="12"><span class="co"># Log transformed plot</span></a>
-<a class="sourceLine" id="cb274-13" title="13"> plot_log &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> log_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb274-14" title="14"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb274-15" title="15"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(log_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb274-16" title="16"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(log_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb274-17" title="17"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (log(min))&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb274-18" title="18"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" title="1"><span class="co"># To put side by side</span></a>
-<a class="sourceLine" id="cb275-2" title="2"><span class="kw">plot_grid</span>(plot_original, plot_log)</a></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb260-1" title="1"><span class="co"># Put side-by-side to compare</span></a>
+<a class="sourceLine" id="cb260-2" title="2"><span class="kw">library</span>(cowplot)</a>
+<a class="sourceLine" id="cb260-3" title="3"></a>
+<a class="sourceLine" id="cb260-4" title="4"><span class="co"># Original data plot</span></a>
+<a class="sourceLine" id="cb260-5" title="5">plot_original &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_min)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb260-6" title="6"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb260-7" title="7"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_min)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb260-8" title="8"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_min)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb260-9" title="9"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min) &#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Christmas Eve) &#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb260-10" title="10"><span class="st">   </span><span class="kw">theme_minimal</span>()</a>
+<a class="sourceLine" id="cb260-11" title="11"> </a>
+<a class="sourceLine" id="cb260-12" title="12"><span class="co"># Log transformed plot</span></a>
+<a class="sourceLine" id="cb260-13" title="13"> plot_log &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> log_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb260-14" title="14"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb260-15" title="15"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(log_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb260-16" title="16"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(log_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb260-17" title="17"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (log(min))&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb260-18" title="18"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb261-1" title="1"><span class="co"># To put side by side</span></a>
+<a class="sourceLine" id="cb261-2" title="2"><span class="kw">plot_grid</span>(plot_original, plot_log)</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-174-1.png" width="672" /></p>
@@ -790,30 +805,30 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
 <div id="mean-centering" class="section level2">
 <h2><span class="header-section-number">6.11</span> Mean Centering</h2>
 <p>Mean centering is one of the most common transformation for a continious variable. To provide transformation in R we can use the following:</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" title="1"><span class="co"># Mean centering </span></a>
-<a class="sourceLine" id="cb277-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays,</a>
-<a class="sourceLine" id="cb277-3" title="3">                           <span class="dt">mean_centered_time =</span> delay_min <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(delay_min))</a></code></pre></div>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> mean_centered_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb278-2" title="2"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb278-3" title="3"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(mean_centered_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb278-4" title="4"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(mean_centered_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb278-5" title="5"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time - mean centered&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39; Mean Centered Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb278-6" title="6"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" title="1"><span class="co"># Mean centering </span></a>
+<a class="sourceLine" id="cb263-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays,</a>
+<a class="sourceLine" id="cb263-3" title="3">                           <span class="dt">mean_centered_time =</span> delay_min <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(delay_min))</a></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb264-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> mean_centered_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb264-2" title="2"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb264-3" title="3"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(mean_centered_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb264-4" title="4"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(mean_centered_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb264-5" title="5"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time - mean centered&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39; Mean Centered Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb264-6" title="6"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-176-1.png" width="672" /></p>
 </div>
 <div id="standardisation" class="section level2">
 <h2><span class="header-section-number">6.12</span> Standardisation</h2>
 <p>Lastly, we can also standardise our variables by calculating the distance between each observation and the mean in standard deviation units using scale(), note that the results are very smiliar to mean centering technique.</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" title="1"><span class="co"># Transform using scale() </span></a>
-<a class="sourceLine" id="cb280-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays,</a>
-<a class="sourceLine" id="cb280-3" title="3">                           <span class="dt">stand_time =</span> <span class="kw">scale</span>(delay_min))</a></code></pre></div>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> stand_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb281-2" title="2"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb281-3" title="3"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(stand_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb281-4" title="4"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(stand_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb281-5" title="5"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time - standardized&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39; Standardised Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb281-6" title="6"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb266-1" title="1"><span class="co"># Transform using scale() </span></a>
+<a class="sourceLine" id="cb266-2" title="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">mutate</span>(edinburgh_delays,</a>
+<a class="sourceLine" id="cb266-3" title="3">                           <span class="dt">stand_time =</span> <span class="kw">scale</span>(delay_min))</a></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb267-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> stand_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb267-2" title="2"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb267-3" title="3"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(stand_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb267-4" title="4"><span class="st">   </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(stand_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb267-5" title="5"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time - standardized&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39; Standardised Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb267-6" title="6"><span class="st">   </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-178-1.png" width="672" /></p>
 <p>We will talk more about these as we progress through the course - for now, just take a note of the various transformations that you can apply to your numeric variables.</p>
@@ -859,13 +874,13 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
 <li><span class="math inline">\(y_3=x_1*x_2\)</span></li>
 </ul>
 <p>Note: you can use mutate() to add an extra variables to represent each of <span class="math inline">\(y_i\)</span>. Have a look at the solutions for the hints.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" title="1"><span class="co"># Create the data first with x online</span></a>
-<a class="sourceLine" id="cb283-2" title="2">my_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x1 =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">19</span>,<span class="op">-</span><span class="dv">6</span>,<span class="dv">0</span>,<span class="dv">14</span>,<span class="op">-</span><span class="dv">8</span>,<span class="dv">0</span>,<span class="dv">12</span>,<span class="dv">9</span>),</a>
-<a class="sourceLine" id="cb283-3" title="3">               <span class="dt">x2 =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">3</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" title="1"><span class="co"># Create the data first with x online</span></a>
+<a class="sourceLine" id="cb269-2" title="2">my_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x1 =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">19</span>,<span class="op">-</span><span class="dv">6</span>,<span class="dv">0</span>,<span class="dv">14</span>,<span class="op">-</span><span class="dv">8</span>,<span class="dv">0</span>,<span class="dv">12</span>,<span class="dv">9</span>),</a>
+<a class="sourceLine" id="cb269-3" title="3">               <span class="dt">x2 =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">3</span>))</a></code></pre></div>
 <p>We can use mutate() to add extra variables for <span class="math inline">\(y\)</span>:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb284-1" title="1">my_data &lt;-<span class="st"> </span><span class="kw">mutate</span>(my_data, </a>
-<a class="sourceLine" id="cb284-2" title="2">      <span class="dt">y1 =</span> x1<span class="op">^</span><span class="dv">3</span>, <span class="dt">y2=</span><span class="dv">3</span><span class="op">*</span>x1<span class="dv">-5</span><span class="op">*</span>x1, <span class="dt">y3=</span>x1<span class="op">*</span>x2)</a></code></pre></div>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" title="1">my_data</a></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" title="1">my_data &lt;-<span class="st"> </span><span class="kw">mutate</span>(my_data, </a>
+<a class="sourceLine" id="cb270-2" title="2">      <span class="dt">y1 =</span> x1<span class="op">^</span><span class="dv">3</span>, <span class="dt">y2=</span><span class="dv">3</span><span class="op">*</span>x1<span class="dv">-5</span><span class="op">*</span>x1, <span class="dt">y3=</span>x1<span class="op">*</span>x2)</a></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" title="1">my_data</a></code></pre></div>
 <pre><code>## # A tibble: 11 x 5
 ##       x1    x2    y1    y2    y3
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -887,18 +902,18 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
 <li>Create an extra variable called <strong>income_thousands</strong> which will provide information on income in thousands of pounds instead of just pounds.</li>
 <li>Visualise the distribution of income. Do you think we need to transform the income variable? Try one of the transformations you have seen today and visualise your data post-transformation (hint: try with log() and mean centering)</li>
 </ul>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb287-1" title="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" title="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 <ul>
 <li>Load the data in and work in the template. Provide descriptives by region.</li>
 </ul>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" title="1"><span class="co"># Read data in</span></a>
-<a class="sourceLine" id="cb288-2" title="2">income_london &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;income_london.csv&#39;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb289-1" title="1"><span class="co"># Quick description</span></a>
-<a class="sourceLine" id="cb289-2" title="2">income_london <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb289-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb289-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(income),</a>
-<a class="sourceLine" id="cb289-5" title="5">            <span class="dt">median =</span> <span class="kw">median</span>(income),</a>
-<a class="sourceLine" id="cb289-6" title="6">            <span class="dt">sd =</span> <span class="kw">sd</span>(income))</a></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" title="1"><span class="co"># Read data in</span></a>
+<a class="sourceLine" id="cb274-2" title="2">income_london &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;income_london.csv&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" title="1"><span class="co"># Quick description</span></a>
+<a class="sourceLine" id="cb275-2" title="2">income_london <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb275-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb275-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(income),</a>
+<a class="sourceLine" id="cb275-5" title="5">            <span class="dt">median =</span> <span class="kw">median</span>(income),</a>
+<a class="sourceLine" id="cb275-6" title="6">            <span class="dt">sd =</span> <span class="kw">sd</span>(income))</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 4
 ##   region   mean median     sd
 ##   &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
@@ -907,45 +922,45 @@ We will have a corresponding <span class="math inline">\(f(x)=y\)</span>:</p>
 <ul>
 <li>Create an extra variable called <strong>income_thousands</strong> which will provide information on income in thousands of pounds instead of pounds.</li>
 </ul>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" title="1"><span class="co"># Create variable income_thousands using mutate()</span></a>
-<a class="sourceLine" id="cb291-2" title="2">income_london &lt;-<span class="st"> </span><span class="kw">mutate</span>(income_london, <span class="co"># Note how we use mutate()</span></a>
-<a class="sourceLine" id="cb291-3" title="3">      <span class="dt">income_thousands =</span> income <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>) <span class="co"># We want to divide income by 1000</span></a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" title="1"><span class="co"># Create variable income_thousands using mutate()</span></a>
+<a class="sourceLine" id="cb277-2" title="2">income_london &lt;-<span class="st"> </span><span class="kw">mutate</span>(income_london, <span class="co"># Note how we use mutate()</span></a>
+<a class="sourceLine" id="cb277-3" title="3">      <span class="dt">income_thousands =</span> income <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>) <span class="co"># We want to divide income by 1000</span></a></code></pre></div>
 <ul>
 <li>Visualise the distribution of income using thousands. Do you think we need to transform the income variable? Try one of the transformations you have seen today and visualise your data.</li>
 </ul>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" title="1"><span class="co"># Distribution of income in thousands</span></a>
-<a class="sourceLine" id="cb292-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> income_thousands)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb292-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>( <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;yellow&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb292-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income_thousands)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb292-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income_thousands)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb292-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (thousands of pounds)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of London Incomes (thousands of pounds)&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" title="1"><span class="co"># Distribution of income in thousands</span></a>
+<a class="sourceLine" id="cb278-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> income_thousands)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb278-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>( <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;yellow&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb278-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income_thousands)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb278-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income_thousands)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb278-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (thousands of pounds)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of London Incomes (thousands of pounds)&quot;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-187-1.png" width="672" /></p>
 <p>In the context of the distribution, we may find that the shape is pretty symmetrical and our data can be described using the properties of normal distribution.</p>
 <p>To make the scale of income more comparative we can still try to transform. Let’s do the log(income).</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" title="1"><span class="co"># Log transform</span></a>
-<a class="sourceLine" id="cb294-2" title="2">income_london &lt;-<span class="st"> </span><span class="kw">mutate</span>(income_london,</a>
-<a class="sourceLine" id="cb294-3" title="3">                       <span class="dt">log_income =</span> <span class="kw">log</span>(income))</a></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" title="1"><span class="co"># Log transform</span></a>
+<a class="sourceLine" id="cb280-2" title="2">income_london &lt;-<span class="st"> </span><span class="kw">mutate</span>(income_london,</a>
+<a class="sourceLine" id="cb280-3" title="3">                       <span class="dt">log_income =</span> <span class="kw">log</span>(income))</a></code></pre></div>
 <p>And quickly visualise:</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" title="1"><span class="co"># Distribution of log(income)</span></a>
-<a class="sourceLine" id="cb295-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> log_income)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb295-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>( <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;brown&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb295-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(log_income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb295-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(log_income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb295-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;log(Income)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners log(Income)&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" title="1"><span class="co"># Distribution of log(income)</span></a>
+<a class="sourceLine" id="cb281-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> log_income)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>( <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;brown&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(log_income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(log_income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb281-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;log(Income)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners log(Income)&quot;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-189-1.png" width="672" /></p>
 <p>Through rescaling we achieved a reverse - now, our distribution is negatively skewed. Try with the mean centering as well.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" title="1"><span class="co"># Mean Centered</span></a>
-<a class="sourceLine" id="cb297-2" title="2">income_london &lt;-<span class="st"> </span><span class="kw">mutate</span>(income_london,</a>
-<a class="sourceLine" id="cb297-3" title="3">                       <span class="dt">mean_centered_income =</span> income<span class="op">-</span><span class="kw">mean</span>(income))</a></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" title="1"><span class="co"># Mean Centered</span></a>
+<a class="sourceLine" id="cb283-2" title="2">income_london &lt;-<span class="st"> </span><span class="kw">mutate</span>(income_london,</a>
+<a class="sourceLine" id="cb283-3" title="3">                       <span class="dt">mean_centered_income =</span> income<span class="op">-</span><span class="kw">mean</span>(income))</a></code></pre></div>
 <p>And quickly visualise:</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" title="1"><span class="co"># Distribution of mean centered income</span></a>
-<a class="sourceLine" id="cb298-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> mean_centered_income)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb298-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>( <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;brown&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb298-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(mean_centered_income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb298-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(mean_centered_income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb298-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Mean Centered Income&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners  Income (Mean Centered)&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb284-1" title="1"><span class="co"># Distribution of mean centered income</span></a>
+<a class="sourceLine" id="cb284-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> mean_centered_income)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb284-3" title="3"><span class="st">  </span><span class="kw">geom_histogram</span>( <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;brown&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb284-4" title="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(mean_centered_income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb284-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(mean_centered_income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb284-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Mean Centered Income&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners  Income (Mean Centered)&quot;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-191-1.png" width="672" /></p>
 <p>Take a note of the transformation. Why do you think mean centered income here might be a better transformation of the data compared to that of log()?</p>

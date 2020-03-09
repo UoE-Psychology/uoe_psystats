@@ -21,7 +21,7 @@ library(tidyverse)
 
 **LO1.** Understand how to perform a paired-sample $t$-test and interpret the results.
 
-**LO2.** effect size blah blah
+**LO2.** Learn how to compute Cohen's $D$ for different types of $t$-test.  
 
 <!-- #### Reading {-} -->
 
@@ -35,7 +35,7 @@ We therefore now have the tools to answer questions of the form:
   
 1. _is_ [population mean] _different from_ [hypothesized value] _?_ (one sample $t$-test)  
 2. _is_ [population mean 1] _different from_ [population mean 2] _?_ (independent samples $t$-test)  
-2a. _is the mean of_ [variable] _different between_ [group-1] and [group-2] _?_ (independent samples $t$-test)  
+<small>**Note**: this is the same as "_is the mean of_ [variable] _different between_ [group-1] and [group-2] _?_"</small>
 
 ---
 
@@ -68,8 +68,10 @@ We also learnt that when the response variable does __not__ have equal variance 
 
 ## Paired $t$-test {-}
 
-The last $t$-test we are going to learn about is the paired $t$-test, or 'dependent samples $t$-test'. 
+The last $t$-test we are going to learn about is the paired $t$-test, or 'dependent samples $t$-test'.  
+  
 Recall that last week we were concerned with evaluating the differences in means between two groups, and one of our assumptions in conducting our test was that the two groups were independent.  
+  
 However, we are often interested in asking whether there is a difference in means between two sets of observations which are _paired_.  
 
 #### Paired data {-}
@@ -77,11 +79,10 @@ However, we are often interested in asking whether there is a difference in mean
 We say that two sets of observations $A$ and $B$ are _paired_ when there is some pairing in the sets such that $A_1$ is linked to $B_1$ in the same way that $A_2$ is linked to $B_2$, and so on.
 
 <div class="noteBox">
-__Pairs of time points:__ Same person, same variable, different times  
-`r msmbstyle::solution_begin(header = "&#x25BA; Example", hidden = FALSE, toggle = TOGGLE)`
-Do peoples' scores differ between timepoint one and timepoint two?  
-
-+ Same participants and same test administered at multiple timepoints   
+`r msmbstyle::solution_begin(header = "&#x25BA; __Pairs of time points:__", hidden = FALSE, toggle = TOGGLE)`
+__Same person, same variable, different times__  
+  
+Do peoples' scores differ between timepoint one and timepoint two? (Same participants and same test administered at multiple timepoints)   
 
 ```{r echo=FALSE}
 tibble(
@@ -91,11 +92,10 @@ tibble(
 ) %>% knitr::kable()
 ```
 `r msmbstyle::solution_end()`
-__Pairs of variables:__ Same person, different variables  
-`r msmbstyle::solution_begin(header = "&#x25BA; Example", hidden = FALSE, toggle = TOGGLE)` 
-Do peoples' scores on maths tests differ from their scores on English tests?  
-
-+ Same people taking both tests and producing a score on maths and score on English   
+`r msmbstyle::solution_begin(header = "&#x25BA; __Pairs of variables:__", hidden = FALSE, toggle = TOGGLE)` 
+__Same person, different variables__  
+  
+Do peoples' scores on maths tests differ from their scores on English tests? (Same people taking both tests and producing a score on maths and score on English)   
   
 ```{r echo=FALSE}
 tibble(
@@ -105,11 +105,10 @@ tibble(
 ) %>% knitr::kable()
 ```
 `r msmbstyle::solution_end()`
-__Pairs of people:__ Same variable, different individual from a dyad (pair of people)
-`r msmbstyle::solution_begin(header = "&#x25BA; Example", hidden = FALSE, toggle = TOGGLE)`
-Do employees work different amount of hours to their bosses?  
+`r msmbstyle::solution_begin(header = "&#x25BA; __Pairs of people:__", hidden = FALSE, toggle = TOGGLE)`  
+__Same variable, different individual from a dyad (pair of people)__  
   
-+ Same variable (hours worked per day) collected from each person in pairs of people (i.e., each employee and their respective bosses).  
+Do employees work different amount of hours to their bosses? (Same variable (hours worked per day) collected from each person in pairs of people (i.e., each employee and their respective bosses)).  
 
 ```{r echo=FALSE}
 tibble(
@@ -119,6 +118,7 @@ tibble(
 ) %>% knitr::kable()
 ```
 `r msmbstyle::solution_end()`
+
 </div>
 
 
@@ -210,7 +210,7 @@ Steps for paired $t$-test:
 + 5. calculate the probability of observing a $t$-statistic at least as extreme assuming the null hypothesis ($\mu_d = 0$) to be true.  
 
 The formula for the $t$-statistic, assessing statistical significance, and constructing confidence intervals is identical to the one-sample $t$-test.  
-We have simply changed the notation: Instead of talking about a population mean $\mu$ which is estimated by a sample mean $\bar x$, we are talking about a population mean difference $\mu_d$ estimated by the sample mean difference $\bar d$. And we are testing whether $mu_d$ is different from 0.  
+We have simply changed the notation: Instead of talking about a population mean $\mu$ which is estimated by a sample mean $\bar x$, we are talking about a population mean difference $\mu_d$ estimated by the sample mean difference $\bar d$. And we are testing whether $\mu_d$ is different from 0.  
 
 
 ## Walkthrough 
@@ -243,11 +243,13 @@ $H_1: \mu_d \neq 0$
 `r msmbstyle::solution_end()`
 ---
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.3")`
-Read in the data, and make a new column of the difference in scores for each pair.    
+Read in the data, and make a new column of the difference in scores for each pair.   
+
+The data is available as a **.csv** from [https://edin.ac/2Tz1cNH](https://edin.ac/2Tz1cNH). 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden = FALSE, toggle = TOGGLE)`
 ```{r message=FALSE}
-acedata <- read_csv("../data/acedata.csv")
+acedata <- read_csv("https://edin.ac/2Tz1cNH")
 
 acedata <-
   acedata %>% 
@@ -334,10 +336,9 @@ To this (*wide* format):
 head(acedata) %>% select(-diff_score) %>% rbind(.,"...") %>% knitr::kable()
 ```
 
-<div class="noteBox">
 #### New R stuff! {-}  
 
-We can reshape datasets using the functions `pivot_longer()` and `pivot_wider()`. 
+We can reshape datasets using the functions `pivot_longer()` and `pivot_wider()`, which we mentioned briefly in the lecture.  
 
 Recall that our data was *wide*:
 ```{r}
@@ -458,11 +459,11 @@ _Please attempt the questions **before** looking at the solutions. Copy & pastin
 
 Is there an age difference in heterosexual married couples? (and in what direction?)  
 
-Data on the ages of both brides and grooms at point of marriage is available [url](url).  
+Data on the ages of both brides and grooms at point of marriage is available at [https://edin.ac/2TBoZMY](https://edin.ac/2TBoZMY).  
 You can read it in using the code below: 
 
 ```{r echo=TRUE, message=FALSE}
-marriages<-read_csv("../data/marriageages.csv")
+marriages<-read_csv("https://edin.ac/2TBoZMY")
 ```
 
 </div>
@@ -546,10 +547,10 @@ All 60 participants are followed up one month later, and the average number of c
 
 </div>
 
-The data is available at [url](url).
+The data (**.csv**) is available at [https://edin.ac/2vRr3r9](https://edin.ac/2vRr3r9).  
 
 ```{r echo=FALSE}
-cbtsmoke <- read.csv("../data/cbtsmoke.csv")
+cbtsmoke <- read.csv("https://edin.ac/2vRr3r9")
 ```
 
 
