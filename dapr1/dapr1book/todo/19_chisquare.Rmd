@@ -1,0 +1,116 @@
+```{r, echo=FALSE}
+HIDDEN_SOLS=TRUE
+TOGGLE=TRUE
+set.seed(15732)
+ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
+
+library(tidyverse)
+```
+
+# Chi-squar tests {#chap-chi-square}
+
+
+<div class="lo">
+#### Instructions {-}
+  
+- In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.
+- The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_19_practice.Rmd).
+
+
+#### Learning outcomes {-}
+
+By the end of this lab, you should be able to:
+
+**LO1.** Identify the appropriate test for the task at hand: association or homogeneity.
+
+**LO2.** Check the validity conditions.
+
+**LO3.** Report the test results.
+
+</div>
+
+
+
+## Recap {-}
+
+
+
+## Walkthrough: Birthdays of the week
+
+
+## Lab: 
+
+```{r echo=FALSE}
+library(tidyverse)
+
+set.seed(15732)
+
+
+sports <- tibble(watched = c(
+    rep('Yes', 47), rep('No', 21),
+    rep('Yes', 26), rep('No', 23),
+    rep('Yes', 14), rep('No', 37)
+  ),
+  affected = c(
+    rep('Primary', 47), rep('Primary', 21),
+    rep('Somewhat', 26), rep('Somewhat', 23),
+    rep('No', 14), rep('No', 37)
+  ))
+
+sports$watched <- factor(sports$watched, levels = c('Yes', 'No'))
+sports$affected <- factor(sports$affected, levels = c('Primary', 'Somewhat', 'No'))
+
+sports <- sports[sample.int(nrow(sports)), ]
+
+table(sports)
+
+write_csv(sports, 'sport_university.csv', col_names = TRUE)
+```
+
+The file `sport_university.csv` contains data on 168 university students. Each of them was asked whether they were watching sports when growing up (Yes/ No) and whether their university choice was influenced by the university's sports team.
+
+```{r}
+sports <- read_csv('sport_university.csv', col_names = TRUE)
+sports
+
+table(sports)
+```
+
+```{r}
+mosaicplot(affected ~ watched, data = sports)
+```
+
+
+```{r}
+sports_summaries <- sports %>%
+  table %>%
+  as.data.frame()
+sports_summaries
+
+ggplot(sports_summaries, aes(x = affected, y = Freq, fill = watched)) +
+  geom_bar(stat = 'identity', position = 'fill')
+
+ggplot(sports_summaries, aes(x = watched, y = Freq, fill = affected)) +
+  geom_bar(stat = 'identity', position = 'fill')
+```
+
+
+
+## Coffee Drinking and Sexual Habits
+
+The School of Divinity and the School of Psychology of University A and University B competed on a literary exam. 
+
+```{r}
+
+```
+
+
+
+The data are as follows:
+
+
+
+```{r}
+
+```
+
