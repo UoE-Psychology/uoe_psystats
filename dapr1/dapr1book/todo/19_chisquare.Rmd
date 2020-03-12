@@ -3,11 +3,13 @@ HIDDEN_SOLS=TRUE
 TOGGLE=TRUE
 set.seed(15732)
 ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
-
-library(tidyverse)
 ```
 
-# Chi-squar tests {#chap-chi-square}
+```{r}
+knitr::opts_chunk$set(fig.align='center', message=FALSE)
+```
+
+# Chi-square tests {#chap-chi-square}
 
 
 <div class="lo">
@@ -33,9 +35,537 @@ By the end of this lab, you should be able to:
 
 ## Recap {-}
 
+<p><small>
+
+| Test type | One-sample | Independent samples | Paired data |
+|------------------------|:-------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------:|
+| Null hypothesis | $H_0 : \mu = \mu_0$ | $H_0 : \mu_1 - \mu_2 = 0$ | $H_0 : \mu_d = 0$ |
+| Alternative hypothesis | $$ \begin{array}{ll}   i.   & H_1 : \mu < \mu_0 \\   ii.  & H_1 : \mu > \mu_0 \\   iii. & H_1 : \mu \neq \mu_0 \end{array} $$ | $$ \begin{array}{ll}   i.   & H_1 : \mu_1 - \mu_2 < 0 \\   ii.  & H_1 : \mu_1 - \mu_2 > 0 \\   iii. & H_1 : \mu_1 - \mu_2 \neq 0 \end{array} $$ | $$ \begin{array}{ll}   i.   & H_1 : \mu_d < 0 \\   ii.  & H_1 : \mu_d > 0 \\   iii. & H_1 : \mu_d \neq 0 \end{array} $$ |
+| Test statistic | $$ t = \frac{\bar x - \mu_0}{SE(\bar x)} $$ | $$ t = \frac{\bar x_1 - \bar x_2}{SE(\bar x_1 - \bar x_2)} $$ | $$ t = \frac{\bar d - 0}{SE(\bar d)} $$ |
+| Standard error | $$ SE(\bar x) = \frac{s}{\sqrt{n}} $$ | (a) Unequal population variances  $$ SE(\bar x_1 - \bar x_2) =  \sqrt{  \frac{s_1^2}{n_1} +   \frac{s_2^2}{n_2} } $$   (b) Equal population variances  $$ SE(\bar x_1 - \bar x_2) =  s_p \sqrt{  \frac{1}{n_1} +   \frac{1}{n_2} } $$ | $$ SE(\bar d) = \frac{s_d}{\sqrt{n}} $$ |
+| P-value | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} > |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} > |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} > |t|) \end{array}  $$ |
+
+</small></p>
+
+
+
+Recall that the pooled standard deviation is:
+<center>
+$$
+s_p = \sqrt{
+\frac{(n_1 - 1 )s_1 ^2 + (n_2 - 1 )s_2 ^2}{n_1 + n_2 - 2}
+}
+$$
+</center>
+
+
+
+In the past weeks we focused on tests for:
+
+- a __quantitative__ response variable
+- a __quantitative__ response variable and a __categorical + binary__ explanatory variable
+
+This week we will investigate tests for:
+
+- a __categorical__ response variable 
+- a __categorical__ response variable and a __categorical__ explanatory variable
+
+For the first time, we will be working with a statistical test that applies to categorical variables with more than two categories.
+
+The first test we will be learning today is the chi-square goodness-of-fit test, which is used to assess whether sample results conform with an hypothesis about the proportional breakdown of the various categories in the population.
 
 
 ## Walkthrough: Birthdays of the week
+
+- What day of the week were you born on?
+- Are people equally likely to be born on any of the seven days of the week?
+- Or are some days more likely to be a person’s birthday than other days?
+
+To investigate this question, days of birth were recorded for the 147 "noted writers of the present" listed in _The World Almanac and Book of Facts 2000_. 
+
+<!-- The counts for the seven days of the week are given here:  -->
+
+
+<!-- |Monday  |Tuesday  |Wednesday  |Thursday |Friday   |Saturday  |Sunday | -->
+<!-- |:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:| -->
+<!-- |17      |26       |22         |23       |19       |15        |25     |  -->
+
+
+```{r echo=FALSE, include=FALSE}
+# Generate data
+library(tidyverse)
+
+days = list(
+  name = c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'),
+  times = c(17, 26, 22, 23, 19, 15, 25)
+)
+
+writers = tibble(DayOfWeek = rep(days$name, days$times))
+writers = sample_n(writers, nrow(writers))
+# writers = writers %>%
+#   mutate(WriterID = 1:nrow(writers)) %>%
+#   select(WriterID, DOB)
+
+writers
+
+write_tsv(writers, 'data/writers.txt', col_names = TRUE)
+```
+
+The data are stored in the file `dob_writers.txt`.
+
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.1")`
+Identify the observational units and variable here. 
+
+Is the variable categorical or quantitative? If it is categorical, is it also binary? 
+
+- Observational units: 
+
+- Variable: 
+
+- Type: 
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+- Observational units: The 147 noted writers of the present listed in _World Almanac and Book of Facts 2000_
+
+- Variable: Day of the week on which the birthday falls
+
+- Type: Categorical
+`r msmbstyle::solution_end()`
+
+
+
+---
+
+
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.2")`
+Read the data into R.
+
+Summarise the data by creating a frequency table of the seven days of the week.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+```{r}
+library(tidyverse)
+
+writers <- read_tsv('data/writers.txt',col_names = TRUE)
+
+head(writers)
+
+dim(writers)
+```
+
+Day of the week is encoded as a character rather than a factor (remember that Day of the week is categorical). Let's fix the encoding:
+```{r}
+writers <- writers %>%
+  mutate(DayOfWeek = factor(DayOfWeek))
+
+head(writers)
+```
+
+We can create a table of counts using the function `xtabs` introduced in [Week 17](#two-indep-samples), or using the function `table`:
+```{r}
+table(writers$DayOfWeek)
+```
+
+We note that the days of the week are not in order. Let's add the appropriate ordering:
+```{r}
+writers <- writers %>%
+  mutate(DayOfWeek = factor(DayOfWeek, 
+                            levels=c("Monday", "Tuesday", "Wednesday", 
+                                     "Thursday", "Friday", "Saturday", "Sunday")))
+
+table(writers$DayOfWeek)
+```
+`r msmbstyle::solution_end()`
+
+
+
+---
+
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.3")`
+Construct a bar graph of these data.
+
+Comment on what it reveals about whether the seven days of the week are equally likely to be a person’s birthday.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+The following bar graph displays the data:
+```{r}
+writers_prop <- writers %>%
+  group_by(DayOfWeek) %>%
+  summarise(prop = n() / nrow(writers))
+writers_prop
+
+ggplot(writers_prop, aes(x = DayOfWeek, y = prop)) +
+  geom_bar(stat = 'identity', fill = 'lightblue') +
+  labs(x = 'Day of the week', y = 'Proportion of writers') +
+  theme_classic(base_size = 15)
+```
+
+There does not appear to be a great difference in the proportion of people born on any given day of the week.
+`r msmbstyle::solution_end()`
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.4")`
+Let $p_{Mo}$ represent the proportion of _all_ people who were born on a Monday, or equivalently, the probability that a randomly selected person was born on a Monday.
+
+Similarly define $p_{Tu},\ p_{We},\ ...,\ p_{Su}$.
+
+Are these parameters or statistics? Explain why.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+The values $p_{Tu},\ p_{We},\ ...,\ p_{Su}$  represent the proportion of all people who were born on Tuesday, Wednesday, ..., and Sunday, respectively.
+
+These values are parameters because they describe the entire population.
+`r msmbstyle::solution_end()`
+
+
+
+---
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.5")`
+The null hypothesis says that the seven days of the week are _equally likely_ to be a person’s birthday. 
+
+In that case, what are the values of $p_{Mo},\ p_{Tu},\ ...,\ p_{Su}$?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+The values are $p_{Mo} = 1/7 = .1428,\quad p_{Tu} = 1/7 = .1429,\quad ...,\quad p_{Su} = 1/7 = .1429$.
+`r msmbstyle::solution_end()`
+
+---
+
+<div class="def">
+<br>
+The test procedure we are about to apply is called a chi-square goodness-of-fit test. 
+
+It applies to a categorical variable, which need not be binary. 
+The null hypothesis asserts specific values for the population proportion in each category. 
+The alternative hypothesis simply says that at least one of the population proportions is not as specified in the null hypothesis. 
+
+As always, the test statistic measures how far the observed sample results deviate from what is expected if the null hypothesis is correct. 
+With a chi-square test, you construct the test statistic by comparing the observed sample counts in each category to the expected counts under the null hypothesis.
+</div>
+
+---
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.6")`
+Intuitively, what value would make sense for the expected count of Monday birthdays in this study (with a sample size of 147), under the null hypothesis that one-seventh of all birthdays occur on Mondays? Explain why.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+You would expect the count of birthdays on a Monday to be $147 \times \frac{1}{7}= 21$.
+
+We would multiply the total sample size by the poportion of birthdays we expect on a Monday.
+`r msmbstyle::solution_end()`
+
+
+---
+
+<div class="def">
+<br>
+We calculate the __expected count__ for a particular category by multiplying the sample size by the hypothesized population proportion for that category:
+$$
+E_i = n \times p_{i0}
+$$
+
+*[Note: the subscript $i$ denotes the particular category, while the subscript $0$ on $p_{i0}$ emphasizes that this is the hypothesized value for $p_i$ in the null hypothesis.]*
+
+</div>
+
+---
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.7")`
+Calculate the expected counts for each of the seven days. Record them in the middle row of the following table. 
+
+*[Hint: You should not need to do seven different multiplications in this case.]*
+
+|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
+|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
+| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
+| Expected count: $E$     |        |         |           |         |         |          |       | 147   |
+| $\frac{(O - E)^2}{E}$   |        |         |           |         |         |          |       |       |
+
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
+|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
+| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
+| Expected count: $E$     |21      |21       |21         |21       |21       |21        |21     | 147   |
+| $\frac{(O - E)^2}{E}$   |        |         |           |         |         |          |       |       |
+`r msmbstyle::solution_end()`
+
+
+---
+
+How do we measure how far are the observed counts from the expected counts under the null hypothesis?
+
+If you simply subtract the expected counts from the observed counts and then add them up, you will obtain zero:
+
+```{r}
+observed <- table(writers$DayOfWeek)
+observed
+```
+
+```{r}
+expected <- rep(21, times = 7)
+expected
+```
+
+```{r}
+observed - expected
+```
+
+```{r}
+sum(observed - expected)
+```
+
+Instead, we will square the differences, between the observed and expected counts.
+
+One issue, however, remains to be solved. 
+A squared difference between observed and expected counts of 10 has a different weight in these two scenarios:
+
+1. $O = 30$ and $E = 20$ lead to a squared difference $(O - E)^2 = 100$.
+2. $O = 3000$ and $E = 1990$ lead to a squared difference $(O - E)^2 = 100$.
+
+However, it is clear that a difference of 10 in Scenario 1 is much more substantial than a difference of 10 in Scenario 2. 
+It is for this reason that we divide the squared differences by the the expected counts to "standardize" the squared deviation.
+
+The test-statistic is obtained by adding up the standardized squared deviations,
+<center>
+$$
+\chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i}
+$$
+</center>
+and the sum is over all categories.
+
+
+---
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.8")`
+For each of the seven days of the week, compute $\frac{(O - E)^2}{E}$. Record these values in the bottom row of the table.
+
+- Monday:
+- Tuesday:
+- Wednesday:
+- Thursday: 
+- Friday:
+- Saturday:
+- Sunday:
+
+|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
+|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
+| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
+| Expected count: $E$     |21      |21       |21         |21       |21       |21        |21     | 147   |
+| $\frac{(O - E)^2}{E}$   |        |         |           |         |         |          |       |       |
+
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+
+- Monday: (17 - 21)^2 / 21 = .7619
+- Tuesday: (26 - 21)^2 / 21 = 1.1905
+- Wednesday: (22 - 21)^2 / 21 = .0476
+- Thursday: (23 - 21)^2 / 21 = .1905
+- Friday: (19 - 21)^2 / 21 = .1905
+- Saturday: (15 - 21)^2 / 21 = 1.7143
+- Sunday: (25 - 21)^2 / 21 = .7619
+
+|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
+|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
+| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
+| Expected count: $E$     |21      |21       |21         |21       |21       |21        |21     | 147   |
+| $\frac{(O - E)^2}{E}$   | .7619  | 1.1905  | .0476     |.1905    |.1905    |1.7143    |.7619  |       |
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.9")`
+Add the standardized squared differences up, in order to compute the chi-square test statistic.
+
+Write the value in the bottom-right corner of the table.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+$$
+\chi^2 = .7619 + 1.1905 +  .0476 + .1905 + .1905 + 1.7143 + .7619 = 4.857
+$$
+
+
+|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
+|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
+| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
+| Expected count: $E$     |21      |21       |21         |21       |21       |21        |21     | 147   |
+| $\frac{(O - E)^2}{E}$   | .7619  | 1.1905  | .0476     |.1905    |.1905    |1.7143    |.7619  | 4.857 |
+
+`r msmbstyle::solution_end()`
+
+
+---
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.10")`
+What would be the value of the chi-square statistic if in the sample the count of the birthdays on each day of the week were exactly the same?
+
+Based on this, what kind of values (e.g., large or small) of the test statistic constitute evidence against the null hypothesis that the seven days of the week are equally likely to be a person’s birthday?
+
+Do you think the value calculated in part h provides convincing evidence? If you are not sure, what additional information do you need? Explain your reasoning.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+If each birthday had the same count, this would be 147/7 = 21.
+
+The chi-square statistics would then be
+$$
+\chi^2 = \frac{(21 - 21)^2}{21} + \cdots + \frac{(21 - 21)^2}{21} = 0
+$$
+
+
+Large values of the test statistic constitute evidence against the null hypothesis. 
+Answers will vary about whether this test statistic provides convincing evidence. 
+The additional evidence you need is the p-value. 
+You need to know how likely it is that you would obtain a test statistic this large (or larger) by random chance alone if all seven days of the week are equally likely to be a person’s birthday.
+
+`r msmbstyle::solution_end()`
+
+
+---
+
+<div class="def">
+<br>
+As always, your next step is to calculate the p-value. 
+
+The p-value tells you the probability of getting sample data at least as far from the hypothesized proportions as these data are, by random chance if the null hypothesis is true. 
+
+So again, a small p-value indicates the sample data is unlikely to have occurred by chance alone if the null hypothesis is true, providing evidence in favor of the alternative. 
+
+When the test statistic is large enough to produce a small p-value, then the sample data provide strong evidence against the null hypothesis
+</div>
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.11")`
+Calculate the p- value for this test using the function `pchisq(<test statistic>, df)`.
+
+Write a sentence interpreting the p-value meaning in the context of this study about birthdays of the week.
+*[Hint: the degrees of freedom are equal to the number of categories minus 1.]*
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+We want the probability to the right of the chi-square test statistic:
+```{r}
+1- pchisq(4.857, 6)
+```
+
+If all seven days of the week are equally likely to be a person’s birthday, the probability that you would obtain a test statistic this large (or larger) by random chance alone is .56.
+`r msmbstyle::solution_end()`
+
+---
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.12")`
+Based on this p-value, what would be your test decision at the $\alpha = .10$ level?
+
+And at the $\alpha = .05$ and $\alpha = .01$ levels?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+
+At the $\alpha = .10$ level, we fail to reject the null hypothesis that all seven days of the week are equally likely to be a person's birthday, as the p-value is larger than the significance level.
+
+The same conclusion would be reached at the other two significance levels.
+
+`r msmbstyle::solution_end()`
+
+
+---
+
+<div class="def">
+<br>
+Certain technical conditions must be satisfied for this chi-square procedure to provide accurate p-values. 
+
+In addition to requiring a random sample from the population of interest, __all expected counts need to be at least five__. 
+
+When this condition is not met, one option is to combine similar categories together to force all expected counts to be at least five. 
+</div>
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.13")`
+Is the expected counts condition satisfied for this birthday study? 
+
+What about the random sampling condition? 
+
+If not, would you be comfortable in generalizing the results to a larger population anyway? Explain. 
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+Yes, all the expected counts are 21, which is greater than 5. 
+
+However, the random sampling condition is not met. 
+
+These are the birthdays of "noted writers of the present" which is not a random sample of the population of all citizens. 
+`r msmbstyle::solution_end()`
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.14")`
+Summarize your conclusion about whether these sample data provide evidence against the null hypothesis that any of the seven days of the week are equally likely to be a person’s birthday.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+You have no statistical evidence against the null hypothesis that the seven days of the week are all equally likely to be a person’s birthday (at least for the population of famous writers).
+
+We can't generalise this to the population of all citizens for the shortcoming discussed in the previous question.
+`r msmbstyle::solution_end()`
+
+
+---
+
+<div class="lo">
+#### Technology detour: The chi-square test using built-in R functions {-}
+
+In R, we can perform a chi-square test using the function `chisq.test(<frequency table>, p=<null hypothesis>)`
+
+__Step 1.__ Frequency table and null hypothesis:
+```{r}
+observed <- table(writers$DayOfWeek)
+observed
+
+probabilities <- rep(1/7, 7)
+probabilities
+```
+
+__Step 2.__ User the function `chisq.test`:
+```{r}
+chisq.test(observed, p = probabilities)
+```
+</div>
+
+
+
+
+
+
+
 
 
 ## Lab: 
