@@ -1,5 +1,5 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=TRUE
+HIDDEN_SOLS=FALSE
 TOGGLE=TRUE
 set.seed(15732)
 ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(fig.align='center', message=FALSE, out.width = '90%')
 <div class="lo">
 #### Instructions {-}
   
-- In this two-hour lab we will go through worked examples in the first hour, and you will attempt to answer some questions in the second hour.
+- This week's lab consists of a walkthrough, showing a worked example, followed by a series of questions for you to attempt.
 - The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_19_practice.Rmd).
 
 
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(fig.align='center', message=FALSE, out.width = '90%')
 
 By the end of this lab, you should be able to:
 
-**LO1.** Identify the appropriate test for the task at hand: association or homogeneity.
+**LO1.** Understand when to use goodness-of-fit and tests of independence.
 
 **LO2.** Check the validity conditions.
 
@@ -86,13 +86,6 @@ The latter tests if two categorical variables are associated in the population o
 
 To investigate this question, days of birth were recorded for the 147 "noted writers of the present" listed in _The World Almanac and Book of Facts 2000_. 
 
-<!-- The counts for the seven days of the week are given here:  -->
-
-
-<!-- |Monday  |Tuesday  |Wednesday  |Thursday |Friday   |Saturday  |Sunday | -->
-<!-- |:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:| -->
-<!-- |17      |26       |22         |23       |19       |15        |25     |  -->
-
 
 ```{r echo=FALSE, include=FALSE}
 # Generate data
@@ -105,9 +98,10 @@ days = list(
 
 writers = tibble(DayOfWeek = rep(days$name, days$times))
 writers = sample_n(writers, nrow(writers))
+
 # writers = writers %>%
 #   mutate(WriterID = 1:nrow(writers)) %>%
-#   select(WriterID, DOB)
+#   select(WriterID, DayOfWeek)
 
 writers
 
@@ -159,13 +153,19 @@ Let's read the data into R:
 library(tidyverse)
 
 writers <- read_tsv('data/writers.txt',col_names = TRUE)
+```
 
+Inspect the first six rows:
+```{r}
 head(writers)
+```
 
+Check the dimensions of the tibble:
+```{r}
 dim(writers)
 ```
 
-Day of the week is encoded as a character rather than a factor (remember that Day of the week is categorical). Let's fix the encoding:
+Day of the week is encoded as a character rather than a factor (remember that day of the week is categorical). Let's fix the encoding:
 ```{r}
 writers <- writers %>%
   mutate(DayOfWeek = factor(DayOfWeek))
@@ -173,39 +173,30 @@ writers <- writers %>%
 head(writers)
 ```
 
-
-We have many equivalent options to create a table of counts.
-
-_Option 1. Using `tidyverse`:_
+Check that the levels of the factor are in the order we expect:
 ```{r}
-writers %>% 
-  group_by(DayOfWeek) %>% 
-  summarise(count = n())
+levels(writers$DayOfWeek)
 ```
 
-
-_Option 2. Using the function `xtabs` introduced in [Week 17](#two-indep-samples):_
-```{r}
-xtabs(~ DayOfWeek, data = writers)
-```
-
-
-_Option 3. Using the function `table`:_
-```{r}
-table(writers$DayOfWeek)
-```
-
-
-
-We note that the days of the week are not in order. Let's add the appropriate ordering:
+They are not, so let's fix this:
 ```{r}
 writers <- writers %>%
   mutate(DayOfWeek = factor(DayOfWeek, 
-                            levels=c("Monday", "Tuesday", "Wednesday", 
-                                     "Thursday", "Friday", "Saturday", "Sunday")))
+                            levels= c("Monday", "Tuesday", "Wednesday", 
+                                      "Thursday", "Friday", "Saturday", "Sunday")))
 
-table(writers$DayOfWeek)
+levels(writers$DayOfWeek)
 ```
+
+There are many equivalent ways to create a table of counts. One option could be:
+```{r}
+writers_table <- writers %>% 
+  group_by(DayOfWeek) %>% 
+  summarise(count = n())
+
+writers_table
+```
+
 `r msmbstyle::solution_end()`
 
 
@@ -215,7 +206,7 @@ table(writers$DayOfWeek)
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.3")`
-Construct a bar graph of these data.
+Construct a bar graph of these data which displays proportions on the y-axis.
 
 Comment on what it reveals about whether the seven days of the week are equally likely to be a person’s birthday.
 `r msmbstyle::question_end()`
@@ -223,12 +214,12 @@ Comment on what it reveals about whether the seven days of the week are equally 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
 The following bar graph displays the data:
 ```{r}
-writers_prop <- writers %>%
-  group_by(DayOfWeek) %>%
-  summarise(prop = n() / nrow(writers))
-writers_prop
+writers_table <- writers_table %>%
+  mutate(prop = count / nrow(writers))
 
-ggplot(writers_prop, aes(x = DayOfWeek, y = prop)) +
+writers_table
+
+ggplot(writers_table, aes(x = DayOfWeek, y = prop)) +
   geom_col(fill = 'lightblue') +
   labs(x = 'Day of the week', y = 'Proportion of writers') +
   theme_classic(base_size = 15)
@@ -241,7 +232,7 @@ There does not appear to be a great difference in the proportion of people born 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.4")`
-Let $p_{Mo}$ represent the proportion of _all_ people who were born on a Monday, or equivalently, the probability that a randomly selected person was born on a Monday.
+Let $p_{Mo}$ represent the proportion of _all_ people who were born on a Monday, or equivalently, the probability that a randomly selected individual was born on a Monday.
 
 Similarly define $p_{Tu},\ p_{We},\ ...,\ p_{Su}$.
 
@@ -299,9 +290,9 @@ Intuitively, what value would make sense for the expected count of Monday birthd
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
-You would expect the count of birthdays on a Monday to be $147 \times \frac{1}{7}= 21$.
+You would expect the frequency of birthdays on a Monday to be $147 \times \frac{1}{7}= 21$.
 
-We would multiply the total sample size by the poportion of birthdays we expect on a Monday.
+We would multiply the total sample size by the proportion of birthdays we expect on a Monday.
 `r msmbstyle::solution_end()`
 
 
@@ -310,9 +301,11 @@ We would multiply the total sample size by the poportion of birthdays we expect 
 <div class="def">
 <br>
 We calculate the __expected count__ for a particular category by multiplying the sample size by the hypothesized population proportion for that category:
+<center>
 $$
 E_i = n \times p_{i0}
 $$
+</center>
 
 *[Note: the subscript $i$ denotes the particular category, while the subscript $0$ on $p_{i0}$ emphasizes that this is the hypothesized value for $p_i$ in the null hypothesis.]*
 
@@ -322,52 +315,49 @@ $$
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.7")`
-Calculate the expected counts for each of the seven days. Record them in the middle row of the following table. 
-
-*[Hint: You should not need to do seven different multiplications in this case.]*
-
-|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
-|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
-| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
-| Expected count: $E$     |        |         |           |         |         |          |       | 147   |
-<!-- | $\frac{(O - E)^2}{E}$   |        |         |           |         |         |          |       |       | -->
-
+Calculate the expected counts for each of the seven days. 
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
-|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
-|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
-| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
-| Expected count: $E$     |21      |21       |21         |21       |21       |21        |21     | 147   |
-<!-- | $\frac{(O - E)^2}{E}$   |        |         |           |         |         |          |       |       | -->
+As in this particular study $p_{Mo} = p_{Tu} = \cdots = p_{Su}$, the expected counts will all be computed as $147(1/7) = 21$.
+
+The sample size is:
+```{r}
+n <- nrow(writers)
+n
+```
+
+We multiply the sample size by the hypothesized proportion for each category, 1/7:
+```{r}
+writers_table <- writers %>%
+  group_by(DayOfWeek) %>%
+  summarise(observed = n()) %>%
+  mutate(expected = rep(n * (1/7), 7))
+```
+
 `r msmbstyle::solution_end()`
 
 
 ---
 
+<div class="def">
+<br>
 How do we measure how far are the observed counts from the expected counts under the null hypothesis?
 
 If you simply subtract the expected counts from the observed counts and then add them up, you will obtain zero:
 
 ```{r}
-observed <- table(writers$DayOfWeek)
-observed
+writers_diff <- writers_table %>%
+  mutate(diff = observed - expected)
+writers_diff
+
+# Check that the sum of (O - E) is zero
+writers_diff %>% 
+  pull(diff) %>% 
+  sum()
 ```
 
-```{r}
-expected <- rep(21, times = 7)
-expected
-```
-
-```{r}
-observed - expected
-```
-
-```{r}
-sum(observed - expected)
-```
-
-Instead, we will square the differences, between the observed and expected counts.
+Instead, we will __square the differences__ between the observed and expected counts, and then add them up.
 
 One issue, however, remains to be solved. 
 A squared difference between observed and expected counts of 100 has a different weight in these two scenarios:
@@ -387,66 +377,48 @@ $$
 </center>
 and the sum is over all categories.
 
+**Note:** As $(O - E)^2$ is equal to $(E - O)^2$, you can equivalently write the test-statistic as:
+<center>
+$$
+\chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i} = \sum_{i} \frac{(E_i - O_i)^2}{E_i}.
+$$
+</center>
+</div>
 
 ---
 
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.8")`
-For each of the seven days of the week, compute $\frac{(O - E)^2}{E}$. Record these values in the bottom row of the table.
-
-- Monday:
-- Tuesday:
-- Wednesday:
-- Thursday: 
-- Friday:
-- Saturday:
-- Sunday:
-
-|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
-|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
-| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
-| Expected count: $E$     |21      |21       |21         |21       |21       |21        |21     | 147   |
-| $\frac{(O - E)^2}{E}$   |        |         |           |         |         |          |       |       |
-
+For each of the seven days of the week, compute $\frac{(O - E)^2}{E}$. 
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
+We can compute the standardized squared deviations as follows:
+```{r}
+writers_table <- writers_table %>%
+  mutate(std_sq_diff = (observed - expected)^2/expected)
 
-- Monday: (17 - 21)^2 / 21 = .7619
-- Tuesday: (26 - 21)^2 / 21 = 1.1905
-- Wednesday: (22 - 21)^2 / 21 = .0476
-- Thursday: (23 - 21)^2 / 21 = .1905
-- Friday: (19 - 21)^2 / 21 = .1905
-- Saturday: (15 - 21)^2 / 21 = 1.7143
-- Sunday: (25 - 21)^2 / 21 = .7619
+writers_table
+```
 
-|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
-|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
-| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
-| Expected count: $E$     |21      |21       |21         |21       |21       |21        |21     | 147   |
-| $\frac{(O - E)^2}{E}$   | .7619  | 1.1905  | .0476     |.1905    |.1905    |1.7143    |.7619  |       |
 `r msmbstyle::solution_end()`
 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.9")`
 Add the standardized squared differences up, in order to compute the chi-square test statistic.
-
-Write the value in the bottom-right corner of the table.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
-$$
-\chi^2 = .7619 + 1.1905 +  .0476 + .1905 + .1905 + 1.7143 + .7619 = 4.857
-$$
+The value of the chi-square test statistic in this sample is:
 
+```{r}
+chi_stat <- writers_table %>%
+  pull(std_sq_diff) %>%
+  sum()
 
-|                         |Mon     |Tue      |Wed        |Thu      |Fri      |Sat       |Sun    | Total |
-|:------------------------|:------:|:-------:|:---------:|:-------:|:-------:|:--------:|:-----:|:-----:|
-| Observed count: $O$     |17      |26       |22         |23       |19       |15        |25     | 147   |
-| Expected count: $E$     |21      |21       |21         |21       |21       |21        |21     | 147   |
-| $\frac{(O - E)^2}{E}$   | .7619  | 1.1905  | .0476     |.1905    |.1905    |1.7143    |.7619  | 4.857 |
-
+chi_stat
+```
 `r msmbstyle::solution_end()`
 
 
@@ -463,9 +435,11 @@ Do you think the value calculated in part h provides convincing evidence? If you
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
 If the observed and expected frequencies had been exactly equal, the chi-square statistics would have been 0 and you would have had no reason to doubt that all days of the week are equally likely to be someone's birthday.
+<center>
 $$
 \chi^2 = \frac{(21 - 21)^2}{21} + \cdots + \frac{(21 - 21)^2}{21} = 0
 $$
+</center>
 
 
 Large values of the test statistic constitute evidence against the null hypothesis. 
@@ -502,7 +476,7 @@ Write a sentence interpreting the p-value meaning in the context of this study a
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
 We want the probability to the right of the chi-square test statistic:
 ```{r}
-1- pchisq(4.857, 6)
+1 - pchisq(chi_stat, 6)
 ```
 
 If all seven days of the week are equally likely to be a person’s birthday, the probability that you would obtain a test statistic this large (or larger) by random chance alone is .56.
@@ -574,11 +548,17 @@ We can't generalise this to the population of all citizens for the shortcoming d
 <div class="lo">
 #### Technology detour: The chi-square test using built-in R functions {-}
 
-In R, we can perform a chi-square test using the function `chisq.test(<frequency table>, p=<null hypothesis>)`
+In R, we can perform a chi-square test using the function 
+
+`chisq.test(<frequency table>, p=<null hypothesis>)`
+
 
 __Step 1.__ Frequency table and null hypothesis:
 ```{r}
-observed <- table(writers$DayOfWeek)
+observed <- writers %>% 
+  group_by(DayOfWeek) %>% 
+  summarise(observed = n()) %>%
+  pull(observed)
 observed
 
 probabilities <- rep(1/7, 7)
@@ -594,10 +574,234 @@ chisq.test(observed, p = probabilities)
 
 
 
+## Lab: Joking for a tip
+
+Can telling a joke affect whether or not a waiter in a coffee bar receives a tip from a customer?
+
+A [study](https://doi.org/10.1111/j.1559-1816.2002.tb00266.x) published in the Journal of Applied Social Psychology^[Gueaguen, N. (2002). The Effects of a Joke on Tipping When It Is Delivered at the Same Time as the Bill. _Journal of Applied Social Psychology, 32_(9), 1955-1963.] investigated this question at a coffee bar of a famous seaside resort on the west Atlantic coast of France.
+The waiter randomly assigned coffee-ordering customers to one of three groups.
+When receiving the bill, one group also received a card telling a joke, another group received a card containing an advertisement for a local restaurant, and a third group received no card at all. 
+
+The data are stored in the file `TipJoke.csv`. 
+The variables are:
+
+- `Card`: None, Joke, Ad.
+- `Tip`: 1 = The customer left a tip, 0 = The customer did not leave tip. 
+
+In the following, we will consider leaving a tip as "success".
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.1")`
+Load the data into R and inspect it.
+
+Pay particular attention to:
+
+- the variable names;
+- the dimensions of the tibble;
+- the format of the data (i.e., make sure that variables are correctly encoded).
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Load the data:
+```{r}
+library(tidyverse)
+
+tipjoke <- read_csv('data/TipJoke.csv', col_names = TRUE)
+```
+
+Inspect the first six rows:
+```{r}
+head(tipjoke)
+```
+
+Check the dimensions of the tibble:
+```{r}
+dim(tipjoke)
+```
+We have 211 observations on 2 variables.
+
+Make the variables factors and give more meaningful names to the variable `Tip`:
+```{r}
+tipjoke <- tipjoke %>%
+  mutate(Card = factor(Card),
+         Tip = factor(Tip, levels = c(0, 1), labels = c('NoTip', 'Tip')))
+
+head(tipjoke)
+```
+
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.2")`
+Identify the observational units in this study.
+
+Identify the explanatory and response variables in this study, and classify them as either categorical (also binary) or quantitative.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+- Observational units: The 211 adults ordering coffee at the bar of the seaside resort on the west coast of France.
+
+- Explanatory variable: Type of card (if any) given to the customer.
+Type: Categorical but not binary as it has three categories.
+
+- Response variable: Whether or not the customer let a tip.
+Type: Categorical and binary.
+`r msmbstyle::solution_end()`
+
+---
 
 
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.3")`
+Create a barplot that visually summarises the data.
+
+Comment on what the graph reveals.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+```{r}
+ggplot(tipjoke, aes(x = Card, fill = Tip)) +
+  geom_bar()
+```
+
+From the stacked bar graph, it appears that perhaps the joke card does produce a higher success rate, but we need to investigate whether the differences are statistically significant.
+`r msmbstyle::solution_end()`
 
 
+---
 
-## Lab: 
 
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.4")`
+Create a two-way table showing how many customers left or not a tip for each type of card (including none given).
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+In R, we can construct a two-way table using the function `table()`:
+```{r}
+observed <- table(tipjoke$Tip, tipjoke$Card)
+observed
+```
+`r msmbstyle::solution_end()`
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.5")`
+State, in words, the null and alternative hypotheses of this study.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+- The null hypothesis asserts that whether a customer left a tip or not is independent of the type of card given.
+- The alternative hypothesis says that the two variables are associated (or related).
+`r msmbstyle::solution_end()`
+
+---
+
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.6")`
+Which test would you use to test the hypotheses stated in the previous question?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+We need to use a chi-square test of independence.
+`r msmbstyle::solution_end()`
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.7")`
+Compute the value of the test statistic and corresponding $p$-value.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+```{r}
+ind_test <- chisq.test(observed)
+ind_test
+```
+
+The chi-square statistic in the sample is $\chi^2 = 9.953$.
+
+The $p$-value is $\Pr(\chi^2(2) \geq 9.953) = 0.007$.
+
+`r msmbstyle::solution_end()`
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.8")`
+Inspect the expected frequencies.
+
+Look at the pearson residuals and comment on what you notice.
+
+*[Hint: If `out <- chisq.test(<table>)`, the expected counts can be obtained as `out$expected` and the Pearson residuals as `out$residuals`.]*
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+The output of `chisq.test` returns many objects:
+```{r}
+names(ind_test)
+```
+
+We are interested in the `expected` frequencies:
+```{r}
+ind_test$expected
+```
+
+Recall the observed frequencies:
+```{r}
+observed
+```
+
+More customers than expected under the null hypothesis:
+- tipped after receiving a joke card
+- didn't tip after receiving an advertising card
+- didn't tip after receiving no card
+
+Less customers than expected under the null hypothesis:
+- tipped after receiving an advertising card
+- didn't tip after receiving a joke card
+- tipped after receiving no card
+
+
+The Pearson residuals are:
+```{r}
+ind_test$residuals
+```
+
+The top three contributions to the chi-square statistic is due to:
+- more customers than expected under the null hypothesis tipped after receiving a joke card
+- less customers than expected under the null hypothesis tipped after receiving an advertisement card
+- less customers than expected under the null hypothesis didn't tip after receiving a joke card
+`r msmbstyle::solution_end()`
+
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.9")`
+Check that the assumptions of the test are satisfied. These are the conditions required for the test to be valid.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Assumptions checks:
+
+- A simple random sample is taken from a large population.
+- Each outcome can be classified into one cell according to its category on one variable (type of card) and its category on the second variable (whether a tip was given or not).
+- The expected frequency in each cell is 5 or greater.
+
+Hence, the conditions required for the test results to be valid are met.
+
+`r msmbstyle::solution_end()`
+
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.10")`
+Write your conclusion linked to the test results and in the context of the problem.
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+A chi-square test of independence between tipping and card type was performed ($\chi^2(2) = 9.953$, $p = .007$). 
+The chi-square test shows that the tip rate differs depending on the which card (Joke, Ad, or None) the waiter gave to the customer. 
+To understand the nature of this difference in the chi-square test, we need to compare observed and expected frequencies. 
+The observed number of tips in the joke group (30) is quite a bit higher than expected (20.47), while the observed counts for both the advertising and no card groups are lower than expected. 
+`r msmbstyle::solution_end()`
