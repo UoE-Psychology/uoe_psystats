@@ -1,5 +1,5 @@
 ```{r, echo=FALSE}
-HIDDEN_SOLS=TRUE
+HIDDEN_SOLS=FALSE
 TOGGLE=TRUE
 set.seed(15732)
 ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
@@ -19,9 +19,11 @@ library(tidyverse)
 
 #### Learning outcomes {-}
 
-**LO1.** 
+**LO1.** Understand when and how to calculate the summary statistics of covariance and correlation, and how to do this in R.
 
-**LO2.** 
+**LO2.** Be able to visually guess the correlation ($r$) when given a scatterplot of two quantitative variables. 
+
+**LO3.** Learn how to conduct a test to determine whether a correlation is different from zero.
 
 <!-- #### Reading {-} -->
 
@@ -29,12 +31,393 @@ library(tidyverse)
 
 ## Recap {-}
 
+<div class="noteBox">
+In weeks 16-18, we were working with quantitative response variables, and categorical explanatory variables.  
+
+|  Test                    | Description                                                                                                 |
+|-------------------------:|------------------------------------------------------------------------------------------------------------:|
+|  One-sample $t$-test     | test for the significance of the difference between one mean ($\mu_1$) and some hypothesised value          |
+|  Two-samples $t$-test    | test for the significance of the difference between two means ($\mu_1$ and $\mu_2$)                         |
+|  Paired-samples $t$-test | test for the significance of the difference between the mean difference ($\mu_d$) from paired samples and 0 |
+
+__Reminder:__ If we are using one variable to help us understand or predict values of another variable, we call the former the _explanatory variable_ and the latter the _response variable_.
+</div>
+
+<div class="noteBox">
+Last week [(week 19)](#chap-chi-square), we began working with categorical response variables. 
+We discussed the __chi-square goodness-of-fit test__ and the __chi-square test of independence__:  
+
+|  Test                    | Description                                                                    |
+|-------------------------:|-------------------------------------------------------------------------------:|
+|  $\chi^2$ goodness-of-fit| tests whether categorical variable\n conforms with hypothesized proportions    |
+|  $\chi^2$ independence   | tests whether categorical variable\n is related to another categorical variable|
+</div>
+
+<div class="noteBox">
+This week, we will cover associations between two quantitative variables
+</div>
+
+## Walkthrough
+
+### Visualising 
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.1")`
+How would you most often visualise the relationship between two quantitative variables?  
+
+What should we fill this plot with?  
+```{r echo=FALSE}
+tibble(age=runif(100,20,80),height=rnorm(100,160,10)) %>%
+  ggplot(.,aes(x=age,y=height))+
+  labs(x="- Age (years) -",y="Height (cm)")+
+  annotate("text",x=50,y=160,label="?", size=30)+
+  xlim(20,80)+ylim(140,180)+
+  theme_classic()
+```
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+Scatterplot! 
+```{r echo=FALSE, message=FALSE,warning=FALSE}
+tibble(age=runif(100,20,80),height=rnorm(100,160,10)) %>%
+  ggplot(.,aes(x=age,y=height))+
+  geom_point()+
+  labs(x="- Age (years) -",y="Height (cm)")+
+  xlim(20,80)+ylim(140,180)+
+  theme_classic()
+```
+`r msmbstyle::solution_end()`
+---
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.2")`
+
+```{r include=FALSE}
+set.seed(35967)
+x1<- round(runif(20, 30,100))
+x123 <- cbind(scale(x1),matrix(rnorm(40),ncol=2))
+
+c1 <- var(x123)
+chol1 <- solve(chol(c1))
+newx <-  x123 %*% chol1 
+
+covm<-matrix(c(1,.7,-.3,.7,1,.05,-.3,.05,1), ncol=3)
+chol2 <- chol(covm)
+finalx <- newx %*% chol2 * sd(x1) + mean(x1)
+cor(finalx)
+
+recalldata<-
+  tibble(
+    ppt = paste0("ppt_",1:20),
+    recall_accuracy = finalx[,1],
+    recall_confidence = round(finalx[,2],1),
+    age = round(finalx[,3])-20
+  )
+recalldata %>% summary
+```
+
+Read in the data from [](). 
+The data is from a (hypothetical) study on memory. Twenty participants studied passages of text (c500 words long), and were tested a week later. The testing phase presented participants with 100 statements about the text. They had to answer whether each statement was true or false, as well as rate their confidence in each answer (on a sliding scale from 0 to 100). The dataset contains, for each participant, the percentage of items correctly answered, and the average confidence rating. Participants' ages were also recorded.   
+
+Plot the relationship between the percentage of items answered correctly (`recall_accuracy`) and participants' average self-rating of confidence in their answers (`recall_confidence`). 
+
+Plot the relationship between recall accuracy and age. 
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
 
 
+```{r}
+ggplot(recalldata, aes(x=recall_confidence, recall_accuracy))+
+  geom_point()
+
+ggplot(recalldata, aes(x=age, recall_accuracy))+
+  geom_point()
+```
+`r msmbstyle::solution_end()`
+
+These two relationships look quite different.  
+
++ For participants who tended to be more confident in their answers, the percentage of items they correctly answered tends to be higher.  
++ The older participants were, the lower the percentage of items they correctly answered tended to be.  
+
+Which relationship are you more confident in and why? 
+
+Ideally, we would have some means of quantifying this sort of relationship... 
+
+There are two summary statistics which we can use to talk about the relationship between two quantitative variables: __Covariance__ and __Correlation__
+
+The notion of correlation may already be familiar to you, but to understand it better, we need to start with _covariance._ 
+
+### Covariance
+
+<div class="red">
+
+Covariance is the measure of how two variables vary together. 
+It is the change in one variable associated with the change in another variable.   
+
+For samples, covariance is calculated using the following formula:
+
+$$cov(x,y)=\frac{\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})}{{n-1}}$$
+
+$x$ and $y$ are two variables. 
+$i$ is the observation, such that $x_i$ is the $i_{th}$ observation in $x$. 
+$n$ is the sample size.
+</div>  
 
 
-http://guessthecorrelation.com/
+##### A visual explanation {-}  
+```{r echo=FALSE, message=FALSE,warning=FALSE}
+library(patchwork)
+set.seed(7135)
+tibble(x=runif(10,20,80),y=rnorm(10,160,10)) %>%
+  mutate(y=y+x/2) -> df
+
+p1<-ggplot(df,aes(x=x,y=y))+
+  geom_point()+
+  theme_classic()
+  
+p2<-ggplot(df,aes(x=x,y=y))+
+  geom_point()+
+  theme_classic()+
+  geom_vline(aes(xintercept=mean(x)), lty="dashed")+
+  annotate("text",x=mean(df$x)+1, y=max(df$y)-5,label=expr(bar("x")))+
+  geom_hline(aes(yintercept=mean(y)), lty="dashed")+
+  annotate("text",x=min(df$x)+5, y=mean(df$y)+1,label=expr(bar("y")))
+  
+p3<-ggplot(df,aes(x=x,y=y))+
+  geom_point()+
+  theme_classic()+
+  geom_vline(aes(xintercept=mean(x)), lty="dashed")+
+  annotate("text",x=mean(df$x)-1, y=max(df$y)-5,label=expr(bar("x")))+
+  geom_hline(aes(yintercept=mean(y)), lty="dashed")+
+  annotate("text",x=min(df$x)+5, y=mean(df$y)+1,label=expr(bar("y")))+
+  annotate("text",x=mean(df$x)+7, y=202,label=expression(x[i]-bar("x")))+
+  annotate("text",x=71.5, y=mean(df$y)+7,label=expression(y[i]-bar("y")))+
+  geom_segment(aes(x = mean(x), y = 200.9559, xend = 69.47989, yend = 200.9559), color="tomato1", data = df)+
+  geom_segment(aes(x = 69.47989, y = mean(y), xend = 69.47989, yend = 200.9559), color="tomato1",data = df)
 
 
+p4<-ggplot(df,aes(x=x,y=y))+
+  geom_point()+
+  theme_classic()+
+  geom_vline(aes(xintercept=mean(x)), lty="dashed")+
+  annotate("text",x=mean(df$x)-1, y=max(df$y)-5,label=expr(bar("x")))+
+  geom_hline(aes(yintercept=mean(y)), lty="dashed")+
+  annotate("text",x=min(df$x)+5, y=mean(df$y)+1,label=expr(bar("y")))+
+  geom_segment(aes(x = mean(x), y = 200.9559, xend = 69.47989, yend = 200.9559), color="tomato1", data = df)+
+  geom_segment(aes(x = 69.47989, y = mean(y), xend = 69.47989, yend = 200.9559), color="tomato1",data = df)+
+  geom_segment(aes(x = mean(x), y = 211.5757, xend = 56.36053, yend = 211.5757), color="tomato1", data = df)+
+  geom_segment(aes(x = 56.36053, y = mean(y), xend = 56.36053, yend = 211.5757), color="tomato1",data = df)+
+  geom_segment(aes(x = mean(x), y = 180.5799, xend = 44.37031, yend = 180.5799), color="tomato1", data = df)+
+  geom_segment(aes(x = 44.37031, y = mean(y), xend = 44.37031, yend = 180.5799), color="tomato1",data = df)
+
+p5<-ggplot(df,aes(x=x,y=y))+
+  geom_point()+
+  theme_classic()+
+  geom_vline(aes(xintercept=mean(x)), lty="dashed")+
+  annotate("text",x=mean(df$x)-1, y=max(df$y)-5,label=expr(bar("x")))+
+  geom_hline(aes(yintercept=mean(y)), lty="dashed")+
+  annotate("text",x=min(df$x)+5, y=mean(df$y)+1,label=expr(bar("y")))+
+  geom_segment(aes(x = mean(x), y = 200.9559, xend = 69.47989, yend = 200.9559), color="tomato1", data = df)+
+  geom_segment(aes(x = 69.47989, y = mean(y), xend = 69.47989, yend = 200.9559), color="tomato1",data = df)+
+  geom_segment(aes(x = mean(x), y = 211.5757, xend = 56.36053, yend = 211.5757), color="tomato1", data = df)+
+  geom_segment(aes(x = 56.36053, y = mean(y), xend = 56.36053, yend = 211.5757), color="tomato1",data = df)+
+  geom_segment(aes(x = mean(x), y = 180.5799, xend = 44.37031, yend = 180.5799), color="tomato1", data = df)+
+  geom_segment(aes(x = 44.37031, y = mean(y), xend = 44.37031, yend = 180.5799), color="tomato1",data = df)+
+  geom_segment(aes(x = mean(x), y = 194.4188, xend = 45.32536, yend = 194.4188), color="skyblue3", data = df)+
+  geom_segment(aes(x = 45.32536, y = mean(y), xend = 45.32536, yend = 194.4188), color="skyblue3",data = df)+
+  geom_segment(aes(x = mean(x), y = 182.6440, xend = 66.73541, yend = 182.6440), color="skyblue3", data = df)+
+  geom_segment(aes(x = 66.73541, y = mean(y), xend = 66.73541, yend = 182.6440), color="skyblue3",data = df)
+```
+
+Consider the following scatterplot:  
+```{r echo=FALSE, message=FALSE}
+p1
+```
+
+Now let's draw the mean of $x$ ($\bar{x}$) and the mean of $y$ ($\bar{y}$) on there:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p2
+```
+
+Now let's pick one of the points, call it $x_i$, and show $(x_{i}-\bar{x})$ and $(y_{i}-\bar{y})$.
+Notice that this makes a rectangle. As $(x_{i}-\bar{x})$ and $(y_{i}-\bar{y})$ are both positive values ($> 0$), their product (e.g., $(x_{i}-\bar{x})(y_{i}-\bar{y})$) is positive. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p3
+```
+
+In fact, for all these points, the product $(x_{i}-\bar{x})(y_{i}-\bar{y})$ is positive (remember that a negative multiplied by a negative gives a positive): 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p4
+```
+
+And for these points in blue, the product $(x_{i}-\bar{x})(y_{i}-\bar{y})$ is negative:  
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p5
+```
+
+Now take another look at the formula for covariance:
+$$cov(x,y)=\frac{\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})}{{n-1}}$$
+
+It is the sum of all these products divided by $n-1$. It is the average of the products! 
+  
+#### Manually calculating covariance {-}
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question ")`
+We're going to calculate the covariance between recall accuracy and recall confidence
+Create 2 new columns in the memory recall data, one of which is the mean recall accuracy, and one which is the mean recall confidence. 
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS)`
+Remember to assign it using `recalldata<-...` otherwise it will just print out the data with the new columns, rather than store it anywhere. 
+```{r}
+recalldata <-
+  recalldata %>% mutate(
+    maccuracy = mean(recall_accuracy),
+    mconfidence = mean(recall_confidence)
+  )
+```
+`r msmbstyle::solution_end()`
+---
+`r msmbstyle::question_begin(header = "&#x25BA; Question ")`
+Now create new columns which are, for each participant:
+
+i. their recall accuracy minus the mean recall accuracy
+ii. their confidence minus the mean confidence
+iii. the product of i. and ii. 
+
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS)`
+```{r}
+recalldata <- 
+  recalldata %>% 
+    mutate(
+      acc_minus_mean_acc = recall_accuracy - maccuracy,
+      conf_minus_mean_conf = recall_confidence - mconfidence,
+      prod_acc_conf = acc_minus_mean_acc * conf_minus_mean_conf
+    )
+```
+`r msmbstyle::solution_end()`
+---
+`r msmbstyle::question_begin(header = "&#x25BA; Question ")`
+Finally, sum the products, and divide by $n-1$
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+```{r}
+recalldata %>%
+  summarise(
+    prod_sum = sum(prod_acc_conf),
+    n = n()
+  )
+
+2804.325 / (20-1)
+```
+`r msmbstyle::solution_end()`
+---
+`r msmbstyle::question_begin(header = "&#x25BA; Question ")`
+Check that you get the same results using `cov()` function.  
+
+**Hint:** `cov()` can take two variables `cov(x = , y = )`. Think about how you can use the `$` to pull out the variables we are using here.
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+It's the same number!
+```{r}
+cov(recalldata$recall_accuracy, recalldata$recall_confidence)
+```
+`r msmbstyle::solution_end()`
 
 
+<!-- JK remove this bit? -->
+
+<!-- We can also give `cov()` a dataframe of only quantitative variables:  -->
+<!-- ```{r} -->
+<!-- recall_nums <-  -->
+<!--   recalldata %>%  -->
+<!--   select(recall_accuracy, recall_confidence, age) -->
+
+<!-- cov(recall_nums) -->
+<!-- ``` -->
+
+
+### correlation ($r$)
+
+<div class="red">
+You can think of correlation as a standardized covariance. It has a scale from negative one to one, on which the distance from zero indicates the strength of the relationship.  
+Just like covariance, positive/negative values reflect the nature of the relationship. 
+
+The formula for correlation is the following:
+
+$$r_{xy}=\frac{cov(x,y)}{s_xs_y}$$
+
++ $-1 \geq r \leq 1$
++ The sign indicates the direction of association
+  + positive association ($r > 0$) means that values of one variable tend to be higher when values of the other variable are higher
+  + negative association ($r < 0$) means that values of one variable tend to be lower when values of the other variable are higher
+  + no linear association ($r \approx 0$) means that knowing the value of one variable does not give you any information about the value of the other variable
++ The closer $r$ is to $\pm 1$, the stronger the linear association
++ $r$ has no units and does not depend on the units of measurement
++ The correlation between $X$ and $Y$ is the same as the correlation between $Y$ and $X$
+
+</div>
+
+### Cautions!
+
+`r msmbstyle::solution_begin(header = "Correlation can be heavily affected by outliers. Always plot your data!", hidden = FALSE, toggle=FALSE)`
+```{r echo=FALSE,message=FALSE,warning=FALSE}
+df2<-df
+df2[2,1]<-180
+
+pp1 <- ggplot(df2,aes(x=x,y=y))+
+  geom_point()+
+  theme_classic()+
+  geom_vline(aes(xintercept=mean(x)), lty="dashed")+
+  annotate("text",x=mean(df2$x)+1.5, y=max(df2$y)-5,label=expr(bar("x")))+
+  geom_hline(aes(yintercept=mean(y)), lty="dashed")+
+  annotate("text",x=min(df2$x)+5, y=mean(df2$y)+1,label=expr(bar("y")))+
+  geom_segment(aes(x = mean(x), y = df2[[2,2]], xend = df2[[2,1]], yend = df2[[2,2]]), color="skyblue3", data = df2)+
+  geom_segment(aes(x = df2[[2,1]], y = mean(y), xend = df2[[2,1]], yend = df2[[2,2]]), color="skyblue3",data = df2)+
+  labs(title=paste0("Cov = ",cov(df2[,1],df2[,2]) %>% round(2),"   r = ",cor(df2[,1],df2[,2]) %>% round(2)))+
+  xlim(35,185)
+
+df3<-df2[-2,]
+pp2 <- ggplot(df3,aes(x=x,y=y))+
+  geom_point()+
+  theme_classic()+
+  #geom_vline(aes(xintercept=mean(x)), lty="dashed")+
+  #annotate("text",x=mean(df3$x)+1.5, y=max(df3$y)-5,label=expr(bar("x")))+
+  #geom_hline(aes(yintercept=mean(y)), lty="dashed")+
+  #annotate("text",x=min(df3$x)+5, y=mean(df3$y)+1,label=expr(bar("y")))+
+  #geom_segment(aes(x = mean(x), y = df3[[2,2]], xend = df3[[2,1]], yend = df3[[2,2]]), color="skyblue3", data = df3)+
+  #geom_segment(aes(x = df3[[2,1]], y = mean(y), xend = df3[[2,1]], yend = df3[[2,2]]), color="skyblue3",data = df3)+
+  labs(title=paste0("Cov = ",cov(df3[,1],df3[,2]) %>% round(2),"   r = ",cor(df3[,1],df3[,2]) %>% round(2)))+
+  xlim(35,185)
+
+pp2 / pp1
+```
+`r msmbstyle::solution_end()`
+
+`r msmbstyle::solution_begin(header = "r = 0 means no linear association. The variables could still be otherwise associated. Always plot your data!", hidden = FALSE, toggle=FALSE)`
+```{r echo=FALSE,message=FALSE,warning=FALSE}
+faced<-read_csv("../data/face.csv")
+
+ggplot(faced,aes(x=lm_x,y=lm_y))+
+  geom_point()+
+  theme_classic()+
+  xlim(-3,3)+
+  labs(title=paste0("Cov = ",cov(faced$lm_x,faced$lm_y) %>% round(2),"   r = ",cor(faced$lm_x,faced$lm_y) %>% round(2)))
+```
+`r msmbstyle::solution_end()`
+
+`r msmbstyle::solution_begin(header = "Correlation does not imply causation!", hidden = FALSE, toggle=FALSE)`
+```{r choco,echo=FALSE,warning=FALSE,message=FALSE, fig.cap="Chocolate consumption causes more Nobel Laureates?"}
+knitr::include_graphics("https://pbs.twimg.com/media/D0AS2iEX0AAuMLX.jpg")
+```
+_"since chocolate consumption has been documented to improve cognitive function, it seems most likely that in a dose-dependent way, chocolate intake provides the abundant fertile ground needed for the sprouting of Nobel laureates"_  
+[Messerli, Franz. Chocolate Consumption, Cognitive Function, and Nobel Laureates. The New England Journal of Medicine 2012; 367:1562-4,  (http://www.nejm.org/doi/full/10.1056/NEJMon1211064)]
+`r msmbstyle::solution_end()`
+
+### Break: Guess the $r$
+
+`r knitr::include_url("http://guessthecorrelation.com/", height="650px")`
+**source: [http://guessthecorrelation.com/](http://guessthecorrelation.com/)**
+
+
+### Testing
+
+### Lab
