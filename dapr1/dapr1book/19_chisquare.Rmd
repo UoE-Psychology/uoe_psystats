@@ -145,6 +145,7 @@ Is the variable categorical or quantitative? If it is categorical, is it also bi
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.2")`
 Read the data into R.
+*[Hint: The data is a __.txt__ file - think about what function you are going to use.]*
 
 Summarise the data by creating a frequency table of the seven days of the week.
 `r msmbstyle::question_end()`
@@ -234,7 +235,7 @@ There does not appear to be a great difference in the proportion of people born 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.4")`
-Let $p_{Mo}$ represent the proportion of _all_ people who were born on a Monday, or equivalently, the probability that a randomly selected individual was born on a Monday.
+Let $p_{Mo}$ represent the proportion of **all** people who were born on a Monday, or equivalently, the probability that a randomly selected individual was born on a Monday.
 
 Similarly define $p_{Tu},\ p_{We},\ ...,\ p_{Su}$.
 
@@ -242,7 +243,7 @@ Are these parameters or statistics? Explain why.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
-The values $p_{Tu},\ p_{We},\ ...,\ p_{Su}$  represent the proportion of all people who were born on Tuesday, Wednesday, ..., and Sunday, respectively.
+The values $p_{Tu},\ p_{We},\ ...,\ p_{Su}$  represent the proportion of **all** people who were born on Tuesday, Wednesday, ..., and Sunday, respectively.
 
 These values are parameters because they describe the entire population.
 `r msmbstyle::solution_end()`
@@ -274,14 +275,14 @@ $$
 
 <div class="def">
 <br>
-The test procedure we are about to apply is called a chi-square goodness-of-fit test. 
+The test procedure we are about to apply is called a __chi-square goodness-of-fit test__. 
 
-It applies to a categorical variable, which need not be binary. 
+It applies to a categorical variable, which does not have to be binary. 
 The null hypothesis asserts specific values for the population proportion in each category. 
 The alternative hypothesis simply says that at least one of the population proportions is not as specified in the null hypothesis. 
 
-As always, the test statistic measures how far the observed sample results deviate from what is expected if the null hypothesis is correct. 
-With a chi-square test, you construct the test statistic by comparing the observed sample counts in each category to the expected counts under the null hypothesis.
+As always, the test statistic measures how far the observed sample results deviate from what is expected if the null hypothesis is true. 
+With a chi-square test, you construct the test statistic by comparing the _observed_ sample counts in each category to the _expected_ counts under the null hypothesis.
 </div>
 
 ---
@@ -309,7 +310,7 @@ E_i = n \times p_{i0}
 $$
 </center>
 
-*[Note: the subscript $i$ denotes the particular category, while the subscript $0$ on $p_{i0}$ emphasizes that this is the hypothesized value for $p_i$ in the null hypothesis.]*
+*[Note: the subscript $i$ denotes the particular category, while the subscript $0$ on $p_{i0}$ emphasizes that this is the hypothesized value for $p_i$ in the null hypothesis ($H_0$).]*
 
 </div>
 
@@ -331,7 +332,8 @@ n
 
 We multiply the sample size by the hypothesized proportion for each category, 1/7:
 ```{r}
-writers_table <- writers %>%
+writers_table <- 
+  writers %>%
   group_by(DayOfWeek) %>%
   summarise(observed = n()) %>%
   mutate(expected = rep(n * (1/7), 7))
@@ -339,6 +341,13 @@ writers_table <- writers %>%
 writers_table
 ```
 
+Note the use of `rep()` here.  
+`rep(x, times)` will repeat `x` a given number of `times`. For instance:
+```{r}
+rep("a", 4)
+```
+
+In the code chunk above where we assign `writers_table`, we use the `rep()` function to take the value we assigned as `n` (i.e., `nrow(writers)`), multiplied by $1/7$, and then repeat that value 7 times. 
 `r msmbstyle::solution_end()`
 
 
@@ -374,7 +383,7 @@ __Scenario 2.__ $O = 3000$ and $E = 1990$ lead to a squared difference $(O - E)^
 However, it is clear that a squared difference of 100 in Scenario 1 is much more substantial than a squared difference of 100 in Scenario 2. 
 It is for this reason that we divide the squared differences by the the expected counts to "standardize" the squared deviation.
 
-The test-statistic is obtained by adding up the standardized squared deviations,
+The test-statistic (denoted $\chi^2$, spelled _chi-square_, pronounced "kai-square") is obtained by adding up the standardized squared deviations:
 <center>
 $$
 \chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i}
@@ -435,11 +444,11 @@ What would be the value of the chi-square statistic if the observed and expected
 
 Based on this, what kind of values (e.g., large or small) of the test statistic constitute evidence against the null hypothesis that the seven days of the week are equally likely to be a person’s birthday?
 
-Do you think the value calculated in Question A.9 provides convincing evidence? If you are not sure, what additional information do you need? Explain your reasoning.
+Do you think the value we just calculated (`r chi_stat %>% round(3)`) provides convincing evidence? If you are not sure, what additional information do you need? Explain your reasoning.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
-If the observed and expected frequencies had been exactly equal, the chi-square statistics would have been 0 and you would have had no reason to doubt that all days of the week are equally likely to be someone's birthday.
+If the observed and expected frequencies had been exactly equal, the chi-square statistic would have been 0 and you would have had no reason to doubt the null hypothesis that all days of the week are equally likely to be someone's birthday.
 <center>
 $$
 \chi^2 = \frac{(21 - 21)^2}{21} + \cdots + \frac{(21 - 21)^2}{21} = 0
@@ -508,7 +517,7 @@ The same conclusion would be reached at the other two significance levels.
 ---
 
 <div class="def">
-<br>
+#### Validity Conditions {-}
 Certain technical conditions must be satisfied for this chi-square procedure to provide accurate p-values. 
 
 In addition to requiring a random sample from the population of interest, __all expected counts need to be at least five__. 
@@ -538,7 +547,7 @@ These are the birthdays of "noted writers of the present" which is not a random 
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.14")`
-Summarize your conclusion about whether these sample data provide evidence against the null hypothesis that any of the seven days of the week are equally likely to be a person’s birthday.
+Summarise your conclusion about whether these sample data provide evidence against the null hypothesis that any of the seven days of the week are equally likely to be a person’s birthday.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
@@ -570,10 +579,12 @@ probabilities <- rep(1/7, 7)
 probabilities
 ```
 
-__Step 2.__ User the function `chisq.test`:
+__Step 2.__ Use the function `chisq.test`:
 ```{r}
 chisq.test(observed, p = probabilities)
 ```
+
+The results match those that we calculated above. 
 </div>
 
 
@@ -651,7 +662,7 @@ Identify the explanatory and response variables in this study, and classify them
 - Explanatory variable: Type of card (if any) given to the customer.
 Type: Categorical but not binary as it has three categories.
 
-- Response variable: Whether or not the customer let a tip.
+- Response variable: Whether or not the customer left a tip.
 Type: Categorical and binary.
 `r msmbstyle::solution_end()`
 
@@ -759,11 +770,13 @@ observed
 ```
 
 More customers than expected under the null hypothesis:
+
 - tipped after receiving a joke card
 - didn't tip after receiving an advertising card
 - didn't tip after receiving no card
 
 Less customers than expected under the null hypothesis:
+
 - tipped after receiving an advertising card
 - didn't tip after receiving a joke card
 - tipped after receiving no card
@@ -775,9 +788,11 @@ ind_test$residuals
 ```
 
 The top three contributions to the chi-square statistic is due to:
+
 - more customers than expected under the null hypothesis tipped after receiving a joke card
 - less customers than expected under the null hypothesis tipped after receiving an advertisement card
 - less customers than expected under the null hypothesis didn't tip after receiving a joke card
+
 `r msmbstyle::solution_end()`
 
 
