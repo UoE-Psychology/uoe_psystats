@@ -43,18 +43,20 @@ By the end of this lab, you should be able to:
 | Alternative hypothesis | $$ \begin{array}{ll}   i.   & H_1 : \mu < \mu_0 \\   ii.  & H_1 : \mu > \mu_0 \\   iii. & H_1 : \mu \neq \mu_0 \end{array} $$ | $$ \begin{array}{ll}   i.   & H_1 : \mu_1 - \mu_2 < 0 \\   ii.  & H_1 : \mu_1 - \mu_2 > 0 \\   iii. & H_1 : \mu_1 - \mu_2 \neq 0 \end{array} $$ | $$ \begin{array}{ll}   i.   & H_1 : \mu_d < 0 \\   ii.  & H_1 : \mu_d > 0 \\   iii. & H_1 : \mu_d \neq 0 \end{array} $$ |
 | Test statistic | $$ t = \frac{\bar x - \mu_0}{SE(\bar x)} $$ | $$ t = \frac{\bar x_1 - \bar x_2}{SE(\bar x_1 - \bar x_2)} $$ | $$ t = \frac{\bar d - 0}{SE(\bar d)} $$ |
 | Standard error | $$ SE(\bar x) = \frac{s}{\sqrt{n}} $$ | (a) Unequal population variances  $$ SE(\bar x_1 - \bar x_2) =  \sqrt{  \frac{s_1^2}{n_1} +   \frac{s_2^2}{n_2} } $$   (b) Equal population variances  $$ SE(\bar x_1 - \bar x_2) =  s_p \sqrt{  \frac{1}{n_1} +   \frac{1}{n_2} } $$ | $$ SE(\bar d) = \frac{s_d}{\sqrt{n}} $$ |
-| P-value | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} > |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} > |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} > |t|) \end{array}  $$ |
+| P-value | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} \geq |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} \geq |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} \geq |t|) \end{array}  $$ |
 
 </font>
 
 
 <br>
 Recall that the pooled standard deviation is:
+<center>
 $$
 s_p = \sqrt{
 \frac{(n_1 - 1 )s_1 ^2 + (n_2 - 1 )s_2 ^2}{n_1 + n_2 - 2}
 }
 $$
+</center>
 
 
 <br>
@@ -319,7 +321,7 @@ Calculate the expected counts for each of the seven days.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
-As in this particular study $p_{Mo} = p_{Tu} = \cdots = p_{Su}$, the expected counts will all be computed as $147(1/7) = 21$.
+As in this particular study $p_{Mo0} = p_{Tu0} = \cdots = p_{Su0} = 1/7$, the expected counts will all be computed as $147 (1/7) = 21$.
 
 The sample size is:
 ```{r}
@@ -333,6 +335,8 @@ writers_table <- writers %>%
   group_by(DayOfWeek) %>%
   summarise(observed = n()) %>%
   mutate(expected = rep(n * (1/7), 7))
+
+writers_table
 ```
 
 `r msmbstyle::solution_end()`
@@ -349,9 +353,10 @@ If you simply subtract the expected counts from the observed counts and then add
 ```{r}
 writers_diff <- writers_table %>%
   mutate(diff = observed - expected)
+
 writers_diff
 
-# Check that the sum of (O - E) is zero
+# Check that the sum of (observed - expected) is zero
 writers_diff %>% 
   pull(diff) %>% 
   sum()
@@ -430,7 +435,7 @@ What would be the value of the chi-square statistic if the observed and expected
 
 Based on this, what kind of values (e.g., large or small) of the test statistic constitute evidence against the null hypothesis that the seven days of the week are equally likely to be a person’s birthday?
 
-Do you think the value calculated in part h provides convincing evidence? If you are not sure, what additional information do you need? Explain your reasoning.
+Do you think the value calculated in Question A.9 provides convincing evidence? If you are not sure, what additional information do you need? Explain your reasoning.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
