@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 16 One Sample Mean Test | Data Analysis for Psychology in R (dapR1) - Labs</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 16 One Sample Mean Test | Data Analysis for Psychology in R (dapR1) - Labs" />
   <meta property="og:type" content="book" />
@@ -471,6 +471,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#smoking-interventions"><i class="fa fa-check"></i>Smoking interventions</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="19" data-path="chap-chi-square.html"><a href="chap-chi-square.html"><i class="fa fa-check"></i><b>19</b> Chi-square tests</a><ul>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#recap-7"><i class="fa fa-check"></i>Recap</a></li>
+<li><a href="chap-chi-square.html#walkthrough-birthdays-of-the-week-the-chi-square-goodness-of-fit-test">Walkthrough: Birthdays of the week <br>The chi-square goodness-of-fit test</a></li>
+<li><a href="chap-chi-square.html#lab-joking-for-a-tip-the-chi-square-test-of-independence">Lab: Joking for a tip <br>The chi-square test of independence</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#summary-7"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#glossary-7"><i class="fa fa-check"></i>Glossary</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#references-4"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -680,9 +688,9 @@ This means that the sampling distribution of <span class="math inline">\(t\)</sp
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-354" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-354&#39;, &#39;sol-start-354&#39;)"></span>
+► Solution<span id="sol-start-68" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-68&#39;, &#39;sol-start-68&#39;)"></span>
 </p>
-<div id="sol-body-354" class="solution-body" style="display: none;">
+<div id="sol-body-68" class="solution-body" style="display: none;">
 <p>You a free to choose anything you like for <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(c\)</span>.<br />
 But once those are fixed, you have no freedom to choose <span class="math inline">\(d\)</span>.</p>
 <p>Example:</p>
@@ -733,7 +741,7 @@ Similarly, <code>pt(x, df)</code> computes the area to the left of <code>x</code
 ► Solution
 </p>
 <div class="solution-body">
-<div class="sourceCode" id="cb711"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb711-1" data-line-number="1"><span class="kw">pt</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb723"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb723-1" data-line-number="1"><span class="kw">pt</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] 0.05096974</code></pre>
 <p>From this, we can say that assuming the null hypothesis to be true, the probability of obtaining a <span class="math inline">\(t\)</span>-statistic with 5 degrees of freedom of <span class="math inline">\(\leq -2\)</span> is 0.051.</p>
 <p class="solution-end">
@@ -760,14 +768,14 @@ At what value<strong>s</strong> of <span class="math inline">\(t\)</span> do 5% 
 ► Solution
 </p>
 <div class="solution-body">
-<div class="sourceCode" id="cb713"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb713-1" data-line-number="1"><span class="kw">qt</span>(.<span class="dv">05</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb725"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb725-1" data-line-number="1"><span class="kw">qt</span>(.<span class="dv">05</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] -2.015048</code></pre>
 <p>If we perform a one-tailed test of <span class="math inline">\(\mu_1 &lt; \mu_{0}\)</span> on a sample of 6 (so our degrees of freedom is 5), we will reject the null hypothesis (<span class="math inline">\(\mu_1 = \mu_{0}\)</span>) if our corresponding <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(\leq -2.015\)</span>.</p>
-<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb715-1" data-line-number="1"><span class="kw">qt</span>(.<span class="dv">025</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb727"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb727-1" data-line-number="1"><span class="kw">qt</span>(.<span class="dv">025</span>, <span class="dt">df =</span> <span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] -2.570582</code></pre>
-<div class="sourceCode" id="cb717"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb717-1" data-line-number="1"><span class="kw">qt</span>(.<span class="dv">975</span>, <span class="dt">df =</span> <span class="dv">5</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb729-1" data-line-number="1"><span class="kw">qt</span>(.<span class="dv">975</span>, <span class="dt">df =</span> <span class="dv">5</span>) </a></code></pre></div>
 <pre><code>## [1] 2.570582</code></pre>
-<div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb719-1" data-line-number="1"><span class="co"># remember that the t-distribution is symmetric and centred on 0! </span></a></code></pre></div>
+<div class="sourceCode" id="cb731"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1"><span class="co"># remember that the t-distribution is symmetric and centred on 0! </span></a></code></pre></div>
 <p>If we perform a <em>two</em>-tailed test of <span class="math inline">\(\mu_1 \neq \mu_{0}\)</span> on a sample of 6, we will reject the null hypothesis (<span class="math inline">\(\mu_1 = \mu_{0}\)</span>) if the <strong>absolute magnitude</strong> of our corresponding <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(\geq 2.571\)</span>.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -796,9 +804,9 @@ At what value<strong>s</strong> of <span class="math inline">\(t\)</span> do 5% 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-357" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-357&#39;, &#39;sol-start-357&#39;)"></span>
+► Solution<span id="sol-start-71" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-71&#39;, &#39;sol-start-71&#39;)"></span>
 </p>
-<div id="sol-body-357" class="solution-body" style="display: none;">
+<div id="sol-body-71" class="solution-body" style="display: none;">
 <p>Null hypothesis (<span class="math inline">\(H_0\)</span>):<br />
 <span class="math inline">\(\mu_1 = 125\)</span></p>
 <p>Alternative hypothesis (<span class="math inline">\(H_1\)</span>):<br />
@@ -825,26 +833,26 @@ To investigate this, we have a sample of 200 rock songs from Spotify, available 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-358" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-358&#39;, &#39;sol-start-358&#39;)"></span>
+► Solution<span id="sol-start-72" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-72&#39;, &#39;sol-start-72&#39;)"></span>
 </p>
-<div id="sol-body-358" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb720-1" data-line-number="1">spotify_songs &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wC5rz3&quot;</span>)</a>
-<a class="sourceLine" id="cb720-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb720-3" data-line-number="3"><span class="kw">summary</span>(spotify_songs)</a></code></pre></div>
-<pre><code>##    track_id          track_name        track_artist       playlist_genre     track_popularity     tempo       
-##  Length:200         Length:200         Length:200         Length:200         Min.   : 0.00    Min.   : 74.07  
-##  Class :character   Class :character   Class :character   Class :character   1st Qu.:19.75    1st Qu.:110.78  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median :48.00    Median :125.41  
-##                                                                              Mean   :41.67    Mean   :128.94  
-##                                                                              3rd Qu.:62.00    3rd Qu.:146.88  
-##                                                                              Max.   :85.00    Max.   :200.08  
-##   duration_ms    
-##  Min.   :139600  
-##  1st Qu.:204730  
-##  Median :242027  
-##  Mean   :256804  
-##  3rd Qu.:289960  
-##  Max.   :510933</code></pre>
+<div id="sol-body-72" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb732"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb732-1" data-line-number="1">spotify_songs &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wC5rz3&quot;</span>)</a>
+<a class="sourceLine" id="cb732-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb732-3" data-line-number="3"><span class="kw">summary</span>(spotify_songs)</a></code></pre></div>
+<pre><code>##    track_id          track_name        track_artist       playlist_genre     track_popularity
+##  Length:200         Length:200         Length:200         Length:200         Min.   : 0.00   
+##  Class :character   Class :character   Class :character   Class :character   1st Qu.:19.75   
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median :48.00   
+##                                                                              Mean   :41.67   
+##                                                                              3rd Qu.:62.00   
+##                                                                              Max.   :85.00   
+##      tempo         duration_ms    
+##  Min.   : 74.07   Min.   :139600  
+##  1st Qu.:110.78   1st Qu.:204730  
+##  Median :125.41   Median :242027  
+##  Mean   :128.94   Mean   :256804  
+##  3rd Qu.:146.88   3rd Qu.:289960  
+##  Max.   :200.08   Max.   :510933</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -860,24 +868,24 @@ To investigate this, we have a sample of 200 rock songs from Spotify, available 
 <ol style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb722-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb722-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(tempo) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb722-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb722-4" data-line-number="4">    <span class="dt">xbar =</span> <span class="kw">mean</span>(rock)</a>
-<a class="sourceLine" id="cb722-5" data-line-number="5">  )</a></code></pre></div>
+<div class="sourceCode" id="cb734"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb734-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb734-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(tempo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb734-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb734-4" data-line-number="4">    <span class="dt">xbar =</span> <span class="kw">mean</span>(rock)</a>
+<a class="sourceLine" id="cb734-5" data-line-number="5">  )</a></code></pre></div>
 <ol start="2" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<div class="sourceCode" id="cb723"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb723-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb723-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb723-3" data-line-number="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo)</a>
-<a class="sourceLine" id="cb723-4" data-line-number="4">  )</a></code></pre></div>
+<div class="sourceCode" id="cb735"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb735-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb735-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb735-3" data-line-number="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo)</a>
+<a class="sourceLine" id="cb735-4" data-line-number="4">  )</a></code></pre></div>
 <ol start="3" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb724-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb724-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(rock) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb724-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(tempo)</a></code></pre></div>
+<div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb736-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb736-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(rock) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb736-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(tempo)</a></code></pre></div>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -885,17 +893,17 @@ To investigate this, we have a sample of 200 rock songs from Spotify, available 
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-359" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-359&#39;, &#39;sol-start-359&#39;)"></span>
+► Solution<span id="sol-start-73" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-73&#39;, &#39;sol-start-73&#39;)"></span>
 </p>
-<div id="sol-body-359" class="solution-body" style="display: none;">
+<div id="sol-body-73" class="solution-body" style="display: none;">
 <p>Note that the entire sample contains only rock songs, so we can simply find the mean of the <code>tempo</code> variable.</p>
 <ol start="2" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<div class="sourceCode" id="cb725"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb725-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb725-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb725-3" data-line-number="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo)</a>
-<a class="sourceLine" id="cb725-4" data-line-number="4">  )</a></code></pre></div>
+<div class="sourceCode" id="cb737"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb737-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb737-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb737-3" data-line-number="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo)</a>
+<a class="sourceLine" id="cb737-4" data-line-number="4">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##    xbar
 ##   &lt;dbl&gt;
@@ -921,13 +929,13 @@ Calculate this now.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-360" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-360&#39;, &#39;sol-start-360&#39;)"></span>
+► Solution<span id="sol-start-74" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-74&#39;, &#39;sol-start-74&#39;)"></span>
 </p>
-<div id="sol-body-360" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb727"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb727-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb727-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb727-3" data-line-number="3">    <span class="dt">s =</span> <span class="kw">sd</span>(tempo)</a>
-<a class="sourceLine" id="cb727-4" data-line-number="4">  )</a></code></pre></div>
+<div id="sol-body-74" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb739"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb739-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb739-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb739-3" data-line-number="3">    <span class="dt">s =</span> <span class="kw">sd</span>(tempo)</a>
+<a class="sourceLine" id="cb739-4" data-line-number="4">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##       s
 ##   &lt;dbl&gt;
@@ -965,9 +973,9 @@ t_{obs} \qquad = \qquad \frac{? \qquad - \qquad ?}{?}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-361" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-361&#39;, &#39;sol-start-361&#39;)"></span>
+► Solution<span id="sol-start-75" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-75&#39;, &#39;sol-start-75&#39;)"></span>
 </p>
-<div id="sol-body-361" class="solution-body" style="display: none;">
+<div id="sol-body-75" class="solution-body" style="display: none;">
 <p>Fill in the blanks:<br />
 <span class="math display">\[
 \begin{aligned}
@@ -983,8 +991,8 @@ and write out the <span class="math inline">\(t\)</span>-statistic:
 t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 \]</span></p>
 <p>We can do this quickly using <code>R</code> just like a calculator:</p>
-<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb729-1" data-line-number="1">t_obs =<span class="st"> </span>(<span class="fl">128.9</span> <span class="op">-</span><span class="st"> </span><span class="dv">125</span>) <span class="op">/</span><span class="st"> </span>(<span class="fl">26.5</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">200</span>))</a>
-<a class="sourceLine" id="cb729-2" data-line-number="2">t_obs</a></code></pre></div>
+<div class="sourceCode" id="cb741"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb741-1" data-line-number="1">t_obs =<span class="st"> </span>(<span class="fl">128.9</span> <span class="op">-</span><span class="st"> </span><span class="dv">125</span>) <span class="op">/</span><span class="st"> </span>(<span class="fl">26.5</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">200</span>))</a>
+<a class="sourceLine" id="cb741-2" data-line-number="2">t_obs</a></code></pre></div>
 <pre><code>## [1] 2.081295</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -993,28 +1001,28 @@ t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► New R stuff!<span id="sol-start-362" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-362&#39;, &#39;sol-start-362&#39;)"></span>
+► New R stuff!<span id="sol-start-76" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-76&#39;, &#39;sol-start-76&#39;)"></span>
 </p>
-<div id="sol-body-362" class="solution-body" style="display: none;">
+<div id="sol-body-76" class="solution-body" style="display: none;">
 <div class="noteBox">
 <h4 id="new-r-stuff" class="unnumbered">New R stuff!</h4>
 <p>Going back to the start, we can use our skills with <code>summarise()</code> to calculate all the terms we need for our <span class="math inline">\(t\)</span>-statistic:</p>
-<div class="sourceCode" id="cb731"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1">terms &lt;-<span class="st"> </span>spotify_songs <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb731-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb731-3" data-line-number="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo),</a>
-<a class="sourceLine" id="cb731-4" data-line-number="4">    <span class="dt">s =</span> <span class="kw">sd</span>(tempo),</a>
-<a class="sourceLine" id="cb731-5" data-line-number="5">    <span class="dt">mu_0 =</span> <span class="dv">125</span>,</a>
-<a class="sourceLine" id="cb731-6" data-line-number="6">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb731-7" data-line-number="7">  )</a>
-<a class="sourceLine" id="cb731-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb731-9" data-line-number="9">terms</a></code></pre></div>
+<div class="sourceCode" id="cb743"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb743-1" data-line-number="1">terms &lt;-<span class="st"> </span>spotify_songs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb743-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb743-3" data-line-number="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(tempo),</a>
+<a class="sourceLine" id="cb743-4" data-line-number="4">    <span class="dt">s =</span> <span class="kw">sd</span>(tempo),</a>
+<a class="sourceLine" id="cb743-5" data-line-number="5">    <span class="dt">mu_0 =</span> <span class="dv">125</span>,</a>
+<a class="sourceLine" id="cb743-6" data-line-number="6">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb743-7" data-line-number="7">  )</a>
+<a class="sourceLine" id="cb743-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb743-9" data-line-number="9">terms</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 4
 ##    xbar     s  mu_0     n
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
 ## 1  129.  26.5   125   200</code></pre>
 <p>And then we can plug in these numbers to our equation.</p>
 <p><strong>We now introduce a new technique: the <code>$</code> operator. This is similar to the <code>pull()</code> function we previously used, as it pulls out the column from a tibble.</strong></p>
-<div class="sourceCode" id="cb733"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb733-1" data-line-number="1">(terms<span class="op">$</span>xbar <span class="op">-</span><span class="st"> </span>terms<span class="op">$</span>mu_<span class="dv">0</span>) <span class="op">/</span><span class="st"> </span>(terms<span class="op">$</span>s <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(terms<span class="op">$</span>n))</a></code></pre></div>
+<div class="sourceCode" id="cb745"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb745-1" data-line-number="1">(terms<span class="op">$</span>xbar <span class="op">-</span><span class="st"> </span>terms<span class="op">$</span>mu_<span class="dv">0</span>) <span class="op">/</span><span class="st"> </span>(terms<span class="op">$</span>s <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(terms<span class="op">$</span>n))</a></code></pre></div>
 <pre><code>## [1] 2.099549</code></pre>
 </div>
 <p class="solution-end">
@@ -1041,14 +1049,14 @@ t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-363" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-363&#39;, &#39;sol-start-363&#39;)"></span>
+► Solution<span id="sol-start-77" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-77&#39;, &#39;sol-start-77&#39;)"></span>
 </p>
-<div id="sol-body-363" class="solution-body" style="display: none;">
+<div id="sol-body-77" class="solution-body" style="display: none;">
 <p>The degrees of freedom are <span class="math inline">\(n-1 = 200-1 = 199\)</span></p>
 <p>We’re performing a one-tailed test here because our alternative hypothesis (<span class="math inline">\(H_1\)</span>) is that the mean tempo is &gt; 125.</p>
 <p>So we will reject a <span class="math inline">\(t\)</span>-statistic which falls in the upper 5% of the distribution.</p>
 <!-- Note that while we are interested in the top 5%, we are assuming a completely symmetric distribution, centered on 0, so the following two commands return the same (apart from the +/-) -->
-<div class="sourceCode" id="cb735"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb735-1" data-line-number="1"><span class="kw">qt</span>(.<span class="dv">95</span>, <span class="dt">df =</span> <span class="dv">199</span>) <span class="co"># 5% to the right</span></a></code></pre></div>
+<div class="sourceCode" id="cb747"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb747-1" data-line-number="1"><span class="kw">qt</span>(.<span class="dv">95</span>, <span class="dt">df =</span> <span class="dv">199</span>) <span class="co"># 5% to the right</span></a></code></pre></div>
 <pre><code>## [1] 1.652547</code></pre>
 <p>We will reject a <span class="math inline">\(t\)</span>-statistic which is greater (in magnitude) than 1.65.</p>
 <p class="solution-end">
@@ -1075,14 +1083,14 @@ t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-364" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-364&#39;, &#39;sol-start-364&#39;)"></span>
+► Solution<span id="sol-start-78" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-78&#39;, &#39;sol-start-78&#39;)"></span>
 </p>
-<div id="sol-body-364" class="solution-body" style="display: none;">
+<div id="sol-body-78" class="solution-body" style="display: none;">
 <p>The degrees of freedom is <span class="math inline">\(n-1 = 200-1 = 199\)</span></p>
 <p>We want to look at the area to the <em>right</em>, because we are testing whether 128.9 (our sample mean) is significantly <em>greater than</em> 125 (our null hypothesis mean).</p>
-<div class="sourceCode" id="cb737"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb737-1" data-line-number="1">pvalue =<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="fl">2.1</span>, <span class="dt">df =</span> <span class="dv">199</span>)</a>
-<a class="sourceLine" id="cb737-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb737-3" data-line-number="3">pvalue</a></code></pre></div>
+<div class="sourceCode" id="cb749"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb749-1" data-line-number="1">pvalue =<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="fl">2.1</span>, <span class="dt">df =</span> <span class="dv">199</span>)</a>
+<a class="sourceLine" id="cb749-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb749-3" data-line-number="3">pvalue</a></code></pre></div>
 <pre><code>## [1] 0.01849448</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1102,11 +1110,11 @@ t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 <li><code>alternative</code> is either <code>&quot;two.sided&quot;</code> (default), <code>&quot;less&quot;</code>, or <code>&quot;greater&quot;</code>, and specifies the direction of the alternative hypothesis.</li>
 </ul>
 <p><em>Note</em> again that we can use the <code>pull()</code> and <code>%&gt;%</code>:</p>
-<div class="sourceCode" id="cb739"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb739-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb739-2" data-line-number="2"><span class="st">   </span><span class="kw">pull</span>(tempo) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb739-3" data-line-number="3"><span class="st">   </span><span class="kw">t.test</span>(<span class="dt">mu =</span> <span class="dv">125</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb751"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb751-1" data-line-number="1">spotify_songs <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb751-2" data-line-number="2"><span class="st">   </span><span class="kw">pull</span>(tempo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb751-3" data-line-number="3"><span class="st">   </span><span class="kw">t.test</span>(<span class="dt">mu =</span> <span class="dv">125</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
 <p>or we can use our new friend, the <code>$</code> operator:</p>
-<div class="sourceCode" id="cb740"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb740-1" data-line-number="1"><span class="kw">t.test</span>(<span class="dt">x =</span> spotify_songs<span class="op">$</span>tempo, <span class="dt">mu =</span> <span class="dv">125</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1"><span class="kw">t.test</span>(<span class="dt">x =</span> spotify_songs<span class="op">$</span>tempo, <span class="dt">mu =</span> <span class="dv">125</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -1133,25 +1141,25 @@ t_{obs}  =  \frac{128.9 - 125}{26.5 / \sqrt{200}}
 <p>We can assess whether a set of numbers are normally distributed (assumption 2, above) by:</p>
 <div class="solution">
 <p class="solution-begin">
-Producing an appropriate plot<span id="sol-start-365" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-365&#39;, &#39;sol-start-365&#39;)"></span>
+Producing an appropriate plot<span id="sol-start-79" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-79&#39;, &#39;sol-start-79&#39;)"></span>
 </p>
-<div id="sol-body-365" class="solution-body" style="display: none;">
+<div id="sol-body-79" class="solution-body" style="display: none;">
 <p>Plots such as the histogram, or density plots, showing us the shape of our distribution:</p>
-<div class="sourceCode" id="cb742"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb742-1" data-line-number="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">x=</span>tempo))<span class="op">+</span></a>
-<a class="sourceLine" id="cb742-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>()<span class="op">+</span></a>
-<a class="sourceLine" id="cb742-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Histogram&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb754"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb754-1" data-line-number="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">x=</span>tempo))<span class="op">+</span></a>
+<a class="sourceLine" id="cb754-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb754-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Histogram&quot;</span>)</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-474-1.png" width="672" /></p>
-<div class="sourceCode" id="cb744"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb744-1" data-line-number="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">x=</span>tempo))<span class="op">+</span></a>
-<a class="sourceLine" id="cb744-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>()<span class="op">+</span></a>
-<a class="sourceLine" id="cb744-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Density plot&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-474-2.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-472-1.png" width="672" /></p>
+<div class="sourceCode" id="cb756"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb756-1" data-line-number="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">x=</span>tempo))<span class="op">+</span></a>
+<a class="sourceLine" id="cb756-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb756-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Density plot&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-472-2.png" width="672" /></p>
 <p>We can also use a plot called a QQplot (Quantile-Quantile plot), which orders the data and plots it against the equivalent quantile of the normal distribution:</p>
-<div class="sourceCode" id="cb745"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb745-1" data-line-number="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">sample =</span> tempo))<span class="op">+</span></a>
-<a class="sourceLine" id="cb745-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_qq</span>()<span class="op">+</span></a>
-<a class="sourceLine" id="cb745-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_qq_line</span>()<span class="op">+</span></a>
-<a class="sourceLine" id="cb745-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;QQplot&quot;</span>, <span class="dt">subtitle=</span><span class="st">&quot;The closer the data fit to the line the more normally distributed they are.&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-475-1.png" width="672" /></p>
+<div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb757-1" data-line-number="1"><span class="kw">ggplot</span>(spotify_songs, <span class="kw">aes</span>(<span class="dt">sample =</span> tempo))<span class="op">+</span></a>
+<a class="sourceLine" id="cb757-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_qq</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb757-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_qq_line</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb757-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;QQplot&quot;</span>, <span class="dt">subtitle=</span><span class="st">&quot;The closer the data fit to the line the more normally distributed they are.&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-473-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1159,16 +1167,16 @@ Producing an appropriate plot<span id="sol-start-365" class="fa fa-plus-square s
 </div>
 <div class="solution">
 <p class="solution-begin">
-Conducting a test of normality<span id="sol-start-366" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-366&#39;, &#39;sol-start-366&#39;)"></span>
+Conducting a test of normality<span id="sol-start-80" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-80&#39;, &#39;sol-start-80&#39;)"></span>
 </p>
-<div id="sol-body-366" class="solution-body" style="display: none;">
+<div id="sol-body-80" class="solution-body" style="display: none;">
 <p>We can also conduct a formal hypothesis test for normality, such as the Shapiro-Wilk test.</p>
 <p>The null hypothesis of the Shapiro-Wilk test is that the sample came from a population that is normally distributed.<br />
 The alternative hypothesis is that the sample came from a population that is <em>not</em> normally distributed.</p>
 <p>The test returns a test statistic W, and a p-value.<br />
 The p-value corresponds to the probability of observing data of this shape of distribution, assuming the data are drawn from a normally distributed population (i.e., assuming the null hypothesis to be true).</p>
 <p>In R:</p>
-<div class="sourceCode" id="cb746"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb746-1" data-line-number="1"><span class="kw">shapiro.test</span>(spotify_songs<span class="op">$</span>tempo)</a></code></pre></div>
+<div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb758-1" data-line-number="1"><span class="kw">shapiro.test</span>(spotify_songs<span class="op">$</span>tempo)</a></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -1227,10 +1235,10 @@ Does anything jump out as relevant?</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-367" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-367&#39;, &#39;sol-start-367&#39;)"></span>
+► Solution<span id="sol-start-81" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-81&#39;, &#39;sol-start-81&#39;)"></span>
 </p>
-<div id="sol-body-367" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb748"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb748-1" data-line-number="1">pets &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2VfPzg7&quot;</span>)</a></code></pre></div>
+<div id="sol-body-81" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb760-1" data-line-number="1">pets &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2VfPzg7&quot;</span>)</a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   license_issue_date = col_character(),
@@ -1242,23 +1250,23 @@ Does anything jump out as relevant?</p>
 ##   zip_code = col_character(),
 ##   weight_kg = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb750"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb750-1" data-line-number="1"><span class="kw">summary</span>(pets)</a></code></pre></div>
-<pre><code>##  license_issue_date license_number     animals_name         species          primary_breed      secondary_breed   
-##  Length:2000        Length:2000        Length:2000        Length:2000        Length:2000        Length:2000       
-##  Class :character   Class :character   Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                                                                   
-##                                                                                                                   
-##                                                                                                                   
-##                                                                                                                   
-##    zip_code           weight_kg       
-##  Length:2000        Min.   :  0.3941  
-##  Class :character   1st Qu.:  4.6970  
-##  Mode  :character   Median : 16.3954  
-##                     Mean   : 15.2411  
-##                     3rd Qu.: 22.4816  
-##                     Max.   :103.4838  
-##                     NA&#39;s   :15</code></pre>
+<div class="sourceCode" id="cb762"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb762-1" data-line-number="1"><span class="kw">summary</span>(pets)</a></code></pre></div>
+<pre><code>##  license_issue_date license_number     animals_name         species          primary_breed     
+##  Length:2000        Length:2000        Length:2000        Length:2000        Length:2000       
+##  Class :character   Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                                                
+##                                                                                                
+##                                                                                                
+##                                                                                                
+##  secondary_breed      zip_code           weight_kg       
+##  Length:2000        Length:2000        Min.   :  0.3941  
+##  Class :character   Class :character   1st Qu.:  4.6970  
+##  Mode  :character   Mode  :character   Median : 16.3954  
+##                                        Mean   : 15.2411  
+##                                        3rd Qu.: 22.4816  
+##                                        Max.   :103.4838  
+##                                        NA&#39;s   :15</code></pre>
 <p>We’re going to need the <code>weight_kg</code> variable. Notice that there are some missing values (you can see that there are 15 <code>NA</code>’s). We will need to decide what to do with them.</p>
 <p>Also, there are some cats in our data as well as the dogs which we are interested in. There are even a couple of goats! We will want to get rid of them..</p>
 <p class="solution-end">
@@ -1281,10 +1289,10 @@ Does anything jump out as relevant?</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-368" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-368&#39;, &#39;sol-start-368&#39;)"></span>
+► Solution<span id="sol-start-82" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-82&#39;, &#39;sol-start-82&#39;)"></span>
 </p>
-<div id="sol-body-368" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1">dogs &lt;-<span class="st"> </span>pets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Dog&quot;</span>)</a></code></pre></div>
+<div id="sol-body-82" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb764"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb764-1" data-line-number="1">dogs &lt;-<span class="st"> </span>pets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Dog&quot;</span>)</a></code></pre></div>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1297,7 +1305,7 @@ Does anything jump out as relevant?</p>
 </p>
 <div class="question-body">
 <p>What does the following command appear to do, and how?</p>
-<div class="sourceCode" id="cb753"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb753-1" data-line-number="1">dogs &lt;-<span class="st"> </span>dogs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(weight_kg))</a></code></pre></div>
+<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb765-1" data-line-number="1">dogs &lt;-<span class="st"> </span>dogs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(weight_kg))</a></code></pre></div>
 <p><em>Tip:</em> look at the help documentation for <code>is.na</code> (search in the bottom right window of Rstudio, or type <code>?is.na</code>)</p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1306,9 +1314,9 @@ Does anything jump out as relevant?</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-369" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-369&#39;, &#39;sol-start-369&#39;)"></span>
+► Solution<span id="sol-start-83" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-83&#39;, &#39;sol-start-83&#39;)"></span>
 </p>
-<div id="sol-body-369" class="solution-body" style="display: none;">
+<div id="sol-body-83" class="solution-body" style="display: none;">
 <p>It takes the <code>dogs</code> dataset, and it filters so that it will keep any rows where <code>!is.na(weight_kg)</code> is TRUE.<br />
 The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> is an <code>NA</code> and FALSE otherwise.</p>
 <p>The <code>!</code> before it flips the TRUEs and FALSEs, so that we have TRUE wherever <code>weight_kg</code> is a value other than <code>NA</code>, and FALSE if it <em>is</em> <code>NA</code>.</p>
@@ -1333,16 +1341,16 @@ The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> i
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-370" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-370&#39;, &#39;sol-start-370&#39;)"></span>
+► Solution<span id="sol-start-84" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-84&#39;, &#39;sol-start-84&#39;)"></span>
 </p>
-<div id="sol-body-370" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb754"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb754-1" data-line-number="1">dogstats &lt;-<span class="st"> </span>dogs <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb754-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb754-3" data-line-number="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(weight_kg),</a>
-<a class="sourceLine" id="cb754-4" data-line-number="4">    <span class="dt">s =</span> <span class="kw">sd</span>(weight_kg),</a>
-<a class="sourceLine" id="cb754-5" data-line-number="5">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb754-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb754-7" data-line-number="7">dogstats</a></code></pre></div>
+<div id="sol-body-84" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb766"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb766-1" data-line-number="1">dogstats &lt;-<span class="st"> </span>dogs <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb766-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb766-3" data-line-number="3">    <span class="dt">xbar =</span> <span class="kw">mean</span>(weight_kg),</a>
+<a class="sourceLine" id="cb766-4" data-line-number="4">    <span class="dt">s =</span> <span class="kw">sd</span>(weight_kg),</a>
+<a class="sourceLine" id="cb766-5" data-line-number="5">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb766-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb766-7" data-line-number="7">dogstats</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##    xbar     s     n
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
@@ -1367,11 +1375,11 @@ The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> i
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-371" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-371&#39;, &#39;sol-start-371&#39;)"></span>
+► Solution<span id="sol-start-85" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-85&#39;, &#39;sol-start-85&#39;)"></span>
 </p>
-<div id="sol-body-371" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb756"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb756-1" data-line-number="1">t_obs =<span class="st"> </span>(dogstats<span class="op">$</span>xbar <span class="op">-</span><span class="st"> </span><span class="dv">20</span>) <span class="op">/</span><span class="st"> </span>(dogstats<span class="op">$</span>s <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(dogstats<span class="op">$</span>n))</a>
-<a class="sourceLine" id="cb756-2" data-line-number="2">t_obs</a></code></pre></div>
+<div id="sol-body-85" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb768-1" data-line-number="1">t_obs =<span class="st"> </span>(dogstats<span class="op">$</span>xbar <span class="op">-</span><span class="st"> </span><span class="dv">20</span>) <span class="op">/</span><span class="st"> </span>(dogstats<span class="op">$</span>s <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(dogstats<span class="op">$</span>n))</a>
+<a class="sourceLine" id="cb768-2" data-line-number="2">t_obs</a></code></pre></div>
 <pre><code>## [1] 2.202048</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1399,16 +1407,16 @@ The <code>is.na(weight_kg)</code> will be TRUE wherever <code>weight_kg</code> i
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-372" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-372&#39;, &#39;sol-start-372&#39;)"></span>
+► Solution<span id="sol-start-86" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-86&#39;, &#39;sol-start-86&#39;)"></span>
 </p>
-<div id="sol-body-372" class="solution-body" style="display: none;">
+<div id="sol-body-86" class="solution-body" style="display: none;">
 <p>Our sample statistic (<span class="math inline">\(\bar{x}\)</span> = 20.376kg) is greater than the hypothesised mean (<span class="math inline">\(\mu_{0}\)</span> = 20kg), so we want the area to the <em>right</em>.</p>
 <p><em><strong>Reminder:</strong> For a probability distribution, the area under the curve to the right of x is 1 minus the area to the left. This is equivalent to saying that the probability of observing a value greater than x is 1 minus the probability of observing a value less than x.</em></p>
-<div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb758-1" data-line-number="1">p_righttail =<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_obs, <span class="dt">df =</span> <span class="dv">1332</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb770-1" data-line-number="1">p_righttail =<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(t_obs, <span class="dt">df =</span> <span class="dv">1332</span>)</a></code></pre></div>
 <p>Because our alternative hypothesis is two-tailed (<span class="math inline">\(H_1: \mu_1 \neq 20\)</span>), we will reject the null hypothesis for extreme <span class="math inline">\(t\)</span>-statistics <em>in either direction</em>. So we are calculating the probability of observing a value at least as extreme in either direction, and must multiply the one tail by 2.</p>
-<div class="sourceCode" id="cb759"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb759-1" data-line-number="1">p2tail =<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>p_righttail</a>
-<a class="sourceLine" id="cb759-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb759-3" data-line-number="3">p2tail</a></code></pre></div>
+<div class="sourceCode" id="cb771"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb771-1" data-line-number="1">p2tail =<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>p_righttail</a>
+<a class="sourceLine" id="cb771-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb771-3" data-line-number="3">p2tail</a></code></pre></div>
 <pre><code>## [1] 0.02783276</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1430,10 +1438,10 @@ Check that the results match the ones you just calculated.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-373" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-373&#39;, &#39;sol-start-373&#39;)"></span>
+► Solution<span id="sol-start-87" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-87&#39;, &#39;sol-start-87&#39;)"></span>
 </p>
-<div id="sol-body-373" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb761"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb761-1" data-line-number="1"><span class="kw">t.test</span>(<span class="dt">x =</span> dogs<span class="op">$</span>weight_kg, <span class="dt">mu =</span> <span class="dv">20</span>, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</a></code></pre></div>
+<div id="sol-body-87" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb773"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb773-1" data-line-number="1"><span class="kw">t.test</span>(<span class="dt">x =</span> dogs<span class="op">$</span>weight_kg, <span class="dt">mu =</span> <span class="dv">20</span>, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -1452,9 +1460,9 @@ Check that the results match the ones you just calculated.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Look at all the funny names!<span id="sol-start-374" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-374&#39;, &#39;sol-start-374&#39;)"></span>
+► Look at all the funny names!<span id="sol-start-88" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-88&#39;, &#39;sol-start-88&#39;)"></span>
 </p>
-<div id="sol-body-374" class="solution-body" style="display: none;">
+<div id="sol-body-88" class="solution-body" style="display: none;">
 <p>For fun, take a look at some of the names of pets in the dataset. This is actually real data, apart from the <code>weights_kg</code> variable.</p>
 <p>You can see a humerous visualisation of some of the more unusual names for pets below:
 <img src="https://pbs.twimg.com/media/D2r1WLAWoAIG25x?format=jpg&amp;name=4096x4096" />
@@ -1491,23 +1499,23 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-375" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-375&#39;, &#39;sol-start-375&#39;)"></span>
+► Solution<span id="sol-start-89" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-89&#39;, &#39;sol-start-89&#39;)"></span>
 </p>
-<div id="sol-body-375" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb763"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb763-1" data-line-number="1">pass_scores &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wJgYwL&quot;</span>) </a></code></pre></div>
+<div id="sol-body-89" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb775-1" data-line-number="1">pass_scores &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wJgYwL&quot;</span>) </a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   sid = col_character(),
 ##   school = col_character(),
 ##   PASS = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb765-1" data-line-number="1"><span class="kw">shapiro.test</span>(pass_scores<span class="op">$</span>PASS)</a></code></pre></div>
+<div class="sourceCode" id="cb777"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb777-1" data-line-number="1"><span class="kw">shapiro.test</span>(pass_scores<span class="op">$</span>PASS)</a></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  pass_scores$PASS
 ## W = 0.93617, p-value = 0.2028</code></pre>
-<div class="sourceCode" id="cb767"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb767-1" data-line-number="1"><span class="kw">t.test</span>(pass_scores<span class="op">$</span>PASS, <span class="dt">mu =</span> <span class="dv">33</span>, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb779"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb779-1" data-line-number="1"><span class="kw">t.test</span>(pass_scores<span class="op">$</span>PASS, <span class="dt">mu =</span> <span class="dv">33</span>, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -1538,9 +1546,9 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-376" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-376&#39;, &#39;sol-start-376&#39;)"></span>
+► Solution<span id="sol-start-90" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-90&#39;, &#39;sol-start-90&#39;)"></span>
 </p>
-<div id="sol-body-376" class="solution-body" style="display: none;">
+<div id="sol-body-90" class="solution-body" style="display: none;">
 <p>A one-sided one-sample t-test was conducted in order to determine if the average score on the Procrastination Assessment Scale for Students (PASS) for a sample of 20 students at Edinburgh University was significantly (<span class="math inline">\(\alpha = .05\)</span>) lower than the average score obtained during development of the PASS.</p>
 <p>Edinburgh University students scored lower (Mean=30.7, SD=3.31) than the score reported by the authors of the PASS (Mean = 33). This difference was statistically significant (t(19)=-3.11, p &lt; .05, one-tailed).</p>
 <p class="solution-end">
@@ -1565,20 +1573,20 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-377" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-377&#39;, &#39;sol-start-377&#39;)"></span>
+► Solution<span id="sol-start-91" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-91&#39;, &#39;sol-start-91&#39;)"></span>
 </p>
-<div id="sol-body-377" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb769"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb769-1" data-line-number="1">cats &lt;-<span class="st"> </span>pets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Cat&quot;</span>, <span class="op">!</span><span class="kw">is.na</span>(weight_kg))</a>
-<a class="sourceLine" id="cb769-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb769-3" data-line-number="3"><span class="kw">shapiro.test</span>(cats<span class="op">$</span>weight_kg)</a></code></pre></div>
+<div id="sol-body-91" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb781-1" data-line-number="1">cats &lt;-<span class="st"> </span>pets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Cat&quot;</span>, <span class="op">!</span><span class="kw">is.na</span>(weight_kg))</a>
+<a class="sourceLine" id="cb781-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb781-3" data-line-number="3"><span class="kw">shapiro.test</span>(cats<span class="op">$</span>weight_kg)</a></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  cats$weight_kg
 ## W = 0.99825, p-value = 0.7611</code></pre>
-<div class="sourceCode" id="cb771"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb771-1" data-line-number="1"><span class="kw">qqnorm</span>(cats<span class="op">$</span>weight_kg)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-487-1.png" width="672" /></p>
-<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb772-1" data-line-number="1"><span class="kw">t.test</span>(cats<span class="op">$</span>weight_kg, <span class="dt">mu=</span><span class="fl">4.5</span>, <span class="dt">alternative=</span><span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb783"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb783-1" data-line-number="1"><span class="kw">qqnorm</span>(cats<span class="op">$</span>weight_kg)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-485-1.png" width="672" /></p>
+<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb784-1" data-line-number="1"><span class="kw">t.test</span>(cats<span class="op">$</span>weight_kg, <span class="dt">mu=</span><span class="fl">4.5</span>, <span class="dt">alternative=</span><span class="st">&quot;greater&quot;</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -1610,7 +1618,7 @@ The mean score from Solomon &amp; Rothblum, 1984 was 33.</p>
 <li><em>QQplot/Quantile-Quantile plot.</em> Displays the quantiles of the sample against the quantiles of a normal distribution. If the data points fall on the diagonal line, the sample is normally distributed.</li>
 </ul>
 
-<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb774-1" data-line-number="1">knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">fig.align =</span> <span class="st">&#39;center&#39;</span>, <span class="dt">out.width =</span> <span class="st">&#39;70%&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb786"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb786-1" data-line-number="1">knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">fig.align =</span> <span class="st">&#39;center&#39;</span>, <span class="dt">out.width =</span> <span class="st">&#39;70%&#39;</span>)</a></code></pre></div>
 </div>
 </div>
 </div>

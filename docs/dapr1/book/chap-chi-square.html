@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 19 Chi-square tests | Data Analysis for Psychology in R (dapR1) - Labs</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 19 Chi-square tests | Data Analysis for Psychology in R (dapR1) - Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 19 Chi-square tests | Data Analysis for Psychology in R (dapR1) - Labs" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chap-paired-t-test.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">DAPR1</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>1</b> Week 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="week-1.html"><a href="week-1.html#introduction-to-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="week-1.html"><a href="week-1.html#install-the-recent-version-of-r-and-r-studio"><i class="fa fa-check"></i><b>1.2</b> Install the recent version of R and R Studio</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1.html"><a href="week-1.html#first-step"><i class="fa fa-check"></i><b>1.2.1</b> First Step</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1.html"><a href="week-1.html#second-step"><i class="fa fa-check"></i><b>1.2.2</b> Second Step</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1.html"><a href="week-1.html#getting-started-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Getting Started in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="week-1.html"><a href="week-1.html#r-as-an-interactive-environment"><i class="fa fa-check"></i><b>1.4</b> R as an interactive environment</a></li>
+<li class="chapter" data-level="1.5" data-path="week-1.html"><a href="week-1.html#check-your-settings"><i class="fa fa-check"></i><b>1.5</b> Check your settings</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="week-1.html"><a href="week-1.html#disable-automatic-saving-of-your-workspace"><i class="fa fa-check"></i><b>1.5.1</b> Disable automatic saving of your workspace</a></li>
+<li class="chapter" data-level="1.5.2" data-path="week-1.html"><a href="week-1.html#adjust-fontscolours-if-you-like"><i class="fa fa-check"></i><b>1.5.2</b> Adjust fonts/colours if you like</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="week-1.html"><a href="week-1.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.6</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="1.7" data-path="week-1.html"><a href="week-1.html#the-console"><i class="fa fa-check"></i><b>1.7</b> The Console</a></li>
+<li class="chapter" data-level="1.8" data-path="week-1.html"><a href="week-1.html#spacing"><i class="fa fa-check"></i><b>1.8</b> Spacing</a></li>
+<li class="chapter" data-level="1.9" data-path="week-1.html"><a href="week-1.html#typos"><i class="fa fa-check"></i><b>1.9</b> Typos</a></li>
+<li class="chapter" data-level="1.10" data-path="week-1.html"><a href="week-1.html#unfinishe.-d"><i class="fa fa-check"></i><b>1.10</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="1.11" data-path="week-1.html"><a href="week-1.html#basic-arithmetic"><i class="fa fa-check"></i><b>1.11</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="1.12" data-path="week-1.html"><a href="week-1.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>1.12</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="1.13" data-path="week-1.html"><a href="week-1.html#r-scripts"><i class="fa fa-check"></i><b>1.13</b> R Scripts</a></li>
+<li class="chapter" data-level="1.14" data-path="week-1.html"><a href="week-1.html#short-example"><i class="fa fa-check"></i><b>1.14</b> Short Example</a></li>
+<li class="chapter" data-level="1.15" data-path="week-1.html"><a href="week-1.html#naming-variables"><i class="fa fa-check"></i><b>1.15</b> Naming variables</a></li>
+<li class="chapter" data-level="1.16" data-path="week-1.html"><a href="week-1.html#now-over-to-you"><i class="fa fa-check"></i><b>1.16</b> Now over to you</a><ul>
+<li class="chapter" data-level="1.16.1" data-path="week-1.html"><a href="week-1.html#exercise-1"><i class="fa fa-check"></i><b>1.16.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="1.16.2" data-path="week-1.html"><a href="week-1.html#exercise-2"><i class="fa fa-check"></i><b>1.16.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="1.17" data-path="week-1.html"><a href="week-1.html#solutions"><i class="fa fa-check"></i><b>1.17</b> Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2</b> Week 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="week-2.html"><a href="week-2.html#introduction-to-rmarkdown"><i class="fa fa-check"></i><b>2.1</b> Introduction to RMarkdown</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html#what-is-r-markdown"><i class="fa fa-check"></i><b>2.2</b> What is R Markdown?</a></li>
+<li class="chapter" data-level="2.3" data-path="week-2.html"><a href="week-2.html#getting-things-ready"><i class="fa fa-check"></i><b>2.3</b> Getting things ready</a></li>
+<li class="chapter" data-level="2.4" data-path="week-2.html"><a href="week-2.html#r-markdown-basics"><i class="fa fa-check"></i><b>2.4</b> R Markdown basics</a></li>
+<li class="chapter" data-level="2.5" data-path="week-2.html"><a href="week-2.html#headings"><i class="fa fa-check"></i><b>2.5</b> Headings</a></li>
+<li class="chapter" data-level="2.6" data-path="week-2.html"><a href="week-2.html#text"><i class="fa fa-check"></i><b>2.6</b> Text</a></li>
+<li class="chapter" data-level="2.7" data-path="week-2.html"><a href="week-2.html#tables"><i class="fa fa-check"></i><b>2.7</b> Tables</a></li>
+<li class="chapter" data-level="2.8" data-path="week-2.html"><a href="week-2.html#lists"><i class="fa fa-check"></i><b>2.8</b> Lists</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="week-2.html"><a href="week-2.html#unordered"><i class="fa fa-check"></i><b>2.8.1</b> Unordered</a></li>
+<li class="chapter" data-level="2.8.2" data-path="week-2.html"><a href="week-2.html#ordered"><i class="fa fa-check"></i><b>2.8.2</b> Ordered</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
+<li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
+<li class="chapter" data-level="3.2" data-path="week-3.html"><a href="week-3.html#get-the-package-first"><i class="fa fa-check"></i><b>3.2</b> Get the package first</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3.html"><a href="week-3.html#numeric-data"><i class="fa fa-check"></i><b>3.3</b> Numeric Data</a></li>
+<li class="chapter" data-level="3.4" data-path="week-3.html"><a href="week-3.html#textcharacter-data"><i class="fa fa-check"></i><b>3.4</b> Text/Character Data</a></li>
+<li class="chapter" data-level="3.5" data-path="week-3.html"><a href="week-3.html#logical-data"><i class="fa fa-check"></i><b>3.5</b> Logical Data</a></li>
+<li class="chapter" data-level="3.6" data-path="week-3.html"><a href="week-3.html#variable-classes"><i class="fa fa-check"></i><b>3.6</b> Variable Classes</a></li>
+<li class="chapter" data-level="3.7" data-path="week-3.html"><a href="week-3.html#factors"><i class="fa fa-check"></i><b>3.7</b> Factors</a></li>
+<li class="chapter" data-level="3.8" data-path="week-3.html"><a href="week-3.html#lists-1"><i class="fa fa-check"></i><b>3.8</b> Lists</a></li>
+<li class="chapter" data-level="3.9" data-path="week-3.html"><a href="week-3.html#practice.rmd-solutions"><i class="fa fa-check"></i><b>3.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="week-3.html"><a href="week-3.html#exercise-1-1"><i class="fa fa-check"></i><b>3.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.9.2" data-path="week-3.html"><a href="week-3.html#exercise-2-1"><i class="fa fa-check"></i><b>3.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.9.3" data-path="week-3.html"><a href="week-3.html#exercise-3"><i class="fa fa-check"></i><b>3.9.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>4</b> Week 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="week-4.html"><a href="week-4.html#introduction-to-plots-geoms-ggplot"><i class="fa fa-check"></i><b>4.1</b> Introduction to plots &amp; geoms (ggplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="week-4.html"><a href="week-4.html#visualisations"><i class="fa fa-check"></i><b>4.2</b> Visualisations</a></li>
+<li class="chapter" data-level="4.3" data-path="week-4.html"><a href="week-4.html#get-our-data-sorted"><i class="fa fa-check"></i><b>4.3</b> Get our data sorted</a></li>
+<li class="chapter" data-level="4.4" data-path="week-4.html"><a href="week-4.html#numerical-data"><i class="fa fa-check"></i><b>4.4</b> Numerical data</a></li>
+<li class="chapter" data-level="4.5" data-path="week-4.html"><a href="week-4.html#simple-one-variable-plot-using-ggplot"><i class="fa fa-check"></i><b>4.5</b> Simple one-variable plot using ggplot()</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="week-4.html"><a href="week-4.html#continuous-variable"><i class="fa fa-check"></i><b>4.5.1</b> Continuous variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="week-4.html"><a href="week-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.6</b> Categorical variables</a></li>
+<li class="chapter" data-level="4.7" data-path="week-4.html"><a href="week-4.html#continuous-variables-grouped-by-a-categorical-one"><i class="fa fa-check"></i><b>4.7</b> Continuous variables grouped by a categorical one</a></li>
+<li class="chapter" data-level="4.8" data-path="week-4.html"><a href="week-4.html#even-more-advanced"><i class="fa fa-check"></i><b>4.8</b> Even more advanced</a></li>
+<li class="chapter" data-level="4.9" data-path="week-4.html"><a href="week-4.html#practice.rmd-solutions-1"><i class="fa fa-check"></i><b>4.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="week-4.html"><a href="week-4.html#exercise-1-2"><i class="fa fa-check"></i><b>4.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="4.9.2" data-path="week-4.html"><a href="week-4.html#exercise-2-2"><i class="fa fa-check"></i><b>4.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.9.3" data-path="week-4.html"><a href="week-4.html#exercise-3---advanced"><i class="fa fa-check"></i><b>4.9.3</b> Exercise 3 - Advanced</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>5</b> Week 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="week-5.html"><a href="week-5.html#central-tendency-and-variability"><i class="fa fa-check"></i><b>5.1</b> Central Tendency and Variability</a></li>
+<li class="chapter" data-level="5.2" data-path="week-5.html"><a href="week-5.html#load-all-the-necessary-packages"><i class="fa fa-check"></i><b>5.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="5.3" data-path="week-5.html"><a href="week-5.html#descriptive-statistics"><i class="fa fa-check"></i><b>5.3</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="5.4" data-path="week-5.html"><a href="week-5.html#central-tendency-variability"><i class="fa fa-check"></i><b>5.4</b> Central tendency &amp; variability</a></li>
+<li class="chapter" data-level="5.5" data-path="week-5.html"><a href="week-5.html#mean-and-median"><i class="fa fa-check"></i><b>5.5</b> Mean and median</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="week-5.html"><a href="week-5.html#reading-data-in"><i class="fa fa-check"></i><b>5.5.1</b> Reading data in</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="week-5.html"><a href="week-5.html#using-piping-operator-for-descriptive-statistics"><i class="fa fa-check"></i><b>5.6</b> Using piping operator for descriptive statistics</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="week-5.html"><a href="week-5.html#mean"><i class="fa fa-check"></i><b>5.6.1</b> Mean</a></li>
+<li class="chapter" data-level="5.6.2" data-path="week-5.html"><a href="week-5.html#median"><i class="fa fa-check"></i><b>5.6.2</b> Median</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="week-5.html"><a href="week-5.html#standard-deviation"><i class="fa fa-check"></i><b>5.7</b> Standard deviation</a></li>
+<li class="chapter" data-level="5.8" data-path="week-5.html"><a href="week-5.html#visualise-your-data"><i class="fa fa-check"></i><b>5.8</b> Visualise your data</a></li>
+<li class="chapter" data-level="5.9" data-path="week-5.html"><a href="week-5.html#practice.rmd-solutions-2"><i class="fa fa-check"></i><b>5.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="week-5.html"><a href="week-5.html#income-distribution-example"><i class="fa fa-check"></i><b>5.9.1</b> Income Distribution Example</a></li>
+<li class="chapter" data-level="5.9.2" data-path="week-5.html"><a href="week-5.html#visualisations-1"><i class="fa fa-check"></i><b>5.9.2</b> Visualisations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>6</b> Week 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="week-6.html"><a href="week-6.html#plotting-functions-and-simple-data-transformation"><i class="fa fa-check"></i><b>6.1</b> Plotting Functions and Simple Data Transformation</a></li>
+<li class="chapter" data-level="6.2" data-path="week-6.html"><a href="week-6.html#load-all-the-necessary-packages-1"><i class="fa fa-check"></i><b>6.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="6.3" data-path="week-6.html"><a href="week-6.html#part-1-hand-plotting-functions"><i class="fa fa-check"></i><b>6.3</b> Part 1: Hand plotting functions</a></li>
+<li class="chapter" data-level="6.4" data-path="week-6.html"><a href="week-6.html#basics"><i class="fa fa-check"></i><b>6.4</b> Basics</a></li>
+<li class="chapter" data-level="6.5" data-path="week-6.html"><a href="week-6.html#linear-functions"><i class="fa fa-check"></i><b>6.5</b> Linear functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="week-6.html"><a href="week-6.html#tree-height-example"><i class="fa fa-check"></i><b>6.5.1</b> Tree height example</a></li>
+<li class="chapter" data-level="6.5.2" data-path="week-6.html"><a href="week-6.html#non-linear-functions-first-order-polynomials"><i class="fa fa-check"></i><b>6.5.2</b> Non-linear functions (first order polynomials)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="week-6.html"><a href="week-6.html#practice-plotting"><i class="fa fa-check"></i><b>6.6</b> Practice plotting</a></li>
+<li class="chapter" data-level="6.7" data-path="week-6.html"><a href="week-6.html#part-2-introduction-to-data-transformation"><i class="fa fa-check"></i><b>6.7</b> Part 2: Introduction to Data Transformation</a></li>
+<li class="chapter" data-level="6.8" data-path="week-6.html"><a href="week-6.html#renaming"><i class="fa fa-check"></i><b>6.8</b> Renaming</a></li>
+<li class="chapter" data-level="6.9" data-path="week-6.html"><a href="week-6.html#adding-new-variables"><i class="fa fa-check"></i><b>6.9</b> Adding new variables</a></li>
+<li class="chapter" data-level="6.10" data-path="week-6.html"><a href="week-6.html#transformation-and-skewness"><i class="fa fa-check"></i><b>6.10</b> Transformation and skewness</a></li>
+<li class="chapter" data-level="6.11" data-path="week-6.html"><a href="week-6.html#mean-centering"><i class="fa fa-check"></i><b>6.11</b> Mean Centering</a></li>
+<li class="chapter" data-level="6.12" data-path="week-6.html"><a href="week-6.html#standardisation"><i class="fa fa-check"></i><b>6.12</b> Standardisation</a></li>
+<li class="chapter" data-level="6.13" data-path="week-6.html"><a href="week-6.html#practice.rmd-solutions-3"><i class="fa fa-check"></i><b>6.13</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>7</b> Week 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="week-7.html"><a href="week-7.html#reading-in-data-merge-and-more-r-practice"><i class="fa fa-check"></i><b>7.1</b> Reading in Data, Merge and More R Practice</a></li>
+<li class="chapter" data-level="7.2" data-path="week-7.html"><a href="week-7.html#dataset-1-.csv"><i class="fa fa-check"></i><b>7.2</b> Dataset 1 (.csv)</a></li>
+<li class="chapter" data-level="7.3" data-path="week-7.html"><a href="week-7.html#dataset-2-.txt"><i class="fa fa-check"></i><b>7.3</b> Dataset 2 (.txt)</a></li>
+<li class="chapter" data-level="7.4" data-path="week-7.html"><a href="week-7.html#dataset-3-.sav-and-.dta"><i class="fa fa-check"></i><b>7.4</b> Dataset 3 (.sav and .dta)</a></li>
+<li class="chapter" data-level="7.5" data-path="week-7.html"><a href="week-7.html#merging-datasets-together"><i class="fa fa-check"></i><b>7.5</b> Merging datasets together</a></li>
+<li class="chapter" data-level="7.6" data-path="week-7.html"><a href="week-7.html#sorting-and-arrange"><i class="fa fa-check"></i><b>7.6</b> Sorting and arrange()</a></li>
+<li class="chapter" data-level="7.7" data-path="week-7.html"><a href="week-7.html#data-description"><i class="fa fa-check"></i><b>7.7</b> Data description</a></li>
+<li class="chapter" data-level="7.8" data-path="week-7.html"><a href="week-7.html#using-filter"><i class="fa fa-check"></i><b>7.8</b> Using filter()</a></li>
+<li class="chapter" data-level="7.9" data-path="week-7.html"><a href="week-7.html#visualisations-2"><i class="fa fa-check"></i><b>7.9</b> Visualisations</a></li>
+<li class="chapter" data-level="7.10" data-path="week-7.html"><a href="week-7.html#save-the-file-in-your-folder"><i class="fa fa-check"></i><b>7.10</b> Save the file in your folder</a></li>
+<li class="chapter" data-level="7.11" data-path="week-7.html"><a href="week-7.html#practice.rmd-solutions-4"><i class="fa fa-check"></i><b>7.11</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="week-8.html"><a href="week-8.html"><i class="fa fa-check"></i><b>8</b> Week 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="week-8.html"><a href="week-8.html#introduction-to-probability"><i class="fa fa-check"></i><b>8.1</b> Introduction to Probability</a></li>
+<li class="chapter" data-level="8.2" data-path="week-8.html"><a href="week-8.html#example-1-hot-hand"><i class="fa fa-check"></i><b>8.2</b> Example 1 (hot hand)</a></li>
+<li class="chapter" data-level="8.3" data-path="week-8.html"><a href="week-8.html#example-2-coin-toss"><i class="fa fa-check"></i><b>8.3</b> Example 2 (coin toss)</a></li>
+<li class="chapter" data-level="8.4" data-path="week-8.html"><a href="week-8.html#example-3-independent-shooter"><i class="fa fa-check"></i><b>8.4</b> Example 3 (Independent shooter)</a></li>
+<li class="chapter" data-level="8.5" data-path="week-8.html"><a href="week-8.html#practice-rmd.-solutions"><i class="fa fa-check"></i><b>8.5</b> Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.jones-and-mr.smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
+<li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
+<li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
+<li class="chapter" data-level="8.6.5" data-path="week-8.html"><a href="week-8.html#answers-1"><i class="fa fa-check"></i><b>8.6.5</b> Answers</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="week-9.html"><a href="week-9.html"><i class="fa fa-check"></i><b>9</b> Week 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="week-9.html"><a href="week-9.html#introduction-to-probability-distributions-and-revision"><i class="fa fa-check"></i><b>9.1</b> Introduction to Probability Distributions and Revision</a></li>
+<li class="chapter" data-level="9.2" data-path="week-9.html"><a href="week-9.html#discrete-example-guessing-homework-answers"><i class="fa fa-check"></i><b>9.2</b> Discrete example (guessing homework answers)</a></li>
+<li class="chapter" data-level="9.3" data-path="week-9.html"><a href="week-9.html#generate-a-homework-attempt"><i class="fa fa-check"></i><b>9.3</b> Generate a homework attempt</a></li>
+<li class="chapter" data-level="9.4" data-path="week-9.html"><a href="week-9.html#changing-the-probability-truefalse"><i class="fa fa-check"></i><b>9.4</b> Changing the probability (TRUE/FALSE)</a></li>
+<li class="chapter" data-level="9.5" data-path="week-9.html"><a href="week-9.html#studying-the-distribution"><i class="fa fa-check"></i><b>9.5</b> Studying the distribution</a></li>
+<li class="chapter" data-level="9.6" data-path="week-9.html"><a href="week-9.html#cumulative-probability-advanced"><i class="fa fa-check"></i><b>9.6</b> Cumulative Probability (Advanced)</a></li>
+<li class="chapter" data-level="9.7" data-path="week-9.html"><a href="week-9.html#revision-practice-rmd.-solutions"><i class="fa fa-check"></i><b>9.7</b> Revision Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="week-9.html"><a href="week-9.html#provide-descriptive-statistics-for-age-and-memory-score-variables"><i class="fa fa-check"></i><b>9.7.1</b> Provide descriptive statistics for age and memory score variables</a></li>
+<li class="chapter" data-level="9.7.2" data-path="week-9.html"><a href="week-9.html#descriptives-by-groups"><i class="fa fa-check"></i><b>9.7.2</b> Descriptives by groups</a></li>
+<li class="chapter" data-level="9.7.3" data-path="week-9.html"><a href="week-9.html#visualise"><i class="fa fa-check"></i><b>9.7.3</b> Visualise</a></li>
+<li class="chapter" data-level="9.7.4" data-path="week-9.html"><a href="week-9.html#visualise-a-subset"><i class="fa fa-check"></i><b>9.7.4</b> Visualise a subset</a></li>
+<li class="chapter" data-level="9.7.5" data-path="week-9.html"><a href="week-9.html#variable-by-a-group"><i class="fa fa-check"></i><b>9.7.5</b> Variable by a group</a></li>
+<li class="chapter" data-level="9.7.6" data-path="week-9.html"><a href="week-9.html#create-a-new-variable-using-mutate"><i class="fa fa-check"></i><b>9.7.6</b> Create a new variable using mutate()</a></li>
+<li class="chapter" data-level="9.7.7" data-path="week-9.html"><a href="week-9.html#subset-observations-using-filter"><i class="fa fa-check"></i><b>9.7.7</b> Subset observations using filter()</a></li>
+<li class="chapter" data-level="9.7.8" data-path="week-9.html"><a href="week-9.html#sort-via-arrange"><i class="fa fa-check"></i><b>9.7.8</b> Sort via arrange()</a></li>
+<li class="chapter" data-level="9.7.9" data-path="week-9.html"><a href="week-9.html#lets-do-some-specific-count-using-filter"><i class="fa fa-check"></i><b>9.7.9</b> Let’s do some specific count() using filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="week-9.html"><a href="week-9.html#extra-probability-practice"><i class="fa fa-check"></i><b>9.8</b> Extra Probability Practice</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="week-9.html"><a href="week-9.html#truefalse-questions"><i class="fa fa-check"></i><b>9.8.1</b> TRUE/FALSE questions</a></li>
+<li class="chapter" data-level="9.8.2" data-path="week-9.html"><a href="week-9.html#count-the-occurencies"><i class="fa fa-check"></i><b>9.8.2</b> Count the occurencies</a></li>
+<li class="chapter" data-level="9.8.3" data-path="week-9.html"><a href="week-9.html#plot"><i class="fa fa-check"></i><b>9.8.3</b> Plot</a></li>
+<li class="chapter" data-level="9.8.4" data-path="week-9.html"><a href="week-9.html#use-dbinom-to-study-the-probability"><i class="fa fa-check"></i><b>9.8.4</b> Use dbinom() to study the probability</a></li>
+<li class="chapter" data-level="9.8.5" data-path="week-9.html"><a href="week-9.html#less-than-five-or-more-than-five"><i class="fa fa-check"></i><b>9.8.5</b> Less than five or more than five?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-10-lab-test.html"><a href="week-10-lab-test.html"><i class="fa fa-check"></i><b>10</b> Week 10: Lab test</a></li>
+<li class="chapter" data-level="11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html"><i class="fa fa-check"></i><b>11</b> Sampling distributions</a><ul>
+<li class="chapter" data-level="11.1" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#recap"><i class="fa fa-check"></i><b>11.1</b> Recap</a></li>
+<li class="chapter" data-level="11.2" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#population-sample"><i class="fa fa-check"></i><b>11.2</b> Population vs sample</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#parameter-statistic"><i class="fa fa-check"></i><b>11.3</b> Population parameter vs sample statistic</a></li>
+<li class="chapter" data-level="11.4" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sec-sampling-distributions"><i class="fa fa-check"></i><b>11.4</b> Sampling distributions</a></li>
+<li class="chapter" data-level="11.5" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#standard-error"><i class="fa fa-check"></i><b>11.5</b> The standard error of a statistic</a></li>
+<li class="chapter" data-level="11.6" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sample-size-standard-error"><i class="fa fa-check"></i><b>11.6</b> The effect of sample size on the sampling distribution</a></li>
+<li class="chapter" data-level="11.7" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#take-home-message"><i class="fa fa-check"></i><b>11.7</b> Take-home message</a></li>
+<li class="chapter" data-level="11.8" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#lab-hollywood-movies"><i class="fa fa-check"></i><b>11.8</b> Lab: Hollywood movies</a></li>
+<li class="chapter" data-level="11.9" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#summary"><i class="fa fa-check"></i><b>11.9</b> Summary</a></li>
+<li class="chapter" data-level="11.10" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#glossary"><i class="fa fa-check"></i><b>11.10</b> Glossary</a></li>
+<li class="chapter" data-level="11.11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#references"><i class="fa fa-check"></i><b>11.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html"><i class="fa fa-check"></i><b>12</b> Bootstrapping and Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#recap-1"><i class="fa fa-check"></i><b>12.1</b> Recap</a></li>
+<li class="chapter" data-level="12.2" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#from-sampling-to-resampling"><i class="fa fa-check"></i><b>12.2</b> From Sampling to Resampling</a></li>
+<li class="chapter" data-level="12.3" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#getting-to-the-bootstrap-distribution"><i class="fa fa-check"></i><b>12.3</b> Getting to the bootstrap distribution</a></li>
+<li class="chapter" data-level="12.4" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#more-generally"><i class="fa fa-check"></i><b>12.4</b> More generally…</a></li>
+<li class="chapter" data-level="12.5" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#confidence-intervals"><i class="fa fa-check"></i><b>12.5</b> Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#calculating-confidence-intervals-using-a-bootstrap-standard-error"><i class="fa fa-check"></i><b>12.5.1</b> Calculating confidence intervals using a bootstrap standard error</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#summary-1"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+<li class="chapter" data-level="12.7" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#take-home-message-1"><i class="fa fa-check"></i><b>12.7</b> Take-home message</a></li>
+<li class="chapter" data-level="12.8" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#lab"><i class="fa fa-check"></i><b>12.8</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-1-hollywood-movies"><i class="fa fa-check"></i>Exercise 1: Hollywood Movies</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-2-nfl-players"><i class="fa fa-check"></i>Exercise 2: NFL Players</a></li>
+</ul></li>
+<li class="chapter" data-level="12.9" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#glossary-1"><i class="fa fa-check"></i><b>12.9</b> Glossary</a></li>
+<li class="chapter" data-level="12.10" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#references-1"><i class="fa fa-check"></i><b>12.10</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html"><i class="fa fa-check"></i><b>13</b> Testing hypotheses</a><ul>
+<li class="chapter" data-level="13.1" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#recap-2"><i class="fa fa-check"></i><b>13.1</b> Recap</a></li>
+<li class="chapter" data-level="13.2" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#walkthrough"><i class="fa fa-check"></i><b>13.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#extrasensory-perception-esp"><i class="fa fa-check"></i>Extrasensory perception (ESP)</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-esp-results"><i class="fa fa-check"></i>Example 1: ESP experimental results</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-in-class"><i class="fa fa-check"></i>Example 2: In-class activity</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-random-chance-model"><i class="fa fa-check"></i>The random chance model</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-alternative-explanation"><i class="fa fa-check"></i>The alternative explanation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-test"><i class="fa fa-check"></i>Statistical test</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#understanding-statistical-evidence"><i class="fa fa-check"></i>Understanding statistical evidence</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-hypotheses"><i class="fa fa-check"></i>Statistical hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-significance"><i class="fa fa-check"></i>Statistical significance</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-distribution"><i class="fa fa-check"></i>Null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#making-a-formal-decision"><i class="fa fa-check"></i>Making a formal decision</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#summary-2"><i class="fa fa-check"></i><b>13.3</b> Summary</a></li>
+<li class="chapter" data-level="13.4" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#lab-1"><i class="fa fa-check"></i><b>13.4</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#required-packages"><i class="fa fa-check"></i>Required packages</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#importing-the-data"><i class="fa fa-check"></i>Importing the data</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#data-inspection"><i class="fa fa-check"></i>Data inspection</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#sample-average-and-standard-deviation"><i class="fa fa-check"></i>Sample average and standard deviation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-and-alternative-hypothesis"><i class="fa fa-check"></i>Null and alternative hypothesis</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#bootstrap-distribution-and-null-distribution"><i class="fa fa-check"></i>Bootstrap distribution and null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#visualise-the-observed-statistic-on-the-null-distribution"><i class="fa fa-check"></i>Visualise the observed statistic on the null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value-2"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#interpreting-the-p-value"><i class="fa fa-check"></i>Interpreting the p-value</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#glossary-2"><i class="fa fa-check"></i><b>13.5</b> Glossary</a></li>
+<li class="chapter" data-level="13.6" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#references-2"><i class="fa fa-check"></i><b>13.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="chap-typeerror.html"><a href="chap-typeerror.html"><i class="fa fa-check"></i><b>14</b> Type I, Type II errors and Power</a><ul>
+<li class="chapter" data-level="14.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overview-of-last-week"><i class="fa fa-check"></i><b>14.1</b> Overview of last week</a></li>
+<li class="chapter" data-level="14.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#walkthrough-1"><i class="fa fa-check"></i><b>14.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-1-coin-flip"><i class="fa fa-check"></i>Example 1: Coin flip</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#an-analogy-in-law"><i class="fa fa-check"></i>An analogy in law</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#two-different-types-of-errors"><i class="fa fa-check"></i>Two different types of errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-i-errors"><i class="fa fa-check"></i>Type I errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors-and-power"><i class="fa fa-check"></i>Type II Errors and Power</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2-a-biased-coin"><i class="fa fa-check"></i>Example 2: A biased coin</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overlapping-distributions"><i class="fa fa-check"></i>Overlapping distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#summary-3"><i class="fa fa-check"></i><b>14.3</b> Summary</a></li>
+<li class="chapter" data-level="14.4" data-path="chap-typeerror.html"><a href="chap-typeerror.html#lab-2"><i class="fa fa-check"></i><b>14.4</b> Lab</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-rock-paper-scissors"><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Rock Paper Scissors!</a></li>
+<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Calculating power for a different coin.</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="chap-typeerror.html"><a href="chap-typeerror.html#extra-exercises"><i class="fa fa-check"></i><b>14.5</b> Extra Exercises</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-3-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.5.1</b> Exercise 3: Sample size (number of flips) and power</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="chap-typeerror.html"><a href="chap-typeerror.html#glossary-3"><i class="fa fa-check"></i><b>14.6</b> Glossary</a></li>
+<li class="chapter" data-level="14.7" data-path="chap-typeerror.html"><a href="chap-typeerror.html#references-3"><i class="fa fa-check"></i><b>14.7</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="chap-normal.html"><a href="chap-normal.html"><i class="fa fa-check"></i><b>15</b> Normal distribution &amp; probability</a><ul>
+<li class="chapter" data-level="15.1" data-path="chap-normal.html"><a href="chap-normal.html#recap-3"><i class="fa fa-check"></i><b>15.1</b> Recap</a></li>
+<li class="chapter" data-level="15.2" data-path="chap-normal.html"><a href="chap-normal.html#walkthrough-2"><i class="fa fa-check"></i><b>15.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="chap-normal.html"><a href="chap-normal.html#from-histograms-to-normal-curves"><i class="fa fa-check"></i><b>15.2.1</b> From histograms to normal curves</a></li>
+<li class="chapter" data-level="15.2.2" data-path="chap-normal.html"><a href="chap-normal.html#sec-area-and-prob"><i class="fa fa-check"></i><b>15.2.2</b> The relation between area and probability</a></li>
+<li class="chapter" data-level="15.2.3" data-path="chap-normal.html"><a href="chap-normal.html#probabilities-for-normally-distributed-random-variables"><i class="fa fa-check"></i><b>15.2.3</b> Probabilities for normally distributed random variables</a></li>
+<li class="chapter" data-level="15.2.4" data-path="chap-normal.html"><a href="chap-normal.html#z-scores"><i class="fa fa-check"></i><b>15.2.4</b> Z-scores</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="chap-normal.html"><a href="chap-normal.html#summary-4"><i class="fa fa-check"></i><b>15.3</b> Summary</a></li>
+<li class="chapter" data-level="15.4" data-path="chap-normal.html"><a href="chap-normal.html#lab-3"><i class="fa fa-check"></i><b>15.4</b> Lab</a></li>
+<li class="chapter" data-level="15.5" data-path="chap-normal.html"><a href="chap-normal.html#glossary-4"><i class="fa fa-check"></i><b>15.5</b> Glossary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html"><i class="fa fa-check"></i><b>16</b> One Sample Mean Test</a><ul>
+<li class="chapter" data-level="16.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#recap-4"><i class="fa fa-check"></i><b>16.1</b> Recap</a></li>
+<li class="chapter" data-level="16.2" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#where-we-are-now"><i class="fa fa-check"></i><b>16.2</b> Where we are now</a></li>
+<li class="chapter" data-level="16.3" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#where-we-are-going"><i class="fa fa-check"></i><b>16.3</b> Where we are going</a></li>
+<li class="chapter" data-level="16.4" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#one-sample-mean-test"><i class="fa fa-check"></i><b>16.4</b> One sample mean test</a><ul>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#example-questions"><i class="fa fa-check"></i>Example questions</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#hypotheses"><i class="fa fa-check"></i>Hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#formula"><i class="fa fa-check"></i>Formula</a></li>
+<li><a href="chap-one-mean-test.html#t-distributions"><span class="math inline">\(t\)</span>-distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#critical-values-significance"><i class="fa fa-check"></i>Critical values &amp; significance</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#walkthrough---tempo-of-rock-music-on-spotify"><i class="fa fa-check"></i><b>16.5</b> Walkthrough - Tempo of rock music on Spotify</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#all-in-one-line-of-code"><i class="fa fa-check"></i>ALL IN ONE LINE OF CODE!</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#assumptions"><i class="fa fa-check"></i>Assumptions</a></li>
+<li class="chapter" data-level="16.6" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#summary-5"><i class="fa fa-check"></i><b>16.6</b> Summary</a></li>
+<li class="chapter" data-level="16.7" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#lab-4"><i class="fa fa-check"></i><b>16.7</b> Lab</a><ul>
+<li class="chapter" data-level="16.7.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#pets-weights"><i class="fa fa-check"></i><b>16.7.1</b> Pets’ weights</a></li>
+<li class="chapter" data-level="16.7.2" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#procrastination-scores"><i class="fa fa-check"></i><b>16.7.2</b> Procrastination scores</a></li>
+<li class="chapter" data-level="16.7.3" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#cat-weights"><i class="fa fa-check"></i><b>16.7.3</b> Cat weights!</a></li>
+<li class="chapter" data-level="16.7.4" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#glossary-5"><i class="fa fa-check"></i><b>16.7.4</b> Glossary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="two-indep-samples.html"><a href="two-indep-samples.html"><i class="fa fa-check"></i><b>17</b> Comparing two means (independent samples)</a><ul>
+<li class="chapter" data-level="17.1" data-path="two-indep-samples.html"><a href="two-indep-samples.html#recap-5"><i class="fa fa-check"></i><b>17.1</b> Recap</a></li>
+<li class="chapter" data-level="17.2" data-path="two-indep-samples.html"><a href="two-indep-samples.html#key-terminology"><i class="fa fa-check"></i><b>17.2</b> Key terminology</a></li>
+<li class="chapter" data-level="17.3" data-path="two-indep-samples.html"><a href="two-indep-samples.html#walkthrough-got-a-friend"><i class="fa fa-check"></i><b>17.3</b> Walkthrough: Got a friend?</a></li>
+<li class="chapter" data-level="17.4" data-path="two-indep-samples.html"><a href="two-indep-samples.html#lab-does-name-increase-tips"><i class="fa fa-check"></i><b>17.4</b> Lab: Does name increase tips?</a></li>
+<li class="chapter" data-level="17.5" data-path="two-indep-samples.html"><a href="two-indep-samples.html#glossary-6"><i class="fa fa-check"></i><b>17.5</b> Glossary</a></li>
+<li class="chapter" data-level="17.6" data-path="two-indep-samples.html"><a href="two-indep-samples.html#w17-references"><i class="fa fa-check"></i><b>17.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html"><i class="fa fa-check"></i><b>18</b> Paired T-Test</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#recap-6"><i class="fa fa-check"></i>Recap</a></li>
+<li><a href="chap-paired-t-test.html#paired-t-test">Paired <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="18.1" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#walkthrough-3"><i class="fa fa-check"></i><b>18.1</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#change-in-score-on-the-ace-iii"><i class="fa fa-check"></i>Change in score on the ACE-III</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#data-organisation---reshaping"><i class="fa fa-check"></i>Data organisation - reshaping</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#effect-sizes"><i class="fa fa-check"></i>Effect sizes</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#summary-6"><i class="fa fa-check"></i><b>18.2</b> Summary</a></li>
+<li class="chapter" data-level="18.3" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#lab-5"><i class="fa fa-check"></i><b>18.3</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#age-differences-in-heterosexual-marriages"><i class="fa fa-check"></i>Age differences in heterosexual marriages</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#smoking-interventions"><i class="fa fa-check"></i>Smoking interventions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="chap-chi-square.html"><a href="chap-chi-square.html"><i class="fa fa-check"></i><b>19</b> Chi-square tests</a><ul>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#recap-7"><i class="fa fa-check"></i>Recap</a></li>
+<li><a href="chap-chi-square.html#walkthrough-birthdays-of-the-week-the-chi-square-goodness-of-fit-test">Walkthrough: Birthdays of the week <br>The chi-square goodness-of-fit test</a></li>
+<li><a href="chap-chi-square.html#lab-joking-for-a-tip-the-chi-square-test-of-independence">Lab: Joking for a tip <br>The chi-square test of independence</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#summary-7"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#glossary-7"><i class="fa fa-check"></i>Glossary</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#references-4"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology in R (dapR1) - Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chap-chi-square" class="section level1">
+<h1><span class="header-section-number">Chapter 19</span> Chi-square tests</h1>
+<div class="lo">
+<h4 id="instructions-8" class="unnumbered">Instructions</h4>
+<ul>
+<li>The lab material consists of a worked example for the walkthrough, and a series of questions for you to attempt.</li>
+<li>The Rmarkdown file for this week is <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_19_practice.Rmd">here</a>.</li>
+</ul>
+<h4 id="learning-outcomes-8" class="unnumbered">Learning outcomes</h4>
+<p>By the end of this lab, you should be able to:</p>
+<p><strong>LO1.</strong> Understand when to use a chi-square goodness-of-fit and chi-square test of independence.</p>
+<p><strong>LO2.</strong> Check the validity conditions.</p>
+<p><strong>LO3.</strong> Report the test results.</p>
+</div>
+<div id="recap-7" class="section level2 unnumbered">
+<h2>Recap</h2>
+<p><font size="2"></p>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="25%" />
+<col width="43%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Test type</th>
+<th align="center">One-sample</th>
+<th align="center">Independent samples</th>
+<th align="center">Paired data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Null hypothesis</td>
+<td align="center"><span class="math inline">\(H_0 : \mu = \mu_0\)</span></td>
+<td align="center"><span class="math inline">\(H_0 : \mu_1 - \mu_2 = 0\)</span></td>
+<td align="center"><span class="math inline">\(H_0 : \mu_d = 0\)</span></td>
+</tr>
+<tr class="even">
+<td>Alternative hypothesis</td>
+<td align="center"><span class="math display">\[ \begin{array}{ll}   i.   &amp; H_1 : \mu &lt; \mu_0 \\   ii.  &amp; H_1 : \mu &gt; \mu_0 \\   iii. &amp; H_1 : \mu \neq \mu_0 \end{array} \]</span></td>
+<td align="center"><span class="math display">\[ \begin{array}{ll}   i.   &amp; H_1 : \mu_1 - \mu_2 &lt; 0 \\   ii.  &amp; H_1 : \mu_1 - \mu_2 &gt; 0 \\   iii. &amp; H_1 : \mu_1 - \mu_2 \neq 0 \end{array} \]</span></td>
+<td align="center"><span class="math display">\[ \begin{array}{ll}   i.   &amp; H_1 : \mu_d &lt; 0 \\   ii.  &amp; H_1 : \mu_d &gt; 0 \\   iii. &amp; H_1 : \mu_d \neq 0 \end{array} \]</span></td>
+</tr>
+<tr class="odd">
+<td>Test statistic</td>
+<td align="center"><span class="math display">\[ t = \frac{\bar x - \mu_0}{SE(\bar x)} \]</span></td>
+<td align="center"><span class="math display">\[ t = \frac{\bar x_1 - \bar x_2}{SE(\bar x_1 - \bar x_2)} \]</span></td>
+<td align="center"><span class="math display">\[ t = \frac{\bar d - 0}{SE(\bar d)} \]</span></td>
+</tr>
+<tr class="even">
+<td>Standard error</td>
+<td align="center"><span class="math inline">\(SE(\bar x) = \frac{s}{\sqrt{n}}\)</span></td>
+<td align="center">(a) Unequal population variances<br><span class="math inline">\(SE(\bar x_1 - \bar x_2) = \sqrt{ \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} }\)</span><br><br>(b) Equal population variances<br><span class="math inline">\(SE(\bar x_1 - \bar x_2) = s_p \sqrt{ \frac{1}{n_1} + \frac{1}{n_2} }\)</span><br><br><span class="math inline">\(s_p = \sqrt{\frac{(n_1 - 1 )s_1 ^2 + (n_2 - 1 )s_2 ^2}{n_1 + n_2 - 2}}\)</span></td>
+<td align="center"><span class="math inline">\(SE(\bar d) = \frac{s_d}{\sqrt{n}}\)</span></td>
+</tr>
+<tr class="odd">
+<td>P-value</td>
+<td align="center"><span class="math display">\[ \begin{array}{ll}   i.   &amp; \Pr(T_{df} \leq t) \\   ii.  &amp; \Pr(T_{df} \geq t) \\   iii. &amp; 2 \Pr(T_{df} \geq |t|) \end{array} \]</span></td>
+<td align="center"><span class="math display">\[ \begin{array}{ll}   i.   &amp; \Pr(T_{df} \leq t) \\   ii.  &amp; \Pr(T_{df} \geq t) \\   iii. &amp; 2 \Pr(T_{df} \geq |t|) \end{array} \]</span></td>
+<td align="center"><span class="math display">\[ \begin{array}{ll}   i.   &amp; \Pr(T_{df} \leq t) \\   ii.  &amp; \Pr(T_{df} \geq t) \\   iii. &amp; 2 \Pr(T_{df} \geq |t|) \end{array}  \]</span></td>
+</tr>
+</tbody>
+</table>
+<p></font></p>
+<p><br>
+In the past weeks we focused on tests for:</p>
+<ul>
+<li>a <strong>quantitative</strong> response variable (weeks 16 and 18);</li>
+<li>a <strong>quantitative</strong> response variable and a <strong>binary categorical</strong> explanatory variable (week 17).</li>
+</ul>
+<p>This week we will investigate tests for:</p>
+<ul>
+<li>a <strong>categorical</strong> response variable (<em>chi-square goodness-of-fit test</em>);</li>
+<li>a <strong>categorical</strong> response variable and a <strong>categorical</strong> explanatory variable (<em>chi-square test of independence</em>).</li>
+</ul>
+<p>For the first time, you will be working with a statistical test that applies to categorical variables with more than two categories.</p>
+<p>The two tests that you will be applying today are the chi-square goodness-of-fit test and the chi-square test of independence.
+The first is used to assess whether sample results conform with an hypothesis about the proportional breakdown of the various categories in the population.
+The latter tests if two categorical variables are associated in the population or not.</p>
+</div>
+<div id="walkthrough-birthdays-of-the-week-the-chi-square-goodness-of-fit-test" class="section level2 unnumbered">
+<h2>Walkthrough: Birthdays of the week <br>The chi-square goodness-of-fit test</h2>
+<ul>
+<li>What day of the week were you born on?</li>
+<li>Are people equally likely to be born on any of the seven days of the week?</li>
+<li>Or are some days more likely to be a person’s birthday than other days?</li>
+</ul>
+<p>To investigate this question, days of birth were recorded for the 147 “noted writers of the present” listed in <em>The World Almanac and Book of Facts 2000</em>.</p>
+<p>The data are stored in the file <a href="https://edin.ac/2Ul2yLj"><code>writers.txt</code></a>, accessible via the link <code>https://edin.ac/2Ul2yLj</code>.</p>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.1
+</p>
+<div class="question-body">
+<p>Identify the observational units and variable here.</p>
+<p>Is the variable categorical or quantitative? If it is categorical, is it also binary?</p>
+<ul>
+<li><p>Observational units:</p></li>
+<li><p>Variable: <br>Type:</p></li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-144" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-144&#39;, &#39;sol-start-144&#39;)"></span>
+</p>
+<div id="sol-body-144" class="solution-body" style="display: none;">
+<ul>
+<li><p>Observational units: The 147 noted writers of the present listed in <em>World Almanac and Book of Facts 2000</em></p></li>
+<li><p>Variable: Day of the week on which the birthday falls <br>Type: Categorical</p></li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.2
+</p>
+<div class="question-body">
+<p>Read the data into R.
+<em>[Hint: The data is a <strong>.txt</strong> file - think about what function you are going to use.]</em></p>
+<p>Summarise the data by creating a frequency table of the seven days of the week.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-145" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-145&#39;, &#39;sol-start-145&#39;)"></span>
+</p>
+<div id="sol-body-145" class="solution-body" style="display: none;">
+<p>Let’s read the data into R:</p>
+<div class="sourceCode" id="cb901"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb901-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb901-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb901-3" data-line-number="3">writers &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2Ul2yLj&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Inspect the first six rows:</p>
+<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb902-1" data-line-number="1"><span class="kw">head</span>(writers)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 1
+##   DayOfWeek
+##   &lt;chr&gt;    
+## 1 Thursday 
+## 2 Thursday 
+## 3 Tuesday  
+## 4 Friday   
+## 5 Friday   
+## 6 Sunday</code></pre>
+<p>Check the dimensions of the tibble:</p>
+<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb904-1" data-line-number="1"><span class="kw">dim</span>(writers)</a></code></pre></div>
+<pre><code>## [1] 147   1</code></pre>
+<p>Day of the week is encoded as a character rather than a factor (remember that day of the week is categorical). Let’s fix the encoding:</p>
+<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb906-1" data-line-number="1">writers &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb906-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">DayOfWeek =</span> <span class="kw">factor</span>(DayOfWeek))</a>
+<a class="sourceLine" id="cb906-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb906-4" data-line-number="4"><span class="kw">head</span>(writers)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 1
+##   DayOfWeek
+##   &lt;fct&gt;    
+## 1 Thursday 
+## 2 Thursday 
+## 3 Tuesday  
+## 4 Friday   
+## 5 Friday   
+## 6 Sunday</code></pre>
+<p>Check that the levels of the factor are in the order we expect:</p>
+<div class="sourceCode" id="cb908"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb908-1" data-line-number="1"><span class="kw">levels</span>(writers<span class="op">$</span>DayOfWeek)</a></code></pre></div>
+<pre><code>## [1] &quot;Friday&quot;    &quot;Monday&quot;    &quot;Saturday&quot;  &quot;Sunday&quot;    &quot;Thursday&quot;  &quot;Tuesday&quot;   &quot;Wednesday&quot;</code></pre>
+<p>They are not, so let’s fix this:</p>
+<div class="sourceCode" id="cb910"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb910-1" data-line-number="1">writers &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb910-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb910-3" data-line-number="3">    <span class="dt">DayOfWeek =</span> <span class="kw">factor</span>(DayOfWeek, </a>
+<a class="sourceLine" id="cb910-4" data-line-number="4">                       <span class="dt">levels=</span> <span class="kw">c</span>(<span class="st">&quot;Monday&quot;</span>, <span class="st">&quot;Tuesday&quot;</span>, <span class="st">&quot;Wednesday&quot;</span>, </a>
+<a class="sourceLine" id="cb910-5" data-line-number="5">                                 <span class="st">&quot;Thursday&quot;</span>, <span class="st">&quot;Friday&quot;</span>, <span class="st">&quot;Saturday&quot;</span>, <span class="st">&quot;Sunday&quot;</span>))</a>
+<a class="sourceLine" id="cb910-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb910-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb910-8" data-line-number="8"><span class="kw">levels</span>(writers<span class="op">$</span>DayOfWeek)</a></code></pre></div>
+<pre><code>## [1] &quot;Monday&quot;    &quot;Tuesday&quot;   &quot;Wednesday&quot; &quot;Thursday&quot;  &quot;Friday&quot;    &quot;Saturday&quot;  &quot;Sunday&quot;</code></pre>
+<p>There are many equivalent ways to create a table of counts. One option could be:</p>
+<div class="sourceCode" id="cb912"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb912-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb912-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb912-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count =</span> <span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb912-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb912-5" data-line-number="5">writers_table</a></code></pre></div>
+<pre><code>## # A tibble: 7 x 2
+##   DayOfWeek count
+##   &lt;fct&gt;     &lt;int&gt;
+## 1 Monday       17
+## 2 Tuesday      26
+## 3 Wednesday    22
+## 4 Thursday     23
+## 5 Friday       19
+## 6 Saturday     15
+## 7 Sunday       25</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.3
+</p>
+<div class="question-body">
+<p>Construct a bar graph of these data which displays proportions on the y-axis.</p>
+<p>Comment on what it reveals about whether the seven days of the week are equally likely to be a person’s birthday.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-146" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-146&#39;, &#39;sol-start-146&#39;)"></span>
+</p>
+<div id="sol-body-146" class="solution-body" style="display: none;">
+<p>The proportion of birthdays on a Monday is calculated as the count of birthdays on a Monday divided by the sample size, <span class="math inline">\(n =\)</span> 147. The procedure is similar for the other days of the week.
+We can obtain the sample size using the function <code>nrow()</code>, which returns the total number of rows in the tibble:</p>
+<div class="sourceCode" id="cb914"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb914-1" data-line-number="1"><span class="kw">nrow</span>(writers)</a></code></pre></div>
+<pre><code>## [1] 147</code></pre>
+<p>First, we compute the sample proportions:</p>
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb916-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb916-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> count <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(writers))</a>
+<a class="sourceLine" id="cb916-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb916-4" data-line-number="4">writers_table</a></code></pre></div>
+<pre><code>## # A tibble: 7 x 3
+##   DayOfWeek count  prop
+##   &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt;
+## 1 Monday       17 0.116
+## 2 Tuesday      26 0.177
+## 3 Wednesday    22 0.150
+## 4 Thursday     23 0.156
+## 5 Friday       19 0.129
+## 6 Saturday     15 0.102
+## 7 Sunday       25 0.170</code></pre>
+<p><em>Note: Remember that the sample proportions sum to one:</em></p>
+<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb918-1" data-line-number="1"><span class="kw">sum</span>(writers_table<span class="op">$</span>prop)</a></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>The following bar graph displays the data:</p>
+<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb920-1" data-line-number="1"><span class="kw">ggplot</span>(writers_table, <span class="kw">aes</span>(<span class="dt">x =</span> DayOfWeek, <span class="dt">y =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day of the week&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Proportion of writers&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-575-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>There does not appear to be a great difference in the proportion of people born on any given day of the week.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.4
+</p>
+<div class="question-body">
+<p>Let <span class="math inline">\(p_{Mo}\)</span> represent the proportion of <strong>all</strong> people who were born on a Monday, or equivalently, the probability that a randomly selected individual was born on a Monday.</p>
+<p>Similarly, define <span class="math inline">\(p_{Tu},\ p_{We},\ ...,\ p_{Su}\)</span>.</p>
+<p>Are these parameters or statistics? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-147" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-147&#39;, &#39;sol-start-147&#39;)"></span>
+</p>
+<div id="sol-body-147" class="solution-body" style="display: none;">
+<p>The values <span class="math inline">\(p_{Tu},\ p_{We},\ ...,\ p_{Su}\)</span> represent the proportion of <strong>all</strong> people who were born on Tuesday, Wednesday, …, and Sunday, respectively.</p>
+<p>These values are parameters because they describe the entire population.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.5
+</p>
+<div class="question-body">
+<p>The null hypothesis says that the seven days of the week are <em>equally likely</em> to be a person’s birthday.</p>
+<p>In that case, what are the values of <span class="math inline">\(p_{Mo},\ p_{Tu},\ ...,\ p_{Su}\)</span>?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-148" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-148&#39;, &#39;sol-start-148&#39;)"></span>
+</p>
+<div id="sol-body-148" class="solution-body" style="display: none;">
+The values of the proportions specified by the null hypothesis are:
+<center>
+<span class="math display">\[
+\begin{array}{l}
+p_{Mo} = 1/7 = .1429 \\
+p_{Tu} = 1/7 = .1429 \\
+... \\
+p_{Su} = 1/7 = .1429
+\end{array}
+\]</span>
+</center>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="def">
+<p><br>
+The test procedure we are about to apply is called a <strong>chi-square goodness-of-fit test</strong>.</p>
+<p>It applies to a categorical variable, which does not have to be binary.
+The null hypothesis asserts specific values for the population proportion in each category.
+The alternative hypothesis simply states that <strong>at least one</strong> of the population proportions is not as specified in the null hypothesis.</p>
+<p>As always, the test statistic measures how far the observed sample results deviate from what is expected if the null hypothesis is true.
+With a chi-square test, you construct the test statistic by comparing the <em>observed</em> sample counts in each category to the <em>expected</em> counts under the null hypothesis.</p>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.6
+</p>
+<div class="question-body">
+<p>Intuitively, what value would make sense for the expected count of Monday birthdays in this study (with a sample size of 147), under the null hypothesis that one-seventh of all birthdays occur on Mondays? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-149" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-149&#39;, &#39;sol-start-149&#39;)"></span>
+</p>
+<div id="sol-body-149" class="solution-body" style="display: none;">
+<p>You would expect the frequency of birthdays on a Monday to be <span class="math inline">\(147 \times \frac{1}{7}= 21\)</span>.</p>
+<p>We would multiply the total sample size by the proportion of birthdays we expect on a Monday.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="def">
+<br>
+We calculate the <strong>expected count</strong> for a particular category by multiplying the sample size by the hypothesized population proportion for that category:
+<center>
+<span class="math display">\[
+E_i = n \times p_{i0}
+\]</span>
+</center>
+<p><em>[Note: the subscript <span class="math inline">\(i\)</span> denotes the particular category, while the subscript <span class="math inline">\(0\)</span> on <span class="math inline">\(p_{i0}\)</span> emphasizes that this is the hypothesized value for <span class="math inline">\(p_i\)</span> in the null hypothesis, <span class="math inline">\(H_0\)</span>.]</em></p>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.7
+</p>
+<div class="question-body">
+<p>Calculate the expected counts for each of the seven days.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-150" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-150&#39;, &#39;sol-start-150&#39;)"></span>
+</p>
+<div id="sol-body-150" class="solution-body" style="display: none;">
+<p>As in this particular study <span class="math inline">\(p_{Mo0} = p_{Tu0} = \cdots = p_{Su0} = 1/7\)</span>, the expected counts will all be computed as <span class="math inline">\(147 (1/7) = 21\)</span>.</p>
+<p>The sample size is:</p>
+<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb921-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="kw">nrow</span>(writers)</a>
+<a class="sourceLine" id="cb921-2" data-line-number="2">n</a></code></pre></div>
+<pre><code>## [1] 147</code></pre>
+<p>We multiply the sample size by the hypothesized proportion for each category, 1/7:</p>
+<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb923-1" data-line-number="1">writers_table &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb923-2" data-line-number="2"><span class="st">  </span>writers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb923-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb923-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">observed =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb923-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">expected =</span> <span class="kw">rep</span>(n <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>), <span class="dv">7</span>))</a>
+<a class="sourceLine" id="cb923-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb923-7" data-line-number="7">writers_table</a></code></pre></div>
+<pre><code>## # A tibble: 7 x 3
+##   DayOfWeek observed expected
+##   &lt;fct&gt;        &lt;int&gt;    &lt;dbl&gt;
+## 1 Monday          17       21
+## 2 Tuesday         26       21
+## 3 Wednesday       22       21
+## 4 Thursday        23       21
+## 5 Friday          19       21
+## 6 Saturday        15       21
+## 7 Sunday          25       21</code></pre>
+<p><em>Note: The command <code>rep(x, times)</code> will repeat <code>x</code> a given number of <code>times</code>. For instance:</em></p>
+<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb925-1" data-line-number="1"><span class="kw">rep</span>(<span class="st">&quot;a&quot;</span>, <span class="dv">4</span>)</a></code></pre></div>
+<pre><code>## [1] &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot;</code></pre>
+<p><em>We calculated the expected count, <code>n * (1/7)</code>, and then repeated it for the 7 days of the week, as in this particular example the null hypothesis specifies the same proportions for all seven days of the week:</em></p>
+<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb927-1" data-line-number="1"><span class="kw">rep</span>(n <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>), <span class="dv">7</span>)</a></code></pre></div>
+<pre><code>## [1] 21 21 21 21 21 21 21</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="def">
+<p><br>
+How do we measure how far are the observed counts from the expected counts under the null hypothesis?</p>
+<p>If you simply subtract the expected counts from the observed counts and then add them up, you will obtain zero:</p>
+<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb929-1" data-line-number="1">writers_diff &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb929-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff =</span> observed <span class="op">-</span><span class="st"> </span>expected)</a>
+<a class="sourceLine" id="cb929-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb929-4" data-line-number="4">writers_diff</a></code></pre></div>
+<pre><code>## # A tibble: 7 x 4
+##   DayOfWeek observed expected  diff
+##   &lt;fct&gt;        &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 Monday          17       21    -4
+## 2 Tuesday         26       21     5
+## 3 Wednesday       22       21     1
+## 4 Thursday        23       21     2
+## 5 Friday          19       21    -2
+## 6 Saturday        15       21    -6
+## 7 Sunday          25       21     4</code></pre>
+<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb931-1" data-line-number="1"><span class="co"># Check that the sum of (observed - expected) is zero</span></a>
+<a class="sourceLine" id="cb931-2" data-line-number="2"><span class="kw">sum</span>(writers_diff<span class="op">$</span>diff)</a></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<p>Instead, we will <strong>square the differences</strong> between the observed and expected counts, and then add them up.</p>
+<p>One issue, however, remains to be solved.
+A squared difference between observed and expected counts of 100 has a different weight in these two scenarios:</p>
+<p><strong>Scenario 1.</strong> <span class="math inline">\(O = 30\)</span> and <span class="math inline">\(E = 20\)</span> lead to a squared difference <span class="math inline">\((O - E)^2 = 10^2 = 100\)</span>.</p>
+<p><strong>Scenario 2.</strong> <span class="math inline">\(O = 3000\)</span> and <span class="math inline">\(E = 1990\)</span> lead to a squared difference <span class="math inline">\((O - E)^2 = 10^2 = 100\)</span>.</p>
+<p>However, it is clear that a squared difference of 100 in Scenario 1 is much more substantial than a squared difference of 100 in Scenario 2.
+It is for this reason that we divide the squared differences by the the expected counts to <strong>“standardize” the squared deviation</strong>.</p>
+The test-statistic (denoted <span class="math inline">\(\chi^2\)</span>, spelled <em>chi-square</em>, pronounced “kai-square”) is obtained by adding up the standardized squared deviations:
+<center>
+<span class="math display">\[
+\chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i}
+\]</span>
+</center>
+<p>and the sum is over all categories.</p>
+<strong>Note:</strong> As <span class="math inline">\((O - E)^2\)</span> is equal to <span class="math inline">\((E - O)^2\)</span>, you can equivalently write the test-statistic as:
+<center>
+<span class="math display">\[
+\chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i} = \sum_{i} \frac{(E_i - O_i)^2}{E_i}.
+\]</span>
+</center>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.8
+</p>
+<div class="question-body">
+<p>For each of the seven days of the week, compute <span class="math inline">\(\frac{(O - E)^2}{E}\)</span>.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-151" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-151&#39;, &#39;sol-start-151&#39;)"></span>
+</p>
+<div id="sol-body-151" class="solution-body" style="display: none;">
+<p>We can compute the standardized squared deviations as follows:</p>
+<div class="sourceCode" id="cb933"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb933-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb933-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">std_sq_diff =</span> (observed <span class="op">-</span><span class="st"> </span>expected)<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>expected)</a>
+<a class="sourceLine" id="cb933-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb933-4" data-line-number="4">writers_table</a></code></pre></div>
+<pre><code>## # A tibble: 7 x 4
+##   DayOfWeek observed expected std_sq_diff
+##   &lt;fct&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Monday          17       21      0.762 
+## 2 Tuesday         26       21      1.19  
+## 3 Wednesday       22       21      0.0476
+## 4 Thursday        23       21      0.190 
+## 5 Friday          19       21      0.190 
+## 6 Saturday        15       21      1.71  
+## 7 Sunday          25       21      0.762</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.9
+</p>
+<div class="question-body">
+<p>Add the standardized squared differences up, in order to compute the chi-square test statistic.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-152" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-152&#39;, &#39;sol-start-152&#39;)"></span>
+</p>
+<div id="sol-body-152" class="solution-body" style="display: none;">
+<p>The value of the chi-square test statistic in this sample is:</p>
+<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb935-1" data-line-number="1">chi_stat &lt;-<span class="st"> </span><span class="kw">sum</span>(writers_table<span class="op">$</span>std_sq_diff)</a>
+<a class="sourceLine" id="cb935-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb935-3" data-line-number="3">chi_stat</a></code></pre></div>
+<pre><code>## [1] 4.857143</code></pre>
+<p>Equivalently, as <code>$</code> is just a shortcut for the <code>pull()</code> function:</p>
+<div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb937-1" data-line-number="1">chi_stat &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb937-2" data-line-number="2"><span class="st">  </span><span class="kw">pull</span>(std_sq_diff) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb937-3" data-line-number="3"><span class="st">  </span><span class="kw">sum</span>()</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.10
+</p>
+<div class="question-body">
+<p>What would be the value of the chi-square statistic if the observed and expected frequencies had been exactly equal?</p>
+<p>Based on this, what kind of values (e.g., large or small) of the test statistic constitute evidence against the null hypothesis that the seven days of the week are equally likely to be a person’s birthday?</p>
+<p>Do you think the value we just calculated (4.857) provides convincing evidence? If you are not sure, what additional information do you need? Explain your reasoning.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-153" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-153&#39;, &#39;sol-start-153&#39;)"></span>
+</p>
+<div id="sol-body-153" class="solution-body" style="display: none;">
+If the observed and expected frequencies had been exactly equal, the chi-square statistic would have been 0 and you would have had no reason to doubt the null hypothesis that all days of the week are equally likely to be someone’s birthday.
+<center>
+<span class="math display">\[
+\chi^2 = \frac{(21 - 21)^2}{21} + \cdots + \frac{(21 - 21)^2}{21} = 0
+\]</span>
+</center>
+<p>Large values of the test statistic constitute evidence against the null hypothesis.
+Answers will vary about whether this test statistic provides convincing evidence.
+The additional evidence you need is the p-value.
+You need to know how likely it is that you would obtain a test statistic this large (or larger) by random chance alone if all seven days of the week are equally likely to be a person’s birthday.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="def">
+<p><br>
+As always, your next step is to calculate the p-value.</p>
+<p>The p-value tells you the probability of getting sample data at least as far from the hypothesized proportions as these data are, by random chance if the null hypothesis is true.</p>
+<p>So again, a small p-value indicates the sample data is unlikely to have occurred by chance alone if the null hypothesis is true, providing evidence in favour of the alternative.</p>
+<p>When the test statistic is large enough to produce a small p-value, then the sample data provide strong evidence against the null hypothesis</p>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.11
+</p>
+<div class="question-body">
+<p>Calculate the p-value for this test using the function <code>pchisq(&lt;test statistic&gt;, df)</code>.</p>
+<p>Write a sentence interpreting the p-value meaning in the context of this study about birthdays of the week.</p>
+<p><em>[Hint: the degrees of freedom are equal to the number of categories minus 1.]</em></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-154" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-154&#39;, &#39;sol-start-154&#39;)"></span>
+</p>
+<div id="sol-body-154" class="solution-body" style="display: none;">
+<p>We want the probability to the right of the chi-square test statistic:</p>
+<div class="sourceCode" id="cb938"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb938-1" data-line-number="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(chi_stat, <span class="dt">df =</span> <span class="dv">6</span>)</a></code></pre></div>
+<pre><code>## [1] 0.562262</code></pre>
+<p>If all seven days of the week are equally likely to be a person’s birthday, the probability that you would obtain a test statistic this large (or larger) by random chance alone is .56.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.12
+</p>
+<div class="question-body">
+<p>Based on this p-value, what would be your test decision at the <span class="math inline">\(\alpha = .10\)</span> level?</p>
+<p>And at the <span class="math inline">\(\alpha = .05\)</span> and <span class="math inline">\(\alpha = .01\)</span> levels?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-155" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-155&#39;, &#39;sol-start-155&#39;)"></span>
+</p>
+<div id="sol-body-155" class="solution-body" style="display: none;">
+<p>At the <span class="math inline">\(\alpha = .10\)</span> level, we fail to reject the null hypothesis that all seven days of the week are equally likely to be a person’s birthday, as the p-value is larger than the significance level.</p>
+<p>The same conclusion would be reached at the other two significance levels.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="def">
+<h4 id="validity-conditions-1" class="unnumbered">Validity conditions</h4>
+<p>Certain technical conditions must be satisfied for this chi-square procedure to provide accurate p-values.</p>
+<p>In addition to requiring a <strong>random sample</strong> from the population of interest, <strong>all expected counts need to be at least five</strong>.</p>
+<p>When this condition is not met, one option is to combine similar categories together to force all expected counts to be at least five.</p>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.13
+</p>
+<div class="question-body">
+<p>Is the expected counts condition satisfied for this study on birthdays?</p>
+<p>What about the random sampling condition?</p>
+<p>If not, would you be comfortable in generalising the results to a larger population anyway? Explain why.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-156" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-156&#39;, &#39;sol-start-156&#39;)"></span>
+</p>
+<div id="sol-body-156" class="solution-body" style="display: none;">
+<p>Yes, all the expected counts are 21, which is greater than 5.</p>
+<p>However, the random sampling condition is not met.</p>
+<p>These are the birthdays of “noted writers of the present” which is not a random sample of the population of all citizens.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.14
+</p>
+<div class="question-body">
+<p>Summarise your conclusion about whether these sample data provide evidence against the null hypothesis that any of the seven days of the week are equally likely to be a person’s birthday.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-157" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-157&#39;, &#39;sol-start-157&#39;)"></span>
+</p>
+<div id="sol-body-157" class="solution-body" style="display: none;">
+<p>You have no statistical evidence against the null hypothesis that the seven days of the week are all equally likely to be a person’s birthday (at least for the population of famous writers).</p>
+<p>We can’t generalise this to the population of all citizens for the shortcoming discussed in the previous question.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="lo">
+<h4 id="technology-detour-the-chi-square-test-using-built-in-r-functions" class="unnumbered">Technology detour: The chi-square test using built-in R functions</h4>
+<p>In R, we can perform a chi-square test using the function</p>
+<p><code>chisq.test(&lt;frequency table&gt;, p=&lt;null hypothesis&gt;)</code></p>
+<p><strong>Step 1.</strong> Frequency table and null hypothesis:</p>
+<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb940-1" data-line-number="1">observed &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb940-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb940-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">observed =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb940-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(observed)</a>
+<a class="sourceLine" id="cb940-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb940-6" data-line-number="6">observed</a></code></pre></div>
+<pre><code>## [1] 17 26 22 23 19 15 25</code></pre>
+<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb942-1" data-line-number="1">probabilities &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>, <span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb942-2" data-line-number="2">probabilities</a></code></pre></div>
+<pre><code>## [1] 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571</code></pre>
+<p><strong>Step 2.</strong> Use the function <code>chisq.test</code>:</p>
+<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb944-1" data-line-number="1">gof_test &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(observed, <span class="dt">p =</span> probabilities)</a>
+<a class="sourceLine" id="cb944-2" data-line-number="2">gof_test</a></code></pre></div>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  observed
+## X-squared = 4.8571, df = 6, p-value = 0.5623</code></pre>
+<p>The results match those that we calculated above.</p>
+<p>The object returned by the function <code>chisq.test()</code> contains different variables:</p>
+<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb946-1" data-line-number="1"><span class="kw">names</span>(gof_test)</a></code></pre></div>
+<pre><code>## [1] &quot;statistic&quot; &quot;parameter&quot; &quot;p.value&quot;   &quot;method&quot;    &quot;data.name&quot; &quot;observed&quot;  &quot;expected&quot; 
+## [8] &quot;residuals&quot; &quot;stdres&quot;</code></pre>
+<p>You can obtain the expected counts as:</p>
+<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb948-1" data-line-number="1">gof_test<span class="op">$</span>expected</a></code></pre></div>
+<pre><code>## [1] 21 21 21 21 21 21 21</code></pre>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.15
+</p>
+<div class="question-body">
+<p>Which days of the week had the highest contributions to the chi-square test statistic?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-158" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-158&#39;, &#39;sol-start-158&#39;)"></span>
+</p>
+<div id="sol-body-158" class="solution-body" style="display: none;">
+<p><strong>Standardized squared deviations</strong></p>
+<p>One possible way to answer this question is to look at the individual contribution of each category to the chi-square statistic. You computed these values in Question A.8.</p>
+<p>The categories Tuesday and Saturday contributed the most to the chi-square statistic as they had the highest standardized squared deviations, equal to 1.19 and 1.71, respectively.
+From the barplot in Question A.3 we notice that Tuesday had a higher proportion than expected under the null, while Saturday a lower proportion than expected under the null.</p>
+<div class="sourceCode" id="cb950"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb950-1" data-line-number="1"><span class="kw">ggplot</span>(writers_table, <span class="kw">aes</span>(<span class="dt">x =</span> DayOfWeek, <span class="dt">y =</span> observed <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(writers))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb950-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb950-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">7</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb950-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day of the week&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Proportion of writers&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb950-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-589-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><strong>Pearson residuals</strong></p>
+<p>Equivalently, you could answer by looking at Pearson residuals:</p>
+<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb951-1" data-line-number="1">gof_test<span class="op">$</span>residuals</a></code></pre></div>
+<pre><code>## [1] -0.8728716  1.0910895  0.2182179  0.4364358 -0.4364358 -1.3093073  0.8728716</code></pre>
+<p>The highest values are for Tuesday and Saturday. The value for Tuesday, 1.09, is positive. This means that the observed counts were larger than expected.
+In the same way we interpret the residual for Saturday, -1.31. As this value is negative, this means that the observed counts of birthdays on a Saturday were less than expected.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="lab-joking-for-a-tip-the-chi-square-test-of-independence" class="section level2 unnumbered">
+<h2>Lab: Joking for a tip <br>The chi-square test of independence</h2>
+<p>Can telling a joke affect whether or not a waiter in a coffee bar receives a tip from a customer?</p>
+<p>A <a href="https://doi.org/10.1111/j.1559-1816.2002.tb00266.x">study</a> published in the Journal of Applied Social Psychology<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> investigated this question at a coffee bar of a famous seaside resort on the west Atlantic coast of France.
+The waiter randomly assigned coffee-ordering customers to one of three groups.
+When receiving the bill, one group also received a card telling a joke, another group received a card containing an advertisement for a local restaurant, and a third group received no card at all.</p>
+<p>The data are stored in the file <a href="https://edin.ac/2U6zfgO"><code>TipJoke.csv</code></a>, accessible via the link <code>https://edin.ac/2U6zfgO</code>.
+The variables are:</p>
+<ul>
+<li><code>Card</code>: None, Joke, Ad.</li>
+<li><code>Tip</code>: 1 = The customer left a tip, 0 = The customer did not leave tip.</li>
+</ul>
+<p>In the following, we will consider leaving a tip as “success”.</p>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.1
+</p>
+<div class="question-body">
+<p>Load the data into R and inspect it. <em>[Hint: the data is a <strong>.csv</strong> file - think about what function you are going to use.]</em></p>
+<p>Pay particular attention to:</p>
+<ul>
+<li>the variable names;</li>
+<li>the dimensions of the tibble;</li>
+<li>the format of the data (i.e., make sure that variables are correctly encoded).</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-159" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-159&#39;, &#39;sol-start-159&#39;)"></span>
+</p>
+<div id="sol-body-159" class="solution-body" style="display: none;">
+<p>Load the data:</p>
+<div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb953-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb953-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb953-3" data-line-number="3">tipjoke &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://edin.ac/2U6zfgO&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Inspect the first six rows:</p>
+<div class="sourceCode" id="cb954"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb954-1" data-line-number="1"><span class="kw">head</span>(tipjoke)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 2
+##   Card    Tip
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 None      1
+## 2 Joke      1
+## 3 Ad        0
+## 4 None      0
+## 5 None      1
+## 6 None      0</code></pre>
+<p>Check the dimensions of the tibble:</p>
+<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb956-1" data-line-number="1"><span class="kw">dim</span>(tipjoke)</a></code></pre></div>
+<pre><code>## [1] 211   2</code></pre>
+<p>We have 211 observations on 2 variables.</p>
+<p>Make the variables factors and give more meaningful names to the variable <code>Tip</code>:</p>
+<div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb958-1" data-line-number="1">tipjoke &lt;-<span class="st"> </span>tipjoke <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb958-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Card =</span> <span class="kw">factor</span>(Card),</a>
+<a class="sourceLine" id="cb958-3" data-line-number="3">         <span class="dt">Tip =</span> <span class="kw">factor</span>(Tip, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&#39;NoTip&#39;</span>, <span class="st">&#39;Tip&#39;</span>)))</a>
+<a class="sourceLine" id="cb958-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb958-5" data-line-number="5"><span class="kw">head</span>(tipjoke)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 2
+##   Card  Tip  
+##   &lt;fct&gt; &lt;fct&gt;
+## 1 None  Tip  
+## 2 Joke  Tip  
+## 3 Ad    NoTip
+## 4 None  NoTip
+## 5 None  Tip  
+## 6 None  NoTip</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.2
+</p>
+<div class="question-body">
+<p>Identify the observational units in this study.</p>
+<p>Identify the explanatory and response variables in this study, and classify them as either categorical (also binary) or quantitative.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-160" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-160&#39;, &#39;sol-start-160&#39;)"></span>
+</p>
+<div id="sol-body-160" class="solution-body" style="display: none;">
+<ul>
+<li><p><em>Observational units:</em> The 211 adults ordering coffee at the bar of the seaside resort on the west coast of France.</p></li>
+<li><p><em>Explanatory variable:</em> Type of card (if any) given to the customer. <br><em>Type:</em> Categorical but not binary as it has three categories.</p></li>
+<li><p><em>Response variable:</em> Whether or not the customer left a tip. <br><em>Type:</em> Categorical and binary.</p></li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.3
+</p>
+<div class="question-body">
+<p>Create a barplot that visually summarises the data.</p>
+<p>Comment on what the graph reveals.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-161" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-161&#39;, &#39;sol-start-161&#39;)"></span>
+</p>
+<div id="sol-body-161" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb960"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb960-1" data-line-number="1"><span class="kw">ggplot</span>(tipjoke, <span class="kw">aes</span>(<span class="dt">x =</span> Card, <span class="dt">fill =</span> Tip)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb960-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-595-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>From the stacked bar graph, it appears that perhaps the joke card does produce a higher success rate, but we need to investigate whether the differences are statistically significant.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.4
+</p>
+<div class="question-body">
+<p>Create a two-way table showing how many customers left or not a tip for each type of card (including none given).</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-162" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-162&#39;, &#39;sol-start-162&#39;)"></span>
+</p>
+<div id="sol-body-162" class="solution-body" style="display: none;">
+<p>In R, we can construct a two-way table using the function <code>table()</code>:</p>
+<div class="sourceCode" id="cb961"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb961-1" data-line-number="1">observed &lt;-<span class="st"> </span><span class="kw">table</span>(tipjoke<span class="op">$</span>Tip, tipjoke<span class="op">$</span>Card)</a>
+<a class="sourceLine" id="cb961-2" data-line-number="2">observed</a></code></pre></div>
+<pre><code>##        
+##         Ad Joke None
+##   NoTip 60   42   49
+##   Tip   14   30   16</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.5
+</p>
+<div class="question-body">
+<p>State, in words, the null and alternative hypotheses of this study.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-163" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-163&#39;, &#39;sol-start-163&#39;)"></span>
+</p>
+<div id="sol-body-163" class="solution-body" style="display: none;">
+<ul>
+<li>The null hypothesis asserts that whether a customer left a tip or not is independent of the type of card given.</li>
+<li>The alternative hypothesis says that the two variables are associated (or related).</li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.6
+</p>
+<div class="question-body">
+<p>Which test would you use to test the hypotheses stated in the previous question?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-164" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-164&#39;, &#39;sol-start-164&#39;)"></span>
+</p>
+<div id="sol-body-164" class="solution-body" style="display: none;">
+<p>We need to use a chi-square test of independence.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.7
+</p>
+<div class="question-body">
+<p>Compute the value of the test statistic and corresponding <span class="math inline">\(p\)</span>-value.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-165" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-165&#39;, &#39;sol-start-165&#39;)"></span>
+</p>
+<div id="sol-body-165" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb963"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb963-1" data-line-number="1">ind_test &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(observed)</a>
+<a class="sourceLine" id="cb963-2" data-line-number="2">ind_test</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  observed
+## X-squared = 9.9533, df = 2, p-value = 0.006897</code></pre>
+<p>The chi-square statistic in the sample is <span class="math inline">\(\chi^2 = 9.953\)</span>.</p>
+<p>The <span class="math inline">\(p\)</span>-value is <span class="math inline">\(\Pr(\chi^2(2) \geq 9.953) = 0.007\)</span>.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.8
+</p>
+<div class="question-body">
+<p>Inspect the expected frequencies.</p>
+<p>Look at the Pearson residuals and comment on what you notice.</p>
+<p><em>[Hint: If <code>out &lt;- chisq.test(&lt;table&gt;)</code>, the expected counts can be obtained as <code>out$expected</code> and the Pearson residuals as <code>out$residuals</code>.]</em></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-166" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-166&#39;, &#39;sol-start-166&#39;)"></span>
+</p>
+<div id="sol-body-166" class="solution-body" style="display: none;">
+<p>The output of <code>chisq.test</code> returns many objects:</p>
+<div class="sourceCode" id="cb965"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb965-1" data-line-number="1"><span class="kw">names</span>(ind_test)</a></code></pre></div>
+<pre><code>## [1] &quot;statistic&quot; &quot;parameter&quot; &quot;p.value&quot;   &quot;method&quot;    &quot;data.name&quot; &quot;observed&quot;  &quot;expected&quot; 
+## [8] &quot;residuals&quot; &quot;stdres&quot;</code></pre>
+<p>We are interested in the <code>expected</code> frequencies:</p>
+<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb967-1" data-line-number="1">ind_test<span class="op">$</span>expected</a></code></pre></div>
+<pre><code>##        
+##               Ad     Joke     None
+##   NoTip 52.95735 51.52607 46.51659
+##   Tip   21.04265 20.47393 18.48341</code></pre>
+<p>Recall the observed frequencies:</p>
+<div class="sourceCode" id="cb969"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb969-1" data-line-number="1">observed</a></code></pre></div>
+<pre><code>##        
+##         Ad Joke None
+##   NoTip 60   42   49
+##   Tip   14   30   16</code></pre>
+<p>More customers than expected under the null hypothesis:</p>
+<ul>
+<li>didn’t tip after receiving an advertising card;</li>
+<li>tipped after receiving a joke card;</li>
+<li>didn’t tip after receiving no card.</li>
+</ul>
+<p>Less customers than expected under the null hypothesis:</p>
+<ul>
+<li>tipped after receiving an advertising card;</li>
+<li>didn’t tip after receiving a joke card;</li>
+<li>tipped after receiving no card.</li>
+</ul>
+<p>The Pearson residuals are:</p>
+<div class="sourceCode" id="cb971"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb971-1" data-line-number="1">ind_test<span class="op">$</span>residuals</a></code></pre></div>
+<pre><code>##        
+##                 Ad       Joke       None
+##   NoTip  0.9677724 -1.3270892  0.3641203
+##   Tip   -1.5352747  2.1052950 -0.5776407</code></pre>
+<p>The top three contributions to the chi-square statistic are due to:</p>
+<ul>
+<li>more customers than expected under the null hypothesis tipped after receiving a joke card;</li>
+<li>less customers than expected under the null hypothesis tipped after receiving an advertisement card;</li>
+<li>less customers than expected under the null hypothesis didn’t tip after receiving a joke card.</li>
+</ul>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.9
+</p>
+<div class="question-body">
+<p>Check that the assumptions of the test are satisfied. These are the conditions required for the test results to be valid.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-167" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-167&#39;, &#39;sol-start-167&#39;)"></span>
+</p>
+<div id="sol-body-167" class="solution-body" style="display: none;">
+<p>Assumptions checks:</p>
+<ul>
+<li>A simple random sample is taken from a large population.</li>
+<li>Each outcome can be classified into one cell according to its category on one variable (type of card) and its category on the second variable (whether a tip was given or not).</li>
+<li>The expected frequency in each cell is 5 or greater.</li>
+</ul>
+<p>Hence, the conditions required for the test results to be valid are met.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.10
+</p>
+<div class="question-body">
+<p>Write your conclusion linked to the test results and in the context of the problem.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution" style="display: none;">
+<p class="solution-begin">
+► Solution<span id="sol-start-168" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-168&#39;, &#39;sol-start-168&#39;)"></span>
+</p>
+<div id="sol-body-168" class="solution-body" style="display: none;">
+<p>A chi-square test of independence between tipping and card type was performed (<span class="math inline">\(\chi^2(2) = 9.953\)</span>, <span class="math inline">\(p = .007\)</span>).
+The chi-square test shows that the tip rate differs depending on the which card (Joke, Ad, or None) the waiter gave to the customer. In other words, the two variables are associated.
+To understand the nature of this difference in the chi-square test, we need to compare observed and expected frequencies.
+The observed number of tips in the joke group (30) is quite a bit higher than expected (20.47), while the observed counts for both the advertising and no card groups are lower than expected.</p>
+<p>So, if you ever find yourself taking coffee orders in a cafe of a seaside resort in the west coast of France, you probably want to learn some jokes!</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="summary-7" class="section level2 unnumbered">
+<h2>Summary</h2>
+<p>In this lab you applied two types of statistical tests which apply to categorical variables having two or more categories.</p>
+<p>The <strong>chi-square goodness-of-fit</strong> test involves <strong>one categorical variable</strong>. It determines whether it is reasonable to assume that your sample came from a population in which, for each category, the proportion of the population that falls into the category is equal to some hypothesized proportion.</p>
+<p>The <strong>chi-square test of independence</strong> involves <strong>two categorical variables</strong>. It determines whether it is reasonable to assume that two categorical variables are independent or not in the population. If they are not independent, we also say that the two variables are <strong>associated</strong>.</p>
+Both tests involve using the chi-square test statistic, which has the following form:
+<center>
+<span class="math display">\[
+\chi^2 = \sum_{all\ cells} \frac{(Observed - Expected)^2}{Expected}
+\]</span>
+</center>
+<p>The degrees of freedom are:</p>
+<ul>
+<li><p><em>Goodness-of-fit:</em> df = # categories - 1;</p></li>
+<li><p><em>Independence:</em> df = (# rows - 1) <span class="math inline">\(\times\)</span> (# columns - 1).</p></li>
+</ul>
+<p><strong>Validity conditions.</strong> For the test results to be valid, the data should come from a random sample of the population of interest, and the expected counts should all be at least 5.</p>
+</div>
+<div id="glossary-7" class="section level2 unnumbered">
+<h2>Glossary</h2>
+<ul>
+<li><em>Cell contribution.</em> The contribution of a cell in a table to the chi-square statistic. It is helpful in determining where large differences between observed data and what would be expected if the null hypothesis were true, exist.</li>
+<li><em>Chi-square statistic.</em> A standardized statistic for quantifying the distance between the observed frequencies in the sample with those expected under the null hypothesis.</li>
+<li><em>Expected counts.</em> The expected frequencies for the cells of the table assuming the null hypothesis is true.</li>
+<li><em>Chi-square goodness-of-fit test.</em> Are the proportions of the different categories in the population equal to the hypothesized proportions?</li>
+<li><em>Chi-square test of independence.</em> Are two categorical variables independent in the population?</li>
+<li><em>Observed counts.</em> The observed frequencies in the cells of the table from the study.</li>
+<li><em>Validity conditions for the chi-square test.</em> All expected counts must be at least 5.</li>
+</ul>
+</div>
+<div id="references-4" class="section level2 unnumbered">
+<h2>References</h2>
+<ul>
+<li>Gueaguen, N. (2002). The Effects of a Joke on Tipping When It Is Delivered at the Same Time as the Bill. <em>Journal of Applied Social Psychology, 32</em>(9), 1955-1963.</li>
+</ul>
+<p>Material adapted from:</p>
+<ul>
+<li>Rossman, A. J., &amp; Chance, B. L. (2011). <em>Workshop statistics: discovery with data.</em> John Wiley &amp; Sons.</li>
+<li>Cannon, A. R., Cobb, G. W., Hartlaub, B. A., Legler, J. M., Lock, R. H., Moore, T. L., … &amp; Witmer, J. (2013). <em>Stat2: Building models for a world of data.</em> W.H. Freeman.</li>
+<li>Tintle, N., Chance, B. L., Cobb, G. W., Rossman, A. J., Roy, S., Swanson, T., &amp; VanderStoep, J. (2015). <em>Introduction to statistical investigations.</em> New York: Wiley.</li>
+</ul>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="6">
+<li id="fn6"><p>Gueaguen, N. (2002). The Effects of a Joke on Tipping When It Is Delivered at the Same Time as the Bill. <em>Journal of Applied Social Psychology, 32</em>(9), 1955-1963.<a href="chap-chi-square.html#fnref6" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chap-paired-t-test.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Week 5 | Data Analysis for Psychology in R (dapR1) - Labs</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Week 5 | Data Analysis for Psychology in R (dapR1) - Labs" />
   <meta property="og:type" content="book" />
@@ -471,6 +471,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#smoking-interventions"><i class="fa fa-check"></i>Smoking interventions</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="19" data-path="chap-chi-square.html"><a href="chap-chi-square.html"><i class="fa fa-check"></i><b>19</b> Chi-square tests</a><ul>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#recap-7"><i class="fa fa-check"></i>Recap</a></li>
+<li><a href="chap-chi-square.html#walkthrough-birthdays-of-the-week-the-chi-square-goodness-of-fit-test">Walkthrough: Birthdays of the week <br>The chi-square goodness-of-fit test</a></li>
+<li><a href="chap-chi-square.html#lab-joking-for-a-tip-the-chi-square-test-of-independence">Lab: Joking for a tip <br>The chi-square test of independence</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#summary-7"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#glossary-7"><i class="fa fa-check"></i>Glossary</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#references-4"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -500,7 +508,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="load-all-the-necessary-packages" class="section level2">
 <h2><span class="header-section-number">5.2</span> Load all the necessary packages</h2>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb192-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 </div>
 <div id="descriptive-statistics" class="section level2">
 <h2><span class="header-section-number">5.3</span> Descriptive Statistics</h2>
@@ -525,11 +533,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For RCloud it is the same process really, just make sure you have uploaded your file, then select working directory and read in the file.</p>
 <p><img src="images/loadfilecloud.gif" /><!-- --></p>
 <p>There is another way to set your working directory. Go to <strong>Session</strong> -&gt; <strong>Set Working Directory</strong> -&gt;<strong>Choose Directory</strong> -&gt;<strong>Locate your folder</strong> . Then run the following:</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="co"># Read data in</span></a>
-<a class="sourceLine" id="cb183-2" data-line-number="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;edinburgh_delays.csv&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1"><span class="co"># Read data in</span></a>
+<a class="sourceLine" id="cb193-2" data-line-number="2">edinburgh_delays &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;edinburgh_delays.csv&#39;</span>)</a></code></pre></div>
 <p>Note that data now appears in your <code>Environment</code>.</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="co"># Check what is inside</span></a>
-<a class="sourceLine" id="cb184-2" data-line-number="2"><span class="kw">head</span>(edinburgh_delays)</a></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" data-line-number="1"><span class="co"># Check what is inside</span></a>
+<a class="sourceLine" id="cb194-2" data-line-number="2"><span class="kw">head</span>(edinburgh_delays)</a></code></pre></div>
 <pre><code>##   delay_time           day
 ## 1         10 christmas eve
 ## 2         26 christmas eve
@@ -547,15 +555,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The equation for the mean is:</p>
 <p><span class="math display">\[\frac{\sum\limits_{i = 1}^{N}x_i}{N}\]</span>
 Get the means:</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="co"># Overall mean</span></a>
-<a class="sourceLine" id="cb186-2" data-line-number="2">edinburgh_delays <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb186-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(delay_time))</a></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="co"># Overall mean</span></a>
+<a class="sourceLine" id="cb196-2" data-line-number="2">edinburgh_delays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb196-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(delay_time))</a></code></pre></div>
 <pre><code>##     mean
 ## 1 27.775</code></pre>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" data-line-number="1"><span class="co"># Mean (grouped by day)</span></a>
-<a class="sourceLine" id="cb188-2" data-line-number="2">edinburgh_delays <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb188-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb188-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(delay_time))</a></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" data-line-number="1"><span class="co"># Mean (grouped by day)</span></a>
+<a class="sourceLine" id="cb198-2" data-line-number="2">edinburgh_delays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb198-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb198-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(delay_time))</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   day            Mean
 ##   &lt;fct&gt;         &lt;dbl&gt;
@@ -566,9 +574,9 @@ Get the means:</p>
 <div id="median" class="section level3">
 <h3><span class="header-section-number">5.6.2</span> Median</h3>
 <p>The median suggests where the centre of the distribution is. If the data is skewed (e.g. remember our diamond prices from last week?), the median is certainly a better measure of central tendency than the mean.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb190-1" data-line-number="1">edinburgh_delays <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb190-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb190-3" data-line-number="3"><span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Median =</span> <span class="kw">median</span>(delay_time))</a></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1">edinburgh_delays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb200-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb200-3" data-line-number="3"><span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Median =</span> <span class="kw">median</span>(delay_time))</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   day           Median
 ##   &lt;fct&gt;          &lt;dbl&gt;
@@ -576,12 +584,12 @@ Get the means:</p>
 ## 2 christmas eve   26</code></pre>
 <p>Note the median for Christmas Eve.</p>
 <p>Or all in one go:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb192-1" data-line-number="1">edinburgh_delays <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb192-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb192-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb192-4" data-line-number="4">        <span class="dt">median =</span> <span class="kw">median</span>(delay_time),</a>
-<a class="sourceLine" id="cb192-5" data-line-number="5">        <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time)</a>
-<a class="sourceLine" id="cb192-6" data-line-number="6">    )</a></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1">edinburgh_delays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb202-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb202-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb202-4" data-line-number="4">        <span class="dt">median =</span> <span class="kw">median</span>(delay_time),</a>
+<a class="sourceLine" id="cb202-5" data-line-number="5">        <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time)</a>
+<a class="sourceLine" id="cb202-6" data-line-number="6">    )</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   day           median  mean
 ##   &lt;fct&gt;          &lt;dbl&gt; &lt;dbl&gt;
@@ -596,15 +604,15 @@ Get the means:</p>
 <p>The standard deviation is by derivation:</p>
 <p><span class="math display">\[{\sigma}=\sqrt{\frac{1}{N-1}\sum_{i=1}^{N} (X_{i} -\bar{X})^2} \]</span>
 Let’s see what it looks like numerically:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" data-line-number="1"><span class="co"># Describe the flight delays (mean, median, variance, sd)</span></a>
-<a class="sourceLine" id="cb194-2" data-line-number="2">edinburgh_delays <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb194-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb194-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb194-5" data-line-number="5">      <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time),</a>
-<a class="sourceLine" id="cb194-6" data-line-number="6">      <span class="dt">median =</span> <span class="kw">median</span>(delay_time),</a>
-<a class="sourceLine" id="cb194-7" data-line-number="7">      <span class="dt">variance =</span> <span class="kw">var</span>(delay_time),</a>
-<a class="sourceLine" id="cb194-8" data-line-number="8">      <span class="dt">sd =</span> <span class="kw">sd</span>(delay_time)</a>
-<a class="sourceLine" id="cb194-9" data-line-number="9">      )</a></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="co"># Describe the flight delays (mean, median, variance, sd)</span></a>
+<a class="sourceLine" id="cb204-2" data-line-number="2">edinburgh_delays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb204-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb204-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb204-5" data-line-number="5">      <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time),</a>
+<a class="sourceLine" id="cb204-6" data-line-number="6">      <span class="dt">median =</span> <span class="kw">median</span>(delay_time),</a>
+<a class="sourceLine" id="cb204-7" data-line-number="7">      <span class="dt">variance =</span> <span class="kw">var</span>(delay_time),</a>
+<a class="sourceLine" id="cb204-8" data-line-number="8">      <span class="dt">sd =</span> <span class="kw">sd</span>(delay_time)</a>
+<a class="sourceLine" id="cb204-9" data-line-number="9">      )</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   day            mean median variance    sd
 ##   &lt;fct&gt;         &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
@@ -612,16 +620,16 @@ Let’s see what it looks like numerically:</p>
 ## 2 christmas eve  40.2   26     1400.  37.4</code></pre>
 <p>We can make some preliminary conclusions about the data. Note the standard deviation for Christmas Eve. We already know there is a large difference between the two means, but standard deviation can tell us about the spread of our data around the mean. There is less variation on an average day than on Christmas Eve.</p>
 <p>Before we make some plots, note that you can save your summary statistics as an object.</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="co"># Save descriptives as an object</span></a>
-<a class="sourceLine" id="cb196-2" data-line-number="2">descriptives &lt;-<span class="st"> </span>edinburgh_delays <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb196-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb196-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb196-5" data-line-number="5">      <span class="dt">median =</span> <span class="kw">median</span>(delay_time),</a>
-<a class="sourceLine" id="cb196-6" data-line-number="6">      <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time),</a>
-<a class="sourceLine" id="cb196-7" data-line-number="7">      <span class="dt">variance =</span> <span class="kw">var</span>(delay_time),</a>
-<a class="sourceLine" id="cb196-8" data-line-number="8">      <span class="dt">sd =</span> <span class="kw">sd</span>(delay_time)</a>
-<a class="sourceLine" id="cb196-9" data-line-number="9">      )</a></code></pre></div>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1">descriptives</a></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" data-line-number="1"><span class="co"># Save descriptives as an object</span></a>
+<a class="sourceLine" id="cb206-2" data-line-number="2">descriptives &lt;-<span class="st"> </span>edinburgh_delays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb206-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(day) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb206-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb206-5" data-line-number="5">      <span class="dt">median =</span> <span class="kw">median</span>(delay_time),</a>
+<a class="sourceLine" id="cb206-6" data-line-number="6">      <span class="dt">mean =</span> <span class="kw">mean</span>(delay_time),</a>
+<a class="sourceLine" id="cb206-7" data-line-number="7">      <span class="dt">variance =</span> <span class="kw">var</span>(delay_time),</a>
+<a class="sourceLine" id="cb206-8" data-line-number="8">      <span class="dt">sd =</span> <span class="kw">sd</span>(delay_time)</a>
+<a class="sourceLine" id="cb206-9" data-line-number="9">      )</a></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1">descriptives</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   day           median  mean variance    sd
 ##   &lt;fct&gt;          &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
@@ -632,66 +640,66 @@ Let’s see what it looks like numerically:</p>
 <h2><span class="header-section-number">5.8</span> Visualise your data</h2>
 <p>Now we have gathered all the numerical descriptions, let’s see how good our intuition was about what the data looks like.</p>
 <p>Let’s try visualising the delays regardless of the day:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="co"># Visualise the data using histogram</span></a>
-<a class="sourceLine" id="cb199-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb199-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.7</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb199-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb199-5" data-line-number="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Delay time (min)&quot;</span>) <span class="op">+</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb199-6" data-line-number="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Distribution of Delays&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="co"># Visualise the data using histogram</span></a>
+<a class="sourceLine" id="cb209-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb209-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.7</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb209-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb209-5" data-line-number="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Delay time (min)&quot;</span>) <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb209-6" data-line-number="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Distribution of Delays&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
 <p>We have quite a variation. We also know that there were differences in the means and the standard deviations when we checked the variable by day. Let’s now visulise each day separately.</p>
 <p>We can do these with a mini <code>%in%</code> in ggplot(). Pretty cool, right?</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (average day)</span></a>
-<a class="sourceLine" id="cb200-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)),  <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb200-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb200-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb200-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb200-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (average day)</span></a>
+<a class="sourceLine" id="cb210-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)),  <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb210-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb210-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb210-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb210-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>)</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (average day)</span></a>
+<a class="sourceLine" id="cb212-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span><span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span><span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb212-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (Christmas Eve)</span></a>
+<a class="sourceLine" id="cb214-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-3" data-line-number="3"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb214-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb214-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-131-1.png" width="672" /></p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (average day)</span></a>
-<a class="sourceLine" id="cb202-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;average day&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb202-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span><span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span><span class="st">&#39;cornsilk&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb202-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb202-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb202-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Average Day)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb202-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by day (Christmas Eve)</span></a>
-<a class="sourceLine" id="cb204-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(edinburgh_delays, day <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;christmas eve&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> delay_time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb204-3" data-line-number="3"><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb204-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(delay_time)), <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb204-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(delay_time)), <span class="dt">color =</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb204-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Frequency&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Delays at Edinburgh Airport (Christmas Eve)&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb204-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
 <p>Conclusions?</p>
 <p>Of course, when describing the average delay for the news article it is best to focus on an average day rather than Christmas Eve. From the example above, if we take an average autumn weekday our data matches what the article suggests pretty well. Nevertheless, it tell us little about what to expect during the weekend or a busy public holiday. To gauge the range of delays and the variation around the mean value, we would need statistics for the mean, median and standard deviation to get a better picture about the situation. Graphics will help us even more!</p>
 <p>As a final one, let’s also add a box plot or ggridges():</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" data-line-number="1"><span class="co"># Boxplot to visualise a comparison</span></a>
-<a class="sourceLine" id="cb206-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">y =</span> delay_time, <span class="dt">x =</span> day, <span class="dt">fill =</span> day)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb206-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb206-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Delay time (min) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Delays at the Edinburgh Airport &quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb206-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-1.png" width="672" /></p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="co"># ggridges</span></a>
-<a class="sourceLine" id="cb207-2" data-line-number="2"><span class="kw">library</span>(ggridges)</a>
-<a class="sourceLine" id="cb207-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">y =</span> day, <span class="dt">x =</span> delay_time, <span class="dt">fill =</span> day)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb207-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density_ridges2</span>() <span class="op">+</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb207-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Delays at the Edinburgh Airport&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb207-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="co"># Boxplot to visualise a comparison</span></a>
+<a class="sourceLine" id="cb216-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">y =</span> delay_time, <span class="dt">x =</span> day, <span class="dt">fill =</span> day)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb216-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Delay time (min) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Delays at the Edinburgh Airport &quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="co"># ggridges</span></a>
+<a class="sourceLine" id="cb217-2" data-line-number="2"><span class="kw">library</span>(ggridges)</a>
+<a class="sourceLine" id="cb217-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> edinburgh_delays, <span class="kw">aes</span>(<span class="dt">y =</span> day, <span class="dt">x =</span> delay_time, <span class="dt">fill =</span> day)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb217-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density_ridges2</span>() <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb217-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Delay time (min)&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Delays at the Edinburgh Airport&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb217-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <pre><code>## Picking joint bandwidth of 8.38</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
 <p><strong>Note:</strong> before jumping to any conclusions, remember that we only have records for 40 flights for each of the days. Edinburgh Airport can see as many as <strong>313 flights a day</strong>. Since we picked our data at <strong>random</strong> we can consider our samples representative (note: a rule of thumb is &gt; 25 but this can vary depending on the phenomena you are trying to describe).</p>
 <p>Let’s try to explore something else now. Load your practice file for today and work with the income data in a similar fashion to what we just did.</p>
 </div>
 <div id="practice.rmd-solutions-2" class="section level2">
 <h2><span class="header-section-number">5.9</span> Practice.Rmd Solutions</h2>
 <p>Make sure to load the packages first:</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="co"># Load tidyverse</span></a>
-<a class="sourceLine" id="cb209-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="co"># Load tidyverse</span></a>
+<a class="sourceLine" id="cb219-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 <div id="income-distribution-example" class="section level3">
 <h3><span class="header-section-number">5.9.1</span> Income Distribution Example</h3>
 <p>Let’s look at some data on income collected for the UK in 2017 by ONS.
@@ -699,8 +707,8 @@ Note the mean and median values and the skew. What can you say about the income 
 You can read more about income calculations in the <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/householddisposableincomeandinequality/financialyearending2017">ONS report</a>, if curious of course.</p>
 <p><img src="https://www.ons.gov.uk/resource?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/householddisposableincomeandinequality/financialyearending2017/3471bf9a.png" /><!-- --></p>
 <p>I decided to collect my own sample of individuals so I collected the data for 115 residents aged 18+ in London. I further grouped them into North or South London. Use the data to study the variation in income.</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" data-line-number="1"><span class="co"># Get the data</span></a>
-<a class="sourceLine" id="cb210-2" data-line-number="2">income_london &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;income_london.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1"><span class="co"># Get the data</span></a>
+<a class="sourceLine" id="cb220-2" data-line-number="2">income_london &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;income_london.csv&quot;</span>)</a></code></pre></div>
 <p>Open your Rmd template (from <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week5_practice.Rmd">here</a> or from Learn) and the data (from <a href="https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/income_london.csv">here</a> or Learn) for this week and attempt the following steps.</p>
 <ul>
 <li>Work with the data on income to provide information about the income distribution for Londoners.</li>
@@ -711,8 +719,8 @@ You can read more about income calculations in the <a href="https://www.ons.gov.
 <li>Compile your file in the end to produce the final report. Polish off some chunks to make it all look nicer!</li>
 <li>Congratulate yourself on the amazing work you have done over past five weeks!</li>
 </ul>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="co"># Check what&#39;s inside</span></a>
-<a class="sourceLine" id="cb211-2" data-line-number="2"><span class="kw">head</span>(income_london)</a></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="co"># Check what&#39;s inside</span></a>
+<a class="sourceLine" id="cb221-2" data-line-number="2"><span class="kw">head</span>(income_london)</a></code></pre></div>
 <pre><code>##   income region
 ## 1  64352  north
 ## 2  49667  north
@@ -720,39 +728,39 @@ You can read more about income calculations in the <a href="https://www.ons.gov.
 ## 4  20106  north
 ## 5  54457  north
 ## 6  72379  north</code></pre>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="co"># Means</span></a>
-<a class="sourceLine" id="cb213-2" data-line-number="2">income_london <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb213-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(income))</a></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="co"># Means</span></a>
+<a class="sourceLine" id="cb223-2" data-line-number="2">income_london <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb223-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(income))</a></code></pre></div>
 <pre><code>##       mean
 ## 1 35504.47</code></pre>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="co"># Means by region</span></a>
-<a class="sourceLine" id="cb215-2" data-line-number="2">income_london <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb215-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb215-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(income))</a></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="co"># Means by region</span></a>
+<a class="sourceLine" id="cb225-2" data-line-number="2">income_london <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb225-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb225-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(income))</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   region   mean
 ##   &lt;fct&gt;   &lt;dbl&gt;
 ## 1 north  37348.
 ## 2 south  33661.</code></pre>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="co"># Medians by region</span></a>
-<a class="sourceLine" id="cb217-2" data-line-number="2">income_london <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb217-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb217-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">median =</span> <span class="kw">median</span>(income))</a></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="co"># Medians by region</span></a>
+<a class="sourceLine" id="cb227-2" data-line-number="2">income_london <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb227-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb227-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">median =</span> <span class="kw">median</span>(income))</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   region median
 ##   &lt;fct&gt;   &lt;dbl&gt;
 ## 1 north  35766 
 ## 2 south  34016.</code></pre>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="co"># Means, medians and SDs by region</span></a>
-<a class="sourceLine" id="cb219-2" data-line-number="2">descriptives &lt;-<span class="st"> </span>income_london <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb219-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb219-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb219-5" data-line-number="5">    <span class="dt">mean =</span> <span class="kw">mean</span>(income),</a>
-<a class="sourceLine" id="cb219-6" data-line-number="6">    <span class="dt">median =</span> <span class="kw">median</span>(income),</a>
-<a class="sourceLine" id="cb219-7" data-line-number="7">    <span class="dt">sd =</span> <span class="kw">sd</span>(income)</a>
-<a class="sourceLine" id="cb219-8" data-line-number="8">    )</a>
-<a class="sourceLine" id="cb219-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb219-10" data-line-number="10">descriptives</a></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="co"># Means, medians and SDs by region</span></a>
+<a class="sourceLine" id="cb229-2" data-line-number="2">descriptives &lt;-<span class="st"> </span>income_london <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb229-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(region) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb229-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb229-5" data-line-number="5">    <span class="dt">mean =</span> <span class="kw">mean</span>(income),</a>
+<a class="sourceLine" id="cb229-6" data-line-number="6">    <span class="dt">median =</span> <span class="kw">median</span>(income),</a>
+<a class="sourceLine" id="cb229-7" data-line-number="7">    <span class="dt">sd =</span> <span class="kw">sd</span>(income)</a>
+<a class="sourceLine" id="cb229-8" data-line-number="8">    )</a>
+<a class="sourceLine" id="cb229-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb229-10" data-line-number="10">descriptives</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 4
 ##   region   mean median     sd
 ##   &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
@@ -763,48 +771,48 @@ You can read more about income calculations in the <a href="https://www.ons.gov.
 <h3><span class="header-section-number">5.9.2</span> Visualisations</h3>
 <div id="visualise-the-distribution-of-income" class="section level4">
 <h4><span class="header-section-number">5.9.2.1</span> Visualise the distribution of income</h4>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="co"># Visualise the data using a histogram and/or a density plot</span></a>
-<a class="sourceLine" id="cb221-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb221-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;yellow&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb221-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb221-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb221-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb221-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="co"># Visualise the data using a histogram and/or a density plot</span></a>
+<a class="sourceLine" id="cb231-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb231-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;yellow&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb231-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb231-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb231-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb231-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income&quot;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-145-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-143-1.png" width="672" /></p>
 </div>
 <div id="visualise-the-distribution-of-income-by-region" class="section level4">
 <h4><span class="header-section-number">5.9.2.2</span> Visualise the distribution of income by region</h4>
 <p>Now, focus on regions and provide a separate plot for ‘South’ and ‘North’. Feel free to add mean and median lines too. You will note that the central tendency measures may have changed a little but the shape of the data remains almost the same (i.e. approximately normal).</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by region (South)</span></a>
-<a class="sourceLine" id="cb223-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(income_london, region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;south&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb223-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;orange&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb223-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb223-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb223-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb223-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income (South)&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by region (South)</span></a>
+<a class="sourceLine" id="cb233-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(income_london, region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;south&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb233-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;orange&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb233-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb233-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb233-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb233-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income (South)&quot;</span>) </a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-144-1.png" width="672" /></p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by region (North)</span></a>
+<a class="sourceLine" id="cb235-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(income_london, region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;north&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb235-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb235-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb235-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb235-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb235-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income (North)&quot;</span>) </a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-145-1.png" width="672" /></p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb237-1" data-line-number="1"><span class="co"># Boxplot to visualise a comparison</span></a>
+<a class="sourceLine" id="cb237-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">y =</span> income, <span class="dt">x =</span> region, <span class="dt">fill =</span> region)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb237-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb237-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Region&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Income (£) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income by Region&quot;</span>) </a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="co"># Visualise the data using a histogram by region (North)</span></a>
-<a class="sourceLine" id="cb225-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">subset</span>(income_london, region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;north&quot;</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> income)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb225-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb225-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb225-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(income)), <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb225-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">median</span>(income)), <span class="dt">color =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb225-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Income (£)&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income (North)&quot;</span>) </a></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-147-1.png" width="672" /></p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="co"># Boxplot to visualise a comparison</span></a>
-<a class="sourceLine" id="cb227-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> income_london, <span class="kw">aes</span>(<span class="dt">y =</span> income, <span class="dt">x =</span> region, <span class="dt">fill =</span> region)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb227-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb227-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Region&#39;</span>, <span class="dt">y =</span> <span class="st">&quot;Income (£) &quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Distribution of Londoners Income by Region&quot;</span>) </a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-148-1.png" width="672" /></p>
 <p>What can you conclude about regional differences from studying your data? We observed that there are slight differences in the central tendency measures between North and South London, however we cannot say anything more at this point. Next semester, we will show you an appropriate statistical test that you can use to provide a confident answer to such questions.</p>
 <p>Compare the results you have observed to the graphic we have from ONS. Are there any differences? Can we use the London data to describe the whole population?</p>
 <p>Finally, praise yourself for all the work so far :)</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="kw">library</span>(praise)</a>
-<a class="sourceLine" id="cb228-2" data-line-number="2"><span class="kw">praise</span>()</a></code></pre></div>
-<pre><code>## [1] &quot;You are priceless!&quot;</code></pre>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" data-line-number="1"><span class="kw">library</span>(praise)</a>
+<a class="sourceLine" id="cb238-2" data-line-number="2"><span class="kw">praise</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;You are first-rate!&quot;</code></pre>
 
 </div>
 </div>
