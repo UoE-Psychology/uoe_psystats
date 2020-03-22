@@ -1,0 +1,288 @@
+---
+title: "Week 19: Chi-square tests"
+output: html_document
+---
+
+
+# Walkthrough: Birthdays of the week. The chi-square goodness-of-fit test
+
+The data are stored in the file writers.txt, accessible via the link https://edin.ac/2Ul2yLj.
+
+
+## Question A.1
+
+Identify the observational units and variable here. 
+
+Is the variable categorical or quantitative? If it is categorical, is it also binary? 
+
+
+...
+
+
+
+## Question A.2
+
+Read the data into R.
+[Hint: The data is a .txt file - think about what function you are going to use.]
+
+Summarise the data by creating a frequency table of the seven days of the week.
+
+
+...
+
+
+
+## Question A.3
+
+Construct a bar graph of these data which displays proportions on the y-axis.
+
+Comment on what it reveals about whether the seven days of the week are equally likely to be a person’s birthday.
+
+
+...
+
+
+
+## Question A.4
+
+Let $p_{Mo}$ represent the proportion of all people who were born on a Monday, or equivalently, the probability that a randomly selected individual was born on a Monday.
+
+Similarly, define $p_{Tu},\ p_{We},\ ...,\ p_{Su}$.
+
+Are these parameters or statistics? Explain why.
+
+
+...
+
+
+
+## Question A.5
+
+The null hypothesis says that the seven days of the week are equally likely to be a person’s birthday. 
+
+In that case, what are the values of $p_{Mo},\ p_{Tu},\ ...,\ p_{Su}$?
+
+
+...
+
+
+
+## Question A.6
+
+Intuitively, what value would make sense for the expected count of Monday birthdays in this study (with a sample size of 147), under the null hypothesis that one-seventh of all birthdays occur on Mondays? Explain why.
+
+
+...
+
+
+
+## Question A.7
+
+Calculate the expected counts for each of the seven days. 
+
+
+...
+
+
+
+## Question A.8
+
+For each of the seven days of the week, compute $\frac{(O - E)^2}{E}$. 
+
+
+...
+
+
+
+## Question A.9
+
+Add the standardized squared differences up, in order to compute the chi-square test statistic.
+
+
+...
+
+
+
+## Question A.10
+
+What would be the value of the chi-square statistic if the observed and expected frequencies had been exactly equal?
+
+Based on this, what kind of values (e.g., large or small) of the test statistic constitute evidence against the null hypothesis that the seven days of the week are equally likely to be a person’s birthday?
+
+Do you think the value we just calculated (`r chi_stat %>% round(3)`) provides convincing evidence? If you are not sure, what additional information do you need? Explain your reasoning.
+
+
+...
+
+
+
+## Question A.11
+
+Calculate the p-value for this test using the function pchisq(<test statistic>, df).
+
+Write a sentence interpreting the p-value meaning in the context of this study about birthdays of the week.
+
+[Hint: the degrees of freedom are equal to the number of categories minus 1.]
+
+
+...
+
+
+
+## Question A.12
+
+Based on this p-value, what would be your test decision at the $\alpha = .10$ level?
+
+And at the $\alpha = .05$ and $\alpha = .01$ levels?
+
+
+...
+
+
+
+## Question A.13
+
+Is the expected counts condition satisfied for this study on birthdays? 
+
+What about the random sampling condition? 
+
+If not, would you be comfortable in generalising the results to a larger population anyway? Explain why. 
+
+
+...
+
+
+
+## Question A.14
+
+Summarise your conclusion about whether these sample data provide evidence against the null hypothesis that any of the seven days of the week are equally likely to be a person’s birthday.
+
+
+...
+
+
+
+## Question A.15
+
+Which days of the week had the highest contributions to the chi-square test statistic?
+
+
+...
+
+
+
+# Lab: Joking for a tip. The chi-square test of independence
+
+The data are stored in the file TipJoke.csv, accessible via the link https://edin.ac/2U6zfgO. 
+The variables are:
+
+- Card: None, Joke, Ad.
+- Tip: 1 = The customer left a tip, 0 = The customer did not leave tip. 
+
+In the following, we will consider leaving a tip as "success".
+
+
+## Question B.1
+
+Load the data into R and inspect it. 
+[Hint: the data is a .csv file - think about what function you are going to use.]
+
+Pay particular attention to:
+
+- the variable names;
+- the dimensions of the tibble;
+- the format of the data (i.e., make sure that variables are correctly encoded).
+
+
+...
+
+
+
+## Question B.2
+
+Identify the observational units in this study.
+
+Identify the explanatory and response variables in this study, and classify them as either categorical (also binary) or quantitative.
+
+
+...
+
+
+
+## Question B.3
+
+Create a barplot that visually summarises the data.
+
+Comment on what the graph reveals.
+
+
+...
+
+
+
+## Question B.4
+
+Create a two-way table showing how many customers left or not a tip for each type of card (including none given).
+
+
+...
+
+
+
+## Question B.5
+
+State, in words, the null and alternative hypotheses of this study.
+
+
+...
+
+
+
+## Question B.6
+
+Which test would you use to test the hypotheses stated in the previous question?
+
+
+...
+
+
+
+## Question B.7
+
+Compute the value of the test statistic and corresponding p-value.
+
+
+...
+
+
+
+## Question B.8
+
+Inspect the expected frequencies.
+
+Look at the Pearson residuals and comment on what you notice.
+
+[Hint: If `out <- chisq.test(<table>)`, the expected counts can be obtained as `out$expected` and the Pearson residuals as `out$residuals`.]
+
+
+...
+
+
+
+## Question B.9
+
+Check that the assumptions of the test are satisfied. These are the conditions required for the test results to be valid.
+
+
+...
+
+
+
+## Question B.10
+
+Write your conclusion linked to the test results and in the context of the problem.
+
+
+...
+
+
