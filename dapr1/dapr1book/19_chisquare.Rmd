@@ -6,7 +6,7 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size=13))
 ```
 
 ```{r}
-knitr::opts_chunk$set(fig.align='center', message=FALSE, out.width = '90%')
+knitr::opts_chunk$set(fig.align='center', message=FALSE, out.width = '80%')
 ```
 
 # Chi-square tests {#chap-chi-square}
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(fig.align='center', message=FALSE, out.width = '90%')
 <div class="lo">
 #### Instructions {-}
   
-- This week's lab consists of a walkthrough, showing a worked example, followed by a series of questions for you to attempt.
+- The lab material consists of a worked example for the walkthrough, and a series of questions for you to attempt.
 - The Rmarkdown file for this week is [here](https://uoe-psychology.github.io/uoe_psystats/dapr1/labsheets/week_19_practice.Rmd).
 
 
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(fig.align='center', message=FALSE, out.width = '90%')
 
 By the end of this lab, you should be able to:
 
-**LO1.** Understand when to use goodness-of-fit and tests of independence.
+**LO1.** Understand when to use a chi-square goodness-of-fit and chi-square test of independence.
 
 **LO2.** Check the validity conditions.
 
@@ -35,7 +35,7 @@ By the end of this lab, you should be able to:
 
 ## Recap {-}
 
-<font size="1">
+<font size="2">
 
 | Test type | One-sample | Independent samples | Paired data |
 |------------------------|:-------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------:|
@@ -43,32 +43,31 @@ By the end of this lab, you should be able to:
 | Alternative hypothesis | $$ \begin{array}{ll}   i.   & H_1 : \mu < \mu_0 \\   ii.  & H_1 : \mu > \mu_0 \\   iii. & H_1 : \mu \neq \mu_0 \end{array} $$ | $$ \begin{array}{ll}   i.   & H_1 : \mu_1 - \mu_2 < 0 \\   ii.  & H_1 : \mu_1 - \mu_2 > 0 \\   iii. & H_1 : \mu_1 - \mu_2 \neq 0 \end{array} $$ | $$ \begin{array}{ll}   i.   & H_1 : \mu_d < 0 \\   ii.  & H_1 : \mu_d > 0 \\   iii. & H_1 : \mu_d \neq 0 \end{array} $$ |
 | Test statistic | $$ t = \frac{\bar x - \mu_0}{SE(\bar x)} $$ | $$ t = \frac{\bar x_1 - \bar x_2}{SE(\bar x_1 - \bar x_2)} $$ | $$ t = \frac{\bar d - 0}{SE(\bar d)} $$ |
 | Standard error | $SE(\bar x) = \frac{s}{\sqrt{n}}$ | (a) Unequal population variances<br>$SE(\bar x_1 - \bar x_2) =  \sqrt{  \frac{s_1^2}{n_1} +   \frac{s_2^2}{n_2} }$<br><br>(b) Equal population variances<br>$SE(\bar x_1 - \bar x_2) =  s_p \sqrt{  \frac{1}{n_1} +   \frac{1}{n_2} }$<br><br>$s_p = \sqrt{\frac{(n_1 - 1 )s_1 ^2 + (n_2 - 1 )s_2 ^2}{n_1 + n_2 - 2}}$ | $SE(\bar d) = \frac{s_d}{\sqrt{n}}$ |
-| P-value | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} \geq |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} \geq |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \times \Pr(T_{df} \geq |t|) \end{array}  $$ |
+| P-value | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \Pr(T_{df} \geq |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \Pr(T_{df} \geq |t|) \end{array} $$ | $$ \begin{array}{ll}   i.   & \Pr(T_{df} \leq t) \\   ii.  & \Pr(T_{df} \geq t) \\   iii. & 2 \Pr(T_{df} \geq |t|) \end{array}  $$ |
 
 </font>
 
 <br>
 In the past weeks we focused on tests for:
 
-- a __quantitative__ response variable (Weeks 16 and 18)
-- a __quantitative__ response variable and a __categorical + binary__ explanatory variable (Week 17)
+- a __quantitative__ response variable (weeks 16 and 18);
+- a __quantitative__ response variable and a __binary categorical__ explanatory variable (week 17).
 
 This week we will investigate tests for:
 
-- a __categorical__ response variable 
-- a __categorical__ response variable and a __categorical__ explanatory variable
+- a __categorical__ response variable (*chi-square goodness-of-fit test*);
+- a __categorical__ response variable and a __categorical__ explanatory variable (*chi-square test of independence*).
 
-For the first time, we will be working with a statistical test that applies to categorical variables with more than two categories.
+For the first time, you will be working with a statistical test that applies to categorical variables with more than two categories.
 
-
-The two tests we will be applying today are the chi-square goodness-of-fit test and the chi-square test of independence.
+The two tests that you will be applying today are the chi-square goodness-of-fit test and the chi-square test of independence.
 The first is used to assess whether sample results conform with an hypothesis about the proportional breakdown of the various categories in the population.
 The latter tests if two categorical variables are associated in the population or not.
 
 
 
 
-## Walkthrough: Birthdays of the week
+## Walkthrough: Birthdays of the week <br>The chi-square goodness-of-fit test {-}
 
 - What day of the week were you born on?
 - Are people equally likely to be born on any of the seven days of the week?
@@ -98,7 +97,7 @@ writers
 write_tsv(writers, 'data/writers.txt', col_names = TRUE)
 ```
 
-The data are stored in the file [`writers.txt`](https://edin.ac/2Ul2yLj).
+The data are stored in the file [`writers.txt`](https://edin.ac/2Ul2yLj), accessible via the link `https://edin.ac/2Ul2yLj`.
 
 
 
@@ -172,9 +171,11 @@ levels(writers$DayOfWeek)
 They are not, so let's fix this:
 ```{r}
 writers <- writers %>%
-  mutate(DayOfWeek = factor(DayOfWeek, 
-                            levels= c("Monday", "Tuesday", "Wednesday", 
-                                      "Thursday", "Friday", "Saturday", "Sunday")))
+  mutate(
+    DayOfWeek = factor(DayOfWeek, 
+                       levels= c("Monday", "Tuesday", "Wednesday", 
+                                 "Thursday", "Friday", "Saturday", "Sunday"))
+  )
 
 levels(writers$DayOfWeek)
 ```
@@ -203,13 +204,29 @@ Comment on what it reveals about whether the seven days of the week are equally 
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
-The following bar graph displays the data:
+The proportion of birthdays on a Monday is calculated as the count of birthdays on a Monday divided by the sample size, $n =$ `r nrow(writers)`. The procedure is similar for the other days of the week.
+We can obtain the sample size using the function `nrow()`, which returns the total number of rows in the tibble:
+```{r}
+nrow(writers)
+```
+
+First, we compute the sample proportions:
 ```{r}
 writers_table <- writers_table %>%
   mutate(prop = count / nrow(writers))
 
 writers_table
+```
 
+
+_Note: Remember that the sample proportions sum to one:_
+```{r}
+sum(writers_table$prop)
+```
+
+
+The following bar graph displays the data:
+```{r}
 ggplot(writers_table, aes(x = DayOfWeek, y = prop)) +
   geom_col(fill = 'lightblue') +
   labs(x = 'Day of the week', y = 'Proportion of writers') +
@@ -225,7 +242,7 @@ There does not appear to be a great difference in the proportion of people born 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.4")`
 Let $p_{Mo}$ represent the proportion of **all** people who were born on a Monday, or equivalently, the probability that a randomly selected individual was born on a Monday.
 
-Similarly define $p_{Tu},\ p_{We},\ ...,\ p_{Su}$.
+Similarly, define $p_{Tu},\ p_{We},\ ...,\ p_{Su}$.
 
 Are these parameters or statistics? Explain why.
 `r msmbstyle::question_end()`
@@ -249,6 +266,7 @@ In that case, what are the values of $p_{Mo},\ p_{Tu},\ ...,\ p_{Su}$?
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
 The values of the proportions specified by the null hypothesis are:
+<center>
 $$
 \begin{array}{l}
 p_{Mo} = 1/7 = .1429 \\
@@ -257,6 +275,7 @@ p_{Tu} = 1/7 = .1429 \\
 p_{Su} = 1/7 = .1429
 \end{array}
 $$
+</center>
 `r msmbstyle::solution_end()`
 
 ---
@@ -267,7 +286,7 @@ The test procedure we are about to apply is called a __chi-square goodness-of-fi
 
 It applies to a categorical variable, which does not have to be binary. 
 The null hypothesis asserts specific values for the population proportion in each category. 
-The alternative hypothesis simply says that at least one of the population proportions is not as specified in the null hypothesis. 
+The alternative hypothesis simply states that **at least one** of the population proportions is not as specified in the null hypothesis. 
 
 As always, the test statistic measures how far the observed sample results deviate from what is expected if the null hypothesis is true. 
 With a chi-square test, you construct the test statistic by comparing the _observed_ sample counts in each category to the _expected_ counts under the null hypothesis.
@@ -298,7 +317,7 @@ E_i = n \times p_{i0}
 $$
 </center>
 
-*[Note: the subscript $i$ denotes the particular category, while the subscript $0$ on $p_{i0}$ emphasizes that this is the hypothesized value for $p_i$ in the null hypothesis ($H_0$).]*
+*[Note: the subscript $i$ denotes the particular category, while the subscript $0$ on $p_{i0}$ emphasizes that this is the hypothesized value for $p_i$ in the null hypothesis, $H_0$.]*
 
 </div>
 
@@ -329,13 +348,15 @@ writers_table <-
 writers_table
 ```
 
-Note the use of `rep()` here.  
-`rep(x, times)` will repeat `x` a given number of `times`. For instance:
+_Note: The command `rep(x, times)` will repeat `x` a given number of `times`. For instance:_
 ```{r}
 rep("a", 4)
 ```
 
-In the code chunk above where we assign `writers_table`, we use the `rep()` function to take the value we assigned as `n` (i.e., `nrow(writers)`), multiplied by $1/7$, and then repeat that value 7 times. 
+_We calculated the expected count, `n * (1/7)`, and then repeated it for the 7 days of the week, as in this particular example the null hypothesis specifies the same proportions for all seven days of the week:_
+```{r}
+rep(n * (1/7), 7)
+```
 `r msmbstyle::solution_end()`
 
 
@@ -354,9 +375,7 @@ writers_diff <- writers_table %>%
 writers_diff
 
 # Check that the sum of (observed - expected) is zero
-writers_diff %>% 
-  pull(diff) %>% 
-  sum()
+sum(writers_diff$diff)
 ```
 
 Instead, we will __square the differences__ between the observed and expected counts, and then add them up.
@@ -369,7 +388,7 @@ __Scenario 1.__ $O = 30$ and $E = 20$ lead to a squared difference $(O - E)^2 = 
 __Scenario 2.__ $O = 3000$ and $E = 1990$ lead to a squared difference $(O - E)^2 = 10^2 = 100$.
 
 However, it is clear that a squared difference of 100 in Scenario 1 is much more substantial than a squared difference of 100 in Scenario 2. 
-It is for this reason that we divide the squared differences by the the expected counts to "standardize" the squared deviation.
+It is for this reason that we divide the squared differences by the the expected counts to **"standardize" the squared deviation**.
 
 The test-statistic (denoted $\chi^2$, spelled _chi-square_, pronounced "kai-square") is obtained by adding up the standardized squared deviations:
 <center>
@@ -398,7 +417,7 @@ For each of the seven days of the week, compute $\frac{(O - E)^2}{E}$.
 We can compute the standardized squared deviations as follows:
 ```{r}
 writers_table <- writers_table %>%
-  mutate(std_sq_diff = (observed - expected)^2/expected)
+  mutate(std_sq_diff = (observed - expected)^2 / expected)
 
 writers_table
 ```
@@ -415,11 +434,16 @@ Add the standardized squared differences up, in order to compute the chi-square 
 The value of the chi-square test statistic in this sample is:
 
 ```{r}
+chi_stat <- sum(writers_table$std_sq_diff)
+
+chi_stat
+```
+
+Equivalently, as `$` is just a shortcut for the `pull()` function:
+```{r eval=FALSE}
 chi_stat <- writers_table %>%
   pull(std_sq_diff) %>%
   sum()
-
-chi_stat
 ```
 `r msmbstyle::solution_end()`
 
@@ -478,7 +502,7 @@ Write a sentence interpreting the p-value meaning in the context of this study a
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
 We want the probability to the right of the chi-square test statistic:
 ```{r}
-1 - pchisq(chi_stat, 6)
+1 - pchisq(chi_stat, df = 6)
 ```
 
 If all seven days of the week are equally likely to be a person’s birthday, the probability that you would obtain a test statistic this large (or larger) by random chance alone is .56.
@@ -505,10 +529,10 @@ The same conclusion would be reached at the other two significance levels.
 ---
 
 <div class="def">
-#### Validity Conditions {-}
+#### Validity conditions {-}
 Certain technical conditions must be satisfied for this chi-square procedure to provide accurate p-values. 
 
-In addition to requiring a random sample from the population of interest, __all expected counts need to be at least five__. 
+In addition to requiring a **random sample** from the population of interest, **all expected counts need to be at least five**. 
 
 When this condition is not met, one option is to combine similar categories together to force all expected counts to be at least five. 
 </div>
@@ -516,11 +540,11 @@ When this condition is not met, one option is to combine similar categories toge
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.13")`
-Is the expected counts condition satisfied for this birthday study? 
+Is the expected counts condition satisfied for this study on birthdays? 
 
 What about the random sampling condition? 
 
-If not, would you be comfortable in generalizing the results to a larger population anyway? Explain. 
+If not, would you be comfortable in generalising the results to a larger population anyway? Explain why. 
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(toggle = TOGGLE)`
@@ -561,6 +585,7 @@ observed <- writers %>%
   group_by(DayOfWeek) %>% 
   summarise(observed = n()) %>%
   pull(observed)
+
 observed
 
 probabilities <- rep(1/7, 7)
@@ -569,16 +594,60 @@ probabilities
 
 __Step 2.__ Use the function `chisq.test`:
 ```{r}
-chisq.test(observed, p = probabilities)
+gof_test <- chisq.test(observed, p = probabilities)
+gof_test
 ```
 
-The results match those that we calculated above. 
+The results match those that we calculated above.
+
+The object returned by the function `chisq.test()` contains different variables:
+```{r}
+names(gof_test)
+```
+
+You can obtain the expected counts as:
+```{r}
+gof_test$expected
+```
 </div>
 
 
+---
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question A.15")`
+Which days of the week had the highest contributions to the chi-square test statistic?
+`r msmbstyle::question_end()`
+
+`r msmbstyle::solution_begin(toggle = TOGGLE)`
+
+**Standardized squared deviations**
+
+One possible way to answer this question is to look at the individual contribution of each category to the chi-square statistic. You computed these values in Question A.8.
+
+The categories Tuesday and Saturday contributed the most to the chi-square statistic as they had the highest standardized squared deviations, equal to 1.19 and 1.71, respectively.
+From the barplot in Question A.3 we notice that Tuesday had a higher proportion than expected under the null, while Saturday a lower proportion than expected under the null.
+```{r}
+ggplot(writers_table, aes(x = DayOfWeek, y = observed / nrow(writers))) +
+  geom_col(fill = 'lightblue') +
+  geom_hline(yintercept = 1/7, color = 'red') +
+  labs(x = 'Day of the week', y = 'Proportion of writers') +
+  theme_classic(base_size = 15)
+```
+
+**Pearson residuals**
+
+Equivalently, you could answer by looking at Pearson residuals:
+```{r}
+gof_test$residuals
+```
+
+The highest values are for Tuesday and Saturday. The value for Tuesday, 1.09, is positive. This means that the observed counts were larger than expected.
+In the same way we interpret the residual for Saturday, -1.31. As this value is negative, this means that the observed counts of birthdays on a Saturday were less than expected.
+`r msmbstyle::solution_end()`
 
 
-## Lab: Joking for a tip
+
+## Lab: Joking for a tip <br>The chi-square test of independence {-}
 
 Can telling a joke affect whether or not a waiter in a coffee bar receives a tip from a customer?
 
@@ -586,7 +655,7 @@ A [study](https://doi.org/10.1111/j.1559-1816.2002.tb00266.x) published in the J
 The waiter randomly assigned coffee-ordering customers to one of three groups.
 When receiving the bill, one group also received a card telling a joke, another group received a card containing an advertisement for a local restaurant, and a third group received no card at all. 
 
-The data are stored in the file [`TipJoke.csv`](https://edin.ac/2U6zfgO). 
+The data are stored in the file [`TipJoke.csv`](https://edin.ac/2U6zfgO), accessible via the link `https://edin.ac/2U6zfgO`. 
 The variables are:
 
 - `Card`: None, Joke, Ad.
@@ -597,7 +666,7 @@ In the following, we will consider leaving a tip as "success".
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question B.1")`
-Load the data into R and inspect it.
+Load the data into R and inspect it. *[Hint: the data is a __.csv__ file - think about what function you are going to use.]*
 
 Pay particular attention to:
 
@@ -645,13 +714,11 @@ Identify the explanatory and response variables in this study, and classify them
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-- Observational units: The 211 adults ordering coffee at the bar of the seaside resort on the west coast of France.
+- *Observational units:* The 211 adults ordering coffee at the bar of the seaside resort on the west coast of France.
 
-- Explanatory variable: Type of card (if any) given to the customer.
-Type: Categorical but not binary as it has three categories.
+- *Explanatory variable:* Type of card (if any) given to the customer. <br>*Type:* Categorical but not binary as it has three categories.
 
-- Response variable: Whether or not the customer left a tip.
-Type: Categorical and binary.
+- *Response variable:* Whether or not the customer left a tip. <br>*Type:* Categorical and binary.
 `r msmbstyle::solution_end()`
 
 ---
@@ -736,7 +803,7 @@ The $p$-value is $\Pr(\chi^2(2) \geq 9.953) = 0.007$.
 `r msmbstyle::question_begin(header = "&#x25BA; Question B.8")`
 Inspect the expected frequencies.
 
-Look at the pearson residuals and comment on what you notice.
+Look at the Pearson residuals and comment on what you notice.
 
 *[Hint: If `out <- chisq.test(<table>)`, the expected counts can be obtained as `out$expected` and the Pearson residuals as `out$residuals`.]*
 `r msmbstyle::question_end()`
@@ -759,15 +826,15 @@ observed
 
 More customers than expected under the null hypothesis:
 
-- tipped after receiving a joke card
-- didn't tip after receiving an advertising card
-- didn't tip after receiving no card
+- didn't tip after receiving an advertising card;
+- tipped after receiving a joke card;
+- didn't tip after receiving no card.
 
 Less customers than expected under the null hypothesis:
 
-- tipped after receiving an advertising card
-- didn't tip after receiving a joke card
-- tipped after receiving no card
+- tipped after receiving an advertising card;
+- didn't tip after receiving a joke card;
+- tipped after receiving no card.
 
 
 The Pearson residuals are:
@@ -775,11 +842,11 @@ The Pearson residuals are:
 ind_test$residuals
 ```
 
-The top three contributions to the chi-square statistic is due to:
+The top three contributions to the chi-square statistic are due to:
 
-- more customers than expected under the null hypothesis tipped after receiving a joke card
-- less customers than expected under the null hypothesis tipped after receiving an advertisement card
-- less customers than expected under the null hypothesis didn't tip after receiving a joke card
+- more customers than expected under the null hypothesis tipped after receiving a joke card;
+- less customers than expected under the null hypothesis tipped after receiving an advertisement card;
+- less customers than expected under the null hypothesis didn't tip after receiving a joke card.
 
 `r msmbstyle::solution_end()`
 
@@ -787,7 +854,7 @@ The top three contributions to the chi-square statistic is due to:
 ---
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question B.9")`
-Check that the assumptions of the test are satisfied. These are the conditions required for the test to be valid.
+Check that the assumptions of the test are satisfied. These are the conditions required for the test results to be valid.
 `r msmbstyle::question_end()`
 
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
@@ -812,22 +879,49 @@ A chi-square test of independence between tipping and card type was performed ($
 The chi-square test shows that the tip rate differs depending on the which card (Joke, Ad, or None) the waiter gave to the customer. In other words, the two variables are associated.
 To understand the nature of this difference in the chi-square test, we need to compare observed and expected frequencies. 
 The observed number of tips in the joke group (30) is quite a bit higher than expected (20.47), while the observed counts for both the advertising and no card groups are lower than expected. 
+
+So, if you ever find yourself taking coffee orders in a cafe of a seaside resort in the west coast of France, you probably want to learn some jokes!
 `r msmbstyle::solution_end()`
 
 
-## Summary
+## Summary {-}
+
+In this lab you applied two types of statistical tests which apply to categorical variables having two or more categories.
+
+The __chi-square goodness-of-fit__ test involves **one categorical variable**. It determines whether it is reasonable to assume that your sample came from a population in which, for each category, the proportion of the population that falls into the category is equal to some hypothesized proportion. 
+
+The __chi-square test of independence__ involves **two categorical variables**. It determines whether it is reasonable to assume that two categorical variables are independent or not in the population. If they are not independent, we also say that the two variables are __associated__.
+
+Both tests involve using the chi-square test statistic, which has the following form:
+<center>
+$$
+\chi^2 = \sum_{all\ cells} \frac{(Observed - Expected)^2}{Expected}
+$$
+</center>
+
+The degrees of freedom are:
+
+- *Goodness-of-fit:* df = # categories - 1;
+
+- *Independence:* df = (# rows - 1) $\times$ (# columns - 1).
 
 
-## Glossary
+**Validity conditions.** For the test results to be valid, the data should come from a random sample of the population of interest, and the expected counts should all be at least 5.
 
-- _Cell contribution._ The contribution of a cell in a two-way table to the chi-square statistic. It is helpful in determining where large differences between observed data and what would be expected if the null hypothesis were true, exist.
+
+
+## Glossary {-}
+
+- _Cell contribution._ The contribution of a cell in a table to the chi-square statistic. It is helpful in determining where large differences between observed data and what would be expected if the null hypothesis were true, exist.
 - _Chi-square statistic._ A standardized statistic for quantifying the distance between the  observed frequencies in the sample with those expected under the null hypothesis.
-- _Expected counts._ The expected frequencies for the cells of the two-way table assuming the null hypothesis is true; found by applying the row proportions to the column totals.
-- _Observed counts._ The observed frequencies in the cells of the two-way table from the study.
-- _Validity conditions for chi-square test._ Each cell of the two-way table must have at least 5 observations.
+- _Expected counts._ The expected frequencies for the cells of the table assuming the null hypothesis is true.
+- _Chi-square goodness-of-fit test._ Are the proportions of the different categories in the population equal to the hypothesized proportions?
+- _Chi-square test of independence._ Are two categorical variables independent in the population?
+- _Observed counts._ The observed frequencies in the cells of the table from the study.
+- _Validity conditions for the chi-square test._ All expected counts must be at least 5.
 
 
-## References
+## References {-}
 
 - Gueaguen, N. (2002). The Effects of a Joke on Tipping When It Is Delivered at the Same Time as the Bill. _Journal of Applied Social Psychology, 32_(9), 1955-1963.
 
