@@ -57,7 +57,7 @@ This week, we will cover associations between two quantitative variables
 
 ## Walkthrough
 
-### Visualising {-}
+### Visualisation {-}
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.1")`
 How would you most often visualise the relationship between two quantitative variables?  
@@ -156,7 +156,7 @@ It is the change in one variable associated with the change in another variable.
 
 For samples, covariance is calculated using the following formula:
 
-$$cov(x,y)=\frac{\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})}{{n-1}}$$
+$$cov(x,y)=\frac{1}{n-1} \sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})$$
 
 $x$ and $y$ are two variables. 
 $i$ is the observation, such that $x_i$ is the $i_{th}$ observation in $x$. 
@@ -256,7 +256,7 @@ p5
 ```
 
 Now take another look at the formula for covariance:
-$$cov(x,y)=\frac{\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})}{{n-1}}$$
+$$cov(x,y)=\frac{1}{n-1} \sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})$$
 
 It is the sum of all these products divided by $n-1$. It is the average of the products! 
   
@@ -343,17 +343,23 @@ cov(recalldata$recall_accuracy, recalldata$recall_confidence)
 ---
 
 
-### correlation ($r$) {-}
+### Correlation ($r$) {-}
 
 <div class="red">
 You can think of correlation as a standardized covariance. It has a scale from negative one to one, on which the distance from zero indicates the strength of the relationship.  
 Just like covariance, positive/negative values reflect the nature of the relationship. 
 
-The formula for correlation is the following:
+The formula for correlation is the following: 
 
-$$r_{xy}=\frac{cov(x,y)}{s_xs_y}$$
+$$r_(x,y)=\frac{1}{n-1} \sum_{i=1}^n \left( \frac{x_{i}-\bar{x}}{s_x} \right) \left( \frac{y_{i}-\bar{y}}{s-y} \right)$$
+
+Notice that this is very similar to covariance, but the values $(x_i - \bar{x})$ are divided by the standard deviation ($s_x$). This _standardises_ all the values so that they are expressed as the distance _in standard deviations_ from the mean ($\bar x$).  
+
+We can also rewrite the formula as:  
+$$r_{xy}=\frac{cov(x,y)}{s_xs_y}$$ 
   
-  
+#### Properties of $r$ {-}  
+
 + $-1 \geq r \leq 1$
 + The sign indicates the direction of association
   + _positive association_ ($r > 0$) means that values of one variable tend to be higher when values of the other variable are higher
@@ -393,7 +399,7 @@ cor(recalldata$recall_accuracy, recalldata$recall_confidence)
 ```
 `r msmbstyle::solution_end()`
   
-### Break: Guess the $r$ {-}
+### <b>Game:</b> Guess the $r$ {-}
 Take a break and play this "guess the correlation" game to get an idea of what different strengths and directions of $r$ can look like.  
   
 `r knitr::include_url("http://guessthecorrelation.com/", height="650px")`
@@ -402,9 +408,12 @@ Take a break and play this "guess the correlation" game to get an idea of what d
 ### Correlation test {-}  
 
 
+#### Assumptions {-}  
 
-
-
++ Both variables are quantitative
++ Both variables should be drawn from normally distributed populations.
++ The relationship between the two variables should be linear.  
++ Homoscedasticity 
 
 ### Cautions! {-}
 
@@ -460,6 +469,61 @@ knitr::include_graphics("https://pbs.twimg.com/media/D0AS2iEX0AAuMLX.jpg")
 ```
 _"since chocolate consumption has been documented to improve cognitive function, it seems most likely that in a dose-dependent way, chocolate intake provides the abundant fertile ground needed for the sprouting of Nobel laureates"_  
 [Messerli, Franz. Chocolate Consumption, Cognitive Function, and Nobel Laureates. The New England Journal of Medicine 2012; 367:1562-4,  (http://www.nejm.org/doi/full/10.1056/NEJMon1211064)]
+`r msmbstyle::solution_end()`
+
+
+
+### Extra: Correlation matrix {-}  
+
+Lots of psychological datasets will have many many related variables. For instance, if a researcher was interested in job satisfaction, they might give a questionnaire to participants, and we would end up with a dataset with lots of variables (one for each question).  
+
+We will often want to quickly summarise the relationship between all possible pairs of variables, and we can do this using `cor()`, and giving it a set of variables (or a whole dataset). 
+  
+For example:  
+```{r message=FALSE,warning=FALSE}
+jobsat<-read_csv("../data/jobsat.csv") 
+
+cormat <- cor(jobsat)
+
+cormat 
+```
+
+It's a lot of numbers to look at, but each column and each row is a variable, so the left-most column shows the correlations between `V1` and each of `V1`, `V2`, `V3`, ..., `V8`.  
+
+We can visualise this with a heatmap.  
+You probably won't have the package `pheatmap` yet, so you'll need to install it first.  
+
+<div class="lo">  
+##### Refresher: Installing packages {-}  
+
+You can install a package either by using `install.packages()` (for example: `install.packages("pheatmap")`), or by choosing the Packages tab in the bottom right window of RStudio, and clicking the install button.  
+  
+__Note:__ If you run `install.packages()`, you can do this in the __console__ (the bottom-left window in RStudio).  
+Remember that the console works like scratch-paper in that _nothing you write there is saved._  
+
+But we don't want to save the code which installs packages - if we had it in our RMarkdown document, then _every time that you run your code, you will be reinstalling the package_.  
+So running the `install.packages()` line from a code-chunk in your RMarkdown document is completely fine, just be sure to delete this line of code _after_ you have run it.  
+
+##### Refresher: Loading packages {-}  
+
+Now that we have installed a package, to use it we need to load it first.  
+This is what we are doing when we use `library()`.  
+  
+This line you __should__ keep in your code, because it ensures that your code is reproducible. If you don't include it, then a reader of your code will not know where you got some of the functions from.  
+</div>  
+
+`r msmbstyle::question_begin(header = "&#x25BA; Question ")`
+  
+i. Install the `pheatmap` package.  
+ii. Load the `pheatmap` package. 
+iii. visualise your correlation matrix using the function `pheatmap()`.  
+
+`r msmbstyle::question_end()`
+`r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
+```{r}
+library(pheatmap)
+pheatmap(cormat)
+```
 `r msmbstyle::solution_end()`
 
 
