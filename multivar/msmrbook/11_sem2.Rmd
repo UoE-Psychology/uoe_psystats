@@ -23,7 +23,7 @@ library(semPlot)
 
 In this final week we are going to address some practical issues that commonly arise in Structural Equation Modeling: Non-normality, ordinal-categorical endogeneous variables, and missingness. In the example for this week a researcher is interested in the effects of prenatal stress on child cognitive outcomes. She has a 5-item measure of prenatal stress and a 5 subtest measure of child cognitive ability, collected for 500 mother-infant dyads. 
 
-+ The data is available as a .csv file here: []()
++ The data is available as a .csv file here: [https://edin.ac/3bod7nJ](https://edin.ac/3bod7nJ)
 
 </div>
 
@@ -35,11 +35,13 @@ The prenatal stress questionnaire items are measured on a 3-point scale.
 Read in the data and it a one-factor confirmatory factor analysis using an appropraite estimation method.
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
-```{r categorical estimation}
-stress_IQ_data<-read_csv("data/Stress_IQ_data.csv")
+```{r message=FALSE}
+stress_IQ_data<-read_csv("https://edin.ac/3bod7nJ")
 
 describe(stress_IQ_data)
+```
 
+```{r categorical estimation}
 #specify the model
 model_stress<-'Stress=~stress1+stress2+stress3+stress4+stress5'
 
@@ -148,13 +150,17 @@ In order to try and replicate the IQ CFA, our researcher collects a new sample o
   
 Conduct a CFA using the new data, taking account of the missingness.  
   
-The data can be found at [URL](), and is in .csv format. 
++ The data can be found at [https://edin.ac/2WGJav3](https://edin.ac/2WGJav3), and is in .csv format. 
+ 
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 We can fit the model setting missing='FIML'. If data are missing at random (MAR) - i.e., missingness is related to the measured variables but not the unobserved missing values - then this gives us unbiased parameter estimates.  Unfortunately we can never know whether data are MAR for sure as this would require knowledge of the missing values. 
-```{r missingness}
-IQ_data_new<-read_csv('data/new_IQ_data.csv')
 
+```{r message=FALSE}
+IQ_data_new<-read_csv("https://edin.ac/2WGJav3")
+```
+
+```{r missingness}
 IQ_model_missing<-'IQ=~IQ1+IQ2+IQ3+IQ4+IQ5
 IQ1~~IQ2
 IQ4~~IQ5'
