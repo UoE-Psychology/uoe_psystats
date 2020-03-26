@@ -33,11 +33,11 @@ library(tidyverse)
 In weeks 16-18, we were working with quantitative _response_ variables, and categorical _explanatory_ variables.   
   
 
-|  Test                    | Description                                                                                                 |
-|-------------------------:|------------------------------------------------------------------------------------------------------------:|
-|  One-sample $t$-test     | test for the significance of the difference between one mean ($\mu_1$) and some hypothesised value          |
-|  Two-samples $t$-test    | test for the significance of the difference between two means ($\mu_1$ and $\mu_2$)                         |
-|  Paired-samples $t$-test | test for the significance of the difference between the mean difference ($\mu_d$) from paired samples and 0 |
+|                    Test |                                                                                                    Description |
+|------------------------:|---------------------------------------------------------------------------------------------------------------:|
+|     One-sample $t$-test |            test for the significance of the difference between<br>one mean ($\mu$) and some hypothesised value |
+|    Two-samples $t$-test |                         test for the significance of the difference between<br>two means ($\mu_1$ and $\mu_2$) |
+| Paired-samples $t$-test | test for the significance of the difference between<br>the mean difference ($\mu_d$) from paired samples and 0 |
 
 ---
 
@@ -46,8 +46,8 @@ We discussed the __chi-square goodness-of-fit test__ and the __chi-square test o
 
 |  Test                    | Description                                                                    |
 |-------------------------:|-------------------------------------------------------------------------------:|
-|  $\chi^2$ goodness-of-fit| tests whether categorical variable\n conforms with hypothesized proportions    |
-|  $\chi^2$ independence   | tests whether categorical variable\n is related to another categorical variable|
+|  $\chi^2$ goodness-of-fit| tests whether categorical variable<br>conforms with hypothesized proportions    |
+|  $\chi^2$ independence   | tests whether categorical variable<br>is related to another categorical variable|
 
 ---
 
@@ -112,7 +112,7 @@ rm(x1,x123,c1,chol1,newx,covm,chol2,finalx)
 Our data for this walkthrough is from a (hypothetical) study on memory. Twenty participants studied passages of text (c500 words long), and were tested a week later. The testing phase presented participants with 100 statements about the text. They had to answer whether each statement was true or false, as well as rate their confidence in each answer (on a sliding scale from 0 to 100). The dataset contains, for each participant, the percentage of items correctly answered, and the average confidence rating. Participants' ages were also recorded.   
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.2")`
-Read in the data from []() and look at the dimensions of the data as well as some summary statistics. 
+Read in the data from **TODO** []() and look at the dimensions of the data as well as some summary statistics. 
 
 Plot the relationship between the percentage of items answered correctly (`recall_accuracy`) and participants' average self-rating of confidence in their answers (`recall_confidence`).  
 
@@ -150,17 +150,19 @@ The notion of correlation may already be familiar to you, but to understand it b
 ### Covariance {-}
 
 <div class="red">
-
+<br>
 Covariance is the measure of how two variables vary together. 
 It is the change in one variable associated with the change in another variable.   
 
 For samples, covariance is calculated using the following formula:
 
-$$cov(x,y)=\frac{1}{n-1}\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})$$
+$$\mathrm{cov}(x,y)=\frac{1}{n-1}\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})$$
 
-$x$ and $y$ are two variables. 
-$i$ is the observation, such that $x_i$ is the $i_{th}$ observation in $x$. 
-$n$ is the sample size.
+where:
+
+- $x$ and $y$ are two variables; e.g., `age` and `recall_accuracy`;
+- $i$ denotes the observational unit, such that $x_i$ is value that the $x$ variable takes on the $i$th observational unit, and similarly for $y_i$;
+- $n$ is the sample size.
 </div>  
 
 #### A visual explanation {-}  
@@ -239,7 +241,7 @@ Consider the following scatterplot:
 p1
 ```
 <br>
-Now let's draw the mean of $x$ ($\bar{x}$) and the mean of $y$ ($\bar{y}$) on there:
+Now let's superimpose a vertical dashed line at the mean of $x$ ($\bar{x}$) and a horizontal dashed line at the mean of $y$ ($\bar{y}$):
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p2
 ```
@@ -266,7 +268,7 @@ p5
 <br>
 Now take another look at the formula for covariance:  
 
-$$cov(x,y)=\frac{\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})}{n-1}$$
+$$\mathrm{cov}(x,y)=\frac{\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})}{n-1}$$
   
 It is the sum of all these products divided by $n-1$. It is the average of the products! 
   
@@ -277,7 +279,7 @@ We're going to calculate the covariance between recall accuracy and recall confi
 Create 2 new columns in the memory recall data, one of which is the mean recall accuracy, and one which is the mean recall confidence. 
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
-Remember to assign it using `recalldata<-...` otherwise it will just print out the data with the new columns, rather than store it anywhere. 
+Remember to assign it using `recalldata <- ...` otherwise it will just print out the data with the new columns, rather than store it anywhere. 
 ```{r}
 recalldata <-
   recalldata %>% mutate(
@@ -360,14 +362,14 @@ cov(recalldata$recall_accuracy, recalldata$recall_confidence)
 You can think of correlation as a standardized covariance. It has a scale from negative one to one, on which the distance from zero indicates the strength of the relationship.  
 Just like covariance, positive/negative values reflect the nature of the relationship.  
 
-The __correlation coefficient__ is the standardised number which tells us about the strength and direction of a linear relationship between two values.    
+The __correlation coefficient__ is a standardised number which quantifies the strength and direction of the **linear** relationship between two variables.    
  
 + In a __population__, it is denoted by $\rho$.  
 + In a __sample__, it is denoted by $r$.  
   
 We saw in the lecture that we can calculate $r$ using the following formula:  
 $$
-r_{(x,y)}=\frac{cov(x,y)}{s_xs_y}
+r_{(x,y)}=\frac{\mathrm{cov}(x,y)}{s_xs_y}
 $$ 
 
 And we expanded this to:
@@ -389,14 +391,14 @@ This _standardises_ all the values so that they are expressed as the distance _i
 
 #### Properties of correlation coefficients {-}  
 
-+ $-1 \geq r \leq 1$
++ $-1 \leq r \leq 1$
 + The sign indicates the direction of association
   + _positive association_ ($r > 0$) means that values of one variable tend to be higher when values of the other variable are higher
   + _negative association_ ($r < 0$) means that values of one variable tend to be lower when values of the other variable are higher
   + _no linear association_ ($r \approx 0$) means that higher/lower values of one variable do not tend to occur with higher/lower values of the other variable 
 + The closer $r$ is to $\pm 1$, the stronger the linear association
 + $r$ has no units and does not depend on the units of measurement
-+ The correlation between $X$ and $Y$ is the same as the correlation between $Y$ and $X$
++ The correlation between $x$ and $y$ is the same as the correlation between $y$ and $x$
 
 </div>
 
@@ -406,9 +408,9 @@ This _standardises_ all the values so that they are expressed as the distance _i
 
 #### Manually calculating correlation {-}
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.7")`
-We calculated above that $cov( \textrm{recall_accuracy}, \textrm{recall_confidence})$ = `r cov(recalldata$recall_accuracy, recalldata$recall_confidence) %>% round(3)`.  
+We calculated above that $\mathrm{cov}(\texttt{recall_accuracy}, \texttt{recall_confidence})$ = `r cov(recalldata$recall_accuracy, recalldata$recall_confidence) %>% round(3)`.  
   
-To calculate the _correlation_, we simply divide this by the standard deviations of the two variables.  $s_{\textrm{recall_accuracy}} \times s_{\textrm{recall_confidence}}$
+To calculate the _correlation_, we simply divide this by the standard deviations of the two variables.  $s_{\texttt{recall_accuracy}} \times s_{\texttt{recall_confidence}}$
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = TOGGLE)`
 ```{r}
@@ -482,11 +484,11 @@ __$p$-value__
 
 We calculate the p-value for our $t$-statistic in the usual way:  
 
-i. $\mathrm{Pr}(T_2 \leq t)$
-ii. $\mathrm{Pr}(T_2 \geq t)$
-iii. $2 \times \mathrm{Pr}(T_2 \geq |t|)$
+i. $\mathrm{Pr}(T_{n-2} \leq t)$
+ii. $\mathrm{Pr}(T_{n-2} \geq t)$
+iii. $2 \times \mathrm{Pr}(T_{n-2} \geq |t|)$
 
-where $T_2$ denotes a $t$-distribution with __2__ degrees of freedom.
+where $T_{n-2}$ denotes a $t$-distribution with __n - 2__ degrees of freedom.
 
 #### Assumptions {-}  
 
@@ -714,6 +716,7 @@ write.csv(dat1,"data/sleepdtf.csv",row.names = FALSE)
 ### Sleep levels and daytime functioning {-}  
 
 <div class="red">
+<br>
 A researcher is interested in the relationship between hours slept per night and self-rated effects of sleep on daytime functioning. 
 She recruited 50 healthy adults, and collected data on the Total Sleep Time (TST) over the course of a seven day period via sleep-tracking devices.  
 <br>
@@ -739,7 +742,7 @@ tibble(
 
 <br>
 <br>
-The data is available at []()
+The data is available at **TODO** []()
 
 </div>
 
@@ -777,7 +780,7 @@ sleepdtf <-
 `r msmbstyle::solution_end()`
 ---
 `r msmbstyle::question_begin(header = "&#x25BA; Question B.2")`
-calculate the correlation between the total sleep time (`TST`) and the overall daytime functioning score.  
+Calculate the correlation between the total sleep time (`TST`) and the overall daytime functioning score.  
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS)`
 ```{r}
@@ -786,7 +789,7 @@ cor(sleepdtf$TST, sleepdtf$dtf)
 `r msmbstyle::solution_end()`
 ---
 `r msmbstyle::question_begin(header = "&#x25BA; Question B.3")`
-conduct a test to establish the probability of observing a correlation this strong in a sample of this size assuming the true correlation to be 0.  
+Conduct a test to establish the probability of observing a correlation this strong in a sample of this size assuming the true correlation to be 0.  
 <br>
 Write a sentence or two summarising the results. 
 `r msmbstyle::question_end()`
@@ -795,7 +798,7 @@ Write a sentence or two summarising the results.
 cor.test(sleepdtf$TST, sleepdtf$dtf)
 ```
 
-There was a strong negative correlation between total sleep time and self-reported daytime functioning score ($r(48)$ = `r cor(sleepdtf$TST, sleepdtf$dtf) %>% round(2)`, $p < .05$) in the current sample. As total sleep time increased, levels of self-reported daytime functioning decreased.  
+There was a strong negative correlation between total sleep time and self-reported daytime functioning score ($r(48)$ = `r cor(sleepdtf$TST, sleepdtf$dtf) %>% round(2)`, $p < .001$) in the current sample. As total sleep time increased, levels of self-reported daytime functioning decreased.  
 `r msmbstyle::solution_end()`
 ---
 `r msmbstyle::question_begin(header = "&#x25BA; Question B.4")`
@@ -832,6 +835,9 @@ mydata[1, 4:5]
 ```
 To give us the first row, and the 4th and 5th columns.
 </div> 
+
+
+**TODO: Is hetcor() really needed? I'd just do `cor(sleepdtf[, 2:11])`**
 
 To make the correlation matrix, we just pass any of these to the `hetcor()` function from the `polycor` package!  
 
