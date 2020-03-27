@@ -112,7 +112,7 @@ rm(x1,x123,c1,chol1,newx,covm,chol2,finalx)
 Our data for this walkthrough is from a (hypothetical) study on memory. Twenty participants studied passages of text (c500 words long), and were tested a week later. The testing phase presented participants with 100 statements about the text. They had to answer whether each statement was true or false, as well as rate their confidence in each answer (on a sliding scale from 0 to 100). The dataset contains, for each participant, the percentage of items correctly answered, and the average confidence rating. Participants' ages were also recorded.   
 
 `r msmbstyle::question_begin(header = "&#x25BA; Question A.2")`
-Read in the data from **TODO** []() and look at the dimensions of the data as well as some summary statistics. 
+Read in the data from [https://edin.ac/2wHhCej](https://edin.ac/2wHhCej) - it is a __.csv__ file - and look at the dimensions of the data as well as some summary statistics. 
 
 Plot the relationship between the percentage of items answered correctly (`recall_accuracy`) and participants' average self-rating of confidence in their answers (`recall_confidence`).  
 
@@ -120,7 +120,7 @@ Plot the relationship between recall accuracy and age.
 `r msmbstyle::question_end()`
 `r msmbstyle::solution_begin(hidden = HIDDEN_SOLS, toggle = FALSE)`
 ```{r message=FALSE,warning=FALSE}
-recalldata <- read_csv("data/recalldata.csv")
+recalldata <- read_csv("https://edin.ac/2wHhCej")
 
 dim(recalldata)
 
@@ -697,7 +697,8 @@ dat1<-as.data.frame(cbind(dat1[,1], round(dat1[,2:11])))
 names(dat1)<-c("TST",paste0("item_",1:10))
 
 dat1<- dat1 %>% 
-  mutate_at(vars(contains("item")),~ifelse(.>5,5,ifelse(.<1,1,.)))
+  mutate_at(vars(contains("item")),~ifelse(.>5,5,ifelse(.<1,1,.))) %>%
+  mutate(TST = round(TST,1))
 
 rm(corm,mus,stddev,covMat)
 # psych::describe(dat1)
