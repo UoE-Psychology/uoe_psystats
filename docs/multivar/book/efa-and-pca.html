@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 EFA and PCA | Multivariate Statistics and Methodology using R</title>
   <meta name="description" content="This is the page that contains the course labs materials" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 EFA and PCA | Multivariate Statistics and Methodology using R" />
   <meta property="og:type" content="book" />
@@ -89,7 +89,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -339,16 +339,16 @@ Inspect the items to check their suitability for exploratory factor analysis.</p
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-249" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-249&#39;, &#39;sol-start-249&#39;)"></span>
+► Solution<span id="sol-start-61" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-61&#39;, &#39;sol-start-61&#39;)"></span>
 </p>
-<div id="sol-body-249" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" title="1"><span class="kw">library</span>(psych)</a>
-<a class="sourceLine" id="cb147-2" title="2">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://edin.ac/2Vk1BVU&quot;</span>)</a>
-<a class="sourceLine" id="cb147-3" title="3"></a>
-<a class="sourceLine" id="cb147-4" title="4"><span class="co"># discard the first column</span></a>
-<a class="sourceLine" id="cb147-5" title="5">df &lt;-<span class="st"> </span>df[,<span class="op">-</span><span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb147-6" title="6"></a>
-<a class="sourceLine" id="cb147-7" title="7"><span class="kw">corr.test</span>(df)  </a></code></pre></div>
+<div id="sol-body-61" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">library</span>(psych)</a>
+<a class="sourceLine" id="cb147-2" data-line-number="2">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://edin.ac/2Vk1BVU&quot;</span>)</a>
+<a class="sourceLine" id="cb147-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb147-4" data-line-number="4"><span class="co"># discard the first column</span></a>
+<a class="sourceLine" id="cb147-5" data-line-number="5">df &lt;-<span class="st"> </span>df[,<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb147-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb147-7" data-line-number="7"><span class="kw">corr.test</span>(df)  </a></code></pre></div>
 <pre><code>## Call:corr.test(x = df)
 ## Correlation matrix 
 ##        item1 item2 item3 item4 item5 item6 item7 item8 item9 item10
@@ -378,18 +378,18 @@ Inspect the items to check their suitability for exploratory factor analysis.</p
 ## item10     0     0     0     0     0     0     0     0     0      0
 ## 
 ##  To see confidence intervals of the correlations, print with the short=FALSE option</code></pre>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" title="1"><span class="kw">KMO</span>(df)  </a></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1"><span class="kw">KMO</span>(df)  </a></code></pre></div>
 <pre><code>## Kaiser-Meyer-Olkin factor adequacy
 ## Call: KMO(r = df)
 ## Overall MSA =  0.87
 ## MSA for each item = 
 ##  item1  item2  item3  item4  item5  item6  item7  item8  item9 item10 
 ##   0.90   0.88   0.92   0.88   0.84   0.94   0.82   0.81   0.95   0.94</code></pre>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" title="1">car<span class="op">::</span><span class="kw">scatterplotMatrix</span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">car<span class="op">::</span><span class="kw">scatterplotMatrix</span>(df)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-114-1.png" width="672" />
 or alternatively.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" title="1"><span class="kw">library</span>(GGally)</a>
-<a class="sourceLine" id="cb152-2" title="2"><span class="kw">ggpairs</span>(<span class="dt">data=</span>df, <span class="dt">diag=</span><span class="kw">list</span>(<span class="dt">continuous=</span><span class="st">&quot;density&quot;</span>), <span class="dt">axisLabels=</span><span class="st">&quot;show&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="kw">library</span>(GGally)</a>
+<a class="sourceLine" id="cb152-2" data-line-number="2"><span class="kw">ggpairs</span>(<span class="dt">data=</span>df, <span class="dt">diag=</span><span class="kw">list</span>(<span class="dt">continuous=</span><span class="st">&quot;density&quot;</span>), <span class="dt">axisLabels=</span><span class="st">&quot;show&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -413,16 +413,16 @@ or alternatively.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-250" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-250&#39;, &#39;sol-start-250&#39;)"></span>
+► Solution<span id="sol-start-62" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-62&#39;, &#39;sol-start-62&#39;)"></span>
 </p>
-<div id="sol-body-250" class="solution-body" style="display: none;">
+<div id="sol-body-62" class="solution-body" style="display: none;">
 <p>You can use <code>fa.parallel(df)</code> to conduct both parallel analysis and view a scree plot.</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" title="1"><span class="kw">fa.parallel</span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" data-line-number="1"><span class="kw">fa.parallel</span>(df)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
 <pre><code>## Parallel analysis suggests that the number of factors =  2  and the number of components =  2</code></pre>
 <p>In this case the scree plot has a kink at the third factor, so we probably want to retain 2 factors.</p>
 <p>We can conduct the MAP test using <code>vss(df)</code>.</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" title="1"><span class="kw">vss</span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1"><span class="kw">vss</span>(df)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-117-1.png" width="672" /></p>
 <pre><code>## 
 ## Very Simple Structure
@@ -435,15 +435,24 @@ or alternatively.</p>
 ## Sample Size adjusted BIC achieves a minimum of  NA  with  3  factors
 ## 
 ## Statistics by number of factors 
-##   vss1 vss2   map dof   chisq     prob sqresid  fit RMSEA  BIC SABIC complex  eChisq    SRMR eCRMS eBIC
-## 1 0.77 0.00 0.106  35 8.8e+02 3.6e-161     6.0 0.77 0.231  662   773     1.0 1.0e+03 1.6e-01 0.179  797
-## 2 0.78 0.92 0.034  26 4.0e+01  3.9e-02     2.1 0.92 0.035 -119   -36     1.1 1.4e+01 1.8e-02 0.024 -145
-## 3 0.78 0.91 0.058  18 1.2e+01  8.6e-01     1.9 0.93 0.000  -98   -41     1.2 3.4e+00 9.1e-03 0.014 -107
-## 4 0.63 0.90 0.104  11 6.1e+00  8.7e-01     1.4 0.95 0.000  -61   -26     1.3 1.6e+00 6.3e-03 0.013  -66
-## 5 0.69 0.87 0.149   5 2.4e+00  7.9e-01     1.6 0.94 0.000  -28   -12     1.3 7.5e-01 4.3e-03 0.013  -30
-## 6 0.71 0.89 0.252   0 1.2e-01       NA     1.4 0.95    NA   NA    NA     1.4 2.9e-02 8.4e-04    NA   NA
-## 7 0.79 0.89 0.397  -4 1.1e-07       NA     1.5 0.94    NA   NA    NA     1.3 2.2e-08 7.4e-07    NA   NA
-## 8 0.79 0.89 0.455  -7 1.6e-08       NA     1.5 0.94    NA   NA    NA     1.4 2.8e-09 2.6e-07    NA   NA</code></pre>
+##   vss1 vss2   map dof   chisq     prob sqresid  fit RMSEA  BIC SABIC complex
+## 1 0.77 0.00 0.106  35 8.8e+02 3.6e-161     6.0 0.77 0.231  662   773     1.0
+## 2 0.78 0.92 0.034  26 4.0e+01  3.9e-02     2.1 0.92 0.035 -119   -36     1.1
+## 3 0.78 0.91 0.058  18 1.2e+01  8.6e-01     1.9 0.93 0.000  -98   -41     1.2
+## 4 0.63 0.90 0.104  11 6.1e+00  8.7e-01     1.4 0.95 0.000  -61   -26     1.3
+## 5 0.69 0.87 0.149   5 2.4e+00  7.9e-01     1.6 0.94 0.000  -28   -12     1.3
+## 6 0.71 0.89 0.252   0 1.2e-01       NA     1.4 0.95    NA   NA    NA     1.4
+## 7 0.79 0.89 0.397  -4 1.1e-07       NA     1.5 0.94    NA   NA    NA     1.3
+## 8 0.79 0.89 0.455  -7 1.6e-08       NA     1.5 0.94    NA   NA    NA     1.4
+##    eChisq    SRMR eCRMS eBIC
+## 1 1.0e+03 1.6e-01 0.179  797
+## 2 1.4e+01 1.8e-02 0.024 -145
+## 3 3.4e+00 9.1e-03 0.014 -107
+## 4 1.6e+00 6.3e-03 0.013  -66
+## 5 7.5e-01 4.3e-03 0.013  -30
+## 6 2.9e-02 8.4e-04    NA   NA
+## 7 2.2e-08 7.4e-07    NA   NA
+## 8 2.8e-09 2.6e-07    NA   NA</code></pre>
 <p>The MAP test suggests retaining 2 factors.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -466,11 +475,11 @@ or alternatively.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-251" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-251&#39;, &#39;sol-start-251&#39;)"></span>
+► Solution<span id="sol-start-63" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-63&#39;, &#39;sol-start-63&#39;)"></span>
 </p>
-<div id="sol-body-251" class="solution-body" style="display: none;">
+<div id="sol-body-63" class="solution-body" style="display: none;">
 <p>You can use the <code>fa()</code> function from the <code>psych</code> package, for example, you could choose an oblimin rotation to allow factors to correlate and use minres as the extraction method.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" title="1">conduct_efa &lt;-<span class="st"> </span><span class="kw">fa</span>(df, <span class="dt">nfactors=</span><span class="dv">2</span>, <span class="dt">rotate=</span><span class="st">&#39;oblimin&#39;</span>, <span class="dt">fm=</span><span class="st">&#39;minres&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1">conduct_efa &lt;-<span class="st"> </span><span class="kw">fa</span>(df, <span class="dt">nfactors=</span><span class="dv">2</span>, <span class="dt">rotate=</span><span class="st">&#39;oblimin&#39;</span>, <span class="dt">fm=</span><span class="st">&#39;minres&#39;</span>)</a></code></pre></div>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -493,11 +502,11 @@ or alternatively.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-252" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-252&#39;, &#39;sol-start-252&#39;)"></span>
+► Solution<span id="sol-start-64" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-64&#39;, &#39;sol-start-64&#39;)"></span>
 </p>
-<div id="sol-body-252" class="solution-body" style="display: none;">
+<div id="sol-body-64" class="solution-body" style="display: none;">
 <p>You can inspect the loadings using:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" title="1">conduct_efa<span class="op">$</span>loadings</a></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1">conduct_efa<span class="op">$</span>loadings</a></code></pre></div>
 <pre><code>## 
 ## Loadings:
 ##        MR1    MR2   
@@ -539,11 +548,11 @@ or alternatively.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-253" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-253&#39;, &#39;sol-start-253&#39;)"></span>
+► Solution<span id="sol-start-65" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-65&#39;, &#39;sol-start-65&#39;)"></span>
 </p>
-<div id="sol-body-253" class="solution-body" style="display: none;">
+<div id="sol-body-65" class="solution-body" style="display: none;">
 <p>We can inspect the factor correlations (if we used an oblique rotation) using:</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" title="1">conduct_efa<span class="op">$</span>Phi</a></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1">conduct_efa<span class="op">$</span>Phi</a></code></pre></div>
 <pre><code>##           MR1       MR2
 ## MR1 1.0000000 0.4299169
 ## MR2 0.4299169 1.0000000</code></pre>
@@ -569,9 +578,9 @@ or alternatively.</p>
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-254" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-254&#39;, &#39;sol-start-254&#39;)"></span>
+► Solution<span id="sol-start-66" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-66&#39;, &#39;sol-start-66&#39;)"></span>
 </p>
-<div id="sol-body-254" class="solution-body" style="display: none;">
+<div id="sol-body-66" class="solution-body" style="display: none;">
 <p>The main principles governing the reporting of statistical results are transparency and reproducibility (i.e., someone should be able to reproduce your analysis based on your description).</p>
 <p>An example summary would be:</p>
 <p>First, the data were checked for their suitability for factor analysis. Normality was checked using visual inspection of histograms, linearity was checked through the inspection of the linear and lowess lines for the pairwise relations of the variables, and factorability was confirmed using a KMO test, which yielded an overall KMO of <span class="math inline">\(.87\)</span> with no variable KMOs <span class="math inline">\(&lt;.50\)</span>.
@@ -662,11 +671,11 @@ The factor loadings are provided in Table <a href="efa-and-pca.html#tab:loading-
 </div>
 <div class="solution">
 <p class="solution-begin">
-► Solution<span id="sol-start-255" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-255&#39;, &#39;sol-start-255&#39;)"></span>
+► Solution<span id="sol-start-67" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-67&#39;, &#39;sol-start-67&#39;)"></span>
 </p>
-<div id="sol-body-255" class="solution-body" style="display: none;">
+<div id="sol-body-67" class="solution-body" style="display: none;">
 <p>We can use:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1"><span class="kw">principal</span>(df, <span class="dt">nfactors=</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="kw">principal</span>(df, <span class="dt">nfactors=</span><span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## Principal Components Analysis
 ## Call: principal(r = df, nfactors = 2)
 ## Standardized loadings (pattern matrix) based upon correlation matrix
