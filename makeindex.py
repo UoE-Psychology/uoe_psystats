@@ -11,12 +11,12 @@ INDEX_TEMPLATE = r"""
 <head>
 <title>${header}</title>
 <meta name="description" content="${header}"/>
-<link rel="stylesheet" href="http://https://uoe-psychology.github.io/uoe_psystats/style.css" type="text/css" />
+<link rel="stylesheet" href="https://uoe-psychology.github.io/uoe_psystats/style.css" type="text/css" />
 </head>
 <body>
     <h2>Data Analysis for Psychological Research<br>University of Edinburgh</h2>
     <p>
-    <td valign="top"></td><td><a href="../"><img src="http://https://uoe-psychology.github.io/uoe_psystats/site_images/backup.png" style="width:25px" alt="[PARENTDIR]"></a></td>
+    <td valign="top"></td><td><a href="../"><img src="https://uoe-psychology.github.io/uoe_psystats/site_images/backup.png" style="width:25px" alt="[PARENTDIR]"></a></td>
     
     <h3>${header}</h3> 
     
