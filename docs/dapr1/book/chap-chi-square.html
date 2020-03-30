@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="chap-paired-t-test.html"/>
-
+<link rel="next" href="chap-covcor.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -479,6 +479,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#glossary-7"><i class="fa fa-check"></i>Glossary</a></li>
 <li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#references-4"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
+<li class="chapter" data-level="20" data-path="chap-covcor.html"><a href="chap-covcor.html"><i class="fa fa-check"></i><b>20</b> Covariance and correlation</a><ul>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#recap-8"><i class="fa fa-check"></i>Recap</a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#walkthrough-4"><i class="fa fa-check"></i>Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#visualisation"><i class="fa fa-check"></i>Visualisation</a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#covariance"><i class="fa fa-check"></i>Covariance</a></li>
+<li><a href="chap-covcor.html#correlation-r">Correlation (<span class="math inline">\(r\)</span>)</a></li>
+<li><a href="chap-covcor.html#game-guess-the-r"><b>Game:</b> Guess the <span class="math inline">\(r\)</span></a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#testing-significance-of-the-correlation-coefficient"><i class="fa fa-check"></i>Testing significance of the correlation coefficient</a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#extras-correlation-matrix"><i class="fa fa-check"></i>Extras: Correlation matrix</a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#cautions"><i class="fa fa-check"></i>Cautions!</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#lab-6"><i class="fa fa-check"></i>Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#sleep-levels-and-daytime-functioning"><i class="fa fa-check"></i>Sleep levels and daytime functioning</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -599,8 +614,8 @@ The latter tests if two categorical variables are associated in the population o
 <p>Identify the observational units and variable here.</p>
 <p>Is the variable categorical or quantitative? If it is categorical, is it also binary?</p>
 <ul>
-<li><p>Observational units:</p></li>
-<li><p>Variable: <br>Type:</p></li>
+<li><p><em>Observational units:</em></p></li>
+<li><p><em>Variable:</em> <br><em>Type:</em></p></li>
 </ul>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -613,8 +628,8 @@ The latter tests if two categorical variables are associated in the population o
 </p>
 <div id="sol-body-144" class="solution-body" style="display: none;">
 <ul>
-<li><p>Observational units: The 147 noted writers of the present listed in <em>World Almanac and Book of Facts 2000</em></p></li>
-<li><p>Variable: Day of the week on which the birthday falls <br>Type: Categorical</p></li>
+<li><p><em>Observational units:</em> The 147 noted writers of the present listed in <em>World Almanac and Book of Facts 2000</em></p></li>
+<li><p><em>Variable:</em> Day of the week on which the birthday falls <br><em>Type:</em> Categorical</p></li>
 </ul>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -641,11 +656,11 @@ The latter tests if two categorical variables are associated in the population o
 </p>
 <div id="sol-body-145" class="solution-body" style="display: none;">
 <p>Let’s read the data into R:</p>
-<div class="sourceCode" id="cb899"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb899-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb899-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb899-3" data-line-number="3">writers &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2Ul2yLj&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb901"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb901-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb901-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb901-3" data-line-number="3">writers &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&#39;https://edin.ac/2Ul2yLj&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Inspect the first six rows:</p>
-<div class="sourceCode" id="cb900"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb900-1" data-line-number="1"><span class="kw">head</span>(writers)</a></code></pre></div>
+<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb902-1" data-line-number="1"><span class="kw">head</span>(writers)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 1
 ##   DayOfWeek
 ##   &lt;chr&gt;    
@@ -656,13 +671,13 @@ The latter tests if two categorical variables are associated in the population o
 ## 5 Friday   
 ## 6 Sunday</code></pre>
 <p>Check the dimensions of the tibble:</p>
-<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb902-1" data-line-number="1"><span class="kw">dim</span>(writers)</a></code></pre></div>
+<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb904-1" data-line-number="1"><span class="kw">dim</span>(writers)</a></code></pre></div>
 <pre><code>## [1] 147   1</code></pre>
 <p>Day of the week is encoded as a character rather than a factor (remember that day of the week is categorical). Let’s fix the encoding:</p>
-<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb904-1" data-line-number="1">writers &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb904-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">DayOfWeek =</span> <span class="kw">factor</span>(DayOfWeek))</a>
-<a class="sourceLine" id="cb904-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb904-4" data-line-number="4"><span class="kw">head</span>(writers)</a></code></pre></div>
+<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb906-1" data-line-number="1">writers &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb906-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">DayOfWeek =</span> <span class="kw">factor</span>(DayOfWeek))</a>
+<a class="sourceLine" id="cb906-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb906-4" data-line-number="4"><span class="kw">head</span>(writers)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 1
 ##   DayOfWeek
 ##   &lt;fct&gt;    
@@ -673,24 +688,24 @@ The latter tests if two categorical variables are associated in the population o
 ## 5 Friday   
 ## 6 Sunday</code></pre>
 <p>Check that the levels of the factor are in the order we expect:</p>
-<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb906-1" data-line-number="1"><span class="kw">levels</span>(writers<span class="op">$</span>DayOfWeek)</a></code></pre></div>
+<div class="sourceCode" id="cb908"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb908-1" data-line-number="1"><span class="kw">levels</span>(writers<span class="op">$</span>DayOfWeek)</a></code></pre></div>
 <pre><code>## [1] &quot;Friday&quot;    &quot;Monday&quot;    &quot;Saturday&quot;  &quot;Sunday&quot;    &quot;Thursday&quot;  &quot;Tuesday&quot;   &quot;Wednesday&quot;</code></pre>
 <p>They are not, so let’s fix this:</p>
-<div class="sourceCode" id="cb908"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb908-1" data-line-number="1">writers &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb908-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb908-3" data-line-number="3">    <span class="dt">DayOfWeek =</span> <span class="kw">factor</span>(DayOfWeek, </a>
-<a class="sourceLine" id="cb908-4" data-line-number="4">                       <span class="dt">levels=</span> <span class="kw">c</span>(<span class="st">&quot;Monday&quot;</span>, <span class="st">&quot;Tuesday&quot;</span>, <span class="st">&quot;Wednesday&quot;</span>, </a>
-<a class="sourceLine" id="cb908-5" data-line-number="5">                                 <span class="st">&quot;Thursday&quot;</span>, <span class="st">&quot;Friday&quot;</span>, <span class="st">&quot;Saturday&quot;</span>, <span class="st">&quot;Sunday&quot;</span>))</a>
-<a class="sourceLine" id="cb908-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb908-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb908-8" data-line-number="8"><span class="kw">levels</span>(writers<span class="op">$</span>DayOfWeek)</a></code></pre></div>
+<div class="sourceCode" id="cb910"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb910-1" data-line-number="1">writers &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb910-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb910-3" data-line-number="3">    <span class="dt">DayOfWeek =</span> <span class="kw">factor</span>(DayOfWeek, </a>
+<a class="sourceLine" id="cb910-4" data-line-number="4">                       <span class="dt">levels=</span> <span class="kw">c</span>(<span class="st">&quot;Monday&quot;</span>, <span class="st">&quot;Tuesday&quot;</span>, <span class="st">&quot;Wednesday&quot;</span>, </a>
+<a class="sourceLine" id="cb910-5" data-line-number="5">                                 <span class="st">&quot;Thursday&quot;</span>, <span class="st">&quot;Friday&quot;</span>, <span class="st">&quot;Saturday&quot;</span>, <span class="st">&quot;Sunday&quot;</span>))</a>
+<a class="sourceLine" id="cb910-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb910-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb910-8" data-line-number="8"><span class="kw">levels</span>(writers<span class="op">$</span>DayOfWeek)</a></code></pre></div>
 <pre><code>## [1] &quot;Monday&quot;    &quot;Tuesday&quot;   &quot;Wednesday&quot; &quot;Thursday&quot;  &quot;Friday&quot;    &quot;Saturday&quot;  &quot;Sunday&quot;</code></pre>
 <p>There are many equivalent ways to create a table of counts. One option could be:</p>
-<div class="sourceCode" id="cb910"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb910-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb910-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb910-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count =</span> <span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb910-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb910-5" data-line-number="5">writers_table</a></code></pre></div>
+<div class="sourceCode" id="cb912"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb912-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb912-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb912-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count =</span> <span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb912-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb912-5" data-line-number="5">writers_table</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 2
 ##   DayOfWeek count
 ##   &lt;fct&gt;     &lt;int&gt;
@@ -726,13 +741,13 @@ The latter tests if two categorical variables are associated in the population o
 <div id="sol-body-146" class="solution-body" style="display: none;">
 <p>The proportion of birthdays on a Monday is calculated as the count of birthdays on a Monday divided by the sample size, <span class="math inline">\(n =\)</span> 147. The procedure is similar for the other days of the week.
 We can obtain the sample size using the function <code>nrow()</code>, which returns the total number of rows in the tibble:</p>
-<div class="sourceCode" id="cb912"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb912-1" data-line-number="1"><span class="kw">nrow</span>(writers)</a></code></pre></div>
+<div class="sourceCode" id="cb914"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb914-1" data-line-number="1"><span class="kw">nrow</span>(writers)</a></code></pre></div>
 <pre><code>## [1] 147</code></pre>
 <p>First, we compute the sample proportions:</p>
-<div class="sourceCode" id="cb914"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb914-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb914-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> count <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(writers))</a>
-<a class="sourceLine" id="cb914-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb914-4" data-line-number="4">writers_table</a></code></pre></div>
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb916-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb916-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> count <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(writers))</a>
+<a class="sourceLine" id="cb916-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb916-4" data-line-number="4">writers_table</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 3
 ##   DayOfWeek count  prop
 ##   &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt;
@@ -744,13 +759,13 @@ We can obtain the sample size using the function <code>nrow()</code>, which retu
 ## 6 Saturday     15 0.102
 ## 7 Sunday       25 0.170</code></pre>
 <p><em>Note: Remember that the sample proportions sum to one:</em></p>
-<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb916-1" data-line-number="1"><span class="kw">sum</span>(writers_table<span class="op">$</span>prop)</a></code></pre></div>
+<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb918-1" data-line-number="1"><span class="kw">sum</span>(writers_table<span class="op">$</span>prop)</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>The following bar graph displays the data:</p>
-<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb918-1" data-line-number="1"><span class="kw">ggplot</span>(writers_table, <span class="kw">aes</span>(<span class="dt">x =</span> DayOfWeek, <span class="dt">y =</span> prop)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb918-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb918-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day of the week&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Proportion of writers&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb918-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb920-1" data-line-number="1"><span class="kw">ggplot</span>(writers_table, <span class="kw">aes</span>(<span class="dt">x =</span> DayOfWeek, <span class="dt">y =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day of the week&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Proportion of writers&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb920-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-575-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>There does not appear to be a great difference in the proportion of people born on any given day of the week.</p>
 <p class="solution-end">
@@ -882,17 +897,17 @@ E_i = n \times p_{i0}
 <div id="sol-body-150" class="solution-body" style="display: none;">
 <p>As in this particular study <span class="math inline">\(p_{Mo0} = p_{Tu0} = \cdots = p_{Su0} = 1/7\)</span>, the expected counts will all be computed as <span class="math inline">\(147 (1/7) = 21\)</span>.</p>
 <p>The sample size is:</p>
-<div class="sourceCode" id="cb919"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb919-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="kw">nrow</span>(writers)</a>
-<a class="sourceLine" id="cb919-2" data-line-number="2">n</a></code></pre></div>
+<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb921-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="kw">nrow</span>(writers)</a>
+<a class="sourceLine" id="cb921-2" data-line-number="2">n</a></code></pre></div>
 <pre><code>## [1] 147</code></pre>
 <p>We multiply the sample size by the hypothesized proportion for each category, 1/7:</p>
-<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb921-1" data-line-number="1">writers_table &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb921-2" data-line-number="2"><span class="st">  </span>writers <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb921-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb921-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">observed =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb921-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">expected =</span> <span class="kw">rep</span>(n <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>), <span class="dv">7</span>))</a>
-<a class="sourceLine" id="cb921-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb921-7" data-line-number="7">writers_table</a></code></pre></div>
+<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb923-1" data-line-number="1">writers_table &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb923-2" data-line-number="2"><span class="st">  </span>writers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb923-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb923-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">observed =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb923-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">expected =</span> <span class="kw">rep</span>(n <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>), <span class="dv">7</span>))</a>
+<a class="sourceLine" id="cb923-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb923-7" data-line-number="7">writers_table</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 3
 ##   DayOfWeek observed expected
 ##   &lt;fct&gt;        &lt;int&gt;    &lt;dbl&gt;
@@ -904,10 +919,10 @@ E_i = n \times p_{i0}
 ## 6 Saturday        15       21
 ## 7 Sunday          25       21</code></pre>
 <p><em>Note: The command <code>rep(x, times)</code> will repeat <code>x</code> a given number of <code>times</code>. For instance:</em></p>
-<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb923-1" data-line-number="1"><span class="kw">rep</span>(<span class="st">&quot;a&quot;</span>, <span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb925-1" data-line-number="1"><span class="kw">rep</span>(<span class="st">&quot;a&quot;</span>, <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot;</code></pre>
 <p><em>We calculated the expected count, <code>n * (1/7)</code>, and then repeated it for the 7 days of the week, as in this particular example the null hypothesis specifies the same proportions for all seven days of the week:</em></p>
-<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb925-1" data-line-number="1"><span class="kw">rep</span>(n <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>), <span class="dv">7</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb927-1" data-line-number="1"><span class="kw">rep</span>(n <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>), <span class="dv">7</span>)</a></code></pre></div>
 <pre><code>## [1] 21 21 21 21 21 21 21</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -919,10 +934,10 @@ E_i = n \times p_{i0}
 <p><br>
 How do we measure how far are the observed counts from the expected counts under the null hypothesis?</p>
 <p>If you simply subtract the expected counts from the observed counts and then add them up, you will obtain zero:</p>
-<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb927-1" data-line-number="1">writers_diff &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb927-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff =</span> observed <span class="op">-</span><span class="st"> </span>expected)</a>
-<a class="sourceLine" id="cb927-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb927-4" data-line-number="4">writers_diff</a></code></pre></div>
+<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb929-1" data-line-number="1">writers_diff &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb929-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff =</span> observed <span class="op">-</span><span class="st"> </span>expected)</a>
+<a class="sourceLine" id="cb929-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb929-4" data-line-number="4">writers_diff</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 4
 ##   DayOfWeek observed expected  diff
 ##   &lt;fct&gt;        &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt;
@@ -933,14 +948,14 @@ How do we measure how far are the observed counts from the expected counts under
 ## 5 Friday          19       21    -2
 ## 6 Saturday        15       21    -6
 ## 7 Sunday          25       21     4</code></pre>
-<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb929-1" data-line-number="1"><span class="co"># Check that the sum of (observed - expected) is zero</span></a>
-<a class="sourceLine" id="cb929-2" data-line-number="2"><span class="kw">sum</span>(writers_diff<span class="op">$</span>diff)</a></code></pre></div>
+<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb931-1" data-line-number="1"><span class="co"># Check that the sum of (observed - expected) is zero</span></a>
+<a class="sourceLine" id="cb931-2" data-line-number="2"><span class="kw">sum</span>(writers_diff<span class="op">$</span>diff)</a></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p>Instead, we will <strong>square the differences</strong> between the observed and expected counts, and then add them up.</p>
 <p>One issue, however, remains to be solved.
 A squared difference between observed and expected counts of 100 has a different weight in these two scenarios:</p>
 <p><strong>Scenario 1.</strong> <span class="math inline">\(O = 30\)</span> and <span class="math inline">\(E = 20\)</span> lead to a squared difference <span class="math inline">\((O - E)^2 = 10^2 = 100\)</span>.</p>
-<p><strong>Scenario 2.</strong> <span class="math inline">\(O = 3000\)</span> and <span class="math inline">\(E = 1990\)</span> lead to a squared difference <span class="math inline">\((O - E)^2 = 10^2 = 100\)</span>.</p>
+<p><strong>Scenario 2.</strong> <span class="math inline">\(O = 3000\)</span> and <span class="math inline">\(E = 2990\)</span> lead to a squared difference <span class="math inline">\((O - E)^2 = 10^2 = 100\)</span>.</p>
 <p>However, it is clear that a squared difference of 100 in Scenario 1 is much more substantial than a squared difference of 100 in Scenario 2.
 It is for this reason that we divide the squared differences by the the expected counts to <strong>“standardize” the squared deviation</strong>.</p>
 The test-statistic (denoted <span class="math inline">\(\chi^2\)</span>, spelled <em>chi-square</em>, pronounced “kai-square”) is obtained by adding up the standardized squared deviations:
@@ -975,10 +990,10 @@ The test-statistic (denoted <span class="math inline">\(\chi^2\)</span>, spelled
 </p>
 <div id="sol-body-151" class="solution-body" style="display: none;">
 <p>We can compute the standardized squared deviations as follows:</p>
-<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb931-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb931-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">std_sq_diff =</span> (observed <span class="op">-</span><span class="st"> </span>expected)<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>expected)</a>
-<a class="sourceLine" id="cb931-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb931-4" data-line-number="4">writers_table</a></code></pre></div>
+<div class="sourceCode" id="cb933"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb933-1" data-line-number="1">writers_table &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb933-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">std_sq_diff =</span> (observed <span class="op">-</span><span class="st"> </span>expected)<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>expected)</a>
+<a class="sourceLine" id="cb933-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb933-4" data-line-number="4">writers_table</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 4
 ##   DayOfWeek observed expected std_sq_diff
 ##   &lt;fct&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
@@ -1012,14 +1027,13 @@ The test-statistic (denoted <span class="math inline">\(\chi^2\)</span>, spelled
 </p>
 <div id="sol-body-152" class="solution-body" style="display: none;">
 <p>The value of the chi-square test statistic in this sample is:</p>
-<div class="sourceCode" id="cb933"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb933-1" data-line-number="1">chi_stat &lt;-<span class="st"> </span><span class="kw">sum</span>(writers_table<span class="op">$</span>std_sq_diff)</a>
-<a class="sourceLine" id="cb933-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb933-3" data-line-number="3">chi_stat</a></code></pre></div>
+<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb935-1" data-line-number="1">chi_stat &lt;-<span class="st"> </span><span class="kw">sum</span>(writers_table<span class="op">$</span>std_sq_diff)</a>
+<a class="sourceLine" id="cb935-2" data-line-number="2">chi_stat</a></code></pre></div>
 <pre><code>## [1] 4.857143</code></pre>
-<p>Equivalently, as <code>$</code> is just a shortcut for the <code>pull()</code> function:</p>
-<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb935-1" data-line-number="1">chi_stat &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb935-2" data-line-number="2"><span class="st">  </span><span class="kw">pull</span>(std_sq_diff) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb935-3" data-line-number="3"><span class="st">  </span><span class="kw">sum</span>()</a></code></pre></div>
+<p>Equivalently, as <code>$</code> is just a shortcut for the <code>pull()</code> function,</p>
+<div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb937-1" data-line-number="1">chi_stat &lt;-<span class="st"> </span>writers_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb937-2" data-line-number="2"><span class="st">  </span><span class="kw">pull</span>(std_sq_diff) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb937-3" data-line-number="3"><span class="st">  </span><span class="kw">sum</span>()</a></code></pre></div>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1087,7 +1101,7 @@ As always, your next step is to calculate the p-value.</p>
 </p>
 <div id="sol-body-154" class="solution-body" style="display: none;">
 <p>We want the probability to the right of the chi-square test statistic:</p>
-<div class="sourceCode" id="cb936"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb936-1" data-line-number="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(chi_stat, <span class="dt">df =</span> <span class="dv">6</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb938"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb938-1" data-line-number="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(chi_stat, <span class="dt">df =</span> <span class="dv">6</span>)</a></code></pre></div>
 <pre><code>## [1] 0.562262</code></pre>
 <p>If all seven days of the week are equally likely to be a person’s birthday, the probability that you would obtain a test statistic this large (or larger) by random chance alone is .56.</p>
 <p class="solution-end">
@@ -1184,19 +1198,19 @@ As always, your next step is to calculate the p-value.</p>
 <p>In R, we can perform a chi-square test using the function</p>
 <p><code>chisq.test(&lt;frequency table&gt;, p=&lt;null hypothesis&gt;)</code></p>
 <p><strong>Step 1.</strong> Frequency table and null hypothesis:</p>
-<div class="sourceCode" id="cb938"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb938-1" data-line-number="1">observed &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb938-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb938-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">observed =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb938-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(observed)</a>
-<a class="sourceLine" id="cb938-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb938-6" data-line-number="6">observed</a></code></pre></div>
+<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb940-1" data-line-number="1">observed &lt;-<span class="st"> </span>writers <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb940-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(DayOfWeek) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb940-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">observed =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb940-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(observed)</a>
+<a class="sourceLine" id="cb940-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb940-6" data-line-number="6">observed</a></code></pre></div>
 <pre><code>## [1] 17 26 22 23 19 15 25</code></pre>
-<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb940-1" data-line-number="1">probabilities &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>, <span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb940-2" data-line-number="2">probabilities</a></code></pre></div>
+<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb942-1" data-line-number="1">probabilities &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>, <span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb942-2" data-line-number="2">probabilities</a></code></pre></div>
 <pre><code>## [1] 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571</code></pre>
 <p><strong>Step 2.</strong> Use the function <code>chisq.test</code>:</p>
-<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb942-1" data-line-number="1">gof_test &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(observed, <span class="dt">p =</span> probabilities)</a>
-<a class="sourceLine" id="cb942-2" data-line-number="2">gof_test</a></code></pre></div>
+<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb944-1" data-line-number="1">gof_test &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(observed, <span class="dt">p =</span> probabilities)</a>
+<a class="sourceLine" id="cb944-2" data-line-number="2">gof_test</a></code></pre></div>
 <pre><code>## 
 ##  Chi-squared test for given probabilities
 ## 
@@ -1204,11 +1218,11 @@ As always, your next step is to calculate the p-value.</p>
 ## X-squared = 4.8571, df = 6, p-value = 0.5623</code></pre>
 <p>The results match those that we calculated above.</p>
 <p>The object returned by the function <code>chisq.test()</code> contains different variables:</p>
-<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb944-1" data-line-number="1"><span class="kw">names</span>(gof_test)</a></code></pre></div>
-<pre><code>## [1] &quot;statistic&quot; &quot;parameter&quot; &quot;p.value&quot;   &quot;method&quot;    &quot;data.name&quot; &quot;observed&quot;  &quot;expected&quot; 
-## [8] &quot;residuals&quot; &quot;stdres&quot;</code></pre>
+<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb946-1" data-line-number="1"><span class="kw">names</span>(gof_test)</a></code></pre></div>
+<pre><code>## [1] &quot;statistic&quot; &quot;parameter&quot; &quot;p.value&quot;   &quot;method&quot;    &quot;data.name&quot; &quot;observed&quot;  &quot;expected&quot;  &quot;residuals&quot;
+## [9] &quot;stdres&quot;</code></pre>
 <p>You can obtain the expected counts as:</p>
-<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb946-1" data-line-number="1">gof_test<span class="op">$</span>expected</a></code></pre></div>
+<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb948-1" data-line-number="1">gof_test<span class="op">$</span>expected</a></code></pre></div>
 <pre><code>## [1] 21 21 21 21 21 21 21</code></pre>
 </div>
 <hr />
@@ -1232,15 +1246,15 @@ As always, your next step is to calculate the p-value.</p>
 <p>One possible way to answer this question is to look at the individual contribution of each category to the chi-square statistic. You computed these values in Question A.8.</p>
 <p>The categories Tuesday and Saturday contributed the most to the chi-square statistic as they had the highest standardized squared deviations, equal to 1.19 and 1.71, respectively.
 From the barplot in Question A.3 we notice that Tuesday had a higher proportion than expected under the null, while Saturday a lower proportion than expected under the null.</p>
-<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb948-1" data-line-number="1"><span class="kw">ggplot</span>(writers_table, <span class="kw">aes</span>(<span class="dt">x =</span> DayOfWeek, <span class="dt">y =</span> observed <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(writers))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb948-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb948-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">7</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb948-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day of the week&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Proportion of writers&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb948-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb950"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb950-1" data-line-number="1"><span class="kw">ggplot</span>(writers_table, <span class="kw">aes</span>(<span class="dt">x =</span> DayOfWeek, <span class="dt">y =</span> observed <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(writers))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb950-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="st">&#39;lightblue&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb950-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">7</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb950-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Day of the week&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Proportion of writers&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb950-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">15</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-589-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p><strong>Pearson residuals</strong></p>
 <p>Equivalently, you could answer by looking at Pearson residuals:</p>
-<div class="sourceCode" id="cb949"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb949-1" data-line-number="1">gof_test<span class="op">$</span>residuals</a></code></pre></div>
+<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb951-1" data-line-number="1">gof_test<span class="op">$</span>residuals</a></code></pre></div>
 <pre><code>## [1] -0.8728716  1.0910895  0.2182179  0.4364358 -0.4364358 -1.3093073  0.8728716</code></pre>
 <p>The highest values are for Tuesday and Saturday. The value for Tuesday, 1.09, is positive. This means that the observed counts were larger than expected.
 In the same way we interpret the residual for Saturday, -1.31. As this value is negative, this means that the observed counts of birthdays on a Saturday were less than expected.</p>
@@ -1287,11 +1301,11 @@ The variables are:</p>
 </p>
 <div id="sol-body-159" class="solution-body" style="display: none;">
 <p>Load the data:</p>
-<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb951-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb951-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb951-3" data-line-number="3">tipjoke &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://edin.ac/2U6zfgO&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb953-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb953-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb953-3" data-line-number="3">tipjoke &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://edin.ac/2U6zfgO&#39;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Inspect the first six rows:</p>
-<div class="sourceCode" id="cb952"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb952-1" data-line-number="1"><span class="kw">head</span>(tipjoke)</a></code></pre></div>
+<div class="sourceCode" id="cb954"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb954-1" data-line-number="1"><span class="kw">head</span>(tipjoke)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
 ##   Card    Tip
 ##   &lt;chr&gt; &lt;dbl&gt;
@@ -1302,15 +1316,15 @@ The variables are:</p>
 ## 5 None      1
 ## 6 None      0</code></pre>
 <p>Check the dimensions of the tibble:</p>
-<div class="sourceCode" id="cb954"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb954-1" data-line-number="1"><span class="kw">dim</span>(tipjoke)</a></code></pre></div>
+<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb956-1" data-line-number="1"><span class="kw">dim</span>(tipjoke)</a></code></pre></div>
 <pre><code>## [1] 211   2</code></pre>
 <p>We have 211 observations on 2 variables.</p>
 <p>Make the variables factors and give more meaningful names to the variable <code>Tip</code>:</p>
-<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb956-1" data-line-number="1">tipjoke &lt;-<span class="st"> </span>tipjoke <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb956-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Card =</span> <span class="kw">factor</span>(Card),</a>
-<a class="sourceLine" id="cb956-3" data-line-number="3">         <span class="dt">Tip =</span> <span class="kw">factor</span>(Tip, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&#39;NoTip&#39;</span>, <span class="st">&#39;Tip&#39;</span>)))</a>
-<a class="sourceLine" id="cb956-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb956-5" data-line-number="5"><span class="kw">head</span>(tipjoke)</a></code></pre></div>
+<div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb958-1" data-line-number="1">tipjoke &lt;-<span class="st"> </span>tipjoke <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb958-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Card =</span> <span class="kw">factor</span>(Card),</a>
+<a class="sourceLine" id="cb958-3" data-line-number="3">         <span class="dt">Tip =</span> <span class="kw">factor</span>(Tip, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&#39;NoTip&#39;</span>, <span class="st">&#39;Tip&#39;</span>)))</a>
+<a class="sourceLine" id="cb958-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb958-5" data-line-number="5"><span class="kw">head</span>(tipjoke)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 2
 ##   Card  Tip  
 ##   &lt;fct&gt; &lt;fct&gt;
@@ -1371,8 +1385,8 @@ The variables are:</p>
 ► Solution<span id="sol-start-161" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-161&#39;, &#39;sol-start-161&#39;)"></span>
 </p>
 <div id="sol-body-161" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb958-1" data-line-number="1"><span class="kw">ggplot</span>(tipjoke, <span class="kw">aes</span>(<span class="dt">x =</span> Card, <span class="dt">fill =</span> Tip)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb958-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb960"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb960-1" data-line-number="1"><span class="kw">ggplot</span>(tipjoke, <span class="kw">aes</span>(<span class="dt">x =</span> Card, <span class="dt">fill =</span> Tip)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb960-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-595-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>From the stacked bar graph, it appears that perhaps the joke card does produce a higher success rate, but we need to investigate whether the differences are statistically significant.</p>
 <p class="solution-end">
@@ -1398,8 +1412,8 @@ The variables are:</p>
 </p>
 <div id="sol-body-162" class="solution-body" style="display: none;">
 <p>In R, we can construct a two-way table using the function <code>table()</code>:</p>
-<div class="sourceCode" id="cb959"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb959-1" data-line-number="1">observed &lt;-<span class="st"> </span><span class="kw">table</span>(tipjoke<span class="op">$</span>Tip, tipjoke<span class="op">$</span>Card)</a>
-<a class="sourceLine" id="cb959-2" data-line-number="2">observed</a></code></pre></div>
+<div class="sourceCode" id="cb961"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb961-1" data-line-number="1">observed &lt;-<span class="st"> </span><span class="kw">table</span>(tipjoke<span class="op">$</span>Tip, tipjoke<span class="op">$</span>Card)</a>
+<a class="sourceLine" id="cb961-2" data-line-number="2">observed</a></code></pre></div>
 <pre><code>##        
 ##         Ad Joke None
 ##   NoTip 60   42   49
@@ -1464,7 +1478,7 @@ The variables are:</p>
 ► Question B.7
 </p>
 <div class="question-body">
-<p>Compute the value of the test statistic and corresponding <span class="math inline">\(p\)</span>-value.</p>
+<p>Compute the value of the test statistic and corresponding p-value.</p>
 <p class="question-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1475,15 +1489,15 @@ The variables are:</p>
 ► Solution<span id="sol-start-165" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-165&#39;, &#39;sol-start-165&#39;)"></span>
 </p>
 <div id="sol-body-165" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb961"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb961-1" data-line-number="1">ind_test &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(observed)</a>
-<a class="sourceLine" id="cb961-2" data-line-number="2">ind_test</a></code></pre></div>
+<div class="sourceCode" id="cb963"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb963-1" data-line-number="1">ind_test &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(observed)</a>
+<a class="sourceLine" id="cb963-2" data-line-number="2">ind_test</a></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
 ## data:  observed
 ## X-squared = 9.9533, df = 2, p-value = 0.006897</code></pre>
 <p>The chi-square statistic in the sample is <span class="math inline">\(\chi^2 = 9.953\)</span>.</p>
-<p>The <span class="math inline">\(p\)</span>-value is <span class="math inline">\(\Pr(\chi^2(2) \geq 9.953) = 0.007\)</span>.</p>
+<p>The p-value is <span class="math inline">\(\Pr(\chi^2(2) \geq 9.953) = 0.007\)</span>.</p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1509,17 +1523,17 @@ The variables are:</p>
 </p>
 <div id="sol-body-166" class="solution-body" style="display: none;">
 <p>The output of <code>chisq.test</code> returns many objects:</p>
-<div class="sourceCode" id="cb963"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb963-1" data-line-number="1"><span class="kw">names</span>(ind_test)</a></code></pre></div>
-<pre><code>## [1] &quot;statistic&quot; &quot;parameter&quot; &quot;p.value&quot;   &quot;method&quot;    &quot;data.name&quot; &quot;observed&quot;  &quot;expected&quot; 
-## [8] &quot;residuals&quot; &quot;stdres&quot;</code></pre>
+<div class="sourceCode" id="cb965"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb965-1" data-line-number="1"><span class="kw">names</span>(ind_test)</a></code></pre></div>
+<pre><code>## [1] &quot;statistic&quot; &quot;parameter&quot; &quot;p.value&quot;   &quot;method&quot;    &quot;data.name&quot; &quot;observed&quot;  &quot;expected&quot;  &quot;residuals&quot;
+## [9] &quot;stdres&quot;</code></pre>
 <p>We are interested in the <code>expected</code> frequencies:</p>
-<div class="sourceCode" id="cb965"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb965-1" data-line-number="1">ind_test<span class="op">$</span>expected</a></code></pre></div>
+<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb967-1" data-line-number="1">ind_test<span class="op">$</span>expected</a></code></pre></div>
 <pre><code>##        
 ##               Ad     Joke     None
 ##   NoTip 52.95735 51.52607 46.51659
 ##   Tip   21.04265 20.47393 18.48341</code></pre>
 <p>Recall the observed frequencies:</p>
-<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb967-1" data-line-number="1">observed</a></code></pre></div>
+<div class="sourceCode" id="cb969"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb969-1" data-line-number="1">observed</a></code></pre></div>
 <pre><code>##        
 ##         Ad Joke None
 ##   NoTip 60   42   49
@@ -1537,7 +1551,7 @@ The variables are:</p>
 <li>tipped after receiving no card.</li>
 </ul>
 <p>The Pearson residuals are:</p>
-<div class="sourceCode" id="cb969"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb969-1" data-line-number="1">ind_test<span class="op">$</span>residuals</a></code></pre></div>
+<div class="sourceCode" id="cb971"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb971-1" data-line-number="1">ind_test<span class="op">$</span>residuals</a></code></pre></div>
 <pre><code>##        
 ##                 Ad       Joke       None
 ##   NoTip  0.9677724 -1.3270892  0.3641203
@@ -1654,17 +1668,6 @@ Both tests involve using the chi-square test statistic, which has the following 
 
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 <div class="footnotes">
 <hr />
 <ol start="6">
@@ -1676,8 +1679,8 @@ Both tests involve using the chi-square test statistic, which has the following 
           </div>
         </div>
       </div>
-<a href="chap-paired-t-test.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="chap-paired-t-test.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chap-covcor.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

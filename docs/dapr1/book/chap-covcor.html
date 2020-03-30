@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 20 Covariance and correlation | Data Analysis for Psychology in R (dapR1) - Labs</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 20 Covariance and correlation | Data Analysis for Psychology in R (dapR1) - Labs" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 20 Covariance and correlation | Data Analysis for Psychology in R (dapR1) - Labs" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chap-chi-square.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">DAPR1</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>1</b> Week 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="week-1.html"><a href="week-1.html#introduction-to-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="week-1.html"><a href="week-1.html#install-the-recent-version-of-r-and-r-studio"><i class="fa fa-check"></i><b>1.2</b> Install the recent version of R and R Studio</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="week-1.html"><a href="week-1.html#first-step"><i class="fa fa-check"></i><b>1.2.1</b> First Step</a></li>
+<li class="chapter" data-level="1.2.2" data-path="week-1.html"><a href="week-1.html#second-step"><i class="fa fa-check"></i><b>1.2.2</b> Second Step</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="week-1.html"><a href="week-1.html#getting-started-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> Getting Started in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="week-1.html"><a href="week-1.html#r-as-an-interactive-environment"><i class="fa fa-check"></i><b>1.4</b> R as an interactive environment</a></li>
+<li class="chapter" data-level="1.5" data-path="week-1.html"><a href="week-1.html#check-your-settings"><i class="fa fa-check"></i><b>1.5</b> Check your settings</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="week-1.html"><a href="week-1.html#disable-automatic-saving-of-your-workspace"><i class="fa fa-check"></i><b>1.5.1</b> Disable automatic saving of your workspace</a></li>
+<li class="chapter" data-level="1.5.2" data-path="week-1.html"><a href="week-1.html#adjust-fontscolours-if-you-like"><i class="fa fa-check"></i><b>1.5.2</b> Adjust fonts/colours if you like</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="week-1.html"><a href="week-1.html#setting-up-your-working-directory"><i class="fa fa-check"></i><b>1.6</b> Setting Up Your Working Directory</a></li>
+<li class="chapter" data-level="1.7" data-path="week-1.html"><a href="week-1.html#the-console"><i class="fa fa-check"></i><b>1.7</b> The Console</a></li>
+<li class="chapter" data-level="1.8" data-path="week-1.html"><a href="week-1.html#spacing"><i class="fa fa-check"></i><b>1.8</b> Spacing</a></li>
+<li class="chapter" data-level="1.9" data-path="week-1.html"><a href="week-1.html#typos"><i class="fa fa-check"></i><b>1.9</b> Typos</a></li>
+<li class="chapter" data-level="1.10" data-path="week-1.html"><a href="week-1.html#unfinishe.-d"><i class="fa fa-check"></i><b>1.10</b> Unfinishe…. d</a></li>
+<li class="chapter" data-level="1.11" data-path="week-1.html"><a href="week-1.html#basic-arithmetic"><i class="fa fa-check"></i><b>1.11</b> Basic Arithmetic</a></li>
+<li class="chapter" data-level="1.12" data-path="week-1.html"><a href="week-1.html#using-functions-for-calculations"><i class="fa fa-check"></i><b>1.12</b> Using Functions for Calculations</a></li>
+<li class="chapter" data-level="1.13" data-path="week-1.html"><a href="week-1.html#r-scripts"><i class="fa fa-check"></i><b>1.13</b> R Scripts</a></li>
+<li class="chapter" data-level="1.14" data-path="week-1.html"><a href="week-1.html#short-example"><i class="fa fa-check"></i><b>1.14</b> Short Example</a></li>
+<li class="chapter" data-level="1.15" data-path="week-1.html"><a href="week-1.html#naming-variables"><i class="fa fa-check"></i><b>1.15</b> Naming variables</a></li>
+<li class="chapter" data-level="1.16" data-path="week-1.html"><a href="week-1.html#now-over-to-you"><i class="fa fa-check"></i><b>1.16</b> Now over to you</a><ul>
+<li class="chapter" data-level="1.16.1" data-path="week-1.html"><a href="week-1.html#exercise-1"><i class="fa fa-check"></i><b>1.16.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="1.16.2" data-path="week-1.html"><a href="week-1.html#exercise-2"><i class="fa fa-check"></i><b>1.16.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="1.17" data-path="week-1.html"><a href="week-1.html#solutions"><i class="fa fa-check"></i><b>1.17</b> Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2</b> Week 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="week-2.html"><a href="week-2.html#introduction-to-rmarkdown"><i class="fa fa-check"></i><b>2.1</b> Introduction to RMarkdown</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html#what-is-r-markdown"><i class="fa fa-check"></i><b>2.2</b> What is R Markdown?</a></li>
+<li class="chapter" data-level="2.3" data-path="week-2.html"><a href="week-2.html#getting-things-ready"><i class="fa fa-check"></i><b>2.3</b> Getting things ready</a></li>
+<li class="chapter" data-level="2.4" data-path="week-2.html"><a href="week-2.html#r-markdown-basics"><i class="fa fa-check"></i><b>2.4</b> R Markdown basics</a></li>
+<li class="chapter" data-level="2.5" data-path="week-2.html"><a href="week-2.html#headings"><i class="fa fa-check"></i><b>2.5</b> Headings</a></li>
+<li class="chapter" data-level="2.6" data-path="week-2.html"><a href="week-2.html#text"><i class="fa fa-check"></i><b>2.6</b> Text</a></li>
+<li class="chapter" data-level="2.7" data-path="week-2.html"><a href="week-2.html#tables"><i class="fa fa-check"></i><b>2.7</b> Tables</a></li>
+<li class="chapter" data-level="2.8" data-path="week-2.html"><a href="week-2.html#lists"><i class="fa fa-check"></i><b>2.8</b> Lists</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="week-2.html"><a href="week-2.html#unordered"><i class="fa fa-check"></i><b>2.8.1</b> Unordered</a></li>
+<li class="chapter" data-level="2.8.2" data-path="week-2.html"><a href="week-2.html#ordered"><i class="fa fa-check"></i><b>2.8.2</b> Ordered</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="week-2.html"><a href="week-2.html#rmd-documents"><i class="fa fa-check"></i><b>2.9</b> Rmd documents</a></li>
+<li class="chapter" data-level="2.10" data-path="week-2.html"><a href="week-2.html#code-chunks"><i class="fa fa-check"></i><b>2.10</b> Code chunks</a></li>
+<li class="chapter" data-level="2.11" data-path="week-2.html"><a href="week-2.html#common-code-chunks-options"><i class="fa fa-check"></i><b>2.11</b> Common Code Chunks Options</a></li>
+<li class="chapter" data-level="2.12" data-path="week-2.html"><a href="week-2.html#including-images-or-links"><i class="fa fa-check"></i><b>2.12</b> Including images or links</a><ul>
+<li class="chapter" data-level="2.12.1" data-path="week-2.html"><a href="week-2.html#adding-links"><i class="fa fa-check"></i><b>2.12.1</b> Adding links</a></li>
+<li class="chapter" data-level="2.12.2" data-path="week-2.html"><a href="week-2.html#adding-figures-pictures"><i class="fa fa-check"></i><b>2.12.2</b> Adding figures &amp; pictures</a></li>
+</ul></li>
+<li class="chapter" data-level="2.13" data-path="week-2.html"><a href="week-2.html#generating-documents"><i class="fa fa-check"></i><b>2.13</b> Generating documents</a></li>
+<li class="chapter" data-level="2.14" data-path="week-2.html"><a href="week-2.html#extra-opensave-files-on-rstudio-cloud-chrome-users"><i class="fa fa-check"></i><b>2.14</b> Extra: Open/Save files on Rstudio Cloud (Chrome users)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>3</b> Week 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="week-3.html"><a href="week-3.html#vectors-lists-data-frames-and-data-types"><i class="fa fa-check"></i><b>3.1</b> Vectors, lists, data frames and data types</a></li>
+<li class="chapter" data-level="3.2" data-path="week-3.html"><a href="week-3.html#get-the-package-first"><i class="fa fa-check"></i><b>3.2</b> Get the package first</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3.html"><a href="week-3.html#numeric-data"><i class="fa fa-check"></i><b>3.3</b> Numeric Data</a></li>
+<li class="chapter" data-level="3.4" data-path="week-3.html"><a href="week-3.html#textcharacter-data"><i class="fa fa-check"></i><b>3.4</b> Text/Character Data</a></li>
+<li class="chapter" data-level="3.5" data-path="week-3.html"><a href="week-3.html#logical-data"><i class="fa fa-check"></i><b>3.5</b> Logical Data</a></li>
+<li class="chapter" data-level="3.6" data-path="week-3.html"><a href="week-3.html#variable-classes"><i class="fa fa-check"></i><b>3.6</b> Variable Classes</a></li>
+<li class="chapter" data-level="3.7" data-path="week-3.html"><a href="week-3.html#factors"><i class="fa fa-check"></i><b>3.7</b> Factors</a></li>
+<li class="chapter" data-level="3.8" data-path="week-3.html"><a href="week-3.html#lists-1"><i class="fa fa-check"></i><b>3.8</b> Lists</a></li>
+<li class="chapter" data-level="3.9" data-path="week-3.html"><a href="week-3.html#practice.rmd-solutions"><i class="fa fa-check"></i><b>3.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="week-3.html"><a href="week-3.html#exercise-1-1"><i class="fa fa-check"></i><b>3.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="3.9.2" data-path="week-3.html"><a href="week-3.html#exercise-2-1"><i class="fa fa-check"></i><b>3.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.9.3" data-path="week-3.html"><a href="week-3.html#exercise-3"><i class="fa fa-check"></i><b>3.9.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>4</b> Week 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="week-4.html"><a href="week-4.html#introduction-to-plots-geoms-ggplot"><i class="fa fa-check"></i><b>4.1</b> Introduction to plots &amp; geoms (ggplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="week-4.html"><a href="week-4.html#visualisations"><i class="fa fa-check"></i><b>4.2</b> Visualisations</a></li>
+<li class="chapter" data-level="4.3" data-path="week-4.html"><a href="week-4.html#get-our-data-sorted"><i class="fa fa-check"></i><b>4.3</b> Get our data sorted</a></li>
+<li class="chapter" data-level="4.4" data-path="week-4.html"><a href="week-4.html#numerical-data"><i class="fa fa-check"></i><b>4.4</b> Numerical data</a></li>
+<li class="chapter" data-level="4.5" data-path="week-4.html"><a href="week-4.html#simple-one-variable-plot-using-ggplot"><i class="fa fa-check"></i><b>4.5</b> Simple one-variable plot using ggplot()</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="week-4.html"><a href="week-4.html#continuous-variable"><i class="fa fa-check"></i><b>4.5.1</b> Continuous variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="week-4.html"><a href="week-4.html#categorical-variables"><i class="fa fa-check"></i><b>4.6</b> Categorical variables</a></li>
+<li class="chapter" data-level="4.7" data-path="week-4.html"><a href="week-4.html#continuous-variables-grouped-by-a-categorical-one"><i class="fa fa-check"></i><b>4.7</b> Continuous variables grouped by a categorical one</a></li>
+<li class="chapter" data-level="4.8" data-path="week-4.html"><a href="week-4.html#even-more-advanced"><i class="fa fa-check"></i><b>4.8</b> Even more advanced</a></li>
+<li class="chapter" data-level="4.9" data-path="week-4.html"><a href="week-4.html#practice.rmd-solutions-1"><i class="fa fa-check"></i><b>4.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="week-4.html"><a href="week-4.html#exercise-1-2"><i class="fa fa-check"></i><b>4.9.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="4.9.2" data-path="week-4.html"><a href="week-4.html#exercise-2-2"><i class="fa fa-check"></i><b>4.9.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.9.3" data-path="week-4.html"><a href="week-4.html#exercise-3---advanced"><i class="fa fa-check"></i><b>4.9.3</b> Exercise 3 - Advanced</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>5</b> Week 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="week-5.html"><a href="week-5.html#central-tendency-and-variability"><i class="fa fa-check"></i><b>5.1</b> Central Tendency and Variability</a></li>
+<li class="chapter" data-level="5.2" data-path="week-5.html"><a href="week-5.html#load-all-the-necessary-packages"><i class="fa fa-check"></i><b>5.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="5.3" data-path="week-5.html"><a href="week-5.html#descriptive-statistics"><i class="fa fa-check"></i><b>5.3</b> Descriptive Statistics</a></li>
+<li class="chapter" data-level="5.4" data-path="week-5.html"><a href="week-5.html#central-tendency-variability"><i class="fa fa-check"></i><b>5.4</b> Central tendency &amp; variability</a></li>
+<li class="chapter" data-level="5.5" data-path="week-5.html"><a href="week-5.html#mean-and-median"><i class="fa fa-check"></i><b>5.5</b> Mean and median</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="week-5.html"><a href="week-5.html#reading-data-in"><i class="fa fa-check"></i><b>5.5.1</b> Reading data in</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="week-5.html"><a href="week-5.html#using-piping-operator-for-descriptive-statistics"><i class="fa fa-check"></i><b>5.6</b> Using piping operator for descriptive statistics</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="week-5.html"><a href="week-5.html#mean"><i class="fa fa-check"></i><b>5.6.1</b> Mean</a></li>
+<li class="chapter" data-level="5.6.2" data-path="week-5.html"><a href="week-5.html#median"><i class="fa fa-check"></i><b>5.6.2</b> Median</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="week-5.html"><a href="week-5.html#standard-deviation"><i class="fa fa-check"></i><b>5.7</b> Standard deviation</a></li>
+<li class="chapter" data-level="5.8" data-path="week-5.html"><a href="week-5.html#visualise-your-data"><i class="fa fa-check"></i><b>5.8</b> Visualise your data</a></li>
+<li class="chapter" data-level="5.9" data-path="week-5.html"><a href="week-5.html#practice.rmd-solutions-2"><i class="fa fa-check"></i><b>5.9</b> Practice.Rmd Solutions</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="week-5.html"><a href="week-5.html#income-distribution-example"><i class="fa fa-check"></i><b>5.9.1</b> Income Distribution Example</a></li>
+<li class="chapter" data-level="5.9.2" data-path="week-5.html"><a href="week-5.html#visualisations-1"><i class="fa fa-check"></i><b>5.9.2</b> Visualisations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>6</b> Week 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="week-6.html"><a href="week-6.html#plotting-functions-and-simple-data-transformation"><i class="fa fa-check"></i><b>6.1</b> Plotting Functions and Simple Data Transformation</a></li>
+<li class="chapter" data-level="6.2" data-path="week-6.html"><a href="week-6.html#load-all-the-necessary-packages-1"><i class="fa fa-check"></i><b>6.2</b> Load all the necessary packages</a></li>
+<li class="chapter" data-level="6.3" data-path="week-6.html"><a href="week-6.html#part-1-hand-plotting-functions"><i class="fa fa-check"></i><b>6.3</b> Part 1: Hand plotting functions</a></li>
+<li class="chapter" data-level="6.4" data-path="week-6.html"><a href="week-6.html#basics"><i class="fa fa-check"></i><b>6.4</b> Basics</a></li>
+<li class="chapter" data-level="6.5" data-path="week-6.html"><a href="week-6.html#linear-functions"><i class="fa fa-check"></i><b>6.5</b> Linear functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="week-6.html"><a href="week-6.html#tree-height-example"><i class="fa fa-check"></i><b>6.5.1</b> Tree height example</a></li>
+<li class="chapter" data-level="6.5.2" data-path="week-6.html"><a href="week-6.html#non-linear-functions-first-order-polynomials"><i class="fa fa-check"></i><b>6.5.2</b> Non-linear functions (first order polynomials)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="week-6.html"><a href="week-6.html#practice-plotting"><i class="fa fa-check"></i><b>6.6</b> Practice plotting</a></li>
+<li class="chapter" data-level="6.7" data-path="week-6.html"><a href="week-6.html#part-2-introduction-to-data-transformation"><i class="fa fa-check"></i><b>6.7</b> Part 2: Introduction to Data Transformation</a></li>
+<li class="chapter" data-level="6.8" data-path="week-6.html"><a href="week-6.html#renaming"><i class="fa fa-check"></i><b>6.8</b> Renaming</a></li>
+<li class="chapter" data-level="6.9" data-path="week-6.html"><a href="week-6.html#adding-new-variables"><i class="fa fa-check"></i><b>6.9</b> Adding new variables</a></li>
+<li class="chapter" data-level="6.10" data-path="week-6.html"><a href="week-6.html#transformation-and-skewness"><i class="fa fa-check"></i><b>6.10</b> Transformation and skewness</a></li>
+<li class="chapter" data-level="6.11" data-path="week-6.html"><a href="week-6.html#mean-centering"><i class="fa fa-check"></i><b>6.11</b> Mean Centering</a></li>
+<li class="chapter" data-level="6.12" data-path="week-6.html"><a href="week-6.html#standardisation"><i class="fa fa-check"></i><b>6.12</b> Standardisation</a></li>
+<li class="chapter" data-level="6.13" data-path="week-6.html"><a href="week-6.html#practice.rmd-solutions-3"><i class="fa fa-check"></i><b>6.13</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>7</b> Week 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="week-7.html"><a href="week-7.html#reading-in-data-merge-and-more-r-practice"><i class="fa fa-check"></i><b>7.1</b> Reading in Data, Merge and More R Practice</a></li>
+<li class="chapter" data-level="7.2" data-path="week-7.html"><a href="week-7.html#dataset-1-.csv"><i class="fa fa-check"></i><b>7.2</b> Dataset 1 (.csv)</a></li>
+<li class="chapter" data-level="7.3" data-path="week-7.html"><a href="week-7.html#dataset-2-.txt"><i class="fa fa-check"></i><b>7.3</b> Dataset 2 (.txt)</a></li>
+<li class="chapter" data-level="7.4" data-path="week-7.html"><a href="week-7.html#dataset-3-.sav-and-.dta"><i class="fa fa-check"></i><b>7.4</b> Dataset 3 (.sav and .dta)</a></li>
+<li class="chapter" data-level="7.5" data-path="week-7.html"><a href="week-7.html#merging-datasets-together"><i class="fa fa-check"></i><b>7.5</b> Merging datasets together</a></li>
+<li class="chapter" data-level="7.6" data-path="week-7.html"><a href="week-7.html#sorting-and-arrange"><i class="fa fa-check"></i><b>7.6</b> Sorting and arrange()</a></li>
+<li class="chapter" data-level="7.7" data-path="week-7.html"><a href="week-7.html#data-description"><i class="fa fa-check"></i><b>7.7</b> Data description</a></li>
+<li class="chapter" data-level="7.8" data-path="week-7.html"><a href="week-7.html#using-filter"><i class="fa fa-check"></i><b>7.8</b> Using filter()</a></li>
+<li class="chapter" data-level="7.9" data-path="week-7.html"><a href="week-7.html#visualisations-2"><i class="fa fa-check"></i><b>7.9</b> Visualisations</a></li>
+<li class="chapter" data-level="7.10" data-path="week-7.html"><a href="week-7.html#save-the-file-in-your-folder"><i class="fa fa-check"></i><b>7.10</b> Save the file in your folder</a></li>
+<li class="chapter" data-level="7.11" data-path="week-7.html"><a href="week-7.html#practice.rmd-solutions-4"><i class="fa fa-check"></i><b>7.11</b> Practice.Rmd Solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="week-8.html"><a href="week-8.html"><i class="fa fa-check"></i><b>8</b> Week 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="week-8.html"><a href="week-8.html#introduction-to-probability"><i class="fa fa-check"></i><b>8.1</b> Introduction to Probability</a></li>
+<li class="chapter" data-level="8.2" data-path="week-8.html"><a href="week-8.html#example-1-hot-hand"><i class="fa fa-check"></i><b>8.2</b> Example 1 (hot hand)</a></li>
+<li class="chapter" data-level="8.3" data-path="week-8.html"><a href="week-8.html#example-2-coin-toss"><i class="fa fa-check"></i><b>8.3</b> Example 2 (coin toss)</a></li>
+<li class="chapter" data-level="8.4" data-path="week-8.html"><a href="week-8.html#example-3-independent-shooter"><i class="fa fa-check"></i><b>8.4</b> Example 3 (Independent shooter)</a></li>
+<li class="chapter" data-level="8.5" data-path="week-8.html"><a href="week-8.html#practice-rmd.-solutions"><i class="fa fa-check"></i><b>8.5</b> Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="week-8.html"><a href="week-8.html#sex-of-the-babies-born-in-the-uk"><i class="fa fa-check"></i><b>8.5.1</b> Sex of the babies born in the UK</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="week-8.html"><a href="week-8.html#pen-and-paper-exercises"><i class="fa fa-check"></i><b>8.6</b> Pen and Paper Exercises</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="week-8.html"><a href="week-8.html#boys-and-girls-paradox-mr.jones-and-mr.smith"><i class="fa fa-check"></i><b>8.6.1</b> Boys and girls paradox (Mr. Jones and Mr. Smith)</a></li>
+<li class="chapter" data-level="8.6.2" data-path="week-8.html"><a href="week-8.html#rugby-captain"><i class="fa fa-check"></i><b>8.6.2</b> Rugby captain</a></li>
+<li class="chapter" data-level="8.6.3" data-path="week-8.html"><a href="week-8.html#answers"><i class="fa fa-check"></i><b>8.6.3</b> Answers</a></li>
+<li class="chapter" data-level="8.6.4" data-path="week-8.html"><a href="week-8.html#defective"><i class="fa fa-check"></i><b>8.6.4</b> Defective</a></li>
+<li class="chapter" data-level="8.6.5" data-path="week-8.html"><a href="week-8.html#answers-1"><i class="fa fa-check"></i><b>8.6.5</b> Answers</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="week-9.html"><a href="week-9.html"><i class="fa fa-check"></i><b>9</b> Week 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="week-9.html"><a href="week-9.html#introduction-to-probability-distributions-and-revision"><i class="fa fa-check"></i><b>9.1</b> Introduction to Probability Distributions and Revision</a></li>
+<li class="chapter" data-level="9.2" data-path="week-9.html"><a href="week-9.html#discrete-example-guessing-homework-answers"><i class="fa fa-check"></i><b>9.2</b> Discrete example (guessing homework answers)</a></li>
+<li class="chapter" data-level="9.3" data-path="week-9.html"><a href="week-9.html#generate-a-homework-attempt"><i class="fa fa-check"></i><b>9.3</b> Generate a homework attempt</a></li>
+<li class="chapter" data-level="9.4" data-path="week-9.html"><a href="week-9.html#changing-the-probability-truefalse"><i class="fa fa-check"></i><b>9.4</b> Changing the probability (TRUE/FALSE)</a></li>
+<li class="chapter" data-level="9.5" data-path="week-9.html"><a href="week-9.html#studying-the-distribution"><i class="fa fa-check"></i><b>9.5</b> Studying the distribution</a></li>
+<li class="chapter" data-level="9.6" data-path="week-9.html"><a href="week-9.html#cumulative-probability-advanced"><i class="fa fa-check"></i><b>9.6</b> Cumulative Probability (Advanced)</a></li>
+<li class="chapter" data-level="9.7" data-path="week-9.html"><a href="week-9.html#revision-practice-rmd.-solutions"><i class="fa fa-check"></i><b>9.7</b> Revision Practice Rmd. Solutions</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="week-9.html"><a href="week-9.html#provide-descriptive-statistics-for-age-and-memory-score-variables"><i class="fa fa-check"></i><b>9.7.1</b> Provide descriptive statistics for age and memory score variables</a></li>
+<li class="chapter" data-level="9.7.2" data-path="week-9.html"><a href="week-9.html#descriptives-by-groups"><i class="fa fa-check"></i><b>9.7.2</b> Descriptives by groups</a></li>
+<li class="chapter" data-level="9.7.3" data-path="week-9.html"><a href="week-9.html#visualise"><i class="fa fa-check"></i><b>9.7.3</b> Visualise</a></li>
+<li class="chapter" data-level="9.7.4" data-path="week-9.html"><a href="week-9.html#visualise-a-subset"><i class="fa fa-check"></i><b>9.7.4</b> Visualise a subset</a></li>
+<li class="chapter" data-level="9.7.5" data-path="week-9.html"><a href="week-9.html#variable-by-a-group"><i class="fa fa-check"></i><b>9.7.5</b> Variable by a group</a></li>
+<li class="chapter" data-level="9.7.6" data-path="week-9.html"><a href="week-9.html#create-a-new-variable-using-mutate"><i class="fa fa-check"></i><b>9.7.6</b> Create a new variable using mutate()</a></li>
+<li class="chapter" data-level="9.7.7" data-path="week-9.html"><a href="week-9.html#subset-observations-using-filter"><i class="fa fa-check"></i><b>9.7.7</b> Subset observations using filter()</a></li>
+<li class="chapter" data-level="9.7.8" data-path="week-9.html"><a href="week-9.html#sort-via-arrange"><i class="fa fa-check"></i><b>9.7.8</b> Sort via arrange()</a></li>
+<li class="chapter" data-level="9.7.9" data-path="week-9.html"><a href="week-9.html#lets-do-some-specific-count-using-filter"><i class="fa fa-check"></i><b>9.7.9</b> Let’s do some specific count() using filter()</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="week-9.html"><a href="week-9.html#extra-probability-practice"><i class="fa fa-check"></i><b>9.8</b> Extra Probability Practice</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="week-9.html"><a href="week-9.html#truefalse-questions"><i class="fa fa-check"></i><b>9.8.1</b> TRUE/FALSE questions</a></li>
+<li class="chapter" data-level="9.8.2" data-path="week-9.html"><a href="week-9.html#count-the-occurencies"><i class="fa fa-check"></i><b>9.8.2</b> Count the occurencies</a></li>
+<li class="chapter" data-level="9.8.3" data-path="week-9.html"><a href="week-9.html#plot"><i class="fa fa-check"></i><b>9.8.3</b> Plot</a></li>
+<li class="chapter" data-level="9.8.4" data-path="week-9.html"><a href="week-9.html#use-dbinom-to-study-the-probability"><i class="fa fa-check"></i><b>9.8.4</b> Use dbinom() to study the probability</a></li>
+<li class="chapter" data-level="9.8.5" data-path="week-9.html"><a href="week-9.html#less-than-five-or-more-than-five"><i class="fa fa-check"></i><b>9.8.5</b> Less than five or more than five?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="week-10-lab-test.html"><a href="week-10-lab-test.html"><i class="fa fa-check"></i><b>10</b> Week 10: Lab test</a></li>
+<li class="chapter" data-level="11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html"><i class="fa fa-check"></i><b>11</b> Sampling distributions</a><ul>
+<li class="chapter" data-level="11.1" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#recap"><i class="fa fa-check"></i><b>11.1</b> Recap</a></li>
+<li class="chapter" data-level="11.2" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#population-sample"><i class="fa fa-check"></i><b>11.2</b> Population vs sample</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#parameter-statistic"><i class="fa fa-check"></i><b>11.3</b> Population parameter vs sample statistic</a></li>
+<li class="chapter" data-level="11.4" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sec-sampling-distributions"><i class="fa fa-check"></i><b>11.4</b> Sampling distributions</a></li>
+<li class="chapter" data-level="11.5" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#standard-error"><i class="fa fa-check"></i><b>11.5</b> The standard error of a statistic</a></li>
+<li class="chapter" data-level="11.6" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#sample-size-standard-error"><i class="fa fa-check"></i><b>11.6</b> The effect of sample size on the sampling distribution</a></li>
+<li class="chapter" data-level="11.7" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#take-home-message"><i class="fa fa-check"></i><b>11.7</b> Take-home message</a></li>
+<li class="chapter" data-level="11.8" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#lab-hollywood-movies"><i class="fa fa-check"></i><b>11.8</b> Lab: Hollywood movies</a></li>
+<li class="chapter" data-level="11.9" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#summary"><i class="fa fa-check"></i><b>11.9</b> Summary</a></li>
+<li class="chapter" data-level="11.10" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#glossary"><i class="fa fa-check"></i><b>11.10</b> Glossary</a></li>
+<li class="chapter" data-level="11.11" data-path="chap-sampling-distributions.html"><a href="chap-sampling-distributions.html#references"><i class="fa fa-check"></i><b>11.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html"><i class="fa fa-check"></i><b>12</b> Bootstrapping and Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#recap-1"><i class="fa fa-check"></i><b>12.1</b> Recap</a></li>
+<li class="chapter" data-level="12.2" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#from-sampling-to-resampling"><i class="fa fa-check"></i><b>12.2</b> From Sampling to Resampling</a></li>
+<li class="chapter" data-level="12.3" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#getting-to-the-bootstrap-distribution"><i class="fa fa-check"></i><b>12.3</b> Getting to the bootstrap distribution</a></li>
+<li class="chapter" data-level="12.4" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#more-generally"><i class="fa fa-check"></i><b>12.4</b> More generally…</a></li>
+<li class="chapter" data-level="12.5" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#confidence-intervals"><i class="fa fa-check"></i><b>12.5</b> Confidence Intervals</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#calculating-confidence-intervals-using-a-bootstrap-standard-error"><i class="fa fa-check"></i><b>12.5.1</b> Calculating confidence intervals using a bootstrap standard error</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#summary-1"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+<li class="chapter" data-level="12.7" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#take-home-message-1"><i class="fa fa-check"></i><b>12.7</b> Take-home message</a></li>
+<li class="chapter" data-level="12.8" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#lab"><i class="fa fa-check"></i><b>12.8</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-1-hollywood-movies"><i class="fa fa-check"></i>Exercise 1: Hollywood Movies</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#exercise-2-nfl-players"><i class="fa fa-check"></i>Exercise 2: NFL Players</a></li>
+</ul></li>
+<li class="chapter" data-level="12.9" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#glossary-1"><i class="fa fa-check"></i><b>12.9</b> Glossary</a></li>
+<li class="chapter" data-level="12.10" data-path="bootstrapping-and-confidence-intervals.html"><a href="bootstrapping-and-confidence-intervals.html#references-1"><i class="fa fa-check"></i><b>12.10</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html"><i class="fa fa-check"></i><b>13</b> Testing hypotheses</a><ul>
+<li class="chapter" data-level="13.1" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#recap-2"><i class="fa fa-check"></i><b>13.1</b> Recap</a></li>
+<li class="chapter" data-level="13.2" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#walkthrough"><i class="fa fa-check"></i><b>13.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#extrasensory-perception-esp"><i class="fa fa-check"></i>Extrasensory perception (ESP)</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-esp-results"><i class="fa fa-check"></i>Example 1: ESP experimental results</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#example-in-class"><i class="fa fa-check"></i>Example 2: In-class activity</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-random-chance-model"><i class="fa fa-check"></i>The random chance model</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#the-alternative-explanation"><i class="fa fa-check"></i>The alternative explanation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-test"><i class="fa fa-check"></i>Statistical test</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#understanding-statistical-evidence"><i class="fa fa-check"></i>Understanding statistical evidence</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-hypotheses"><i class="fa fa-check"></i>Statistical hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#statistical-significance"><i class="fa fa-check"></i>Statistical significance</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-distribution"><i class="fa fa-check"></i>Null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#making-a-formal-decision"><i class="fa fa-check"></i>Making a formal decision</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#summary-2"><i class="fa fa-check"></i><b>13.3</b> Summary</a></li>
+<li class="chapter" data-level="13.4" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#lab-1"><i class="fa fa-check"></i><b>13.4</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#required-packages"><i class="fa fa-check"></i>Required packages</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#importing-the-data"><i class="fa fa-check"></i>Importing the data</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#data-inspection"><i class="fa fa-check"></i>Data inspection</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#sample-average-and-standard-deviation"><i class="fa fa-check"></i>Sample average and standard deviation</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#null-and-alternative-hypothesis"><i class="fa fa-check"></i>Null and alternative hypothesis</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#bootstrap-distribution-and-null-distribution"><i class="fa fa-check"></i>Bootstrap distribution and null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#visualise-the-observed-statistic-on-the-null-distribution"><i class="fa fa-check"></i>Visualise the observed statistic on the null distribution</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#p-value-2"><i class="fa fa-check"></i>P-value</a></li>
+<li class="chapter" data-level="" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#interpreting-the-p-value"><i class="fa fa-check"></i>Interpreting the p-value</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#glossary-2"><i class="fa fa-check"></i><b>13.5</b> Glossary</a></li>
+<li class="chapter" data-level="13.6" data-path="chap-hyp-test.html"><a href="chap-hyp-test.html#references-2"><i class="fa fa-check"></i><b>13.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="chap-typeerror.html"><a href="chap-typeerror.html"><i class="fa fa-check"></i><b>14</b> Type I, Type II errors and Power</a><ul>
+<li class="chapter" data-level="14.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overview-of-last-week"><i class="fa fa-check"></i><b>14.1</b> Overview of last week</a></li>
+<li class="chapter" data-level="14.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#walkthrough-1"><i class="fa fa-check"></i><b>14.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-1-coin-flip"><i class="fa fa-check"></i>Example 1: Coin flip</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#an-analogy-in-law"><i class="fa fa-check"></i>An analogy in law</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#two-different-types-of-errors"><i class="fa fa-check"></i>Two different types of errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-i-errors"><i class="fa fa-check"></i>Type I errors</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#type-ii-errors-and-power"><i class="fa fa-check"></i>Type II Errors and Power</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#example-2-a-biased-coin"><i class="fa fa-check"></i>Example 2: A biased coin</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#overlapping-distributions"><i class="fa fa-check"></i>Overlapping distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-typeerror.html"><a href="chap-typeerror.html#generalising-it"><i class="fa fa-check"></i>Generalising it</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="chap-typeerror.html"><a href="chap-typeerror.html#summary-3"><i class="fa fa-check"></i><b>14.3</b> Summary</a></li>
+<li class="chapter" data-level="14.4" data-path="chap-typeerror.html"><a href="chap-typeerror.html#lab-2"><i class="fa fa-check"></i><b>14.4</b> Lab</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-1-rock-paper-scissors"><i class="fa fa-check"></i><b>14.4.1</b> Exercise 1: Rock Paper Scissors!</a></li>
+<li class="chapter" data-level="14.4.2" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-2-calculating-power-for-a-different-coin."><i class="fa fa-check"></i><b>14.4.2</b> Exercise 2: Calculating power for a different coin.</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="chap-typeerror.html"><a href="chap-typeerror.html#extra-exercises"><i class="fa fa-check"></i><b>14.5</b> Extra Exercises</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="chap-typeerror.html"><a href="chap-typeerror.html#exercise-3-sample-size-number-of-flips-and-power"><i class="fa fa-check"></i><b>14.5.1</b> Exercise 3: Sample size (number of flips) and power</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="chap-typeerror.html"><a href="chap-typeerror.html#glossary-3"><i class="fa fa-check"></i><b>14.6</b> Glossary</a></li>
+<li class="chapter" data-level="14.7" data-path="chap-typeerror.html"><a href="chap-typeerror.html#references-3"><i class="fa fa-check"></i><b>14.7</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="chap-normal.html"><a href="chap-normal.html"><i class="fa fa-check"></i><b>15</b> Normal distribution &amp; probability</a><ul>
+<li class="chapter" data-level="15.1" data-path="chap-normal.html"><a href="chap-normal.html#recap-3"><i class="fa fa-check"></i><b>15.1</b> Recap</a></li>
+<li class="chapter" data-level="15.2" data-path="chap-normal.html"><a href="chap-normal.html#walkthrough-2"><i class="fa fa-check"></i><b>15.2</b> Walkthrough</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="chap-normal.html"><a href="chap-normal.html#from-histograms-to-normal-curves"><i class="fa fa-check"></i><b>15.2.1</b> From histograms to normal curves</a></li>
+<li class="chapter" data-level="15.2.2" data-path="chap-normal.html"><a href="chap-normal.html#sec-area-and-prob"><i class="fa fa-check"></i><b>15.2.2</b> The relation between area and probability</a></li>
+<li class="chapter" data-level="15.2.3" data-path="chap-normal.html"><a href="chap-normal.html#probabilities-for-normally-distributed-random-variables"><i class="fa fa-check"></i><b>15.2.3</b> Probabilities for normally distributed random variables</a></li>
+<li class="chapter" data-level="15.2.4" data-path="chap-normal.html"><a href="chap-normal.html#z-scores"><i class="fa fa-check"></i><b>15.2.4</b> Z-scores</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="chap-normal.html"><a href="chap-normal.html#summary-4"><i class="fa fa-check"></i><b>15.3</b> Summary</a></li>
+<li class="chapter" data-level="15.4" data-path="chap-normal.html"><a href="chap-normal.html#lab-3"><i class="fa fa-check"></i><b>15.4</b> Lab</a></li>
+<li class="chapter" data-level="15.5" data-path="chap-normal.html"><a href="chap-normal.html#glossary-4"><i class="fa fa-check"></i><b>15.5</b> Glossary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html"><i class="fa fa-check"></i><b>16</b> One Sample Mean Test</a><ul>
+<li class="chapter" data-level="16.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#recap-4"><i class="fa fa-check"></i><b>16.1</b> Recap</a></li>
+<li class="chapter" data-level="16.2" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#where-we-are-now"><i class="fa fa-check"></i><b>16.2</b> Where we are now</a></li>
+<li class="chapter" data-level="16.3" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#where-we-are-going"><i class="fa fa-check"></i><b>16.3</b> Where we are going</a></li>
+<li class="chapter" data-level="16.4" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#one-sample-mean-test"><i class="fa fa-check"></i><b>16.4</b> One sample mean test</a><ul>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#example-questions"><i class="fa fa-check"></i>Example questions</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#hypotheses"><i class="fa fa-check"></i>Hypotheses</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#formula"><i class="fa fa-check"></i>Formula</a></li>
+<li><a href="chap-one-mean-test.html#t-distributions"><span class="math inline">\(t\)</span>-distributions</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#critical-values-significance"><i class="fa fa-check"></i>Critical values &amp; significance</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#walkthrough---tempo-of-rock-music-on-spotify"><i class="fa fa-check"></i><b>16.5</b> Walkthrough - Tempo of rock music on Spotify</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#all-in-one-line-of-code"><i class="fa fa-check"></i>ALL IN ONE LINE OF CODE!</a></li>
+<li class="chapter" data-level="" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#assumptions"><i class="fa fa-check"></i>Assumptions</a></li>
+<li class="chapter" data-level="16.6" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#summary-5"><i class="fa fa-check"></i><b>16.6</b> Summary</a></li>
+<li class="chapter" data-level="16.7" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#lab-4"><i class="fa fa-check"></i><b>16.7</b> Lab</a><ul>
+<li class="chapter" data-level="16.7.1" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#pets-weights"><i class="fa fa-check"></i><b>16.7.1</b> Pets’ weights</a></li>
+<li class="chapter" data-level="16.7.2" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#procrastination-scores"><i class="fa fa-check"></i><b>16.7.2</b> Procrastination scores</a></li>
+<li class="chapter" data-level="16.7.3" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#cat-weights"><i class="fa fa-check"></i><b>16.7.3</b> Cat weights!</a></li>
+<li class="chapter" data-level="16.7.4" data-path="chap-one-mean-test.html"><a href="chap-one-mean-test.html#glossary-5"><i class="fa fa-check"></i><b>16.7.4</b> Glossary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="two-indep-samples.html"><a href="two-indep-samples.html"><i class="fa fa-check"></i><b>17</b> Comparing two means (independent samples)</a><ul>
+<li class="chapter" data-level="17.1" data-path="two-indep-samples.html"><a href="two-indep-samples.html#recap-5"><i class="fa fa-check"></i><b>17.1</b> Recap</a></li>
+<li class="chapter" data-level="17.2" data-path="two-indep-samples.html"><a href="two-indep-samples.html#key-terminology"><i class="fa fa-check"></i><b>17.2</b> Key terminology</a></li>
+<li class="chapter" data-level="17.3" data-path="two-indep-samples.html"><a href="two-indep-samples.html#walkthrough-got-a-friend"><i class="fa fa-check"></i><b>17.3</b> Walkthrough: Got a friend?</a></li>
+<li class="chapter" data-level="17.4" data-path="two-indep-samples.html"><a href="two-indep-samples.html#lab-does-name-increase-tips"><i class="fa fa-check"></i><b>17.4</b> Lab: Does name increase tips?</a></li>
+<li class="chapter" data-level="17.5" data-path="two-indep-samples.html"><a href="two-indep-samples.html#glossary-6"><i class="fa fa-check"></i><b>17.5</b> Glossary</a></li>
+<li class="chapter" data-level="17.6" data-path="two-indep-samples.html"><a href="two-indep-samples.html#w17-references"><i class="fa fa-check"></i><b>17.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html"><i class="fa fa-check"></i><b>18</b> Paired T-Test</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#recap-6"><i class="fa fa-check"></i>Recap</a></li>
+<li><a href="chap-paired-t-test.html#paired-t-test">Paired <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="18.1" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#walkthrough-3"><i class="fa fa-check"></i><b>18.1</b> Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#change-in-score-on-the-ace-iii"><i class="fa fa-check"></i>Change in score on the ACE-III</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#data-organisation---reshaping"><i class="fa fa-check"></i>Data organisation - reshaping</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#effect-sizes"><i class="fa fa-check"></i>Effect sizes</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#summary-6"><i class="fa fa-check"></i><b>18.2</b> Summary</a></li>
+<li class="chapter" data-level="18.3" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#lab-5"><i class="fa fa-check"></i><b>18.3</b> Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#age-differences-in-heterosexual-marriages"><i class="fa fa-check"></i>Age differences in heterosexual marriages</a></li>
+<li class="chapter" data-level="" data-path="chap-paired-t-test.html"><a href="chap-paired-t-test.html#smoking-interventions"><i class="fa fa-check"></i>Smoking interventions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="chap-chi-square.html"><a href="chap-chi-square.html"><i class="fa fa-check"></i><b>19</b> Chi-square tests</a><ul>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#recap-7"><i class="fa fa-check"></i>Recap</a></li>
+<li><a href="chap-chi-square.html#walkthrough-birthdays-of-the-week-the-chi-square-goodness-of-fit-test">Walkthrough: Birthdays of the week <br>The chi-square goodness-of-fit test</a></li>
+<li><a href="chap-chi-square.html#lab-joking-for-a-tip-the-chi-square-test-of-independence">Lab: Joking for a tip <br>The chi-square test of independence</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#summary-7"><i class="fa fa-check"></i>Summary</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#glossary-7"><i class="fa fa-check"></i>Glossary</a></li>
+<li class="chapter" data-level="" data-path="chap-chi-square.html"><a href="chap-chi-square.html#references-4"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="chap-covcor.html"><a href="chap-covcor.html"><i class="fa fa-check"></i><b>20</b> Covariance and correlation</a><ul>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#recap-8"><i class="fa fa-check"></i>Recap</a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#walkthrough-4"><i class="fa fa-check"></i>Walkthrough</a><ul>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#visualisation"><i class="fa fa-check"></i>Visualisation</a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#covariance"><i class="fa fa-check"></i>Covariance</a></li>
+<li><a href="chap-covcor.html#correlation-r">Correlation (<span class="math inline">\(r\)</span>)</a></li>
+<li><a href="chap-covcor.html#game-guess-the-r"><b>Game:</b> Guess the <span class="math inline">\(r\)</span></a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#testing-significance-of-the-correlation-coefficient"><i class="fa fa-check"></i>Testing significance of the correlation coefficient</a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#extras-correlation-matrix"><i class="fa fa-check"></i>Extras: Correlation matrix</a></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#cautions"><i class="fa fa-check"></i>Cautions!</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#lab-6"><i class="fa fa-check"></i>Lab</a><ul>
+<li class="chapter" data-level="" data-path="chap-covcor.html"><a href="chap-covcor.html#sleep-levels-and-daytime-functioning"><i class="fa fa-check"></i>Sleep levels and daytime functioning</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis for Psychology in R (dapR1) - Labs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chap-covcor" class="section level1">
+<h1><span class="header-section-number">Chapter 20</span> Covariance and correlation</h1>
+<div class="lo">
+<h4 id="instructions-9" class="unnumbered">Instructions</h4>
+<ul>
+<li>This week, we will have a walkthrough of some examples, followed by a set of questions for you to attempt on your own.</li>
+<li>Please create a new Rmarkdown file and work along with the walkthrough, then complete the lab exercises.</li>
+</ul>
+<h4 id="learning-outcomes-9" class="unnumbered">Learning outcomes</h4>
+<p><strong>LO1.</strong> Understand when and how to calculate the summary statistics of covariance and correlation, and how to do this in R.</p>
+<p><strong>LO2.</strong> Learn what different strengths and directions of correlation look like when visualised as a scatterplot of two quantitative variables.</p>
+<p><strong>LO3.</strong> Learn how to conduct a test to determine whether a correlation is different from zero.</p>
+<!-- #### Reading {-} -->
+</div>
+<div id="recap-8" class="section level2 unnumbered">
+<h2>Recap</h2>
+<p>In weeks 16-18, we were working with quantitative <em>response</em> variables, and categorical <em>explanatory</em> variables.</p>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="81%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Test</th>
+<th align="right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">One-sample <span class="math inline">\(t\)</span>-test</td>
+<td align="right">test for the significance of the difference between<br>one mean (<span class="math inline">\(\mu\)</span>) and some hypothesised value</td>
+</tr>
+<tr class="even">
+<td align="right">Two-samples <span class="math inline">\(t\)</span>-test</td>
+<td align="right">test for the significance of the difference between<br>two means (<span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span>)</td>
+</tr>
+<tr class="odd">
+<td align="right">Paired-samples <span class="math inline">\(t\)</span>-test</td>
+<td align="right">test for the significance of the difference between<br>the mean difference (<span class="math inline">\(\mu_d\)</span>) from paired samples and 0</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Last week <a href="chap-chi-square.html#chap-chi-square">(week 19)</a>, we began working with categorical response variables.
+We discussed the <strong>chi-square goodness-of-fit test</strong> and the <strong>chi-square test of independence</strong>:</p>
+<table>
+<colgroup>
+<col width="24%" />
+<col width="75%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Test</th>
+<th align="right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\chi^2\)</span> goodness-of-fit</td>
+<td align="right">tests whether categorical variable<br>conforms with hypothesized proportions</td>
+</tr>
+<tr class="even">
+<td align="right"><span class="math inline">\(\chi^2\)</span> independence</td>
+<td align="right">tests whether categorical variable<br>is related to another categorical variable</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>This week, we will cover associations between two quantitative variables</p>
+</div>
+<div id="walkthrough-4" class="section level2 unnumbered">
+<h2>Walkthrough</h2>
+<div id="visualisation" class="section level3 unnumbered">
+<h3>Visualisation</h3>
+<div class="question">
+<p class="question-begin">
+► Question A.1
+</p>
+<div class="question-body">
+<p>How would you most often visualise the relationship between two quantitative variables?</p>
+<p>What should we fill this plot with?<br />
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-603-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-169" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-169&#39;, &#39;sol-start-169&#39;)"></span>
+</p>
+<div id="sol-body-169" class="solution-body" style="display: none;">
+<p>Scatterplot!
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-604-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<p>Our data for this walkthrough is from a (hypothetical) study on memory. Twenty participants studied passages of text (c500 words long), and were tested a week later. The testing phase presented participants with 100 statements about the text. They had to answer whether each statement was true or false, as well as rate their confidence in each answer (on a sliding scale from 0 to 100). The dataset contains, for each participant, the percentage of items correctly answered, and the average confidence rating. Participants’ ages were also recorded.</p>
+<div class="question">
+<p class="question-begin">
+► Question A.2
+</p>
+<div class="question-body">
+<p>Read in the data from <a href="https://edin.ac/2wHhCej">https://edin.ac/2wHhCej</a> - it is a <strong>.csv</strong> file - and look at the dimensions of the data as well as some summary statistics.</p>
+<p>Plot the relationship between the percentage of items answered correctly (<code>recall_accuracy</code>) and participants’ average self-rating of confidence in their answers (<code>recall_confidence</code>).</p>
+<p>Plot the relationship between recall accuracy and age.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution
+</p>
+<div class="solution-body">
+<div class="sourceCode" id="cb973"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb973-1" data-line-number="1">recalldata &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2wHhCej&quot;</span>)</a>
+<a class="sourceLine" id="cb973-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb973-3" data-line-number="3"><span class="kw">dim</span>(recalldata)</a></code></pre></div>
+<pre><code>## [1] 20  4</code></pre>
+<div class="sourceCode" id="cb975"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb975-1" data-line-number="1"><span class="kw">summary</span>(recalldata)</a></code></pre></div>
+<pre><code>##      ppt            recall_accuracy recall_confidence      age       
+##  Length:20          Min.   :41.00   Min.   :28.72     Min.   :22.00  
+##  Class :character   1st Qu.:59.50   1st Qu.:48.14     1st Qu.:39.25  
+##  Mode  :character   Median :69.00   Median :54.00     Median :47.50  
+##                     Mean   :69.25   Mean   :55.42     Mean   :48.80  
+##                     3rd Qu.:76.25   3rd Qu.:66.40     3rd Qu.:57.25  
+##                     Max.   :99.00   Max.   :75.12     Max.   :86.00</code></pre>
+<div class="sourceCode" id="cb977"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb977-1" data-line-number="1"><span class="kw">ggplot</span>(recalldata, <span class="kw">aes</span>(<span class="dt">x=</span>recall_confidence, recall_accuracy))<span class="op">+</span></a>
+<a class="sourceLine" id="cb977-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-606-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb978"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb978-1" data-line-number="1"><span class="kw">ggplot</span>(recalldata, <span class="kw">aes</span>(<span class="dt">x=</span>age, recall_accuracy))<span class="op">+</span></a>
+<a class="sourceLine" id="cb978-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-606-2.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>These two relationships look quite different.</p>
+<ul>
+<li>For participants who tended to be more confident in their answers, the percentage of items they correctly answered tends to be higher.<br />
+</li>
+<li>The older participants were, the lower the percentage of items they correctly answered tended to be.</li>
+</ul>
+<p>Which relationship are you more confident in and why?</p>
+<p>Ideally, we would have some means of quantifying this sort of relationship…</p>
+<p>There are two summary statistics which we can use to talk about the relationship between two quantitative variables: <strong>Covariance</strong> and <strong>Correlation</strong></p>
+<p>The notion of correlation may already be familiar to you, but to understand it better, we need to start with <em>covariance.</em></p>
+</div>
+<div id="covariance" class="section level3 unnumbered">
+<h3>Covariance</h3>
+<div class="red">
+<p><br>
+Covariance is the measure of how two variables vary together.
+It is the change in one variable associated with the change in another variable.</p>
+<p>For samples, covariance is calculated using the following formula:</p>
+<p><span class="math display">\[\mathrm{cov}(x,y)=\frac{1}{n-1}\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are two variables; e.g., <code>age</code> and <code>recall_accuracy</code>;</li>
+<li><span class="math inline">\(i\)</span> denotes the observational unit, such that <span class="math inline">\(x_i\)</span> is value that the <span class="math inline">\(x\)</span> variable takes on the <span class="math inline">\(i\)</span>th observational unit, and similarly for <span class="math inline">\(y_i\)</span>;</li>
+<li><span class="math inline">\(n\)</span> is the sample size.</li>
+</ul>
+</div>
+<div id="a-visual-explanation" class="section level4 unnumbered">
+<h4>A visual explanation</h4>
+<p>Consider the following scatterplot:<br />
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-608-1.png" width="80%" style="display: block; margin: auto;" />
+<br>
+Now let’s superimpose a vertical dashed line at the mean of <span class="math inline">\(x\)</span> (<span class="math inline">\(\bar{x}\)</span>) and a horizontal dashed line at the mean of <span class="math inline">\(y\)</span> (<span class="math inline">\(\bar{y}\)</span>):
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-609-1.png" width="80%" style="display: block; margin: auto;" />
+<br>
+Now let’s pick one of the points, call it <span class="math inline">\(x_i\)</span>, and show <span class="math inline">\((x_{i}-\bar{x})\)</span> and <span class="math inline">\((y_{i}-\bar{y})\)</span>.<br />
+<br>
+Notice that this makes a rectangle.<br />
+<br>
+As <span class="math inline">\((x_{i}-\bar{x})\)</span> and <span class="math inline">\((y_{i}-\bar{y})\)</span> are both positive values, their product - <span class="math inline">\((x_{i}-\bar{x})(y_{i}-\bar{y})\)</span> - is positive.</p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-610-1.png" width="80%" style="display: block; margin: auto;" />
+<br>
+In fact, for all these points in red, the product <span class="math inline">\((x_{i}-\bar{x})(y_{i}-\bar{y})\)</span> is positive (remember that a negative multiplied by a negative gives a positive):
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-611-1.png" width="80%" style="display: block; margin: auto;" />
+<br>
+And for these points in blue, the product <span class="math inline">\((x_{i}-\bar{x})(y_{i}-\bar{y})\)</span> is negative:<br />
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-612-1.png" width="80%" style="display: block; margin: auto;" />
+<br>
+Now take another look at the formula for covariance:</p>
+<p><span class="math display">\[\mathrm{cov}(x,y)=\frac{\sum_{i=1}^n (x_{i}-\bar{x})(y_{i}-\bar{y})}{n-1}\]</span></p>
+<p>It is the sum of all these products divided by <span class="math inline">\(n-1\)</span>. It is the average of the products!</p>
+</div>
+<div id="manually-calculating-covariance" class="section level4 unnumbered">
+<h4>Manually calculating covariance</h4>
+<div class="question">
+<p class="question-begin">
+► Question A.3
+</p>
+<div class="question-body">
+<p>We’re going to calculate the covariance between recall accuracy and recall confidence
+Create 2 new columns in the memory recall data, one of which is the mean recall accuracy, and one which is the mean recall confidence.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-171" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-171&#39;, &#39;sol-start-171&#39;)"></span>
+</p>
+<div id="sol-body-171" class="solution-body" style="display: none;">
+<p>Remember to assign it using <code>recalldata &lt;- ...</code> otherwise it will just print out the data with the new columns, rather than store it anywhere.</p>
+<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb979-1" data-line-number="1">recalldata &lt;-</a>
+<a class="sourceLine" id="cb979-2" data-line-number="2"><span class="st">  </span>recalldata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb979-3" data-line-number="3">    <span class="dt">maccuracy =</span> <span class="kw">mean</span>(recall_accuracy),</a>
+<a class="sourceLine" id="cb979-4" data-line-number="4">    <span class="dt">mconfidence =</span> <span class="kw">mean</span>(recall_confidence)</a>
+<a class="sourceLine" id="cb979-5" data-line-number="5">  )</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.4
+</p>
+<div class="question-body">
+<p>Now create three new columns which are:</p>
+<ol style="list-style-type: lower-roman">
+<li>recall accuracy minus the mean recall accuracy - this is the <span class="math inline">\((x_i - \bar{x})\)</span> part.<br />
+</li>
+<li>confidence minus the mean confidence - and this is the <span class="math inline">\((y_i - \bar{y})\)</span> part.<br />
+</li>
+<li>the product of i. and ii. - this is calculating <span class="math inline">\((x_i - \bar{x})\)</span><span class="math inline">\((y_i - \bar{y})\)</span>.</li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-172" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-172&#39;, &#39;sol-start-172&#39;)"></span>
+</p>
+<div id="sol-body-172" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb980"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb980-1" data-line-number="1">recalldata &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb980-2" data-line-number="2"><span class="st">  </span>recalldata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb980-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb980-4" data-line-number="4">      <span class="dt">acc_minus_mean_acc =</span> recall_accuracy <span class="op">-</span><span class="st"> </span>maccuracy,</a>
+<a class="sourceLine" id="cb980-5" data-line-number="5">      <span class="dt">conf_minus_mean_conf =</span> recall_confidence <span class="op">-</span><span class="st"> </span>mconfidence,</a>
+<a class="sourceLine" id="cb980-6" data-line-number="6">      <span class="dt">prod_acc_conf =</span> acc_minus_mean_acc <span class="op">*</span><span class="st"> </span>conf_minus_mean_conf</a>
+<a class="sourceLine" id="cb980-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb980-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb980-9" data-line-number="9">recalldata</a></code></pre></div>
+<pre><code>## # A tibble: 20 x 9
+##    ppt   recall_accuracy recall_confiden…   age maccuracy mconfidence acc_minus_mean_… conf_minus_mean…
+##    &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 ppt_1              72             66.6    72      69.2        55.4             2.75            11.2 
+##  2 ppt_2              66             47.1    35      69.2        55.4            -3.25            -8.3 
+##  3 ppt_3              47             43.8    48      69.2        55.4           -22.2            -11.7 
+##  4 ppt_4              84             58.9    52      69.2        55.4            14.8              3.46
+##  5 ppt_5              84             75.1    46      69.2        55.4            14.8             19.7 
+##  6 ppt_6              58             53.5    41      69.2        55.4           -11.2             -1.90
+##  7 ppt_7              52             48.5    86      69.2        55.4           -17.2             -6.94
+##  8 ppt_8              76             67.1    58      69.2        55.4             6.75            11.7 
+##  9 ppt_9              41             40.4    59      69.2        55.4           -28.2            -15.0 
+## 10 ppt_…              67             46.8    22      69.2        55.4            -2.25            -8.62
+## 11 ppt_…              60             50.6    62      69.2        55.4            -9.25            -4.78
+## 12 ppt_…              67             28.7    40      69.2        55.4            -2.25           -26.7 
+## 13 ppt_…              76             69.0    47      69.2        55.4             6.75            13.5 
+## 14 ppt_…              93             67.9    51      69.2        55.4            23.8             12.5 
+## 15 ppt_…              71             54.5    34      69.2        55.4             1.75            -0.94
+## 16 ppt_…              71             64.6    37      69.2        55.4             1.75             9.22
+## 17 ppt_…              99             66.3    37      69.2        55.4            29.8             10.9 
+## 18 ppt_…              66             49.0    51      69.2        55.4            -3.25            -6.46
+## 19 ppt_…              77             58.5    41      69.2        55.4             7.75             3.06
+## 20 ppt_…              58             51.4    57      69.2        55.4           -11.2             -3.98
+## # … with 1 more variable: prod_acc_conf &lt;dbl&gt;</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.5
+</p>
+<div class="question-body">
+<p>Finally, sum the products, and divide by <span class="math inline">\(n-1\)</span></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-173" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-173&#39;, &#39;sol-start-173&#39;)"></span>
+</p>
+<div id="sol-body-173" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb982"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb982-1" data-line-number="1">recalldata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb982-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb982-3" data-line-number="3">    <span class="dt">prod_sum =</span> <span class="kw">sum</span>(prod_acc_conf),</a>
+<a class="sourceLine" id="cb982-4" data-line-number="4">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb982-5" data-line-number="5">  )</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   prod_sum     n
+##      &lt;dbl&gt; &lt;int&gt;
+## 1    2243.    20</code></pre>
+<div class="sourceCode" id="cb984"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb984-1" data-line-number="1"><span class="fl">2243.46</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">20-1</span>)</a></code></pre></div>
+<pre><code>## [1] 118.0768</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.6
+</p>
+<div class="question-body">
+<p>Check that you get the same results using <code>cov()</code> function.</p>
+<p><strong>Hint:</strong> <code>cov()</code> can take two variables <code>cov(x = , y = )</code>. Think about how you can use the <code>$</code> to pull out the variables we are using here.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-174" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-174&#39;, &#39;sol-start-174&#39;)"></span>
+</p>
+<div id="sol-body-174" class="solution-body" style="display: none;">
+<p>It’s the same number!</p>
+<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb986-1" data-line-number="1"><span class="kw">cov</span>(recalldata<span class="op">$</span>recall_accuracy, recalldata<span class="op">$</span>recall_confidence)</a></code></pre></div>
+<pre><code>## [1] 118.0768</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<!-- JK remove this bit? -->
+<!-- We can also give `cov()` a dataframe of only quantitative variables:  -->
+<!-- ```{r} -->
+<!-- recall_nums <-  -->
+<!--   recalldata %>%  -->
+<!--   select(recall_accuracy, recall_confidence, age) -->
+<!-- cov(recall_nums) -->
+<!-- ``` -->
+<hr />
+<hr />
+</div>
+</div>
+<div id="correlation-r" class="section level3 unnumbered">
+<h3>Correlation (<span class="math inline">\(r\)</span>)</h3>
+<div class="lo">
+<p><br>
+You can think of correlation as a standardized covariance. It has a scale from negative one to one, on which the distance from zero indicates the strength of the relationship.<br />
+Just like covariance, positive/negative values reflect the nature of the relationship.</p>
+<p>The <strong>correlation coefficient</strong> is a standardised number which quantifies the strength and direction of the <strong>linear</strong> relationship between two variables.</p>
+<ul>
+<li>In a <strong>population</strong>, it is denoted by <span class="math inline">\(\rho\)</span>.<br />
+</li>
+<li>In a <strong>sample</strong>, it is denoted by <span class="math inline">\(r\)</span>.</li>
+</ul>
+<p>We saw in the lecture that we can calculate <span class="math inline">\(r\)</span> using the following formula:<br />
+<span class="math display">\[
+r_{(x,y)}=\frac{\mathrm{cov}(x,y)}{s_xs_y}
+\]</span></p>
+<p>And we expanded this to:</p>
+<p><span class="math display">\[
+r_{(x,y)} = \frac{\frac{\sum_{i=1}^{n}{(x_i - \bar{x})(y_i - \bar{y})}}{n-1}}{\sqrt{\frac{\sum_{i=1}^{n}{(x_i - \bar{x})}^2}{n-1}} \sqrt{\frac{\sum_{i=1}^{n}{(x_i - \bar{x})}^2}{n-1}}}
+\]</span>
+<br>
+This looks like a lot!<br />
+But we can actually rearrange it to get the following:<br />
+<br>
+<span class="math display">\[
+r_{(x,y)}=\frac{1}{n-1} \sum_{i=1}^n \left( \frac{x_{i}-\bar{x}}{s_x} \right) \left( \frac{y_{i}-\bar{y}}{s_y} \right)
+\]</span>
+<br>
+Notice that this is very similar to the formula for covariance, but the values <span class="math inline">\((x_i - \bar{x})\)</span> are divided by the standard deviation (<span class="math inline">\(s_x\)</span>), as are the values <span class="math inline">\((y_i - \bar{y})\)</span> divided by <span class="math inline">\(s_y\)</span>.<br />
+<br>
+This <em>standardises</em> all the values so that they are expressed as the distance <em>in standard deviations</em> from the mean (<span class="math inline">\(\bar x\)</span>).</p>
+<h4 id="properties-of-correlation-coefficients" class="unnumbered">Properties of correlation coefficients</h4>
+<ul>
+<li><span class="math inline">\(-1 \leq r \leq 1\)</span></li>
+<li>The sign indicates the direction of association
+<ul>
+<li><em>positive association</em> (<span class="math inline">\(r &gt; 0\)</span>) means that values of one variable tend to be higher when values of the other variable are higher</li>
+<li><em>negative association</em> (<span class="math inline">\(r &lt; 0\)</span>) means that values of one variable tend to be lower when values of the other variable are higher</li>
+<li><em>no linear association</em> (<span class="math inline">\(r \approx 0\)</span>) means that higher/lower values of one variable do not tend to occur with higher/lower values of the other variable</li>
+</ul></li>
+<li>The closer <span class="math inline">\(r\)</span> is to <span class="math inline">\(\pm 1\)</span>, the stronger the linear association</li>
+<li><span class="math inline">\(r\)</span> has no units and does not depend on the units of measurement</li>
+<li>The correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is the same as the correlation between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span></li>
+</ul>
+</div>
+<hr />
+<hr />
+<div id="manually-calculating-correlation" class="section level4 unnumbered">
+<h4>Manually calculating correlation</h4>
+<div class="question">
+<p class="question-begin">
+► Question A.7
+</p>
+<div class="question-body">
+<p>We calculated above that <span class="math inline">\(\mathrm{cov}(\texttt{recall_accuracy}, \texttt{recall_confidence})\)</span> = 118.077.</p>
+<p>To calculate the <em>correlation</em>, we simply divide this by the standard deviations of the two variables. <span class="math inline">\(s_{\texttt{recall_accuracy}} \times s_{\texttt{recall_confidence}}\)</span></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-175" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-175&#39;, &#39;sol-start-175&#39;)"></span>
+</p>
+<div id="sol-body-175" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb988"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb988-1" data-line-number="1">recalldata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb988-2" data-line-number="2">  <span class="dt">s_ra =</span> <span class="kw">sd</span>(recall_accuracy),</a>
+<a class="sourceLine" id="cb988-3" data-line-number="3">  <span class="dt">s_rc =</span> <span class="kw">sd</span>(recall_confidence)</a>
+<a class="sourceLine" id="cb988-4" data-line-number="4">)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##    s_ra  s_rc
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  14.5  11.6</code></pre>
+<div class="sourceCode" id="cb990"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb990-1" data-line-number="1"><span class="fl">118.08</span> <span class="op">/</span><span class="st"> </span>(<span class="fl">14.527</span> <span class="op">*</span><span class="st"> </span><span class="fl">11.622</span>)</a></code></pre></div>
+<pre><code>## [1] 0.6993902</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.8
+</p>
+<div class="question-body">
+<p>However, just like R has a <code>cov()</code> function for calculating covariance, there is a <code>cor()</code> function for calculating correlation!<br />
+They work in a similar way. Try using <code>cor()</code> now and check that we get the same result as above (or near enough, remember that we rounded some numbers above).</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-176" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-176&#39;, &#39;sol-start-176&#39;)"></span>
+</p>
+<div id="sol-body-176" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb992-1" data-line-number="1"><span class="kw">cor</span>(recalldata<span class="op">$</span>recall_accuracy, recalldata<span class="op">$</span>recall_confidence)</a></code></pre></div>
+<pre><code>## [1] 0.6993654</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<hr />
+</div>
+</div>
+<div id="game-guess-the-r" class="section level3 unnumbered">
+<h3><b>Game:</b> Guess the <span class="math inline">\(r\)</span></h3>
+<p>Take a break and play this “guess the correlation” game to get an idea of what different strengths and directions of <span class="math inline">\(r\)</span> can look like.</p>
+<iframe src="http://guessthecorrelation.com/" width="80%" height="650px">
+</iframe>
+<p><strong>source: <a href="http://guessthecorrelation.com/">http://guessthecorrelation.com/</a></strong></p>
+<hr />
+<hr />
+</div>
+<div id="testing-significance-of-the-correlation-coefficient" class="section level3 unnumbered">
+<h3>Testing significance of the correlation coefficient</h3>
+<div class="red">
+<p><br>
+Okay, now that we’ve seen the formulae for <em>covariance</em> and <em>correlation</em>, as well as how to quickly calculate them in R using <code>cov()</code> and <code>cor()</code>, we can use a statistical test to establish the probability of finding an association this strong by chance alone.</p>
+<p><strong>Hypotheses</strong></p>
+<p><em>Remember</em>, hypotheses are about the <em>population</em> parameter (in this case the correlation between the two variables in the population - i.e., <span class="math inline">\(\rho\)</span>).</p>
+<div style="margin-left:15px">
+<p><strong>Null Hypothesis</strong></p>
+<ul>
+<li>There is <em>not</em> a linear relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> in the population.<br><span class="math inline">\(H_0: \rho = 0\)</span></li>
+</ul>
+<p><br>
+<strong>Alternative Hypothesis</strong></p>
+<ul>
+<li>There is a <em>positive</em> linear relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> in the population.<br><span class="math inline">\(H_1: \rho &gt; 0\)</span><br />
+</li>
+<li>There is a <em>negative</em> linear relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> in the population.<br><span class="math inline">\(H_1: \rho &lt; 0\)</span><br />
+</li>
+<li>There is a linear relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> in the population.<br><span class="math inline">\(H_1: \rho \neq 0\)</span></li>
+</ul>
+</div>
+<p><strong>Test statistic</strong></p>
+<p>Our test statistic here is yet <em>another</em> <span class="math inline">\(t\)</span> statistic, the formula for which depends on both the observed correlation (<span class="math inline">\(r\)</span>) and the sample size (<span class="math inline">\(n\)</span>):</p>
+<p><span class="math display">\[t = r \sqrt{\frac{n-2}{1-r^2}}\]</span></p>
+<p><strong><span class="math inline">\(p\)</span>-value</strong></p>
+<p>We calculate the p-value for our <span class="math inline">\(t\)</span>-statistic in the usual way:</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="math inline">\(\mathrm{Pr}(T_{n-2} \leq t)\)</span></li>
+<li><span class="math inline">\(\mathrm{Pr}(T_{n-2} \geq t)\)</span></li>
+<li><span class="math inline">\(2 \times \mathrm{Pr}(T_{n-2} \geq |t|)\)</span></li>
+</ol>
+<p>where <span class="math inline">\(T_{n-2}\)</span> denotes a <span class="math inline">\(t\)</span>-distribution with <strong>n - 2</strong> degrees of freedom.</p>
+<h4 id="assumptions-1" class="unnumbered">Assumptions</h4>
+<ul>
+<li>Both variables are quantitative</li>
+<li>Both variables should be drawn from normally distributed populations.</li>
+<li>The relationship between the two variables should be linear.<br />
+</li>
+<li>Homoscedasticity</li>
+</ul>
+</div>
+<p>In R, we can test the significance of the correlation coefficient really easily with the function <code>cor.test()</code>:</p>
+<div class="sourceCode" id="cb994"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb994-1" data-line-number="1"><span class="kw">cor.test</span>(recalldata<span class="op">$</span>recall_accuracy, recalldata<span class="op">$</span>recall_confidence)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  recalldata$recall_accuracy and recalldata$recall_confidence
+## t = 4.1512, df = 18, p-value = 0.0005998
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.3719603 0.8720125
+## sample estimates:
+##       cor 
+## 0.6993654</code></pre>
+<p>Or, if we want to calculate our test statistic manually:</p>
+<div class="sourceCode" id="cb996"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb996-1" data-line-number="1"><span class="co">#calculate r</span></a>
+<a class="sourceLine" id="cb996-2" data-line-number="2">r =<span class="st"> </span><span class="kw">cor</span>(recalldata<span class="op">$</span>recall_accuracy, recalldata<span class="op">$</span>recall_confidence)</a>
+<a class="sourceLine" id="cb996-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb996-4" data-line-number="4"><span class="co">#get n</span></a>
+<a class="sourceLine" id="cb996-5" data-line-number="5">n =<span class="st"> </span>recalldata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb996-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n=</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(n)</a>
+<a class="sourceLine" id="cb996-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb996-8" data-line-number="8"><span class="co">#calculate t</span></a>
+<a class="sourceLine" id="cb996-9" data-line-number="9">tstat =<span class="st"> </span>r <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((n <span class="op">-</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>r<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb996-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb996-11" data-line-number="11"><span class="co">#calculate p-value for t, with df = n-2 </span></a>
+<a class="sourceLine" id="cb996-12" data-line-number="12"><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">pt</span>(tstat, <span class="dt">df=</span><span class="dv">18</span>))</a></code></pre></div>
+<pre><code>## [1] 0.0005998222</code></pre>
+</div>
+<div id="extras-correlation-matrix" class="section level3 unnumbered">
+<h3>Extras: Correlation matrix</h3>
+<p>Lots of psychological datasets will have many many related variables. For instance, if a researcher was interested in job satisfaction, they might give a questionnaire to participants, and we would end up with a dataset with lots of variables (one for each question).</p>
+<p>We will often want to quickly summarise the relationship between all possible pairs of variables. In the lecture, we saw how to do this using the <code>hetcor()</code> function from the <code>polycor</code> package, giving it a set of variables (or a whole dataset).</p>
+<p>You probably won’t have the package <code>polycor</code> yet, so you’ll need to install it first.</p>
+<div class="solution">
+<p class="solution-begin">
+Refresher: Installing and loading packages<span id="sol-start-177" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-177&#39;, &#39;sol-start-177&#39;)"></span>
+</p>
+<div id="sol-body-177" class="solution-body" style="display: none;">
+<strong>Installing packages</strong><br />
+
+<div style="margin-left: 15px">
+<p>You can install a package either by using <code>install.packages()</code> (for example: <code>install.packages(&quot;polycor&quot;)</code>), or by choosing the Packages tab in the bottom right window of RStudio, and clicking the install button.</p>
+<p><strong>Note:</strong> If you run <code>install.packages()</code>, you can do this in the <strong>console</strong> (the bottom-left window in RStudio).<br />
+Remember that the console works like scratch-paper in that <em>nothing you write there is saved.</em></p>
+<p>But we don’t want to save the code which installs packages - if we had it in our RMarkdown document, then <em>every time that you run your code, you will be reinstalling the package</em>.<br />
+So running the <code>install.packages()</code> line from a code-chunk in your RMarkdown document is completely fine, just be sure to delete this line of code <em>after</em> you have run it.</p>
+</div>
+<strong>Loading packages</strong>
+<div style="margin-left: 15px">
+<p>Now that we have installed a package, to use it we need to load it first.<br />
+This is what we are doing when we use <code>library()</code>.</p>
+<p>This line you <strong>should</strong> keep in your code, because it ensures that your code is reproducible. If you don’t include it, then a reader of your code will not know where you got some of the functions from.</p>
+</div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question A.9
+</p>
+<div class="question-body">
+<ol style="list-style-type: lower-roman">
+<li>Install the <code>polycor</code> package.<br />
+</li>
+<li>Load the <code>polycor</code> package.<br />
+</li>
+<li>Read in the job satisfaction data from <a href="https://edin.ac/2UjBai1">https://edin.ac/2UjBai1</a>. It is a <strong>.csv</strong>.<br />
+</li>
+<li>Create a correlation matrix using the function <code>hetcor()</code>, and name it <code>cormat</code>.<br />
+</li>
+<li>Pull out the correlation matrix using <code>cormat$correlations</code>.</li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-178" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-178&#39;, &#39;sol-start-178&#39;)"></span>
+</p>
+<div id="sol-body-178" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb998"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb998-1" data-line-number="1"><span class="kw">library</span>(polycor)</a>
+<a class="sourceLine" id="cb998-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb998-3" data-line-number="3">jobsat&lt;-<span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2UjBai1&quot;</span>) </a>
+<a class="sourceLine" id="cb998-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb998-5" data-line-number="5">cormat &lt;-<span class="st"> </span><span class="kw">hetcor</span>(jobsat)</a>
+<a class="sourceLine" id="cb998-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb998-7" data-line-number="7">cormat<span class="op">$</span>correlations </a></code></pre></div>
+<pre><code>##             V1         V2         V3         V4           V5         V6         V7         V8        V9
+## V1  1.00000000 0.57616567 0.45024328 0.66141189  0.419666038 0.16564067 0.09906061 0.10313397 0.2641865
+## V2  0.57616567 1.00000000 0.46635103 0.45668199  0.387749991 0.23541403 0.07566816 0.09667688 0.1759184
+## V3  0.45024328 0.46635103 1.00000000 0.57281285  0.486322359 0.08845336 0.07147513 0.10567066 0.1936418
+## V4  0.66141189 0.45668199 0.57281285 1.00000000  0.350897825 0.14580396 0.08959683 0.14951903 0.2261549
+## V5  0.41966604 0.38774999 0.48632236 0.35089783  1.000000000 0.06059873 0.16903029 0.02737395 0.1195421
+## V6  0.16564067 0.23541403 0.08845336 0.14580396  0.060598731 1.00000000 0.73800460 0.66155243 0.7293742
+## V7  0.09906061 0.07566816 0.07147513 0.08959683  0.169030286 0.73800460 1.00000000 0.67367531 0.5300598
+## V8  0.10313397 0.09667688 0.10567066 0.14951903  0.027373946 0.66155243 0.67367531 1.00000000 0.4490772
+## V9  0.26418653 0.17591843 0.19364178 0.22615489  0.119542129 0.72937420 0.53005983 0.44907721 1.0000000
+## V10 0.04566706 0.14640067 0.01933380 0.05912708 -0.003235014 0.45334982 0.40296139 0.60985155 0.5409478
+##              V10
+## V1   0.045667063
+## V2   0.146400667
+## V3   0.019333801
+## V4   0.059127083
+## V5  -0.003235014
+## V6   0.453349820
+## V7   0.402961387
+## V8   0.609851553
+## V9   0.540947763
+## V10  1.000000000</code></pre>
+<div style="margin-left:10px">
+<p>As it happens, we don’t actually <em>need</em> <code>hetcor()</code> here as we can just use <code>cor()</code> if we like. However, <code>hetcor()</code> can be useful in situations where we want other more complicated types of correlation coefficient to be calculated (see the <code>type</code> argument in in <code>hetcor(x, type = ....)</code>).</p>
+<div class="sourceCode" id="cb1000"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1000-1" data-line-number="1"><span class="kw">cor</span>(jobsat)</a></code></pre></div>
+</div>
+<p>It’s a lot of numbers to look at, but each column and each row is a variable, so the left-most column shows the correlations between <code>V1</code> and each of <code>V1</code>, <code>V2</code>, <code>V3</code>, …, <code>V8</code>.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<p>It is often to difficult to get a good view of the strength and direction of correlations when they are all printed out.<br />
+Luckily, we can easily visualise a correlation matrix as a heatmap.</p>
+<div class="question">
+<p class="question-begin">
+► Question A.10
+</p>
+<div class="question-body">
+<ol style="list-style-type: lower-roman">
+<li>Install the <code>pheatmap</code> package.<br />
+</li>
+<li>Load the <code>pheatmap</code> package.</li>
+<li>visualise your correlation matrix using the function <code>pheatmap()</code>.</li>
+</ol>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-179" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-179&#39;, &#39;sol-start-179&#39;)"></span>
+</p>
+<div id="sol-body-179" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb1001"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1001-1" data-line-number="1"><span class="kw">library</span>(pheatmap)</a>
+<a class="sourceLine" id="cb1001-2" data-line-number="2"><span class="kw">pheatmap</span>(cormat<span class="op">$</span>correlations)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-623-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<hr />
+</div>
+<div id="cautions" class="section level3 unnumbered">
+<h3>Cautions!</h3>
+<p>Correlation is an invaluable tool for quantifying relationships between variables, but <strong>must be used with care</strong>.</p>
+<p>Below are a few things to be aware of when we talk about correlation.</p>
+<div class="solution">
+<p class="solution-begin">
+1 - Correlation can be heavily affected by outliers. Always plot your data!
+</p>
+<div class="solution-body">
+<p>The two plots below only differ with respect to the inclusion of <em>one</em> observation. However, the correlation coefficient for the two sets of observations is markedly different.<br />
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-624-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="solution">
+<p class="solution-begin">
+2 - r = 0 means no linear association. The variables could still be otherwise associated. Always plot your data!
+</p>
+<div class="solution-body">
+<p>The correlation coefficient in Figure <a href="chap-covcor.html#fig:joface">20.1</a> below is negligible, suggesting no <em>linear</em> association. The word “linear” here is crucial - the data are very clearly related.</p>
+<div class="figure" style="text-align: center"><span id="fig:joface"></span>
+<img src="bookdown-demo_files/figure-html/joface-1.png" alt="Unrelated data?" width="80%" />
+<p class="caption">
+Figure 20.1: Unrelated data?
+</p>
+</div>
+Similarly, take look at all the sets of data in Figure <a href="chap-covcor.html#fig:datasaurus">20.2</a> below. The summary statistics (means and standard deviations of each variable, and the correlation) are almost identical, but the visualisations suggest that the data are very different from one another.
+<div class="figure" style="text-align: center"><span id="fig:datasaurus"></span>
+<img src="https://media1.giphy.com/media/UN2kVJQeMFUje/source.gif" alt="Datasaurus! " width="80%" />
+<p class="caption">
+Figure 20.2: Datasaurus!
+</p>
+</div>
+<p><strong>Source:</strong> Matejka, J., &amp; Fitzmaurice, G. (2017, May). Same stats, different graphs: generating datasets with varied appearance and identical statistics through simulated annealing. In <em>Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems</em> (pp. 1290-1294).</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+3 - Correlation does not imply causation!
+</p>
+<div class="solution-body">
+<div class="figure" style="text-align: center"><span id="fig:xkcdcor"></span>
+<img src="https://imgs.xkcd.com/comics/correlation.png" alt="https://imgs.xkcd.com/comics/correlation.png" width="80%" />
+<p class="caption">
+Figure 20.3: <a href="https://imgs.xkcd.com/comics/correlation.png" class="uri">https://imgs.xkcd.com/comics/correlation.png</a>
+</p>
+</div>
+<p>You will have likely heard the phrase “correlation does not imply causation”. There is even a whole <a href="https://en.wikipedia.org/wiki/Correlation_does_not_imply_causation">wikipedia entry</a> devoted to the topic.</p>
+<p><strong>Just because you observe an association between x and y, we should not deduce that x causes y</strong></p>
+<p>An often cited paper (See Figure <a href="chap-covcor.html#fig:choco">20.4</a>) which appears to fall foul of this error took a correlation between a country’s chocolate consumption and its number of nobel prize winners to suggest a <em>causal relationship</em> between the two:</p>
+<div class="figure" style="text-align: center"><span id="fig:choco"></span>
+<img src="https://pbs.twimg.com/media/D0AS2iEX0AAuMLX.jpg" alt="Chocolate consumption causes more Nobel Laureates?" width="80%" />
+<p class="caption">
+Figure 20.4: Chocolate consumption causes more Nobel Laureates?
+</p>
+</div>
+<p><em>“since chocolate consumption has been documented to improve cognitive function, it seems most likely that in a dose-dependent way, chocolate intake provides the abundant fertile ground needed for the sprouting of Nobel laureates”</em><br />
+[Messerli, Franz. Chocolate Consumption, Cognitive Function, and Nobel Laureates. The New England Journal of Medicine 2012; 367:1562-4, (<a href="http://www.nejm.org/doi/full/10.1056/NEJMon1211064" class="uri">http://www.nejm.org/doi/full/10.1056/NEJMon1211064</a>)]</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="lab-6" class="section level2 unnumbered">
+<h2>Lab</h2>
+<div id="sleep-levels-and-daytime-functioning" class="section level3 unnumbered">
+<h3>Sleep levels and daytime functioning</h3>
+<div class="red">
+<p><br>
+A researcher is interested in the relationship between hours slept per night and self-rated effects of sleep on daytime functioning.
+She recruited 50 healthy adults, and collected data on the Total Sleep Time (TST) over the course of a seven day period via sleep-tracking devices.<br />
+<br>
+At the end of the seven day period, participants completed a Daytime Functioning (DTF) questionnaire. This involved participants rating their agreement with ten statements (see Table <a href="chap-covcor.html#tab:sleepitems">20.1</a>). Agreement was measured on a scale from 1-5.<br />
+<br>
+An overall score of daytime functioning can be calculated by:</p>
+<ol style="list-style-type: decimal">
+<li>reversing the scores of items 4, 5 and 6.<br />
+</li>
+<li>Taking the sum of scores across items.<br />
+</li>
+<li>Subtracting the summed scores from 50 (the max possible score).</li>
+</ol>
+<p><small>
+<strong>Note:</strong> Step 1 is undertaken because those items reflect agreement with <em>positive</em> statements, whereas the other ones are agreement with <em>negative</em> statements. In step 3, subtracting the summed scores from 50 will simply reverse the overall score, meaning that higher scores will indicate better perceived daytime functioning.
+</small></p>
+<table>
+<caption><span id="tab:sleepitems">Table 20.1: </span>Daytime Functioning Questionnaire</caption>
+<thead>
+<tr class="header">
+<th align="left">Item</th>
+<th align="left">Statement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Item_1</td>
+<td align="left">I often felt an inability to concentrate</td>
+</tr>
+<tr class="even">
+<td align="left">Item_2</td>
+<td align="left">I frequently forgot things</td>
+</tr>
+<tr class="odd">
+<td align="left">Item_3</td>
+<td align="left">I found thinking clearly required a lot of effort</td>
+</tr>
+<tr class="even">
+<td align="left">Item_4</td>
+<td align="left">I often felt happy</td>
+</tr>
+<tr class="odd">
+<td align="left">Item_5</td>
+<td align="left">I had lots of energy</td>
+</tr>
+<tr class="even">
+<td align="left">Item_6</td>
+<td align="left">I worked efficiently</td>
+</tr>
+<tr class="odd">
+<td align="left">Item_7</td>
+<td align="left">I often felt irritable</td>
+</tr>
+<tr class="even">
+<td align="left">Item_8</td>
+<td align="left">I often felt stressed</td>
+</tr>
+<tr class="odd">
+<td align="left">Item_9</td>
+<td align="left">I often felt sleepy</td>
+</tr>
+<tr class="even">
+<td align="left">Item_10</td>
+<td align="left">I often felt fatigued</td>
+</tr>
+</tbody>
+</table>
+<p><br>
+<br>
+The data is available as a <strong>.csv</strong> at <a href="https://edin.ac/2UCFS9u">https://edin.ac/2UCFS9u</a></p>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question B.1
+</p>
+<div class="question-body">
+<p>Read in the data, and calculate the overall daytime functioning score, following the criteria outlined above. Make this a new column in your dataset.</p>
+<p><em>Hint:</em> to reverse items 4, 5 and 6, we we need to make all the scores of 1 become 5, scores of 2 become 4, and so on…</p>
+<p>What number satisfies all of these equations?:</p>
+<ul>
+<li>? - 5 = 1</li>
+<li>? - 4 = 2</li>
+<li>? - 3 = 3</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-183" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-183&#39;, &#39;sol-start-183&#39;)"></span>
+</p>
+<div id="sol-body-183" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb1002"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1002-1" data-line-number="1">sleepdtf &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2UCFS9u&quot;</span>)</a>
+<a class="sourceLine" id="cb1002-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1002-3" data-line-number="3"><span class="co"># To reverse the items, we can simply do 6 minus the score.   </span></a>
+<a class="sourceLine" id="cb1002-4" data-line-number="4">sleepdtf &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb1002-5" data-line-number="5"><span class="st">  </span>sleepdtf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb1002-6" data-line-number="6">    <span class="dt">item_4_rev=</span><span class="dv">6</span><span class="op">-</span>item_<span class="dv">4</span>,</a>
+<a class="sourceLine" id="cb1002-7" data-line-number="7">    <span class="dt">item_5_rev=</span><span class="dv">6</span><span class="op">-</span>item_<span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb1002-8" data-line-number="8">    <span class="dt">item_6_rev=</span><span class="dv">6</span><span class="op">-</span>item_<span class="dv">6</span></a>
+<a class="sourceLine" id="cb1002-9" data-line-number="9">  ) </a>
+<a class="sourceLine" id="cb1002-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1002-11" data-line-number="11"><span class="co"># Now to we add them up (be sure to use  the reversed items 4-6)</span></a>
+<a class="sourceLine" id="cb1002-12" data-line-number="12">sleepdtf &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb1002-13" data-line-number="13"><span class="st">  </span>sleepdtf <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb1002-14" data-line-number="14">    <span class="dt">dtf =</span> item_<span class="dv">1</span><span class="op">+</span>item_<span class="dv">2</span><span class="op">+</span>item_<span class="dv">3</span><span class="op">+</span>item_<span class="dv">4</span>_rev<span class="op">+</span>item_<span class="dv">5</span>_rev<span class="op">+</span>item_<span class="dv">6</span>_rev<span class="op">+</span>item_<span class="dv">7</span><span class="op">+</span>item_<span class="dv">8</span><span class="op">+</span>item_<span class="dv">9</span><span class="op">+</span>item_<span class="dv">10</span></a>
+<a class="sourceLine" id="cb1002-15" data-line-number="15">  )</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.2
+</p>
+<div class="question-body">
+<p>Calculate the correlation between the total sleep time (<code>TST</code>) and the overall daytime functioning score.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-184" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-184&#39;, &#39;sol-start-184&#39;)"></span>
+</p>
+<div id="sol-body-184" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb1003"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1003-1" data-line-number="1"><span class="kw">cor</span>(sleepdtf<span class="op">$</span>TST, sleepdtf<span class="op">$</span>dtf)</a></code></pre></div>
+<pre><code>## [1] -0.6694741</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.3
+</p>
+<div class="question-body">
+<p>Conduct a test to establish the probability of observing a correlation this strong in a sample of this size assuming the true correlation to be 0.<br />
+<br>
+Write a sentence or two summarising the results.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-185" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-185&#39;, &#39;sol-start-185&#39;)"></span>
+</p>
+<div id="sol-body-185" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb1005"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1005-1" data-line-number="1"><span class="kw">cor.test</span>(sleepdtf<span class="op">$</span>TST, sleepdtf<span class="op">$</span>dtf)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  sleepdtf$TST and sleepdtf$dtf
+## t = -6.244, df = 48, p-value = 1.062e-07
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.7989417 -0.4807039
+## sample estimates:
+##        cor 
+## -0.6694741</code></pre>
+<p>There was a strong negative correlation between total sleep time and self-reported daytime functioning score (<span class="math inline">\(r(48)\)</span> = -0.67, <span class="math inline">\(p &lt; .001\)</span>) in the current sample. As total sleep time increased, levels of self-reported daytime functioning decreased.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.4
+</p>
+<div class="question-body">
+<p>Create a correlation matrix of the items in the daytime functioning questionnaire.</p>
+<p>You will first need to select the relevant columns.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-186" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-186&#39;, &#39;sol-start-186&#39;)"></span>
+</p>
+<div id="sol-body-186" class="solution-body" style="display: none;">
+<p>To select the relevant columns, there are loads of different methods we can use.<br />
+We could do this:</p>
+<div class="sourceCode" id="cb1007"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1007-1" data-line-number="1">sleepdtf <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1007-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(item_<span class="dv">1</span>,item_<span class="dv">2</span>,item_<span class="dv">3</span>,item_<span class="dv">4</span>,item_<span class="dv">5</span>,item_<span class="dv">6</span>,item_<span class="dv">7</span>,item_<span class="dv">8</span>,item_<span class="dv">9</span>,item_<span class="dv">10</span>)</a></code></pre></div>
+<p>Or, shorthand, because we know the columns are in order, we can use the following to select everything between <code>item_1</code> and <code>item_10</code>.</p>
+<div class="sourceCode" id="cb1008"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1008-1" data-line-number="1">sleepdtf <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1008-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(item_<span class="dv">1</span><span class="op">:</span>item_<span class="dv">10</span>)</a></code></pre></div>
+<p>Or, yet another option (this one was in the lecture):</p>
+<div class="sourceCode" id="cb1009"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1009-1" data-line-number="1">sleepdtf[,<span class="dv">2</span><span class="op">:</span><span class="dv">11</span>]</a></code></pre></div>
+<p>This will keep all columns from the 2nd column (item_1) to the 11th (item_10).</p>
+<div class="noteBox">
+<p>These square brackets <code>[]</code> will come in pretty handy, and usign them is called ‘indexing’.<br />
+When you index a dataset, you can specify the rows that you want, and the columns that you want <code>mydata[rows, columns]</code>.<br />
+So we can use:</p>
+<div class="sourceCode" id="cb1010"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1010-1" data-line-number="1">mydata[<span class="dv">1</span>, <span class="dv">4</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<p>To give us the first row, and the 4th and 5th columns.</p>
+</div>
+<!-- **TODO: Is hetcor() really needed? I'd just do `cor(sleepdtf[, 2:11])`** -->
+<p>To make the correlation matrix, we just pass any of these to the <code>hetcor()</code> function from the <code>polycor</code> package!</p>
+<div class="sourceCode" id="cb1011"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1011-1" data-line-number="1">dtfmatrix &lt;-</a>
+<a class="sourceLine" id="cb1011-2" data-line-number="2"><span class="st">  </span>sleepdtf <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1011-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(item_<span class="dv">1</span><span class="op">:</span>item_<span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1011-4" data-line-number="4"><span class="st">  </span><span class="kw">hetcor</span>()</a>
+<a class="sourceLine" id="cb1011-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1011-6" data-line-number="6">dtfmatrix<span class="op">$</span>correlations</a></code></pre></div>
+<pre><code>##              item_1      item_2      item_3      item_4      item_5      item_6      item_7      item_8
+## item_1   1.00000000  0.50837225  0.51273325 -0.17906864 -0.32984013 -0.39313039 -0.03418298  0.16769150
+## item_2   0.50837225  1.00000000  0.57154789 -0.30744044 -0.13965721 -0.35124536  0.08137302  0.09286012
+## item_3   0.51273325  0.57154789  1.00000000 -0.39219980 -0.30066501 -0.23839021  0.32205759  0.26489465
+## item_4  -0.17906864 -0.30744044 -0.39219980  1.00000000  0.36480619  0.50052423 -0.31475066  0.01710394
+## item_5  -0.32984013 -0.13965721 -0.30066501  0.36480619  1.00000000  0.65529215 -0.04393422 -0.29071246
+## item_6  -0.39313039 -0.35124536 -0.23839021  0.50052423  0.65529215  1.00000000  0.16140594  0.21594804
+## item_7  -0.03418298  0.08137302  0.32205759 -0.31475066 -0.04393422  0.16140594  1.00000000  0.33877450
+## item_8   0.16769150  0.09286012  0.26489465  0.01710394 -0.29071246  0.21594804  0.33877450  1.00000000
+## item_9  -0.07923614  0.20620347  0.12972494 -0.14023641  0.04159642  0.30095059  0.18381414  0.32074787
+## item_10  0.01083201  0.05563115  0.07139345 -0.35815869 -0.15796053 -0.05114681  0.12327218  0.09695102
+##              item_9     item_10
+## item_1  -0.07923614  0.01083201
+## item_2   0.20620347  0.05563115
+## item_3   0.12972494  0.07139345
+## item_4  -0.14023641 -0.35815869
+## item_5   0.04159642 -0.15796053
+## item_6   0.30095059 -0.05114681
+## item_7   0.18381414  0.12327218
+## item_8   0.32074787  0.09695102
+## item_9   1.00000000  0.25787200
+## item_10  0.25787200  1.00000000</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.5
+</p>
+<div class="question-body">
+<p>Visualise your correlation matrix using <code>pheatmap()</code> from the <code>pheatmap</code> package.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-187" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-187&#39;, &#39;sol-start-187&#39;)"></span>
+</p>
+<div id="sol-body-187" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb1013"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1013-1" data-line-number="1"><span class="kw">pheatmap</span>(dtfmatrix<span class="op">$</span>correlations)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-634-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.6
+</p>
+<div class="question-body">
+<p>Spend a bit of time thinking about what this correlation matrix shows you, and read the item statements again (Table <a href="chap-covcor.html#tab:sleepitems">20.1</a>).</p>
+<p>Try creating and visualising a new correlation matrix using the reversed items 4, 5, and 6. What do you expect to be different?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-188" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-188&#39;, &#39;sol-start-188&#39;)"></span>
+</p>
+<div id="sol-body-188" class="solution-body" style="display: none;">
+<p>Items 4, 5, and 6 are all positively correlated with one another, and negatively correlated with Items 1, 2, and 3.</p>
+<p>This makes sense, because Items 4, 5, and 6 are all the <em>positive</em> statements, so someone who agrees with those is likely to disagree with the more negative statements.</p>
+<p>Furthermore, Items 1, 2, and 3 all seem more strongly correlated with one another than with Items 7, 8, 9 and 10. Are there any differences between these items? It sort of looks like Items 1-3 are all about how well people <em>functioned</em>, whereas 7-10 is about how they <em>felt</em>. This could flag up interesting avenues for future research.</p>
+<p>If we change to using the reversed Items 4-6, the direction (but not the strength) of the correlations with these items will change:</p>
+<div class="sourceCode" id="cb1014"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1014-1" data-line-number="1"><span class="co"># not the most elegant way to do this, but can see clearly what it&#39;s doing:</span></a>
+<a class="sourceLine" id="cb1014-2" data-line-number="2">dtfmatrix2 &lt;-</a>
+<a class="sourceLine" id="cb1014-3" data-line-number="3"><span class="st">  </span>sleepdtf <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1014-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(item_<span class="dv">1</span>,item_<span class="dv">2</span>,item_<span class="dv">3</span>,item_<span class="dv">4</span>_rev,item_<span class="dv">5</span>_rev,item_<span class="dv">6</span>_rev,item_<span class="dv">7</span>,item_<span class="dv">8</span>,item_<span class="dv">9</span>,item_<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1014-5" data-line-number="5"><span class="st">  </span><span class="kw">hetcor</span>()</a>
+<a class="sourceLine" id="cb1014-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1014-7" data-line-number="7">dtfmatrix2<span class="op">$</span>correlations</a></code></pre></div>
+<pre><code>##                 item_1     item_2     item_3  item_4_rev  item_5_rev  item_6_rev      item_7      item_8
+## item_1      1.00000000 0.50837225 0.51273325  0.17906864  0.32984013  0.39313039 -0.03418298  0.16769150
+## item_2      0.50837225 1.00000000 0.57154789  0.30744044  0.13965721  0.35124536  0.08137302  0.09286012
+## item_3      0.51273325 0.57154789 1.00000000  0.39219980  0.30066501  0.23839021  0.32205759  0.26489465
+## item_4_rev  0.17906864 0.30744044 0.39219980  1.00000000  0.36480619  0.50052423  0.31475066 -0.01710394
+## item_5_rev  0.32984013 0.13965721 0.30066501  0.36480619  1.00000000  0.65529215  0.04393422  0.29071246
+## item_6_rev  0.39313039 0.35124536 0.23839021  0.50052423  0.65529215  1.00000000 -0.16140594 -0.21594804
+## item_7     -0.03418298 0.08137302 0.32205759  0.31475066  0.04393422 -0.16140594  1.00000000  0.33877450
+## item_8      0.16769150 0.09286012 0.26489465 -0.01710394  0.29071246 -0.21594804  0.33877450  1.00000000
+## item_9     -0.07923614 0.20620347 0.12972494  0.14023641 -0.04159642 -0.30095059  0.18381414  0.32074787
+## item_10     0.01083201 0.05563115 0.07139345  0.35815869  0.15796053  0.05114681  0.12327218  0.09695102
+##                 item_9    item_10
+## item_1     -0.07923614 0.01083201
+## item_2      0.20620347 0.05563115
+## item_3      0.12972494 0.07139345
+## item_4_rev  0.14023641 0.35815869
+## item_5_rev -0.04159642 0.15796053
+## item_6_rev -0.30095059 0.05114681
+## item_7      0.18381414 0.12327218
+## item_8      0.32074787 0.09695102
+## item_9      1.00000000 0.25787200
+## item_10     0.25787200 1.00000000</code></pre>
+<div class="sourceCode" id="cb1016"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1016-1" data-line-number="1"><span class="kw">pheatmap</span>(dtfmatrix2<span class="op">$</span>correlations)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-635-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.7
+</p>
+<div class="question-body">
+<p>What Items on the daytime functioning questionnaire correlate most strongly with the Total Sleep Time (TST)?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-189" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-189&#39;, &#39;sol-start-189&#39;)"></span>
+</p>
+<div id="sol-body-189" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb1017"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1017-1" data-line-number="1"><span class="co"># not the most elegant way to do this, but can see clearly what it&#39;s doing:</span></a>
+<a class="sourceLine" id="cb1017-2" data-line-number="2">dtfmatrix3 &lt;-</a>
+<a class="sourceLine" id="cb1017-3" data-line-number="3"><span class="st">  </span>sleepdtf <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1017-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(TST,item_<span class="dv">1</span>,item_<span class="dv">2</span>,item_<span class="dv">3</span>,item_<span class="dv">4</span>_rev,item_<span class="dv">5</span>_rev,item_<span class="dv">6</span>_rev,item_<span class="dv">7</span>,item_<span class="dv">8</span>,item_<span class="dv">9</span>,item_<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1017-5" data-line-number="5"><span class="st">  </span><span class="kw">hetcor</span>()</a>
+<a class="sourceLine" id="cb1017-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1017-7" data-line-number="7">dtfmatrix3<span class="op">$</span>correlations</a></code></pre></div>
+<pre><code>##                    TST      item_1      item_2      item_3  item_4_rev  item_5_rev  item_6_rev      item_7
+## TST         1.00000000 -0.07080376 -0.12528118 -0.13605652 -0.46651248 -0.61841026 -0.26036691 -0.25544751
+## item_1     -0.07080376  1.00000000  0.50837225  0.51273325  0.17906864  0.32984013  0.39313039 -0.03418298
+## item_2     -0.12528118  0.50837225  1.00000000  0.57154789  0.30744044  0.13965721  0.35124536  0.08137302
+## item_3     -0.13605652  0.51273325  0.57154789  1.00000000  0.39219980  0.30066501  0.23839021  0.32205759
+## item_4_rev -0.46651248  0.17906864  0.30744044  0.39219980  1.00000000  0.36480619  0.50052423  0.31475066
+## item_5_rev -0.61841026  0.32984013  0.13965721  0.30066501  0.36480619  1.00000000  0.65529215  0.04393422
+## item_6_rev -0.26036691  0.39313039  0.35124536  0.23839021  0.50052423  0.65529215  1.00000000 -0.16140594
+## item_7     -0.25544751 -0.03418298  0.08137302  0.32205759  0.31475066  0.04393422 -0.16140594  1.00000000
+## item_8     -0.43850367  0.16769150  0.09286012  0.26489465 -0.01710394  0.29071246 -0.21594804  0.33877450
+## item_9     -0.52079536 -0.07923614  0.20620347  0.12972494  0.14023641 -0.04159642 -0.30095059  0.18381414
+## item_10    -0.65895381  0.01083201  0.05563115  0.07139345  0.35815869  0.15796053  0.05114681  0.12327218
+##                 item_8      item_9     item_10
+## TST        -0.43850367 -0.52079536 -0.65895381
+## item_1      0.16769150 -0.07923614  0.01083201
+## item_2      0.09286012  0.20620347  0.05563115
+## item_3      0.26489465  0.12972494  0.07139345
+## item_4_rev -0.01710394  0.14023641  0.35815869
+## item_5_rev  0.29071246 -0.04159642  0.15796053
+## item_6_rev -0.21594804 -0.30095059  0.05114681
+## item_7      0.33877450  0.18381414  0.12327218
+## item_8      1.00000000  0.32074787  0.09695102
+## item_9      0.32074787  1.00000000  0.25787200
+## item_10     0.09695102  0.25787200  1.00000000</code></pre>
+<div class="sourceCode" id="cb1019"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1019-1" data-line-number="1"><span class="kw">pheatmap</span>(dtfmatrix3<span class="op">$</span>correlations)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-636-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question B.8
+</p>
+<div class="question-body">
+<p><strong>Open-ended:</strong> Think about this study in terms of <em>causation</em>.<br />
+<br>
+Claim: <em>Less sleep causes poorer daytime functioning.</em><br />
+<br>
+Why might it be inappropriate to make the claim above based on these data alone? Think about what sort of study could provide stronger evidence for such a claim.</p>
+<p>Things to think about:</p>
+<ul>
+<li>comparison groups.<br />
+</li>
+<li>random allocation.<br />
+</li>
+<li>measures of daytime functioning.<br />
+</li>
+<li>measures of sleep time.<br />
+</li>
+<li>other (unmeasured) explanatory variables.</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chap-chi-square.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

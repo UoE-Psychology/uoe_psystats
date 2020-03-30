@@ -526,7 +526,7 @@ tstat = r * sqrt((n - 2) / (1 - r^2))
 
 Lots of psychological datasets will have many many related variables. For instance, if a researcher was interested in job satisfaction, they might give a questionnaire to participants, and we would end up with a dataset with lots of variables (one for each question).  
 
-We will often want to quickly summarise the relationship between all possible pairs of variables, and we can do this using the `hetcor()` function from the `polycor` package, and giving it a set of variables (or a whole dataset).  
+We will often want to quickly summarise the relationship between all possible pairs of variables. In the lecture, we saw how to do this using the `hetcor()` function from the `polycor` package, giving it a set of variables (or a whole dataset).  
 
 You probably won't have the package `polycor` yet, so you'll need to install it first.  
 
@@ -569,6 +569,13 @@ cormat <- hetcor(jobsat)
 
 cormat$correlations 
 ```
+
+<div style="margin-left:10px">
+As it happens, we don't actually _need_ `hetcor()` here as we can just use `cor()` if we like. However, `hetcor()` can be useful in situations where we want other more complicated types of correlation coefficient to be calculated (see the `type` argument in in `hetcor(x, type = ....)`). 
+```{r eval=FALSE,echo=TRUE}
+cor(jobsat)
+```
+</div>
 
 It's a lot of numbers to look at, but each column and each row is a variable, so the left-most column shows the correlations between `V1` and each of `V1`, `V2`, `V3`, ..., `V8`.  
 `r msmbstyle::solution_end()`
@@ -904,5 +911,19 @@ pheatmap(dtfmatrix3$correlations)
 ```
 `r msmbstyle::solution_end()`
 ---
+`r msmbstyle::question_begin(header = "&#x25BA; Question B.8")`
+__Open-ended:__ Think about this study in terms of _causation_.  
+<br>
+Claim: _Less sleep causes poorer daytime functioning._  
+<br>
+Why might it be inappropriate to make the claim above based on these data alone? Think about what sort of study could provide stronger evidence for such a claim.  
 
+Things to think about:  
 
++ comparison groups.   
++ random allocation.  
++ measures of daytime functioning.   
++ measures of sleep time.  
++ other (unmeasured) explanatory variables.  
+  
+`r msmbstyle::question_end()`
