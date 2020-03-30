@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 SEM II | Multivariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 SEM II | Multivariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 SEM II | Multivariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="sem-i.html"/>
+
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MSMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-stuff"><i class="fa fa-check"></i>R stuff</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html"><i class="fa fa-check"></i><b>1</b> Tidyverse &amp; Markdown</a><ul>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#lecture-slides"><i class="fa fa-check"></i>Lecture slides</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#background-reading"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="1.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#data-visualization-with-ggplot"><i class="fa fa-check"></i><b>1.1</b> Data Visualization with <code>ggplot</code></a><ul>
+<li class="chapter" data-level="1.1.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#geoms"><i class="fa fa-check"></i><b>1.1.1</b> Geoms</a></li>
+<li class="chapter" data-level="1.1.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#recreating-a-plot"><i class="fa fa-check"></i><b>1.1.2</b> Recreating a plot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#data-management-with-the-tidyverse"><i class="fa fa-check"></i><b>1.2</b> Data management with the Tidyverse</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#piping"><i class="fa fa-check"></i><b>1.2.1</b> Piping!</a></li>
+<li class="chapter" data-level="1.2.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#grouping-summarising-filtering-mutating-and-selecting"><i class="fa fa-check"></i><b>1.2.2</b> Grouping, summarising, filtering, mutating and selecting</a></li>
+<li class="chapter" data-level="1.2.3" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#reshaping"><i class="fa fa-check"></i><b>1.2.3</b> Reshaping</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#less-guidance"><i class="fa fa-check"></i>Less guidance</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#reproducible-research-with-rmarkdown"><i class="fa fa-check"></i><b>1.3</b> Reproducible research with RMarkdown</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#convert-a-script-into-a-r-notebook"><i class="fa fa-check"></i><b>1.3.1</b> Convert a script into a R Notebook</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html"><i class="fa fa-check"></i><b>2</b> Basic Multilevel Regression</a><ul>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#packages-1"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lecture-slides-1"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#background-reading-1"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lme4"><i class="fa fa-check"></i><b>2.1</b> LME4</a></li>
+<li class="chapter" data-level="2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#introduction-to-mlr"><i class="fa fa-check"></i><b>2.2</b> Introduction to MLR</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-1"><i class="fa fa-check"></i><b>2.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-2"><i class="fa fa-check"></i><b>2.2.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#logistic-mlr"><i class="fa fa-check"></i><b>2.3</b> Logistic MLR</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html"><i class="fa fa-check"></i><b>3</b> MLR for longitudinal data (growth curve analysis)</a><ul>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#packages-2"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#lecture-slides-2"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#background-reading-2"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="3.1" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#exercise-1-1"><i class="fa fa-check"></i><b>3.2</b> Exercise 1</a><ul>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#interpret-the-results-of-your-full-model"><i class="fa fa-check"></i>Interpret the results of your full model</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#exercise-2-writing-up-and-logistic-gca"><i class="fa fa-check"></i><b>3.3</b> Exercise 2: Writing up, and Logistic GCA</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html"><i class="fa fa-check"></i><b>4</b> Other random effects structures</a><ul>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#packages-3"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#lecture-slides-3"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#background-reading-3"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="4.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#crossed-random-effects"><i class="fa fa-check"></i><b>4.1</b> Crossed random effects</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-1-2"><i class="fa fa-check"></i><b>4.1.1</b> Exercise 1</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#dealing-with-issue-of-non-convergence-and-singular-fits"><i class="fa fa-check"></i><b>4.2</b> Dealing with issue of non-convergence and singular fits</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-2-1"><i class="fa fa-check"></i><b>4.2.1</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.2.2" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-3-1"><i class="fa fa-check"></i><b>4.2.2</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html"><i class="fa fa-check"></i><b>5</b> Recap &amp; Individual differences</a><ul>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#packages-4"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#lecture-slides-4"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#mixed-model-recap"><i class="fa fa-check"></i>Mixed model recap</a><ul>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#simple-regression"><i class="fa fa-check"></i>Simple regression</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#clustered-multi-level-data-structures"><i class="fa fa-check"></i>Clustered (multi-level) data structures</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#random-intercept-models"><i class="fa fa-check"></i>Random intercept models</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#random-slopes"><i class="fa fa-check"></i>Random slopes</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#fixef-ranef-and-coef"><i class="fa fa-check"></i>Fixef(), Ranef, and Coef</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#more-levels-nested-and-crossed-random-effects"><i class="fa fa-check"></i>More levels: Nested and Crossed random-effects</a></li>
+</ul></li>
+<li class="chapter" data-level="5.1" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#the-lab"><i class="fa fa-check"></i><b>5.1</b> THE LAB</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#exercise-1-3"><i class="fa fa-check"></i><b>5.1.1</b> Exercise 1</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#exercise-2-2"><i class="fa fa-check"></i><b>5.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="break-week.html"><a href="break-week.html"><i class="fa fa-check"></i><b>6</b> <font color="red">Break Week</font></a></li>
+<li class="chapter" data-level="7" data-path="efa-and-pca.html"><a href="efa-and-pca.html"><i class="fa fa-check"></i><b>7</b> EFA and PCA</a><ul>
+<li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#packages-5"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#lecture-slides-5"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="7.1" data-path="efa-and-pca.html"><a href="efa-and-pca.html#todays-exercises"><i class="fa fa-check"></i><b>7.1</b> Today’s Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html"><i class="fa fa-check"></i><b>8</b> Confirmatory Factor Analysis (CFA)</a><ul>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#packages-6"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#lecture-slides-6"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#quick-recap"><i class="fa fa-check"></i>Quick recap</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#data"><i class="fa fa-check"></i>Data</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#one-factor-model"><i class="fa fa-check"></i>One factor model</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#two-factor-model"><i class="fa fa-check"></i>Two factor model</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="path-analysis.html"><a href="path-analysis.html"><i class="fa fa-check"></i><b>9</b> Path Analysis</a><ul>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#packages-7"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#lecture-slides-7"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#quick-recap-1"><i class="fa fa-check"></i>Quick recap</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#exercises"><i class="fa fa-check"></i>Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="sem-i.html"><a href="sem-i.html"><i class="fa fa-check"></i><b>10</b> SEM I</a><ul>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#packages-8"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#lecture-slides-8"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#overview"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#exercises-1"><i class="fa fa-check"></i>Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="sem-ii.html"><a href="sem-ii.html"><i class="fa fa-check"></i><b>11</b> SEM II</a><ul>
+<li class="chapter" data-level="" data-path="sem-ii.html"><a href="sem-ii.html#packages-9"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="sem-ii.html"><a href="sem-ii.html#lecture-slides-9"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="sem-ii.html"><a href="sem-ii.html#overview-1"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="" data-path="sem-ii.html"><a href="sem-ii.html#exercises-2"><i class="fa fa-check"></i>Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Multivariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sem-ii" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> SEM II</h1>
+<div id="packages-9" class="section level3 unnumbered">
+<h3>Packages</h3>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw">library</span>(psych)</a>
+<a class="sourceLine" id="cb211-2" data-line-number="2"><span class="kw">library</span>(lavaan)</a>
+<a class="sourceLine" id="cb211-3" data-line-number="3"><span class="kw">library</span>(semPlot)</a></code></pre></div>
+</div>
+<div id="lecture-slides-9" class="section level3 unnumbered">
+<h3>Lecture Slides</h3>
+<ul>
+<li>The lecture slides can be accessed <a href="https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/week11_sem2.pdf">here</a>.</li>
+</ul>
+</div>
+<div id="overview-1" class="section level2 unnumbered">
+<h2>Overview</h2>
+<div class="noteBox">
+<p>In this final week we are going to address some practical issues that commonly arise in Structural Equation Modeling: Non-normality, ordinal-categorical endogeneous variables, and missingness. In the example for this week a researcher is interested in the effects of prenatal stress on child cognitive outcomes. She has a 5-item measure of prenatal stress and a 5 subtest measure of child cognitive ability, collected for 500 mother-infant dyads.</p>
+<ul>
+<li>The data is available as a .csv file here: <a href="https://edin.ac/3bod7nJ">https://edin.ac/3bod7nJ</a></li>
+</ul>
+</div>
+</div>
+<div id="exercises-2" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<div class="question">
+<p class="question-begin">
+► Question 1
+</p>
+<div class="question-body">
+<p>The prenatal stress questionnaire items are measured on a 3-point scale.</p>
+<p>Read in the data and fit a one-factor confirmatory factor analysis using an appropriate estimation method.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-95" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-95&#39;, &#39;sol-start-95&#39;)"></span>
+</p>
+<div id="sol-body-95" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1">stress_IQ_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/3bod7nJ&quot;</span>)</a>
+<a class="sourceLine" id="cb212-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="kw">head</span>(stress_IQ_data)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 11
+##      ID stress1 stress2 stress3 stress4 stress5    IQ1      IQ2    IQ3    IQ4     IQ5
+##   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+## 1     1       1       2       1       2       1 -0.114  0.00278 -0.593 -0.949  1.01  
+## 2     2       2       2       1       2       2 -0.885 -1.63    -0.673 -0.562 -1.12  
+## 3     3       1       1       1       2       1 -0.200  0.259   -0.449 -0.648 -1.03  
+## 4     4       2       1       1       2       1  0.187  1.19    -0.160 -0.623 -0.0263
+## 5     5       2       2       2       2       2  0.845  2.53     2.19   1.79  -0.127 
+## 6     6       2       2       2       2       2 -1.11  -0.349    1.31  -0.864 -1.52</code></pre>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="kw">describe</span>(stress_IQ_data)</a></code></pre></div>
+<pre><code>##         vars   n   mean     sd median trimmed    mad   min    max  range  skew kurtosis   se
+## ID         1 500 250.50 144.48 250.50  250.50 185.32  1.00 500.00 499.00  0.00    -1.21 6.46
+## stress1    2 500   1.59   0.56   2.00    1.57   0.00  1.00   3.00   2.00  0.22    -0.90 0.02
+## stress2    3 500   1.90   0.51   2.00    1.90   0.00  1.00   3.00   2.00 -0.16     0.65 0.02
+## stress3    4 500   1.24   0.43   1.00    1.18   0.00  1.00   3.00   2.00  1.26    -0.19 0.02
+## stress4    5 500   2.03   0.33   2.00    2.00   0.00  1.00   3.00   2.00  0.57     5.78 0.01
+## stress5    6 500   1.63   0.55   2.00    1.62   0.00  1.00   3.00   2.00  0.10    -0.87 0.02
+## IQ1        7 500   0.06   1.06  -0.18   -0.06   0.94 -2.25   6.02   8.28  1.28     2.72 0.05
+## IQ2        8 500  -0.01   0.93  -0.13   -0.09   0.83 -1.83   3.58   5.40  0.93     1.08 0.04
+## IQ3        9 500  -0.06   0.93  -0.28   -0.19   0.85 -1.07   4.05   5.12  1.34     1.93 0.04
+## IQ4       10 500   0.04   1.04  -0.24   -0.11   0.94 -1.07   4.56   5.63  1.40     2.17 0.05
+## IQ5       11 500   0.00   0.98  -0.16   -0.08   0.91 -2.14   4.35   6.48  0.95     1.39 0.04</code></pre>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="co"># specify the model</span></a>
+<a class="sourceLine" id="cb216-2" data-line-number="2">model_stress &lt;-<span class="st"> &#39;Stress=~stress1+stress2+stress3+stress4+stress5&#39;</span></a>
+<a class="sourceLine" id="cb216-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb216-4" data-line-number="4"><span class="co"># estimate the model - cfa will automatically switch to a categorical estimator </span></a>
+<a class="sourceLine" id="cb216-5" data-line-number="5"><span class="co"># if we mention that our five variables are ordered-categorical, using the &#39;ordered&#39; function</span></a>
+<a class="sourceLine" id="cb216-6" data-line-number="6">model_stress.est &lt;-<span class="st"> </span><span class="kw">cfa</span>(model_stress, <span class="dt">data=</span>stress_IQ_data,</a>
+<a class="sourceLine" id="cb216-7" data-line-number="7">                        <span class="dt">ordered=</span><span class="kw">c</span>(<span class="st">&#39;stress1&#39;</span>,<span class="st">&#39;stress2&#39;</span>,<span class="st">&#39;stress3&#39;</span>,<span class="st">&#39;stress4&#39;</span>,<span class="st">&#39;stress5&#39;</span>))</a>
+<a class="sourceLine" id="cb216-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb216-9" data-line-number="9"><span class="co"># inspect the output</span></a>
+<a class="sourceLine" id="cb216-10" data-line-number="10"><span class="kw">summary</span>(model_stress.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 18 iterations
+## 
+##   Estimator                                       DWLS
+##   Optimization method                           NLMINB
+##   Number of free parameters                         15
+##                                                       
+##   Number of observations                           500
+##                                                       
+## Model Test User Model:
+##                                               Standard      Robust
+##   Test Statistic                                 0.520       0.773
+##   Degrees of freedom                                 5           5
+##   P-value (Chi-square)                           0.991       0.979
+##   Scaling correction factor                                  0.740
+##   Shift parameter                                            0.070
+##     for the simple second-order correction 
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                               552.578     498.463
+##   Degrees of freedom                                10          10
+##   P-value                                        0.000       0.000
+##   Scaling correction factor                                  1.111
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    1.000       1.000
+##   Tucker-Lewis Index (TLI)                       1.017       1.017
+##                                                                   
+##   Robust Comparative Fit Index (CFI)                            NA
+##   Robust Tucker-Lewis Index (TLI)                               NA
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.000       0.000
+##   90 Percent confidence interval - lower         0.000       0.000
+##   90 Percent confidence interval - upper         0.000       0.000
+##   P-value RMSEA &lt;= 0.05                          1.000       0.999
+##                                                                   
+##   Robust RMSEA                                                  NA
+##   90 Percent confidence interval - lower                     0.000
+##   90 Percent confidence interval - upper                     0.000
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.012       0.012
+## 
+## Parameter Estimates:
+## 
+##   Information                                 Expected
+##   Information saturated (h1) model        Unstructured
+##   Standard errors                           Robust.sem
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   Stress =~                                                             
+##     stress1           1.000                               0.619    0.619
+##     stress2           1.111    0.121    9.214    0.000    0.688    0.688
+##     stress3           1.182    0.137    8.614    0.000    0.732    0.732
+##     stress4           1.049    0.130    8.089    0.000    0.649    0.649
+##     stress5           1.134    0.129    8.790    0.000    0.702    0.702
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .stress1           0.000                               0.000    0.000
+##    .stress2           0.000                               0.000    0.000
+##    .stress3           0.000                               0.000    0.000
+##    .stress4           0.000                               0.000    0.000
+##    .stress5           0.000                               0.000    0.000
+##     Stress            0.000                               0.000    0.000
+## 
+## Thresholds:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##     stress1|t1       -0.151    0.056   -2.680    0.007   -0.151   -0.151
+##     stress1|t2        1.825    0.108   16.973    0.000    1.825    1.825
+##     stress2|t1       -0.900    0.065  -13.806    0.000   -0.900   -0.900
+##     stress2|t2        1.379    0.081   17.124    0.000    1.379    1.379
+##     stress3|t1        0.700    0.061   11.399    0.000    0.700    0.700
+##     stress3|t2        2.878    0.315    9.124    0.000    2.878    2.878
+##     stress4|t1       -1.751    0.102  -17.198    0.000   -1.751   -1.751
+##     stress4|t2        1.461    0.084   17.324    0.000    1.461    1.461
+##     stress5|t1       -0.233    0.057   -4.107    0.000   -0.233   -0.233
+##     stress5|t2        1.825    0.108   16.973    0.000    1.825    1.825
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .stress1           0.616                               0.616    0.616
+##    .stress2           0.526                               0.526    0.526
+##    .stress3           0.464                               0.464    0.464
+##    .stress4           0.578                               0.578    0.578
+##    .stress5           0.507                               0.507    0.507
+##     Stress            0.384    0.064    6.011    0.000    1.000    1.000
+## 
+## Scales y*:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##     stress1           1.000                               1.000    1.000
+##     stress2           1.000                               1.000    1.000
+##     stress3           1.000                               1.000    1.000
+##     stress4           1.000                               1.000    1.000
+##     stress5           1.000                               1.000    1.000</code></pre>
+<p>We look at the ‘robust’ values for the fit statistics (those that appear in the right-hand column under ‘robust’) to check that our model fits well. Another new thing is the presence of ‘thresholds’ in the output. These are two thresholds per item in this example because we have a three-point response scale. Thresholds are the points on the hypothetical underlying continuum where individuals move from scoring in one category to the next one up.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 2
+</p>
+<div class="question-body">
+<p>Now let’s conduct a CFA for the IQ items. Check their distributions and fit a one-factor CFA using an appropriate estimation method</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-96" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-96&#39;, &#39;sol-start-96&#39;)"></span>
+</p>
+<div id="sol-body-96" class="solution-body" style="display: none;">
+<p>We should check the item distributions for evidence of non-normality (skewness and kurtosis). We can use the describe() function from psych and plot the data using histograms or density curves.</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" data-line-number="1"><span class="kw">describe</span>(stress_IQ_data[,<span class="kw">c</span>(<span class="st">&#39;IQ1&#39;</span>,<span class="st">&#39;IQ2&#39;</span>,<span class="st">&#39;IQ3&#39;</span>,<span class="st">&#39;IQ4&#39;</span>,<span class="st">&#39;IQ5&#39;</span>)])</a></code></pre></div>
+<pre><code>##     vars   n  mean   sd median trimmed  mad   min  max range skew kurtosis   se
+## IQ1    1 500  0.06 1.06  -0.18   -0.06 0.94 -2.25 6.02  8.28 1.28     2.72 0.05
+## IQ2    2 500 -0.01 0.93  -0.13   -0.09 0.83 -1.83 3.58  5.40 0.93     1.08 0.04
+## IQ3    3 500 -0.06 0.93  -0.28   -0.19 0.85 -1.07 4.05  5.12 1.34     1.93 0.04
+## IQ4    4 500  0.04 1.04  -0.24   -0.11 0.94 -1.07 4.56  5.63 1.40     2.17 0.05
+## IQ5    5 500  0.00 0.98  -0.16   -0.08 0.91 -2.14 4.35  6.48 0.95     1.39 0.04</code></pre>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1"><span class="co">## GGPLOT</span></a>
+<a class="sourceLine" id="cb220-2" data-line-number="2"><span class="co"># temporarily reshape the data to long format to make it quicker to plot</span></a>
+<a class="sourceLine" id="cb220-3" data-line-number="3">stress_IQ_data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb220-4" data-line-number="4"><span class="st">  </span><span class="kw">pivot_longer</span>(IQ1<span class="op">:</span>IQ5, <span class="dt">names_to=</span><span class="st">&quot;variable&quot;</span>,<span class="dt">values_to=</span><span class="st">&quot;score&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb220-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>score))<span class="op">+</span></a>
+<a class="sourceLine" id="cb220-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_density</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb220-7" data-line-number="7"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable)<span class="op">+</span></a>
+<a class="sourceLine" id="cb220-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_light</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/CFA%20for%20IQ%20items-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Or we could do similar in base R:</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="co"># specify that the figure is made up of 2-by-3, i.e. 6, panels, and the figure margins</span></a>
+<a class="sourceLine" id="cb221-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>))</a>
+<a class="sourceLine" id="cb221-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb221-4" data-line-number="4"><span class="co">## BASE R </span></a>
+<a class="sourceLine" id="cb221-5" data-line-number="5">d_IQ1 &lt;-<span class="st"> </span><span class="kw">density</span>(stress_IQ_data<span class="op">$</span>IQ1) <span class="co"># returns the density data</span></a>
+<a class="sourceLine" id="cb221-6" data-line-number="6"><span class="kw">plot</span>(d_IQ1, <span class="dt">main=</span><span class="st">&#39;IQ1&#39;</span>, <span class="dt">xlab=</span><span class="st">&#39;score&#39;</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>) <span class="co"># plots the results</span></a>
+<a class="sourceLine" id="cb221-7" data-line-number="7">d_IQ2 &lt;-<span class="st"> </span><span class="kw">density</span>(stress_IQ_data<span class="op">$</span>IQ2)</a>
+<a class="sourceLine" id="cb221-8" data-line-number="8"><span class="kw">plot</span>(d_IQ2, <span class="dt">main=</span><span class="st">&#39;IQ2&#39;</span>, <span class="dt">xlab=</span><span class="st">&#39;score&#39;</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb221-9" data-line-number="9">d_IQ3 &lt;-<span class="st"> </span><span class="kw">density</span>(stress_IQ_data<span class="op">$</span>IQ3)</a>
+<a class="sourceLine" id="cb221-10" data-line-number="10"><span class="kw">plot</span>(d_IQ3, <span class="dt">main=</span><span class="st">&#39;IQ3&#39;</span>, <span class="dt">xlab=</span><span class="st">&#39;score&#39;</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb221-11" data-line-number="11">d_IQ4 &lt;-<span class="st"> </span><span class="kw">density</span>(stress_IQ_data<span class="op">$</span>IQ4)</a>
+<a class="sourceLine" id="cb221-12" data-line-number="12"><span class="kw">plot</span>(d_IQ4, <span class="dt">main=</span><span class="st">&#39;IQ4&#39;</span>, <span class="dt">xlab=</span><span class="st">&#39;score&#39;</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb221-13" data-line-number="13">d_IQ5 &lt;-<span class="st"> </span><span class="kw">density</span>(stress_IQ_data<span class="op">$</span>IQ5)</a>
+<a class="sourceLine" id="cb221-14" data-line-number="14"><span class="kw">plot</span>(d_IQ5, <span class="dt">main=</span><span class="st">&#39;IQ5&#39;</span>, <span class="dt">xlab=</span><span class="st">&#39;score&#39;</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb221-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb221-16" data-line-number="16"><span class="co"># return to figures with a single panel</span></a>
+<a class="sourceLine" id="cb221-17" data-line-number="17"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Because our variables seem to be non-normal, therefore, we should use a robust estimator such as MLR for our CFA</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1">model_IQ &lt;-<span class="st"> &#39;IQ=~IQ1+IQ2+IQ3+IQ4+IQ5&#39;</span></a>
+<a class="sourceLine" id="cb222-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb222-3" data-line-number="3">model_IQ.est &lt;-<span class="st"> </span><span class="kw">cfa</span>(model_IQ, <span class="dt">data=</span>stress_IQ_data, <span class="dt">estimator=</span><span class="st">&#39;MLR&#39;</span>)</a>
+<a class="sourceLine" id="cb222-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb222-5" data-line-number="5"><span class="kw">summary</span>(model_IQ.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 17 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                         10
+##                                                       
+##   Number of observations                           500
+##                                                       
+## Model Test User Model:
+##                                               Standard      Robust
+##   Test Statistic                                90.039      86.467
+##   Degrees of freedom                                 5           5
+##   P-value (Chi-square)                           0.000       0.000
+##   Scaling correction factor                                  1.041
+##     for the Yuan-Bentler correction (Mplus variant) 
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                               936.990     695.162
+##   Degrees of freedom                                10          10
+##   P-value                                        0.000       0.000
+##   Scaling correction factor                                  1.348
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.908       0.881
+##   Tucker-Lewis Index (TLI)                       0.817       0.762
+##                                                                   
+##   Robust Comparative Fit Index (CFI)                         0.908
+##   Robust Tucker-Lewis Index (TLI)                            0.816
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)              -3091.265   -3091.265
+##   Scaling correction factor                                  1.797
+##       for the MLR correction                                      
+##   Loglikelihood unrestricted model (H1)      -3046.246   -3046.246
+##   Scaling correction factor                                  1.545
+##       for the MLR correction                                      
+##                                                                   
+##   Akaike (AIC)                                6202.531    6202.531
+##   Bayesian (BIC)                              6244.677    6244.677
+##   Sample-size adjusted Bayesian (BIC)         6212.936    6212.936
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.184       0.181
+##   90 Percent confidence interval - lower         0.152       0.149
+##   90 Percent confidence interval - upper         0.219       0.214
+##   P-value RMSEA &lt;= 0.05                          0.000       0.000
+##                                                                   
+##   Robust RMSEA                                               0.184
+##   90 Percent confidence interval - lower                     0.151
+##   90 Percent confidence interval - upper                     0.219
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.057       0.057
+## 
+## Parameter Estimates:
+## 
+##   Information                                      Observed
+##   Observed information based on                     Hessian
+##   Standard errors                        Robust.huber.white
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   IQ =~                                                                 
+##     IQ1               1.000                               0.828    0.783
+##     IQ2               0.856    0.048   17.840    0.000    0.709    0.761
+##     IQ3               0.713    0.076    9.369    0.000    0.590    0.636
+##     IQ4               0.829    0.095    8.702    0.000    0.686    0.657
+##     IQ5               0.812    0.085    9.553    0.000    0.672    0.684
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .IQ1               0.431    0.060    7.140    0.000    0.431    0.386
+##    .IQ2               0.365    0.046    7.902    0.000    0.365    0.421
+##    .IQ3               0.513    0.059    8.679    0.000    0.513    0.596
+##    .IQ4               0.618    0.070    8.866    0.000    0.618    0.568
+##    .IQ5               0.514    0.052    9.858    0.000    0.514    0.532
+##     IQ                0.686    0.097    7.044    0.000    1.000    1.000</code></pre>
+<p>The model doesn’t fit very well so we could check the modification indices for local mis-specifications</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1"><span class="kw">modindices</span>(model_IQ.est, <span class="dt">sort=</span>T)</a></code></pre></div>
+<pre><code>##    lhs op rhs     mi    epc sepc.lv sepc.all sepc.nox
+## 12 IQ1 ~~ IQ2 82.653  0.302   0.302    0.762    0.762
+## 21 IQ4 ~~ IQ5 48.799  0.224   0.224    0.397    0.397
+## 17 IQ2 ~~ IQ4 29.875 -0.166  -0.166   -0.349   -0.349
+## 14 IQ1 ~~ IQ4 15.906 -0.138  -0.138   -0.268   -0.268
+## 15 IQ1 ~~ IQ5 15.870 -0.132  -0.132   -0.279   -0.279
+## 19 IQ3 ~~ IQ4 15.720  0.122   0.122    0.216    0.216
+## 18 IQ2 ~~ IQ5  6.147 -0.071  -0.071   -0.165   -0.165
+## 16 IQ2 ~~ IQ3  4.216 -0.055  -0.055   -0.128   -0.128
+## 13 IQ1 ~~ IQ3  3.108 -0.054  -0.054   -0.115   -0.115
+## 20 IQ3 ~~ IQ5  0.305  0.016   0.016    0.031    0.031</code></pre>
+<p>It looks like we might need to include residual covariances between subtests 1 and 2 and between subtests 4 and 5, though we would want to double check this makes substantive sense (for example, do subtests 1 and 2 both measure memory while subtests 4 and 5 both test spatial ability?)</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1">model2_IQ &lt;-<span class="st"> &#39;IQ=~IQ1+IQ2+IQ3+IQ4+IQ5</span></a>
+<a class="sourceLine" id="cb226-2" data-line-number="2"><span class="st">IQ1~~IQ2</span></a>
+<a class="sourceLine" id="cb226-3" data-line-number="3"><span class="st">IQ4~~IQ5&#39;</span></a>
+<a class="sourceLine" id="cb226-4" data-line-number="4">model2_IQ.est &lt;-<span class="st"> </span><span class="kw">cfa</span>(model2_IQ, <span class="dt">data=</span>stress_IQ_data, <span class="dt">estimator=</span><span class="st">&#39;MLR&#39;</span>)</a>
+<a class="sourceLine" id="cb226-5" data-line-number="5"><span class="kw">summary</span>(model2_IQ.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 22 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                         12
+##                                                       
+##   Number of observations                           500
+##                                                       
+## Model Test User Model:
+##                                               Standard      Robust
+##   Test Statistic                                 8.709       7.422
+##   Degrees of freedom                                 3           3
+##   P-value (Chi-square)                           0.033       0.060
+##   Scaling correction factor                                  1.173
+##     for the Yuan-Bentler correction (Mplus variant) 
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                               936.990     695.162
+##   Degrees of freedom                                10          10
+##   P-value                                        0.000       0.000
+##   Scaling correction factor                                  1.348
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.994       0.994
+##   Tucker-Lewis Index (TLI)                       0.979       0.978
+##                                                                   
+##   Robust Comparative Fit Index (CFI)                         0.994
+##   Robust Tucker-Lewis Index (TLI)                            0.981
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)              -3050.600   -3050.600
+##   Scaling correction factor                                  1.638
+##       for the MLR correction                                      
+##   Loglikelihood unrestricted model (H1)      -3046.246   -3046.246
+##   Scaling correction factor                                  1.545
+##       for the MLR correction                                      
+##                                                                   
+##   Akaike (AIC)                                6125.201    6125.201
+##   Bayesian (BIC)                              6175.776    6175.776
+##   Sample-size adjusted Bayesian (BIC)         6137.687    6137.687
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.062       0.054
+##   90 Percent confidence interval - lower         0.015       0.001
+##   90 Percent confidence interval - upper         0.111       0.101
+##   P-value RMSEA &lt;= 0.05                          0.278       0.368
+##                                                                   
+##   Robust RMSEA                                               0.059
+##   90 Percent confidence interval - lower                        NA
+##   90 Percent confidence interval - upper                     0.114
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.017       0.017
+## 
+## Parameter Estimates:
+## 
+##   Information                                      Observed
+##   Observed information based on                     Hessian
+##   Standard errors                        Robust.huber.white
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   IQ =~                                                                 
+##     IQ1               1.000                               0.724    0.685
+##     IQ2               0.842    0.059   14.384    0.000    0.610    0.655
+##     IQ3               0.882    0.090    9.813    0.000    0.639    0.689
+##     IQ4               0.991    0.113    8.794    0.000    0.718    0.688
+##     IQ5               0.935    0.096    9.751    0.000    0.677    0.689
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##  .IQ1 ~~                                                                
+##    .IQ2               0.231    0.047    4.964    0.000    0.231    0.427
+##  .IQ4 ~~                                                                
+##    .IQ5               0.114    0.047    2.430    0.015    0.114    0.211
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .IQ1               0.592    0.078    7.617    0.000    0.592    0.530
+##    .IQ2               0.496    0.050    9.954    0.000    0.496    0.571
+##    .IQ3               0.452    0.059    7.640    0.000    0.452    0.525
+##    .IQ4               0.573    0.072    8.001    0.000    0.573    0.526
+##    .IQ5               0.508    0.056    9.009    0.000    0.508    0.526
+##     IQ                0.525    0.083    6.322    0.000    1.000    1.000</code></pre>
+<p>The fit of the model is now much improved!</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 3
+</p>
+<div class="question-body">
+<p>Estimate the effect of prenatal stress on IQ using a full SEM</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-97" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-97&#39;, &#39;sol-start-97&#39;)"></span>
+</p>
+<div id="sol-body-97" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1">SEM_model &lt;-<span class="st"> &#39;</span></a>
+<a class="sourceLine" id="cb228-2" data-line-number="2"><span class="st">#IQ measurement model</span></a>
+<a class="sourceLine" id="cb228-3" data-line-number="3"><span class="st">IQ=~IQ1+IQ2+IQ3+IQ4+IQ5 </span></a>
+<a class="sourceLine" id="cb228-4" data-line-number="4"><span class="st">IQ1~~IQ2</span></a>
+<a class="sourceLine" id="cb228-5" data-line-number="5"><span class="st">IQ4~~IQ5</span></a>
+<a class="sourceLine" id="cb228-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb228-7" data-line-number="7"><span class="st">#stress measurement model </span></a>
+<a class="sourceLine" id="cb228-8" data-line-number="8"><span class="st">Stress=~stress1+stress2+stress3+stress4+stress5 </span></a>
+<a class="sourceLine" id="cb228-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb228-10" data-line-number="10"><span class="st">#structural part of model</span></a>
+<a class="sourceLine" id="cb228-11" data-line-number="11"><span class="st">IQ~Stress&#39;</span></a>
+<a class="sourceLine" id="cb228-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb228-13" data-line-number="13">SEM_model.est &lt;-<span class="st"> </span><span class="kw">sem</span>(SEM_model, <span class="dt">data=</span>stress_IQ_data,</a>
+<a class="sourceLine" id="cb228-14" data-line-number="14">                     <span class="dt">ordered=</span><span class="kw">c</span>(<span class="st">&#39;stress1&#39;</span>,<span class="st">&#39;stress2&#39;</span>,<span class="st">&#39;stress3&#39;</span>,<span class="st">&#39;stress4&#39;</span>,<span class="st">&#39;stress5&#39;</span>))</a>
+<a class="sourceLine" id="cb228-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb228-16" data-line-number="16"><span class="kw">summary</span>(SEM_model.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 30 iterations
+## 
+##   Estimator                                       DWLS
+##   Optimization method                           NLMINB
+##   Number of free parameters                         33
+##                                                       
+##   Number of observations                           500
+##                                                       
+## Model Test User Model:
+##                                               Standard      Robust
+##   Test Statistic                                15.942      26.960
+##   Degrees of freedom                                32          32
+##   P-value (Chi-square)                           0.992       0.720
+##   Scaling correction factor                                  0.812
+##   Shift parameter                                            7.315
+##     for the simple second-order correction 
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                              2142.900    1240.251
+##   Degrees of freedom                                45          45
+##   P-value                                        0.000       0.000
+##   Scaling correction factor                                  1.755
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    1.000       1.000
+##   Tucker-Lewis Index (TLI)                       1.011       1.006
+##                                                                   
+##   Robust Comparative Fit Index (CFI)                            NA
+##   Robust Tucker-Lewis Index (TLI)                               NA
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.000       0.000
+##   90 Percent confidence interval - lower         0.000       0.000
+##   90 Percent confidence interval - upper         0.000       0.026
+##   P-value RMSEA &lt;= 0.05                          1.000       1.000
+##                                                                   
+##   Robust RMSEA                                                  NA
+##   90 Percent confidence interval - lower                     0.000
+##   90 Percent confidence interval - upper                        NA
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.030       0.030
+## 
+## Parameter Estimates:
+## 
+##   Information                                 Expected
+##   Information saturated (h1) model        Unstructured
+##   Standard errors                           Robust.sem
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   IQ =~                                                                 
+##     IQ1               1.000                               0.711    0.673
+##     IQ2               0.845    0.046   18.389    0.000    0.600    0.644
+##     IQ3               0.894    0.071   12.632    0.000    0.635    0.685
+##     IQ4               1.032    0.087   11.908    0.000    0.733    0.703
+##     IQ5               0.967    0.078   12.406    0.000    0.688    0.700
+##   Stress =~                                                             
+##     stress1           1.000                               0.613    0.613
+##     stress2           1.096    0.124    8.816    0.000    0.672    0.672
+##     stress3           1.244    0.150    8.323    0.000    0.763    0.763
+##     stress4           1.062    0.152    7.012    0.000    0.651    0.651
+##     stress5           1.135    0.126    8.988    0.000    0.696    0.696
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   IQ ~                                                                  
+##     Stress            0.450    0.081    5.528    0.000    0.388    0.388
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##  .IQ1 ~~                                                                
+##    .IQ2               0.246    0.032    7.757    0.000    0.246    0.442
+##  .IQ4 ~~                                                                
+##    .IQ5               0.095    0.037    2.582    0.010    0.095    0.183
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .IQ1               0.059    0.059    1.013    0.311    0.059    0.056
+##    .IQ2              -0.009    0.049   -0.182    0.856   -0.009   -0.010
+##    .IQ3              -0.056    0.056   -0.989    0.322   -0.056   -0.060
+##    .IQ4               0.040    0.064    0.620    0.535    0.040    0.038
+##    .IQ5               0.001    0.051    0.017    0.987    0.001    0.001
+##    .stress1           0.000                               0.000    0.000
+##    .stress2           0.000                               0.000    0.000
+##    .stress3           0.000                               0.000    0.000
+##    .stress4           0.000                               0.000    0.000
+##    .stress5           0.000                               0.000    0.000
+##    .IQ                0.000                               0.000    0.000
+##     Stress            0.000                               0.000    0.000
+## 
+## Thresholds:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##     stress1|t1       -0.151    0.056   -2.680    0.007   -0.151   -0.151
+##     stress1|t2        1.825    0.108   16.973    0.000    1.825    1.825
+##     stress2|t1       -0.900    0.065  -13.806    0.000   -0.900   -0.900
+##     stress2|t2        1.379    0.081   17.124    0.000    1.379    1.379
+##     stress3|t1        0.700    0.061   11.399    0.000    0.700    0.700
+##     stress3|t2        2.878    0.315    9.124    0.000    2.878    2.878
+##     stress4|t1       -1.751    0.102  -17.198    0.000   -1.751   -1.751
+##     stress4|t2        1.461    0.084   17.324    0.000    1.461    1.461
+##     stress5|t1       -0.233    0.057   -4.107    0.000   -0.233   -0.233
+##     stress5|t2        1.825    0.108   16.973    0.000    1.825    1.825
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .IQ1               0.612    0.046   13.340    0.000    0.612    0.548
+##    .IQ2               0.508    0.037   13.605    0.000    0.508    0.585
+##    .IQ3               0.457    0.037   12.223    0.000    0.457    0.531
+##    .IQ4               0.551    0.045   12.292    0.000    0.551    0.506
+##    .IQ5               0.493    0.043   11.481    0.000    0.493    0.510
+##    .stress1           0.624                               0.624    0.624
+##    .stress2           0.549                               0.549    0.549
+##    .stress3           0.418                               0.418    0.418
+##    .stress4           0.576                               0.576    0.576
+##    .stress5           0.515                               0.515    0.515
+##    .IQ                0.429    0.052    8.221    0.000    0.849    0.849
+##     Stress            0.376    0.065    5.788    0.000    1.000    1.000
+## 
+## Scales y*:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##     stress1           1.000                               1.000    1.000
+##     stress2           1.000                               1.000    1.000
+##     stress3           1.000                               1.000    1.000
+##     stress4           1.000                               1.000    1.000
+##     stress5           1.000                               1.000    1.000</code></pre>
+<p>When we have <em>any</em> ordered-categorical endogenous variables in the model lavaan uses DWLS estimation, even if some of the variables are continous. We can see this from the ‘Estimator’ section of the output. We can also see that the effect of prenatal stress on offspring IQ is <span class="math inline">\(\beta = 0.388\)</span> and statistically significant at <span class="math inline">\(p&lt;.05\)</span>.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 4
+</p>
+<div class="question-body">
+<p>In order to try and replicate the IQ CFA, our researcher collects a new sample of size <span class="math inline">\(n=500\)</span>. However, she has some missing data. Specifically, those who scored poorly on earlier tests tended to feel discouraged and chose not to complete further tests.</p>
+<p>Conduct a CFA using the new data, taking account of the missingness.</p>
+<ul>
+<li>The data can be found at <a href="https://edin.ac/2WGJav3">https://edin.ac/2WGJav3</a>, and is in .csv format.</li>
+</ul>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-98" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-98&#39;, &#39;sol-start-98&#39;)"></span>
+</p>
+<div id="sol-body-98" class="solution-body" style="display: none;">
+<p>We can fit the model setting missing=‘FIML’. If data are missing at random (MAR) - i.e., missingness is related to the measured variables but not the unobserved missing values - then this gives us unbiased parameter estimates. Unfortunately we can never know whether data are MAR for sure as this would require knowledge of the missing values.</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1">IQ_data_new &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2WGJav3&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1">IQ_model_missing &lt;-<span class="st"> &#39;IQ=~IQ1+IQ2+IQ3+IQ4+IQ5</span></a>
+<a class="sourceLine" id="cb231-2" data-line-number="2"><span class="st">IQ1~~IQ2</span></a>
+<a class="sourceLine" id="cb231-3" data-line-number="3"><span class="st">IQ4~~IQ5&#39;</span></a>
+<a class="sourceLine" id="cb231-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb231-5" data-line-number="5">IQ_model_missing.est &lt;-<span class="st"> </span><span class="kw">cfa</span>(IQ_model_missing, <span class="dt">data=</span>IQ_data_new, <span class="dt">missing=</span><span class="st">&#39;FIML&#39;</span>)</a>
+<a class="sourceLine" id="cb231-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb231-7" data-line-number="7"><span class="kw">summary</span>(IQ_model_missing.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 25 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                         17
+##                                                       
+##   Number of observations                           500
+##   Number of missing patterns                         3
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 4.218
+##   Degrees of freedom                                 3
+##   P-value (Chi-square)                           0.239
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                               914.603
+##   Degrees of freedom                                10
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.999
+##   Tucker-Lewis Index (TLI)                       0.996
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)              -2979.748
+##   Loglikelihood unrestricted model (H1)      -2977.639
+##                                                       
+##   Akaike (AIC)                                5993.496
+##   Bayesian (BIC)                              6065.145
+##   Sample-size adjusted Bayesian (BIC)         6011.185
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.028
+##   90 Percent confidence interval - lower         0.000
+##   90 Percent confidence interval - upper         0.085
+##   P-value RMSEA &lt;= 0.05                          0.658
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.008
+## 
+## Parameter Estimates:
+## 
+##   Information                                 Observed
+##   Observed information based on                Hessian
+##   Standard errors                             Standard
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   IQ =~                                                                 
+##     IQ1               1.000                               0.658    0.674
+##     IQ2               0.994    0.060   16.672    0.000    0.654    0.673
+##     IQ3               1.033    0.091   11.388    0.000    0.679    0.685
+##     IQ4               0.989    0.095   10.381    0.000    0.651    0.676
+##     IQ5               0.958    0.093   10.306    0.000    0.630    0.672
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##  .IQ1 ~~                                                                
+##    .IQ2               0.248    0.039    6.281    0.000    0.248    0.480
+##  .IQ4 ~~                                                                
+##    .IQ5               0.072    0.036    1.976    0.048    0.072    0.146
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .IQ1               0.010    0.044    0.229    0.819    0.010    0.010
+##    .IQ2              -0.007    0.043   -0.170    0.865   -0.007   -0.008
+##    .IQ3               0.027    0.044    0.601    0.548    0.027    0.027
+##    .IQ4               0.002    0.043    0.050    0.960    0.002    0.002
+##    .IQ5              -0.001    0.042   -0.029    0.977   -0.001   -0.001
+##     IQ                0.000                               0.000    0.000
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .IQ1               0.519    0.047   11.064    0.000    0.519    0.545
+##    .IQ2               0.515    0.046   11.107    0.000    0.515    0.546
+##    .IQ3               0.521    0.046   11.296    0.000    0.521    0.530
+##    .IQ4               0.504    0.047   10.618    0.000    0.504    0.543
+##    .IQ5               0.482    0.046   10.578    0.000    0.482    0.549
+##     IQ                0.433    0.061    7.147    0.000    1.000    1.000</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+
+</div>
+</div>
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="sem-i.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
