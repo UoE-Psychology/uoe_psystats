@@ -3,6 +3,11 @@ HIDDEN_SOLS=FALSE
 library(tidyverse)
 ```
 
+```{r}
+knitr::opts_chunk$set(fig.align = 'center')
+```
+
+
 # SEM II
 
 ### Packages {-}  
@@ -32,21 +37,25 @@ In this final week we are going to address some practical issues that commonly a
 `r msmbstyle::question_begin(header="&#x25BA; Question 1")`
 The prenatal stress questionnaire items are measured on a 3-point scale.  
   
-Read in the data and it a one-factor confirmatory factor analysis using an appropraite estimation method.
+Read in the data and fit a one-factor confirmatory factor analysis using an appropriate estimation method.
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r message=FALSE}
-stress_IQ_data<-read_csv("https://edin.ac/3bod7nJ")
+stress_IQ_data <- read_csv("https://edin.ac/3bod7nJ")
+
+head(stress_IQ_data)
 
 describe(stress_IQ_data)
 ```
 
 ```{r categorical estimation}
-#specify the model
-model_stress<-'Stress=~stress1+stress2+stress3+stress4+stress5'
+# specify the model
+model_stress <- 'Stress=~stress1+stress2+stress3+stress4+stress5'
 
-# estimate the model - cfa will automatically switch to a categorical estimator if we mention that our five variables are ordered-categorical, using the 'ordered' function
-model_stress.est<-cfa(model_stress, data=stress_IQ_data, ordered=c('stress1','stress2','stress3','stress4','stress5'))
+# estimate the model - cfa will automatically switch to a categorical estimator 
+# if we mention that our five variables are ordered-categorical, using the 'ordered' function
+model_stress.est <- cfa(model_stress, data=stress_IQ_data,
+                        ordered=c('stress1','stress2','stress3','stress4','stress5'))
 
 # inspect the output
 summary(model_stress.est, fit.measures=T, standardized=T)
@@ -75,27 +84,33 @@ stress_IQ_data %>%
   theme_light()
 ```
 
-Or we could do similar in Base R: 
-```{r eval=FALSE,echo=TRUE}
+Or we could do similar in base R: 
+```{r eval=TRUE,echo=TRUE}
+# specify that the figure is made up of 2-by-3, i.e. 6, panels, and the figure margins
+par(mfrow = c(2,3), mar = c(5, 4, 1.5, 1.5))
+
 ## BASE R 
 d_IQ1 <- density(stress_IQ_data$IQ1) # returns the density data
-plot(d_IQ1, main='', xlab='', ylab=' ') # plots the results
-d_IQ2<- density(stress_IQ_data$IQ2) # returns the density data
-plot(d_IQ2, main='', xlab='', ylab=' ') # plots the results
-d_IQ3<- density(stress_IQ_data$IQ3) # returns the density data
-plot(d_IQ3, main='', xlab='', ylab=' ') # plots the results
-d_IQ4 <- density(stress_IQ_data$IQ4) # returns the density data
-plot(d_IQ4, main='', xlab='', ylab=' ') # plots the results
-d_IQ5 <- density(stress_IQ_data$IQ5) # returns the density data
-plot(d_IQ5, main='', xlab='', ylab=' ') # plots the results
+plot(d_IQ1, main='IQ1', xlab='score', frame=FALSE) # plots the results
+d_IQ2 <- density(stress_IQ_data$IQ2)
+plot(d_IQ2, main='IQ2', xlab='score', frame=FALSE)
+d_IQ3 <- density(stress_IQ_data$IQ3)
+plot(d_IQ3, main='IQ3', xlab='score', frame=FALSE)
+d_IQ4 <- density(stress_IQ_data$IQ4)
+plot(d_IQ4, main='IQ4', xlab='score', frame=FALSE)
+d_IQ5 <- density(stress_IQ_data$IQ5)
+plot(d_IQ5, main='IQ5', xlab='score', frame=FALSE)
+
+# return to figures with a single panel
+par(mfrow = c(1,1))
 ```
 
 Because our variables seem to be non-normal, therefore, we should use a robust estimator such as MLR for our CFA
 
 ```{r robust estimator}
-model_IQ<-'IQ=~IQ1+IQ2+IQ3+IQ4+IQ5'
+model_IQ <- 'IQ=~IQ1+IQ2+IQ3+IQ4+IQ5'
 
-model_IQ.est<-cfa(model_IQ, data=stress_IQ_data, estimator='MLR')
+model_IQ.est <- cfa(model_IQ, data=stress_IQ_data, estimator='MLR')
 
 summary(model_IQ.est, fit.measures=T, standardized=T)
 ```
@@ -110,10 +125,10 @@ It looks like we might need to include residual covariances between subtests 1 a
 
 
 ```{r make modifications}
-model2_IQ<-'IQ=~IQ1+IQ2+IQ3+IQ4+IQ5
+model2_IQ <- 'IQ=~IQ1+IQ2+IQ3+IQ4+IQ5
 IQ1~~IQ2
 IQ4~~IQ5'
-model2_IQ.est<-cfa(model2_IQ, data=stress_IQ_data, estimator='MLR')
+model2_IQ.est <- cfa(model2_IQ, data=stress_IQ_data, estimator='MLR')
 summary(model2_IQ.est, fit.measures=T, standardized=T)
 ```
 
@@ -125,7 +140,7 @@ Estimate the effect of prenatal stress on IQ using a full SEM
 `r msmbstyle::question_end()` 
 `r msmbstyle::solution_begin(hidden=HIDDEN_SOLS)`
 ```{r full SEM}
-SEM_model<-'
+SEM_model <- '
 #IQ measurement model
 IQ=~IQ1+IQ2+IQ3+IQ4+IQ5 
 IQ1~~IQ2
@@ -137,7 +152,8 @@ Stress=~stress1+stress2+stress3+stress4+stress5
 #structural part of model
 IQ~Stress'
 
-SEM_model.est<-sem(SEM_model, data=stress_IQ_data, ordered=c('stress1','stress2','stress3','stress4','stress5'))
+SEM_model.est <- sem(SEM_model, data=stress_IQ_data,
+                     ordered=c('stress1','stress2','stress3','stress4','stress5'))
 
 summary(SEM_model.est, fit.measures=T, standardized=T)
 ```
@@ -146,7 +162,7 @@ When we have *any* ordered-categorical endogenous variables in the model lavaan 
 `r msmbstyle::solution_end()`
 ---
 `r msmbstyle::question_begin(header="&#x25BA; Question 4")`
-In order to try and replicate the IQ CFA, our researcher collects a new sample of n=500. However, she has some missing data. Specifically, those who scored poorly on earlier tests tended to feel discouraged and chose not to complete further tests.  
+In order to try and replicate the IQ CFA, our researcher collects a new sample of size $n=500$. However, she has some missing data. Specifically, those who scored poorly on earlier tests tended to feel discouraged and chose not to complete further tests.  
   
 Conduct a CFA using the new data, taking account of the missingness.  
   
@@ -157,15 +173,15 @@ Conduct a CFA using the new data, taking account of the missingness.
 We can fit the model setting missing='FIML'. If data are missing at random (MAR) - i.e., missingness is related to the measured variables but not the unobserved missing values - then this gives us unbiased parameter estimates.  Unfortunately we can never know whether data are MAR for sure as this would require knowledge of the missing values. 
 
 ```{r message=FALSE}
-IQ_data_new<-read_csv("https://edin.ac/2WGJav3")
+IQ_data_new <- read_csv("https://edin.ac/2WGJav3")
 ```
 
 ```{r missingness}
-IQ_model_missing<-'IQ=~IQ1+IQ2+IQ3+IQ4+IQ5
+IQ_model_missing <- 'IQ=~IQ1+IQ2+IQ3+IQ4+IQ5
 IQ1~~IQ2
 IQ4~~IQ5'
 
-IQ_model_missing.est<-cfa(IQ_model_missing, data=IQ_data_new, missing='FIML')
+IQ_model_missing.est <- cfa(IQ_model_missing, data=IQ_data_new, missing='FIML')
 
 summary(IQ_model_missing.est, fit.measures=T, standardized=T)
 ```
