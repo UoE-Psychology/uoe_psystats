@@ -7,42 +7,77 @@ import os.path, time
 
 INDEX_TEMPLATE = r"""
 
-<html>
 <head>
-<title>${header}</title>
-<meta name="description" content="${header}"/>
-<link rel="stylesheet" href="https://uoe-psychology.github.io/uoe_psystats/style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" />
+<link href="${site}/default.css" rel="stylesheet" type="text/css" media="all"/>
+
+
 </head>
 <body>
-    <h2>Data Analysis for Psychological Research<br>University of Edinburgh</h2>
-    <p>
-    <td valign="top"></td><td><a href="../"><img src="https://uoe-psychology.github.io/uoe_psystats/site_images/backup.png" style="width:25px" alt="[PARENTDIR]"></a></td>
-    
-    <h3>${header}</h3> 
-    
-    <div class="dirlist">
-    % for name in dirnames:
-    <div class="directory">
-    <td valign="top"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAd5JREFUeNqMU79rFUEQ/vbuodFEEkzAImBpkUabFP4ldpaJhZXYm/RiZWsv/hkWFglBUyTIgyAIIfgIRjHv3r39MePM7N3LcbxAFvZ2b2bn22/mm3XMjF+HL3YW7q28YSIw8mBKoBihhhgCsoORot9d3/ywg3YowMXwNde/PzGnk2vn6PitrT+/PGeNaecg4+qNY3D43vy16A5wDDd4Aqg/ngmrjl/GoN0U5V1QquHQG3q+TPDVhVwyBffcmQGJmSVfyZk7R3SngI4JKfwDJ2+05zIg8gbiereTZRHhJ5KCMOwDFLjhoBTn2g0ghagfKeIYJDPFyibJVBtTREwq60SpYvh5++PpwatHsxSm9QRLSQpEVSd7/TYJUb49TX7gztpjjEffnoVw66+Ytovs14Yp7HaKmUXeX9rKUoMoLNW3srqI5fWn8JejrVkK0QcrkFLOgS39yoKUQe292WJ1guUHG8K2o8K00oO1BTvXoW4yasclUTgZYJY9aFNfAThX5CZRmczAV52oAPoupHhWRIUUAOoyUIlYVaAa/VbLbyiZUiyFbjQFNwiZQSGl4IDy9sO5Wrty0QLKhdZPxmgGcDo8ejn+c/6eiK9poz15Kw7Dr/vN/z6W7q++091/AQYA5mZ8GYJ9K0AAAAAASUVORK5CYII= "alt="[DIR]"></td>
-    <td><a href="${name}">${name}</a></td>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="https://uoe-psychology.github.io/uoe_psystats/">University of Edinburgh</a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="mailto:ug.ppls.stats@ed.ac.uk" target="_top">Contact Us (UG)</a></li>
+				<li><a href="mailto:pg.ppls.stats@ed.ac.uk" target="_top">Contact Us (PG)</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<!---<div id="header-featured">--->
+</div>
+	<div id="banner-wrapper">
+		<div id="banner" class="container">
+            <h2>Data Analysis for Psychological Research</h2>
+			<span>Psychology Department, 7 George Square</span>
+        </div>
+	</div>
+<div class="bannerbox">
+    <span class="bannerbox-${headcol}"></span>
+</div>
+
+<div id="wrapper">
+	<div id="featured-wrapper">
+		<div id="featured" class="container">
+            <ul style="text-align:left">
+                <li>${header}</li>
+                <li><a href="../">Back</a></li>
+            </ul>
+			% for name in dirnames:
+			<div class="column1">
+				<div class="title"><a href="${name}"><span class="icon icon-${name}"></span></a>
+					<h2><a href="${name}">${name}</a></h2>
+				</div>
+			</div>
+			% endfor
+		</div>
     </div>
-    % endfor
-    </div>
-    <div class="documentlist">
-    % for name in filenames:
-    <div class="document">
-    <td valign="top"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABnRSTlMAAAAAAABupgeRAAABHUlEQVR42o2RMW7DIBiF3498iHRJD5JKHurL+CRVBp+i2T16tTynF2gO0KSb5ZrBBl4HHDBuK/WXACH4eO9/CAAAbdvijzLGNE1TVZXfZuHg6XCAQESAZXbOKaXO57eiKG6ft9PrKQIkCQqFoIiQFBGlFIB5nvM8t9aOX2Nd18oDzjnPgCDpn/BH4zh2XZdlWVmWiUK4IgCBoFMUz9eP6zRN75cLgEQhcmTQIbl72O0f9865qLAAsURAAgKBJKEtgLXWvyjLuFsThCSstb8rBCaAQhDYWgIZ7myM+TUBjDHrHlZcbMYYk34cN0YSLcgS+wL0fe9TXDMbY33fR2AYBvyQ8L0Gk8MwREBrTfKe4TpTzwhArXWi8HI84h/1DfwI5mhxJamFAAAAAElFTkSuQmCC "alt="[DIR]"></td>
-    <td><a href="${name}">${name}</a></td>
-    </div>
-    % endfor
-    </div>
-    </p>
+    <div id="page" class="container">
+		<div class="sbox1">
+			<!---<h2>Files</h2>--->
+			<ul class="style2">
+			% for name in filenames:
+				<li class="icon icon-ok"><a href="${name}">${name}</a></li>
+            % endfor
+			</ul>
+           </div>
+	</div>
+</div>
+<div id="footer-wrapper"></div>
 </body>
 </html>
 """
 
-EXCLUDED = ['index.html','style.css','readme.txt','site_images']
-EXCLUDEDDIR = ['book','book_sols','site_images']
+EXCLUDED = ['index.html','style.css','readme.txt','images','fonts','default.css']
+EXCLUDEDDIR = ['book','book_sols']
 
 import os
 import argparse
@@ -59,7 +94,11 @@ def fun(dir,rootdir):
     dirnames = [fname for fname in dirnames if fname not in filenames]
 #    header = os.path.basename(dir)
     f = open(dir+'/index.html','w')
-    print(Template(INDEX_TEMPLATE).render(dirnames=dirnames,filenames=filenames, header=dir,ROOTDIR=rootdir,time=time.ctime(os.path.getctime(dir))),file=f)
+    print(Template(INDEX_TEMPLATE).render(dirnames=dirnames,filenames=filenames,
+                                          header=dir.replace("uoepsystatsweb/","Home"),
+                                          headcol=dir.split("/")[2],
+                                          site="https://uoe-psychology.github.io/uoe_psystats/",
+                                          ROOTDIR=rootdir,time=time.ctime(os.path.getctime(dir))),file=f)
     f.close()
     for subdir in [dirnames for dirnames in dirnames if dirnames not in EXCLUDEDDIR]:
         try:
