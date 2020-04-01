@@ -9,6 +9,11 @@ qbegin<-function ()
                     "<div class='question-body'>")
     output <- structure(part1, format = "HTML", class = "knitr_kable")
   }
+  if(knitr::is_latex_output()){
+    id <- generate_idq2()
+    part1 <- paste0("\\textbf{Question ",id,": }")
+    output <- part1
+  }
   return(output)
 }
 
@@ -17,6 +22,10 @@ qend<-function(){
     part2 <- paste0("<p class=\"question-end\">",
                     "</p>", "</div>")
     output <- structure(part2, format = "HTML", class = "knitr_kable")
+  }
+  if(knitr::is_latex_output()){
+    part2 <- paste0("")
+    output <- part2
   }
   return(output)
 }
@@ -34,6 +43,11 @@ solbegin<-function()
     )
     output <- structure(part1, format = "HTML", class = "knitr_kable")
   }
+  if(knitr::is_latex_output()){
+    id <- generate_id2()
+    part1 <- paste0("\\textbf{Solution ",id,": }")
+    output <- part1
+  }
   return(output)
 }
 
@@ -42,6 +56,10 @@ solend<-function(){
     part2 <- paste0("<p class=\"solution-end\">",
                     "</p>", "</div>")
     output <- structure(part2, format = "HTML", class = "knitr_kable")
+  }
+  if(knitr::is_latex_output()){
+    part2 <- paste0("")
+    output <- part2
   }
   return(output)
 }
