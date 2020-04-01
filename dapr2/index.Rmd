@@ -5,7 +5,10 @@ title: |
 author: "School of Psychology, The University of Edinburgh"
 date: "Academic year 2020-2021"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
+output: 
+  bookdown::gitbook:
+    includes:
+      in_header: toggling.html
 knit: "bookdown::render_book"
 documentclass: krantz
 bibliography: [book.bib, packages.bib]
@@ -25,10 +28,36 @@ options(
   htmltools.dir.version = FALSE, formatR.indent = 2,
   width = 55, digits = 4, warnPartialMatchAttr = FALSE, warnPartialMatchDollar = FALSE
 )
+source("dropdowns.R")
 ```
 
 
 # Introduction {-#chap-intro}
+
+test questions.
+the code is in dropdowns.R file, which is sourced at the start of the bookdown.
+the .css and toggling script is included in toggle.html, which is then incuded in_header in the yaml
+
+
+`r qbegin()`
+question the first
+`r qend()`
+
+`r solbegin()`
+hello, i'm a solution.
+`r solend()`
+
+`r qbegin()`
+question again
+`r qend()`
+
+`r solbegin()`
+peppa pig. 
+
+i think these will just number through the whole book, so it won't reset each chapter, which is not ideal. 
+`r solend()`
+
+
 
 
 ## Course description {-}
