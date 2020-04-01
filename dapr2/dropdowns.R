@@ -1,17 +1,17 @@
 
 ##### these are just adapted from msmbstyle, quite a lot has been cut...
 
-qbegin<-function ()
-{
+qbegin<-function(label=NULL){
+  if(!is.null(label)){label = as.character(label)}
   if (knitr::is_html_output()) {
     id <- generate_idq2()
-    part1 <- paste0("<div class='question-begin'>","Question ",id,"</div>",
+    part1 <- paste0("<div class='question-begin'>","Question ",label,"</div>",
                     "<div class='question-body'>")
     output <- structure(part1, format = "HTML", class = "knitr_kable")
   }
   if(knitr::is_latex_output()){
     id <- generate_idq2()
-    part1 <- paste0("\\textbf{Question ",id,": }")
+    part1 <- paste0("\\textbf{Question ",label,": }")
     output <- part1
   }
   return(output)
@@ -30,36 +30,53 @@ qend<-function(){
   return(output)
 }
 
-solbegin<-function()
-{
-  if (knitr::is_html_output()) {
-    id <- generate_id2()
-    id1 <- paste0("sol-start-", id)
-    id2 <- paste0("sol-body-", id)
-    part1 <- paste0("<div class=\"solution-begin\">","Solution ", id,
-                    sprintf("<span id='%s' class=\"fa fa-plus-square solution-icon clickable\" onclick=\"toggle_visibility('%s', '%s')\"></span>",id1, id2, id1),
-                    "</div>",
-                    paste0("<div class=\"solution-body\" id = \"",id2, "\" style=\"display: none;\">")
-    )
-    output <- structure(part1, format = "HTML", class = "knitr_kable")
-  }
-  if(knitr::is_latex_output()){
-    id <- generate_id2()
-    part1 <- paste0("\\textbf{Solution ",id,": }")
-    output <- part1
+solbegin<-function(label=NULL,show=TRUE){
+  if(!is.null(label)){label = as.character(label)}
+  if(show){
+    if (knitr::is_html_output()) {
+      id <- generate_id2()
+      id1 <- paste0("sol-start-", id)
+      id2 <- paste0("sol-body-", id)
+      part1 <- paste0("<div class=\"solution-begin\">","Solution ",label,
+                      sprintf("<span id='%s' class=\"fa fa-plus-square solution-icon clickable\" onclick=\"toggle_visibility('%s', '%s')\"></span>",id1, id2, id1),
+                      "</div>",
+                      paste0("<div class=\"solution-body\" id = \"",id2, "\" style=\"display: none;\">")
+      )
+      output <- structure(part1, format = "HTML", class = "knitr_kable")
+    }
+    if(knitr::is_latex_output()){
+      id <- generate_id2()
+      part1 <- paste0("\\textbf{Solution ",label,": }")
+      output <- part1
+    }
+  } else {
+    if (knitr::is_html_output()){
+      part1 <- paste0("<div style=\"display:none;\">")
+      output <- structure(part1, format = "HTML", class = "knitr_kable")
+    }
+    if(knitr::is_latex_output()){
+      id <- generate_id2()
+      part1 <- paste0("\\iffalse")
+      output <- part1
+    }
   }
   return(output)
 }
 
-solend<-function(){
+solend<-function(show=TRUE){
   if (knitr::is_html_output()) {
     part2 <- paste0("<p class=\"solution-end\">",
                     "</p>", "</div>")
     output <- structure(part2, format = "HTML", class = "knitr_kable")
   }
   if(knitr::is_latex_output()){
-    part2 <- paste0("")
-    output <- part2
+    if(show){
+      part2 <- ""
+      output <- part2
+    }else{
+      part2 <- paste0("\\fi")
+      output <- part2
+    }
   }
   return(output)
 }
