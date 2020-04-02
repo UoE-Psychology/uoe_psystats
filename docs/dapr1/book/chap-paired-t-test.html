@@ -861,13 +861,13 @@ A research project is examining changes in cognitive functioning with age, and a
 ► Solution<span id="sol-start-131" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-131&#39;, &#39;sol-start-131&#39;)"></span>
 </p>
 <div id="sol-body-131" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb833-1" data-line-number="1">acedata &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2Tz1cNH&quot;</span>)</a>
-<a class="sourceLine" id="cb833-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb833-3" data-line-number="3">acedata &lt;-</a>
-<a class="sourceLine" id="cb833-4" data-line-number="4"><span class="st">  </span>acedata <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb833-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb833-6" data-line-number="6">      <span class="dt">diff_score =</span> ace_<span class="dv">70</span> <span class="op">-</span><span class="st"> </span>ace_<span class="dv">60</span></a>
-<a class="sourceLine" id="cb833-7" data-line-number="7">    )</a></code></pre></div>
+<div class="sourceCode" id="cb830"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb830-1" data-line-number="1">acedata &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2Tz1cNH&quot;</span>)</a>
+<a class="sourceLine" id="cb830-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb830-3" data-line-number="3">acedata &lt;-</a>
+<a class="sourceLine" id="cb830-4" data-line-number="4"><span class="st">  </span>acedata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb830-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb830-6" data-line-number="6">      <span class="dt">diff_score =</span> ace_<span class="dv">70</span> <span class="op">-</span><span class="st"> </span>ace_<span class="dv">60</span></a>
+<a class="sourceLine" id="cb830-7" data-line-number="7">    )</a></code></pre></div>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -891,24 +891,24 @@ A research project is examining changes in cognitive functioning with age, and a
 </p>
 <div id="sol-body-132" class="solution-body" style="display: none;">
 <p>Calculate the <span class="math inline">\(\bar d\)</span>, <span class="math inline">\(s_d\)</span>, <span class="math inline">\(n\)</span>:</p>
-<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb834-1" data-line-number="1">aceterms &lt;-<span class="st"> </span>acedata <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb834-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb834-3" data-line-number="3">    <span class="dt">dbar =</span> <span class="kw">mean</span>(diff_score),</a>
-<a class="sourceLine" id="cb834-4" data-line-number="4">    <span class="dt">s_d =</span> <span class="kw">sd</span>(diff_score),</a>
-<a class="sourceLine" id="cb834-5" data-line-number="5">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb834-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb834-7" data-line-number="7">aceterms</a></code></pre></div>
+<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" data-line-number="1">aceterms &lt;-<span class="st"> </span>acedata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb831-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb831-3" data-line-number="3">    <span class="dt">dbar =</span> <span class="kw">mean</span>(diff_score),</a>
+<a class="sourceLine" id="cb831-4" data-line-number="4">    <span class="dt">s_d =</span> <span class="kw">sd</span>(diff_score),</a>
+<a class="sourceLine" id="cb831-5" data-line-number="5">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb831-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb831-7" data-line-number="7">aceterms</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##    dbar   s_d     n
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
 ## 1 -2.48  5.50    25</code></pre>
 <p>Calculate <span class="math inline">\(t\)</span>:</p>
-<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb836-1" data-line-number="1">t_stat =<span class="st"> </span>(aceterms<span class="op">$</span>dbar <span class="op">-</span><span class="st"> </span><span class="dv">0</span>)<span class="op">/</span>(aceterms<span class="op">$</span>s_d <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(aceterms<span class="op">$</span>n))</a>
-<a class="sourceLine" id="cb836-2" data-line-number="2">t_stat</a></code></pre></div>
+<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb833-1" data-line-number="1">t_stat =<span class="st"> </span>(aceterms<span class="op">$</span>dbar <span class="op">-</span><span class="st"> </span><span class="dv">0</span>)<span class="op">/</span>(aceterms<span class="op">$</span>s_d <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(aceterms<span class="op">$</span>n))</a>
+<a class="sourceLine" id="cb833-2" data-line-number="2">t_stat</a></code></pre></div>
 <pre><code>## [1] -2.254173</code></pre>
 <p>Calculate the p-value: <span class="math inline">\(2 \times \mathrm{Pr}(T_{df} \geq |t|)\)</span>:</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-526-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb838"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb838-1" data-line-number="1"><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(t_stat), <span class="dt">df =</span> <span class="dv">24</span>))</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-552-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb835"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb835-1" data-line-number="1"><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(t_stat), <span class="dt">df =</span> <span class="dv">24</span>))</a></code></pre></div>
 <pre><code>## [1] 0.03358854</code></pre>
 Compute the confidence interval:
 <center>
@@ -916,26 +916,26 @@ Compute the confidence interval:
 (\bar d) \pm t^*_{df} \times SE(\bar d)
 \]</span>
 </center>
-<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb840-1" data-line-number="1"><span class="co">#We know dbar</span></a>
-<a class="sourceLine" id="cb840-2" data-line-number="2">aceterms<span class="op">$</span>dbar</a></code></pre></div>
+<div class="sourceCode" id="cb837"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb837-1" data-line-number="1"><span class="co">#We know dbar</span></a>
+<a class="sourceLine" id="cb837-2" data-line-number="2">aceterms<span class="op">$</span>dbar</a></code></pre></div>
 <pre><code>## [1] -2.48</code></pre>
-<div class="sourceCode" id="cb842"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb842-1" data-line-number="1"><span class="co">#And we can calculate the SE(dbar)</span></a>
-<a class="sourceLine" id="cb842-2" data-line-number="2">aceterms<span class="op">$</span>s_d <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(aceterms<span class="op">$</span>n)</a></code></pre></div>
+<div class="sourceCode" id="cb839"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb839-1" data-line-number="1"><span class="co">#And we can calculate the SE(dbar)</span></a>
+<a class="sourceLine" id="cb839-2" data-line-number="2">aceterms<span class="op">$</span>s_d <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(aceterms<span class="op">$</span>n)</a></code></pre></div>
 <pre><code>## [1] 1.100182</code></pre>
 <p>We need to know the critical values of <span class="math inline">\(t\)</span>, for our desired <span class="math inline">\(\alpha\)</span>, with our <span class="math inline">\(df=24\)</span>.</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-529-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb844"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb844-1" data-line-number="1">crit_t =<span class="st"> </span><span class="kw">qt</span>(.<span class="dv">975</span>, <span class="dt">df =</span> <span class="dv">24</span>)</a>
-<a class="sourceLine" id="cb844-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb844-3" data-line-number="3">crit_t</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-555-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb841"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb841-1" data-line-number="1">crit_t =<span class="st"> </span><span class="kw">qt</span>(.<span class="dv">975</span>, <span class="dt">df =</span> <span class="dv">24</span>)</a>
+<a class="sourceLine" id="cb841-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb841-3" data-line-number="3">crit_t</a></code></pre></div>
 <pre><code>## [1] 2.063899</code></pre>
-<div class="sourceCode" id="cb846"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb846-1" data-line-number="1"><span class="co"># lower interval</span></a>
-<a class="sourceLine" id="cb846-2" data-line-number="2">aceterms<span class="op">$</span>dbar <span class="op">-</span><span class="st"> </span>( crit_t <span class="op">*</span><span class="st"> </span>(aceterms<span class="op">$</span>s_d <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(aceterms<span class="op">$</span>n)))</a></code></pre></div>
+<div class="sourceCode" id="cb843"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb843-1" data-line-number="1"><span class="co"># lower interval</span></a>
+<a class="sourceLine" id="cb843-2" data-line-number="2">aceterms<span class="op">$</span>dbar <span class="op">-</span><span class="st"> </span>( crit_t <span class="op">*</span><span class="st"> </span>(aceterms<span class="op">$</span>s_d <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(aceterms<span class="op">$</span>n)))</a></code></pre></div>
 <pre><code>## [1] -4.750664</code></pre>
-<div class="sourceCode" id="cb848"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb848-1" data-line-number="1"><span class="co"># upper interval</span></a>
-<a class="sourceLine" id="cb848-2" data-line-number="2">aceterms<span class="op">$</span>dbar <span class="op">+</span><span class="st"> </span>( crit_t <span class="op">*</span><span class="st"> </span>(aceterms<span class="op">$</span>s_d <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(aceterms<span class="op">$</span>n)))</a></code></pre></div>
+<div class="sourceCode" id="cb845"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb845-1" data-line-number="1"><span class="co"># upper interval</span></a>
+<a class="sourceLine" id="cb845-2" data-line-number="2">aceterms<span class="op">$</span>dbar <span class="op">+</span><span class="st"> </span>( crit_t <span class="op">*</span><span class="st"> </span>(aceterms<span class="op">$</span>s_d <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(aceterms<span class="op">$</span>n)))</a></code></pre></div>
 <pre><code>## [1] -0.2093364</code></pre>
 <p>Or all using <code>t.test()</code> function:</p>
-<div class="sourceCode" id="cb850"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb850-1" data-line-number="1"><span class="kw">t.test</span>(acedata<span class="op">$</span>diff_score, <span class="dt">mu =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb847"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb847-1" data-line-number="1"><span class="kw">t.test</span>(acedata<span class="op">$</span>diff_score, <span class="dt">mu =</span> <span class="dv">0</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -948,7 +948,7 @@ Compute the confidence interval:
 ## mean of x 
 ##     -2.48</code></pre>
 <p>Or, equivalently:</p>
-<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb852-1" data-line-number="1"><span class="kw">t.test</span>(acedata<span class="op">$</span>ace_<span class="dv">70</span>, acedata<span class="op">$</span>ace_<span class="dv">60</span>, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb849"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb849-1" data-line-number="1"><span class="kw">t.test</span>(acedata<span class="op">$</span>ace_<span class="dv">70</span>, acedata<span class="op">$</span>ace_<span class="dv">60</span>, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -1091,7 +1091,7 @@ The mean difference in score on the ACE-III from age 60 to age 70 was -2.48 (95%
 <p><img src="https://www.fromthebottomoftheheap.net/assets/img/posts/tidyr-longer-wider.gif" /></p>
 <p>(source: <a href="https://www.fromthebottomoftheheap.net/2019/10/25/pivoting-tidily/">https://www.fromthebottomoftheheap.net/2019/10/25/pivoting-tidily/</a>)</p>
 <p>Recall that our data was <em>wide</em>:</p>
-<div class="sourceCode" id="cb854"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb854-1" data-line-number="1">acedata</a></code></pre></div>
+<div class="sourceCode" id="cb851"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb851-1" data-line-number="1">acedata</a></code></pre></div>
 <pre><code>## # A tibble: 25 x 4
 ##    participant ace_60 ace_70 diff_score
 ##    &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
@@ -1107,11 +1107,11 @@ The mean difference in score on the ACE-III from age 60 to age 70 was -2.48 (95%
 ## 10 sub10           96     91         -5
 ## # … with 15 more rows</code></pre>
 <p>We can make it long, by:</p>
-<div class="sourceCode" id="cb856"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb856-1" data-line-number="1">acedata_long &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb856-2" data-line-number="2"><span class="st">  </span>acedata <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb856-3" data-line-number="3"><span class="st">  </span><span class="kw">pivot_longer</span>(ace_<span class="dv">60</span><span class="op">:</span>ace_<span class="dv">70</span>, <span class="dt">names_to =</span> <span class="st">&quot;age&quot;</span>, <span class="dt">values_to=</span><span class="st">&quot;ace_score&quot;</span>)</a>
-<a class="sourceLine" id="cb856-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb856-5" data-line-number="5">acedata_long</a></code></pre></div>
+<div class="sourceCode" id="cb853"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb853-1" data-line-number="1">acedata_long &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb853-2" data-line-number="2"><span class="st">  </span>acedata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb853-3" data-line-number="3"><span class="st">  </span><span class="kw">pivot_longer</span>(ace_<span class="dv">60</span><span class="op">:</span>ace_<span class="dv">70</span>, <span class="dt">names_to =</span> <span class="st">&quot;age&quot;</span>, <span class="dt">values_to=</span><span class="st">&quot;ace_score&quot;</span>)</a>
+<a class="sourceLine" id="cb853-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb853-5" data-line-number="5">acedata_long</a></code></pre></div>
 <pre><code>## # A tibble: 50 x 4
 ##    participant diff_score age    ace_score
 ##    &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
@@ -1129,7 +1129,7 @@ The mean difference in score on the ACE-III from age 60 to age 70 was -2.48 (95%
 <p>This takes the columns from <code>ace_60</code> to <code>ace_70</code> (and anything in between), and puts the <em>names</em> (i.e. the variable names) into a column we call “age”, and puts the <em>values</em> into a column we call “ace_score”.</p>
 <div class="noteBox">
 <p>Note that we could now run the same paired <span class="math inline">\(t\)</span>-test using:</p>
-<div class="sourceCode" id="cb858"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb858-1" data-line-number="1"><span class="kw">t.test</span>(acedata_long<span class="op">$</span>ace_score <span class="op">~</span><span class="st"> </span>acedata_long<span class="op">$</span>age, <span class="dt">paired =</span> T)</a></code></pre></div>
+<div class="sourceCode" id="cb855"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb855-1" data-line-number="1"><span class="kw">t.test</span>(acedata_long<span class="op">$</span>ace_score <span class="op">~</span><span class="st"> </span>acedata_long<span class="op">$</span>age, <span class="dt">paired =</span> T)</a></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -1143,8 +1143,8 @@ The mean difference in score on the ACE-III from age 60 to age 70 was -2.48 (95%
 ##                    2.48</code></pre>
 </div>
 <p>We can turn it back to wide using <code>pivot_wider()</code>:</p>
-<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb860-1" data-line-number="1">acedata_long <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb860-2" data-line-number="2"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> age, <span class="dt">values_from =</span> ace_score)</a></code></pre></div>
+<div class="sourceCode" id="cb857"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb857-1" data-line-number="1">acedata_long <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb857-2" data-line-number="2"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> age, <span class="dt">values_from =</span> ace_score)</a></code></pre></div>
 <pre><code>## # A tibble: 25 x 4
 ##    participant diff_score ace_60 ace_70
 ##    &lt;chr&gt;            &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
@@ -1165,8 +1165,8 @@ The mean difference in score on the ACE-III from age 60 to age 70 was -2.48 (95%
 </p>
 <div class="question-body">
 <p>The code below produces a visualisation of the scores on the ACE-III at ages 60 and 70.</p>
-<div class="sourceCode" id="cb862"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb862-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> ace_iii, <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> score)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb862-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb859-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> ace_iii, <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> score)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb859-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Based on what we found out when we conducted our <span class="math inline">\(t\)</span>-test, sketch what you think the code will produce.<br />
 </li>
@@ -1229,12 +1229,12 @@ The mean difference in score on the ACE-III from age 60 to age 70 was -2.48 (95%
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb863-1" data-line-number="1">ace_iii &lt;-<span class="st"> </span>acedata <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb863-2" data-line-number="2"><span class="st">  </span><span class="kw">pivot_longer</span>(ace_<span class="dv">60</span><span class="op">:</span>ace_<span class="dv">70</span>, <span class="dt">names_to =</span> <span class="st">&quot;age&quot;</span>, <span class="dt">values_to=</span><span class="st">&quot;score&quot;</span>)</a>
-<a class="sourceLine" id="cb863-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb863-4" data-line-number="4"><span class="kw">ggplot</span>(<span class="dt">data =</span> ace_iii, <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> score)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb863-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-542-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb860-1" data-line-number="1">ace_iii &lt;-<span class="st"> </span>acedata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb860-2" data-line-number="2"><span class="st">  </span><span class="kw">pivot_longer</span>(ace_<span class="dv">60</span><span class="op">:</span>ace_<span class="dv">70</span>, <span class="dt">names_to =</span> <span class="st">&quot;age&quot;</span>, <span class="dt">values_to=</span><span class="st">&quot;score&quot;</span>)</a>
+<a class="sourceLine" id="cb860-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb860-4" data-line-number="4"><span class="kw">ggplot</span>(<span class="dt">data =</span> ace_iii, <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> score)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb860-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-568-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1295,13 +1295,13 @@ The mean difference in score on the ACE-III from age 60 to age 70 was -2.48 (95%
 </p>
 <div id="sol-body-135" class="solution-body" style="display: none;">
 <p>We know all the terms for this already. In fact, we calculated them and saved them in an object called <code>aceterms</code>.</p>
-<div class="sourceCode" id="cb864"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb864-1" data-line-number="1">aceterms</a></code></pre></div>
+<div class="sourceCode" id="cb861"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb861-1" data-line-number="1">aceterms</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##    dbar   s_d     n
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
 ## 1 -2.48  5.50    25</code></pre>
 <p>So we can calculate our effect size:</p>
-<div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb866-1" data-line-number="1">(aceterms<span class="op">$</span>dbar <span class="op">-</span><span class="st"> </span><span class="dv">0</span>) <span class="op">/</span><span class="st"> </span>aceterms<span class="op">$</span>s_d</a></code></pre></div>
+<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb863-1" data-line-number="1">(aceterms<span class="op">$</span>dbar <span class="op">-</span><span class="st"> </span><span class="dv">0</span>) <span class="op">/</span><span class="st"> </span>aceterms<span class="op">$</span>s_d</a></code></pre></div>
 <pre><code>## [1] -0.4508346</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1336,7 +1336,7 @@ The mean difference in score on the ACE-III from age 60 to age 70 was -2.48 (95%
 <p>Is there an age difference in heterosexual married couples? (and in what direction?)</p>
 <p>Data on the ages of both brides and grooms at point of marriage is available at <a href="https://edin.ac/2TBoZMY">https://edin.ac/2TBoZMY</a>.<br />
 You can read it in using the code below:</p>
-<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb868-1" data-line-number="1">marriages&lt;-<span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2TBoZMY&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb865"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb865-1" data-line-number="1">marriages&lt;-<span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2TBoZMY&quot;</span>)</a></code></pre></div>
 </div>
 <div class="question">
 <p class="question-begin">
@@ -1355,14 +1355,14 @@ As we plan on conducting a test on these differences, what assumptions are we ma
 ► Solution<span id="sol-start-136" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-136&#39;, &#39;sol-start-136&#39;)"></span>
 </p>
 <div id="sol-body-136" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb869"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb869-1" data-line-number="1">marriages &lt;-<span class="st"> </span>marriages <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb869-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb869-3" data-line-number="3">    <span class="dt">agediff =</span> Husband <span class="op">-</span><span class="st"> </span>Wife</a>
-<a class="sourceLine" id="cb869-4" data-line-number="4">  )</a></code></pre></div>
+<div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb866-1" data-line-number="1">marriages &lt;-<span class="st"> </span>marriages <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb866-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb866-3" data-line-number="3">    <span class="dt">agediff =</span> Husband <span class="op">-</span><span class="st"> </span>Wife</a>
+<a class="sourceLine" id="cb866-4" data-line-number="4">  )</a></code></pre></div>
 <p>Remember, as this is just a one sample <span class="math inline">\(t\)</span>-test in disguise, we are assuming that the differences come from a normally distribution. Our sample size is quite large (<span class="math inline">\(n = 105\)</span>) so it is not essential to test for normality (using <code>shapiro.test()</code>), but we should always plot the data first, to check for thing like skew.</p>
-<div class="sourceCode" id="cb870"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb870-1" data-line-number="1"><span class="kw">ggplot</span>(marriages, <span class="kw">aes</span>(<span class="dt">x=</span>agediff)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb870-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-547-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb867"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb867-1" data-line-number="1"><span class="kw">ggplot</span>(marriages, <span class="kw">aes</span>(<span class="dt">x=</span>agediff)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb867-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-573-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -1415,7 +1415,7 @@ If we get a <strong>positive</strong> <span class="math inline">\(t\)</span>-sta
 ► Solution<span id="sol-start-138" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-138&#39;, &#39;sol-start-138&#39;)"></span>
 </p>
 <div id="sol-body-138" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb871"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb871-1" data-line-number="1"><span class="kw">t.test</span>(marriages<span class="op">$</span>agediff, <span class="dt">mu =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb868-1" data-line-number="1"><span class="kw">t.test</span>(marriages<span class="op">$</span>agediff, <span class="dt">mu =</span> <span class="dv">0</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -1427,7 +1427,7 @@ If we get a <strong>positive</strong> <span class="math inline">\(t\)</span>-sta
 ## sample estimates:
 ## mean of x 
 ##  2.372549</code></pre>
-<div class="sourceCode" id="cb873"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb873-1" data-line-number="1"><span class="kw">t.test</span>(marriages<span class="op">$</span>Husband, marriages<span class="op">$</span>Wife, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb870"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb870-1" data-line-number="1"><span class="kw">t.test</span>(marriages<span class="op">$</span>Husband, marriages<span class="op">$</span>Wife, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -1461,16 +1461,16 @@ If we get a <strong>positive</strong> <span class="math inline">\(t\)</span>-sta
 ► Solution<span id="sol-start-139" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-139&#39;, &#39;sol-start-139&#39;)"></span>
 </p>
 <div id="sol-body-139" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb875"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb875-1" data-line-number="1">marriages <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb875-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb875-3" data-line-number="3">    <span class="dt">dbar =</span> <span class="kw">mean</span>(agediff),</a>
-<a class="sourceLine" id="cb875-4" data-line-number="4">    <span class="dt">s_d =</span> <span class="kw">sd</span>(agediff)</a>
-<a class="sourceLine" id="cb875-5" data-line-number="5">  )</a></code></pre></div>
+<div class="sourceCode" id="cb872"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb872-1" data-line-number="1">marriages <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb872-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb872-3" data-line-number="3">    <span class="dt">dbar =</span> <span class="kw">mean</span>(agediff),</a>
+<a class="sourceLine" id="cb872-4" data-line-number="4">    <span class="dt">s_d =</span> <span class="kw">sd</span>(agediff)</a>
+<a class="sourceLine" id="cb872-5" data-line-number="5">  )</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##    dbar   s_d
 ##   &lt;dbl&gt; &lt;dbl&gt;
 ## 1  2.37  4.28</code></pre>
-<div class="sourceCode" id="cb877"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb877-1" data-line-number="1"><span class="fl">2.37</span> <span class="op">/</span><span class="st"> </span><span class="fl">4.28</span></a></code></pre></div>
+<div class="sourceCode" id="cb874"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb874-1" data-line-number="1"><span class="fl">2.37</span> <span class="op">/</span><span class="st"> </span><span class="fl">4.28</span></a></code></pre></div>
 <pre><code>## [1] 0.5537383</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1518,7 +1518,7 @@ All 60 participants are followed up one month later, and the average number of c
 </ol>
 <p>This is asking whether the mean number of cigarettes per day is different to 20. So we are asking whether a mean is different from an hypothesized number - this is a one sample <span class="math inline">\(t\)</span>-test!</p>
 <p>First, lets check our assumptions. Our <span class="math inline">\(n \geq 20\)</span>, but let’s check normality anyway:</p>
-<div class="sourceCode" id="cb879"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb879-1" data-line-number="1"><span class="kw">shapiro.test</span>(cbtsmoke<span class="op">$</span>cigs_pday)</a></code></pre></div>
+<div class="sourceCode" id="cb876"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb876-1" data-line-number="1"><span class="kw">shapiro.test</span>(cbtsmoke<span class="op">$</span>cigs_pday)</a></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -1526,7 +1526,7 @@ All 60 participants are followed up one month later, and the average number of c
 ## W = 0.97845, p-value = 0.3666</code></pre>
 <p>At a significance level of 0.05, the <span class="math inline">\(p\)</span>-value = 0.37 means that we fail to reject the null hypothesis that the data is drawn from a normally distributed population.<br />
 We can now perform our <span class="math inline">\(t\)</span>-test:</p>
-<div class="sourceCode" id="cb881"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb881-1" data-line-number="1"><span class="kw">t.test</span>(cbtsmoke<span class="op">$</span>cigs_pday, <span class="dt">mu =</span> <span class="dv">20</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb878"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb878-1" data-line-number="1"><span class="kw">t.test</span>(cbtsmoke<span class="op">$</span>cigs_pday, <span class="dt">mu =</span> <span class="dv">20</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -1552,12 +1552,12 @@ We can now perform our <span class="math inline">\(t\)</span>-test:</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Calculate the average number of cigarettes smoked per day at both time-points for each group.</li>
 </ol>
-<div class="sourceCode" id="cb883"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb883-1" data-line-number="1">cbtsmoke <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb883-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(app_group) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb883-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb883-4" data-line-number="4">    <span class="dt">initial =</span> <span class="kw">mean</span>(cigs_pday),</a>
-<a class="sourceLine" id="cb883-5" data-line-number="5">    <span class="dt">followup =</span> <span class="kw">mean</span>(cigs_pday_1month)</a>
-<a class="sourceLine" id="cb883-6" data-line-number="6">  )</a></code></pre></div>
+<div class="sourceCode" id="cb880"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb880-1" data-line-number="1">cbtsmoke <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb880-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(app_group) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb880-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb880-4" data-line-number="4">    <span class="dt">initial =</span> <span class="kw">mean</span>(cigs_pday),</a>
+<a class="sourceLine" id="cb880-5" data-line-number="5">    <span class="dt">followup =</span> <span class="kw">mean</span>(cigs_pday_1month)</a>
+<a class="sourceLine" id="cb880-6" data-line-number="6">  )</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   app_group initial followup
 ##   &lt;fct&gt;       &lt;dbl&gt;    &lt;dbl&gt;
@@ -1578,7 +1578,7 @@ We can now perform our <span class="math inline">\(t\)</span>-test:</p>
 </ol>
 <p>The two sets of observations (from the different groups) are independent, so we are going to conduct an independent samples <span class="math inline">\(t\)</span>-test.</p>
 <p>First, we need to check the assumption of equal variances between groups:</p>
-<div class="sourceCode" id="cb885"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb885-1" data-line-number="1"><span class="kw">var.test</span>(cbtsmoke<span class="op">$</span>cigs_pday <span class="op">~</span><span class="st"> </span>cbtsmoke<span class="op">$</span>app_group)</a></code></pre></div>
+<div class="sourceCode" id="cb882"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb882-1" data-line-number="1"><span class="kw">var.test</span>(cbtsmoke<span class="op">$</span>cigs_pday <span class="op">~</span><span class="st"> </span>cbtsmoke<span class="op">$</span>app_group)</a></code></pre></div>
 <pre><code>## 
 ##  F test to compare two variances
 ## 
@@ -1592,11 +1592,11 @@ We can now perform our <span class="math inline">\(t\)</span>-test:</p>
 ##          0.7272121</code></pre>
 <p>At a significance level of 0.05, the <span class="math inline">\(p\)</span>-value = 0.4 leads us to not rejecting the null hypothesis of equal variances across the two populations.</p>
 <p>Because <span class="math inline">\(n \geq 20\)</span>, we don’t <em>need</em> to check for normality, but it is important to look for the skew, especially when our <span class="math inline">\(n\)</span> is not <em>that</em> much bigger than 20. The plot below suggest that skew is not a problem</p>
-<div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb887-1" data-line-number="1"><span class="kw">ggplot</span>(cbtsmoke, <span class="kw">aes</span>(<span class="dt">x =</span> cigs_pday, <span class="dt">col =</span> app_group)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb887-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>()</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-555-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb884-1" data-line-number="1"><span class="kw">ggplot</span>(cbtsmoke, <span class="kw">aes</span>(<span class="dt">x =</span> cigs_pday, <span class="dt">col =</span> app_group)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb884-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-581-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>We can now perform our <span class="math inline">\(t\)</span>-test:</p>
-<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb888-1" data-line-number="1"><span class="kw">t.test</span>(cbtsmoke<span class="op">$</span>cigs_pday <span class="op">~</span><span class="st"> </span>cbtsmoke<span class="op">$</span>app_group, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb885"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb885-1" data-line-number="1"><span class="kw">t.test</span>(cbtsmoke<span class="op">$</span>cigs_pday <span class="op">~</span><span class="st"> </span>cbtsmoke<span class="op">$</span>app_group, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
@@ -1622,10 +1622,10 @@ We can now perform our <span class="math inline">\(t\)</span>-test:</p>
 <li>Did the group given the app change their smoking habits from the immediate to one month follow up? If so, was it a big change? (e.g, calculate the effect size).</li>
 </ol>
 <p>We will need to use only the data from the group who was given the app:</p>
-<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb890-1" data-line-number="1">appgroupsmoke &lt;-<span class="st"> </span>cbtsmoke <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb890-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(app_group <span class="op">==</span><span class="st"> &quot;yes&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb887-1" data-line-number="1">appgroupsmoke &lt;-<span class="st"> </span>cbtsmoke <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb887-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(app_group <span class="op">==</span><span class="st"> &quot;yes&quot;</span>)</a></code></pre></div>
 <p>We can then perform a paired <span class="math inline">\(t\)</span>-test:</p>
-<div class="sourceCode" id="cb891"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb891-1" data-line-number="1"><span class="kw">t.test</span>(appgroupsmoke<span class="op">$</span>cigs_pday_1month, appgroupsmoke<span class="op">$</span>cigs_pday, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb888-1" data-line-number="1"><span class="kw">t.test</span>(appgroupsmoke<span class="op">$</span>cigs_pday_1month, appgroupsmoke<span class="op">$</span>cigs_pday, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -1638,13 +1638,13 @@ We can now perform our <span class="math inline">\(t\)</span>-test:</p>
 ## mean of the differences 
 ##               -5.133333</code></pre>
 <p>Or, we could calculate the difference scores…</p>
-<div class="sourceCode" id="cb893"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb893-1" data-line-number="1">appgroupsmoke &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb893-2" data-line-number="2"><span class="st">  </span>appgroupsmoke <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb893-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb893-4" data-line-number="4">      <span class="dt">change =</span> cigs_pday_1month <span class="op">-</span><span class="st"> </span>cigs_pday</a>
-<a class="sourceLine" id="cb893-5" data-line-number="5">    )</a></code></pre></div>
+<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb890-1" data-line-number="1">appgroupsmoke &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb890-2" data-line-number="2"><span class="st">  </span>appgroupsmoke <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb890-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb890-4" data-line-number="4">      <span class="dt">change =</span> cigs_pday_1month <span class="op">-</span><span class="st"> </span>cigs_pday</a>
+<a class="sourceLine" id="cb890-5" data-line-number="5">    )</a></code></pre></div>
 <p>and run the same test using:</p>
-<div class="sourceCode" id="cb894"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb894-1" data-line-number="1"><span class="kw">t.test</span>(appgroupsmoke<span class="op">$</span>change, <span class="dt">mu =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb891"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb891-1" data-line-number="1"><span class="kw">t.test</span>(appgroupsmoke<span class="op">$</span>change, <span class="dt">mu =</span> <span class="dv">0</span>)</a></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -1657,14 +1657,14 @@ We can now perform our <span class="math inline">\(t\)</span>-test:</p>
 ## mean of x 
 ## -5.133333</code></pre>
 <p>To calculate Cohen’s <span class="math inline">\(D\)</span>, we use the mean difference (<span class="math inline">\(\bar d\)</span>) divided by the standard deviation of the differences (<span class="math inline">\(s_d\)</span>):</p>
-<div class="sourceCode" id="cb896"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb896-1" data-line-number="1">appgroupsmoke <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb896-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb896-3" data-line-number="3">    <span class="dt">dbar =</span> <span class="kw">mean</span>(change),</a>
-<a class="sourceLine" id="cb896-4" data-line-number="4">    <span class="dt">s_d =</span> <span class="kw">sd</span>(change)</a>
-<a class="sourceLine" id="cb896-5" data-line-number="5">  )</a></code></pre></div>
+<div class="sourceCode" id="cb893"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb893-1" data-line-number="1">appgroupsmoke <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb893-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb893-3" data-line-number="3">    <span class="dt">dbar =</span> <span class="kw">mean</span>(change),</a>
+<a class="sourceLine" id="cb893-4" data-line-number="4">    <span class="dt">s_d =</span> <span class="kw">sd</span>(change)</a>
+<a class="sourceLine" id="cb893-5" data-line-number="5">  )</a></code></pre></div>
 <pre><code>##        dbar      s_d
 ## 1 -5.133333 5.525698</code></pre>
-<div class="sourceCode" id="cb898"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb898-1" data-line-number="1"><span class="kw">abs</span>(<span class="op">-</span><span class="fl">5.13</span>) <span class="op">/</span><span class="st"> </span><span class="fl">5.53</span></a></code></pre></div>
+<div class="sourceCode" id="cb895"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb895-1" data-line-number="1"><span class="kw">abs</span>(<span class="op">-</span><span class="fl">5.13</span>) <span class="op">/</span><span class="st"> </span><span class="fl">5.53</span></a></code></pre></div>
 <pre><code>## [1] 0.9276673</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
@@ -1672,7 +1672,7 @@ We can now perform our <span class="math inline">\(t\)</span>-test:</p>
 </div>
 </div>
 
-<div class="sourceCode" id="cb900"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb900-1" data-line-number="1">knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">fig.align=</span><span class="st">&#39;center&#39;</span>, <span class="dt">message=</span><span class="ot">FALSE</span>, <span class="dt">out.width =</span> <span class="st">&#39;80%&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb897"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb897-1" data-line-number="1">knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">fig.align=</span><span class="st">&#39;center&#39;</span>, <span class="dt">message=</span><span class="ot">FALSE</span>, <span class="dt">out.width =</span> <span class="st">&#39;80%&#39;</span>)</a></code></pre></div>
 </div>
 </div>
 </div>
