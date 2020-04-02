@@ -12,6 +12,7 @@ INDEX_TEMPLATE = r"""
 <title></title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" />
 <link href="${site}/default.css" rel="stylesheet" type="text/css" media="all"/>
 
@@ -24,11 +25,9 @@ INDEX_TEMPLATE = r"""
 			<h1><a href="https://uoe-psychology.github.io/uoe_psystats/">University of Edinburgh</a></h1>
 		</div>
 		<div id="menu">
-			<ul>
-				<li><a href="mailto:ug.ppls.stats@ed.ac.uk" target="_top">Contact Us (UG)</a></li>
-				<li><a href="mailto:pg.ppls.stats@ed.ac.uk" target="_top">Contact Us (PG)</a></li>
-			</ul>
-		</div>
+			<li><a href="mailto:ug.ppls.stats@ed.ac.uk" target="_top">Contact Us (UG)</a></li>
+			<li><a href="mailto:pg.ppls.stats@ed.ac.uk" target="_top">Contact Us (PG)</a></li>
+        </div>
 	</div>
 </div>
 
@@ -51,13 +50,15 @@ INDEX_TEMPLATE = r"""
                 <li>${header}</li>
                 <li><a href="../">Back</a></li>
             </ul>
+            <div class="containerdirs">
 			% for name in dirnames:
-			<div class="column1">
-				<div class="title"><a href="${name}"><span class="icon icon-${name}"></span></a>
-					<h2><a href="${name}">${name}</a></h2>
-				</div>
-			</div>
+                <div class="column1">
+                    <div class="title"><a href="${name}"><span class="icon icon-${name}"></span></a>
+                        <h2><a href="${name}">${name}</a></h2>
+                    </div>
+                </div>
 			% endfor
+			</div>
 		</div>
     </div>
     <div id="page" class="container">
@@ -95,7 +96,7 @@ def fun(dir,rootdir):
 #    header = os.path.basename(dir)
     f = open(dir+'/index.html','w')
     print(Template(INDEX_TEMPLATE).render(dirnames=dirnames,filenames=filenames,
-                                          header=dir.replace("uoepsystatsweb/","Home"),
+                                          header=dir.replace("docs/","Home"),
                                           headcol=dir.split("/")[2],
                                           site="https://uoe-psychology.github.io/uoe_psystats/",
                                           ROOTDIR=rootdir,time=time.ctime(os.path.getctime(dir))),file=f)
