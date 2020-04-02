@@ -126,7 +126,7 @@ install.packages('xaringan')
 devtools::install_github("gadenbuie/xaringanthemer")
 ```
 
-###### Setting the course colour  
+#### Setting the course colour  
 
 At the top of each lecture `.Rmd`, there is a code chunk which sets the colour for the slides:     
 
@@ -157,7 +157,7 @@ Each lab begins with the same structure:
 
 After that point, courses vary in lab structure - some contain walkthroughs, some are just questions.  
 
-###### Drop-down questions/solution boxes  
+#### Drop-down questions/solution boxes  
 
 Our labsheets have the ability to include dropdown question and solution boxes.  
 
@@ -196,7 +196,7 @@ This is the solution. When rendered, it will be visible, and it will have a head
 
 You can render with and without solutions shown by setting a variable such as HIDE_SOLUTIONS at the top of each lab which is either TRUE/FALSE, and then passing that variable to the `solbegin()` and `solend()` functions (e.g., `r solbegin(show=HIDE_SOLUTIONS)`).
 
-###### Setting the course colour  
+#### Setting the course colour  
 
 Open the `index.Rmd` for the bookdown.  
 In the yaml front matter at the top of this file, the title contains reference to images which are held in the `images/` directory of the bookdown.  
@@ -216,7 +216,7 @@ author: "School of Psychology, The University of Edinburgh"
 
 Edit the path to call the appropriate course image the appropriate number of times.  
 
-###### Compiling  
+#### Compiling  
 
 To compile to `.html`, open the `index.Rmd` and click knit. This will call `bookdown::render_book()`.  
 
