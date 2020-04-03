@@ -10,6 +10,11 @@ Structure of the document
 1. [How do I contribute?](#how-do-i-contribute)
 1. [Introduction to version control systems](#introduction-to-version-control-systems)  
 1. [Writing](#writing)  
+  - [Templates](#templates)
+  - [Course colours](#course-colour-schemes)
+  - [Lectures](#lectures)
+  - [Labs](#labs)
+  - [Reports](#reports)
 1. [Publishing](#publishing)  
 1. [Accessing](#accessing)  
 1. [Linking from Learn or external](#linking-eg-from-learn)  
@@ -168,17 +173,17 @@ It is good practice to do Pull before you start working on a file, and also befo
 # Writing   
 
 
-#### Templates
+### Templates
 
 In the `templates/` directory, you will find different examples for writing lectures, labs, and reports.  All of which are written in Rmarkdown.   
 
 - Lectures are compiled as `.html`  
 - Labs are compiled into a bookdown (a `.html` book with each lab as a chapter). The option also exists to build to `.pdf` should printouts be required.  
-- Reports are compiled to `.pdf`
+- Reports are compiled to `.pdf` and then uploaded to LEARN
 
 **Important:** Do not use this repository to store actual reports. Everything here is public!  
 
-#### Course colour schemes  
+### Course colour schemes  
 
 Our courses use the following colour schemes:
 
@@ -304,6 +309,21 @@ To build both `.html` and `.pdf`: in Rstudio menu: Build > Build All.
 
 All rendered files can be found in the `_book/` directory.  
 
+### Reports  
+
+Reports are written in Rmarkdown and compiled to pdf.  
+The title includes the same coloured squares as for the labsheets, set in the yaml front matter.
+Change the filepath to the correct image for the course you are writing for.
+
+```
+---
+title: |
+  ![](images/dapr1.png){width=0.51in} \protect \linebreak
+  Data Analysis for Psychology in R 1  \protect \linebreak
+  Coursework report
+```
+
+**Important: DO NOT work on actual reports in this repository. everything is public**  
 
 ## Publishing  
 
