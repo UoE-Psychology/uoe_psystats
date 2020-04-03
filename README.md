@@ -118,8 +118,7 @@ Once you have finished creating a lecture:
 - on the right hand side click stage file or stage all changes, so that any further changes to those files will be tracked
 - once you are happy with your changes, write a short description in the "Commit Message" pane, and you can commit your work, i.e. create a local snapshot of your file.
 
-**Step 5. Make sure to transfer your work to the repository stored online on GitHub**
-
+**Step 5. Make sure to transfer your work to the repository stored online on GitHub**.
 One you have the snapshot of your files, you want to update the online repository to match your local one.
 
 First, you want to click the Pull button from the GitKraken bar, which has a downwards arrow, in order for you to get on your local folder the most recent changes done to the online folder.
