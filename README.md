@@ -5,10 +5,10 @@ Structure of the document
 ============================  
 <!--ts-->
 1. [Welcome](#welcome)  
-1. [Purpose of this repository](#purpose)  
-1. [Repository structure](#structure)
-1. [How do I contribute?](#contribute)
-1. [Introduction to version control systems](#intro-git)  
+1. [Purpose of this repository](#purpose-of-this-repository)  
+1. [Repository structure](#repository-structure)
+1. [How do I contribute?](#how-do-i-contribute)
+1. [Introduction to version control systems](#introduction-to-version-control-systems)  
 1. [Writing](#writing)  
 1. [Publishing](#publishing)  
 1. [Accessing](#accessing)  
@@ -67,27 +67,103 @@ Once you have finished developing the material and want to make it publishable o
 ## How do I contribute?
 
 1. Obtain a GitHub account
-2. Copy the online repository from GitHub to your PC
-3. Create or edit course material on the local copy of the repository
-4. Make sure to transfer your work to the repository stored online on GitHub
+1. Install the [GitKraken Git GUI client](https://www.gitkraken.com/download)
+1. Clone the online repository from GitHub to your PC
+1. Create or edit course material on your local copy of the repository
+1. Make sure to transfer your work to the repository stored online on GitHub
 
 
-**Step 1. Obtain a GitHub account.**
+**Step 1. Obtain a GitHub account**.
 If you are involved with teaching or tutoring quantitative courses in this school, the first thing you should do is to register for a GitHub account:
 
-1. Go to [GitHub](https://github.com/)
-2. Click "Sign up" on the top right corner
-3. Choose a username, and write your academic email and password
-4. Once you have created an account it is good practice to [verify yourself as an educator](https://education.github.com/)
+- Go to [GitHub](https://github.com/)
+- Click "Sign up" on the top right corner
+- Choose a username, and write your academic email and password
+- Once you have created an account it is good practice to [verify yourself as an educator](https://education.github.com/)
 
 You will use your GitHub account in order to contribute to the statistics repository.
 
-**Step 2. Obtain a GitHub account.**
+**Step 2. Install the [GitKraken Git GUI client](https://www.gitkraken.com/download)**.
+You will use this software in order to communicate from your PC to the remote folder stored on the GitHub website.
+
+- [How to install GitKraken](https://support.gitkraken.com/how-to-install/)
+- [Connect GitKraken to your GitHub account](https://support.gitkraken.com/start-here/profiles/)
+
+**Step 3. Clone the online repository from GitHub to your PC**.
+You now want to clone (i.e. copy) the online uoe_psystats repository to your local PC.
+In order to do that:
+
+- Open GitKraken
+- click File
+- select Clone Repo
+- select Github.com
+- _Where to clone to_: browse to the location on your PC where you want the online folder to be copied to
+- _URL_: write the url of the GitHub repository https://github.com/UoE-Psychology/uoe_psystats.git
+
+Check out the help page for [cloning an existing project](https://support.gitkraken.com/working-with-repositories/open-clone-init/).
+
+
+**Step 4. Create or edit course material on your local copy of the repository**.
+Now you can create or edit course content on your local copy of the online folder. Remember, each course has a specific subfolder where the material should be.
+
+We recommend each course to have the subfolders **data, lectures, labs**. For example:
+
+- dapr1/data
+- dapr2/lectures
+- dapr2/labs
+
+Once you have finished creating a lecture:
+
+- go back to GitKraken
+- on the right hand side click stage file or stage all changes, so that any further changes to those files will be tracked
+- once you are happy with your changes, write a short description in the "Commit Message" pane, and you can commit your work, i.e. create a local snapshot of your file.
+
+**Step 5. Make sure to transfer your work to the repository stored online on GitHub**
+
+One you have the snapshot of your files, you want to update the online repository to match your local one.
+
+First, you want to click the Pull button from the GitKraken bar, which has a downwards arrow, in order for you to get on your local folder the most recent changes done to the online folder.
+
+Typically, if you are working in your course-specific folder, you will not have issues of people overwriting your files, and you will not have problems with the merging.
+
+Then, click the Push button from the GitKraken bar, which has an upwards arrow icon. This will take your changes and upload them to the online repository stored on GitHub.
+
 
 
 ## Introduction to version control systems
 
+How do you keep track of changes made to a specific file?
+We all did that - starting from FILE.txt saved on Dropbox, and then changing something and saving another file called FILE_final.txt.
+Perhaps you want to switch two paragraphs? FILE_really_final.txt.
+Then someone gives you feedback and you have to change the order of two sections: FILE_really_really_final.txt
 
+At the end we have in the Dropbox folder a series of files
+
+1. FILE.txt
+1. FILE_final.txt
+1. FILE_really_final.txt
+1. FILE_really_really_final.txt
+
+whose names, I have to say, are not really informative, and it's hard to remember what changed from file 2 to file 3.
+
+Version control systems are tools that let you keep track of the changes made to a file, without having to create many different copies of the file with different names.
+Git is an example of version control systems, and it is a command-line program. The online website GitHub is an online storage of Git repositories, making it easier to collaborate and share your work with other people.
+
+Instead of using command-line tools, we will use the GitKraken graphical user interface to Git.
+
+So, in short, you will only have to use
+
+- GitHub: to store your online copy of the repository and share it with others
+- GitKraken: to interact with GitHub from your computer
+
+There are important terms to be familiar with when using GitKraken.
+
+- Stage: you stage a file when you want to keep track of changes
+- Commit: you create a snapshot of the file (i.e., snapshot of the changes made)
+- Push: push your snapshot online to GitHub
+- Pull: pull the changes done by others to the online GitHub repository onto your local folder, so that you are working on the up-to-date version of the folder.
+
+It is good practice to do Pull before you start working on a file, and also before you Push to GitHub.
 
 # Writing   
 
