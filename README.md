@@ -107,8 +107,8 @@ In the `templates/` directory, you will find different examples for writing lect
 Our courses use the following colour schemes:
 
 - DAPR1: ![](https://placehold.it/15/0F4C81/000000?text=+) `#0F4C81`
-- DAPR2: ![](https://placehold.it/15/e41a1c/000000?text=+) `#e41a1c`
-- DAPR3: ![](https://placehold.it/15/4daf4a/000000?text=+) `#4daf4a`
+- DAPR2: ![](https://placehold.it/15/BF1932/000000?text=+) `#BF1932`
+- DAPR3: ![](https://placehold.it/15/88B04B/000000?text=+) `#88B04B`
 - USMR: ![](https://placehold.it/15/FCBB06/000000?text=+) `#FCBB06`
 - MSMR: ![](https://placehold.it/15/a41ae4/000000?text=+) `#a41ae4`
 
