@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Path Analysis | Multivariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Path Analysis | Multivariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Path Analysis | Multivariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="confirmatory-factor-analysis-cfa.html"/>
+<link rel="next" href="sem-i.html"/>
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MSMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-stuff"><i class="fa fa-check"></i>R stuff</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html"><i class="fa fa-check"></i><b>1</b> Tidyverse &amp; Markdown</a><ul>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#lecture-slides"><i class="fa fa-check"></i>Lecture slides</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#background-reading"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="1.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#data-visualization-with-ggplot"><i class="fa fa-check"></i><b>1.1</b> Data Visualization with <code>ggplot</code></a><ul>
+<li class="chapter" data-level="1.1.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#geoms"><i class="fa fa-check"></i><b>1.1.1</b> Geoms</a></li>
+<li class="chapter" data-level="1.1.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#recreating-a-plot"><i class="fa fa-check"></i><b>1.1.2</b> Recreating a plot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#data-management-with-the-tidyverse"><i class="fa fa-check"></i><b>1.2</b> Data management with the Tidyverse</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#piping"><i class="fa fa-check"></i><b>1.2.1</b> Piping!</a></li>
+<li class="chapter" data-level="1.2.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#grouping-summarising-filtering-mutating-and-selecting"><i class="fa fa-check"></i><b>1.2.2</b> Grouping, summarising, filtering, mutating and selecting</a></li>
+<li class="chapter" data-level="1.2.3" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#reshaping"><i class="fa fa-check"></i><b>1.2.3</b> Reshaping</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#less-guidance"><i class="fa fa-check"></i>Less guidance</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#reproducible-research-with-rmarkdown"><i class="fa fa-check"></i><b>1.3</b> Reproducible research with RMarkdown</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#convert-a-script-into-a-r-notebook"><i class="fa fa-check"></i><b>1.3.1</b> Convert a script into a R Notebook</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html"><i class="fa fa-check"></i><b>2</b> Basic Multilevel Regression</a><ul>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#packages-1"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lecture-slides-1"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#background-reading-1"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lme4"><i class="fa fa-check"></i><b>2.1</b> LME4</a></li>
+<li class="chapter" data-level="2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#introduction-to-mlr"><i class="fa fa-check"></i><b>2.2</b> Introduction to MLR</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-1"><i class="fa fa-check"></i><b>2.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-2"><i class="fa fa-check"></i><b>2.2.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#logistic-mlr"><i class="fa fa-check"></i><b>2.3</b> Logistic MLR</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html"><i class="fa fa-check"></i><b>3</b> MLR for longitudinal data (growth curve analysis)</a><ul>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#packages-2"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#lecture-slides-2"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#background-reading-2"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="3.1" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#exercise-1-1"><i class="fa fa-check"></i><b>3.2</b> Exercise 1</a><ul>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#interpret-the-results-of-your-full-model"><i class="fa fa-check"></i>Interpret the results of your full model</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#exercise-2-writing-up-and-logistic-gca"><i class="fa fa-check"></i><b>3.3</b> Exercise 2: Writing up, and Logistic GCA</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html"><i class="fa fa-check"></i><b>4</b> Other random effects structures</a><ul>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#packages-3"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#lecture-slides-3"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#background-reading-3"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="4.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#crossed-random-effects"><i class="fa fa-check"></i><b>4.1</b> Crossed random effects</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-1-2"><i class="fa fa-check"></i><b>4.1.1</b> Exercise 1</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#dealing-with-issue-of-non-convergence-and-singular-fits"><i class="fa fa-check"></i><b>4.2</b> Dealing with issue of non-convergence and singular fits</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-2-1"><i class="fa fa-check"></i><b>4.2.1</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.2.2" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-3-1"><i class="fa fa-check"></i><b>4.2.2</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html"><i class="fa fa-check"></i><b>5</b> Recap &amp; Individual differences</a><ul>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#packages-4"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#lecture-slides-4"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#mixed-model-recap"><i class="fa fa-check"></i>Mixed model recap</a><ul>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#simple-regression"><i class="fa fa-check"></i>Simple regression</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#clustered-multi-level-data-structures"><i class="fa fa-check"></i>Clustered (multi-level) data structures</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#random-intercept-models"><i class="fa fa-check"></i>Random intercept models</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#random-slopes"><i class="fa fa-check"></i>Random slopes</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#fixef-ranef-and-coef"><i class="fa fa-check"></i>Fixef(), Ranef, and Coef</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#more-levels-nested-and-crossed-random-effects"><i class="fa fa-check"></i>More levels: Nested and Crossed random-effects</a></li>
+</ul></li>
+<li class="chapter" data-level="5.1" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#the-lab"><i class="fa fa-check"></i><b>5.1</b> THE LAB</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#exercise-1-3"><i class="fa fa-check"></i><b>5.1.1</b> Exercise 1</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#exercise-2-2"><i class="fa fa-check"></i><b>5.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="break-week.html"><a href="break-week.html"><i class="fa fa-check"></i><b>6</b> <font color="red">Break Week</font></a></li>
+<li class="chapter" data-level="7" data-path="efa-and-pca.html"><a href="efa-and-pca.html"><i class="fa fa-check"></i><b>7</b> EFA and PCA</a><ul>
+<li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#packages-5"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#lecture-slides-5"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="7.1" data-path="efa-and-pca.html"><a href="efa-and-pca.html#todays-exercises"><i class="fa fa-check"></i><b>7.1</b> Today’s Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html"><i class="fa fa-check"></i><b>8</b> Confirmatory Factor Analysis (CFA)</a><ul>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#packages-6"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#lecture-slides-6"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#quick-recap"><i class="fa fa-check"></i>Quick recap</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#data"><i class="fa fa-check"></i>Data</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#one-factor-model"><i class="fa fa-check"></i>One factor model</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#two-factor-model"><i class="fa fa-check"></i>Two factor model</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="path-analysis.html"><a href="path-analysis.html"><i class="fa fa-check"></i><b>9</b> Path Analysis</a><ul>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#packages-7"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#lecture-slides-7"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#quick-recap-1"><i class="fa fa-check"></i>Quick recap</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#exercises"><i class="fa fa-check"></i>Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="sem-i.html"><a href="sem-i.html"><i class="fa fa-check"></i><b>10</b> SEM I</a><ul>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#packages-8"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#lecture-slides-8"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#overview"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#exercises-1"><i class="fa fa-check"></i>Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Multivariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="path-analysis" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Path Analysis</h1>
+<div id="packages-7" class="section level3 unnumbered">
+<h3>Packages</h3>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="kw">library</span>(lavaan)</a>
+<a class="sourceLine" id="cb178-2" data-line-number="2"><span class="kw">library</span>(semPlot)</a></code></pre></div>
+</div>
+<div id="lecture-slides-7" class="section level3 unnumbered">
+<h3>Lecture Slides</h3>
+<ul>
+<li>The lecture slides can be accessed <a href="https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/week9_path.pdf">here</a>.</li>
+</ul>
+</div>
+<div id="quick-recap-1" class="section level2 unnumbered">
+<h2>Quick recap</h2>
+<p>Over the last two weeks we applied exploratory and then confirmatory factor analysis to develop and then test a factor model for conduct problems. This week’s lab focuses on the technique of path analysis, which is used to test sets of regression paths simultaneously. In this week’s example, a researcher has collected data on n=557 adolescents and would like to know whether there are associations between conduct problems (both aggressive and non-aggressive) and academic performance and whether the relations are mediated by the quality of relationships with teachers.</p>
+</div>
+<div id="exercises" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<div class="question">
+<p class="question-begin">
+► Question 1
+</p>
+<div class="question-body">
+<p>First, read in the dataset: <code>cp_teach_acad.csv</code>.</p>
+<p>It is available at <a href="https://edin.ac/38yYz2P">https://edin.ac/38yYz2P</a>. Either download it and read it in locally, or read it directly from the url.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-79" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-79&#39;, &#39;sol-start-79&#39;)"></span>
+</p>
+<div id="sol-body-79" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1">cp_teach_acad&lt;-<span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/38yYz2P&quot;</span>)</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 2a
+</p>
+<div class="question-body">
+<p>Use the <code>sem()</code> function in lavaan to specify and estimate a linear regression model to test whether aggressive and non-aggressive conduct problems significantly predict academic performance.</p>
+<p>How do your results compare to those you obtain using the <code>lm()</code> function?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-80" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-80&#39;, &#39;sol-start-80&#39;)"></span>
+</p>
+<div id="sol-body-80" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="co"># we can fit the model in lavaan as follows:</span></a>
+<a class="sourceLine" id="cb180-2" data-line-number="2"><span class="co"># firt we specify the model using lavaan syntax</span></a>
+<a class="sourceLine" id="cb180-3" data-line-number="3">sr_lavaan&lt;-<span class="st">&#39;Acad~Non_agg+Agg&#39;</span></a>
+<a class="sourceLine" id="cb180-4" data-line-number="4"><span class="co"># next we can estimate the model using the sem() function</span></a>
+<a class="sourceLine" id="cb180-5" data-line-number="5">sr_lavaan.est&lt;-<span class="kw">sem</span>(sr_lavaan, <span class="dt">data=</span>cp_teach_acad)</a>
+<a class="sourceLine" id="cb180-6" data-line-number="6"><span class="co"># we can inspect the results using the summary() function</span></a>
+<a class="sourceLine" id="cb180-7" data-line-number="7"><span class="kw">summary</span>(sr_lavaan.est)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 13 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                          3
+##                                                       
+##   Number of observations                           557
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
+##   Degrees of freedom                                 0
+## 
+## Parameter Estimates:
+## 
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+##   Standard errors                             Standard
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   Acad ~                                              
+##     Non_agg           0.182    0.057    3.178    0.001
+##     Agg               0.318    0.057    5.599    0.000
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .Acad              0.943    0.057   16.688    0.000</code></pre>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="co"># the same model can be fit using lm():</span></a>
+<a class="sourceLine" id="cb182-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb182-3" data-line-number="3">sr_lm&lt;-<span class="kw">lm</span>(Acad<span class="op">~</span>Non_agg<span class="op">+</span>Agg, <span class="dt">data=</span>cp_teach_acad)</a>
+<a class="sourceLine" id="cb182-4" data-line-number="4"><span class="kw">summary</span>(sr_lm)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Acad ~ Non_agg + Agg, data = cp_teach_acad)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.89617 -0.59575  0.00731  0.62189  3.13248 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.04204    0.04135  -1.017  0.30973    
+## Non_agg      0.18238    0.05755   3.169  0.00161 ** 
+## Agg          0.31809    0.05697   5.583  3.7e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9737 on 554 degrees of freedom
+## Multiple R-squared:  0.1937, Adjusted R-squared:  0.1908 
+## F-statistic: 66.54 on 2 and 554 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We can see that both non-aggressive and aggressive conduct problems significantly predict academic perfofmance.We can also see that we get the same results when we use the <code>sem()</code> function as we do when we use the <code>lm()</code> function. Lavaan will give essentially the same results as <code>lm()</code> for simple and multiple regression problems. However, if we have multiple outcome variables in our model it is advantageous to do this using path mediation model with lavaan. This allows us to include all the regressions in a single model.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 2b
+</p>
+<div class="question-body">
+<p>Now specify a model in which non-aggressive conduct problems have both a direct and indirect effect (via teacher relationships) on academic performance</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-81" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-81&#39;, &#39;sol-start-81&#39;)"></span>
+</p>
+<div id="sol-body-81" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1">model1&lt;-<span class="st">&#39;Acad~Non_agg    #we regress academic performance on non-aggressive conduct problems (the direct effect)</span></a>
+<a class="sourceLine" id="cb184-2" data-line-number="2"><span class="st">         Acad~Teach_r    #we regress academic peformance on teacher relationship quality</span></a>
+<a class="sourceLine" id="cb184-3" data-line-number="3"><span class="st">         Teach_r~Non_agg #we regress teacher relationship quality on non-aggressive conduct problems&#39;</span></a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 2c
+</p>
+<div class="question-body">
+<p>Now test the hypothesis that non-aggressive conduct problems have both a direct and an indirect effect (via teacher relationships) on academic performance</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-82" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-82&#39;, &#39;sol-start-82&#39;)"></span>
+</p>
+<div id="sol-body-82" class="solution-body" style="display: none;">
+<p>To test this we need to create a new parameter for the indirect effect and examine its 95% confidence interval.</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="co">#model specification</span></a>
+<a class="sourceLine" id="cb185-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb185-3" data-line-number="3">model1&lt;-<span class="st">&#39;Acad~Non_agg    </span></a>
+<a class="sourceLine" id="cb185-4" data-line-number="4"><span class="st">         Acad~b*Teach_r    #we label the two parameters that comprise the indirect effect b and c</span></a>
+<a class="sourceLine" id="cb185-5" data-line-number="5"><span class="st">         Teach_r~c*Non_agg  # the indirect effect is the product of b and c</span></a>
+<a class="sourceLine" id="cb185-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb185-7" data-line-number="7"><span class="st">ind:=b*c   #we can create a new parameter (ind) to estimate the indirect effect&#39;</span></a>
+<a class="sourceLine" id="cb185-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb185-9" data-line-number="9"><span class="co">#model estimation</span></a>
+<a class="sourceLine" id="cb185-10" data-line-number="10">model1.est&lt;-<span class="kw">sem</span>(model1, <span class="dt">data=</span>cp_teach_acad,<span class="dt">se=</span><span class="st">&#39;bootstrap&#39;</span>) </a>
+<a class="sourceLine" id="cb185-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb185-12" data-line-number="12"><span class="co"># we request bootstrapped standard errors to assess the signifance of the indirect effect</span></a>
+<a class="sourceLine" id="cb185-13" data-line-number="13"><span class="kw">summary</span>(model1.est, <span class="dt">ci=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 13 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                          5
+##                                                       
+##   Number of observations                           557
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
+##   Degrees of freedom                                 0
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                            Bootstrap
+##   Number of requested bootstrap draws             1000
+##   Number of successful bootstrap draws            1000
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##   Acad ~                                                                
+##     Non_agg           0.158    0.056    2.829    0.005    0.039    0.273
+##     Teach_r    (b)    0.328    0.049    6.651    0.000    0.237    0.429
+##   Teach_r ~                                                             
+##     Non_agg    (c)    0.769    0.033   23.345    0.000    0.706    0.834
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##    .Acad              0.919    0.056   16.302    0.000    0.805    1.026
+##    .Teach_r           0.713    0.042   16.986    0.000    0.625    0.793
+## 
+## Defined Parameters:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##     ind               0.252    0.039    6.482    0.000    0.179    0.332</code></pre>
+<p>We can see that the 95% bootstrapped confidence interval for the indirect effect of non-aggressive conduct problems on academic performance (‘ind’) does not include zero. We can conclude that the indirect effect is significant at <span class="math inline">\(p &lt;.05\)</span>. The direct effect is also statistically significant at <span class="math inline">\(p &lt; .05\)</span>.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 2d
+</p>
+<div class="question-body">
+<p>Calculate the total (direct+indirect) effect of non-aggressive conduct problems on academic performance</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-83" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-83&#39;, &#39;sol-start-83&#39;)"></span>
+</p>
+<div id="sol-body-83" class="solution-body" style="display: none;">
+<p>We can create a new parameter that is the sum of the direct and indirect effect to evaluate the total effect of non-aggressive conduct problems on academic performance.</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="co">#model specification</span></a>
+<a class="sourceLine" id="cb187-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb187-3" data-line-number="3">model1&lt;-<span class="st">&#39;Acad~a*Non_agg    # we now also label the indirect effect of non-aggressive conduct problems on academic performance</span></a>
+<a class="sourceLine" id="cb187-4" data-line-number="4"><span class="st">         Acad~b*Teach_r    </span></a>
+<a class="sourceLine" id="cb187-5" data-line-number="5"><span class="st">         Teach_r~c*Non_agg  </span></a>
+<a class="sourceLine" id="cb187-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb187-7" data-line-number="7"><span class="st">ind:=b*c   #we can create a new parameter (ind) to estimate the indirect effect</span></a>
+<a class="sourceLine" id="cb187-8" data-line-number="8"><span class="st">total:=b*c+a  #the total effect is the indirect effect plus the direct effect&#39;</span></a>
+<a class="sourceLine" id="cb187-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb187-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb187-11" data-line-number="11"><span class="co">#model estimation</span></a>
+<a class="sourceLine" id="cb187-12" data-line-number="12">model1.est&lt;-<span class="kw">sem</span>(model1, <span class="dt">data=</span>cp_teach_acad,<span class="dt">se=</span><span class="st">&#39;bootstrap&#39;</span>) </a>
+<a class="sourceLine" id="cb187-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb187-14" data-line-number="14"><span class="co"># we request bootstrapped standard errors to assess the signifance of the indirect effect</span></a>
+<a class="sourceLine" id="cb187-15" data-line-number="15"><span class="kw">summary</span>(model1.est, <span class="dt">ci=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 13 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                          5
+##                                                       
+##   Number of observations                           557
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
+##   Degrees of freedom                                 0
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                            Bootstrap
+##   Number of requested bootstrap draws             1000
+##   Number of successful bootstrap draws            1000
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##   Acad ~                                                                
+##     Non_agg    (a)    0.158    0.056    2.801    0.005    0.045    0.269
+##     Teach_r    (b)    0.328    0.048    6.863    0.000    0.228    0.423
+##   Teach_r ~                                                             
+##     Non_agg    (c)    0.769    0.032   24.352    0.000    0.706    0.827
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##    .Acad              0.919    0.056   16.469    0.000    0.806    1.027
+##    .Teach_r           0.713    0.042   17.050    0.000    0.626    0.793
+## 
+## Defined Parameters:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##     ind               0.252    0.037    6.802    0.000    0.178    0.327
+##     total             0.410    0.043    9.630    0.000    0.321    0.491</code></pre>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 2e
+</p>
+<div class="question-body">
+<p>Now visualise the estimated model and its parameters using the <code>semPaths()</code> function from the <code>semPlot</code> package.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-84" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-84&#39;, &#39;sol-start-84&#39;)"></span>
+</p>
+<div id="sol-body-84" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1"><span class="kw">semPaths</span>(model1.est, <span class="dt">what=</span><span class="st">&#39;est&#39;</span>) <span class="co">#to include the parameter estimates we set what=&#39;est&#39;</span></a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/visualise%20the%20model-1.png" width="672" /></p>
+<p>We can use <code>semPaths()</code> to help us visualise and interpret the model; however, for reporting purposes we should create our own diagram using a programme such as powerpoint as the output from the <code>semPaths()</code> function would not be considered ‘publication quality’</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question 3a
+</p>
+<div class="question-body">
+<p>Now specify a model in which both aggressive and non-aggressive conduct problems have both direct and indirect effects (via teacher relationships) on academic performance. Include the parameters for the indirect effects.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-85" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-85&#39;, &#39;sol-start-85&#39;)"></span>
+</p>
+<div id="sol-body-85" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb190-1" data-line-number="1">model2&lt;-</a>
+<a class="sourceLine" id="cb190-2" data-line-number="2"><span class="st">   &#39;Acad~Agg+Non_agg+b*Teach_r</span></a>
+<a class="sourceLine" id="cb190-3" data-line-number="3"><span class="st">    Teach_r~c1*Agg+c2*Non_agg</span></a>
+<a class="sourceLine" id="cb190-4" data-line-number="4"><span class="st">   </span></a>
+<a class="sourceLine" id="cb190-5" data-line-number="5"><span class="st">    </span></a>
+<a class="sourceLine" id="cb190-6" data-line-number="6"><span class="st">    ind1:=b*c1 #indirect effect for aggressive conduct problems</span></a>
+<a class="sourceLine" id="cb190-7" data-line-number="7"><span class="st">    ind2:=b*c2 #indirect effect for non-aggressive conduct problems</span></a>
+<a class="sourceLine" id="cb190-8" data-line-number="8"><span class="st">&#39;</span></a></code></pre></div>
+<p>We now have two predictors, one mediator and one outcome (and two indirect effects, one for each predictor). We can represent this in two lines: one where we specify academic performance as the outcome variable and one where we specify teacher relationships (the mediator) as the outcome variable.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 3b
+</p>
+<div class="question-body">
+<p>Now estimate the model and test the significance of the indirect effects</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-86" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-86&#39;, &#39;sol-start-86&#39;)"></span>
+</p>
+<div id="sol-body-86" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1">model2.est&lt;-<span class="kw">sem</span>(model2,  <span class="dt">data=</span>cp_teach_acad,<span class="dt">se=</span><span class="st">&#39;bootstrap&#39;</span>) </a>
+<a class="sourceLine" id="cb191-2" data-line-number="2"><span class="kw">summary</span>(model2.est, <span class="dt">ci=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 18 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                          7
+##                                                       
+##   Number of observations                           557
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
+##   Degrees of freedom                                 0
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                            Bootstrap
+##   Number of requested bootstrap draws             1000
+##   Number of successful bootstrap draws            1000
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##   Acad ~                                                                
+##     Agg               0.171    0.062    2.775    0.006    0.052    0.292
+##     Non_agg           0.091    0.062    1.472    0.141   -0.035    0.208
+##     Teach_r    (b)    0.256    0.053    4.847    0.000    0.156    0.361
+##   Teach_r ~                                                             
+##     Agg       (c1)    0.574    0.045   12.754    0.000    0.487    0.661
+##     Non_agg   (c2)    0.358    0.042    8.488    0.000    0.275    0.443
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##    .Acad              0.908    0.056   16.103    0.000    0.790    1.020
+##    .Teach_r           0.540    0.029   18.507    0.000    0.482    0.597
+## 
+## Defined Parameters:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+##     ind1              0.147    0.032    4.559    0.000    0.087    0.214
+##     ind2              0.092    0.022    4.215    0.000    0.053    0.137</code></pre>
+<p>We can see that the 95% confidence intervals for both indirect effects do not include zero, therefore, we can conclude that they are significant at <span class="math inline">\(p &lt; .05\)</span>.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<hr />
+<div class="question">
+<p class="question-begin">
+► Question 3c
+</p>
+<div class="question-body">
+<p>Write a brief paragraph reporting on the results of the model estimates in Question 3b. Include a Figure or Table to display the parameter estimates.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-87" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-87&#39;, &#39;sol-start-87&#39;)"></span>
+</p>
+<div id="sol-body-87" class="solution-body" style="display: none;">
+<p>A path mediation model was used to test the direct and indirect effects (via teacher relationship quality) of aggressive and non-aggressive conduct problems on academic performance. In the model, academic performance was regressed on teacher relationship quality, non-aggressive conduct problems and aggressive conduct problems while teacher relationship quality (the mediator) was regressed on aggressive and non-aggressive conduct problems. The indirect effects were tested using the product of the coefficient for the regression of outcome on mediator and the coefficient for the regression of mediator on predictor. The statistical significance of the indirect effects were evaluated using boostrapped 95% confidence intervals with 1000 draws.</p>
+<p>Unstandardised parameter estimates are provided in Figure 1. Solid lines indicate that a parameter is significant at <span class="math inline">\(p &lt;. 05\)</span>, while dashed lines represent non-significant paths.The indirect effects of both non-aggressive (<span class="math inline">\(b = 0.09\)</span>, 95% CI=0.05-0.14) and aggressive (<span class="math inline">\(b = 0.15\)</span>, 95% CI=0.08-0.22) conduct problems on academic performance were statistcally significant.</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;images/pathanaly.png&quot;</span>)</a></code></pre></div>
+<p><img src="images/pathanaly.png" width="1200px" /></p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="confirmatory-factor-analysis-cfa.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sem-i.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

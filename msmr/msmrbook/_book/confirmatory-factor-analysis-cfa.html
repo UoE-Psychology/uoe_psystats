@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Confirmatory Factor Analysis (CFA) | Multivariate Statistics and Methodology using R</title>
+  <meta name="description" content="This is the page that contains the course labs materials" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Confirmatory Factor Analysis (CFA) | Multivariate Statistics and Methodology using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the page that contains the course labs materials" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Confirmatory Factor Analysis (CFA) | Multivariate Statistics and Methodology using R" />
+  
+  <meta name="twitter:description" content="This is the page that contains the course labs materials" />
+  
+
+<meta name="author" content="Department of Psychology, University of Edinburgh" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="efa-and-pca.html"/>
+<link rel="next" href="path-analysis.html"/>
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $head = $('#header');
+    $head.prepend('<img style="padding-right:25%; margin-bottom:10px;" src="https://www.ed.ac.uk/sites/all/themes/uoe/assets/logo.png" width="770px" align="left">')
+  });
+</script>
+
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+}
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MSMR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview of the Course</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-team"><i class="fa fa-check"></i>The team</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-stuff"><i class="fa fa-check"></i>R stuff</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-cheatsheets"><i class="fa fa-check"></i>R Cheatsheets</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-community"><i class="fa fa-check"></i>R Community</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html"><i class="fa fa-check"></i><b>1</b> Tidyverse &amp; Markdown</a><ul>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#lecture-slides"><i class="fa fa-check"></i>Lecture slides</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#background-reading"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="1.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#data-visualization-with-ggplot"><i class="fa fa-check"></i><b>1.1</b> Data Visualization with <code>ggplot</code></a><ul>
+<li class="chapter" data-level="1.1.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#geoms"><i class="fa fa-check"></i><b>1.1.1</b> Geoms</a></li>
+<li class="chapter" data-level="1.1.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#recreating-a-plot"><i class="fa fa-check"></i><b>1.1.2</b> Recreating a plot</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#data-management-with-the-tidyverse"><i class="fa fa-check"></i><b>1.2</b> Data management with the Tidyverse</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#piping"><i class="fa fa-check"></i><b>1.2.1</b> Piping!</a></li>
+<li class="chapter" data-level="1.2.2" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#grouping-summarising-filtering-mutating-and-selecting"><i class="fa fa-check"></i><b>1.2.2</b> Grouping, summarising, filtering, mutating and selecting</a></li>
+<li class="chapter" data-level="1.2.3" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#reshaping"><i class="fa fa-check"></i><b>1.2.3</b> Reshaping</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#less-guidance"><i class="fa fa-check"></i>Less guidance</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#reproducible-research-with-rmarkdown"><i class="fa fa-check"></i><b>1.3</b> Reproducible research with RMarkdown</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="tidyverse-markdown.html"><a href="tidyverse-markdown.html#convert-a-script-into-a-r-notebook"><i class="fa fa-check"></i><b>1.3.1</b> Convert a script into a R Notebook</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html"><i class="fa fa-check"></i><b>2</b> Basic Multilevel Regression</a><ul>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#packages-1"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lecture-slides-1"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#background-reading-1"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#lme4"><i class="fa fa-check"></i><b>2.1</b> LME4</a></li>
+<li class="chapter" data-level="2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#introduction-to-mlr"><i class="fa fa-check"></i><b>2.2</b> Introduction to MLR</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-1"><i class="fa fa-check"></i><b>2.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-2"><i class="fa fa-check"></i><b>2.2.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#logistic-mlr"><i class="fa fa-check"></i><b>2.3</b> Logistic MLR</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="basic-multilevel-regression.html"><a href="basic-multilevel-regression.html#exercise-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html"><i class="fa fa-check"></i><b>3</b> MLR for longitudinal data (growth curve analysis)</a><ul>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#packages-2"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#lecture-slides-2"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#background-reading-2"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="3.1" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#exercise-1-1"><i class="fa fa-check"></i><b>3.2</b> Exercise 1</a><ul>
+<li class="chapter" data-level="" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#interpret-the-results-of-your-full-model"><i class="fa fa-check"></i>Interpret the results of your full model</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="mlr-for-longitudinal-data-growth-curve-analysis.html"><a href="mlr-for-longitudinal-data-growth-curve-analysis.html#exercise-2-writing-up-and-logistic-gca"><i class="fa fa-check"></i><b>3.3</b> Exercise 2: Writing up, and Logistic GCA</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html"><i class="fa fa-check"></i><b>4</b> Other random effects structures</a><ul>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#packages-3"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#lecture-slides-3"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#background-reading-3"><i class="fa fa-check"></i>Background &amp; Reading</a></li>
+<li class="chapter" data-level="4.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#crossed-random-effects"><i class="fa fa-check"></i><b>4.1</b> Crossed random effects</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-1-2"><i class="fa fa-check"></i><b>4.1.1</b> Exercise 1</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#dealing-with-issue-of-non-convergence-and-singular-fits"><i class="fa fa-check"></i><b>4.2</b> Dealing with issue of non-convergence and singular fits</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-2-1"><i class="fa fa-check"></i><b>4.2.1</b> Exercise 2</a></li>
+<li class="chapter" data-level="4.2.2" data-path="other-random-effects-structures.html"><a href="other-random-effects-structures.html#exercise-3-1"><i class="fa fa-check"></i><b>4.2.2</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html"><i class="fa fa-check"></i><b>5</b> Recap &amp; Individual differences</a><ul>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#packages-4"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#lecture-slides-4"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#mixed-model-recap"><i class="fa fa-check"></i>Mixed model recap</a><ul>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#simple-regression"><i class="fa fa-check"></i>Simple regression</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#clustered-multi-level-data-structures"><i class="fa fa-check"></i>Clustered (multi-level) data structures</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#random-intercept-models"><i class="fa fa-check"></i>Random intercept models</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#random-slopes"><i class="fa fa-check"></i>Random slopes</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#fixef-ranef-and-coef"><i class="fa fa-check"></i>Fixef(), Ranef, and Coef</a></li>
+<li class="chapter" data-level="" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#more-levels-nested-and-crossed-random-effects"><i class="fa fa-check"></i>More levels: Nested and Crossed random-effects</a></li>
+</ul></li>
+<li class="chapter" data-level="5.1" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#the-lab"><i class="fa fa-check"></i><b>5.1</b> THE LAB</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#exercise-1-3"><i class="fa fa-check"></i><b>5.1.1</b> Exercise 1</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="recap-individual-differences.html"><a href="recap-individual-differences.html#exercise-2-2"><i class="fa fa-check"></i><b>5.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="break-week.html"><a href="break-week.html"><i class="fa fa-check"></i><b>6</b> <font color="red">Break Week</font></a></li>
+<li class="chapter" data-level="7" data-path="efa-and-pca.html"><a href="efa-and-pca.html"><i class="fa fa-check"></i><b>7</b> EFA and PCA</a><ul>
+<li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#packages-5"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="efa-and-pca.html"><a href="efa-and-pca.html#lecture-slides-5"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="7.1" data-path="efa-and-pca.html"><a href="efa-and-pca.html#todays-exercises"><i class="fa fa-check"></i><b>7.1</b> Today’s Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html"><i class="fa fa-check"></i><b>8</b> Confirmatory Factor Analysis (CFA)</a><ul>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#packages-6"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#lecture-slides-6"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#quick-recap"><i class="fa fa-check"></i>Quick recap</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#data"><i class="fa fa-check"></i>Data</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#one-factor-model"><i class="fa fa-check"></i>One factor model</a></li>
+<li class="chapter" data-level="" data-path="confirmatory-factor-analysis-cfa.html"><a href="confirmatory-factor-analysis-cfa.html#two-factor-model"><i class="fa fa-check"></i>Two factor model</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="path-analysis.html"><a href="path-analysis.html"><i class="fa fa-check"></i><b>9</b> Path Analysis</a><ul>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#packages-7"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#lecture-slides-7"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#quick-recap-1"><i class="fa fa-check"></i>Quick recap</a></li>
+<li class="chapter" data-level="" data-path="path-analysis.html"><a href="path-analysis.html#exercises"><i class="fa fa-check"></i>Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="sem-i.html"><a href="sem-i.html"><i class="fa fa-check"></i><b>10</b> SEM I</a><ul>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#packages-8"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#lecture-slides-8"><i class="fa fa-check"></i>Lecture Slides</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#overview"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="" data-path="sem-i.html"><a href="sem-i.html#exercises-1"><i class="fa fa-check"></i>Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Multivariate Statistics and Methodology using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="confirmatory-factor-analysis-cfa" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Confirmatory Factor Analysis (CFA)</h1>
+<div id="packages-6" class="section level3 unnumbered">
+<h3>Packages</h3>
+<ul>
+<li>lavaan</li>
+</ul>
+</div>
+<div id="lecture-slides-6" class="section level3 unnumbered">
+<h3>Lecture Slides</h3>
+<ul>
+<li>The lecture slides can be accessed <a href="https://uoe-psychology.github.io/uoe_psystats/multivar/lectures/week8_cfa.pdf">here</a>.</li>
+</ul>
+</div>
+<div id="quick-recap" class="section level2 unnumbered">
+<h2>Quick recap</h2>
+<p>Last week we learned about two methods of data reduction: Principal Components Analysis (PCA) and Factor Analysis.<br />
+In brief, PCA aims to summarise a set of measured variables into a set of uncorrelated (orthogonal) components, which are linear combinations (a weighted average) of the measured variables.<br />
+Factor analysis, on the other hand, assumes that the relationships between a set of measured variables can be explained by a number of underlying latent factors.
+Note how the directions of the arrows in Figure <a href="confirmatory-factor-analysis-cfa.html#fig:pcafa">8.1</a> are different between PCA and FA - in PCA, each component <span class="math inline">\(C_i\)</span> is the weighted combination of the observed variables <span class="math inline">\(y_1, ...,y_n\)</span>, whereas in FA, each measured variable <span class="math inline">\(y_i\)</span> is seen as generated by some latent factor <span class="math inline">\(F\)</span> plus some unexplained variance <span class="math inline">\(u_i\)</span>.</p>
+<div class="figure"><span id="fig:pcafa"></span>
+<img src="images/pcafadiag.png" alt="Path diagrams for PCA and FA" width="1000px" />
+<p class="caption">
+Figure 8.1: Path diagrams for PCA and FA
+</p>
+</div>
+<p>In Exploratory Factor Analysis (EFA), we tend to start with no hypothesis about either the number of latent factors or about the specific relationships between latent factors and measured variables (the <em>factor structure</em>).<br />
+Typically, all variables will load on all factors, and a transformation method such as a rotation is used to help make the results more easily interpretable.</p>
+<p>When we have a clear hypothesis about relationships between measured variables and latent factors, we might want to impose a specific factor structure on the data. These sort of models are called Confirmatory Factor Analysis (CFA) models.</p>
+<p>The purpose of CFA can be seen of as twofold: Firstly to obtain parameter estimates (i.e., factor loadings, variances and covariances of factors, residual variances of measured variables), and secondly to assess whether the model provides a good fit to the data.</p>
+</div>
+<div id="data" class="section level2 unnumbered">
+<h2>Data</h2>
+<div class="noteBox">
+<p>Last week we conducted an exploratory factor analysis of a dataset to try and identify an optimal factor structure for a new measure of conduct (i.e., antisocial behavioural) problems. This week, we’ll conduct some confirmatory factor analyses (CFA) of the same inventory, using some new data collected by the researchers from n=600 adolescents.</p>
+<p>The questionnaire items referred to the following 10 behaviours:</p>
+<ul>
+<li>item 1- Stealing</li>
+<li>item 2- Lying</li>
+<li>item 3- Skipping school</li>
+<li>item 4- Vandalism</li>
+<li>item 5- Breaking curfew</li>
+<li>item 6- Threatening others</li>
+<li>item 7- Bullying</li>
+<li>item 8- Spreading malicious rumours</li>
+<li>item 9- Using a weapon</li>
+<li>item 10- Fighting</li>
+</ul>
+</div>
+<div class="question">
+<p class="question-begin">
+► Question 1
+</p>
+<div class="question-body">
+<p>Begin by reading in the new data. It is available as a <strong>.csv</strong> at <a href="https://edin.ac/32MGsFx">https://edin.ac/32MGsFx</a></p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-68" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-68&#39;, &#39;sol-start-68&#39;)"></span>
+</p>
+<div id="sol-body-68" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://edin.ac/32MGsFx&quot;</span>)</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="one-factor-model" class="section level2 unnumbered">
+<h2>One factor model</h2>
+<div class="question">
+<p class="question-begin">
+► Question 2a
+</p>
+<div class="question-body">
+<p>Using lavaan syntax, specify a model in which all 10 items load on one latent variable.</p>
+<p><em>Hint:</em> To specify items loading on a latent variable we use the ‘=~’ operator. The latent variables goes on the left hand side and the list of indicators (i.e., items used to measure the latent variable) go on the right hand side separated by ‘+’</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-69" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-69&#39;, &#39;sol-start-69&#39;)"></span>
+</p>
+<div id="sol-body-69" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1">model1&lt;-<span class="st">&#39;CP=~item1+item2+item3+item4+item5+item6+item7+item8+item9+item10&#39;</span></a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<br>
+<hr />
+<p><br><br></p>
+<div class="question">
+<p class="question-begin">
+► Question 2b
+</p>
+<div class="question-body">
+<p>Why is it not necessary to refer to <strong>ALL</strong> of your CFA parameters in your model specification if you use the <code>cfa()</code> function to estimate your model? Which parameters do you not need to include in the model specification?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-70" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-70&#39;, &#39;sol-start-70&#39;)"></span>
+</p>
+<div id="sol-body-70" class="solution-body" style="display: none;">
+<p>Some parameters are estimated or fixed by default when you estimate the model with the <code>cfa()</code> function. In this case, the residual factor variances and loadings are missing because the former are estimated by default and the latter are fixed to 1 by default. Latent factor variances are also estimated by default.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<br>
+<hr />
+<p><br><br></p>
+<div class="question">
+<p class="question-begin">
+► Question 2c
+</p>
+<div class="question-body">
+<p>Estimate your model using the <code>cfa</code>()` function from the lavaan package. Scale your latent variable by fixing the latent variable variance to 1.</p>
+<p>Remember to load the lavaan library first.<br />
+The default scaling constraint/identifcation constraints imposed when using the <code>cfa()</code> function are to fix the loading of the first item of each latent variable to 1.<br />
+We can override this by setting <code>std.lv=TRUE</code>.<br />
+This will instead scale the latent variables by fixing them to 1.<br />
+It is helpful to save the results of <code>cfa()</code> to a new object so that we can later inspect that object (to look at the model fit and parameter estimates).</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-71" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-71&#39;, &#39;sol-start-71&#39;)"></span>
+</p>
+<div id="sol-body-71" class="solution-body" style="display: none;">
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">library</span>(lavaan)</a>
+<a class="sourceLine" id="cb166-2" data-line-number="2">model1.est&lt;-<span class="kw">cfa</span>(model1, <span class="dt">data=</span>df, <span class="dt">std.lv=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<br>
+<hr />
+<p><br><br></p>
+<div class="question">
+<p class="question-begin">
+► Question 2d
+</p>
+<div class="question-body">
+<p>Now examine the global fit of your model. Does it fit well?</p>
+<p><em>Remember:</em> If <span class="math inline">\(\textrm{RMSEA} &lt; .05\)</span>, <span class="math inline">\(\textrm{SRMR} &lt; .05\)</span>, <span class="math inline">\(\textrm{TLI} &gt; .95\)</span> and <span class="math inline">\(\textrm{CFI} &gt; .95\)</span> then the model fits well. Smaller values of RMSEA and SRMR mean better fit while larger values of CFI and TLI mean better fit.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-72" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-72&#39;, &#39;sol-start-72&#39;)"></span>
+</p>
+<div id="sol-body-72" class="solution-body" style="display: none;">
+<p>To obtain the global fit measures, we can use the <code>summary()</code> function to inspect our estimated model, setting <code>fit.measures=TRUE</code>.</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="kw">summary</span>(model1.est, <span class="dt">fit.measures=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 45 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                         20
+##                                                       
+##   Number of observations                           600
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                              1089.192
+##   Degrees of freedom                                35
+##   P-value (Chi-square)                           0.000
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                              2836.905
+##   Degrees of freedom                                45
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.622
+##   Tucker-Lewis Index (TLI)                       0.515
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)              -7722.655
+##   Loglikelihood unrestricted model (H1)      -7178.058
+##                                                       
+##   Akaike (AIC)                               15485.309
+##   Bayesian (BIC)                             15573.248
+##   Sample-size adjusted Bayesian (BIC)        15509.753
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.224
+##   90 Percent confidence interval - lower         0.213
+##   90 Percent confidence interval - upper         0.236
+##   P-value RMSEA &lt;= 0.05                          0.000
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.181
+## 
+## Parameter Estimates:
+## 
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+##   Standard errors                             Standard
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   CP =~                                               
+##     item1             0.378    0.042    9.036    0.000
+##     item2             0.429    0.044    9.782    0.000
+##     item3             0.327    0.042    7.794    0.000
+##     item4             0.392    0.045    8.689    0.000
+##     item5             0.410    0.043    9.522    0.000
+##     item6             0.602    0.037   16.202    0.000
+##     item7             0.879    0.033   26.448    0.000
+##     item8             0.859    0.032   26.712    0.000
+##     item9             0.680    0.038   18.001    0.000
+##     item10            0.579    0.037   15.557    0.000
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .item1             0.885    0.052   17.038    0.000
+##    .item2             0.963    0.057   16.984    0.000
+##    .item3             0.909    0.053   17.114    0.000
+##    .item4             1.037    0.061   17.061    0.000
+##    .item5             0.933    0.055   17.004    0.000
+##    .item6             0.581    0.036   16.213    0.000
+##    .item7             0.224    0.021   10.721    0.000
+##    .item8             0.202    0.019   10.379    0.000
+##    .item9             0.559    0.035   15.843    0.000
+##    .item10            0.596    0.037   16.324    0.000
+##     CP                1.000</code></pre>
+<p>According to conventionally accepted criteria for RMSEA, SRMR, TLI and CFI, the model fits poorly.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+</div>
+<div id="two-factor-model" class="section level2 unnumbered">
+<h2>Two factor model</h2>
+<div class="question">
+<p class="question-begin">
+► Question 3a
+</p>
+<div class="question-body">
+<p>Now let’s try a different model.
+Specify a CFA model with two correlated latent factors.<br />
+Consider items 1 to 5 as indicators of the first latent factor and items 6 to 10 as indicators of the second latent factor.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-73" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-73&#39;, &#39;sol-start-73&#39;)"></span>
+</p>
+<div id="sol-body-73" class="solution-body" style="display: none;">
+<p>We can specify the model as below.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1">model2&lt;-<span class="st">&#39;LV1=~item1+item2+item3+item4+item5</span></a>
+<a class="sourceLine" id="cb169-2" data-line-number="2"><span class="st">LV2=~item6+item7+item8+item9+item10</span></a>
+<a class="sourceLine" id="cb169-3" data-line-number="3"><span class="st">LV1~~LV2&#39;</span></a></code></pre></div>
+<p>We now define two latent variables ‘Lv1’ and ‘Lv2’ using the ‘=~’ operator. We also introduce a new operator: ‘~~’ in order to specify the covariance between the two latent variables.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<br>
+<hr />
+<p><br><br></p>
+<div class="question">
+<p class="question-begin">
+► Question 3b
+</p>
+<div class="question-body">
+<p>Estimate this model. Scale the latent variables using a reference indicator. Does the model fit well?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-74" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-74&#39;, &#39;sol-start-74&#39;)"></span>
+</p>
+<div id="sol-body-74" class="solution-body" style="display: none;">
+<p>We can estimate the model using the <code>cfa()</code> function. As it uses a reference indicator to scale the latent variables by default we only need to specify the name of the object with the model syntax and the name of the dataset.</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1">model2.est&lt;-<span class="kw">cfa</span>(model2, <span class="dt">data=</span>df)</a>
+<a class="sourceLine" id="cb170-2" data-line-number="2"><span class="kw">summary</span>(model2.est, <span class="dt">fit.measures=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 27 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                         21
+##                                                       
+##   Number of observations                           600
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                65.765
+##   Degrees of freedom                                34
+##   P-value (Chi-square)                           0.001
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                              2836.905
+##   Degrees of freedom                                45
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.989
+##   Tucker-Lewis Index (TLI)                       0.985
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)              -7210.941
+##   Loglikelihood unrestricted model (H1)      -7178.058
+##                                                       
+##   Akaike (AIC)                               14463.881
+##   Bayesian (BIC)                             14556.217
+##   Sample-size adjusted Bayesian (BIC)        14489.548
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.039
+##   90 Percent confidence interval - lower         0.025
+##   90 Percent confidence interval - upper         0.054
+##   P-value RMSEA &lt;= 0.05                          0.884
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.035
+## 
+## Parameter Estimates:
+## 
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+##   Standard errors                             Standard
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   LV1 =~                                              
+##     item1             1.000                           
+##     item2             1.217    0.076   15.965    0.000
+##     item3             1.012    0.070   14.424    0.000
+##     item4             1.146    0.077   14.967    0.000
+##     item5             1.360    0.078   17.412    0.000
+##   LV2 =~                                              
+##     item6             1.000                           
+##     item7             1.419    0.082   17.331    0.000
+##     item8             1.437    0.081   17.662    0.000
+##     item9             1.093    0.077   14.125    0.000
+##     item10            0.950    0.073   13.073    0.000
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##   LV1 ~~                                              
+##     LV2               0.156    0.023    6.856    0.000
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)
+##    .item1             0.574    0.037   15.398    0.000
+##    .item2             0.477    0.035   13.778    0.000
+##    .item3             0.551    0.036   15.262    0.000
+##    .item4             0.597    0.040   14.867    0.000
+##    .item5             0.264    0.028    9.537    0.000
+##    .item6             0.561    0.035   16.193    0.000
+##    .item7             0.228    0.021   10.767    0.000
+##    .item8             0.153    0.019    8.122    0.000
+##    .item9             0.566    0.035   15.978    0.000
+##    .item10            0.587    0.036   16.351    0.000
+##     LV1               0.453    0.052    8.701    0.000
+##     LV2               0.381    0.045    8.396    0.000</code></pre>
+<p>This model fits well according to RMSEA, SRMR, CFI and TLI. The <span class="math inline">\(\chi^2\)</span> value is significant but we don’t need to worry about this because the <span class="math inline">\(\chi^2\)</span> test has a strong tendency to reject even trivially mis-specified models.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<br>
+<hr />
+<p><br><br></p>
+<div class="question">
+<p class="question-begin">
+► Question 3c
+</p>
+<div class="question-body">
+<p>Are there any areas of local mis-fit?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-75" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-75&#39;, &#39;sol-start-75&#39;)"></span>
+</p>
+<div id="sol-body-75" class="solution-body" style="display: none;">
+<p>We can look for local mis-fit by using the <code>modindices()</code> function. It gives us the modification indices (the expected improvement in <span class="math inline">\(\chi^2\)</span> if a parameter was added) and the expected parameter change associated with the addition of the parameter (an estimate of what the parameter estimate would be if the parameter was included in the model).</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="kw">modindices</span>(model2.est, <span class="dt">sort=</span>T)</a></code></pre></div>
+<pre><code>##      lhs op    rhs     mi    epc sepc.lv sepc.all sepc.nox
+## 72 item6 ~~ item10 10.747  0.082   0.082    0.144    0.144
+## 25   LV1 =~  item7  8.106  0.119   0.080    0.080    0.080
+## 65 item5 ~~  item7  6.720  0.039   0.039    0.160    0.160
+## 71 item6 ~~  item9  6.675 -0.065  -0.065   -0.115   -0.115
+## 24   LV1 =~  item6  6.100 -0.136  -0.092   -0.094   -0.094
+## 33   LV2 =~  item5  5.273 -0.122  -0.075   -0.072   -0.072
+## 60 item4 ~~  item7  4.156 -0.039  -0.039   -0.105   -0.105
+## 27   LV1 =~  item9  4.086  0.113   0.076    0.075    0.075
+## 78 item9 ~~ item10  4.029 -0.051  -0.051   -0.089   -0.089
+## 44 item2 ~~  item4  4.021 -0.058  -0.058   -0.109   -0.109
+## 26   LV1 =~  item8  3.912 -0.078  -0.053   -0.054   -0.054
+## 66 item5 ~~  item8  3.702 -0.027  -0.027   -0.134   -0.134
+## 61 item4 ~~  item8  3.126  0.031   0.031    0.103    0.103
+## 29   LV2 =~  item1  2.920  0.105   0.065    0.064    0.064
+## 55 item3 ~~  item8  2.869 -0.028  -0.028   -0.098   -0.098
+## 64 item5 ~~  item6  2.812 -0.034  -0.034   -0.090   -0.090
+## 37 item1 ~~  item5  2.750 -0.044  -0.044   -0.114   -0.114
+## 70 item6 ~~  item8  2.726  0.034   0.034    0.115    0.115
+## 49 item2 ~~  item9  2.563  0.039   0.039    0.074    0.074
+## 54 item3 ~~  item7  2.295  0.027   0.027    0.077    0.077
+## 73 item7 ~~  item8  1.964 -0.041  -0.041   -0.222   -0.222
+## 30   LV2 =~  item2  1.869  0.081   0.050    0.046    0.046
+## 74 item7 ~~  item9  1.602  0.028   0.028    0.077    0.077
+## 69 item6 ~~  item7  1.395 -0.025  -0.025   -0.069   -0.069
+## 28   LV1 =~ item10  1.357 -0.065  -0.044   -0.046   -0.046
+## 68 item5 ~~ item10  1.356 -0.024  -0.024   -0.062   -0.062
+## 45 item2 ~~  item5  1.352  0.035   0.035    0.099    0.099
+## 34 item1 ~~  item2  1.322  0.031   0.031    0.060    0.060
+## 52 item3 ~~  item5  1.175  0.029   0.029    0.076    0.076
+## 43 item2 ~~  item3  1.120 -0.028  -0.028   -0.056   -0.056
+## 42 item1 ~~ item10  0.944  0.025   0.025    0.043    0.043
+## 76 item8 ~~  item9  0.731  0.018   0.018    0.062    0.062
+## 59 item4 ~~  item6  0.688  0.022   0.022    0.037    0.037
+## 67 item5 ~~  item9  0.672 -0.017  -0.017   -0.044   -0.044
+## 41 item1 ~~  item9  0.613  0.020   0.020    0.035    0.035
+## 36 item1 ~~  item4  0.604  0.022   0.022    0.038    0.038
+## 53 item3 ~~  item6  0.541 -0.018  -0.018   -0.033   -0.033
+## 35 item1 ~~  item3  0.528 -0.020  -0.020   -0.035   -0.035
+## 51 item3 ~~  item4  0.467  0.019   0.019    0.034    0.034
+## 56 item3 ~~  item9  0.373  0.015   0.015    0.027    0.027
+## 32   LV2 =~  item4  0.341  0.037   0.023    0.021    0.021
+## 58 item4 ~~  item5  0.241  0.014   0.014    0.036    0.036
+## 31   LV2 =~  item3  0.224 -0.029  -0.018   -0.017   -0.017
+## 40 item1 ~~  item8  0.185  0.007   0.007    0.025    0.025
+## 38 item1 ~~  item6  0.145 -0.010  -0.010   -0.017   -0.017
+## 50 item2 ~~ item10  0.082 -0.007  -0.007   -0.013   -0.013
+## 48 item2 ~~  item8  0.077  0.004   0.004    0.017    0.017
+## 62 item4 ~~  item9  0.057  0.006   0.006    0.011    0.011
+## 47 item2 ~~  item7  0.054 -0.004  -0.004   -0.012   -0.012
+## 75 item7 ~~ item10  0.048 -0.005  -0.005   -0.012   -0.012
+## 63 item4 ~~ item10  0.031 -0.005  -0.005   -0.008   -0.008
+## 57 item3 ~~ item10  0.024  0.004   0.004    0.007    0.007
+## 77 item8 ~~ item10  0.011 -0.002  -0.002   -0.007   -0.007
+## 46 item2 ~~  item6  0.007  0.002   0.002    0.004    0.004
+## 39 item1 ~~  item7  0.006 -0.001  -0.001   -0.004   -0.004</code></pre>
+<p>While the modification indices suggest that the model could be improved with the addition of parameters, none of the expected parameter changes are very large. If we included any additonal parameters here it is likely we would be capitalising on chance. We would also have to consider whether we could justify their inclusion on substantive grounds, i.e., we would ask ourselves ‘does the addition of the parameter makes sense given our background knowledge of the construct?’.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<br>
+<hr />
+<p><br><br></p>
+<div class="question">
+<p class="question-begin">
+► Question 3d
+</p>
+<div class="question-body">
+<p>Take a look at the parameter estimates, are all of your loadings satisfactory? Which items are the best measures of the underlying latent variables?</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-76" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-76&#39;, &#39;sol-start-76&#39;)"></span>
+</p>
+<div id="sol-body-76" class="solution-body" style="display: none;">
+<p>It helps to look at the standardised parameter estimates:</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" data-line-number="1"><span class="kw">summary</span>(model2.est, <span class="dt">standardized=</span>T)</a></code></pre></div>
+<pre><code>## lavaan 0.6-5 ended normally after 27 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of free parameters                         21
+##                                                       
+##   Number of observations                           600
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                65.765
+##   Degrees of freedom                                34
+##   P-value (Chi-square)                           0.001
+## 
+## Parameter Estimates:
+## 
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+##   Standard errors                             Standard
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   LV1 =~                                                                
+##     item1             1.000                               0.673    0.664
+##     item2             1.217    0.076   15.965    0.000    0.819    0.765
+##     item3             1.012    0.070   14.424    0.000    0.681    0.676
+##     item4             1.146    0.077   14.967    0.000    0.771    0.706
+##     item5             1.360    0.078   17.412    0.000    0.915    0.872
+##   LV2 =~                                                                
+##     item6             1.000                               0.618    0.636
+##     item7             1.419    0.082   17.331    0.000    0.877    0.878
+##     item8             1.437    0.081   17.662    0.000    0.887    0.915
+##     item9             1.093    0.077   14.125    0.000    0.675    0.668
+##     item10            0.950    0.073   13.073    0.000    0.587    0.608
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   LV1 ~~                                                                
+##     LV2               0.156    0.023    6.856    0.000    0.375    0.375
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .item1             0.574    0.037   15.398    0.000    0.574    0.559
+##    .item2             0.477    0.035   13.778    0.000    0.477    0.416
+##    .item3             0.551    0.036   15.262    0.000    0.551    0.543
+##    .item4             0.597    0.040   14.867    0.000    0.597    0.501
+##    .item5             0.264    0.028    9.537    0.000    0.264    0.239
+##    .item6             0.561    0.035   16.193    0.000    0.561    0.595
+##    .item7             0.228    0.021   10.767    0.000    0.228    0.229
+##    .item8             0.153    0.019    8.122    0.000    0.153    0.162
+##    .item9             0.566    0.035   15.978    0.000    0.566    0.554
+##    .item10            0.587    0.036   16.351    0.000    0.587    0.630
+##     LV1               0.453    0.052    8.701    0.000    1.000    1.000
+##     LV2               0.381    0.045    8.396    0.000    1.000    1.000</code></pre>
+<p>We can see that all loadings are statistically significant and all standardised loadings are &gt;|.3|. This is good as it suggests all our items measure the relevant latent variable reasonably well. We can identify the ‘best’ indicators of our latent constructs according to those with the highest standardised loadings. We must, however, be aware that item loadings are model-specific: if we changed the model (e.g., the number of factors or which items we included) the loadings could change and so would our interpretation of the latent variables.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<br>
+<hr />
+<p><br><br></p>
+<div class="question">
+<p class="question-begin">
+► Question 3e
+</p>
+<div class="question-body">
+<p>Using R, represent the model, including the standardised parameters as an SEM diagram</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-77" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-77&#39;, &#39;sol-start-77&#39;)"></span>
+</p>
+<div id="sol-body-77" class="solution-body" style="display: none;">
+<p>We can use the <code>semPaths()</code> function from the <code>semPlot</code> package to create a SEM diagram from the estimated model object. We can include the unstandardised estimates by setting <code>what='est'</code> and the standardised estimates by setting <code>what='stand'</code>.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1"><span class="kw">library</span>(semPlot)</a>
+<a class="sourceLine" id="cb176-2" data-line-number="2"><span class="kw">semPaths</span>(model2.est, <span class="dt">what=</span><span class="st">&#39;stand&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/SEM%20diagram-1.png" width="672" /></p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="kw">semPaths</span>(model1.est, <span class="dt">what=</span><span class="st">&#39;stand&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/SEM%20diagram-2.png" width="672" /></p>
+<p>If we wanted to include a SEM diagram in a report the raw output from <code>semPaths()</code> would not usually meet publication standards. Instead, we can draw SEM diagrams in a programme such as powerpoint.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<br>
+<hr />
+<p><br><br></p>
+<div class="question">
+<p class="question-begin">
+► Question 3f
+</p>
+<div class="question-body">
+<p>Write a short paragraph summarising the method and results of the two factor model.</p>
+<p class="question-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+<div class="solution">
+<p class="solution-begin">
+► Solution<span id="sol-start-78" class="fa fa-plus-square solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-78&#39;, &#39;sol-start-78&#39;)"></span>
+</p>
+<div id="sol-body-78" class="solution-body" style="display: none;">
+<p>The main principle behind reporting any analysis is that you should be as transparent as possible (e.g., reporting any model modifications made) and a reader should be able to reproduce your analysis based on your description.</p>
+<p>An example description would be:</p>
+<p><em>A two-factor model was tested. Items 1-5 loaded on a ‘non-aggressive conduct problems’ factor and items 6-10 loaded on an ‘aggression’ factor and these factors were allowed to correlate. Scaling and identification were achieved by fixing the loading of item 1 on the non-aggressive conduct problems factor and item 6 on the aggression factor to 1. The model was estimated using maximum likelihood estimation. The model fit well with CFI=.99, TLI=0.99, RMSEA=.04, and SRMR=.04 (Hu &amp; Bentler, 1999). All loadings were statistically significant and &gt;|.3| on the standardised scale. Modification indices and expected parameter changes were inspected but no modifications were made because no expected parameter changes were judged large enough to merit the inclusion of additional parameters given that there was little theoretical rationale for their inclusion. Overall, therefore, a two-factor oblique model was supported for the conduct problems items. The correlation between the factors was r=.38 (p&lt;.001).</em></p>
+<p>When you write up a CFA for a report, you should also include the parameter estimates. This can be in the form of a table with the unstandardised loadings and factor covariances, their standard errors, p-values, and corresponding standardised values.</p>
+<p>Note: according to APA style, you should include a leading zero when a parameter can take values out of the 0-1 range (e.g., SD=0.99) but you should not include a leading zero when a parameter can only take values in the 0-1 range (e.g., r=.5). This is why we have TLI=0.99 but CFI=.99. The former can technically (though rarely does) take values &gt;1 while the latter only takes values between 0 and 1.</p>
+<p class="solution-end">
+<span class="fa fa-square-o solution-icon"></span>
+</p>
+</div>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="efa-and-pca.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="path-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

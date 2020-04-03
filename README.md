@@ -50,8 +50,8 @@ The repository has different course-specific subfolders:
 - **dapr1** (course content for the UG course Data analysis for Psychology in R 1)
 - **dapr2** (course content for the UG course Data analysis for Psychology in R 2)
 - **dapr3** (course content for the UG course Data analysis for Psychology in R 3)
-- **univar** (course content for the PG course Univariate statistics and methodology in R)
-- **multivar** (course content for the PG course Multivariate statistics and methodology in R)
+- **usmr** (course content for the PG course Univariate statistics and methodology in R)
+- **msmr** (course content for the PG course Multivariate statistics and methodology in R)
 
 And a special subfolder named
 
@@ -106,7 +106,7 @@ In the `templates/` directory, you will find different examples for writing lect
 
 Our courses use the following colour schemes:
 
-- DAPR1: ![](https://placehold.it/15/6BCDED/000000?text=+) `#6BCDED`
+- DAPR1: ![](https://placehold.it/15/0F4C81/000000?text=+) `#0F4C81`
 - DAPR2: ![](https://placehold.it/15/e41a1c/000000?text=+) `#e41a1c`
 - DAPR3: ![](https://placehold.it/15/4daf4a/000000?text=+) `#4daf4a`
 - USMR: ![](https://placehold.it/15/FCBB06/000000?text=+) `#FCBB06`
@@ -133,7 +133,11 @@ At the top of each lecture `.Rmd`, there is a code chunk which sets the colour f
 ```{r xaringan-themer, include = FALSE}
 library(xaringanthemer)
 mono_accent(
-  base_color = "#0F4C81",
+  base_color = "#0F4C81", # DAPR1
+  # base_color = "#e41a1c", # DAPR2
+  # base_color = "#4daf4a", # DAPR3
+  # base_color = "#FCBB06", # USMR
+  # base_color = "#a41ae4", # MSMR
   header_color = "#000000",
   header_font_google = google_font("Roboto Condensed"),
   text_font_google   = google_font("Roboto", "300", "300i"),
@@ -141,7 +145,7 @@ mono_accent(
 )
 ```
 
-Set the `base_color` to the appropriate hex-code for the course you are writing for.  
+Simply un-comment the appropriate course `base_color` setting (DAPR1 in the example above) to change the colour scheme for the compiled lecture.  
 
 
 ### Labs
