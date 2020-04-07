@@ -1,0 +1,61 @@
+# R tips and tricks {#r-help}
+```{r include=FALSE}
+library(tidyverse)
+```
+
+### Trailing `%>%`s and `+`s {-}  
+
+Having the last line of a piping sequence being a call to `print` has the benefit of making it possible to comment out lines without leaving a trailing pipe.  
+
+This will leave `R` waiting: 
+```{r eval=FALSE}
+rnorm(10,10,1) %>% 
+  round(2) %>% 
+  #log() 
+```
+
+But this will not:
+```{r}
+rnorm(10,10,1) %>% 
+  round(2) %>% 
+  #log() %>%
+  print
+```
+
+:::yellow
+You can also use `print` wherever you want within a piping sequence, to simply print the output at that step to console (useful for identifying where piping sequences are going wrong!)  
+:::
+
+---
+
+The same applies when using `ggplot`. Complete your ggplot with `+ NULL`, to ensure that you don't leave trailing `+`s when commenting out lines: 
+
+```{r}
+x=seq(-5,5,.1)
+y=dnorm(x)
+
+ggplot(mapping=aes(x=x,y=y))+
+  geom_point()+
+  geom_line()+
+  theme_light()
+```
+
+This will leave R waiting for more...
+```{r eval=FALSE}
+ggplot(mapping=aes(x=x,y=y))+
+  geom_point()+
+  geom_line()+
+  #theme_light()
+```
+
+But if we had finished our ggplot with `+NULL`, then commenting out that line will still render the plot!
+```{r}
+ggplot(mapping=aes(x=x,y=y))+
+  geom_point()+
+  geom_line()+
+  #theme_light()+
+  NULL
+```
+
+
+
