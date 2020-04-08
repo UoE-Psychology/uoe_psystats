@@ -514,7 +514,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb221-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb221-16" data-line-number="16"><span class="co"># return to figures with a single panel</span></a>
 <a class="sourceLine" id="cb221-17" data-line-number="17"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-142-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Because our variables seem to be non-normal, therefore, we should use a robust estimator such as MLR for our CFA</p>
 <div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1">model_IQ &lt;-<span class="st"> &#39;IQ=~IQ1+IQ2+IQ3+IQ4+IQ5&#39;</span></a>
 <a class="sourceLine" id="cb222-2" data-line-number="2"></a>
@@ -744,12 +744,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb228-8" data-line-number="8"><span class="st">Stress=~stress1+stress2+stress3+stress4+stress5 </span></a>
 <a class="sourceLine" id="cb228-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb228-10" data-line-number="10"><span class="st">#structural part of model</span></a>
-<a class="sourceLine" id="cb228-11" data-line-number="11"><span class="st">IQ~Stress&#39;</span></a>
-<a class="sourceLine" id="cb228-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb228-13" data-line-number="13">SEM_model.est &lt;-<span class="st"> </span><span class="kw">sem</span>(SEM_model, <span class="dt">data=</span>stress_IQ_data,</a>
-<a class="sourceLine" id="cb228-14" data-line-number="14">                     <span class="dt">ordered=</span><span class="kw">c</span>(<span class="st">&#39;stress1&#39;</span>,<span class="st">&#39;stress2&#39;</span>,<span class="st">&#39;stress3&#39;</span>,<span class="st">&#39;stress4&#39;</span>,<span class="st">&#39;stress5&#39;</span>))</a>
-<a class="sourceLine" id="cb228-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb228-16" data-line-number="16"><span class="kw">summary</span>(SEM_model.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
+<a class="sourceLine" id="cb228-11" data-line-number="11"><span class="st">IQ~Stress&#39;</span></a></code></pre></div>
+<p>We know that IQ is non-normal, so we would like to use a robust estimator (e.g. MLR). However, as lavaan will tell you if you try using <code>estimator=&quot;MLR&quot;</code>, this is not yet supported for ordered data (i.e., the Stress items). It suggests instead using the WLSMV (weighted least square mean and variance adjusted) estimator:</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" data-line-number="1">SEM_model.est &lt;-<span class="st"> </span><span class="kw">sem</span>(SEM_model, <span class="dt">data=</span>stress_IQ_data,</a>
+<a class="sourceLine" id="cb229-2" data-line-number="2">                     <span class="dt">ordered=</span><span class="kw">c</span>(<span class="st">&#39;stress1&#39;</span>,<span class="st">&#39;stress2&#39;</span>,<span class="st">&#39;stress3&#39;</span>,<span class="st">&#39;stress4&#39;</span>,<span class="st">&#39;stress5&#39;</span>),</a>
+<a class="sourceLine" id="cb229-3" data-line-number="3">                     <span class="dt">estimator=</span><span class="st">&quot;WLSMV&quot;</span>)</a>
+<a class="sourceLine" id="cb229-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb229-5" data-line-number="5"><span class="kw">summary</span>(SEM_model.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
 <pre><code>## lavaan 0.6-5 ended normally after 30 iterations
 ## 
 ##   Estimator                                       DWLS
@@ -908,14 +909,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </p>
 <div id="sol-body-98" class="solution-body" style="display: none;">
 <p>We can fit the model setting missing=‘FIML’. If data are missing at random (MAR) - i.e., missingness is related to the measured variables but not the unobserved missing values - then this gives us unbiased parameter estimates. Unfortunately we can never know whether data are MAR for sure as this would require knowledge of the missing values.</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1">IQ_data_new &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2WGJav3&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1">IQ_model_missing &lt;-<span class="st"> &#39;IQ=~IQ1+IQ2+IQ3+IQ4+IQ5</span></a>
-<a class="sourceLine" id="cb231-2" data-line-number="2"><span class="st">IQ1~~IQ2</span></a>
-<a class="sourceLine" id="cb231-3" data-line-number="3"><span class="st">IQ4~~IQ5&#39;</span></a>
-<a class="sourceLine" id="cb231-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb231-5" data-line-number="5">IQ_model_missing.est &lt;-<span class="st"> </span><span class="kw">cfa</span>(IQ_model_missing, <span class="dt">data=</span>IQ_data_new, <span class="dt">missing=</span><span class="st">&#39;FIML&#39;</span>)</a>
-<a class="sourceLine" id="cb231-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb231-7" data-line-number="7"><span class="kw">summary</span>(IQ_model_missing.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1">IQ_data_new &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://edin.ac/2WGJav3&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1">IQ_model_missing &lt;-<span class="st"> &#39;IQ=~IQ1+IQ2+IQ3+IQ4+IQ5</span></a>
+<a class="sourceLine" id="cb232-2" data-line-number="2"><span class="st">IQ1~~IQ2</span></a>
+<a class="sourceLine" id="cb232-3" data-line-number="3"><span class="st">IQ4~~IQ5&#39;</span></a>
+<a class="sourceLine" id="cb232-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb232-5" data-line-number="5">IQ_model_missing.est &lt;-<span class="st"> </span><span class="kw">cfa</span>(IQ_model_missing, <span class="dt">data=</span>IQ_data_new, <span class="dt">missing=</span><span class="st">&#39;FIML&#39;</span>, <span class="dt">estimator=</span><span class="st">&quot;MLR&quot;</span>)</a>
+<a class="sourceLine" id="cb232-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb232-7" data-line-number="7"><span class="kw">summary</span>(IQ_model_missing.est, <span class="dt">fit.measures=</span>T, <span class="dt">standardized=</span>T)</a></code></pre></div>
 <pre><code>## lavaan 0.6-5 ended normally after 25 iterations
 ## 
 ##   Estimator                                         ML
@@ -926,81 +927,95 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   Number of missing patterns                         3
 ##                                                       
 ## Model Test User Model:
-##                                                       
-##   Test statistic                                 4.218
-##   Degrees of freedom                                 3
-##   P-value (Chi-square)                           0.239
+##                                               Standard      Robust
+##   Test Statistic                                 4.218       3.559
+##   Degrees of freedom                                 3           3
+##   P-value (Chi-square)                           0.239       0.313
+##   Scaling correction factor                                  1.185
+##     for the Yuan-Bentler correction (Mplus variant) 
 ## 
 ## Model Test Baseline Model:
 ## 
-##   Test statistic                               914.603
-##   Degrees of freedom                                10
-##   P-value                                        0.000
+##   Test statistic                               914.603     657.484
+##   Degrees of freedom                                10          10
+##   P-value                                        0.000       0.000
+##   Scaling correction factor                                  1.391
 ## 
 ## User Model versus Baseline Model:
 ## 
-##   Comparative Fit Index (CFI)                    0.999
-##   Tucker-Lewis Index (TLI)                       0.996
+##   Comparative Fit Index (CFI)                    0.999       0.999
+##   Tucker-Lewis Index (TLI)                       0.996       0.997
+##                                                                   
+##   Robust Comparative Fit Index (CFI)                         0.999
+##   Robust Tucker-Lewis Index (TLI)                            0.998
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)              -2979.748
-##   Loglikelihood unrestricted model (H1)      -2977.639
-##                                                       
-##   Akaike (AIC)                                5993.496
-##   Bayesian (BIC)                              6065.145
-##   Sample-size adjusted Bayesian (BIC)         6011.185
+##   Loglikelihood user model (H0)              -2979.748   -2979.748
+##   Scaling correction factor                                  1.635
+##       for the MLR correction                                      
+##   Loglikelihood unrestricted model (H1)      -2977.639   -2977.639
+##   Scaling correction factor                                  1.568
+##       for the MLR correction                                      
+##                                                                   
+##   Akaike (AIC)                                5993.496    5993.496
+##   Bayesian (BIC)                              6065.145    6065.145
+##   Sample-size adjusted Bayesian (BIC)         6011.185    6011.185
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
-##   RMSEA                                          0.028
-##   90 Percent confidence interval - lower         0.000
-##   90 Percent confidence interval - upper         0.085
-##   P-value RMSEA &lt;= 0.05                          0.658
+##   RMSEA                                          0.028       0.019
+##   90 Percent confidence interval - lower         0.000       0.000
+##   90 Percent confidence interval - upper         0.085       0.076
+##   P-value RMSEA &lt;= 0.05                          0.658       0.756
+##                                                                   
+##   Robust RMSEA                                               0.021
+##   90 Percent confidence interval - lower                     0.000
+##   90 Percent confidence interval - upper                     0.087
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.008
+##   SRMR                                           0.008       0.008
 ## 
 ## Parameter Estimates:
 ## 
-##   Information                                 Observed
-##   Observed information based on                Hessian
-##   Standard errors                             Standard
+##   Information                                      Observed
+##   Observed information based on                     Hessian
+##   Standard errors                        Robust.huber.white
 ## 
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   IQ =~                                                                 
 ##     IQ1               1.000                               0.658    0.674
-##     IQ2               0.994    0.060   16.672    0.000    0.654    0.673
-##     IQ3               1.033    0.091   11.388    0.000    0.679    0.685
-##     IQ4               0.989    0.095   10.381    0.000    0.651    0.676
-##     IQ5               0.958    0.093   10.306    0.000    0.630    0.672
+##     IQ2               0.994    0.072   13.792    0.000    0.654    0.673
+##     IQ3               1.033    0.106    9.768    0.000    0.679    0.685
+##     IQ4               0.989    0.113    8.788    0.000    0.651    0.676
+##     IQ5               0.958    0.119    8.073    0.000    0.630    0.672
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##  .IQ1 ~~                                                                
-##    .IQ2               0.248    0.039    6.281    0.000    0.248    0.480
+##    .IQ2               0.248    0.049    5.029    0.000    0.248    0.480
 ##  .IQ4 ~~                                                                
-##    .IQ5               0.072    0.036    1.976    0.048    0.072    0.146
+##    .IQ5               0.072    0.049    1.452    0.146    0.072    0.146
 ## 
 ## Intercepts:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##    .IQ1               0.010    0.044    0.229    0.819    0.010    0.010
 ##    .IQ2              -0.007    0.043   -0.170    0.865   -0.007   -0.008
-##    .IQ3               0.027    0.044    0.601    0.548    0.027    0.027
+##    .IQ3               0.027    0.044    0.602    0.547    0.027    0.027
 ##    .IQ4               0.002    0.043    0.050    0.960    0.002    0.002
 ##    .IQ5              -0.001    0.042   -0.029    0.977   -0.001   -0.001
 ##     IQ                0.000                               0.000    0.000
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .IQ1               0.519    0.047   11.064    0.000    0.519    0.545
-##    .IQ2               0.515    0.046   11.107    0.000    0.515    0.546
-##    .IQ3               0.521    0.046   11.296    0.000    0.521    0.530
-##    .IQ4               0.504    0.047   10.618    0.000    0.504    0.543
-##    .IQ5               0.482    0.046   10.578    0.000    0.482    0.549
-##     IQ                0.433    0.061    7.147    0.000    1.000    1.000</code></pre>
+##    .IQ1               0.519    0.064    8.103    0.000    0.519    0.545
+##    .IQ2               0.515    0.063    8.222    0.000    0.515    0.546
+##    .IQ3               0.521    0.063    8.324    0.000    0.521    0.530
+##    .IQ4               0.504    0.062    8.190    0.000    0.504    0.543
+##    .IQ5               0.482    0.069    6.998    0.000    0.482    0.549
+##     IQ                0.433    0.073    5.899    0.000    1.000    1.000</code></pre>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>

@@ -462,7 +462,7 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 <a class="sourceLine" id="cb38-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb38-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb38-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Fitted values&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-43-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -611,13 +611,13 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 <a class="sourceLine" id="cb47-4" data-line-number="4"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">data=</span>WeightMaintain3, <span class="kw">aes</span>(<span class="dt">y=</span>WeightChange), </a>
 <a class="sourceLine" id="cb47-5" data-line-number="5">               <span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb47-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-40-1.png" width="672" />
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-48-1.png" width="672" style="display: block; margin: auto;" />
 2) Using the <code>fitted()</code> function to extract and plot fitted values from the model:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">ggplot</span>(WeightMaintain3, <span class="kw">aes</span>(Assessment, WeightChange, <span class="dt">color=</span>Condition)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb48-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb48-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">fitted</span>(m.full)), <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb48-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-49-1.png" width="672" style="display: block; margin: auto;" /></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Or, alternatively, using <code>fortify()</code>:</li>
 </ol>
@@ -625,7 +625,7 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 <a class="sourceLine" id="cb49-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>mean_se, <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb49-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary</span>(<span class="kw">aes</span>(<span class="dt">y=</span>.fitted), <span class="dt">fun=</span>mean, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb49-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-50-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>
@@ -681,7 +681,7 @@ The <em>formula</em> bit is similar to what we did with a standard linear model 
 <p>In the <code>nwl</code> data set (accessed using the code above), participants with aphasia are separated into two groups based on the general location of their brain lesion: anterior vs. posterior. There is data on the numbers of correct and incorrect responses participants gave in each of a series of experimental blocks. There were 7 learning blocks, immediately followed by a test. Finally, participants also completed a follow-up test.<br />
 <br>
 Figure <a href="basic-multilevel-regression.html#fig:nwl-fig">2.1</a> shows the differences between groups in the average proportion of correct responses at each point in time (i.e., each block, test, and follow-up)</p>
-<div class="figure"><span id="fig:nwl-fig"></span>
+<div class="figure" style="text-align: center"><span id="fig:nwl-fig"></span>
 <img src="bookdown-demo_files/figure-html/nwl-fig-1.png" alt="Differences between groups in the average proportion of correct responses at each block" width="672" />
 <p class="caption">
 Figure 2.1: Differences between groups in the average proportion of correct responses at each block
@@ -836,7 +836,7 @@ Figure 2.1: Differences between groups in the average proportion of correct resp
 <a class="sourceLine" id="cb57-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>, <span class="st">&quot;Test&quot;</span>, <span class="st">&quot;Follow-Up&quot;</span>)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb57-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size=</span><span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb57-12" data-line-number="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Block&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Proportion Correct&quot;</span>, <span class="dt">shape=</span><span class="st">&quot;Lesion</span><span class="ch">\n</span><span class="st">Location&quot;</span>, <span class="dt">color=</span><span class="st">&quot;Lesion</span><span class="ch">\n</span><span class="st">Location&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-55-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p class="solution-end">
 <span class="fa fa-square-o solution-icon"></span>
 </p>

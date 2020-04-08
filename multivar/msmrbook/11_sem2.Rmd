@@ -151,9 +151,13 @@ Stress=~stress1+stress2+stress3+stress4+stress5
 
 #structural part of model
 IQ~Stress'
+```
 
+We know that IQ is non-normal, so we would like to use a robust estimator (e.g. MLR). However, as lavaan will tell you if you try using `estimator="MLR"`, this is not yet supported for ordered data (i.e., the Stress items). It suggests instead using the WLSMV (weighted least square mean and variance adjusted) estimator:  
+```{r}
 SEM_model.est <- sem(SEM_model, data=stress_IQ_data,
-                     ordered=c('stress1','stress2','stress3','stress4','stress5'))
+                     ordered=c('stress1','stress2','stress3','stress4','stress5'),
+                     estimator="WLSMV")
 
 summary(SEM_model.est, fit.measures=T, standardized=T)
 ```
@@ -181,7 +185,7 @@ IQ_model_missing <- 'IQ=~IQ1+IQ2+IQ3+IQ4+IQ5
 IQ1~~IQ2
 IQ4~~IQ5'
 
-IQ_model_missing.est <- cfa(IQ_model_missing, data=IQ_data_new, missing='FIML')
+IQ_model_missing.est <- cfa(IQ_model_missing, data=IQ_data_new, missing='FIML', estimator="MLR")
 
 summary(IQ_model_missing.est, fit.measures=T, standardized=T)
 ```
