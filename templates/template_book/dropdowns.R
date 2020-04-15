@@ -3,7 +3,7 @@
 
 qbegin<-function(label=NULL,qlabel=TRUE){
   if(!is.null(label)){label = as.character(label)}
-  if(qlabel){qlab = "Question "}
+  if(qlabel){qlab = "Question "}else{qlab = ""}
   if (knitr::is_html_output()) {
     id <- generate_idq2()
     part1 <- paste0("<div class='question-begin'>",qlab,label,"</div>",
@@ -33,7 +33,7 @@ qend<-function(){
 
 solbegin<-function(label=NULL,slabel=TRUE,show=TRUE){
   if(!is.null(label)){label = as.character(label)}
-  if(slabel){slab = "Solution "}
+  if(slabel){slab = "Solution "}else{slab = ""}
   if(show){
     if (knitr::is_html_output()) {
       id <- generate_id2()
