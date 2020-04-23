@@ -67,8 +67,7 @@ solbegin<-function(label=NULL,slabel=TRUE,show=TRUE){
 
 solend<-function(show=TRUE){
     if (knitr::is_html_output()) {
-        part2 <- paste0("<p class=\"solution-end\">",
-                        "</p>", "</div><div style=\"height:20px;\"></div>")
+        part2 <- "</div><p class=\"solution-end\"></p>"
         output <- structure(part2, format = "HTML", class = "knitr_kable")
     }
     if(knitr::is_latex_output()){
