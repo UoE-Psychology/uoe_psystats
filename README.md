@@ -280,25 +280,45 @@ This is the solution. When rendered, it will be visible, and it will have a head
 
 You can render with and without solutions shown by setting a variable such as HIDE_SOLUTIONS at the top of each lab which is either TRUE/FALSE, and then passing that variable to the `solbegin()` and `solend()` functions (e.g., `r solbegin(show=HIDE_SOLUTIONS)`).
 
+#### Boxes  
+
+There are a number of coloured divs we use to identify various things throughout the labs.  
+
++ Question boxes (see above) are coloured red.
++ Solution boxes (expandable, see above) are coloured green.
++ Learning Objectives = lightblue
++ Definitions/Important = yellow
++ Caution = red
++ Tips = green
++ Extra content = frame (a black frame, clear background)
+
+To use these in the bookdown, simply:
+```
+:::yellow
+this content will be inside a yellow box. with lovely rounded corners :)
+:::
+```
+
 #### Setting the course colour  
 
 Open the `index.Rmd` for the bookdown.  
-In the yaml front matter at the top of this file, the title contains reference to images which are held in the `images/` directory of the bookdown.  
+In the yaml front matter at the top of this file, the title contains reference to svg colour squares.  
 
 This adds to the title a coloured square corresponding to the course colour scheme. The number of squares corresponds to the year to which the course is offered.  
 
-For instance, for dapr2, two squares are included:  
+For instance, for dapr1, one square is included:  
 ```
 ---
-title: |
-  ![](images/dapr2.png){width=0.51in}
-  ![](images/dapr2.png){width=0.51in}
-  <br>
-  Data Analysis for Psychology in R 2
-author: "School of Psychology, The University of Edinburgh"
+  title:  <svg width="50" height="50">
+      <rect x="0" y="0" width="50" height="50"
+      style="fill:#0F4C81;stroke:none;opacity:1" />
+    </svg>
+    <br>
+    Data Analysis for Psychology in R 1
+author: "Department of Psychology, The University of Edinburgh"
 ```
 
-Edit the path to call the appropriate course image the appropriate number of times.  
+Edit the svg style to the correct HEX colour code and repeat the appropriate number of times.
 
 #### Compiling  
 
